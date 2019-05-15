@@ -1,0 +1,318 @@
+package ru.landar.spring.model;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+
+import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.Operation;
+import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.ObjService;
+import ru.landar.spring.service.UserService;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+
+@Entity
+@PrimaryKeyJoinColumn(name="rn")
+public class Document extends IBase {
+	private String doc_code;
+	private String doc_number;
+	private Date doc_date;
+	private Document parent_doc;
+	private IAgent agent;
+	private SpDocStatus doc_status;
+	private Date time_status;
+	private IAgent create_agent;
+	private IDepartment depart;
+	private Date create_time;
+	private IAgent change_agent;
+	private Date change_time;
+	private Act act;
+	private Reestr reestr;
+	private Document change_doc;
+	private Date buh_date;
+	private String extract_number;
+	private Date extract_date;
+	private IFile attach_doc;
+	private Integer sheet_count;
+	
+    @Column(length=40)
+    public String getDoc_code() { return doc_code; }
+    public void setDoc_code(String doc_code) { this.doc_code = doc_code; updateName(); }
+    
+    @Column(length=40)
+    public String getDoc_number() { return doc_number; }
+    public void setDoc_number(String doc_number) { this.doc_number = doc_number; updateName(); }
+    
+    @Temporal(TemporalType.DATE)
+    public Date getDoc_date() { return doc_date; }
+    public void setDoc_date(Date doc_date) { this.doc_date = doc_date; updateName(); }
+    
+    @ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
+    public Document getParent_doc() { return parent_doc; }
+    public void setParent_doc(Document parent_doc) { this.parent_doc = parent_doc; }
+
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+    public IAgent getAgent() { return agent; }
+    public void setAgent(IAgent agent) { this.agent = agent; }
+	
+	@ManyToOne(targetEntity=SpDocStatus.class, fetch=FetchType.LAZY)
+    public SpDocStatus getDoc_status() { return doc_status; }
+    public void setDoc_status(SpDocStatus doc_status) { this.doc_status = doc_status; }
+	
+    public Date getTime_status() { return time_status; }
+    public void setTime_status(Date time_status) { this.time_status = time_status; }
+	
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+    public IAgent getCreate_agent() { return create_agent; }
+    public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
+	
+	@ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
+    public IDepartment getDepart() { return depart; }
+    public void setDepart(IDepartment depart) { this.depart = depart; }
+	
+    public Date getCreate_time() { return create_time; }
+    public void setCreate_time(Date create_time) { this.create_time = create_time; }
+	
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+    public IAgent getChange_agent() { return change_agent; }
+    public void setChange_agent(IAgent change_agent) { this.change_agent = change_agent; }
+	
+    public Date getChange_time() { return change_time; }
+    public void setChange_time(Date change_time) { this.change_time = change_time; }
+	
+	@ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
+    public Act getAct() { return act; }
+    public void setAct(Act act) { this.act = act; }
+	
+	@ManyToOne(targetEntity=Reestr.class, fetch=FetchType.LAZY)
+    public Reestr getReestr() { return reestr; }
+    public void setReestr(Reestr reestr) { this.reestr = reestr; }
+	
+	@ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
+    public Document getChange_doc() { return change_doc; }
+    public void setChange_doc(Document change_doc) { this.change_doc = change_doc; }
+	
+	@Temporal(TemporalType.DATE)
+    public Date getBuh_date() { return buh_date; }
+    public void setBuh_date(Date buh_date) { this.buh_date = buh_date; }
+	
+	@Column(length=40)
+    public String getExtract_number() { return extract_number; }
+    public void setExtract_number(String extract_number) { this.extract_number = extract_number; }
+	
+	@Temporal(TemporalType.DATE)
+    public Date getExtract_date() { return extract_date; }
+    public void setExtract_date(Date extract_date) { this.extract_date = extract_date; }
+    
+    @ManyToOne(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public IFile getAttach_doc() { return attach_doc; }
+    public void setAttach_doc(IFile attach_doc) { this.attach_doc = attach_doc; }
+    
+	public Integer getSheet_count() { return sheet_count; }
+    public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
+	
+    private void updateName() {
+    	String name = "";
+		if (!hs.isEmpty(getDoc_code())) name = getDoc_code();
+    	if (!hs.isEmpty(getDoc_number())) name += (!name.isEmpty() ? " " : "") + "№ " + getDoc_number();
+    	if (getDoc_date() != null) name += (!name.isEmpty() ? " от " : "От ") + new SimpleDateFormat("dd.MM.yyyy").format(getDoc_date());
+    	setName(name);
+    }
+    
+    @Autowired
+	ObjService objService;
+    @Autowired
+	UserService userService;
+    @Autowired
+	HelperService hs;
+    
+	public static String singleTitle() { return "Документ"; }
+	public static String multipleTitle() { return "Документы"; }
+	public static List<ColumnInfo> listColumn() {
+		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+		ret.add(new ColumnInfo("doc_code", "Код документа")); 
+		ret.add(new ColumnInfo("doc_number", "Номер документа"));
+		ret.add(new ColumnInfo("doc_date", "Дата документа"));
+		ret.add(new ColumnInfo("parent_doc__name", "Основной документ"));
+		ret.add(new ColumnInfo("agent__name", "Контрагент"));
+		ret.add(new ColumnInfo("doc_status__name", "Статус документа", true, true, "doc_status__rn", "select", "listDocStatus"));
+		ret.add(new ColumnInfo("time_status", "Дата изменения статуса"));
+		ret.add(new ColumnInfo("create_agent__name", "Создан"));
+		ret.add(new ColumnInfo("depart__name", "Структурное подразделение"));
+		ret.add(new ColumnInfo("create_time", "Дата создания"));
+		ret.add(new ColumnInfo("change_agent__name", "Изменен"));
+		ret.add(new ColumnInfo("change_time", "Дата изменения"));
+		ret.add(new ColumnInfo("act__name", "Включен в акт"));
+		ret.add(new ColumnInfo("reestr__name", "Включен в реестр"));
+		ret.add(new ColumnInfo("change_doc__name", "Заменен документом"));
+		ret.add(new ColumnInfo("buh_date", "Дата отражения в бухгалтерском учете"));
+		ret.add(new ColumnInfo("extract_number", "Отражен в выписке: №"));
+		ret.add(new ColumnInfo("extract_date", "Отражен в выписке: дата"));
+		ret.add(new ColumnInfo("attach_doc__name", "Прикрепленный файл"));
+		ret.add(new ColumnInfo("sheet_count", "Количество листов"));
+		return ret;
+	}
+	public static boolean listPaginated() { return true; }
+	
+	@Override
+    public Object onNew() {
+     	Object ret = super.onNew();
+    	if (ret != null) return ret;
+    	
+    	Date dt = new Date();
+    	IUser user = userService.getUser((String)null);
+    	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+    	IAgent agent = user.getPerson();
+    	if (agent == null) agent = user.getOrg(); 
+    	setCreate_agent(agent);
+    	setCreate_time(dt);
+    	setChange_agent(agent);
+    	setChange_time(dt);
+    	if (user.getPerson() != null && user.getPerson().getDepart() != null) setDepart(user.getPerson().getDepart() );
+    	setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "1"));
+    	setTime_status(dt);
+    	setSheet_count(0);
+     	return true;
+    }
+	@Override
+	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
+ 		Object ret = super.onListAddFilter(listAttr, listValue);
+		if (ret != null) return ret;
+		
+		IUser user = userService.getUser((String)null);
+		if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+		String roles = user.getRoles();
+		if (roles.indexOf("ADMIN") < 0) {
+			IOrganization org = user.getOrg();
+			IPerson person = user.getPerson();
+			if (org == null && person == null) throw new SecurityException("У пользователя " + user.getLogin() + " не задан контрагент");
+			Integer rnOrg = org != null ? org.getRn() : null;
+			Integer rnPerson = person != null ? person.getRn() : null;
+			listAttr.add("agent__rn");
+			String v = "";
+			if (rnOrg != null) v += "eq " + rnOrg;
+			if (rnPerson != null) {
+				if (!v.isEmpty()) v += " or ";
+				v += "eq " + rnPerson;
+			}
+		}
+		return true;
+	}
+	@Override
+	public Object onAddAttributes(Model model, boolean list) {
+		Object ret = super.onAddAttributes(model, list);
+		if (ret != null) return ret;
+		
+		try {
+			model.addAttribute("listDocStatus", objService.findAll(SpDocStatus.class));
+			if (!list) {
+				model.addAttribute("listFileType", objService.findAll(SpFileType.class));
+				model.addAttribute("listDocument", objService.findAll(Document.class));
+				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
+				model.addAttribute("listAgent", objService.findAll(IAgent.class));
+				model.addAttribute("listAct", objService.findAll(Act.class));
+				model.addAttribute("listReestr", objService.findAll(Reestr.class));
+			}	
+		}
+		catch (Exception ex) { }
+		return true;
+	}
+    @Override
+    public Object onCheckRights(Operation op) { 
+    	Object ret = invoke("onCheckRights", op);
+     	if (ret != null) return ret;
+    	
+    	Integer rn = getRn();
+    	if (rn == null) return true;
+    	if (op == Operation.update || op == Operation.delete) {
+	     	IUser user = userService.getUser((String)null);
+			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+			String roles = user.getRoles();
+			if (roles.indexOf("ADMIN") >= 0) return true;
+			IOrganization org = user.getOrg();
+			IPerson person = user.getPerson();
+			if (org == null && person == null) throw new SecurityException("У пользователя " + user.getLogin() + " не указан контрагент");
+			IAgent agent = getAgent();
+			if (agent != null && ((org != null && org.getRn().compareTo(agent.getRn()) == 0) || (person != null && person.getRn().compareTo(agent.getRn()) == 0))) return true;
+			return false;
+    	}
+    	return true;
+    }
+    @Override
+    public Object onUpdate(Map<String, Object> map) throws Exception { 
+    	Object ret = super.onUpdate(map);
+    	if (ret != null) return ret;
+    	if (map.isEmpty()) return false;
+		String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
+		if (hs.isEmpty(filesDirectory)) throw new Exception("Не задана директория для хранения файлов");
+		IFile f = getAttach_doc();
+		if (f == null) 
+		{
+			f = new IFile();
+			objService.createObj(f);
+		}
+		Iterator<String>it = map.keySet().iterator();
+		while (it.hasNext()) 
+		{
+			String attr = it.next();
+			if (attr.equals("fileuri")) continue;
+			hs.setProperty(f, attr, map.get(attr));
+		}
+		for (; ;)
+		{
+			MultipartFile fileInput = (MultipartFile)map.get("fileuri");
+			if (fileInput == null) break;
+			InputStream is = fileInput.getInputStream();
+			if (is == null) break;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			long length = hs.copyStream(is, baos, true, true);
+			if (length == 0) break;
+			is = new ByteArrayInputStream(baos.toByteArray());
+			String filename = fileInput.getOriginalFilename();
+			if (!hs.isEmpty(filename) && hs.isEmpty(f.getFilename()))
+			{
+				f.setFilename(filename);
+				int k = filename.lastIndexOf('.');
+				String fileext = k > 0 ? filename.substring(k + 1) : "";
+				if (hs.isEmpty(f.getFileext())) f.setFileext(fileext);
+				if (f.getFiletype() == null && f.getFileext() != null)
+				{
+					SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, f.getFileext().toLowerCase());
+					f.setFiletype(filetype);
+				}
+			}
+			File fd = new File(filesDirectory + File.separator + (getParent() != null ? getParent().getRn() + File.separator  : "") + getRn());
+			fd.mkdirs();
+			File ff = new File(fd, f.getRn() + "_" + f.getFilename());
+			f.setFilelength(hs.copyStream(is, new FileOutputStream(ff), true, true));
+			f.setFileuri(ff.getAbsolutePath());
+			break;
+		}
+		f.setParent(this);
+		f = (IFile)objService.saveObj(f);
+		setAttach_doc(f);
+		objService.saveObj(this);
+		return true;
+    }
+}

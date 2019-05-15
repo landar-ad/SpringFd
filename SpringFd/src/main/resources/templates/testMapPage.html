@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+   	<section>
+	    <table th:if="${#lists.size(listData.content) > 0}" id="objTable" class="table table-sm table-striped table-light table-bordered small">
+	        <thead>
+		        <tr>
+		            <th th:each="key : ${listData.content.get(0).keySet()}" th:utext="${key}"></th>
+		        </tr>
+	        </thead>
+	        <tbody>
+		        <tr th:each="map : ${listData}">
+		        	<td th:each="key : ${map.keySet()}" th:utext="${map.get(key)}">..</td>
+       			</tr>
+      			</tbody>
+     	</table>
+	</section>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			size_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+   	<div class="col-sm-12 fit-height">
+   		<div class="card rounded-0">
+	        <div class="card-header">
+	            <h3 class="mb-0" th:text="${p_title}"></h3>
+	        </div>
+	        <div class="card-body">
+	   			<div class="row col-sm-12">
+				    <table id="objTable" class="table table-sm table-striped table-bordered table-hover small">
+				    	<thead>
+					        <tr>
+					            <th>#</th>
+					            <th>Наименование</th>
+					        </tr>
+				        </thead>
+				        <tbody>
+					        <tr th:each="obj,iter : ${listObj}">
+					            <td th:utext="${iter.index + 1}">..</td>
+					            <td>
+					            	<a th:href="@{/listObj?clazz=} + ${obj.name}" th:utext="${obj.title}"></a>
+					            </td>
+					        </tr>
+				        </tbody>
+			     	</table>
+		     	</div>
+	     	</div>
+     	</div>
+   	</div>
+   	<footer class="footer">
+    	<div th:replace="fragments/pager :: total"></div>
+    </footer>
+ </body>
+ </html>

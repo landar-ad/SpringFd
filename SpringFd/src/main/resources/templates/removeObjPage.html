@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+            
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<section>
+		<div class="container py-5">
+    		<div class="row">
+            	<div class="col-md-6 mx-auto">
+	            	<div class="card rounded-0">
+		                <div class="card-header">
+		                    <h3 class="mb-0" th:text="${p_title}"></h3>
+		                </div>
+		                <div class="card-body">
+			                <form th:if=${p_message==null} th:action="@{/removeObj}" method="post" class="form" role="form" autocomplete="off">
+			                	<input type="hidden" name="rn" th:value="${obj.rn}" />
+			                	<input type="hidden" name="clazz" th:value="${obj.clazz}" />
+			                	<div class="form-group">
+			                    	<h6 th:text="${'Вы действительно хотите удалить объект ' + obj.name}"></h6>
+		                    	</div>
+			                    <div class="form-group">
+				                    <button type="submit" class="btn btn-light btn-sm">Да</button>
+				                    <a th:href="@{/main}"><button type="button" class="btn btn-light btn-sm">Нет</button></a>
+			                    </div>
+			                </form>
+			                <h4 th:if='${p_message!=null}' th:text=${p_message}></h4>
+						</div>
+					</div>
+				</div>
+ 			</div>
+		</div>
+	</section>
+</body>
+</html>

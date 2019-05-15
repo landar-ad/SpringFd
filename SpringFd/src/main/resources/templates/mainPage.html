@@ -1,0 +1,68 @@
+ <!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			size_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="col-sm-12 fit-height">
+		<form th:action="@{/search}" method="POST">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			  	<div class="collapse navbar-collapse" id="navbar1">
+			    	<ul class="navbar-nav mr-auto">
+					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=UnfinishedConstruction}">Незавершенное капстроительство</a></li>
+					    <li class="nav-item text-uppercase"><a class="nav-link" href="#">Единый реестр федерального имущества</a></li>
+					    <li th:if="${#strings.contains(p_roles,'ADMIN')}" class="nav-item text-uppercase dropdown">
+					    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Администрирование</a>
+		      				<div class="dropdown-menu">
+						        <a class="dropdown-item" th:href="@{/listObj?clazz=IUser}"><i class="fa fa-sm fa-users"></i> Пользователи</a>
+							    <a class="dropdown-item" th:href="@{/listObj?clazz=IOrganization}"><i class="fa fa-sm fa-industry"></i> Организации</a>
+							    <a class="dropdown-item" th:href="@{/listObj?clazz=IDepartment}"><i class="fa fa-sm fa-building"></i> Подразделения</a>
+							    <a class="dropdown-item" th:href="@{/listVoc}"><i class="fa fa-sm fa-list"></i> Справочники</a>
+							    <a class="dropdown-item" th:href="@{/listObj?clazz=ISettings}"><i class="fa fa-sm fa-tools"></i> Настройки</a>
+							    <a class="dropdown-item" th:href="@{/listObj?clazz=ISession}"><i class="fa fa-sm fa-sign-in-alt"></i> Сессии</a>
+							    <a class="dropdown-item" th:href="@{/load}"><i class="fa fa-sm fa-upload"></i> Загрузка данных</a>
+						 	</div>
+					    </li>
+				    </ul>
+			    	<div class="form-inline">
+			      		<div class="input-group"> 
+							<input name="p_text" th:value=${p_text} type="text" class="form-control form-control-sm"> 
+							<span class="input-group-btn">
+								<button class="btn btn-sm btn-outline-info" type="submit">
+									<i class="fa fa-search"></i>
+								</button>
+							</span>
+						</div>
+			    	</div>
+			  	</div>
+			</nav>
+			<div th:if="${listItem!=null}" class="col-md-12">
+				<h2>Результаты поиска</h2>
+				<div th:replace="fragments/pager :: pager-param"></div>
+		        <div class="table-responsive">   	
+				    <table id="objTable" class="table table-hover small">
+				        <tbody>
+					        <tr th:each="item,iter : ${listItem}">
+					        	<td th:text="${p_off * p_page + iter.index + 1} + ${'.'}"></td>
+					        	<td>
+					        		<label th:utext="${item.content}" class="col-form-label"></label>
+					        		<div class="col-sm-12">
+					        			<a th:href="@{/detailsObj?clazz=} + ${item.clazz} + ${'&rn=' + item.id}" th:text="${item.name}"></a>
+				        			</div>
+				        		</td>
+					        </tr>
+				        </tbody>
+			        </table>
+		        </div>
+			</div>
+		</form>
+	</div>
+	<footer class="footer">
+    	<div th:replace="fragments/pager :: pager"></div>
+    </footer>
+</body>
+</html>

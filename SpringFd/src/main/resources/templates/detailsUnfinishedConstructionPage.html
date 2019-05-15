@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.input_date').datepicker({language: "ru"});
+			require_init();
+			size_init();
+
+			faipChecked = function() { if ($('input[name="faip"]').is(':checked')) $('#faip').show(); else $('#faip').hide(); };
+			$('input[name="faip"]').on("change", function() { faipChecked(); });
+			faipChecked();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+   	<div class="container fit-height">
+		<form id="form" th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
+	 		<input type="hidden" name="clazz" value="UnfinishedConstruction" />
+	 		<input type="hidden" name="rn" th:value="${obj.rn}" />
+	 		<input type="hidden" name="p_tab" th:value="${p_tab}" />
+        	<div class="col-md-12 card-header mb-1">
+                <h3 th:text="${p_title}"></h3>
+            </div>
+        	<div class="col-md-12 form-group-sm row small">
+				<label class="col-sm-1 col-form-label required">Статус данных</label>
+				<div class="col-sm-3">
+					<select name="status" class="form-control form-control-sm" required="required">
+						<option value=""></option>
+						<option th:each="os : ${listObjectStatus}" th:selected="${obj.status?.rn==os.rn}" th:value="${os.rn}" th:utext="${os.name}"/>
+					</select>
+				</div>
+				<div class="form-group-sm">
+					<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+					<a th:href="@{/listObj?clazz=UnfinishedConstruction} + ${obj.rn!=null ? '&rn=' + obj.rn : ''}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+				</div>
+	        </div>
+            <div th:with="p_tab=${p_tab!=null?p_tab:1}" class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a href="#item1" data-target="#item1" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==null||p_tab==1?' active':'')}">Характеристика объекта</a></li>
+                    <li class="nav-item"><a href="#item2" data-target="#item2" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==2?' active':'')}">Финансы</a></li>
+                    <li class="nav-item"><a href="#item3" data-target="#item3" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==3?' active':'')}">Контактное лицо</a></li>
+                    <li class="nav-item"><a href="#item4" data-target="#item4" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==4?' active':'')}">Дополнительная информация</a></li>
+                    <li class="nav-item"><a href="#item5" data-target="#item5" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==5?' active':'')}">Документы</a></li>
+                </ul>
+                <div class="tab-content small">
+                    <div id="item1" th:class="${'m-sm-2 tab-pane' + (p_tab==null || p_tab==1?' active':' fade')}">
+                    	<div class="form-group-sm row">
+                    	    <label class="col-sm-2 col-form-label required">Застройщик, заказчик</label>
+							<div class="col-sm-10">					                   
+			                    	<select name="customer" class="form-control form-control-sm"  required="required">
+			                    		<option value=""></option>
+									<option th:each="org : ${listOrg}" th:selected="${obj.customer?.rn==org.rn}" th:value="${org.rn}" th:utext="${org.name}"/>
+								</select>    
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row">
+		                    <label class="col-sm-2 col-form-label">Наименование объекта</label>
+		                    <div class="col-sm-5">
+		                        <input name="obj_name" type="text" class="form-control form-control-sm" th:value="${obj.obj_name}" />
+		                    </div>
+		                    <label class="col-sm-2 col-form-label required">Идентификатор объекта</label>
+		                    <div class="col-sm-3">
+		                        <input type="text" class="form-control form-control-sm" name="ident_obj" th:value="${obj.ident_obj}" required="required"/>
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row">
+		                    <label class="col-sm-2 col-form-label">Адрес местонахождения</label>
+		                    <div class="col-sm-6">
+		                        <input type="text" class="form-control form-control-sm" name="obj_address" th:value="${obj.obj_address}" />
+		                    </div>
+		                    <label class="col-sm-1 col-form-label">Широта</label>
+		                    <div class="col-sm-1">
+		                        <input type="text" class="form-control form-control-sm" name="latitude" th:value="${obj.latitude}" />
+		                    </div>
+		                    <label class="col-sm-1 col-form-label">Долгота</label>
+		                    <div class="col-sm-1">
+		                        <input type="text" class="form-control form-control-sm" name="longtitude" th:value="${obj.longtitude}" />
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row">
+		                    <label class="col-sm-2 col-form-label">Департамент</label>
+		                    <div class="col-sm-10">
+		                    	<select name="depart" class="form-control form-control-sm">
+		                    		<option value=""></option>
+									<option th:each="dep : ${listDepartment}" th:selected="${obj.depart?.rn==dep.rn}" th:value="${dep.rn}" th:utext="${dep.name}"/>
+								</select>    
+		                    </div>
+	                    </div>
+                    	<div class="form-group-sm row">
+		                    <label class="col-sm-2 col-form-label required">Вид мероприятия</label>
+		                    <div class="col-sm-5">
+		                        <select name="view_event" class="form-control form-control-sm" required="required">
+		                        	<option value=""></option>
+									<option th:each="ve : ${listViewEvent}" th:selected="${obj.view_event?.rn==ve.rn}" th:value="${ve.rn}" th:utext="${ve.name}"/>
+								</select>
+		                    </div>
+		                    <label class="col-sm-2 col-form-label">Состояние вида мероприятия</label>
+		                    <div class="col-sm-3">
+		                        <select name="state_view_event" class="form-control form-control-sm">
+		                        	<option value=""></option>
+									<option th:each="sve : ${listStateViewEvent}" th:selected="${obj.state_view_event?.rn==sve.rn}" th:value="${sve.rn}" th:utext="${sve.name}"/>
+								</select>
+		                    </div>
+		                </div>
+		                <div class="form-group-sm row">
+		                    <label class="col-sm-2 col-form-label required">Назначение объекта</label>
+		                    <div class="col-sm-4">
+		                        <select name="purpose" class="form-control form-control-sm"  required="required">
+		                        	<option value=""></option>
+									<option th:each="op : ${listPurpose}" th:selected="${obj.purpose?.rn==op.rn}" th:value="${op.rn}" th:utext="${op.name}"/>
+								</select>
+		                    </div>
+		                    <label class="col-sm-2 col-form-label required">Мощность объекта</label>
+		                    <div class="col-sm-1">
+		                        <input type="text" class="form-control form-control-sm" name="obj_capacity" th:value="${obj.obj_capacity}"  required="required"/>
+		                    </div>
+		                    <label class="col-sm-2 col-form-label">Единица измерения</label>
+		                    <div class="col-sm-1">
+		                        <select name="obj_capacity_ei" class="form-control form-control-sm">
+		                        	<option value=""></option>
+									<option th:each="mu : ${listMeasureUnit}" th:selected="${obj.obj_capacity_ei?.rn==mu.rn}" th:value="${mu.rn}" th:utext="${mu.name}"/>
+								</select>
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row"> 
+		                    <label class="col-sm-2 col-form-label required">Сметная стоимость</label>
+		                    <div class="col-sm-4">
+		                        <input type="text" class="col-sm-3 form-control form-control-sm" name="estimated_cost" th:value="${obj.estimated_cost}"  required="required"/>
+		                    </div>
+		                    <label class="col-sm-2 col-form-label">Год начала</label>
+		                    <div class="col-sm-1">
+		                        <input type="text" class="form-control form-control-sm" name="year_start" th:value="${obj.year_start}" />
+		                    </div>
+		                     <label class="col-sm-2 col-form-label">Год окончания</label>
+		                     <div class="col-sm-1">
+		                        <input type="text" class="form-control form-control-sm" name="year_stop" th:value="${obj.year_stop}" />
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row">
+		                    <label class="col-sm-2 col-form-label required">Стадия строительства</label>
+		                    <div class="col-sm-4">
+		                        <select name="complet_build_phs" class="form-control form-control-sm"  required="required">
+		                        	<option value=""></option>
+									<option th:each="cp : ${listCompletionPhase}" th:selected="${obj.complet_build_phs?.rn==cp.rn}" th:value="${cp.rn}" th:utext="${cp.name}"/>
+								</select>
+		                    </div>
+		                    <label class="col-sm-2 col-form-label">% завершения</label>
+		                    <div class="col-sm-1">
+		                        <input type="text" class="form-control form-control-sm" name="complet_build_val" th:value="${obj.complet_build_val}" />
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row">
+		                    <label class="col-sm-3 col-form-label">Реестровый номер федерального имущества</label>
+		                    <div class="col-sm-3">
+		                        <input type="text" class="form-control form-control-sm" name="regnum_fedprop" th:value="${obj.regnum_fedprop}" />
+		                    </div>
+		                    <label class="col-sm-3 col-form-label">Реестровый номер земельного участка</label>
+		                    <div class="col-sm-3">
+		                        <input type="text" class="form-control form-control-sm" name="regnum_zu" th:value="${obj.regnum_zu}" />
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row">
+		                    <label class="col-sm-3 col-form-label">Кадастровый номер объекта</label>
+		                    <div class="col-sm-3">
+		                        <input type="text" class="form-control form-control-sm" name="kadnum_obj" th:value="${obj.kadnum_obj}" />
+		                    </div>
+		                    <label class="col-sm-3 col-form-label">Кадастровый номер земельного участка</label>
+		                    <div class="col-sm-3">
+		                        <input type="text" class="form-control form-control-sm" name="kadnum_zu" th:value="${obj.kadnum_zu}" />
+		                    </div>
+		                </div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label">Документ-основание</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="doc_basis_fbfund" th:value="${obj.doc_basis_fbfund}" />
+	                        </div>
+	                        <label class="col-sm-2 col-form-label required">Фактические расходы</label>
+	                        <div class="col-sm-1">
+	                        	<input type="text" class="form-control form-control-sm" name="act_cost_real" th:value="${obj.act_cost_real}" required="required"/>
+	                        </div>
+	                        <label class="col-sm-4 col-form-label required">Фактические расходы в том числе из федерального бюджета</label>
+	                        <div class="col-sm-1">
+	                        	<input type="text" class="form-control form-control-sm" name="act_cost_real_iefb" th:value="${obj.act_cost_real_iefb}" required="required"/>
+	                        </div>
+	                    </div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label required">Остаток сметной стоимости</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="remain_est_cost" th:value="${obj.remain_est_cost}" required="required"/>
+	                        </div>
+	                        <label class="col-sm-2 col-form-label required">Срок реализации мероприятия</label>
+	                        <div class="col-sm-6">
+	                        	<input type="text" class="form-control form-control-sm" name="imp_period_event" th:value="${obj.imp_period_event}" required="required"/>
+	                        </div>
+                        </div>
+                        <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label">Предлагаемый получатель объекта</label>
+	                        <div class="col-sm-10">
+	                        	<input type="text" class="form-control form-control-sm" name="prop_rec_object" th:value="${obj.prop_rec_object}" />
+	                    	</div>
+	                    </div>
+                    </div>
+                    <div id="item2" th:class="${'m-sm-2 tab-pane' + (p_tab==2?' active':' fade')}">
+                    	<h6>Объем и источники финансирования работ</h6>
+                        <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label required">Для завершения строительства</label>
+	                        <div class="col-sm-1">
+	                        	<input type="text" class="form-control form-control-sm" name="safund_comcon" th:value="${obj.safund_comcon}" required="required"/>
+                        	</div>
+	                    	<label class="col-sm-2 col-form-label required">Для завершения строительства из федерального бюджета</label>
+	                    	<div class="col-sm-1">
+	                        	<input type="text" class="form-control form-control-sm" name="safund_comcon_iefb" th:value="${obj.safund_comcon_iefb}" required="required"/>
+	                    	</div>
+	                        <label class="col-sm-2 col-form-label required">Для завершения строительства из внебюджетных источников</label>
+	                        <div class="col-sm-1">
+	                        	<input type="text" class="form-control form-control-sm" name="safund_comcon_ievs" th:value="${obj.safund_comcon_ievs}" required="required"/>
+                        	</div>
+	                    </div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label required">На консервацию объекта</label>
+	                        <div class="col-sm-1">
+	                        	<input type="text" class="form-control form-control-sm" name="safund_pres_obj" th:value="${obj.safund_pres_obj}" required="required"/>
+                        	</div>
+	                        <label class="col-sm-3 col-form-label required">Источник финансирования консервации объекта</label>
+	                        <div class="col-sm-4">
+	                        	<select name="safund_pres_obj_source" class="form-control form-control-sm" required="required">
+	                        		<option value=""></option>
+									<option th:each="fs : ${listFundsSource}" th:selected="${obj.safund_pres_obj_source?.rn==fs.rn}" th:value="${fs.rn}" th:utext="${fs.name}"/>
+								</select>
+							</div>
+	                    </div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label required">На снос объекта</label>
+	                        <div class="col-sm-1">
+	                        	<input type="text" class="form-control form-control-sm" name="safund_destr" th:value="${obj.safund_destr}" required="required"/>
+                        	</div>
+	                        <label class="col-sm-3 col-form-label required">Источник финансирования сноса объекта</label>
+	                        <div class="col-sm-4">
+	                        	<select name="safund_destr_source" class="form-control form-control-sm" required="required">
+	                        		<option value=""></option>
+									<option th:each="fs : ${listFundsSource}" th:selected="${obj.safund_destr_source?.rn==fs.rn}" th:value="${fs.rn}" th:utext="${fs.name}"/>
+								</select>
+							</div>
+	                    </div>
+	                    <h6>Источники финансирования завершения строительства</h6>
+	                    <div class="form-group-sm row margin-left-0">
+		                    <div class="col-sm-2 form-check">
+		                    	<label class="form-check-label">
+		                    		<input type="checkbox" class="form-check-input" name="bs_source" th:checked="${obj.bs_source}==true">Бюджетные средства
+		                    		<input type="hidden" name="bs_source" value="0">
+	                    		</label>
+		                    </div>
+		                    <label class="col-sm-1 col-form-label">Письмо №</label>
+		                    <div class="col-sm-3">
+		                    	<input type="text" class="form-control form-control-sm" name="bs_num" th:value="${obj.bs_num}" />
+	                    	</div>
+	                        <label class="col-sm-1 col-form-label">Дата</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="input_date form-control form-control-sm" name="bs_date" th:value="${#dates.format(obj.bs_date,'dd.MM.yyyy')}" />
+                        	</div>
+	                    </div>
+	                    <div class="form-group-sm row margin-left-0">
+		                    <div class="col-sm-2 form-check">
+		                    	<label class="form-check-label">
+		                        	<input type="checkbox" class="form-check-input" name="vs_source" th:checked="${obj.vs_source}==true">Внебюджетные источники
+		                        	<input type="hidden" name="vs_source" value="0">
+	                        	</label>
+		                    </div>
+	                    	<label class="col-sm-1 col-form-label">Письмо №</label>
+	                    	<div class="col-sm-3">
+	                        	<input type="text" class="form-control form-control-sm" name="vs_num" th:value="${obj.vs_num}" />
+	                    	</div>
+	                        <label class="col-sm-1 col-form-label">Дата</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="input_date form-control form-control-sm" name="vs_date" th:value="${#dates.format(obj.vs_date,'dd.MM.yyyy')}" />
+	                    	</div>
+                    	</div>
+                    	<div class="form-group-sm row margin-left-0">
+		                    <div class="col-sm-2 form-check">
+		                    	<label class="form-check-label">
+		                        	<input type="checkbox" class="form-check-input" name="ii_source" th:checked="${obj.ii_source}==true">Иные источники
+		                        	<input type="hidden" name="ii_source" value="0">
+	                        	</label>
+		                    </div>
+		                    <label class="col-sm-1 col-form-label">Письмо №</label>
+		                    <div class="col-sm-3">
+		                        <input type="text" class="form-control form-control-sm" name="ii_num" th:value="${obj.ii_num}" />
+		                    </div>
+		                    <label class="col-sm-1 col-form-label">Дата</label>
+		                    <div class="col-sm-2">
+		                        <input type="text" class="input_date form-control form-control-sm" name="ii_date" th:value="${#dates.format(obj.ii_date,'dd.MM.yyyy')}" />
+		                    </div>
+	                    </div>
+	                    <div class="form-group-sm row margin-left-0">
+		                    <div class="col-sm-2 form-check">
+		                    	<label class="form-check-label">
+		                        	<input type="checkbox" class="form-check-input" name="faip" th:checked="${obj.faip}==true">Включен в ФАИП
+		                        	<input type="hidden" name="faip" value="0">
+	                        	</label>
+		                    </div>
+	                    </div>
+	                    <div class="m-sm-2"></div>
+	                    <div id="faip">
+		                    <h6>ФАИП</h6>
+		                    <div class="form-group-sm row">
+		                        <label class="col-sm-2 col-form-label">Тип документа ФАИП</label>
+		                        <div class="col-sm-3">
+			                        <select name="type_faip" class="form-control form-control-sm">
+			                        	<option value=""></option>
+										<option th:each="tf : ${listTypeFaip}" th:selected="${obj.type_faip?.rn==tf.rn}" th:value="${tf.rn}" th:utext="${tf.name}"/>
+									</select>
+								</div>
+							</div>
+							<div class="form-group-sm row">
+		                        <label class="col-sm-2 col-form-label">Номер документа ФАИП</label>
+		                        <div class="col-sm-2">
+		                        	<input type="text" class="form-control form-control-sm" name="num_faip" th:value="${obj.num_faip}" />
+	                        	</div>
+		                        <label class="col-sm-2 col-form-label">Дата документа ФАИП</label>
+		                        <div class="col-sm-2">
+		                        	<input type="text" class="input_date form-control form-control-sm" name="date_faip" th:value="${#dates.format(obj.date_faip,'dd.MM.yyyy')}" />
+	                        	</div>
+		                    </div>
+	                    </div>
+                    </div>
+                    <div id="item3" th:class="${'m-sm-2 tab-pane' + (p_tab==3?' active':' fade')}">
+                    	<h6>Контактное лицо 1</h6>
+                    	<div class="form-group-sm row">
+	                        <label class="col-sm-1 col-form-label required">ФИО</label>
+	                        <div class="col-sm-3">
+	                        	<input type="text" class="form-control form-control-sm" name="agnname1" th:value="${obj.agnname1}" required="required"/>
+                        	</div>
+	                        <label class="col-sm-1 col-form-label required">Должность</label>
+	                        <div class="col-sm-3">
+	                        	<input type="text" class="form-control form-control-sm" name="emppost1" th:value="${obj.emppost1}" required="required"/>
+                        	</div>
+	                    </div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-1 col-form-label required">Телефон гор.</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="phone_s1" th:value="${obj.phone_s1}" required="required"/>
+                        	</div>
+	                        <label class="col-sm-1 col-form-label required">Телефон моб.</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="phone_m1" th:value="${obj.phone_m1}" required="required"/>
+                        	</div>
+	                        <label class="col-sm-1 col-form-label required">Электронная почта</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="email1" th:value="${obj.email1}" required="required"/>
+                        	</div>
+	                    </div>
+	                    <h6>Контактное лицо 2</h6>
+                    	<div class="form-group-sm row">
+	                        <label class="col-sm-1 col-form-label">ФИО</label>
+	                        <div class="col-sm-3">
+	                        	<input type="text" class="form-control form-control-sm" name="agnname2" th:value="${obj.agnname2}" />
+                        	</div>
+	                        <label class="col-sm-1 col-form-label">Должность</label>
+	                        <div class="col-sm-3">
+	                        	<input type="text" class="form-control form-control-sm" name="emppost2" th:value="${obj.emppost2}" />
+                        	</div>
+	                    </div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-1 col-form-label">Телефон гор.</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="phone_s2" th:value="${obj.phone_s2}" />
+                        	</div>
+	                        <label class="col-sm-1 col-form-label">Телефон моб.</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="phone_m2" th:value="${obj.phone_m2}" />
+                        	</div>
+	                        <label class="col-sm-1 col-form-label">Электронная почта</label>
+	                        <div class="col-sm-2">
+	                        	<input type="text" class="form-control form-control-sm" name="email2" th:value="${obj.email2}" />
+                        	</div>
+	                    </div>
+                    </div>
+                    <div id="item4" th:class="${'m-sm-2 tab-pane' + (p_tab==4?' active':' fade')}">
+                    	<div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label">Расположение объекта</label>
+	                        <div class="col-sm-10">
+		                        <select name="locobj" class="form-control form-control-sm">
+		                        	<option value=""></option>
+									<option th:each="ol : ${listObjectLocation}" th:selected="${obj.locobj?.rn==ol.rn}" th:value="${ol.rn}" th:utext="${ol.name}"/>
+								</select>
+							</div>
+						</div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label">Обоснование необходимости списания</label>
+	                        <div class="col-sm-10">
+	                        	<input type="text" class="form-control form-control-sm" name="rat_writing_obj" th:value="${obj.rat_writing_obj}" />
+                        	</div>
+	                    </div>
+	                    <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label">Наличие проектной документации</label>
+	                        <div class="col-sm-10">
+	                        	<input type="text" class="form-control form-control-sm" name="presence_dpd" th:value="${obj.presence_dpd}" />
+                        	</div>
+                        </div>
+                        <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label">Предлагаемые решения организации</label>
+	                        <div class="col-sm-10">
+	                        	<input type="text" class="form-control form-control-sm" name="prop_sol_dpd" th:value="${obj.prop_sol_dpd}" />
+                        	</div>
+                        </div>
+                        <div class="form-group-sm row">
+	                        <label class="col-sm-2 col-form-label">Предлагаемые решения по результатам проверки</label>
+	                        <div class="col-sm-10">
+	                        	<input type="text" class="form-control form-control-sm" name="prop_sol_prov" th:value="${obj.prop_sol_prov}" />
+                        	</div>
+	                    </div>
+	                    <div class="form-group-sm row margin-left-0">
+		                    <div class="col-sm-2 form-check">
+			                        <label class="form-check-label">
+		                        	<input type="checkbox" class="form-check-input" name="req_trip" th:checked="${obj.req_trip}==true">Требуется выезд
+		                        	<input type="hidden" name="req_trip" value="0">
+	                        	</label>
+		                    </div>
+		                    <div class="col-sm-2 form-check">
+		                    	<label class="form-check-label">
+		                        	<input type="checkbox" class="form-check-input" name="vvod_expl" th:checked="${obj.vvod_expl}==true">Введен в эксплуатацию
+		                        	<input type="hidden" name="vvod_expl" value="0">
+	                        	</label>
+		                    </div>
+	                    </div>
+                    </div>
+                    <div id="item5" th:class="${'m-sm-2 tab-pane' + (p_tab==5?' active':' fade')}">
+                    	<div th:each="doc : ${obj.documents}" class="form-group-sm row">
+	                        <div class="col-sm-10 one-line">
+	                        	<span th:text="${doc.doctype.name}"></span>
+                        	</div>
+                        	<div class="col-sm-2">
+                        		<a th:href="@{/detailsObj?clazz=Document&rn=} + ${doc.rn + '&prn=' + obj.rn}" class="btn btn-sm btn-light w-100">
+                        		<i th:class="${'fa fa-sm fa-' + (!doc.apsend ? 'check' : 'times')}"></i> Документ</a>
+                        	</div>
+                    	</div>
+                    </div>
+                </div>
+            </div>
+	    </form>
+    </div>
+    <footer class="footer">
+    	<div th:replace="fragments/header :: change_info"></div>
+    </footer>
+</body>
+</html>

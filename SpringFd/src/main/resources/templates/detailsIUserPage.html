@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			size_init();
+            $('input[name="username"]').focus();
+            if (!($('input[name="rn"]').val() > 0)) $('input[name="password"]').attr("required") = "required";
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container w-50 fit-height">
+		<form th:action="@{/user}" method="post" class="form" role="form" autocomplete="off">
+			<input type="hidden" name="rn" th:value="${obj.rn}" />
+			<div class="col-md-12 card-header">
+	       		<h3 th:text="${p_title}"></h3>
+	       	</div>
+	       	<div class="col-md-12 card small">
+	            <div class="m-sm-2">
+                    <div class="form-group">
+                        <label for="login" class="required">Логин</label>
+                        <input type="text" class="form-control form-control-sm" name="login" th:value="${obj.login}" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" class="form-control form-control-sm" name="password" value="" />
+                    </div>
+                    <H4>Роли</H4>
+                    <div class="form-group row margin-left-0">
+                        <div class="col-md-6 form-check">
+	                    	<label class="form-check-label">
+	                        	<input type="checkbox" class="form-check-input" name="role_user" th:checked="${role_user}==true">Пользователь
+                        	</label>
+                       	</div>
+                       	<div class="col-md-6 form-check">
+	                    	<label class="form-check-label">
+	                        	<input type="checkbox" class="form-check-input" name="role_admin" th:checked="${role_admin}==true">Администратор
+                        	</label>
+                       	</div>
+                    </div>
+                    <div class="form-group">
+                    	<div class="form-check">
+	                    	<label class="form-check-label">
+	                        	<input type="checkbox" class="form-check-input" name="disabled" th:checked="${obj.disabled}==true">Заблокирован
+	                        	<input type="hidden" name="disabled" value="0">
+                        	</label>
+                       	</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Организация</label>
+                    	<select name="org" class="form-control form-control-sm">
+                    		<option value=""></option>
+							<option th:each="org : ${listOrg}" th:selected="${obj.org?.rn==org.rn}" th:value="${org.rn}" th:text="${org.name}"/>
+						</select>    
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Контрагент (физическое лицо)</label>
+                    	<select name="person" class="form-control form-control-sm">
+                    		<option value=""></option>
+							<option th:each="person : ${listPerson}" th:selected="${obj.person?.rn==person.rn}" th:value="${person.rn}" th:text="${person.name}"/>
+						</select>    
+                    </div>
+                    <div class="form-group float-right">
+                    	<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+	                    <a th:href="@{/listObj?clazz=IUser}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<footer class="footer">
+    	<div th:replace="fragments/header :: change_info"></div>
+    </footer>
+</body>
+</html>

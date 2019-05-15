@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:with="title='Ошибка на сервере'" th:replace="fragments/header :: head"></head>
+<body>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container py-5">  
+		<h4 class="text-center text-uppercase">Информация об ошибкe</h4>  
+		<div th:switch="${status}">
+	    	<div th:case="${404}" class="alert alert-danger" th:text="${'Страница не найдена'}"></div>
+	    	<div th:case="${500}" class="alert alert-danger" th:text="${'Внутренняя ошибка сервера'}"></div>
+	    	<div th:case="*" class="alert alert-danger" th:text="${'Ошибка сервера, статус ошибки: ' + status}"></div>
+		</div>
+		
+	</div>
+</body>
+</html>

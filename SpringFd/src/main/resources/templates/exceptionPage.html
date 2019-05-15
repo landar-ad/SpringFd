@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:with="title='Исключение'" th:replace="fragments/header :: head"></head>
+<body>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="col-sm-12">  
+		<h4 class="text-center text-uppercase">Информация об ошибкe</h4>  
+		<div th:each="message : ${listMessage}" class="alert alert-danger" th:text="${message}"></div>  
+	</div>
+</body>
+</html>

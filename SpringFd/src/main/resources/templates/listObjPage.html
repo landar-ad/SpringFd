@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			list_init();
+			size_init();
+		});
+	</script>
+	<div th:replace="fragments/list :: listTop"></div>
+</body>
+</html>

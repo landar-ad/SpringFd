@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+	<div th:fragment="pager-param">
+		<input type="hidden" name="p_off" th:value="${p_off}" />
+		<input type="hidden" name="p_page" th:value="${p_page}" />
+	</div>
+	<div th:fragment="pager" class="card-header">
+		<div th:if="${p_total!=null && p_totalRows!=null}" class="row col-sm-12 small">
+			<div th:if="${p_total} gt 1" class="col-sm-auto mr-sm-1">
+				<ul class="pagination pagination-sm">
+					<li th:if="${p_off gt 0}" class="page-item">
+						<a class="page-link" href="javascript:void(0);" th:data-value="${0}">&lt;&lt;</a>
+					</li>
+					<li th:each="pn : ${p_pageNumbers}" th:class="'page-item' + (${p_off + 1 eq pn} ? ' active' : '')">
+						<a class="page-link" href="javascript:void(0);" th:text="${pn}" th:data-value="${pn - 1}"></a>
+					</li>
+					<li th:if="${p_off lt (p_total - 1)}" class="page-item">
+						<a class="page-link" href="javascript:void(0);" th:data-value="${p_total - 1}">&gt;&gt;</a>
+					</li>
+				</ul> 
+			</div>
+			<label th:utext="${'Всего записей: ' + p_totalRows + ' '}" class="col-form-label mr-sm-4"></label>
+			<label th:if="${p_countPages!=null}" class="col-form-label mr-sm-2">На странице</label>
+			<select th:if="${p_countPages!=null}" class="p_page custom-select">
+				<option th:each="pn : ${p_countPages}" th:value="${pn}" th:selected="${pn==p_page}" th:text="${pn}"/>
+			</select>
+		</div>
+	</div>	
+	<div th:fragment="total" class="card-header">
+		<div class="row col-sm-12">
+			<div class="small">
+				<label th:text="${'Всего записей: ' + #lists.size(listObj.content) + ' '}"></label>
+			</div>
+		</div>
+	</div>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.input_date,.input_time').datepicker({language: "ru"});
+			size_init();
+			file_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container  w-75 fit-height">
+		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
+			<input type="hidden" name="clazz" th:value="${obj.clazz}" />
+			<input type="hidden" name="rn" th:value="${obj.rn}" />
+    		<div class="col-md-12 card-header">
+            	<h3 th:text="${p_title}"></h3>
+            </div>
+           	<div class="col-md-12 card small">
+           		<div class="m-sm-2">
+           			<div th:replace="fragments/header :: details-buttons"></div>
+	            	<div class="form-group-sm m-sm-1 row">
+                        <label class="col-sm-1 col-form-label">Код</label>
+                        <input name="code" class="col-sm-4 form-control form-control-sm" type="text" th:value="${obj.code}"></input>
+                        <label class="col-sm-1 col-form-label">Тип</label>
+                        <input name="type" class="col-sm-2 form-control form-control-sm" type="text" th:value="${obj.type}"></input>
+                        <label class="col-sm-2 col-form-label">Тип файла</label>
+                        <input name="filetype" class="col-sm-2 form-control form-control-sm" type="text" th:value="${obj.filetype}"></input>
+                     </div>
+                     <div class="form-group-sm m-sm-1">
+                        <label class="col-sm-2 col-form-label">Наименование</label>
+                        <input name="name" class="col-sm-12 form-control form-control-sm" type="text" th:value="${obj.name}"></input>
+                     </div>
+                     <div class="form-group-sm m-sm-1">
+                     	<label class="col-sm-2 col-form-label">Значение параметра</label>
+                        <textarea id="text" name="value" class="col-sm-12 form-control form-control-sm" th:text="${obj.value}" rows="8"></textarea>
+                        <div class="form-group-sm mt-sm-1 col-sm-12 row">
+	                        <div class="col-sm-6 custom-file">
+							   <input type="file" class="custom-file-input" data-target="text">
+							   <label class="custom-file-label text-truncate" data-browse="Загрузить из файла"></label>
+							</div>
+			 				<div class="col-sm-2">
+								<button type="button" class="download btn btn-sm btn-light" data-target="text">Выгрузить в файл</button>
+			                </div>
+		                </div>
+                    </div>
+                    <div class="form-group-sm m-sm-1 row">
+                        <label class="col-sm-2 col-form-label">Пользователь</label>
+                        <input name="username" class="col-sm-2 form-control form-control-sm" type="text" th:value="${obj.username}"></input>
+                        <label class="col-sm-1 col-form-label">Роли</label>
+                        <input name="roles" class="col-sm-2 form-control form-control-sm" type="text" th:value="${obj.roles}"></input>
+                    </div>
+ 				</div>
+			</div>
+		</form>
+	</div>
+	<footer class="footer">
+    	<div th:replace="fragments/header :: change_info"></div>
+    </footer>
+</body>
+</html>
