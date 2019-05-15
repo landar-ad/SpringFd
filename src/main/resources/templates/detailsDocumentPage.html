@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.input_date').datepicker({language: "ru"});
+			$('.custom-file-input').on("change", function() { 
+				   var fileName = $(this).val().split('\\').pop(); 
+				   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+			});
+			size_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container fit-height">
+		<form th:action="@{/detailsObj}" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
+			<input type="hidden" name="clazz" value="Document" />
+			<input type="hidden" name="rn" th:value="${obj.rn}" />
+			<input type="hidden" name="p_tab" th:value="${p_tab}" />
+    		<div class="col-md-12 card-header">
+            	<h3 th:text="${p_title}"></h3>
+            </div>
+           	<div class="col-sm-12 card small">
+            	<div class="m-sm-2">
+            		<div class="row small col-sm-12">
+	            		<div class="btn-group">
+	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+			                <a th:href="@{/detailsObj?clazz=UnfinishedConstruction&rn=} + ${prn + '&p_tab=5'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+		                </div>
+	                </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label required">Тип документа</label>
+                        <div class="col-sm-10">
+	                    	<select name="doctype" class="form-control form-control-sm" required="required">
+	                    		<option value=""></option>
+								<option th:each="d : ${listDocType}" th:selected="${obj.doctype?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+							</select>    
+						</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label required">Наименование документа</label>
+                        <div class="col-sm-10">
+                        	<input class="form-control form-control-sm" type="text" name="docname" th:value="${obj.docname}" required="required"></input>
+                       	</div>
+                    </div>
+                   	<div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Номер документа</label>
+                        <div class="col-sm-1">
+                        	<input class="form-control form-control-sm" type="text" name="docnum" th:value="${obj.docnum}"></input>
+                       	</div>
+                        <label class="col-sm-2 col-form-label required">Дата документа</label>
+                        <div class="col-sm-2">
+                        	<input class="input_date form-control form-control-sm" type="text" name="docdate" th:value="${#dates.format(obj.docdate,'dd.MM.yyyy')}" required="required"></input>
+                       	</div>
+                       	<label class="col-sm-2 col-form-label">Действует до</label>
+                        <div class="col-sm-2">
+                        	<input class="input_date form-control form-control-sm" type="text" name="docdate_end" th:value="${#dates.format(obj.docdate_end,'dd.MM.yyyy')}"></input>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Примечание</label>
+                        <div class="col-sm-12">
+                        	<textarea class="form-control form-control-sm" name="prim" th:text="${obj.prim}"></textarea>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row margin-left-0 mt-sm-1">
+                    	<div class="col-sm-2 form-check">
+	                    	<label class="form-check-label">
+	                        	<input type="checkbox" class="form-check-input" name="apsend" th:checked="${obj.apsend}==true">Документ отсутствует
+	                        	<input type="hidden" name="apsend" value="0">
+                        	</label>
+                       	</div>
+                        <label class="col-sm-2 col-form-label">Примечание к отсутствию документа</label>
+                        <div class="col-sm-8">
+                        	<textarea class="form-control form-control-sm" name="prim_apsend" th:text="${obj.prim_apsend}"></textarea>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                    	<div th:if="${obj.file != null}" class="col-sm-12 mt-sm-1">
+                    		<a target="_blank" th:href="@{/fileView?rn=} + ${obj.file.rn}" th:text="${obj.file.filename}"></a>
+                    	</div>
+                   	</div>
+                   	<div class="form-group-sm row mt-sm-1">
+                       	<div class="custom-file col-sm-12 mt-sm-1">
+						   <input type="file" class="custom-file-input" name="fileInput">
+						   <label class="custom-file-label" th:data-browse="${obj.file == null ? 'Прикрепить файл' : 'Заменить файл'}"></label>
+						</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                    	<label class="col-sm-1 col-form-label">Имя файла</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" type="text" name="file__filename" th:value="${obj.file?.filename}"></input>
+                       	</div>
+                       	<label class="col-sm-1 col-form-label">Расширение</label>
+                        <div class="col-sm-1">
+                        	<input class="form-control form-control-sm" type="text" name="file__fileext" th:value="${obj.file?.fileext}"></input>
+                       	</div>
+                       	<label class="col-sm-1 col-form-label">Тип файла</label>
+                        <div class="col-sm-6">
+	                    	<select name="file__filetype" class="form-control form-control-sm">
+	                    		<option value="" selected="selected"></option>
+								<option th:each="ft : ${listFileType}" th:selected="${obj.file?.filetype?.rn==ft.rn}" th:value="${ft.rn}" th:utext="${ft.name}"/>
+							</select>    
+						</div>
+                    </div>
+				</div>
+			</div>
+			</form>
+	</div>
+	<footer class="footer">
+    	<div th:replace="fragments/header :: change_info"></div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+		});
+		function submit_page(off)
+		{
+			$('input[name="p_off"]').val(off);
+			$('#formSubmit').submit();
+		}
+	</script>
+ 	<form id="formSubmit" th:action="@{/test/pagination}" method="get" novalidate  autocomplete="off">
+ 		<input type="hidden" name="clazz" value="UnfinishedConstruction" />
+ 		<input type="hidden" name="p_off" th:value="${p_off}" />
+  		<input type="hidden" name="p_total" th:value="${p_total}" />
+  		<input type="hidden" name="p_totalRows" th:value="${p_totalRows}" />
+ 		<input type="hidden" name="p_block" th:value="${p_block}" />
+		<div class="container">
+			<div class="row">
+				<div th:if="${p_total} gt 1" class="mr-sm-2">
+					<ul class="pagination pagination-sm">
+						<li th:class="'page-item' + (${p_off eq 0} ? ' disabled' : '')">
+							<a class="page-link" th:if="${p_off gt 0}" th:href="'javascript:submit_page(' + ${p_off - 1} + ');'">&lt;&lt;</a>
+			                <a th:if="${p_off eq 0}" href="javascript:void(0);"></a>
+						</li>
+						<li th:each="pn : ${p_pageNumbers}" th:class="'page-item' + (${p_off + 1 eq pn} ? ' active' : '')">
+							<a class="page-link" th:href="'javascript:submit_page(' + ${pn - 1} + ');'" th:text=${pn}></a>
+						</li>
+						<li th:class="'page-item' + (${off ge (p_total- 1)} ? ' disabled' : '')">
+							<a class="page-link" th:if="${p_off lt (p_total - 1)}" th:href="'javascript:submit_page(' + ${p_off + 1} + ');'">&gt;&gt;</a>
+			                <a th:if="${p_off ge (p_total - 1)}" href="javascript:void(0);"></a>
+						</li>
+					</ul> 
+				</div>
+				<div>
+					<span th:text="${'Всего записей: ' + p_totalRows}" class="mr-sm-2"></span>
+					<label for="page" class="mr-sm-2">На странице</label>
+					<select th:field="*{p_page}" class="custom-select custom-select-sm" style="width: auto;">
+						<option th:each="pn : ${p_countPages}" th:value="${pn}" th:utext="${pn}"/>
+					</select>
+				</div>
+			</div>
+		</div>
+     </form>
+</body>
+</html>

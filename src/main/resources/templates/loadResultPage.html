@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:with="p_title='Загрузка справочников'" th:replace="fragments/header :: head"></head>
+<body>
+	<header th:replace="fragments/header :: header"></header>
+	<section>
+	    <h6 th:utext="'Загрузка файла ' + ${datetime}"></h6>
+	    <table class="table table-sm table-striped table-light table-bordered table-hover small">
+	    	<thead>
+		        <tr>
+		            <th>Результат</th>
+		        </tr>
+	        </thead>
+	        <tbody>
+		        <tr th:each="obj : ${listResult}">
+	            	<td th:utext="${obj}"></td>
+	        	</tr>
+	        </tbody>
+     	</table>
+    </section>
+</body>
+</html>

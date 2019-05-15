@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+  	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title th:text="${p_title}"></title>
+	<link rel="icon" th:href="@{/static/images/favicon.ico}" type="image/x-icon">
+
+	<link rel="stylesheet" th:href="@{/static/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+	<link rel="stylesheet" th:href="@{/static/bootstrap-datepicker/css/bootstrap-datepicker.min.css}" type="text/css"/>
+	<link rel="stylesheet" th:href="@{/static/jquery-ui/jquery-ui.min.css}" type="text/css"/>
+	<link rel="stylesheet" th:href="@{/static/jquery-ui/jquery-ui.structure.min.css}" type="text/css"/>
+	<link rel="stylesheet" th:href="@{/static/jquery-ui/jquery-ui.theme.min.css}" type="text/css"/>
+	<link rel="stylesheet" th:href="@{/static/font-awesome/css/all.min.css}" type="text/css"/>
+	<link rel="stylesheet" th:href="@{/static/css/bootstrap-combobox.css}" type="text/css"/>
+	<link rel="stylesheet" th:href="@{/static/css/css.css}" type="text/css"/>
+	
+	<script th:src="@{/static/jquery/jquery.min.js}" type="text/javascript"></script>  
+	<script th:src="@{/static/popper/popper.min.js}" type="text/javascript"></script>  
+	<script th:src="@{/static/jquery-ui/jquery-ui.min.js}" type="text/javascript"></script>
+	<script th:src="@{/static/bootstrap/js/bootstrap.bundle.min.js}" type="text/javascript"></script>   
+	<script th:src="@{/static/bootstrap-datepicker/js/bootstrap-datepicker.min.js}" type="text/javascript"></script>
+	<script th:src="@{/static/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js}" type="text/javascript"></script>
+	<script th:src="@{/static/js/bootstrap-combobox.js}" type="text/javascript"></script>
+	<script th:src="@{/static/js/list.js}" type="text/javascript"></script>
+	<script th:src="@{/static/js/size.js}" type="text/javascript"></script>
+	<script th:src="@{/static/js/require.js}" type="text/javascript"></script>
+	<script th:src="@{/static/js/file.js}" type="text/javascript"></script>
+</head>
+<body>
+	<header th:fragment="header">
+		<div class="container col-12">
+			<div th:with="p_l=${!#strings.isEmpty(p_login)}" class="row align-items-center">
+				<div class="col-sm-auto mr-sm-1 m-sm-1"><a th:href="@{/}"><img style="width: 6em;" th:src="@{/static/images/logo.png}"></a></div>
+				<div class="col-sm-auto mr-sm-1">
+					<h4>Минпросвещения России</h4>
+			       	<small>Комплексная автоматизированная система исполнения бюджета Министерства просвещения Российской Федерации</small>
+		       	</div>
+		       	<div class="col grow">
+		       		<div th:if="${p_l}" class="mr-sm-2 text-align-right">
+				       	<small th:utext="${'Пользователь: ' + p_login}" ></small>
+						<a th:href="@{/logout}" class="btn btn-sm btn-light">
+						<i class="fa fa-sm fa-sign-out-alt"></i> Выход</a>
+					</div>
+				</div>
+			</div>
+		</div>
+  	</header>
+  	<div th:fragment="list-param">
+ 		<input type="hidden" id="clazz" th:value="${clazz}" />
+ 		<input type="hidden" name="rn" th:value="${rn}" />
+ 		<input type="hidden" id="edit_url" th:href="@{/detailsObj}" />
+ 		<input type="hidden" id="remove_url" th:href="@{/removeObj}" />
+ 		<input type="hidden" name="p_refreshElement" value=""/>
+  	</div>
+  	<div th:fragment="list-buttons" class="row small col-sm-12">
+		<div class="btn-group">
+  			<button id="edit_obj" class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-edit"></i> Редактировать</button>
+  			<a th:href="@{/detailsObj?clazz=} + ${clazz}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-clone"></i> Добавить</a>
+  			<button id="remove_obj"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-trash"></i> Удалить</button>
+		</div>
+		<div class="col grow">
+			<div class="text-align-right">
+	 			<button id="set-visible"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-list"></i></button>
+	 			<button id="clear-filter"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-filter"></i></button>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="details-buttons" class="row small col-sm-12">
+		<div class="btn-group">
+            <button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+            <a th:href="@{/listObj?clazz=} + ${obj.clazz} + ${obj.rn!=null ? '&rn=' + obj.rn : ''}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+		</div>
+	</div>
+	<table th:fragment="list-table" id="objTable" class="table table-sm table-striped table-light table-bordered small">
+    	<thead th:with="l_f=${p_filtering!=null && p_filtering}">
+	        <tr>
+	            <th class="d-none">Идентификатор</th>
+	            <th th:if="${l_f}" id="filterButton" class="pointer"><i class="fa fa-sm fa-angle-double-down" aria-hidden="true"></i></th>
+	            <th th:if="${!l_f}">#</th>
+	            <th th:each="col : ${listColumn}" th:class="${col.sortable ? 'sorting' : ''}">
+	            	<div class="max-width">
+		            	<span th:text="${col.title} + ${col.sortable ? '&nbsp;&nbsp;&nbsp;' : ''}"></span>
+		            	<input th:if="${col.sortable}" type="hidden" th:name="${'sort__' + col.name}" th:value="${p_sort.get(col.name) != null ? p_sort.get(col.name) : 'NONE'}">
+	            	</div>
+	            </th>
+	        </tr>
+	        <tr th:if="${l_f}" id="filterRow">
+	        	<th class="d-none"></th>
+	        	<th id="findButton" class="pointer"><i class="fa fa-sm fa-search" aria-hidden="true"></i></th>
+	        	<th th:each="col : ${listColumn}">
+	        		<div th:with="c_f=${col.filter!=null ? col.filterType : ''}" class="max-width">
+		        		<input th:if="${c_f=='text'}" type="text" th:name="${col.filter}" class="form-control form-control-th" th:value="${hs.getVariableString(#vars,col.filter)}">
+		        		<select th:if="${c_f=='select'}" th:name="${col.filter}" class="form-control form-control-th">
+		        			<option value=""></option>
+							<option th:each="item : ${hs.getVariable(#vars,col.filterList)}" th:text="${item.name}" th:selected="${hs.getVariable(#vars,col.filter)==item.rn}" th:value="${item.rn}"/>
+						</select>
+						<div th:if="${c_f=='checkbox'}" class="form-inline form-check">
+			        		<label class="form-check-label">
+			        			<input type="checkbox" th:name="${col.filter}" class="form-check-input" th:checked="${hs.getVariable(#vars,col.filter)}==true">
+		        			</label>
+	        			</div>
+        			</div>
+	        	</th>
+        	</tr>
+        </thead>
+        <tbody>
+	        <tr th:each="obj,iter : ${listObj}">
+	            <td class="d-none" th:text="${obj.rn}"/>
+	            <td th:text="${(p_off==null ? 0 : p_off)  * (p_page==null ? 0 : p_page) + iter.index + 1}"/>
+	            <td th:each="col : ${listColumn}">
+	            	 <div th:text="${hs.getPropertyString(obj,col.name)}" class="max-width"></div>
+            	</td>
+	        </tr>
+        </tbody>
+    </table>
+    <div th:fragment="visible" class="modal" tabindex="-1" role="dialog" style="height: 90%">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Определение колонок таблицы</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<input id="url-visible" type="hidden" th:value="@{/settings?code=} + ${clazz + '_listVisible&type=string'}"></input>
+					<input type="hidden" name="p_listVisible" value=""/>
+				</div>
+				<div class="modal-body">
+					<table id="columnTable" class="table table-sm table-striped table-light table-bordered small">
+						<thead>
+							<tr>
+								<th class="d-none"></th>
+								<th>Наименование</th>
+								<th>Видимость</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="col : ${listColumnAll}">
+								<td class="d-none" th:text="${col.name}"></td>
+								<td th:text="${col.title}"></td>
+								<td class="td-visible pointer" th:text="${col.visible ? 'да' : 'нет'}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button id="save-visible" type="button" class="btn btn-sm btn-light" data-dismiss="modal">Сохранить</button>
+					<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="change_info" class="card-header">
+		<small th:if="${hs!=null && hs.propertyExists(obj,'modifier')}" th:text="${'Изменен: ' + obj.modifier + ', дата/время: ' + #dates.format(obj.mdate,'dd.MM.yyyy HH:mm:ss')}"></small>
+	</div>
+</body>
+</html>
