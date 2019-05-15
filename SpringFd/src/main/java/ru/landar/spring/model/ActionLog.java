@@ -80,8 +80,8 @@ public class ActionLog extends IBase {
     @Autowired
 	HelperService hs;
     
-	public static String singleTitle() { return "Журнал регистрации действий"; }
-	public static String multipleTitle() { return "Журналы регистрации действий"; }
+	public static String singleTitle() { return "Зарегистрированное действие"; }
+	public static String multipleTitle() { return "Журнал регистрации действий"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("action_time", "Время действия"));
