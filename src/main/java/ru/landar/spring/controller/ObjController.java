@@ -3,6 +3,7 @@ package ru.landar.spring.controller;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -31,8 +32,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.SearchContent;
+import ru.landar.spring.model.SpActionType;
 import ru.landar.spring.model.ISettings;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -237,15 +240,40 @@ public class ObjController {
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
 		if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
 		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
-		mapValue.forEach((attr, valueNew) -> 
-		{
+		mapValue.forEach((attr, valueNew) -> {
 			Object valueOld = hs.getProperty(obj, attr);
 			if (!hs.equals(valueOld, valueNew)) mapChanged.put(attr, new Object[]{valueOld, valueNew}); 
 			hs.setProperty(obj, attr, valueNew);
 		});
 		objService.saveObj(obj);
 		// Добавление информации об изменении объекта
-		hs.invoke(obj, "onUpdate", mapFile, mapChanged);
+		hs.invoke(obj, "onUpdate", mapFile);
+		// Запись в журнал
+		if (mapChanged != null && !mapChanged.isEmpty()) { 
+    		Integer obj_rn = (Integer)hs.getProperty(obj, "rn");
+    		SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, obj_rn == null ? "create" : "update");
+    		Date dt = new Date();
+    		String obj_name = obj.getClass().getSimpleName(), 
+    			user_login = userService.getPrincipal(), 
+    			ip = (String)request.getSession().getAttribute("ip"), 
+    			browser = (String)request.getSession().getAttribute("browser");
+    		mapChanged.forEach((attr, o) -> {
+    			ActionLog al = new ActionLog();
+        		al.setUser_login(user_login);
+        		al.setAction_type(action_type);
+        		al.setAction_time(dt);
+        		al.setClient_ip(ip);
+        		al.setClient_browser(browser);
+        		al.setObj_name(obj_name);
+        		al.setObj_rn(obj_rn);
+        		al.setObj_attr(attr);
+        		al.setObj_value_before(o[0] != null ? o[0].toString() : null);
+        		al.setObj_value_after(o[1] != null ? o[1].toString() : null);
+        		objService.saveObj(al);
+    		
+    		});
+    	}
+		//
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
@@ -264,7 +292,8 @@ public class ObjController {
 	}
 	@RequestMapping(value = "/removeObj", method = RequestMethod.POST)
 	public String removeObjPost(@RequestParam("rn") Integer rn, 
-								@RequestParam("clazz") Optional<String> paramClazz, 
+								@RequestParam("clazz") Optional<String> paramClazz,
+								HttpServletRequest request,
 								Model model) throws Exception {
 		Object obj = objService.find(paramClazz.orElse(null), rn);
 		String msg = "", name = "";
@@ -275,6 +304,23 @@ public class ObjController {
 			Boolean b = (Boolean)hs.invoke(obj, "onRemove");
 			if (b != null && !b) { msg = String.format("Отказано в удалении объекта '%s'", name); break; }
 			objService.removeObj(paramClazz.orElse(null), rn);
+			// Запись в журнал
+    		SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, "remove");
+    		Date dt = new Date();
+    		String obj_name = obj.getClass().getSimpleName(), 
+    			user_login = userService.getPrincipal(), 
+    			ip = (String)request.getSession().getAttribute("ip"), 
+    			browser = (String)request.getSession().getAttribute("browser");
+			ActionLog al = new ActionLog();
+    		al.setUser_login(user_login);
+    		al.setAction_type(action_type);
+    		al.setAction_time(dt);
+    		al.setClient_ip(ip);
+    		al.setClient_browser(browser);
+    		al.setObj_name(obj_name);
+    		al.setObj_rn(rn);
+    		objService.saveObj(al);
+    		//
 			msg = String.format("Объект '%s' успешно удален", name);
 			break;
 		}

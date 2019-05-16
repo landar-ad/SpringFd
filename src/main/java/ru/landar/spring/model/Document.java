@@ -261,8 +261,8 @@ public class Document extends IBase {
     	return true;
     }
     @Override
-    public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
-    	Object ret = super.onUpdate(map, mapChanged);
+    public Object onUpdate(Map<String, Object> map) throws Exception { 
+    	Object ret = super.onUpdate(map);
     	if (ret != null) return ret;
     	
 		return true;
