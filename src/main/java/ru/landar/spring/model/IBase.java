@@ -113,30 +113,48 @@ public abstract class IBase {
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
     	Object ret = invoke("onUpdate", map, mapChanged);
     	if (mapChanged != null && !mapChanged.isEmpty()) { 
-    		SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, "update");
+    		Integer obj_rn = getRn();
+    		SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, obj_rn == null ? "create" : "update");
     		Date dt = new Date();
-    		String user_login = userService.getPrincipal(), ip = "", browser = "";
+    		String obj_name = getClass().getSimpleName(), user_login = userService.getPrincipal(), ip = "", browser = "";
     		mapChanged.forEach((attr, o) -> {
+    			
     			ActionLog al = new ActionLog();
         		al.setUser_login(user_login);
         		al.setAction_type(action_type);
         		al.setAction_time(dt);
         		al.setClient_ip(ip);
         		al.setClient_browser(browser);
-        		al.setObj_name(getName());
-        		al.setObj_rn(getRn());
+        		al.setObj_name(obj_name);
+        		al.setObj_rn(obj_rn);
         		al.setObj_attr(attr);
         		al.setObj_value_before(o[0] != null ? o[0].toString() : null);
         		al.setObj_value_after(o[1] != null ? o[1].toString() : null);
         		objService.saveObj(al);
+    		
     		});
     	}
     	return ret;
     }
     public Object onRemove() { 
+    	Integer obj_rn = getRn();
     	Object ret = invoke("onRemove");
     	if (ret == null) ret = true;
-    	return ret; 
+    	SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, "remove");
+    	Date dt = new Date();
+		String obj_name = getClass().getSimpleName(), user_login = userService.getPrincipal(), ip = "", browser = "";
+		
+		ActionLog al = new ActionLog();
+		al.setUser_login(user_login);
+		al.setAction_type(action_type);
+		al.setAction_time(dt);
+		al.setClient_ip(ip);
+		al.setClient_browser(browser);
+		al.setObj_name(obj_name);
+		al.setObj_rn(obj_rn);
+		objService.saveObj(al);
+    	
+		return ret; 
 	}
     public Object onRedirectAfterUpdate() { 
     	Object ret = invoke("onRedirectAfterUpdate");
