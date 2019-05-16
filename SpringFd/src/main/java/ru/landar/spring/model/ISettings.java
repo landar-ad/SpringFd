@@ -50,10 +50,10 @@ public class ISettings extends IBase {
     AppClassLoader appClassLoader;
   
     @Override
-    public Object onUpdate(Map<String, Object> map) throws Exception {
+    public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception {
     	
     	AutowireHelper.autowire(this);
-    	Object ret = super.onUpdate(map);
+    	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
     	
     	if ("java".equals(getType()) && !hs.isEmpty(getCode()) && getCode().endsWith("_listeners"))

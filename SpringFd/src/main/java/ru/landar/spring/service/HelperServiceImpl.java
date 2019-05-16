@@ -30,7 +30,6 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -40,7 +39,6 @@ import org.thymeleaf.templateresource.ITemplateResource;
 import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
-import ru.landar.spring.model.ISettings;
 
 @Component
 public class HelperServiceImpl implements HelperService {
@@ -207,6 +205,24 @@ public class HelperServiceImpl implements HelperService {
 		else if (o instanceof Boolean) return (Boolean)o ? "да" : "нет";
 		else if (o instanceof Date) return attr.indexOf("time") < 0 ? dMy.format((Date)o) : dMyHms.format((Date)o); 
 		return o;
+	}
+	@Override
+	public boolean equals(Object o1, Object o2)
+	{
+		if (o1 == null && o2 == null) return true;
+		if (o1 == null && o2 != null) return false;
+		if (o1 != null && o2 == null) return false;
+		if (o1 instanceof IBase) o1 = ((IBase)o1).getRn();
+		if (o2 instanceof IBase) o2 = ((IBase)o2).getRn();
+		if (o1.equals(o2)) return true;
+		if (o1.toString().equals(o2.toString())) return true;
+		try
+		{
+			Method m = o1.getClass().getMethod("compareTo", o2.getClass());
+			if (m != null && (Integer)m.invoke(o1, o2) == 0) return true;
+		}
+		catch (Exception ex) { }
+		return false;
 	}
 	@Override
 	public Object getVariable(Object obj, String attr) {
