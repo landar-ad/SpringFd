@@ -217,12 +217,11 @@ public class ObjController {
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		Integer rn = paramRn.orElse(null);
+		Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
 		Map<String, Object> mapFile = new LinkedHashMap<String, Object>();
 		mapFile.put("fileuri", fileParam.orElse(null));
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
-		List<String> listAttr = new ArrayList<String>();
-		List<Object> listValue = new ArrayList<Object>();
 		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
 		for (String p : listNames) {
 			String v = request.getParameter(p);
@@ -232,23 +231,21 @@ public class ObjController {
 				mapFile.put(p, hs.getObjectByString(IFile.class, p, v));
 				continue;
 			}
-			Class<?> clAttr = hs.getAttrType(cl, p);
-			if (clAttr != null) {
-				listAttr.add(p);
-				Object value = hs.getObjectByString(cl, p, v);
-				listValue.add(value);
-			}
+			if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, v));
 		}
 		// Изменение объекта
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
 		if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
-		for (int i=0; i<listAttr.size(); i++) {
-			String attr = listAttr.get(i);
-			Object value = listValue.get(i);
-			hs.setProperty(obj, attr, value);
-		}
+		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
+		mapValue.forEach((attr, valueNew) -> 
+		{
+			Object valueOld = hs.getProperty(obj, attr);
+			if (!hs.equals(valueOld, valueNew)) mapChanged.put(attr, new Object[]{valueOld, valueNew}); 
+			hs.setProperty(obj, attr, valueNew);
+		});
 		objService.saveObj(obj);
-		hs.invoke(obj, "onUpdate", mapFile);
+		// Добавление информации об изменении объекта
+		hs.invoke(obj, "onUpdate", mapFile, mapChanged);
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
@@ -288,6 +285,7 @@ public class ObjController {
 	@RequestMapping(value = "/listVoc", method = RequestMethod.GET)
 	public String listVoc(Model model) throws Exception {
 		List<Voc> listVoc = new ArrayList<Voc>();
+		listVoc.add(new Voc("SpDocType", "Тип документа"));
 		listVoc.add(new Voc("SpFileType", "Тип файла"));
 		listVoc.add(new Voc("SpAgentType", "Тип контрагента"));
 		listVoc.add(new Voc("SpObjectStatus", "Статус данных"));

@@ -19,6 +19,7 @@ public interface HelperService {
 	Object getProperty(Object obj, String attr);
 	boolean propertyExists(Object obj, String attr);
 	Object getPropertyString(Object obj, String attr);
+	boolean equals(Object o1, Object o2);
 	Object getVariable(Object obj, String attr);
 	Object getVariableString(Object obj, String attr);
 	long copyStream(InputStream is, OutputStream os, boolean closeIn, boolean closeOut) throws Exception;

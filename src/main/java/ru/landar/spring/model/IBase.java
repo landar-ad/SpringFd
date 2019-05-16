@@ -27,6 +27,7 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
 @Entity
@@ -99,6 +100,8 @@ public abstract class IBase {
     @Autowired
     UserService userService;
     @Autowired
+    ObjService objService;
+    @Autowired
     HelperService hs;
     public Object onNew() { 
     	Object ret = invoke("onNew");
@@ -107,8 +110,28 @@ public abstract class IBase {
 		setModifier(principal);
     	return ret;
     }
-    public Object onUpdate(Map<String, Object> map) throws Exception { 
-    	return invoke("onUpdate", map);
+    public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
+    	Object ret = invoke("onUpdate", map, mapChanged);
+    	if (mapChanged != null && !mapChanged.isEmpty()) { 
+    		SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, "update");
+    		Date dt = new Date();
+    		String user_login = userService.getPrincipal(), ip = "", browser = "";
+    		mapChanged.forEach((attr, o) -> {
+    			ActionLog al = new ActionLog();
+        		al.setUser_login(user_login);
+        		al.setAction_type(action_type);
+        		al.setAction_time(dt);
+        		al.setClient_ip(ip);
+        		al.setClient_browser(browser);
+        		al.setObj_name(getName());
+        		al.setObj_rn(getRn());
+        		al.setObj_attr(attr);
+        		al.setObj_value_before(o[0] != null ? o[0].toString() : null);
+        		al.setObj_value_after(o[1] != null ? o[1].toString() : null);
+        		objService.saveObj(al);
+    		});
+    	}
+    	return ret;
     }
     public Object onRemove() { 
     	Object ret = invoke("onRemove");
