@@ -2,6 +2,7 @@ package ru.landar.spring.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
@@ -35,7 +36,7 @@ import javax.persistence.Column;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class Document extends IBase {
-	private String doc_code;
+	private SpDocType doc_type;
 	private String doc_number;
 	private Date doc_date;
 	private Document parent_doc;
@@ -53,12 +54,12 @@ public class Document extends IBase {
 	private Date buh_date;
 	private String extract_number;
 	private Date extract_date;
-	private IFile attach_doc;
+	private List<IFile> attach_doc;
 	private Integer sheet_count;
 	
-    @Column(length=40)
-    public String getDoc_code() { return doc_code; }
-    public void setDoc_code(String doc_code) { this.doc_code = doc_code; updateName(); }
+	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
+    public SpDocType getDoc_type() { return doc_type; }
+    public void setDoc_type(SpDocType doc_type) { this.doc_type = doc_type; updateName(); }
     
     @Column(length=40)
     public String getDoc_number() { return doc_number; }
@@ -125,16 +126,16 @@ public class Document extends IBase {
     public Date getExtract_date() { return extract_date; }
     public void setExtract_date(Date extract_date) { this.extract_date = extract_date; }
     
-    @ManyToOne(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public IFile getAttach_doc() { return attach_doc; }
-    public void setAttach_doc(IFile attach_doc) { this.attach_doc = attach_doc; }
+    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<IFile> getAttach_doc() { return attach_doc != null ? attach_doc : new ArrayList<IFile>(); }
+    public void setAttach_doc(List<IFile> attach_doc) { this.attach_doc = attach_doc; }
     
 	public Integer getSheet_count() { return sheet_count; }
     public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
 	
     private void updateName() {
     	String name = "";
-		if (!hs.isEmpty(getDoc_code())) name = getDoc_code();
+		if (getDoc_type() != null) name = getDoc_type().getName();
     	if (!hs.isEmpty(getDoc_number())) name += (!name.isEmpty() ? " " : "") + "№ " + getDoc_number();
     	if (getDoc_date() != null) name += (!name.isEmpty() ? " от " : "От ") + new SimpleDateFormat("dd.MM.yyyy").format(getDoc_date());
     	setName(name);
@@ -151,7 +152,7 @@ public class Document extends IBase {
 	public static String multipleTitle() { return "Документы"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("doc_code", "Код документа")); 
+		ret.add(new ColumnInfo("doc_type__name", "Тип документа")); 
 		ret.add(new ColumnInfo("doc_number", "Номер документа"));
 		ret.add(new ColumnInfo("doc_date", "Дата документа"));
 		ret.add(new ColumnInfo("parent_doc__name", "Основной документ"));
@@ -263,56 +264,7 @@ public class Document extends IBase {
     public Object onUpdate(Map<String, Object> map) throws Exception { 
     	Object ret = super.onUpdate(map);
     	if (ret != null) return ret;
-    	if (map.isEmpty()) return false;
-		String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
-		if (hs.isEmpty(filesDirectory)) throw new Exception("Не задана директория для хранения файлов");
-		IFile f = getAttach_doc();
-		if (f == null) 
-		{
-			f = new IFile();
-			objService.createObj(f);
-		}
-		Iterator<String>it = map.keySet().iterator();
-		while (it.hasNext()) 
-		{
-			String attr = it.next();
-			if (attr.equals("fileuri")) continue;
-			hs.setProperty(f, attr, map.get(attr));
-		}
-		for (; ;)
-		{
-			MultipartFile fileInput = (MultipartFile)map.get("fileuri");
-			if (fileInput == null) break;
-			InputStream is = fileInput.getInputStream();
-			if (is == null) break;
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			long length = hs.copyStream(is, baos, true, true);
-			if (length == 0) break;
-			is = new ByteArrayInputStream(baos.toByteArray());
-			String filename = fileInput.getOriginalFilename();
-			if (!hs.isEmpty(filename) && hs.isEmpty(f.getFilename()))
-			{
-				f.setFilename(filename);
-				int k = filename.lastIndexOf('.');
-				String fileext = k > 0 ? filename.substring(k + 1) : "";
-				if (hs.isEmpty(f.getFileext())) f.setFileext(fileext);
-				if (f.getFiletype() == null && f.getFileext() != null)
-				{
-					SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, f.getFileext().toLowerCase());
-					f.setFiletype(filetype);
-				}
-			}
-			File fd = new File(filesDirectory + File.separator + (getParent() != null ? getParent().getRn() + File.separator  : "") + getRn());
-			fd.mkdirs();
-			File ff = new File(fd, f.getRn() + "_" + f.getFilename());
-			f.setFilelength(hs.copyStream(is, new FileOutputStream(ff), true, true));
-			f.setFileuri(ff.getAbsolutePath());
-			break;
-		}
-		f.setParent(this);
-		f = (IFile)objService.saveObj(f);
-		setAttach_doc(f);
-		objService.saveObj(this);
+    	
 		return true;
     }
 }
