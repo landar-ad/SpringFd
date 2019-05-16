@@ -270,7 +270,6 @@ public class ObjController {
         		al.setObj_value_before(o[0] != null ? o[0].toString() : null);
         		al.setObj_value_after(o[1] != null ? o[1].toString() : null);
         		objService.saveObj(al);
-    		
     		});
     	}
 		//
