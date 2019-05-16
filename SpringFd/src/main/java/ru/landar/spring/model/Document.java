@@ -226,6 +226,7 @@ public class Document extends IBase {
 		if (ret != null) return ret;
 		
 		try {
+			model.addAttribute("listDocType", objService.findAll(SpDocType.class));
 			model.addAttribute("listDocStatus", objService.findAll(SpDocStatus.class));
 			if (!list) {
 				model.addAttribute("listFileType", objService.findAll(SpFileType.class));
