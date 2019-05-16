@@ -48,8 +48,13 @@ public class Document extends IBase {
 	private Date create_time;
 	private IAgent change_agent;
 	private Date change_time;
-	private Act act;
-	private Reestr reestr;
+	private String act_num;
+	private Date act_date;
+	private String reestr_num;
+	private Date reestr_date;
+	private String act_exclude_num;
+	private Date act_exclude_date;
+	private String act_exclude_reason;
 	private Document change_doc;
 	private Date buh_date;
 	private String extract_number;
@@ -102,13 +107,33 @@ public class Document extends IBase {
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
 	
-	@ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
-    public Act getAct() { return act; }
-    public void setAct(Act act) { this.act = act; }
+    @Column(length=40)
+    public String getAct_num() { return act_num; }
+    public void setAct_num(String act_num) { this.act_num = act_num; }
+
+    @Temporal(TemporalType.DATE)
+    public Date getAct_date() { return act_date; }
+    public void setAct_date(Date act_date) { this.act_date = act_date; }
+    
+    @Column(length=40)
+    public String getAct_exclude_num() { return act_exclude_num; }
+    public void setAct_exclude_num(String act_exclude_num) { this.act_exclude_num = act_exclude_num; }
+    
+    @Column(length=256)
+    public String getAct_exclude_reason() { return act_exclude_reason; }
+    public void setAct_exclude_reason(String act_exclude_reason) { this.act_exclude_reason = act_exclude_reason; }
+
+    @Temporal(TemporalType.DATE)
+    public Date getAct_exclude_date() { return act_exclude_date; }
+    public void setAct_exclude_date(Date act_exclude_date) { this.act_exclude_date = act_exclude_date; }
 	
-	@ManyToOne(targetEntity=Reestr.class, fetch=FetchType.LAZY)
-    public Reestr getReestr() { return reestr; }
-    public void setReestr(Reestr reestr) { this.reestr = reestr; }
+    @Column(length=40)
+    public String getReestr_num() { return reestr_num; }
+    public void setReestr_num(String reestr_num) { this.reestr_num = reestr_num; }
+
+    @Temporal(TemporalType.DATE)
+    public Date getReestr_date() { return reestr_date; }
+    public void setReestr_date(Date reestr_date) { this.reestr_date = reestr_date; }
 	
 	@ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
     public Document getChange_doc() { return change_doc; }
@@ -164,13 +189,14 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("create_time", "Дата создания"));
 		ret.add(new ColumnInfo("change_agent__name", "Изменен"));
 		ret.add(new ColumnInfo("change_time", "Дата изменения"));
-		ret.add(new ColumnInfo("act__name", "Включен в акт"));
-		ret.add(new ColumnInfo("reestr__name", "Включен в реестр"));
+		ret.add(new ColumnInfo("act_num", "Включен в акт"));
+		ret.add(new ColumnInfo("reestr_num", "Включен в реестр"));
+		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта"));
 		ret.add(new ColumnInfo("change_doc__name", "Заменен документом"));
 		ret.add(new ColumnInfo("buh_date", "Дата отражения в бухгалтерском учете"));
 		ret.add(new ColumnInfo("extract_number", "Отражен в выписке: №"));
 		ret.add(new ColumnInfo("extract_date", "Отражен в выписке: дата"));
-		ret.add(new ColumnInfo("attach_doc__name", "Прикрепленный файл"));
+		ret.add(new ColumnInfo("attach_doc", "Прикрепленные файлы"));
 		ret.add(new ColumnInfo("sheet_count", "Количество листов"));
 		return ret;
 	}
@@ -233,8 +259,6 @@ public class Document extends IBase {
 				model.addAttribute("listDocument", objService.findAll(Document.class));
 				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
 				model.addAttribute("listAgent", objService.findAll(IAgent.class));
-				model.addAttribute("listAct", objService.findAll(Act.class));
-				model.addAttribute("listReestr", objService.findAll(Reestr.class));
 			}	
 		}
 		catch (Exception ex) { }
