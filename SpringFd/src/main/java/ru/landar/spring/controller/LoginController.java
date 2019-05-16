@@ -41,6 +41,7 @@ public class LoginController {
 	    String ip = request.getHeader("X-Forwarded-For");
 	    if (hs.isEmpty(ip)) ip = request.getRemoteAddr();
 	    request.getSession().setAttribute("ip", ip);
+	    request.getSession().setAttribute("browser", request.getHeader("user-agent"));
 	    if (username.isEmpty())
 	    {
 		    Cookie[] cookies = request.getCookies();
