@@ -126,6 +126,9 @@ public class Reestr extends IBase {
 		ret.add(new ColumnInfo("reestr_number", "Номер реестра"));
 		ret.add(new ColumnInfo("reestr_date", "Дата реестра"));
 		ret.add(new ColumnInfo("reestr_status__name", "Статус реестра", true, true, "reestrstatus__rn", "select", "listReestrStatus"));
+		ret.add(new ColumnInfo("agent_from__name", "Документы сдал"));
+		ret.add(new ColumnInfo("agent_to__name", "Документы принял"));
+		ret.add(new ColumnInfo("mol__name", "Материально-ответственное лицо"));
 		ret.add(new ColumnInfo("time_status", "Дата изменения статуса"));
 		ret.add(new ColumnInfo("create_agent__name", "Создан"));
 		ret.add(new ColumnInfo("depart__name", "Структурное подразделение"));

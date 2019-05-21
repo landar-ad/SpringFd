@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.input_date,.input_time').datepicker({language: "ru"});
+			size_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container w-75 fit-height">
+		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
+			<input type="hidden" name="clazz" th:value="${obj.clazz}" />
+			<input type="hidden" name="rn" th:value="${obj.rn}" />
+    		<div class="col-md-12 card-header">
+            	<h3 th:text="${p_title}"></h3>
+            </div>
+           	<div class="col-md-12 card small">
+            	<div class="m-sm-2">
+            		<div th:replace="fragments/header :: details-buttons"></div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Машинный код</label>
+                        <div class="col-sm-1">
+                        	<input class="form-control form-control-sm" type="text" name="mkod" th:value="${obj.mkod}"></input>
+                       	</div>
+                        <label class="col-sm-1 col-form-label">Фамилия</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" type="text" name="surname" th:value="${obj.surname}"></input>
+                       	</div>
+                        <label class="col-sm-1 col-form-label">Имя</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" name="firstname" th:value="${obj.firstname}"></input>
+                       	</div>
+                       	<label class="col-sm-1 col-form-label">Отчество</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" name="middlename" th:text="${obj.middlename}"></input>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-1 col-form-label">Должность</label>
+                        <div class="col-sm-3">
+                        	<input class="form-control form-control-sm" type="text" name="position" th:value="${obj.position}"></input>
+                       	</div>
+                      	<label class="col-sm-3 col-form-label">Структурное подразделение</label>
+                        <div class="col-sm-4">
+                        	<select name="depart" class="form-control form-control-sm">
+	                    		<option value=""></option>
+								<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+							</select>
+                       	</div>	
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Телефон</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" name="phone" th:value="${obj.phone}"></input>
+                       	</div>
+                        <label class="col-sm-2 col-form-label">Электронная почта</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" name="email" th:value="${obj.email}"></input>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-1 col-form-label">Дата увольнения</label>
+                        <div class="col-sm-2">
+                        	<input class="input_date form-control form-control-sm" type="text" name="date_fire" th:value="${#dates.format(obj.date_fire,'dd.MM.yyyy')}"></input>
+                       	</div>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<footer class="footer">
+    	<div th:replace="fragments/header :: change_info"></div>
+    </footer>
+</body>
+</html>
