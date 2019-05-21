@@ -87,12 +87,15 @@
 					<div class="form-group-sm mt-sm-1">
                         <label class="col-sm-2 col-form-label">Прикрепленные файлы</label>
                         <div class="col-sm-12">
-	                        <table class="table table-sm table-striped table-light table-bordered small">
+	                        <table class="table table-sm table-striped table-light table-bordered">
 						    	<thead>
 							        <tr>
 							            <th class="d-none">Идентификатор</th>
 							            <th>#</th>
 							            <th>Файл документа</th>
+							            <th>Расширение</th>
+							            <th>Тип</th>
+							            <th>Длина</th>
 							            <th></th>
 							        </tr>
 						        </thead>
@@ -101,11 +104,17 @@
 							            <td class="d-none" th:text="${f.rn}"/>
 							            <td th:text="${iter.index + 1}"/>
 							            <td><a th:href="@{/fileView?rn=} + ${f.rn}" class="btn btn-light btn-sm" th:text="${' ' + f.filename}"><i class="fa fa-sm fa-file"></i></a></td>
+							            <td th:text="${f.fileext}"/>
+							            <td th:text="${f.filetype?.name}"/>
+							            <td th:text="${f.filelength}"/>
 							            <td><a th:href="@{/removeObj?rn=} + ${f.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-minus"></i></a></td>
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
 							        	<td><a th:href="@{/addItem?list=list_file&rn=} + ${obj.rn + '&clazz=' + obj.clazz}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
+							        	<td></td>
+							        	<td></td>
+							        	<td></td>
 							        	<td></td>
 							        	<td></td>
 						        	</tr>
