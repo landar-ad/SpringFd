@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.input_date').datepicker({language: "ru"});
+			size_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container fit-height">
+		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
+			<input type="hidden" name="clazz" value="Act" />
+			<input type="hidden" name="rn" th:value="${obj.rn}" />
+    		<div class="col-md-12 card-header">
+            	<h3 th:text="${p_title}"></h3>
+            </div>
+           	<div class="col-sm-12 card small">
+            	<div class="m-sm-2">
+            		<div class="row small col-sm-12">
+	            		<div class="btn-group">
+	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+			                <a th:href="@{/listObj?clazz=Act}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+		                </div>
+	                </div>
+	                <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Дата создания</label>
+                        <div class="col-sm-2">
+                    	    <input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.create_time,'dd.MM.yyyy hh:mm.ss')}"></input>
+						</div>
+                        <label class="col-sm-2 col-form-label">Создан пользователем</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" type="text" th:value="${obj.create_agent?.name}"></input>
+                       	</div>
+                        <label class="col-sm-2 col-form-label">Структурное подразделение</label>
+                        <div class="col-sm-2">
+                        	<select name="depart" class="form-control form-control-sm">
+	                    		<option value=""></option>
+								<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+							</select>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-1 col-form-label required">№ акта</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" type="text" name="act_number" th:value="${obj.act_number}" required="required"></input>
+                       	</div>
+                        <label class="col-sm-2 col-form-label required">Дата акта</label>
+                        <div class="col-sm-2">
+                        	<input class="input_date form-control form-control-sm" type="text" name="act_date" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required"></input>
+                       	</div>
+                    </div>
+					<div class="form-group-sm mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Документы, включенные в акт</label>
+                        <div class="col-sm-12">
+	                        <table class="table table-sm table-striped table-light table-bordered small">
+						    	<thead>
+							        <tr>
+							            <th class="d-none">Идентификатор</th>
+							            <th>#</th>
+							            <th>Номер документа</th>
+							            <th>Дата документа</th>
+							            <th></th>
+							        </tr>
+						        </thead>
+						        <tbody>
+							        <tr th:each="doc,iter : ${obj?.list_doc}">
+							            <td class="d-none" th:text="${doc.rn}"/>
+							            <td th:text="${iter.index + 1}"/>
+							            <td th:text="${doc.doc_num}"/>
+							            <td th:text="${#dates.format(doc.doc_date,'dd.MM.yyyy')}"/>
+							            <td><a th:href="@{/removeObj?rn=} + ${doc.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-minus"></i></a></td>
+							        </tr>
+							        <tr>
+							        	<td class="d-none"/>
+							        	<td><a th:href="@{/addItem?list=list_doc&rn=} + ${obj.rn + '&clazz='} + ${obj.clazz}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
+							        	<td></td>
+							        	<td></td>
+							        	<td></td>
+						        	</tr>
+						        </tbody>
+						    </table>
+					    </div>
+				    </div>
+				    
+					<div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Статус</label>
+                        <div class="col-sm-4">
+	                    	<select name="act_status" class="form-control form-control-sm">
+	                    		<option value=""></option>
+								<option th:each="d : ${listActStatus}" th:selected="${obj.act_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+							</select>    
+						</div>
+                        <label class="col-sm-2 col-form-label">Дата присвоения статуса</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy hh:mm:ss')}"></input>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                        <label class="col-sm-2 col-form-label">Изменен пользователем</label>
+                        <div class="col-sm-2">
+                    	    <input class="form-control form-control-sm" type="text" th:value="${obj.change_agent?.name}"></input>
+						</div>
+                        <label class="col-sm-2 col-form-label">Дата изменения</label>
+                        <div class="col-sm-2">
+                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy hh:mm:ss')}"></input>
+                       	</div>
+                    </div>
+				</div>
+			</div>
+			</form>
+	</div>
+	<footer class="footer">
+    	<div th:replace="fragments/header :: change_info"></div>
+    </footer>
+</body>
+</html>
