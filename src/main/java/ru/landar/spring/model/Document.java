@@ -48,10 +48,8 @@ public class Document extends IBase {
 	private Date create_time;
 	private IAgent change_agent;
 	private Date change_time;
-	private String act_num;
-	private Date act_date;
-	private String reestr_num;
-	private Date reestr_date;
+	private Act act;
+	private Reestr reestr;
 	private String act_exclude_num;
 	private Date act_exclude_date;
 	private String act_exclude_reason;
@@ -107,13 +105,9 @@ public class Document extends IBase {
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
 	
-    @Column(length=40)
-    public String getAct_num() { return act_num; }
-    public void setAct_num(String act_num) { this.act_num = act_num; }
-
-    @Temporal(TemporalType.DATE)
-    public Date getAct_date() { return act_date; }
-    public void setAct_date(Date act_date) { this.act_date = act_date; }
+    @ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
+    public Act getAct() { return act; }
+    public void setAct(Act act) { this.act = act; }
     
     @Column(length=40)
     public String getAct_exclude_num() { return act_exclude_num; }
@@ -127,14 +121,10 @@ public class Document extends IBase {
     public Date getAct_exclude_date() { return act_exclude_date; }
     public void setAct_exclude_date(Date act_exclude_date) { this.act_exclude_date = act_exclude_date; }
 	
-    @Column(length=40)
-    public String getReestr_num() { return reestr_num; }
-    public void setReestr_num(String reestr_num) { this.reestr_num = reestr_num; }
+    @ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
+    public Reestr getReestr() { return reestr; }
+    public void setReestr(Reestr reestr) { this.reestr = reestr; }
 
-    @Temporal(TemporalType.DATE)
-    public Date getReestr_date() { return reestr_date; }
-    public void setReestr_date(Date reestr_date) { this.reestr_date = reestr_date; }
-	
 	@ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
     public Document getChange_doc() { return change_doc; }
     public void setChange_doc(Document change_doc) { this.change_doc = change_doc; }
@@ -189,8 +179,8 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("create_time", "Дата создания"));
 		ret.add(new ColumnInfo("change_agent__name", "Изменен"));
 		ret.add(new ColumnInfo("change_time", "Дата изменения"));
-		ret.add(new ColumnInfo("act_num", "Включен в акт"));
-		ret.add(new ColumnInfo("reestr_num", "Включен в реестр"));
+		ret.add(new ColumnInfo("act__name", "Включен в акт"));
+		ret.add(new ColumnInfo("reestr__name", "Включен в реестр"));
 		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта"));
 		ret.add(new ColumnInfo("change_doc__name", "Заменен документом"));
 		ret.add(new ColumnInfo("buh_date", "Дата отражения в бухгалтерском учете"));
