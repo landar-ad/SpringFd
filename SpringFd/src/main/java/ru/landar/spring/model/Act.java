@@ -2,6 +2,7 @@ package ru.landar.spring.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 @Entity
@@ -36,6 +38,7 @@ public class Act extends IBase {
 	private Date create_time;
 	private IAgent change_agent;
 	private Date change_time;
+	private List<Document> list_doc;
 	
     @Column(length=40)
     public String getAct_number() { return act_number; }
@@ -69,6 +72,10 @@ public class Act extends IBase {
 	
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
+    
+    @ManyToMany(targetEntity=Document.class, fetch=FetchType.LAZY)
+    public List<Document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Document>(); }
+    public void setList_doc(List<Document> list_doc) { this.list_doc = list_doc; }
 	
     private void updateName() {
     	String name = "";
