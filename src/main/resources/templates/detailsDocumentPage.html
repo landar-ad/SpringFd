@@ -76,9 +76,9 @@
                        	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1">
-                        <label class="col-sm-2 col-form-label required">Контрагент</label>
+                        <label class="col-sm-2 col-form-label">Контрагент</label>
                         <div class="col-sm-10">
-	                    	<select name="agent" class="form-control form-control-sm" required="required">
+	                    	<select name="agent" class="form-control form-control-sm">
 	                    		<option value=""></option>
 								<option th:each="a : ${listAgent}" th:selected="${obj.agent?.rn==a.rn}" th:value="${a.rn}" th:utext="${a.name}"/>
 							</select>    
@@ -153,64 +153,61 @@
                     </div>
                     <div class="form-group-sm row mt-sm-1">
                     	<label class="col-sm-2 col-form-label">Включен в акт: №</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.act?.act_number}"></input>
 						</div>
                         <label class="col-sm-2 col-form-label">Дата</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act?.act_date,'dd.MM.yyyy')}"></input>
                        	</div>
-                   	</div>
-                    <div class="form-group-sm row mt-sm-1"> 	
                        	<label class="col-sm-2 col-form-label">Включен в реестр: №</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.reestr?.reestr_number}"></input>
 						</div>
                         <label class="col-sm-2 col-form-label">Дата</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.reestr?.reestr_date,'dd.MM.yyyy')}"></input>
                        	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1">
                     	<label class="col-sm-2 col-form-label">Исключен из акта: №</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                     	    <input name="act_exclude_num" class="form-control form-control-sm" type="text" th:value="${obj.act_exclude_num}"></input>
 						</div>
                         <label class="col-sm-2 col-form-label">Дата</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_exclude_date,'dd.MM.yyyy')}"></input>
                        	</div>
-                       	<label class="col-sm-2 col-form-label">Причина</label>
-                        <div class="col-sm-2">
+                       	<label class="col-sm-1 col-form-label">Причина</label>
+                        <div class="col-sm-5">
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.act_exclude_reason}"></input>
 						</div>
                    	</div>
                    	<div class="form-group-sm row mt-sm-1"> 	
                        	<label class="col-sm-2 col-form-label">Заменен документом: №</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.change_doc?.doc_number}"></input>
 						</div>
                         <label class="col-sm-2 col-form-label">Дата</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                         	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.change_doc?.doc_date,'dd.MM.yyyy')}"></input>
                        	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1">
                     	<label class="col-sm-2 col-form-label">Дата отражения в бухгалтерском учете</label>
-                    	<div class="col-sm-2">
+                    	<div class="col-sm-1">
                         	<input name="buh_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.buh_date,'dd.MM.yyyy')}"></input>
                        	</div>
                        	<label class="col-sm-2 col-form-label">Отражен в выписке: №</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                     	    <input name="extract_number" class="form-control form-control-sm" type="text" th:value="${obj.extract_number}"></input>
 						</div>
 						<label class="col-sm-2 col-form-label">Дата</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                         	<input name="extract_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.extract_date,'dd.MM.yyyy')}"></input>
                        	</div>
                     </div>
-                    
-				</div>
+ 				</div>
 			</div>
 			</form>
 	</div>
