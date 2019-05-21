@@ -13,13 +13,15 @@
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			  	<div class="collapse navbar-collapse" id="navbar1">
 			    	<ul class="navbar-nav mr-auto">
-					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=UnfinishedConstruction}">Незавершенное капстроительство</a></li>
-					    <li class="nav-item text-uppercase"><a class="nav-link" href="#">Единый реестр федерального имущества</a></li>
+					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Document}">Документы</a></li>
+					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Act}">Акты приема-передачи</a></li>
+					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Reestr}">Реестры сдачи документов</a></li>
 					    <li th:if="${#strings.contains(p_roles,'ADMIN')}" class="nav-item text-uppercase dropdown">
 					    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Администрирование</a>
 		      				<div class="dropdown-menu">
 						        <a class="dropdown-item" th:href="@{/listObj?clazz=IUser}"><i class="fa fa-sm fa-users"></i> Пользователи</a>
-							    <a class="dropdown-item" th:href="@{/listObj?clazz=IOrganization}"><i class="fa fa-sm fa-industry"></i> Организации</a>
+							    <a class="dropdown-item" th:href="@{/listObj?clazz=IOrganization}"><i class="fa fa-sm fa-industry"></i> Контрагенты (юридические лица)</a>
+							    <a class="dropdown-item" th:href="@{/listObj?clazz=IPerson}"><i class="fa fa-sm fa-industry"></i> Контрагенты (физические лица)</a>
 							    <a class="dropdown-item" th:href="@{/listObj?clazz=IDepartment}"><i class="fa fa-sm fa-building"></i> Подразделения</a>
 							    <a class="dropdown-item" th:href="@{/listVoc}"><i class="fa fa-sm fa-list"></i> Справочники</a>
 							    <a class="dropdown-item" th:href="@{/listObj?clazz=ISettings}"><i class="fa fa-sm fa-tools"></i> Настройки</a>
