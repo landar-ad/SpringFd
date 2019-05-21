@@ -107,7 +107,7 @@
 							            <td th:text="${f.fileext}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
-							            <td><a th:href="@{/removeObj?rn=} + ${f.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-minus"></i></a></td>
+							            <td><a th:href="@{/removeObj?rn=} + ${f.rn + '&clazz=IFile'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-minus"></i></a></td>
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
