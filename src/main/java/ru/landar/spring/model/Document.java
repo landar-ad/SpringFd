@@ -51,7 +51,7 @@ public class Document extends IBase {
 	private Date buh_date;
 	private String extract_number;
 	private Date extract_date;
-	private List<IFile> attach_doc;
+	private List<IFile> list_file;
 	private Integer sheet_count;
 	
 	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
@@ -136,8 +136,8 @@ public class Document extends IBase {
     public void setExtract_date(Date extract_date) { this.extract_date = extract_date; }
     
     @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<IFile> getAttach_doc() { return attach_doc != null ? attach_doc : new ArrayList<IFile>(); }
-    public void setAttach_doc(List<IFile> attach_doc) { this.attach_doc = attach_doc; }
+    public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
+    public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     
 	public Integer getSheet_count() { return sheet_count; }
     public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
@@ -161,27 +161,27 @@ public class Document extends IBase {
 	public static String multipleTitle() { return "Документы"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("doc_type__name", "Тип документа")); 
-		ret.add(new ColumnInfo("doc_number", "Номер документа"));
-		ret.add(new ColumnInfo("doc_date", "Дата документа"));
-		ret.add(new ColumnInfo("parent_doc__name", "Основной документ"));
-		ret.add(new ColumnInfo("agent__name", "Контрагент"));
-		ret.add(new ColumnInfo("doc_status__name", "Статус документа", true, true, "doc_status__rn", "select", "listDocStatus"));
-		ret.add(new ColumnInfo("time_status", "Дата изменения статуса"));
-		ret.add(new ColumnInfo("create_agent__name", "Создан"));
-		ret.add(new ColumnInfo("depart__name", "Структурное подразделение"));
 		ret.add(new ColumnInfo("create_time", "Дата создания"));
-		ret.add(new ColumnInfo("change_agent__name", "Изменен"));
-		ret.add(new ColumnInfo("change_time", "Дата изменения"));
+		ret.add(new ColumnInfo("depart__code", "№ департамента"));
+		ret.add(new ColumnInfo("doc_type__name", "Тип документа")); 
+		ret.add(new ColumnInfo("doc_number", "№ документа"));
+		ret.add(new ColumnInfo("doc_date", "Дата документа"));
+		ret.add(new ColumnInfo("agent__name", "Контрагент"));
+		ret.add(new ColumnInfo("parent_doc__name", "Основной документ", false));
+		ret.add(new ColumnInfo("doc_status__name", "Статус документа", true, true, "doc_status__rn", "select", "listDocStatus"));
+		ret.add(new ColumnInfo("time_status", "Дата присвоения статуса"));
+		ret.add(new ColumnInfo("create_agent__name", "Создан", false));
+		ret.add(new ColumnInfo("change_agent__name", "Изменен", false));
+		ret.add(new ColumnInfo("change_time", "Дата изменения", false));
 		ret.add(new ColumnInfo("act__name", "Включен в акт"));
 		ret.add(new ColumnInfo("reestr__name", "Включен в реестр"));
-		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта"));
-		ret.add(new ColumnInfo("change_doc__name", "Заменен документом"));
+		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта", false));
+		ret.add(new ColumnInfo("change_doc__name", "Заменен документом", false));
 		ret.add(new ColumnInfo("buh_date", "Дата отражения в бухгалтерском учете"));
-		ret.add(new ColumnInfo("extract_number", "Отражен в выписке: №"));
-		ret.add(new ColumnInfo("extract_date", "Отражен в выписке: дата"));
-		ret.add(new ColumnInfo("attach_doc", "Прикрепленные файлы"));
-		ret.add(new ColumnInfo("sheet_count", "Количество листов"));
+		ret.add(new ColumnInfo("extract_number", "Отражен в выписке: №", false));
+		ret.add(new ColumnInfo("extract_date", "Отражен в выписке: дата", false));
+		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
+		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
