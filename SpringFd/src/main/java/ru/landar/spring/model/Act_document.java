@@ -31,6 +31,6 @@ public class Act_document extends IBase {
 
     @Temporal(TemporalType.DATE)
     public Date getExclude_date() { return exclude_date; }
-    public void seExclude_date(Date exclude_date) { this.exclude_date = exclude_date; }
+    public void setExclude_date(Date exclude_date) { this.exclude_date = exclude_date; }
 
 }
