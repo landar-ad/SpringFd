@@ -97,7 +97,7 @@
 							        </tr>
 						        </thead>
 						        <tbody>
-							        <tr th:each="f,iter : ${obj?.attach_doc}">
+							        <tr th:each="f,iter : ${obj?.list_file}">
 							            <td class="d-none" th:text="${f.rn}"/>
 							            <td th:text="${iter.index + 1}"/>
 							            <td><a th:href="@{/fileView?rn=} + ${f.rn}" class="btn btn-light btn-sm" th:text="${' ' + f.filename}"><i class="fa fa-sm fa-file"></i></a></td>
@@ -105,7 +105,7 @@
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><a th:href="@{/addItem?list=attach_doc&rn=} + ${obj.rn + '&clazz=' + obj.clazz}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
+							        	<td><a th:href="@{/addItem?list=list_file&rn=} + ${obj.rn + '&clazz=' + obj.clazz}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
 							        	<td></td>
 							        	<td></td>
 						        	</tr>
