@@ -38,7 +38,7 @@ public class Act extends IBase {
 	private Date create_time;
 	private IAgent change_agent;
 	private Date change_time;
-	private List<Document> list_doc;
+	private List<Act_document> list_doc;
 	
     @Column(length=40)
     public String getAct_number() { return act_number; }
@@ -73,9 +73,9 @@ public class Act extends IBase {
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
     
-    @ManyToMany(targetEntity=Document.class, fetch=FetchType.LAZY)
-    public List<Document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Document>(); }
-    public void setList_doc(List<Document> list_doc) { this.list_doc = list_doc; }
+    @ManyToMany(targetEntity=Act_document.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Act_document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Act_document>(); }
+    public void setList_doc(List<Act_document> list_doc) { this.list_doc = list_doc; }
 	
     private void updateName() {
     	String name = "";
