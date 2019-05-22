@@ -35,7 +35,13 @@ import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.SearchContent;
+import ru.landar.spring.model.SpActStatus;
 import ru.landar.spring.model.SpActionType;
+import ru.landar.spring.model.SpAgentType;
+import ru.landar.spring.model.SpDocStatus;
+import ru.landar.spring.model.SpDocType;
+import ru.landar.spring.model.SpFileType;
+import ru.landar.spring.model.SpReestrStatus;
 import ru.landar.spring.model.ISettings;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -327,13 +333,37 @@ public class ObjController {
 		model.addAttribute("p_message", msg);
 		return "removeObjPage";
 	}
+	@RequestMapping(value = "/addItem", method = RequestMethod.GET)
+	public String addItem(@RequestParam("list") String listAttr, @RequestParam("rn") Integer rn, 
+						@RequestParam("clazz") Optional<String> paramClazz,
+						@RequestParam("clazzItem") String clazzItem,
+						HttpServletRequest request,
+						Model model) throws Exception {
+		Object obj = objService.find(paramClazz.orElse(null), rn);
+		if (obj == null) throw new Exception("Не найден объект с идентификатором " + rn);
+		String clazz = obj.getClass().getSimpleName();
+		Object list = hs.getProperty(obj, listAttr);
+		if (list == null || !(list instanceof List)) throw new Exception("Не найден список " + listAttr + " в объекте с идентификатором " + rn);
+		Class<?> cl = objService.getClassByName(clazzItem);
+		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
+		Object item = cl.newInstance();
+		hs.invoke(item, "onNew");
+		((List)list).add(item);
+		hs.setProperty(obj, listAttr, list);
+		model.addAttribute("hs", hs);
+		setObjModel(obj, model);
+		String t = "details" + clazz + "Page";
+		return hs.templateExists(t) ? t : "detailsObjPage";
+	}
 	@RequestMapping(value = "/listVoc", method = RequestMethod.GET)
 	public String listVoc(Model model) throws Exception {
 		List<Voc> listVoc = new ArrayList<Voc>();
-		listVoc.add(new Voc("SpDocType", "Тип документа"));
-		listVoc.add(new Voc("SpFileType", "Тип файла"));
-		listVoc.add(new Voc("SpAgentType", "Тип контрагента"));
-		listVoc.add(new Voc("SpObjectStatus", "Статус данных"));
+		listVoc.add(new Voc("SpActStatus", SpActStatus.singleTitle()));
+		listVoc.add(new Voc("SpAgentType", SpAgentType.singleTitle()));
+		listVoc.add(new Voc("SpDocStatus", SpDocStatus.singleTitle()));
+		listVoc.add(new Voc("SpDocType", SpDocType.singleTitle()));
+		listVoc.add(new Voc("SpFileType", SpFileType.singleTitle()));
+		listVoc.add(new Voc("SpReestrStatus", SpReestrStatus.singleTitle()));
 		model.addAttribute("listObj", new PageImpl<Voc>(listVoc));
 		setMainModel(model, "Справочники системы");
 		return "listVocPage";

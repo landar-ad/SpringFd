@@ -111,7 +111,7 @@
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><a th:href="@{/addItem?list=list_file&rn=} + ${obj.rn + '&clazz=' + obj.clazz}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
+							        	<td><a th:href="@{/addItem?list=list_file&rn=} + ${obj.rn + '&clazz=' + obj.clazz + '&clazzItem=IFile'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
 							        	<td></td>
 							        	<td></td>
 							        	<td></td>
@@ -129,7 +129,7 @@
                        	</div>
                     </div>
 					<div class="form-group-sm row mt-sm-1">
-                        <label class="col-sm-2 col-form-label">Статус</label>
+                        <label class="col-sm-1 col-form-label">Статус</label>
                         <div class="col-sm-2">
 	                    	<select name="doc_status" class="form-control form-control-sm">
 	                    		<option value=""></option>
@@ -156,7 +156,7 @@
                         <div class="col-sm-1">
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.act?.act_number}"></input>
 						</div>
-                        <label class="col-sm-2 col-form-label">Дата</label>
+                        <label class="col-sm-1 col-form-label">Дата</label>
                         <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act?.act_date,'dd.MM.yyyy')}"></input>
                        	</div>
@@ -164,7 +164,7 @@
                         <div class="col-sm-1">
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.reestr?.reestr_number}"></input>
 						</div>
-                        <label class="col-sm-2 col-form-label">Дата</label>
+                        <label class="col-sm-1 col-form-label">Дата</label>
                         <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.reestr?.reestr_date,'dd.MM.yyyy')}"></input>
                        	</div>
@@ -174,7 +174,7 @@
                         <div class="col-sm-1">
                     	    <input name="act_exclude_num" class="form-control form-control-sm" type="text" th:value="${obj.act_exclude_num}"></input>
 						</div>
-                        <label class="col-sm-2 col-form-label">Дата</label>
+                        <label class="col-sm-1 col-form-label">Дата</label>
                         <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_exclude_date,'dd.MM.yyyy')}"></input>
                        	</div>
@@ -188,7 +188,7 @@
                         <div class="col-sm-1">
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.change_doc?.doc_number}"></input>
 						</div>
-                        <label class="col-sm-2 col-form-label">Дата</label>
+                        <label class="col-sm-1 col-form-label">Дата</label>
                         <div class="col-sm-1">
                         	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.change_doc?.doc_date,'dd.MM.yyyy')}"></input>
                        	</div>
@@ -202,7 +202,7 @@
                         <div class="col-sm-1">
                     	    <input name="extract_number" class="form-control form-control-sm" type="text" th:value="${obj.extract_number}"></input>
 						</div>
-						<label class="col-sm-2 col-form-label">Дата</label>
+						<label class="col-sm-1 col-form-label">Дата</label>
                         <div class="col-sm-1">
                         	<input name="extract_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.extract_date,'dd.MM.yyyy')}"></input>
                        	</div>
