@@ -300,7 +300,7 @@ public class ObjController {
 				hs.setProperty(obj, listAttr, list);
 			}
 			else if ("remove".equals(cmd)) {
-				if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления");
+				if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления из списка");
 				Object objItem = objService.find(clItem, rnItem);
 				if (objItem == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem);
 				for (Object o : list) {
