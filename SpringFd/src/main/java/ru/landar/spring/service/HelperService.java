@@ -7,7 +7,6 @@ import java.lang.reflect.Field;
 import ru.landar.spring.classes.Operation;
 
 public interface HelperService {
-	
 	boolean isEmpty(String v);
 	boolean isEmptyTrim(String v);
 	Object getObjectByString(Class<?> cl, String attr, String v);
