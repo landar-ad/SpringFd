@@ -30,39 +30,31 @@ import ru.landar.spring.service.ObjService;
 
 @Controller
 public class LoadController {
-	
 	@Autowired
 	private ObjService objService;
-	
 	@Autowired
 	private HelperService hs;
-	
 	@GetMapping(value = "/load")
 	public String load(HttpServletRequest request, Model model) throws Exception {
-		
 		return "loadPage";
 	}
 	@PostMapping(value = "/load")
 	public String loadPost(@RequestParam("file") MultipartFile file, Model model) throws Exception {
-		
 		List<String> listAdd = new ArrayList<String>();
 		InputStream is = file.getInputStream();
 		HSSFWorkbook wb = (HSSFWorkbook)WorkbookFactory.create(is);
-		for (int n=0; n<wb.getNumberOfSheets(); n++)
-		{
+		for (int n=0; n<wb.getNumberOfSheets(); n++) {
 			HSSFSheet sheet = wb.getSheetAt(n);
 			String clazz = sheet.getSheetName();
 			Class<Object> cl = objService.getClassByName(clazz);
-			if (cl == null)
-			{
+			if (cl == null) {
 				listAdd.add("Не найден класс по имени '" + clazz + "'");
 				continue;
 			}
 			// Заголовок
 			List<String> listAttr = new ArrayList<String>();
 			HSSFRow row = sheet.getRow(sheet.getFirstRowNum());
-			for (int j=row.getFirstCellNum(); j<=row.getLastCellNum(); j++) 
-	        {
+			for (int j=row.getFirstCellNum(); j<=row.getLastCellNum(); j++) {
 	            HSSFCell cell = row.getCell(j);
 	            if (cell == null) continue;
 	            String v = cell.getStringCellValue();
@@ -70,8 +62,7 @@ public class LoadController {
 	            listAttr.add(v);
 	        }
 			// Данные
-	    	for (int i=sheet.getFirstRowNum()+1; i<=sheet.getLastRowNum(); i++)
-	    	{
+	    	for (int i=sheet.getFirstRowNum()+1; i<=sheet.getLastRowNum(); i++) {
 				row = sheet.getRow(i);
 				if (row == null) continue;
 				Object o = cl.newInstance();
@@ -79,16 +70,14 @@ public class LoadController {
 				IBase obj = (IBase)o;
 				boolean bContinue = false;
 				String messageContinue = null;
-				for (int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) 
-				{
+				for (int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
 				    HSSFCell cell = row.getCell(j);
 				    if (cell == null) continue;
 				    if (cell.getCellType() != Cell.CELL_TYPE_STRING) cell.setCellType(Cell.CELL_TYPE_STRING);
 				    String v = cell.getStringCellValue();
 					if (!hs.isEmpty(v)) v = v.trim();
 				    String attr = listAttr.get(j);
-				    if ("code".equals(attr))
-			    	{
+				    if ("code".equals(attr)) {
 				    	if (hs.isEmpty(v)) { bContinue = true; break; }
 				    	Page<Object> p = objService.findAll(cl, null, new String[] {"code"}, new Object[] {v});
 				    	if (p != null && !p.isEmpty()) { messageContinue = "Дублирование кода " + obj.getClazz() + " " + v; bContinue = true; break; }
@@ -96,8 +85,7 @@ public class LoadController {
 				    String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 				    String setter = "set" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 					Method mSet = null, mGet = null;
-					try 
-					{ 
+					try { 
 						mGet = cl.getMethod(getter);
 						mSet = cl.getMethod(setter, mGet.getReturnType()); 
 						Class<?> clType = mGet.getReturnType();
@@ -105,18 +93,15 @@ public class LoadController {
 					} 
 					catch (Exception e) { }
 				}
-				if (bContinue) 
-				{
+				if (bContinue) {
 					if (messageContinue != null) listAdd.add(messageContinue); 
 					continue;
 				}
-				try  
-				{ 
+				try  { 
 					obj = (IBase)objService.saveObj(obj);
 					listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
 				} 
-				catch (Exception ex) 
-				{ 
+				catch (Exception ex) { 
 					listAdd.add("Не добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName() + ": " + ex.getClass().getSimpleName() + " " + ex.getMessage());
 				}
 	    	}
