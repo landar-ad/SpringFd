@@ -3,6 +3,7 @@ package ru.landar.spring.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -12,7 +13,12 @@ import ru.landar.spring.classes.ColumnInfo;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class SpDocType extends IBase {
+	private String fullname;
 	private Boolean pay;
+	
+	@Column(length=2000)
+	public String getFullname() { return fullname; }
+    public void setFullname(String fullname) { this.fullname = fullname; }
 	
 	public Boolean getPay() { return pay; }
     public void setPay(Boolean pay) { this.pay = pay; }
@@ -23,6 +29,7 @@ public class SpDocType extends IBase {
     	List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("code", "Код")); 
 		ret.add(new ColumnInfo("name", "Наименование"));
+		ret.add(new ColumnInfo("fullname", "Полное наименование"));
 		ret.add(new ColumnInfo("pay", "Платежный документ"));
 		return ret;
 	}
@@ -31,6 +38,7 @@ public class SpDocType extends IBase {
     	List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		ret.add(new AttributeInfo("code", "Код", "text", null, true, 2)); 
 		ret.add(new AttributeInfo("name", "Наименование", "text", null, true));
+		ret.add(new AttributeInfo("fullname", "Полное наименование", "text", null, true));
 		ret.add(new AttributeInfo("pay", "Платежный документ", "checkbox", null, false));
 		return ret;
 	}
