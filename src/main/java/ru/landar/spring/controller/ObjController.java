@@ -33,6 +33,7 @@ import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.ActionLog;
+import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.SearchContent;
 import ru.landar.spring.model.SpActStatus;
@@ -226,6 +227,7 @@ public class ObjController {
 								 @RequestParam("list") Optional<String> listParam,
 								 @RequestParam("clazzItem") Optional<String> clazzItemParam,
 								 @RequestParam("cmdItem") Optional<String> cmdItemParam,
+								 @RequestParam("rnItem") Optional<Integer> rnItemParam,
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		Integer rn = paramRn.orElse(null);
@@ -281,22 +283,41 @@ public class ObjController {
         		objService.saveObj(al);
     		});
     	}
+		// Добавление объекта в список
 		String listAttr = listParam.orElse(null), clazzItem = clazzItemParam.orElse(null);
+		Integer rnItem = rnItemParam.orElse(null);
 		if (!hs.isEmpty(listAttr) && !hs.isEmpty(clazzItem)) {
+			Object listObj = hs.getProperty(obj, listAttr);
+			if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
+			List list = (List<?>)listObj;
+			Class<?> clItem = objService.getClassByName(clazzItem);
+			if (clItem == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
 			String cmd = cmdItemParam.orElse("add");
 			if ("add".equals(cmd)) {
-				Object list = hs.getProperty(obj, listAttr);
-				Class<?> clItem = objService.getClassByName(clazzItem);
-				if (clItem == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
-				Object item = cl.newInstance();
-				hs.invoke(item, "onNew");
-				((List)list).add(item);
+				Object item = rnItem != null ? objService.find(clItem, rnItem) : cl.newInstance();
+				if (rnItem == null) hs.invoke(item, "onNew");
+				list.add(item);
 				hs.setProperty(obj, listAttr, list);
-				model.addAttribute("hs", hs);
-				setObjModel(obj, model);
-				String t = "details" + clazz + "Page";
-				return hs.templateExists(t) ? t : "detailsObjPage";
 			}
+			else if ("remove".equals(cmd)) {
+				if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления");
+				Object objItem = objService.find(clItem, rnItem);
+				if (objItem == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem);
+				for (Object o : list) {
+					if (!(o instanceof IBase)) continue;
+					IBase b = (IBase)o;
+					if (rnItem == b.getRn()) {
+						list.remove(o);
+						break;
+					}
+				}
+				hs.setProperty(obj, listAttr, list);
+				objService.removeObj(objItem);
+			}
+			model.addAttribute("hs", hs);
+			setObjModel(obj, model);
+			String t = "details" + clazz + "Page";
+			return hs.templateExists(t) ? t : "detailsObjPage";
 		}
 		//
 		// Переход на страницу
