@@ -260,29 +260,12 @@ public class ObjController {
 		// Добавление информации об изменении объекта
 		hs.invoke(obj, "onUpdate", mapFile);
 		// Запись в журнал
-		if (mapChanged != null && !mapChanged.isEmpty()) { 
-    		Integer obj_rn = (Integer)hs.getProperty(obj, "rn");
-    		SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, obj_rn == null ? "create" : "update");
-    		Date dt = new Date();
-    		String obj_name = obj.getClass().getSimpleName(), 
-    			user_login = userService.getPrincipal(), 
-    			ip = (String)request.getSession().getAttribute("ip"), 
-    			browser = (String)request.getSession().getAttribute("browser");
-    		mapChanged.forEach((attr, o) -> {
-    			ActionLog al = new ActionLog();
-        		al.setUser_login(user_login);
-        		al.setAction_type(action_type);
-        		al.setAction_time(dt);
-        		al.setClient_ip(ip);
-        		al.setClient_browser(browser);
-        		al.setObj_name(obj_name);
-        		al.setObj_rn(obj_rn);
-        		al.setObj_attr(attr);
-        		al.setObj_value_before(o[0] != null ? o[0].toString() : null);
-        		al.setObj_value_after(o[1] != null ? o[1].toString() : null);
-        		objService.saveObj(al);
-    		});
-    	}
+		objService.writeLog(userService.getPrincipal(), 
+							obj, 
+							mapChanged, 
+							rn == null ? "create" : "update", 
+							(String)request.getSession().getAttribute("ip"), 
+							(String)request.getSession().getAttribute("browser"));
 		// Добавление объекта в список
 		String listAttr = listParam.orElse(null), clazzItem = clazzItemParam.orElse(null);
 		Integer rnItem = rnItemParam.orElse(null);
@@ -351,22 +334,12 @@ public class ObjController {
 			if (b != null && !b) { msg = String.format("Отказано в удалении объекта '%s'", name); break; }
 			objService.removeObj(paramClazz.orElse(null), rn);
 			// Запись в журнал
-    		SpActionType action_type = (SpActionType)objService.getObjByCode(SpActionType.class, "remove");
-    		Date dt = new Date();
-    		String obj_name = obj.getClass().getSimpleName(), 
-    			user_login = userService.getPrincipal(), 
-    			ip = (String)request.getSession().getAttribute("ip"), 
-    			browser = (String)request.getSession().getAttribute("browser");
-			ActionLog al = new ActionLog();
-    		al.setUser_login(user_login);
-    		al.setAction_type(action_type);
-    		al.setAction_time(dt);
-    		al.setClient_ip(ip);
-    		al.setClient_browser(browser);
-    		al.setObj_name(obj_name);
-    		al.setObj_rn(rn);
-    		objService.saveObj(al);
-    		//
+			objService.writeLog(userService.getPrincipal(), 
+								obj, 
+								null, 
+								"remove", 
+								(String)request.getSession().getAttribute("ip"), 
+								(String)request.getSession().getAttribute("browser"));
 			msg = String.format("Объект '%s' успешно удален", name);
 			break;
 		}
