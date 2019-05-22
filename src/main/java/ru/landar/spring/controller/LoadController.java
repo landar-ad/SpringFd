@@ -100,7 +100,8 @@ public class LoadController {
 					{ 
 						mGet = cl.getMethod(getter);
 						mSet = cl.getMethod(setter, mGet.getReturnType()); 
-						mSet.invoke(obj, hs.getObjectByString(v, mGet.getReturnType()));
+						Class<?> clType = mGet.getReturnType();
+						mSet.invoke(obj, IBase.class.isAssignableFrom(clType) ? objService.getObjByCode(clType, v) : hs.getObjectByString(v, clType));
 					} 
 					catch (Exception e) { }
 				}

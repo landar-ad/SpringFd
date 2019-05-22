@@ -65,7 +65,7 @@ public class HelperServiceImpl implements HelperService {
 			try { ret = Integer.valueOf(v); } catch (Exception ex) { }
 		}
 		else if (Boolean.class.isAssignableFrom(clType)) {
-			ret = new Boolean("on".equals(v) || "1".equals(v) || "yes".equals(v) || "true".equals(v));
+			ret = new Boolean("on".equals(v) || "1".equals(v) || "yes".equalsIgnoreCase(v) || "true".equalsIgnoreCase(v));
 		}
 		else if (Long.class.isAssignableFrom(clType)) {
 			try { ret = Long.valueOf(v); } catch (Exception ex) { }
@@ -89,8 +89,7 @@ public class HelperServiceImpl implements HelperService {
 			if (d == null) try { d = new SimpleDateFormat("yyyy/MM/dd").parse(v); } catch (Exception ex) { }
 			ret = d;
 		}
-		else if (IBase.class.isAssignableFrom(clType))
-		{
+		else if (IBase.class.isAssignableFrom(clType)) {
 			try {
 				Integer rn = null;
 				try { rn = Integer.valueOf(v); } catch (Exception ex) { }
