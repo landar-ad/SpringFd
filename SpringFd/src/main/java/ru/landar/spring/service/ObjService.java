@@ -10,7 +10,6 @@ import ru.landar.spring.model.SearchContent;
 import ru.landar.spring.model.ISettings;
 
 public interface ObjService {
-	
 	Object createObj(Object obj);
     Object saveObj(Object obj);
     Object updateObj(Object obj);
@@ -29,4 +28,5 @@ public interface ObjService {
     Object getSettings(String code, String type);
     ISettings loadSettings(String code, String type);
     Page<SearchContent> search(String text, int off, int page);
+    void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser);
 }
