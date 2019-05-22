@@ -223,6 +223,9 @@ public class ObjController {
 	public String detailsObjPost(@RequestParam("clazz") String clazz, 
 								 @RequestParam("rn") Optional<Integer> paramRn, 
 								 @RequestParam("fileInput") Optional<MultipartFile> fileParam, 
+								 @RequestParam("list") Optional<String> listParam,
+								 @RequestParam("clazzItem") Optional<String> clazzItemParam,
+								 @RequestParam("cmdItem") Optional<String> cmdItemParam,
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		Integer rn = paramRn.orElse(null);
@@ -278,6 +281,23 @@ public class ObjController {
         		objService.saveObj(al);
     		});
     	}
+		String listAttr = listParam.orElse(null), clazzItem = clazzItemParam.orElse(null);
+		if (!hs.isEmpty(listAttr) && !hs.isEmpty(clazzItem)) {
+			String cmd = cmdItemParam.orElse("add");
+			if ("add".equals(cmd)) {
+				Object list = hs.getProperty(obj, listAttr);
+				Class<?> clItem = objService.getClassByName(clazzItem);
+				if (clItem == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
+				Object item = cl.newInstance();
+				hs.invoke(item, "onNew");
+				((List)list).add(item);
+				hs.setProperty(obj, listAttr, list);
+				model.addAttribute("hs", hs);
+				setObjModel(obj, model);
+				String t = "details" + clazz + "Page";
+				return hs.templateExists(t) ? t : "detailsObjPage";
+			}
+		}
 		//
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");

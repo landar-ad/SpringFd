@@ -6,6 +6,19 @@
 		$(document).ready(function() {
 			$('.input_date').datepicker({language: "ru"});
 			size_init();
+			$('.add-item').on('click', function() {
+				$("input[name='list']").val("list_file");
+				$("input[name='clazzItem']").val("IFile");
+				$("input[name='cmdItem']").val("add");
+				var h = $('.fit-height').outerHeight();
+				var form = $('.form');
+				$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+					success: function(result) {
+						$(document).html(result);
+						$('.fit-height').outerHeight(h);
+					}
+				});
+			});
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
@@ -13,8 +26,11 @@
 		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
 			<input type="hidden" name="clazz" value="Document" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
+			<input type="hidden" name="list" value="" />
+			<input type="hidden" name="clazzItem" value="" />
+			<input type="hidden" name="cmdItem" value="" />
     		<div class="col-md-12 card-header">
-            	<h3 th:text="${p_title}"></h3>
+            	<h6 th:text="${p_title}"></h6>
             </div>
            	<div class="col-sm-12 card small">
             	<div class="m-sm-2">
@@ -111,7 +127,7 @@
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><a th:href="@{/addItem?list=list_file&rn=} + ${obj.rn + '&clazz=' + obj.clazz + '&clazzItem=IFile'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
+							        	<td><button class="add-item btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></button></td>
 							        	<td></td>
 							        	<td></td>
 							        	<td></td>
