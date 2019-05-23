@@ -2,7 +2,6 @@ package ru.landar.spring.repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -16,7 +15,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -33,7 +31,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.ISession;
@@ -42,22 +39,16 @@ import ru.landar.spring.service.UserService;
 
 @Repository
 public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
-
 	@Autowired
 	UserService userService;
-	
 	@Autowired
 	HelperService hs;
-	
 	@PersistenceContext
 	private EntityManager em;
-	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Object createObj(Object obj)
-	{
-		if (obj instanceof IBase)
-		{
+	public Object createObj(Object obj) {
+		if (obj instanceof IBase) {
 			String principal = userService.getPrincipal();
 			((IBase)obj).setCreator(principal);
 			((IBase)obj).setModifier(principal);
@@ -66,13 +57,10 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		em.flush();
 		return obj;
 	}
-	
 	@Override
 	@Transactional(propagation = Propagation.MANDATORY)
-	public Object updateObj(Object obj)
-	{
-		if (obj instanceof IBase)
-		{
+	public Object updateObj(Object obj) {
+		if (obj instanceof IBase) {
 			Date d = new Date();
 			((IBase)obj).setMdate(d);
 			((IBase)obj).setModifier(userService.getPrincipal());
@@ -81,51 +69,34 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		em.flush();
 		return ret;
 	}
-	
 	@Override
-	public Object saveObj(Object obj)
-	{
+	public Object saveObj(Object obj) {
 		if (obj instanceof IBase) return ((IBase)obj).getRn() != null ? updateObj(obj) : createObj(obj);
 		if (obj instanceof ISession) return ((ISession)obj).getId() != null ? updateObj(obj) : createObj(obj);
 		return updateObj(obj);
 	}
-	
 	@Override
-	public void removeObj(Object obj)
-	{
-		em.remove(obj);
-	}
-	
+	public void removeObj(Object obj) { em.remove(obj); }
 	@Override
-	public Object find(Class<?> cl, Object pk)
-	{
-		return em.find(cl, pk);
-	}
-	
+	public Object find(Class<?> cl, Object pk) { return em.find(cl, pk); }
 	@Override
 	public Object find(Class<?> cl, String attr, Object value) {
-		
 		Object ret = null;
 		Page<Object> p = findAll(cl, null, new String[] { attr }, new Object[] { value });
 		if (p != null && !p.isEmpty()) ret = p.getContent().get(0);
 		return ret;
 	}
-
 	@Override
 	public Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value) {
-		
 		boolean paged = p != null && p.isPaged() && p.getPageSize() != Integer.MAX_VALUE;
 		List<Object> l = new ArrayList<Object>();
 		long count = findAllCount(cl, attr, value);
-		if (count > 0)
-		{
+		if (count > 0) {
 			CriteriaQuery<Object> query = (CriteriaQuery<Object>)createAllQuery(cl, null, attr, value, p != null ? p.getSort() : null, false);
 	        TypedQuery<Object> q = em.createQuery(query);
-	        if (paged)
-	        {
+	        if (paged) {
 	        	int off = p.getPageNumber() * p.getPageSize();
-	        	if (off > count) 
-	        	{
+	        	if (off > count) {
 	        		off = 0;
 	        		p = PageRequest.of(0, p.getPageSize(), p.getSort());
 	        	}
@@ -136,22 +107,17 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
         return new PageImpl<Object>(l, paged ? p : Pageable.unpaged(), count);
 	}
-	
 	@Override
 	public Page<Map<String, Object>> findAllResult(Class<?> cl, String[] result, Pageable p, String[] attr, Object[] value) {
-		
 		boolean paged = p != null && p.isPaged() && p.getPageSize() != Integer.MAX_VALUE;
 		List<Map<String, Object>> listResult = new ArrayList<Map<String, Object>>();
 		long count = findAllCount(cl, attr, value);
-		if (count > 0)
-		{
+		if (count > 0) {
 			CriteriaQuery<Object[]> query = (CriteriaQuery<Object[]>)createAllQuery(cl, result, attr, value, p != null ? p.getSort() : null, false);
 	        TypedQuery<Object[]> q = em.createQuery(query);
-	        if (paged)
-	        {
+	        if (paged) {
 	        	int off = p.getPageNumber() * p.getPageSize();
-	        	if (off > count) 
-	        	{
+	        	if (off > count) {
 	        		off = 0;
 	        		p = PageRequest.of(0, p.getPageSize(), p.getSort());
 	        	}
@@ -159,11 +125,9 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	        	q = q.setMaxResults(p.getPageSize());
 	        }
 	        List<Object[]> l = q.getResultList();
-	        for (Object[] row : l)
-	        {
+	        for (Object[] row : l) {
 	        	Map<String, Object> mapRow = new LinkedHashMap<String, Object>();
-	        	for (int i=0; i<result.length; i++) 
-	    		{
+	        	for (int i=0; i<result.length; i++) {
 	        		String r  = result[i];
 	        		mapRow.put(r, row[i]);
 	    		}
@@ -172,15 +136,11 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
         return new PageImpl<Map<String, Object>>(listResult, paged ? p : Pageable.unpaged(), count);
 	}
-	
 	private Long findAllCount(Class<?> cl, String[] attr, Object[] value) {
-		
 		CriteriaQuery<Long> query = (CriteriaQuery<Long>)createAllQuery(cl, null, attr, value, null, true);
         return em.createQuery(query).getSingleResult();
 	}
-	
-	private CriteriaQuery<?> createAllQuery(Class<?> cl, String[] result, String[] attr, Object[] value, Sort sort, boolean count)
-	{
+	private CriteriaQuery<?> createAllQuery(Class<?> cl, String[] result, String[] attr, Object[] value, Sort sort, boolean count) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<?> query = null;
 		if (count) query = cb.createQuery(Long.class);
@@ -188,11 +148,9 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		else query = cb.createQuery(cl);
 		Root<?> f = query.from(cl);
 		if (count) ((CriteriaQuery<Long>)query).select(cb.count(f));
-		else if (result != null)
-		{
+		else if (result != null) {
 			List<Selection<?>> list = new ArrayList<Selection<?>>();
-			for (String r : result)
-			{
+			for (String r : result) {
 				String[] joinList = r.split("__");
 				Path<?> p = f;
 				for (String join : joinList) p = p.get(join);
@@ -203,10 +161,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		else query.select((Path)f);
 		
 		Predicate prTotal = null;
-		if (attr != null && attr.length > 0)
-		{
-			for (int i=0; i<attr.length; i++)
-			{
+		if (attr != null && attr.length > 0) {
+			for (int i=0; i<attr.length; i++) {
 				String a = attr[i];
 				String[] joinList = a.split("__");
 				Path p = f;
@@ -216,23 +172,19 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	        	Predicate pr = null;
 	        	boolean and = true;
 	        	if (value[i] == null) pr = cb.isNull(p);
-	        	else if (value[i] instanceof String && isExpression((String)value[i]))
-	        	{
+	        	else if (value[i] instanceof String && isExpression((String)value[i])) {
 	        		String[] es = parseExpression(((String)value[i]).trim());
 	        		if (es.length == 0) continue;
 	        		int j = 0;
-	        		for (; j<es.length; j+=3)
-	        		{
+	        		for (; j<es.length; j+=3) {
 	        			Predicate prT = null;
 	        			String c = es[j], op = es[j + 1], va = es[j + 2];
 	        			if (va.isEmpty() && "=".equals(op)) prT = cb.isNull(p);
 	        			else if (va.isEmpty() && "<>".equals(op)) prT = cb.isNotNull(p);
-	        			else
-	        			{
+	        			else {
 		        			Object o = hs.getObjectByString(va, clAttr);
 		        			if (o instanceof BigDecimal) o = ((BigDecimal)o).doubleValue();
-		        			if (o instanceof Date)
-		        			{
+		        			if (o instanceof Date) {
 		        				Date d = (Date)o;
 		        				if (">".equals(op)) prT = cb.greaterThan(p, d);
 		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(p, d);
@@ -241,8 +193,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			        			else if ("=".equals(op)) prT = cb.equal(p, d);
 			        			else if ("<>".equals(op)) prT = cb.notEqual(p, d);
 		        			}
-		        			else if (o instanceof Number)
-		        			{
+		        			else if (o instanceof Number) {
 			        			if (">".equals(op)) prT = cb.gt(p, (Number)o);
 			        			else if (">=".equals(op)) prT = cb.ge(p, (Number)o);
 			        			else if ("<".equals(op)) prT = cb.lt(p, (Number)o);
@@ -250,8 +201,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			        			else if ("=".equals(op)) prT = cb.equal(p, (Number)o);
 			        			else if ("<>".equals(op)) prT = cb.notEqual(p, (Number)o);
 		        			}
-		        			else if (o instanceof String)
-		        			{
+		        			else if (o instanceof String) {
 		        				String s = (String)o;
 		        				if (">".equals(op)) prT = cb.greaterThan(p, s);
 		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(p, s);
@@ -259,8 +209,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(p, s);
 			        			else if ("=".equals(op)) prT = s.indexOf("%") >= 0 ? cb.like(p, s) : cb.equal(p, s);
 			        			else if ("<>".equals(op)) prT = s.indexOf("%") >= 0 ? cb.notLike(p, s) : cb.notEqual(p, s);
-			        			else if ("like".equals(op)) 
-			        			{
+			        			else if ("like".equals(op)) {
 			        				if (s.indexOf("%") < 0) s = "%" + s + "%";
 			        				prT = cb.like(p, s);
 			        			}
@@ -294,13 +243,11 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
 		if (prTotal != null) query.where(cb.and(prTotal));
 		
-		if (sort != null && !count) 
-    	{
+		if (sort != null && !count) {
 			List<Order> lo = new ArrayList<Order>();
     		Stream<Sort.Order> stream = StreamSupport.stream(sort.spliterator(), false);
     		Iterator<Sort.Order> it = stream.iterator();
-			while (it.hasNext())	
-			{
+			while (it.hasNext()) {
 				Sort.Order order = it.next();
 				String a = order.getProperty();
 				String[] joinList = a.split("__");
@@ -371,8 +318,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			}
 			else {
 				term += a;
-				if (isPredicate(term))
-				{
+				if (isPredicate(term)) {
 					for (int n=j+1; n<v.length(); n++) {
 						a = v.charAt(n);
 						if (!isPredicate(term + a)) break;
@@ -392,30 +338,24 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return l.toArray(new String[l.size()]);
 	}
 	@Override
-	public List<Object> findAll(Class<?> cl)
-	{
+	public List<Object> findAll(Class<?> cl) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Object> query = (CriteriaQuery<Object>)cb.createQuery(cl);
 		Root<Object> f = (Root<Object>) query.from(cl);
 		query.select(f);
-		
 		return em.createQuery(query).getResultList();
 	}
-	
 	@Override
-	public Object findByCode(Class<?> cl, String code)
-	{
+	public Object findByCode(Class<?> cl, String code) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Object> query = (CriteriaQuery<Object>)cb.createQuery(cl);
 		Root<Object> f = (Root<Object>)query.from(cl);
 		query.select(f).where(cb.equal(f.get("code"), code));
-		
-		return em.createQuery(query).getSingleResult();
+		try { return em.createQuery(query).getSingleResult(); } catch (Exception ex) { }
+		return null;
 	}
-	
 	@Override
-	public String getClassByKey(Object pk)
-	{
+	public String getClassByKey(Object pk) {
 		if (!(pk instanceof Integer)) return null;
 		Integer rn = (Integer)pk;
 		Class<IBase> cl = IBase.class;
@@ -423,7 +363,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		CriteriaQuery<IBase> query = (CriteriaQuery<IBase>)cb.createQuery(cl);
 		Root<IBase> f = (Root<IBase>)query.from(cl);
 		query.select(f).where(cb.equal(f.get("rn"), rn));
-		IBase obj = em.createQuery(query).getSingleResult();
+		IBase obj = null;
+		try { obj = em.createQuery(query).getSingleResult(); } catch (Exception ex) { }
 		return obj != null ? obj.getClazz() : null;
 	}
 }
