@@ -13,7 +13,7 @@
 					$("input[name='list']").val("list_file");
 					$("input[name='clazzItem']").val("IFile");
 					$("input[name='cmdItem']").val(r ? "remove" : "add");
-					if (r) $("input[name='rnItem']").val($(event.delegateTarget).attr("data-item"));
+					$("input[name='rnItem']").val(r ? $(event.delegateTarget).attr("data-item") : "");
 					var h = $('.fit-height').outerHeight();
 					var form = $('.form');
 					var b = true;
