@@ -206,13 +206,8 @@ public class ObjController {
 							 Model model) throws Exception {
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
-		Object obj = null;
 		Integer rn = paramRn.orElse(null);
-		if (rn == null) {
-			obj = cl.newInstance();
-			hs.invoke(obj, "onNew");
-		}
-		else obj = objService.find(cl, rn);
+		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
 		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		model.addAttribute("hs", hs);
 		setObjModel(obj, model);
@@ -249,6 +244,7 @@ public class ObjController {
 		}
 		// Изменение объекта
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
+		if (rn == null) hs.invoke(obj, "onNew");
 		if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
 		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
 		mapValue.forEach((attr, valueNew) -> {
