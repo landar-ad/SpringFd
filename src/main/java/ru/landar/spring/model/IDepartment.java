@@ -42,7 +42,6 @@ public class IDepartment extends IBase {
     public IDepartment getPrn() { return prn; }
     public void setPrn(IDepartment prn) { this.prn = prn; }
     
-    @Column(nullable=false)
     public Integer getLevel() { return level; }
     public void setLevel(Integer level) { this.level = level; }
     
@@ -87,6 +86,13 @@ public class IDepartment extends IBase {
 		ret.add(new AttributeInfo("org", "Организация", "select", "listOrg", false, 7));
 		return ret;
 	}
+	@Override
+    public Object onNew() {
+     	Object ret = super.onNew();
+    	if (ret != null) return ret;
+    	setLevel(0);
+     	return true;
+    }
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
 		Object ret = invoke("onAddAttributes", model, list);
