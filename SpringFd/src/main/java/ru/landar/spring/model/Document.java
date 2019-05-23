@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -143,6 +144,7 @@ public class Document extends IBase {
     public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
 	
     private void updateName() {
+    	AutowireHelper.autowire(this);
     	String name = "";
 		if (getDoc_type() != null) name = getDoc_type().getName();
     	if (!hs.isEmpty(getDoc_number())) name += (!name.isEmpty() ? " " : "") + "№ " + getDoc_number();

@@ -79,7 +79,7 @@
 					<div class="form-group-sm mt-sm-1">
                         <label class="col-sm-2 col-form-label">Документы, включенные в реестр</label>
                         <div class="col-sm-12">
-	                        <table class="table table-sm table-striped table-light table-bordered small">
+	                        <table class="table table-sm table-striped table-light table-bordered">
 						    	<thead>
 							        <tr>
 							            <th class="d-none">Идентификатор</th>
@@ -99,7 +99,7 @@
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><a th:href="@{/addItem?list=list_doc&rn=} + ${obj.rn + '&clazz='} + ${obj.clazz}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></a></td>
+							        	<td><button class="add-item btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></button></td>
 							        	<td></td>
 							        	<td></td>
 							        	<td></td>

@@ -14,7 +14,13 @@
 					$("input[name='cmdItem']").val("add");
 					var h = $('.fit-height').outerHeight();
 					var form = $('.form');
-					$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+					var data = form.serialize();
+					var b = true;
+					$(':required:invalid').each(function () {
+						b = false;
+					}
+					if (!b) return;
+					$.ajax({ method: form.attr('method'), url: form.attr('action'), data: data,
 						success: function(result) {
 							$(document).html(result);
 							$('.fit-height').outerHeight(h);
