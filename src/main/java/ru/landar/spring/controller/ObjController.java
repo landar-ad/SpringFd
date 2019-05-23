@@ -254,7 +254,7 @@ public class ObjController {
 		});
 		objService.saveObj(obj);
 		// Добавление информации об изменении объекта
-		hs.invoke(obj, "onUpdate", mapFile);
+		hs.invoke(obj, "onUpdate", mapFile, mapChanged);
 		// Запись в журнал
 		objService.writeLog(userService.getPrincipal(), 
 							obj, 

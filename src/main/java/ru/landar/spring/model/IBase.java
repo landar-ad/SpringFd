@@ -110,8 +110,8 @@ public abstract class IBase {
 		setModifier(principal);
     	return ret;
     }
-    public Object onUpdate(Map<String, Object> map) throws Exception { 
-    	return invoke("onUpdate", map);
+    public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
+    	return invoke("onUpdate", map, mapChanged);
     }
     public Object onRemove() { 
     	Object ret = invoke("onRemove");
