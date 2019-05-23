@@ -59,20 +59,22 @@ public class IUser extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			boolean role_user = false, role_admin = false;
-			String roles = getRoles();
-			if (!hs.isEmpty(roles)) {
-				String[] rs = roles.split(",");
-				for (String r : rs) {
-					if (r.indexOf("USER") > 0) role_user = true;
-					if (r.indexOf("ADMIN") > 0) role_admin = true;
-				}
-			}
-			model.addAttribute("role_user", role_user);
-			model.addAttribute("role_admin", role_admin);
 			model.addAttribute("listOrg", objService.findAll(IOrganization.class));
 			model.addAttribute("listPerson", objService.findAll(IPerson.class));
-			model.addAttribute("p_title", getRn() == null ? "Новый пользователь" : "Данные пользователя " + getLogin());
+			if (!list) {
+				boolean role_user = false, role_admin = false;
+				String roles = getRoles();
+				if (!hs.isEmpty(roles)) {
+					String[] rs = roles.split(",");
+					for (String r : rs) {
+						if (r.indexOf("USER") > 0) role_user = true;
+						if (r.indexOf("ADMIN") > 0) role_admin = true;
+					}
+				}
+				model.addAttribute("role_user", role_user);
+				model.addAttribute("role_admin", role_admin);
+				model.addAttribute("p_title", getRn() == null ? "Новый пользователь" : "Данные пользователя " + getLogin());
+			}
 		}
 		catch (Exception ex) { }
 		return true;
