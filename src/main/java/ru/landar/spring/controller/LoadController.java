@@ -53,7 +53,7 @@ public class LoadController {
 			}
 			// Заголовок
 			List<String> listAttr = new ArrayList<String>();
-			HSSFRow row = sheet.getRow(sheet.getFirstRowNum());
+			HSSFRow row = sheet.getRow(sheet.getFirstRowNum() + 2);
 			for (int j=row.getFirstCellNum(); j<=row.getLastCellNum(); j++) {
 	            HSSFCell cell = row.getCell(j);
 	            if (cell == null) continue;
@@ -62,7 +62,7 @@ public class LoadController {
 	            listAttr.add(v);
 	        }
 			// Данные
-	    	for (int i=sheet.getFirstRowNum()+1; i<=sheet.getLastRowNum(); i++) {
+	    	for (int i=sheet.getFirstRowNum()+3; i<=sheet.getLastRowNum(); i++) {
 				row = sheet.getRow(i);
 				if (row == null) continue;
 				Object o = cl.newInstance();
