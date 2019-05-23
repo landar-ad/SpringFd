@@ -254,7 +254,6 @@ public class Document extends IBase {
     public Object onCheckRights(Operation op) { 
     	Object ret = invoke("onCheckRights", op);
      	if (ret != null) return ret;
-    	
     	Integer rn = getRn();
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
