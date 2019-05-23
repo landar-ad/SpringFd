@@ -267,46 +267,39 @@ public class ObjController {
 							(String)request.getSession().getAttribute("ip"), 
 							(String)request.getSession().getAttribute("browser"));
 		// Добавление объекта в список
-		String listAttr = listParam.orElse(null), clazzItem = clazzItemParam.orElse(null);
+		String listAttr = listParam.orElse(null), clazzItem = clazzItemParam.orElse(null), cmd = cmdItemParam.orElse("add");
 		Integer rnItem = rnItemParam.orElse(null);
 		if (!hs.isEmpty(listAttr) && !hs.isEmpty(clazzItem)) {
-			Object listObj = hs.getProperty(obj, listAttr);
-			if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
-			List list = (List<?>)listObj;
-			Class<?> clItem = objService.getClassByName(clazzItem);
-			if (clItem == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
-			String cmd = cmdItemParam.orElse("add");
-			if ("add".equals(cmd)) {
-				Object item = rnItem != null ? objService.find(clItem, rnItem) : cl.newInstance();
-				if (rnItem == null) hs.invoke(item, "onNew");
-				list.add(item);
-				hs.setProperty(obj, listAttr, list);
-			}
-			else if ("remove".equals(cmd)) {
-				if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления из списка");
-				Object objItem = objService.find(clItem, rnItem);
-				if (objItem == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem);
-				for (Object o : list) {
-					if (!(o instanceof IBase)) continue;
-					IBase b = (IBase)o;
-					if (rnItem == b.getRn()) {
-						list.remove(o);
-						break;
-					}
-				}
-				hs.setProperty(obj, listAttr, list);
-				objService.removeObj(objItem);
-			}
+			objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem);
 			model.addAttribute("hs", hs);
 			setObjModel(obj, model);
 			String t = "details" + clazz + "Page";
 			return hs.templateExists(t) ? t : "detailsObjPage";
 		}
-		//
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
 		return "redirect:" + redirect;
+	}
+	@RequestMapping(value = "/addItem")
+	public String addItem(@RequestParam("list") String listAttr, 
+						@RequestParam("rn") Integer rn, 
+						@RequestParam("clazz") Optional<String> paramClazz,
+						@RequestParam("clazzItem") String clazzItem,
+						@RequestParam("cmdItem") Optional<String> cmdItemParam,
+						@RequestParam("rnItem") Optional<Integer> rnItemParam,
+						HttpServletRequest request,
+						Model model) throws Exception {
+		Object obj = objService.find(paramClazz.orElse(null), rn);
+		if (obj == null) throw new Exception("Не найден объект с идентификатором " + rn);
+		String clazz = obj.getClass().getSimpleName();
+		String cmd = cmdItemParam.orElse("add");
+		Integer rnItem = rnItemParam.orElse(null);
+		objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem);
+		model.addAttribute("hs", hs);
+		setObjModel(obj, model);
+		String t = "details" + clazz + "Page";
+		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/removeObj", method = RequestMethod.GET)
 	public String removeObj(@RequestParam("rn") Integer rn, 
@@ -346,28 +339,6 @@ public class ObjController {
 		setMainModel(model, "Удаление объекта");
 		model.addAttribute("p_message", msg);
 		return "removeObjPage";
-	}
-	@RequestMapping(value = "/addItem", method = RequestMethod.GET)
-	public String addItem(@RequestParam("list") String listAttr, @RequestParam("rn") Integer rn, 
-						@RequestParam("clazz") Optional<String> paramClazz,
-						@RequestParam("clazzItem") String clazzItem,
-						HttpServletRequest request,
-						Model model) throws Exception {
-		Object obj = objService.find(paramClazz.orElse(null), rn);
-		if (obj == null) throw new Exception("Не найден объект с идентификатором " + rn);
-		String clazz = obj.getClass().getSimpleName();
-		Object list = hs.getProperty(obj, listAttr);
-		if (list == null || !(list instanceof List)) throw new Exception("Не найден список " + listAttr + " в объекте с идентификатором " + rn);
-		Class<?> cl = objService.getClassByName(clazzItem);
-		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
-		Object item = cl.newInstance();
-		hs.invoke(item, "onNew");
-		((List)list).add(item);
-		hs.setProperty(obj, listAttr, list);
-		model.addAttribute("hs", hs);
-		setObjModel(obj, model);
-		String t = "details" + clazz + "Page";
-		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/listVoc", method = RequestMethod.GET)
 	public String listVoc(Model model) throws Exception {
