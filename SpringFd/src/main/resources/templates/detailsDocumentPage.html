@@ -128,7 +128,7 @@
 							        <tr th:each="f,iter : ${obj?.list_file}">
 							            <td class="d-none" th:text="${f.rn}"/>
 							            <td th:text="${iter.index + 1}"/>
-							            <td><a th:href="@{/fileView?rn=} + ${f.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file" th:text="${' ' + f.filename}"></i></a></td>
+							            <td><a th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file" th:text="${f.filename}"></i></a></td>
 							            <td th:text="${f.fileext}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
