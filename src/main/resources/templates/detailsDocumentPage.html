@@ -14,13 +14,10 @@
 					$("input[name='cmdItem']").val("add");
 					var h = $('.fit-height').outerHeight();
 					var form = $('.form');
-					var data = form.serialize();
 					var b = true;
-					$(':required:invalid').each(function () {
-						b = false;
-					}
+					$(':required:invalid').each(function () { b = false; });
 					if (!b) return;
-					$.ajax({ method: form.attr('method'), url: form.attr('action'), data: data,
+					$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
 						success: function(result) {
 							$(document).html(result);
 							$('.fit-height').outerHeight(h);
@@ -40,6 +37,7 @@
 			<input type="hidden" name="list" value="" />
 			<input type="hidden" name="clazzItem" value="" />
 			<input type="hidden" name="cmdItem" value="" />
+			<input type="hidden" name="rnItem" value="" />
     		<div class="col-md-12 card-header">
             	<h6 th:text="${p_title}"></h6>
             </div>
