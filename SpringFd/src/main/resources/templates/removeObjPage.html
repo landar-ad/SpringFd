@@ -20,8 +20,10 @@
 			                <form th:if=${p_message==null} th:action="@{/removeObj}" method="post" class="form" role="form" autocomplete="off">
 			                	<input type="hidden" name="rn" th:value="${obj.rn}" />
 			                	<input type="hidden" name="clazz" th:value="${obj.clazz}" />
+			                	<input type="hidden" name="prn" th:value="${prn}" />
+			                	<input type="hidden" name="list" th:value="${list}" />
 			                	<div class="form-group">
-			                    	<h6 th:text="${'Вы действительно хотите удалить объект ' + obj.name}"></h6>
+			                    	<h6 th:text="${'Вы действительно хотите удалить объект ' + (obj.name != null ? obj.name : '')}"></h6>
 		                    	</div>
 			                    <div class="form-group">
 				                    <button type="submit" class="btn btn-light btn-sm">Да</button>

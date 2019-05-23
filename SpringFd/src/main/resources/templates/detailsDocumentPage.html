@@ -8,10 +8,12 @@
 			size_init();
 			
 			page_init = function() {
-				$('.add-item').on('click', function() {
+				$('.add-item,.remove-item').on('click', function(event) {
+					var r = $(event.target).hasClass("remove-item");
 					$("input[name='list']").val("list_file");
 					$("input[name='clazzItem']").val("IFile");
-					$("input[name='cmdItem']").val("add");
+					$("input[name='cmdItem']").val(r ? "remove" : "add");
+					if (r) $("input[name='rnItem']").val($(event.target).attr("data-item"));
 					var h = $('.fit-height').outerHeight();
 					var form = $('.form');
 					var b = true;
@@ -132,7 +134,7 @@
 							            <td th:text="${f.fileext}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
-							            <td><a th:href="@{/removeObj?rn=} + ${f.rn + '&clazz=IFile'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-minus"></i></a></td>
+							            <td><button class="remove-item btn btn-light btn-sm" th:data-item="${f.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
