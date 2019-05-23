@@ -275,14 +275,16 @@ public class Document extends IBase {
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
     	
-    	Date dt = new Date();
-    	IUser user = userService.getUser((String)null);
-    	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-    	IAgent agent = user.getPerson();
-    	if (agent == null) agent = user.getOrg(); 
-    	setChange_agent(agent);
-    	setChange_time(dt);
-    	if (mapChanged.containsKey("doc_status")) setTime_status(dt);
+    	if (!mapChanged.isEmpty()) {
+	    	Date dt = new Date();
+	    	IUser user = userService.getUser((String)null);
+	    	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+	    	IAgent agent = user.getPerson();
+	    	if (agent == null) agent = user.getOrg(); 
+	    	setChange_agent(agent);
+	    	setChange_time(dt);
+	    	if (mapChanged.containsKey("doc_status")) setTime_status(dt);
+    	}
     	
 		return true;
     }
