@@ -9,11 +9,11 @@
 			
 			page_init = function() {
 				$('.add-item,.remove-item').on('click', function(event) {
-					var r = $(event.target).hasClass("remove-item");
+					var r = $(event.delegateTarget).hasClass("remove-item");
 					$("input[name='list']").val("list_file");
 					$("input[name='clazzItem']").val("IFile");
 					$("input[name='cmdItem']").val(r ? "remove" : "add");
-					if (r) $("input[name='rnItem']").val($(event.target).attr("data-item"));
+					if (r) $("input[name='rnItem']").val($(event.delegateTarget).attr("data-item"));
 					var h = $('.fit-height').outerHeight();
 					var form = $('.form');
 					var b = true;
