@@ -70,6 +70,16 @@ public class LoadController {
 				IBase obj = (IBase)o;
 				boolean bContinue = false;
 				String messageContinue = null;
+				boolean empty = true;
+				for (int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
+				    HSSFCell cell = row.getCell(j);
+				    if (cell == null) continue;
+				    if (cell.getCellType() != Cell.CELL_TYPE_STRING) cell.setCellType(Cell.CELL_TYPE_STRING);
+				    String v = cell.getStringCellValue();
+				    if (!hs.isEmpty(v)) v = v.trim();
+				    if (!hs.isEmpty(v)) { empty = false; break; } 
+				}
+				if (empty) continue;
 				for (int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
 				    HSSFCell cell = row.getCell(j);
 				    if (cell == null) continue;
