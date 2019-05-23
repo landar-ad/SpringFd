@@ -77,7 +77,7 @@ public class LoadController {
 				    String v = cell.getStringCellValue();
 					if (!hs.isEmpty(v)) v = v.trim();
 				    String attr = listAttr.get(j);
-				    if ("code".equals(attr)) {
+				    if ("code".equals(attr) && !hs.isEmpty(v)) {
 				    	if (hs.isEmpty(v)) { bContinue = true; break; }
 				    	Page<Object> p = objService.findAll(cl, null, new String[] {"code"}, new Object[] {v});
 				    	if (p != null && !p.isEmpty()) { messageContinue = "Дублирование кода " + obj.getClazz() + " " + v; bContinue = true; break; }
