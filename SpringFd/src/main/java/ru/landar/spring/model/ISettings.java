@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
-import ru.landar.spring.config.AutowireHelper;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
