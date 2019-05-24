@@ -225,13 +225,11 @@ public class ObjServiceImpl implements ObjService {
 		}
 		else if ("remove".equals(cmd)) {
 			if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления из списка");
-			for (Object o : list) {
-				if (!(o instanceof IBase)) continue;
-				IBase b = (IBase)o;
-				if (rnItem == b.getRn()) {
-					list.remove(o);
-					break;
-				}
+			for (int i=0; i<list.size(); i++) {
+				Object o = list.get(i);
+				if (!(o instanceof IBase) || rnItem.compareTo(((IBase)o).getRn()) != 0) continue;
+				list.remove(i);
+				break;
 			}
 			hs.setProperty(obj, listAttr, list);
 			saveObj(obj);
