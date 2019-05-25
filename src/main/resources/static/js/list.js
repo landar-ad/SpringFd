@@ -59,10 +59,6 @@ list_init = function() {
 		$("th select option").prop('selected', false);
 		$("th input[type='checkbox']").prop('checked', false);
 	};
-	add_on = function(s, e, f) {
-		s.unbind(e);
-		s.on(e, f);
-	};
 	// Выделение строк, редактирование и удаление
 	$('#edit_obj,#remove_obj').prop('disabled', true);
 	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });

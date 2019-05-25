@@ -1,5 +1,5 @@
 page_init = function(list, clazz) {
-	$('.add-item,.remove-item').on('click', function(event) {
+	add_on($('.add-item,.remove-item'), 'click', function(event) {
 		var r = $(event.delegateTarget).hasClass("remove-item");
 		$("input[name='list']").val(list);
 		$("input[name='clazzItem']").val(clazz);
@@ -12,9 +12,10 @@ page_init = function(list, clazz) {
 		if (!b) return;
 		$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
 			success: function(result) {
-				$(document).html(result);
+				var div = $('<div></div>');
+				div.html(result);
+				$('.fit-height').html(div.find('.fit-height'));
 				$('.fit-height').outerHeight(h);
-				page_init();
 			}
 		});
 	});

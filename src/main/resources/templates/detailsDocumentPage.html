@@ -112,11 +112,11 @@
 							            <td th:text="${f.fileext}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
-							            <td><button class="remove-item btn btn-light btn-sm" th:data-item="${f.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
+							            <td><button class="remove-item btn btn-light btn-sm" th:data-item="${f.rn}" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><button class="add-item btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></button></td>
+							        	<td><button class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
 							        	<td></td>
 							        	<td></td>
 							        	<td></td>
@@ -214,7 +214,7 @@
                     </div>
  				</div>
 			</div>
-			</form>
+		</form>
 	</div>
 	<footer class="footer">
     	<div th:replace="fragments/header :: change_info"></div>
