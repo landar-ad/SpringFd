@@ -16,6 +16,7 @@ page_init = function(list, clazz) {
 				div.html(result);
 				$('.fit-height').html(div.find('.fit-height'));
 				$('.fit-height').outerHeight(h);
+				page_init(list, clazz);
 			}
 		});
 	});
