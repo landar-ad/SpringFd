@@ -1,4 +1,10 @@
 page_init = function(list, clazz) {
+	clear_param = function() {
+		$("input[name='list']").val("");
+		$("input[name='clazzItem']").val("");
+		$("input[name='cmdItem']").val("");
+		$("input[name='rnItem']").val("");
+	};
 	add_on($('.add-item,.remove-item'), 'click', function(event) {
 		var r = $(event.delegateTarget).hasClass("remove-item");
 		$("input[name='list']").val(list);
@@ -17,6 +23,10 @@ page_init = function(list, clazz) {
 				$('.fit-height').html(div.find('.fit-height'));
 				$('.fit-height').outerHeight(h);
 				page_init(list, clazz);
+				clear_param();
+			},
+			error: function() {
+				clear_param();
 			}
 		});
 	});
