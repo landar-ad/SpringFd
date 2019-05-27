@@ -56,7 +56,6 @@ public class IFile extends IBase {
 		String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
 		if (hs.isEmpty(filesDirectory)) {
 			filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
-			System.out.println(filesDirectory);
 		}
 		for (; ;) {
 			MultipartFile fileInput = (MultipartFile)map.get("fileuri");
