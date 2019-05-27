@@ -53,7 +53,10 @@ public class IFile extends IBase {
     	if (ret != null) return ret;
     	if (map.isEmpty()) return false;
 		String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
-		if (hs.isEmpty(filesDirectory)) throw new Exception("Не задана директория для хранения файлов");
+		if (hs.isEmpty(filesDirectory)) {
+			filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
+			System.out.println(filesDirectory);
+		}
 		for (; ;) {
 			MultipartFile fileInput = (MultipartFile)map.get("fileuri");
 			if (fileInput == null) break;
