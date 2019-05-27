@@ -113,7 +113,7 @@
 							            <td th:text="${f.fileext}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
-							            <td><a th:href="@{/detailsObj?clazz=IFil;e&rn=} + ${f.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
+							            <td><a th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
 							            <td><button class="remove-item btn btn-light btn-sm" type="button" th:data-item="${f.rn}" ><i class="fa fa-sm fa-minus"></i></button></td>
 							        </tr>
 							        <tr>
