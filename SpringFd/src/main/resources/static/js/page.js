@@ -5,12 +5,11 @@ page_init = function(list, clazz) {
 		$("input[name='cmdItem']").val("");
 		$("input[name='rnItem']").val("");
 	};
-	add_on($('.add-item,.remove-item'), 'click', function(event) {
-		var r = $(event.delegateTarget).hasClass("remove-item");
+	executeItem = function (list, clazz, cmd, rn) {
 		$("input[name='list']").val(list);
 		$("input[name='clazzItem']").val(clazz);
-		$("input[name='cmdItem']").val(r ? "remove" : "add");
-		$("input[name='rnItem']").val(r ? $(event.delegateTarget).attr("data-item") : "");
+		$("input[name='cmdItem']").val(cmd);
+		$("input[name='rnItem']").val(rn);
 		var h = $('.fit-height').outerHeight();
 		var form = $('.form');
 		var b = true;
@@ -29,5 +28,53 @@ page_init = function(list, clazz) {
 				clear_param();
 			}
 		});
+	};
+	add_on($('.add-item'), 'click', function(event) {
+		var popupUrl = $(event.delegateTarget).attr("data-popup-url");
+		var editUrl = $(event.delegateTarget).attr("data-edit-url");
+		$.ajax({ method: "POST", url: popupUrl, data: "",
+			success: function(result) {
+				var div = $('<div></div>');
+				div.html(result);
+				$('.modal').html(div.find('.modal').html());
+				$.ajax({ method: "GET", url: editUrl, data: "",
+					success: function(result) {
+						var div = $('<div></div>');
+						div.html(result);
+						var html = div.find('.fit-height').html();
+						$('.modal').find('.fit-height').html(html);
+						$('.modal').find('.custom-file-input').on("change", function() { 
+							   var fileName = $(this).val().split('\\').pop(); 
+							   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+						});
+						$('.modal').find('.btn-group').hide();
+						add_on($("#save-button"), "click", function() {
+							var form = $('.modal').find('.form');
+							form.find("input[name='p_popup']").val("1");
+							$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+								success: function(result) {
+									var div = $('<div></div>');
+									div.html(result);
+									var rn = div.find("input[name='rn']").val();
+									if (rn > 0) executeItem(list, clazz, "add", rn);
+								},
+								error: function() {
+								}
+							});
+						});	
+						$(".modal").modal();
+						$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
+						$(".modal-body").css("overflow-y", "auto");
+					},
+					error: function() {
+					}
+				});
+			},
+			error: function() {
+			}
+		});
+	});
+	add_on($('.remove-item'), 'click', function(event) {
+		executeItem(list, clazz, "remove", $(event.delegateTarget).attr("data-item"));
 	});
 };

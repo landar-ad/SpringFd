@@ -214,7 +214,8 @@ public class ObjController {
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.POST)
 	public String detailsObjPost(@RequestParam("clazz") String clazz, 
 								 @RequestParam("rn") Optional<Integer> paramRn, 
-								 @RequestParam("fileInput") Optional<MultipartFile> fileParam, 
+								 @RequestParam("fileInput") Optional<MultipartFile> fileParam,
+								 @RequestParam("p_popup") Optional<Integer> paramPopup,
 								 @RequestParam("list") Optional<String> listParam,
 								 @RequestParam("clazzItem") Optional<String> clazzItemParam,
 								 @RequestParam("cmdItem") Optional<String> cmdItemParam,
@@ -222,6 +223,7 @@ public class ObjController {
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		Integer rn = paramRn.orElse(null);
+		Integer popup = paramPopup.orElse(null);
 		Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
 		Map<String, Object> mapFile = new LinkedHashMap<String, Object>();
 		mapFile.put("fileuri", fileParam.orElse(null));
@@ -263,6 +265,12 @@ public class ObjController {
 		Integer rnItem = rnItemParam.orElse(null);
 		if (!hs.isEmpty(listAttr) && !hs.isEmpty(clazzItem)) {
 			objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem);
+			model.addAttribute("hs", hs);
+			setObjModel(obj, model);
+			String t = "details" + clazz + "Page";
+			return hs.templateExists(t) ? t : "detailsObjPage";
+		}
+		if (popup != null && popup.compareTo(1) == 0) {
 			model.addAttribute("hs", hs);
 			setObjModel(obj, model);
 			String t = "details" + clazz + "Page";
