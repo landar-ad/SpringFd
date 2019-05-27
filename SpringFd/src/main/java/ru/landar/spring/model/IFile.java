@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -86,5 +87,22 @@ public class IFile extends IBase {
 		}
 		objService.saveObj(this);
 		return true;
+    }
+    @Override
+	public Object onAddAttributes(Model model, boolean list) {
+		Object ret = super.onAddAttributes(model, list);
+		if (ret != null) return ret;
+		
+		try {
+			model.addAttribute("listFileType", objService.findAll(SpFileType.class));
+		}
+		catch (Exception ex) { }
+		return true;
+	}
+    @Override
+    public Object onRedirectAfterUpdate() { 
+    	Object ret = invoke("onRedirectAfterUpdate");
+    	if (ret != null) return ret;
+    	return getParent() != null ? "/detailsObj?clazz=Document" + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
     }
 }
