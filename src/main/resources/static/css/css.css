@@ -5,12 +5,15 @@ body {
     height: 100%;
 }
 @media (min-width: 1600px) {
-  .container {
-    max-width: 1540px;
-  }
+  	.container {
+  		max-width: 1540px;
+  	}
+  	.modal-dialog {
+    	max-width: 1540px;
+    	margin: 1.75rem auto;
+	}
 }
-.form-group-sm .row
-{
+.form-group-sm .row {
 	margin-top: 2px; 	
 }
 .download {
