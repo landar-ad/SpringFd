@@ -11,7 +11,7 @@ page_init = function(list, clazz) {
 		$("input[name='cmdItem']").val(cmd);
 		$("input[name='rnItem']").val(rn);
 		var h = $('.fit-height').outerHeight();
-		var form = $('.form');
+		var form = $('.form').first();
 		var b = true;
 		$(':required:invalid').each(function () { b = false; });
 		if (!b) return;
@@ -51,7 +51,14 @@ page_init = function(list, clazz) {
 						add_on($("#save-button"), "click", function() {
 							var form = $('.modal').find('.form');
 							form.find("input[name='p_popup']").val("1");
-							$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+							//var data = form.serialize();
+							var data = new FormData(form[0]);
+							$.ajax({ 
+								method: form.attr('method'), url: 
+								form.attr('action'), 
+								data: data,
+								contentType: false,
+								processData: false,
 								success: function(result) {
 									var div = $('<div></div>');
 									div.html(result);
