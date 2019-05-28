@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.input_date').datepicker({language: "ru"});
+			size_init();
+			add_on($('#choose_document'), 'click', function(event) {
+				var popupUrl = $(event.delegateTarget).attr("data-popup-url");
+				$.ajax({ method: "POST", url: popupUrl, 
+					data: {
+						clazz: "Document",
+						p_title: "Выберите документ",
+						p_column: "name",
+						p_filter: "doc_status__code ='2'"
+					},
+					success: function(result) {
+						var div = $('<div></div>');
+						div.html(result);
+						$('.modal').html(div.find('.modal').html());
+						$(".modal").modal();
+						$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
+						$(".modal-body").css("overflow-y", "auto");
+					},
+					error: function() {
+					}
+				});
+			});
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container fit-height">
+		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
+			<input type="hidden" name="clazz" value="Act_document" />
+			<input type="hidden" name="rn" th:value="${obj.rn}" />
+			<input type="hidden" name="p_popup" value="" />
+    		<div class="col-md-12 card-header">
+            	<h5 th:text="${p_title}"></h5>
+            </div>
+           	<div class="col-sm-12 card small">
+            	<div class="m-sm-2">
+            		<div class="row small col-sm-12">
+	            		<div class="btn-group">
+	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+			                <a th:if="${prn!=null}" th:href="@{/detailsObj?clazz=Act&rn=} + ${prn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+		                </div>
+	                </div>
+                    <div class="form-group-sm row mt-sm-1">
+                       	<label class="col-sm-2 col-form-label">№ документа</label>
+                        <div class="col-sm-2">
+                        	<input id="doc_number" class="form-control form-control-sm" type="text" th:value="${obj.doc?.doc_number}"></input>
+                       	</div>
+                        <label class="col-sm-2 col-form-label">Дата документа</label>
+                        <div class="col-sm-2">
+                        	<input id="doc_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.doc?.doc_date,'dd.MM.yyyy')}"></input>
+                       	</div>
+                       	<input type="hidden" name="doc" th:value="${obj.doc?.rn}" />
+                       	<div class="col-sm-2">
+                       		<button id="choose_document" type="button" class="btn btn-sm btn-light" th:data-popup-url="@{popupSelect}"><i class="fa fa-sm fa-file"></i></button>>
+                       	</div>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
+                    	<div class="col-sm-3 form-check'}">
+	                    	<label class="form-check-label">
+	                    		<input name="exclude" type="checkbox" class="form-check-input" th:checked="${obj.exclude}==true" th:text="${'Исключен из акта'}">
+	                    		<input type="hidden" name="exclude" value="0">
+                    		</label>
+	                    </div>
+                    	<label class="col-sm-2 col-form-label">Причина исключения</label>
+                    	<div class="col-sm-4">
+                        	<input class="form-control form-control-sm" type="text" th:value="${obj.exclude_reason}"></input>
+                       	</div>
+                       	<label class="col-sm-2 col-form-label">Дата исключения</label>
+                    	<div class="col-sm-1">
+                        	<input class="input_date form-control form-control-sm" type="text" th:value="${obj.exclude_date}"></input>
+                       	</div>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
+	<footer class="footer">
+    	<div th:replace="fragments/header :: change_info"></div>
+    </footer>
+</body>
+</html>

@@ -20,7 +20,7 @@
            		<div class="m-sm-2">
            			<div th:replace="fragments/header :: details-buttons"></div>
 	            	<div th:each="attr : ${listAttribute}" class="form-group-sm mt-sm-1">
-                        <label class="col-form-label" th:text="${attr.title}"></label>
+                        <label th:if="${attr.type!='checkbox'}" class="col-form-label" th:text="${attr.title}"></label>
                         <input th:if="${attr.type=='text'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" type="text" th:value="${hs.getPropertyString(obj,attr.name)}" th:required="${attr.required}"></input>
                         <input th:if="${attr.type=='password'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" type="password" value="" th:required="${attr.required}"></input>
                         <textarea th:if="${attr.type=='textarea'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" th:text="${hs.getPropertyString(obj,attr.name)}" th:required="${attr.required}" rows="10"></textarea>
