@@ -71,19 +71,19 @@
 						        </thead>
 						        <tbody>
 							        <tr th:each="d,iter : ${obj?.list_doc}">
-							            <td class="d-none" th:text="${doc.rn}"/>
+							            <td class="d-none" th:text="${d.rn}"/>
 							            <td th:text="${iter.index + 1}"/>
 							            <td th:text="${d.doc?.doc_num}"/>
 							            <td th:text="${#dates.format(d.doc?.doc_date,'dd.MM.yyyy')}"/>
-							            <td><i th:class="${'fa fa-sm fa-' + (!d.doc?.exclude ? 'check' : 'times')}"></i></td>
+							            <td><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'times' : 'check')}"></i></td>
 							            <td th:text="${#dates.format(d.exclude_date,'dd.MM.yyyy')}"></td>
-							            <td th:utext="${d.exclude_reason)}"></td>
-							            <td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=Act_document&rn=} + ${d.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
+							            <td th:utext="${d.exclude_reason}"></td>
+							            <td><a th:if=${readonly!=true} th:href="${'detailsObj?clazz=Act_document&rn=' + d.rn + '&prn=' + obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
 							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" ><i class="fa fa-sm fa-minus"></i></button></td>
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><button th:if=${readonly!=true} class="add-item btn btn-light btn-sm" type="button" th:data-popup-url="@{/popupEdit}" th:data-edit-url="@{/detailsObj?clazz=Act_document&p_popup=1}"><i class="fa fa-sm fa-plus"></i></button></td>
+							        	<td><button th:if=${readonly!=true} class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
 							        	<td></td>
 							        	<td></td>
 							        	<td></td>

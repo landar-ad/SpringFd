@@ -197,15 +197,18 @@ public class ObjController {
 	}
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.GET)
 	public String detailsObj(@RequestParam("rn") Optional<Integer> paramRn, 
-							 @RequestParam("clazz") String clazz, 
+							 @RequestParam("clazz") String clazz,
+							 @RequestParam("prn") Optional<Integer> paramPrn,
 							 @RequestParam("p_tab") Optional<Integer> paramTab, 
 							 Model model) throws Exception {
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Integer rn = paramRn.orElse(null);
+		Integer prn = paramPrn.orElse(null);
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
 		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		model.addAttribute("hs", hs);
+		if (prn != null) model.addAttribute("prn", prn);
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		String t = "details" + clazz + "Page";
@@ -424,8 +427,10 @@ public class ObjController {
 	}
 	private void setObjModel(Object obj, Model model) throws Exception {
 		model.addAttribute("obj", obj);
-		Integer prn = (Integer)hs.getProperty(obj, "parent__rn");
-		if (prn != null) model.addAttribute("prn", prn);
+		if (!model.containsAttribute("prn")) {
+			Integer prn = (Integer)hs.getProperty(obj, "parent__rn");
+			if (prn != null) model.addAttribute("prn", prn);
+		}
 		model.addAttribute("readonly", !hs.checkRights(obj, Operation.update)); 
 		List<AttributeInfo> listAttribute = (List<AttributeInfo>)hs.invoke(obj, "onListAttribute");
 		if (listAttribute != null) model.addAttribute("listAttribute", listAttribute);
