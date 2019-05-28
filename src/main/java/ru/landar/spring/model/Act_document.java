@@ -36,6 +36,8 @@ public class Act_document extends IBase {
     public Date getExclude_date() { return exclude_date; }
     public void setExclude_date(Date exclude_date) { this.exclude_date = exclude_date; }
     
+    public static String singleTitle() { return "Сведения о включенном в акт документе"; }
+	public static String multipleTitle() { return "Сведения о включенных в акты документах"; }
     @Override
     public Object onNew() {
      	Object ret = super.onNew();
