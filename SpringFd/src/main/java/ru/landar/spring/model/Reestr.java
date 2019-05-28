@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -101,6 +102,7 @@ public class Reestr extends IBase {
     public void setList_doc(List<Document> list_doc) { this.list_doc = list_doc; }
     
     private void updateName() {
+    	AutowireHelper.autowire(this);
     	String name = "";
     	if (!hs.isEmpty(getReestr_number())) name = "№ "+ getReestr_number();
     	if (getReestr_date() != null)
