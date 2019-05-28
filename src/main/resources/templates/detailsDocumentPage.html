@@ -22,7 +22,7 @@
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
 	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
-			                <a href="listObj?clazz=Document" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+			                <a th:href="${'listObj?clazz=Document' + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
 	                <div class="form-group-sm row mt-sm-1">
