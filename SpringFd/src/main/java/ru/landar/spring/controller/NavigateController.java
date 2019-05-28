@@ -22,8 +22,7 @@ public class NavigateController {
 	private HelperService hs;
 	@RequestMapping(value = "/")
 	public String root(HttpServletRequest request, Model model) {
-		setMainModel(model, "Главная страница");
-		return "mainPage";
+		return "redirect:main";
 	}
 	@RequestMapping(value = "/main")
 	public String main(HttpServletRequest request, Model model) {
@@ -34,7 +33,7 @@ public class NavigateController {
 	public String ret(HttpServletRequest request, @RequestParam("redirect") Optional<String> paramRedirect, Model model) {
 		String redirect = paramRedirect.orElse(null);
 		if (hs.isEmpty(redirect)) redirect = request.getHeader("Referer");
-		if (hs.isEmpty(redirect)) redirect = "/main";
+		if (hs.isEmpty(redirect)) redirect = "main";
 		return "redirect:" + redirect; 
 	}
 	private void setMainModel(Model model, String title) {

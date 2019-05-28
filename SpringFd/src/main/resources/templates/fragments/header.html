@@ -51,14 +51,12 @@
   	<div th:fragment="list-param">
  		<input type="hidden" id="clazz" th:value="${clazz}" />
  		<input type="hidden" name="rn" th:value="${rn}" />
- 		<input type="hidden" id="edit_url" th:href="@{/detailsObj}" />
- 		<input type="hidden" id="remove_url" th:href="@{/removeObj}" />
  		<input type="hidden" name="p_refreshElement" value=""/>
   	</div>
   	<div th:fragment="list-buttons" class="row small col-sm-12">
 		<div class="btn-group">
   			<button id="edit_obj" class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-edit"></i> Редактировать</button>
-  			<a th:href="@{/detailsObj?clazz=} + ${clazz}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-clone"></i> Добавить</a>
+  			<a th:href="${'detailsObj?clazz=' + clazz}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-clone"></i> Добавить</a>
   			<button id="remove_obj"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-trash"></i> Удалить</button>
 		</div>
 		<div class="col grow">

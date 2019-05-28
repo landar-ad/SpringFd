@@ -281,8 +281,8 @@ public class ObjController {
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
 		return "redirect:" + redirect;
 	}
-	@RequestMapping(value = "/addItem")
-	public String addItem(@RequestParam("list") String listAttr, 
+	@RequestMapping(value = "/executeItem")
+	public String executeItem(@RequestParam("list") String listAttr, 
 						@RequestParam("rn") Integer rn, 
 						@RequestParam("clazz") Optional<String> paramClazz,
 						@RequestParam("clazzItem") String clazzItem,

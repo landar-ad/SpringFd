@@ -22,7 +22,7 @@
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
 	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
-			                <a th:href="@{/listObj?clazz=Act}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+			                <a href="listObj?clazz=Act" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
 	                <div class="form-group-sm row mt-sm-1">
@@ -52,7 +52,7 @@
                         	<input class="input_date form-control form-control-sm" type="text" name="act_date" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required"></input>
                        	</div>
                     </div>
-					<div class="form-group-sm mt-sm-1">
+					<div id="list_doc" class="form-group-sm mt-sm-1">
                         <label class="col-sm-2 col-form-label">Документы, включенные в акт</label>
                         <div class="col-sm-12">
 	                        <table class="table table-sm table-striped table-light table-bordered">
@@ -78,12 +78,12 @@
 							            <td><i th:class="${'fa fa-sm fa-' + (!d.doc?.exclude ? 'check' : 'times')}"></i></td>
 							            <td th:text="${#dates.format(d.exclude_date,'dd.MM.yyyy')}"></td>
 							            <td th:utext="${d.exclude_reason)}"></td>
-							            <td><a th:href="@{/detailsObj?clazz=Act_document&rn=} + ${d.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
-							            <td><a th:href="@{/removeObj?rn=} + ${doc.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-minus"></i></a></td>
+							            <td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=Act_document&rn=} + ${d.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
+							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" ><i class="fa fa-sm fa-minus"></i></button></td>
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><button class="add-item btn btn-light btn-sm" type="button" th:data-popup-url="@{/popupEdit}" th:data-edit-url="@{/detailsObj?clazz=Act_document&p_popup=1}"><i class="fa fa-sm fa-plus"></i></button></td>
+							        	<td><button th:if=${readonly!=true} class="add-item btn btn-light btn-sm" type="button" th:data-popup-url="@{/popupEdit}" th:data-edit-url="@{/detailsObj?clazz=Act_document&p_popup=1}"><i class="fa fa-sm fa-plus"></i></button></td>
 							        	<td></td>
 							        	<td></td>
 							        	<td></td>

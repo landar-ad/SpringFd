@@ -16,7 +16,7 @@ list_init = function() {
 	};
 	exec_obj = function(op) {
 		var rn = $('input[name="rn"]').val();
-		if (rn > 0) window.location = $("#" + op + "_url").attr('href') + "?rn=" + rn + "&clazz=" + $('#clazz').val();
+		if (rn > 0) window.location = (op=="edit" ? "detailsObj" : "removeObj") + "?rn=" + rn + "&clazz=" + $('#clazz').val();
 	};
 	click_row = function(a) {
 		var b = $(a).hasClass('table-success'), rn = "";

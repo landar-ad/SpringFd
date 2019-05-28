@@ -14,10 +14,6 @@
 		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
 			<input type="hidden" name="clazz" value="Document" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
-			<input type="hidden" name="list" value="" />
-			<input type="hidden" name="clazzItem" value="" />
-			<input type="hidden" name="cmdItem" value="" />
-			<input type="hidden" name="rnItem" value="" />
     		<div class="col-md-12 card-header">
             	<h6 th:text="${p_title}"></h6>
             </div>
@@ -26,7 +22,7 @@
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
 	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
-			                <a th:href="@{/listObj?clazz=Document}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+			                <a href="listObj?clazz=Document" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
 	                <div class="form-group-sm row mt-sm-1">
@@ -89,7 +85,7 @@
 							</select>    
 						</div>
 					</div>
-					<div class="form-group-sm mt-sm-1">
+					<div id="list_file" class="form-group-sm mt-sm-1">
                         <label class="col-sm-2 col-form-label">Прикрепленные файлы</label>
                         <div class="col-sm-12">
 	                        <table class="table table-sm table-striped table-light table-bordered">
@@ -109,16 +105,16 @@
 							        <tr th:each="f,iter : ${obj?.list_file}">
 							            <td class="d-none" th:text="${f.rn}"/>
 							            <td th:text="${iter.index + 1}"/>
-							            <td><a th:href="@{/fileView?rn=} + ${f.rn}" class="btn btn-light btn-sm" th:text="${f.filename}"></a></td>
+							            <td><a target="_blank" th:href="@{/fileView?rn=} + ${f.rn}" class="btn btn-light btn-sm" th:text="${f.filename}"></a></td>
 							            <td th:text="${f.fileext}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
-							            <td><a th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
-							            <td><button class="remove-item btn btn-light btn-sm" type="button" th:data-item="${f.rn}" ><i class="fa fa-sm fa-minus"></i></button></td>
+							            <td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
+							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${f.rn}" ><i class="fa fa-sm fa-minus"></i></button></td>
 							        </tr>
 							        <tr>
 							        	<td class="d-none"/>
-							        	<td><button class="add-item btn btn-light btn-sm" type="button" th:data-popup-url="@{/popupEdit}" th:data-edit-url="@{/detailsObj?clazz=IFile&p_popup=1}"><i class="fa fa-sm fa-plus"></i></button></td>
+							        	<td><button th:if=${readonly!=true} class="add-item btn btn-light btn-sm" type="button" th:data-popup-url="@{/popupEdit}" th:data-edit-url="@{/detailsObj?clazz=IFile&p_popup=1}"><i class="fa fa-sm fa-plus"></i></button></td>
 							        	<td></td>
 							        	<td></td>
 							        	<td></td>
