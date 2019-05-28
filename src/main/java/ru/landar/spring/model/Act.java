@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -78,6 +79,7 @@ public class Act extends IBase {
     public void setList_doc(List<Act_document> list_doc) { this.list_doc = list_doc; }
 	
     private void updateName() {
+    	AutowireHelper.autowire(this);
     	String name = "";
     	if (!hs.isEmpty(getAct_number())) name = "№ " + getAct_number();
     	if (getAct_date() != null) name += (!name.isEmpty() ? " от " : "От ") + new SimpleDateFormat("dd.MM.yyyy").format(getAct_date());
