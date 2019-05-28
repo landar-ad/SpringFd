@@ -28,7 +28,7 @@ page_init = function(list, clazzItem) {
 	add_on($('.add-item'), 'click', function(event) {
 		var popupUrl = $(event.delegateTarget).attr("data-popup-url");
 		var editUrl = $(event.delegateTarget).attr("data-edit-url");
-		if (!popuUrl || !editUrl) {
+		if (!popupUrl || !editUrl) {
 			executeItem(list, clazzItem, "add", null);
 			return;
 		}

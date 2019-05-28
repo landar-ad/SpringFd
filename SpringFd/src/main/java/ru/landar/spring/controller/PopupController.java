@@ -47,7 +47,7 @@ public class PopupController {
 		for (String s : ss) {
 			int k = s.indexOf('=');
 			if (k < 0) continue;
-			String name = s.substring(0, k), title = s.substring(k);
+			String name = s.substring(0, k), title = s.substring(k + 1);
 			listColumn.add(new ColumnInfo(name, title));
 		}
 		model.addAttribute("listColumn", listColumn);
