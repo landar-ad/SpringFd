@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -40,8 +41,15 @@ public class PopupController {
 							@RequestParam("p_filter") Optional<String> pFilterParam,
 							HttpServletRequest request,
 							Model model) throws Exception {
-		String column = pColumnParam.orElse("name");
-		List<String> listColumn = Arrays.asList(column.split(","));
+		String column = pColumnParam.orElse("name=Наименование");
+		String[] ss = column.split(";");
+		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();
+		for (String s : ss) {
+			int k = s.indexOf('=');
+			if (k < 0) continue;
+			String name = s.substring(0, k), title = s.substring(k);
+			listColumn.add(new ColumnInfo(name, title));
+		}
 		model.addAttribute("listColumn", listColumn);
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
