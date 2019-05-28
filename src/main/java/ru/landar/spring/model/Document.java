@@ -257,6 +257,9 @@ public class Document extends IBase {
     	Integer rn = getRn();
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
+    		String code = null;
+    		try { code = getDoc_status().getCode(); } catch (Exception ex) { }
+    		if (!"1".equals(code)) return false;
 	     	IUser user = userService.getUser((String)null);
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();

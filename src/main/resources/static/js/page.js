@@ -1,31 +1,27 @@
-page_init = function(list, clazz) {
-	clear_param = function() {
-		$("input[name='list']").val("");
-		$("input[name='clazzItem']").val("");
-		$("input[name='cmdItem']").val("");
-		$("input[name='rnItem']").val("");
-	};
-	executeItem = function (list, clazz, cmd, rn) {
-		$("input[name='list']").val(list);
-		$("input[name='clazzItem']").val(clazz);
-		$("input[name='cmdItem']").val(cmd);
-		$("input[name='rnItem']").val(rn);
+page_init = function(list, clazzItem) {
+	executeItem = function (list, clazzItem, cmd, rnItem) {
 		var h = $('.fit-height').outerHeight();
 		var form = $('.form').first();
-		var b = true;
-		$(':required:invalid').each(function () { b = false; });
-		if (!b) return;
-		$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+		var clazz = form.find('input[name="clazz"]').val();
+		var rn = form.find('input[name="rn"]').val();
+		$.ajax({ method: "POST", 
+			url: "executeItem",
+			data: {
+				clazz: clazz,
+				rn: rn,
+				list: list,
+				clazzItem: clazzItem,
+				cmdItem: cmd,
+				rnItem: rnItem
+			},
 			success: function(result) {
 				var div = $('<div></div>');
 				div.html(result);
-				$('.fit-height').html(div.find('.fit-height'));
+				$('#' + list).html(div.find('#' + list).html());
 				$('.fit-height').outerHeight(h);
-				page_init(list, clazz);
-				clear_param();
+				page_init(list, clazzItem);
 			},
 			error: function() {
-				clear_param();
 			}
 		});
 	};
@@ -51,7 +47,6 @@ page_init = function(list, clazz) {
 						add_on($("#save-button"), "click", function() {
 							var form = $('.modal').find('.form');
 							form.find("input[name='p_popup']").val("1");
-							//var data = form.serialize();
 							var data = new FormData(form[0]);
 							$.ajax({ 
 								method: form.attr('method'), url: 
@@ -62,8 +57,8 @@ page_init = function(list, clazz) {
 								success: function(result) {
 									var div = $('<div></div>');
 									div.html(result);
-									var rn = div.find("input[name='rn']").val();
-									if (rn > 0) executeItem(list, clazz, "add", rn);
+									var rnItem = div.find("input[name='rn']").val();
+									if (rnItem > 0) executeItem(list, clazzItem, "add", rnItem);
 								},
 								error: function() {
 								}
@@ -82,6 +77,6 @@ page_init = function(list, clazz) {
 		});
 	});
 	add_on($('.remove-item'), 'click', function(event) {
-		executeItem(list, clazz, "remove", $(event.delegateTarget).attr("data-item"));
+		executeItem(list, clazzItem, "remove", $(event.delegateTarget).attr("data-item"));
 	});
 };
