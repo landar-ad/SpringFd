@@ -1,18 +1,16 @@
 list_init = function() {
-	form_submit = function(frg) {
-		if (!frg) frg = "listTop";
+	form_submit = function() {
 		var h = $('.fit-height').outerHeight();
-		$("input[name='p_refreshElement']").val(frg);
 		var form = $('#formSubmit');
 		$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
 			success: function(result) {
-				if (result.indexOf("</body>") < 0) $("#" + frg).html(result);
-				else $(document).html(result);
+				var div = $('<div></div>');
+				div.html(result);
+				$('.fit-height').html(div.find('.fit-height').html());
 				$('.fit-height').outerHeight(h);
 				list_init();
 			}
 		});
-		$("input[name='p_refreshElement']").val("");
 	};
 	exec_obj = function(op) {
 		var rn = $('input[name="rn"]').val();
@@ -134,7 +132,7 @@ list_init = function() {
 			}
 		});
 		$("input[name='p_listVisible']").val(v);
-		form_submit("objTable");
+		form_submit();
 		$("input[name='p_listVisible']").val("");
 	});	
 };
