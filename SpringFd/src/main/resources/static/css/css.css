@@ -91,3 +91,6 @@ body {
 .input_time {
 	font-size: 100%;
 }
+.not-visible {
+	display: none;
+}

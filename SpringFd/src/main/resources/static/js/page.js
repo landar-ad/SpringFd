@@ -26,6 +26,17 @@ page_init = function(list, clazzItem) {
 		});
 	};
 	add_on($('.add-item'), 'click', function(event) {
+		$(".first-row").clone().insertBefore($(".last-row")).show();
+	});
+	add_on($('.remove-item'), 'click', function(event) {
+		$(event.delegateTarget).closest("tr").remove();
+	});
+	add_on($('.view-item'), 'click', function(event) {
+		var url = document.baseURI + "/fileView?rn=" + $(event.delegateTarget).attr("data-item");
+		window.open(url, '_blank');
+	});
+	/*
+	add_on($('.add-item'), 'click', function(event) {
 		var popupUrl = $(event.delegateTarget).attr("data-popup-url");
 		var editUrl = $(event.delegateTarget).attr("data-edit-url");
 		if (!popupUrl || !editUrl) {
@@ -83,4 +94,5 @@ page_init = function(list, clazzItem) {
 	add_on($('.remove-item'), 'click', function(event) {
 		executeItem(list, clazzItem, "remove", $(event.delegateTarget).attr("data-item"));
 	});
+	*/
 };
