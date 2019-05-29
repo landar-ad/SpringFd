@@ -37,8 +37,31 @@ page_init = function(list, clazzItem) {
 			}
 		});
 	};
+	edited = function(c) {
+		var a = $(c).find("input,div,select,textarea").first();
+		var s = $(c).find("span").first();
+		if (a) {
+			a.val($(s).text());
+			s.hide();
+			a.show();
+			a.focus();
+			add_on($(a), "keypress", function(e) {
+				if (e.which == 13) {
+					$(s).text($(this).val());
+					$(this).hide();
+					s.show();
+					e.preventDefault();
+				}
+				if (e.which == 27) {
+					$(this).hide();
+					s.show();
+					e.preventDefault();
+				}
+			});
+		}
+	};
 	add_on($('.edited'), 'click', function(event) {
-		
+		edited(this);
 	});
 	add_on($('.add-item'), 'click', function(event) {
 		var b = $(".first-row").clone().insertBefore($(".last-row"));
@@ -50,6 +73,9 @@ page_init = function(list, clazzItem) {
 		add_on(b.find('.custom-file-input'), "change", function() { 
 			   var fileName = $(this).val().split('\\').pop(); 
 			   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+		});
+		add_on(b.find('.edited'), 'click', function(event) {
+			edited(this);
 		});
 	});
 	add_on($('.remove-item'), 'click', function(event) {
