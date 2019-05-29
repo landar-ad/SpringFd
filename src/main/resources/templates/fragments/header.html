@@ -85,7 +85,7 @@
 	            	</div>
 	            </th>
 	        </tr>
-	        <tr th:if="${l_f}" id="filterRow">
+	        <tr th:if="${l_f}" id="filterRow" class="not-visible">
 	        	<th class="d-none"></th>
 	        	<th id="findButton" class="pointer"><i class="fa fa-sm fa-search" aria-hidden="true"></i></th>
 	        	<th th:each="col : ${listColumn}">
