@@ -59,13 +59,12 @@ public class ObjController {
 						  @RequestParam("p_page") Optional<Integer> pageParam,
 						  @RequestParam("p_block") Optional<Integer> blockParam,
 						  @RequestParam("rn") Optional<Integer> rnParam,
-						  @RequestParam("p_refreshElement") Optional<String> refreshElementParam,
 						  @RequestParam("p_listVisible") Optional<String> listVisibleParam,
 						  HttpServletRequest request, 
 						  Model model) throws Exception {
 		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
 		Integer rn = rnParam.orElse(null);
-		String refreshElement = refreshElementParam.orElse(null), listVisible = listVisibleParam.orElse(null);
+		String listVisible = listVisibleParam.orElse(null);
 		Class<Object> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = cl.newInstance();
@@ -90,7 +89,7 @@ public class ObjController {
 				continue;
 			}
 			if (hs.isEmpty(v) || "clazz".equals(p) || "rn".equals(p) || "p_off".equals(p) || "p_page".equals(p) || "p_block".equals(p) ||  
-				"p_listVisible".equals(p) || "p_refreshElement".equals(p)) continue;
+				"p_listVisible".equals(p)) continue;
 			Class<?> attrType = hs.getAttrType(cl, p);
 			if (attrType == null) continue;
 			listAttr.add(p);
@@ -189,8 +188,6 @@ public class ObjController {
 		}
 		// Объект вспомогательных сервисов
 		model.addAttribute("hs", hs);
-		// Неполная прорисовка страницы
-		if (!hs.isEmpty(refreshElement) && hs.templateExists("fragments/list")) return "fragments/list::" + refreshElement;
 		// Страница по имени класса или страница по умолчанию
 		String t = "list" + clazz + "Page";
 		return hs.templateExists(t) ? t : "listObjPage";
