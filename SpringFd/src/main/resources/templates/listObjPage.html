@@ -8,6 +8,21 @@
 			size_init();
 		});
 	</script>
-	<div th:replace="fragments/list :: listTop"></div>
+	<div th:with="l_p=${p_paging!=null && p_paging}" id="listTop" class="h-100">
+		<header th:replace="fragments/header :: header"></header>
+	   	<div class="col fit-height">
+		 	<form id="formSubmit" th:action="${'listObj?clazz=' + clazz}" method="POST" novalidate  autocomplete="off">
+		 		<div th:replace="fragments/header :: list-param"></div>
+				<div th:replace="fragments/header :: list-buttons"></div>
+				<div th:if="${l_p}"><div th:replace="fragments/pager :: pager-param"></div></div>
+			    <table th:replace="fragments/header :: list-table"></table>
+			    <div th:replace="fragments/header :: visible"></div>
+		     </form>
+		</div>
+		<footer class="footer">
+	    	<div th:if="${l_p}"><div th:replace="fragments/pager :: pager"></div></div>
+	    	<div th:if="${!l_p}"><div th:replace="fragments/pager :: total"></div></div>
+	    </footer>
+    </div>
 </body>
 </html>
