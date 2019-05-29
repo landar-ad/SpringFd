@@ -27,6 +27,10 @@ page_init = function(list, clazzItem) {
 	};
 	add_on($('.add-item'), 'click', function(event) {
 		$(".first-row").clone().insertBefore($(".last-row")).show();
+		add_on($('.custom-file-input'), "change", function() { 
+			   var fileName = $(this).val().split('\\').pop(); 
+			   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+		});
 	});
 	add_on($('.remove-item'), 'click', function(event) {
 		$(event.delegateTarget).closest("tr").remove();

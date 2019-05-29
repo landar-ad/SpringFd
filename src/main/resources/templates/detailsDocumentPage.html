@@ -5,6 +5,10 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('.input_date').datepicker({language: "ru"});
+			add_on($('.custom-file-input'), "change", function() { 
+				   var fileName = $(this).val().split('\\').pop(); 
+				   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+			});
 			size_init();
 			page_init("list_file", "IFile");
 		});
