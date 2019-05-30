@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 
+import javax.servlet.http.Part;
+
 import ru.landar.spring.classes.Operation;
 
 public interface HelperService {
@@ -11,6 +13,7 @@ public interface HelperService {
 	boolean isEmptyTrim(String v);
 	Object getObjectByString(Class<?> cl, String attr, String v);
 	Object getObjectByString(String v, Class<?> clType);
+	Object getObjectByPart(Part part) throws Exception;
 	Class<?> getAttrType(Class<?> cl, String attr);
 	Field[] getFields(Class<?> cl, boolean persist);
 	String getTitleByAttr(String attr);

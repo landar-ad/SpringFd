@@ -3,6 +3,7 @@ package ru.landar.spring.service;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,11 +27,13 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.servlet.http.Part;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolution;
@@ -39,6 +42,8 @@ import org.thymeleaf.templateresource.ITemplateResource;
 import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
+import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.SpFileType;
 
 @Component
 public class HelperServiceImpl implements HelperService {
@@ -112,7 +117,40 @@ public class HelperServiceImpl implements HelperService {
 		try { return getObjectByString(v, cl.getMethod(getter).getReturnType()); } catch (Exception e) { }
 		return v;
 	}
-	
+	@Override
+	public Object getObjectByPart(Part part) throws Exception {
+		IFile f = null;
+		String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
+		if (isEmpty(filesDirectory)) filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
+		for (; ;) {
+			InputStream is = part.getInputStream();
+			if (is == null) break;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			long length = copyStream(is, baos, true, true);
+			if (length == 0) break;
+			is = new ByteArrayInputStream(baos.toByteArray());
+			String filename = part.getSubmittedFileName();
+			if (isEmpty(filename)) break;
+			f = new IFile();
+			String fileext = "", name = filename;
+			f.setFilename(filename);
+			int k = filename.lastIndexOf('.');
+			fileext = k > 0 ? filename.substring(k + 1) : "";
+			name = k > 0 ? filename.substring(0, k) : filename;
+			f.setFileext(fileext);
+			if (!isEmpty(fileext)) {
+				SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, fileext.toLowerCase());
+				f.setFiletype(filetype);
+			}
+			File fd = new File(filesDirectory + new SimpleDateFormat(".yyyy.MM.dd").format(new Date()).replace('.', File.separatorChar));
+			fd.mkdirs();
+			File ff = new File(fd, new SimpleDateFormat("HHmmss").format(new Date()) + "_" + name + (!fileext.isEmpty() ? "." + fileext : ""));
+			f.setFilelength(copyStream(is, new FileOutputStream(ff), true, true));
+			f.setFileuri(ff.getAbsolutePath());
+			break;
+		}
+		return f;
+	}
 	@Override
 	public Class<?> getAttrType(Class<?> cl, String attr) {
 		Class<?> ret = null;
