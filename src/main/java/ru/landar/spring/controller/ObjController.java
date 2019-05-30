@@ -316,7 +316,10 @@ public class ObjController {
 					try { objService.executeItem(obj, list, cmd, clItem.getSimpleName(), rnItem); } catch (Exception ex) { }
 				}
 				else if ("add".equals(cmd) && rnItem == null) {
-					try { item = objService.executeItem(obj, list, cmd, (String)lclazz.get(i), null); } catch (Exception ex) { }
+					try { 
+						item = objService.executeItem(obj, list, cmd, (String)lclazz.get(i), null);
+						item = objService.saveObj(item);
+					} catch (Exception ex) { }
 				}
 				else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
 					item = objService.find(clItem, rnItem);
