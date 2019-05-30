@@ -47,9 +47,13 @@ page_init = function(list, clazzItem) {
 			a.focus();
 			add_on($(a), "keypress", function(e) {
 				if (e.which == 13) {
-					$(s).text($(this).val());
+					var t = $(this).val();
+					if ($(this).prop("tagName").toLowerCase() == "div") t = $(this).find("input").val().split('\\').pop(); 
+					$(s).text(t);
 					$(this).hide();
 					s.show();
+					var cmd = $(c).find(".d-none .cmd").text();
+					if (cmd != "add") $(c).find(".d-none .cmd").text("update");
 					e.preventDefault();
 				}
 				if (e.which == 27) {
@@ -64,22 +68,25 @@ page_init = function(list, clazzItem) {
 		edited(this);
 	});
 	add_on($('.add-item'), 'click', function(event) {
-		var b = $(".first-row").clone().insertBefore($(".last-row"));
-		b.removeClass("first-row");
-		b.show();
-		add_on(b.find('.remove-item'), 'click', function(event) {
+		var c = $(".first-row").clone().insertBefore($(".last-row"));
+		c.removeClass("first-row");
+		$(c).find(".d-none .cmd").text("add");
+		c.show();
+		add_on(c.find('.remove-item'), 'click', function(event) {
 			$(event.delegateTarget).closest("tr").hide();
 		});
-		add_on(b.find('.custom-file-input'), "change", function() { 
+		add_on(c.find('.custom-file-input'), "change", function() { 
 			   var fileName = $(this).val().split('\\').pop(); 
 			   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
 		});
-		add_on(b.find('.edited'), 'click', function(event) {
+		add_on(c.find('.edited'), 'click', function(event) {
 			edited(this);
 		});
 	});
 	add_on($('.remove-item'), 'click', function(event) {
-		$(event.delegateTarget).closest("tr").hide();
+		var c = $(event.delegateTarget).closest("tr");
+		$(c).find(".d-none .cmd").text("remove");
+		c.hide();
 	});
 	add_on($('.view-item'), 'click', function(event) {
 		var url = document.baseURI + "/fileView?rn=" + $(event.delegateTarget).attr("data-item");

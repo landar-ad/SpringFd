@@ -259,7 +259,7 @@ public class Document extends IBase {
     	if (op == Operation.update || op == Operation.delete) {
     		String code = null;
     		try { code = getDoc_status().getCode(); } catch (Exception ex) { }
-    		if (!"1".equals(code)) return false;
+    		if (code != null && !"1".equals(code)) return false;
 	     	IUser user = userService.getUser((String)null);
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();
@@ -277,7 +277,6 @@ public class Document extends IBase {
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
-    	
     	if (!mapChanged.isEmpty()) {
 	    	Date dt = new Date();
 	    	IUser user = userService.getUser((String)null);

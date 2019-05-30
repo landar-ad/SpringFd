@@ -203,6 +203,7 @@ public class ObjController {
 		Integer rn = paramRn.orElse(null);
 		Integer prn = paramPrn.orElse(null);
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
+		if (rn == null) hs.invoke(obj, "onNew");
 		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		model.addAttribute("hs", hs);
 		if (prn != null) model.addAttribute("prn", prn);
@@ -214,28 +215,24 @@ public class ObjController {
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.POST)
 	public String detailsObjPost(@RequestParam("clazz") String clazz, 
 								 @RequestParam("rn") Optional<Integer> paramRn, 
-								 @RequestParam("fileInput") Optional<MultipartFile> fileParam,
-								 @RequestParam("p_popup") Optional<Integer> paramPopup,
-								 @RequestParam("list") Optional<String> listParam,
-								 @RequestParam("clazzItem") Optional<String> clazzItemParam,
-								 @RequestParam("cmdItem") Optional<String> cmdItemParam,
-								 @RequestParam("rnItem") Optional<Integer> rnItemParam,
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		Integer rn = paramRn.orElse(null);
-		Integer popup = paramPopup.orElse(null);
 		Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
-		Map<String, Object> mapFile = new LinkedHashMap<String, Object>();
-		mapFile.put("fileuri", fileParam.orElse(null));
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
+		Map<String, Object> mapItems = new LinkedHashMap<String, Object>();
 		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
 		for (String p : listNames) {
 			String v = request.getParameter(p);
 			if ("clazz".equals(p) || "rn".equals(p)) continue;
-			else if (p.startsWith("file__")) {
-				p = p.substring(6);
-				mapFile.put(p, hs.getObjectByString(IFile.class, p, v));
+			int k = p.indexOf("__");
+			if (k > 0)
+			{
+				String a = p.substring(0, k);
+				Class<?> clItem = hs.getAttrType(cl, a);
+				if (clItem == null) continue;
+				mapItems.put(p, v);
 				continue;
 			}
 			if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, v));
@@ -252,7 +249,7 @@ public class ObjController {
 		});
 		objService.saveObj(obj);
 		// Добавление информации об изменении объекта
-		hs.invoke(obj, "onUpdate", mapFile, mapChanged);
+		hs.invoke(obj, "onUpdate", mapItems, mapChanged);
 		// Запись в журнал
 		objService.writeLog(userService.getPrincipal(), 
 							obj, 
@@ -260,22 +257,6 @@ public class ObjController {
 							rn == null ? "create" : "update", 
 							(String)request.getSession().getAttribute("ip"), 
 							(String)request.getSession().getAttribute("browser"));
-		// Добавление объекта в список
-		String listAttr = listParam.orElse(null), clazzItem = clazzItemParam.orElse(null), cmd = cmdItemParam.orElse("add");
-		Integer rnItem = rnItemParam.orElse(null);
-		if (!hs.isEmpty(listAttr) && !hs.isEmpty(clazzItem)) {
-			objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem);
-			model.addAttribute("hs", hs);
-			setObjModel(obj, model);
-			String t = "details" + clazz + "Page";
-			return hs.templateExists(t) ? t : "detailsObjPage";
-		}
-		if (popup != null && popup.compareTo(1) == 0) {
-			model.addAttribute("hs", hs);
-			setObjModel(obj, model);
-			String t = "details" + clazz + "Page";
-			return hs.templateExists(t) ? t : "detailsObjPage";
-		}
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
