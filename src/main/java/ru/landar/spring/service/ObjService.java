@@ -29,5 +29,5 @@ public interface ObjService {
     ISettings loadSettings(String code, String type);
     Page<SearchContent> search(String text, int off, int page);
     void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser);
-    void executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem) throws Exception;
+    Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem) throws Exception;
 }

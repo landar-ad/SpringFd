@@ -207,7 +207,7 @@ public class ObjServiceImpl implements ObjService {
 		}
 	}
 	@Override
-	public void executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem) throws Exception {
+	public Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem) throws Exception {
 		Object listObj = hs.getProperty(obj, listAttr);
 		if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
 		List list = (List<?>)listObj;
@@ -223,6 +223,7 @@ public class ObjServiceImpl implements ObjService {
 			list.add(item);
 			hs.setProperty(obj, listAttr, list);
 			saveObj(obj);
+			return item;
 		}
 		else if ("remove".equals(cmd)) {
 			if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления из списка");
@@ -239,6 +240,7 @@ public class ObjServiceImpl implements ObjService {
 			if (objItem == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem);
 			removeObj(objItem);
 		}
+		return null;
 	}
 }
 
