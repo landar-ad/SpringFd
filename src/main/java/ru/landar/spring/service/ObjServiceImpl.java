@@ -218,7 +218,7 @@ public class ObjServiceImpl implements ObjService {
 			if (rnItem == null) {
 				hs.invoke(item, "onNew");
 				hs.setProperty(item, "parent", obj);
-				createObj(item);
+				item = createObj(item);
 			}
 			list.add(item);
 			hs.setProperty(obj, listAttr, list);
