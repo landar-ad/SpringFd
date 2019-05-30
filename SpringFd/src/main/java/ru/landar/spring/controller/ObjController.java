@@ -280,12 +280,7 @@ public class ObjController {
 				}
 				String attr = p.substring(k + 2);
 				Map<String, Object> m = (Map<String, Object>)o;
-				List<Object> l = (List<Object>)m.get(attr);
-				if (l == null) {
-					l = new ArrayList<Object>();
-					m.put(attr, l);
-				}
-				l.add(Arrays.asList(vs));
+				m.put(attr, Arrays.asList(vs));
 			}
 			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
 		}
