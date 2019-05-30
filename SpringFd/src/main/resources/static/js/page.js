@@ -40,11 +40,22 @@ page_init = function(list, clazzItem) {
 	edited = function(c) {
 		var a = $(c).find("input,div,select,textarea").first();
 		var s = $(c).find("span").first();
+		var b = $(c).closest("tr"); 
 		if (a) {
 			a.val($(s).text());
 			s.hide();
 			a.show();
 			a.focus();
+			add_on($(a), "blur", function(e) {
+				var t = $(this).val();
+				if ($(this).prop("tagName").toLowerCase() == "div") t = $(this).find("input").val().split('\\').pop(); 
+				$(s).text(t);
+				$(this).hide();
+				s.show();
+				var cmd = $(b).find(".cmd > input").val();
+				if (cmd != "add") $(b).find(".cmd > input").val("update");
+				e.preventDefault();
+			});
 			add_on($(a), "keypress", function(e) {
 				if (e.which == 13) {
 					var t = $(this).val();
@@ -52,8 +63,8 @@ page_init = function(list, clazzItem) {
 					$(s).text(t);
 					$(this).hide();
 					s.show();
-					var cmd = $(c).find(".cmd > input").val();
-					if (cmd != "add") $(c).find(".cmd > input").val("update");
+					var cmd = $(b).find(".cmd > input").val();
+					if (cmd != "add") $(b).find(".cmd > input").val("update");
 					e.preventDefault();
 				}
 				if (e.which == 27) {

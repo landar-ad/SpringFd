@@ -55,7 +55,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
 		em.persist(obj);
 		em.flush();
-		return obj;
+		
+		return em.find(obj.getClass(), hs.getProperty(obj, "rn"));
 	}
 	@Override
 	@Transactional(propagation = Propagation.MANDATORY)
