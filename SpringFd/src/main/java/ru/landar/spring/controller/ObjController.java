@@ -1,7 +1,10 @@
 package ru.landar.spring.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -222,9 +226,12 @@ public class ObjController {
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
 		Map<String, Object> mapItems = new LinkedHashMap<String, Object>();
-		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
-		for (String p : listNames) {
-			String v = request.getParameter(p);
+		// multipart-data
+		Collection<Part> colParts = request.getParts();
+		for (Part part : colParts) {
+			String p = part.getName();
+			// Берем только файлы
+			if (part.getSubmittedFileName() == null) continue;
 			if ("clazz".equals(p) || "rn".equals(p)) continue;
 			int k = p.indexOf("__");
 			if (k > 0)
@@ -232,10 +239,30 @@ public class ObjController {
 				String a = p.substring(0, k);
 				Class<?> clItem = hs.getAttrType(cl, a);
 				if (clItem == null) continue;
-				mapItems.put(p, v);
-				continue;
+				List<Object> l = (List<Object>)mapItems.get(p);
+				if (l == null) {
+					l = new ArrayList<Object>();
+					mapItems.put(p, l);
+				}
+				l.add(hs.getObjectByPart(part));
 			}
-			if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, v));
+			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByPart(part));
+		}
+		// form-url-encoded
+		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
+		for (String p : listNames) {
+			if (mapItems.containsKey(p)) continue;
+			String[] vs = request.getParameterValues(p);
+			if ("clazz".equals(p) || "rn".equals(p)) continue;
+			int k = p.indexOf("__");
+			if (k > 0)
+			{
+				String a = p.substring(0, k);
+				Class<?> clItem = hs.getAttrType(cl, a);
+				if (clItem == null) continue;
+				mapItems.put(p, Arrays.asList(vs));
+			}
+			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
 		}
 		// Изменение объекта
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
@@ -244,8 +271,10 @@ public class ObjController {
 		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
 		mapValue.forEach((attr, valueNew) -> {
 			Object valueOld = hs.getProperty(obj, attr);
-			if (!hs.equals(valueOld, valueNew)) mapChanged.put(attr, new Object[]{valueOld, valueNew}); 
-			hs.setProperty(obj, attr, valueNew);
+			if (!hs.equals(valueOld, valueNew)) {
+				mapChanged.put(attr, new Object[]{valueOld, valueNew});
+				hs.setProperty(obj, attr, valueNew);
+			}
 		});
 		objService.saveObj(obj);
 		// Добавление информации об изменении объекта

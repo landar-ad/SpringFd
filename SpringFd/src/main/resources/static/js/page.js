@@ -52,8 +52,8 @@ page_init = function(list, clazzItem) {
 					$(s).text(t);
 					$(this).hide();
 					s.show();
-					var cmd = $(c).find(".d-none .cmd").text();
-					if (cmd != "add") $(c).find(".d-none .cmd").text("update");
+					var cmd = $(c).find(".cmd > input").val();
+					if (cmd != "add") $(c).find(".cmd > input").val("update");
 					e.preventDefault();
 				}
 				if (e.which == 27) {
@@ -70,7 +70,7 @@ page_init = function(list, clazzItem) {
 	add_on($('.add-item'), 'click', function(event) {
 		var c = $(".first-row").clone().insertBefore($(".last-row"));
 		c.removeClass("first-row");
-		$(c).find(".d-none .cmd").text("add");
+		$(c).find(".cmd > input").val("add");
 		c.show();
 		add_on(c.find('.remove-item'), 'click', function(event) {
 			$(event.delegateTarget).closest("tr").hide();
@@ -85,7 +85,7 @@ page_init = function(list, clazzItem) {
 	});
 	add_on($('.remove-item'), 'click', function(event) {
 		var c = $(event.delegateTarget).closest("tr");
-		$(c).find(".d-none .cmd").text("remove");
+		$(c).find(".cmd > input").val("remove");
 		c.hide();
 	});
 	add_on($('.view-item'), 'click', function(event) {
