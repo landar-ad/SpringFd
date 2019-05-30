@@ -287,7 +287,6 @@ public class Document extends IBase {
 	    	setChange_time(dt);
 	    	if (mapChanged.containsKey("doc_status")) setTime_status(dt);
     	}
-    	
 		return true;
     }
 }

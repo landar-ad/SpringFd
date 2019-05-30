@@ -197,7 +197,7 @@ public class HelperServiceImpl implements HelperService {
 				Method mGet = obj.getClass().getMethod(getter);
 				if (i == as.length - 1) {
 					String setter = "set" + a.substring(0, 1).toUpperCase() + a.substring(1);
-					Method mSet = o.getClass().getMethod(setter, mGet.getReturnType()); 
+					Method mSet = o.getClass().getMethod(setter, mGet.getReturnType());
 					mSet.invoke(o, value);
 				}
 				else o = mGet.invoke(o);

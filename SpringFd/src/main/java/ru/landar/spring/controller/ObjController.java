@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.SearchContent;
 import ru.landar.spring.model.SpActStatus;
@@ -239,19 +241,30 @@ public class ObjController {
 				String a = p.substring(0, k);
 				Class<?> clItem = hs.getAttrType(cl, a);
 				if (clItem == null) continue;
-				List<Object> l = (List<Object>)mapItems.get(p);
+				Object o = mapItems.get(a);
+				if (o == null) {
+					o = new LinkedHashMap<String, Object>();
+					mapItems.put(a, o);
+				}
+				String attr = p.substring(k + 2);
+				Map<String, Object> m = (Map<String, Object>)o;
+				List<Object> l = (List<Object>)m.get(attr);
 				if (l == null) {
 					l = new ArrayList<Object>();
-					mapItems.put(p, l);
+					m.put(attr, l);
 				}
 				l.add(hs.getObjectByPart(part));
 			}
-			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByPart(part));
+			else if (hs.getAttrType(cl, p) != null) {
+				Object o = hs.getObjectByPart(part);
+				if (o != null) { 
+					mapValue.put(p, hs.getProperty(o, p));
+				}
+			}
 		}
 		// form-url-encoded
 		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
 		for (String p : listNames) {
-			if (mapItems.containsKey(p)) continue;
 			String[] vs = request.getParameterValues(p);
 			if ("clazz".equals(p) || "rn".equals(p)) continue;
 			int k = p.indexOf("__");
@@ -260,7 +273,19 @@ public class ObjController {
 				String a = p.substring(0, k);
 				Class<?> clItem = hs.getAttrType(cl, a);
 				if (clItem == null) continue;
-				mapItems.put(p, Arrays.asList(vs));
+				Object o = mapItems.get(a);
+				if (o == null) {
+					o = new LinkedHashMap<String, Object>();
+					mapItems.put(a, o);
+				}
+				String attr = p.substring(k + 2);
+				Map<String, Object> m = (Map<String, Object>)o;
+				List<Object> l = (List<Object>)m.get(attr);
+				if (l == null) {
+					l = new ArrayList<Object>();
+					m.put(attr, l);
+				}
+				l.add(Arrays.asList(vs));
 			}
 			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
 		}
@@ -274,6 +299,46 @@ public class ObjController {
 			if (!hs.equals(valueOld, valueNew)) {
 				mapChanged.put(attr, new Object[]{valueOld, valueNew});
 				hs.setProperty(obj, attr, valueNew);
+			}
+		});
+		// list - атрибут списка
+		mapItems.forEach((list, o) -> {
+			Map<String, Object> map = (Map<String, Object>)o;
+			List<Object> lcmd = (List<Object>)map.get("p_cmd");
+			if (lcmd == null) return;
+			List<Object> lrn = (List<Object>)map.get("rn");
+			List<Object> lclazz = (List<Object>)map.get("clazz");
+			for (int i=0; i<lcmd.size(); i++) {
+				String cmd = (String)lcmd.get(i);
+				if (hs.isEmpty(cmd)) continue;
+				Integer rnItem = null;
+				try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
+				String clazzItem = (String)lclazz.get(i); 
+				Class<?> clItem = objService.getClassByName(clazzItem);
+				if (clItem == null) continue;
+				Object item = null;
+				if ("remove".equals(cmd) && rnItem != null) {
+					try { objService.executeItem(obj, list, cmd, clItem.getSimpleName(), rnItem); } catch (Exception ex) { }
+				}
+				else if ("add".equals(cmd) && rnItem == null) {
+					try { item = objService.executeItem(obj, list, cmd, (String)lclazz.get(i), null); } catch (Exception ex) { }
+				}
+				else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
+					item = objService.find(clItem, rnItem);
+				}
+				if (item != null) {
+					Iterator<String> it = map.keySet().iterator();
+					while (it.hasNext()) {
+						String ap = it.next();
+						if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap)) continue;
+						List<Object> lvalue = (List<Object>)map.get(ap);
+						Object v = lvalue.get(i);
+						if (v != null && v instanceof IBase) v = hs.getProperty(v, ap);
+						else v = hs.getObjectByString(clItem, ap, (String)v);
+						hs.setProperty(item, ap, v);
+					}
+					objService.saveObj(item);
+				}
 			}
 		});
 		objService.saveObj(obj);
