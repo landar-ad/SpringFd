@@ -38,7 +38,7 @@ page_init = function(list, clazzItem) {
 		});
 	};
 	start_edit = function(c) {
-		$.each(".edited", function() { cancel_edit(this); });
+		$.each($(".edited"), function() { cancel_edit(this); });
 		var a = $(c).find("input,div,select,textarea").first(), q = a;
 		var s = $(c).find("span").first();
 		var b = $(c).closest("tr"); 
