@@ -228,7 +228,29 @@ public class ObjController {
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
 		Map<String, Object> mapItems = new LinkedHashMap<String, Object>();
-		// multipart-data
+		// Все кроме файлов
+		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
+		for (String p : listNames) {
+			String[] vs = request.getParameterValues(p);
+			if ("clazz".equals(p) || "rn".equals(p)) continue;
+			int k = p.indexOf("__");
+			if (k > 0)
+			{
+				String a = p.substring(0, k);
+				Class<?> clItem = hs.getAttrType(cl, a);
+				if (clItem == null) continue;
+				Object o = mapItems.get(a);
+				if (o == null) {
+					o = new LinkedHashMap<String, Object>();
+					mapItems.put(a, o);
+				}
+				String attr = p.substring(k + 2);
+				Map<String, Object> m = (Map<String, Object>)o;
+				m.put(attr, Arrays.asList(vs));
+			}
+			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
+		}
+		// Файлы
 		Collection<Part> colParts = request.getParts();
 		for (Part part : colParts) {
 			String p = part.getName();
@@ -236,8 +258,7 @@ public class ObjController {
 			if (part.getSubmittedFileName() == null) continue;
 			if ("clazz".equals(p) || "rn".equals(p)) continue;
 			int k = p.indexOf("__");
-			if (k > 0)
-			{
+			if (k > 0) {
 				String a = p.substring(0, k);
 				Class<?> clItem = hs.getAttrType(cl, a);
 				if (clItem == null) continue;
@@ -259,30 +280,15 @@ public class ObjController {
 				Object o = hs.getObjectByPart(part);
 				if (o != null) { 
 					mapValue.put(p, hs.getProperty(o, p));
+					if (o instanceof IFile && "fileuri".equals(p)) {
+						IFile f = (IFile)o;
+						if (f.getFilename() != null) mapValue.put("filename", f.getFilename());
+						if (f.getFileext() != null) mapValue.put("fileext", f.getFileext());
+						if (f.getFiletype() != null) mapValue.put("filetype", "" + f.getFiletype().getRn());
+						if (f.getFilelength() != null) mapValue.put("filelength", "" + f.getFilelength());
+					}
 				}
 			}
-		}
-		// form-url-encoded
-		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
-		for (String p : listNames) {
-			String[] vs = request.getParameterValues(p);
-			if ("clazz".equals(p) || "rn".equals(p)) continue;
-			int k = p.indexOf("__");
-			if (k > 0)
-			{
-				String a = p.substring(0, k);
-				Class<?> clItem = hs.getAttrType(cl, a);
-				if (clItem == null) continue;
-				Object o = mapItems.get(a);
-				if (o == null) {
-					o = new LinkedHashMap<String, Object>();
-					mapItems.put(a, o);
-				}
-				String attr = p.substring(k + 2);
-				Map<String, Object> m = (Map<String, Object>)o;
-				m.put(attr, Arrays.asList(vs));
-			}
-			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
 		}
 		// Изменение объекта
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
@@ -325,16 +331,21 @@ public class ObjController {
 					item = objService.find(clItem, rnItem);
 				}
 				if (item != null) {
+					Object f = null;
 					Iterator<String> it = map.keySet().iterator();
 					while (it.hasNext()) {
 						String ap = it.next();
 						if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap)) continue;
 						List<Object> lvalue = (List<Object>)map.get(ap);
 						Object v = lvalue.get(i);
-						if (v != null && v instanceof IBase) v = hs.getProperty(v, ap);
+						if (v != null && v instanceof IBase) {
+							v = hs.getProperty(v, ap);
+							f = v;
+						}
 						else v = hs.getObjectByString(clItem, ap, (String)v);
-						hs.setProperty(item, ap, v);
+						if (v != null) hs.setProperty(item, ap, v);
 					}
+					if (f != null) hs.copyProperties(f, item, true);
 					objService.saveObj(item);
 				}
 			}

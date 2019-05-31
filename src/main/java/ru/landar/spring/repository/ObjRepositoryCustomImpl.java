@@ -46,7 +46,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	@PersistenceContext
 	private EntityManager em;
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	//@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Object createObj(Object obj) {
 		if (obj instanceof IBase) {
 			String principal = userService.getPrincipal();
@@ -59,7 +59,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return em.find(obj.getClass(), hs.getProperty(obj, "rn"));
 	}
 	@Override
-	@Transactional(propagation = Propagation.MANDATORY)
+	//@Transactional(propagation = Propagation.MANDATORY)
 	public Object updateObj(Object obj) {
 		if (obj instanceof IBase) {
 			Date d = new Date();

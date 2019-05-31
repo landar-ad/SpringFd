@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ru.landar.spring.model.IFile;
 import ru.landar.spring.repository.UserRepositoryCustomImpl;
 import ru.landar.spring.service.ObjService;
 
@@ -44,10 +45,18 @@ public class TestController {
 		return UserRepositoryCustomImpl.encoder.encode(p);
 	}
 	
-	@RequestMapping(value = "/test/find", method = RequestMethod.GET, produces = "text/plain")
+	@RequestMapping(value = "/test/file", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
-	public String find() {
-		return "Найдено: " + 0;
+	public String test() {
+		IFile f = new IFile();
+		f.setFilename("1");
+		f = (IFile)objService.saveObj(f);
+		f.setFilename("2");
+		f = (IFile)objService.saveObj(f);
+		f = (IFile)objService.find(IFile.class,  f.getRn());
+		String ret = f.getFilename();
+		objService.removeObj(f);
+		return ret;
 	}
 	
 	@RequestMapping(value = "/test/pagination")
