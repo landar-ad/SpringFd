@@ -94,9 +94,9 @@ page_init = function(list, clazzItem) {
 			   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
 		});
 		add_on(c.find('.edited'), 'click', function(event) {
-			edited(this);
+			start_edit(this);
 		});
-		edited(c.find('.edited').first());
+		start_edit(c.find('.edited').first());
 	});
 	add_on($('.remove-item'), 'click', function(event) {
 		var c = $(event.delegateTarget).closest("tr");
