@@ -339,8 +339,8 @@ public class ObjController {
 						List<Object> lvalue = (List<Object>)map.get(ap);
 						Object v = lvalue.get(i);
 						if (v != null && v instanceof IBase) {
-							v = hs.getProperty(v, ap);
 							f = v;
+							v = hs.getProperty(v, ap);
 						}
 						else v = hs.getObjectByString(clItem, ap, (String)v);
 						if (v != null) hs.setProperty(item, ap, v);
