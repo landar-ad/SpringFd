@@ -221,6 +221,19 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
+	public void copyProperties(Object src, Object dest, boolean notNull) {
+		if (src == null || dest == null) return;
+		Field[] fs = getFields(src.getClass(), true);
+		for (Field f : fs) {
+			Object o1 = getProperty(src, f.getName());
+			if (notNull && o1 == null) continue;
+			if (!propertyExists(dest, f.getName())) continue;
+			Object o2 = getProperty(dest, f.getName());
+			if (notNull && o2 != null) continue;
+			setProperty(dest, f.getName(), o1);
+		}
+	}
+	@Override
 	public boolean propertyExists(Object obj, String attr) {
 		boolean ret = false;
 		try { 

@@ -19,6 +19,7 @@ public interface HelperService {
 	String getTitleByAttr(String attr);
 	void setProperty(Object obj, String attr, Object value);
 	Object getProperty(Object obj, String attr);
+	void copyProperties(Object src, Object dest, boolean notNull);
 	boolean propertyExists(Object obj, String attr);
 	Object getPropertyString(Object obj, String attr);
 	boolean equals(Object o1, Object o2);

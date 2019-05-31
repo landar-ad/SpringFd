@@ -38,19 +38,20 @@ page_init = function(list, clazzItem) {
 		});
 	};
 	edited = function(c) {
-		var a = $(c).find("input,div,select,textarea").first();
+		var a = $(c).find("input,div,select,textarea").first(), q = a;
 		var s = $(c).find("span").first();
 		var b = $(c).closest("tr"); 
 		if (a) {
-			a.val($(s).text());
 			s.hide();
-			a.show();
+			q.show();
+			if (a.prop("tagName").toLowerCase() == "div") a = a.find("input,select,textarea").first();
+			a.val(s.text());
 			a.focus();
 			add_on($(a), "blur", function(e) {
 				var t = $(this).val();
 				if ($(this).prop("tagName").toLowerCase() == "div") t = $(this).find("input").val().split('\\').pop(); 
-				$(s).text(t);
-				$(this).hide();
+				s.text(t);
+				q.hide();
 				s.show();
 				var cmd = $(b).find(".cmd > input").val();
 				if (cmd != "add") $(b).find(".cmd > input").val("update");
@@ -60,15 +61,15 @@ page_init = function(list, clazzItem) {
 				if (e.which == 13) {
 					var t = $(this).val();
 					if ($(this).prop("tagName").toLowerCase() == "div") t = $(this).find("input").val().split('\\').pop(); 
-					$(s).text(t);
-					$(this).hide();
+					s.text(t);
+					q.hide();
 					s.show();
 					var cmd = $(b).find(".cmd > input").val();
 					if (cmd != "add") $(b).find(".cmd > input").val("update");
 					e.preventDefault();
 				}
 				if (e.which == 27) {
-					$(this).hide();
+					q.hide();
 					s.show();
 					e.preventDefault();
 				}
