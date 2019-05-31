@@ -37,7 +37,8 @@ page_init = function(list, clazzItem) {
 			}
 		});
 	};
-	edited = function(c) {
+	start_edit = function(c) {
+		$.each(".edited", function() { cancel_edit(this); });
 		var a = $(c).find("input,div,select,textarea").first(), q = a;
 		var s = $(c).find("span").first();
 		var b = $(c).closest("tr"); 
@@ -49,25 +50,36 @@ page_init = function(list, clazzItem) {
 			a.focus();
 			add_on($(a), "keypress", function(e) {
 				if (e.which == 13) {
-					var t = $(this).val();
-					if (q.prop("tagName").toLowerCase() == "div") t = t.split('\\').pop(); 
-					s.text(t);
-					q.hide();
-					s.show();
-					var cmd = $(b).find(".cmd > input").val();
-					if (cmd != "add") $(b).find(".cmd > input").val("update");
+					stop_edit(this);
 					e.preventDefault();
 				}
 				if (e.which == 27) {
-					q.hide();
-					s.show();
+					cancel_edit(this);
 					e.preventDefault();
 				}
 			});
 		}
 	};
+	stop_edit = function(c) {
+		var a = $(c).find("input,div,select,textarea").first(), q = a;
+		var s = $(c).find("span").first();
+		var b = $(c).closest("tr"); 
+		var t = $(c).val();
+		if (q.prop("tagName").toLowerCase() == "div") t = t.split('\\').pop(); 
+		s.text(t);
+		q.hide();
+		s.show();
+		var cmd = $(b).find(".cmd > input").val();
+		if (cmd != "add") $(b).find(".cmd > input").val("update");
+	};
+	cancel_edit = function(c) {
+		var a = $(c).find("input,div,select,textarea").first(), q = a;
+		var s = $(c).find("span").first();
+		q.hide();
+		s.show();
+	};
 	add_on($('.edited'), 'click', function(event) {
-		edited(this);
+		start_edit(this);
 	});
 	add_on($('.add-item'), 'click', function(event) {
 		var c = $(".first-row").clone().insertBefore($(".last-row"));
