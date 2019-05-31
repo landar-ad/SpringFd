@@ -44,23 +44,13 @@ page_init = function(list, clazzItem) {
 		if (a) {
 			s.hide();
 			q.show();
-			if (a.prop("tagName").toLowerCase() == "div") a = a.find("input,select,textarea").first();
+			if (q.prop("tagName").toLowerCase() == "div") a = q.find("input,select,textarea").first();
 			a.val(s.text());
 			a.focus();
-			add_on($(a), "blur", function(e) {
-				var t = $(this).val();
-				if ($(this).prop("tagName").toLowerCase() == "div") t = $(this).find("input").val().split('\\').pop(); 
-				s.text(t);
-				q.hide();
-				s.show();
-				var cmd = $(b).find(".cmd > input").val();
-				if (cmd != "add") $(b).find(".cmd > input").val("update");
-				e.preventDefault();
-			});
 			add_on($(a), "keypress", function(e) {
 				if (e.which == 13) {
 					var t = $(this).val();
-					if ($(this).prop("tagName").toLowerCase() == "div") t = $(this).find("input").val().split('\\').pop(); 
+					if (q.prop("tagName").toLowerCase() == "div") t = t.split('\\').pop(); 
 					s.text(t);
 					q.hide();
 					s.show();
