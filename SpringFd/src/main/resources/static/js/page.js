@@ -66,7 +66,7 @@ page_init = function(list, clazzItem) {
 		c.hide();
 	});
 	add_on($('.view-item'), 'click', function(event) {
-		var url = "/fileView?rn=" + $(event.delegateTarget).attr("data-item");
+		var url = "fileView?rn=" + $(event.delegateTarget).attr("data-item");
 		window.open(url, '_blank');
 	});
 	/*
