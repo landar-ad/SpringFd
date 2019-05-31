@@ -146,10 +146,7 @@
 						   						<label class="custom-file-label" data-browse="Прикрепить файл"></label>
 											</div>							            
 							            </td>
-							            <td class="edited">
-							            	<span th:text="${f.fileext}"></span>
-							            	<input th:if=${readonly!=true} name="list_file__fileext" class="not-visible form-control form-control-sm" type="text">
-						            	<td>
+							            <td th:text="${f.filelength}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
 							            <td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>

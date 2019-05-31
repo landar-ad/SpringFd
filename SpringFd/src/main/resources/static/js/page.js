@@ -84,6 +84,7 @@ page_init = function(list, clazzItem) {
 		add_on(c.find('.edited'), 'click', function(event) {
 			edited(this);
 		});
+		edited(c.find('.edited').first());
 	});
 	add_on($('.remove-item'), 'click', function(event) {
 		var c = $(event.delegateTarget).closest("tr");
