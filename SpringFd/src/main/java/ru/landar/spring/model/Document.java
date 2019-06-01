@@ -305,7 +305,7 @@ public class Document extends IBase {
     	if (getRn() == null) return false;
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
-		else if ("load".equals(param)) return onCheckRights(Operation.load);
+		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("confirm".equals(param)) return getDoc_status() == null || "1".equals(getDoc_status().getCode()); 
 		return false;
     }
