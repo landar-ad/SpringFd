@@ -34,12 +34,12 @@ list_init = function() {
 			rn = $(a).find("td.d-none").first().text();
 		}
 		$('input[name="rn"]').val(rn);
-		check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled'), !b); });
-		check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled'), !b); });
-		check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled'), !b); });
+		check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled', !b); });
+		check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled', !b); });
+		check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled', !b); });
 		$("#execute_obj").each(function() {
 			var target = $(this), param = $(this).prop("data-param");
-			check_execute(rn, param, function(b) { target.prop('disabled'), !b); });
+			check_execute(rn, param, function(b) { target.prop('disabled', !b); });
 		});
 	};
 	check_execute = function(rn, param, fun) {
