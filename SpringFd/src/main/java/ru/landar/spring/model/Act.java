@@ -11,6 +11,7 @@ import javax.persistence.TemporalType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
@@ -99,13 +100,22 @@ public class Act extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("act_number", "Номер акта"));
 		ret.add(new ColumnInfo("act_date", "Дата акта"));
-		ret.add(new ColumnInfo("act_status__name", "Статус акта", true, true, "actstatus__rn", "select", "listActStatus"));
+		ret.add(new ColumnInfo("act_status__name", "Статус акта", true, true, "act_status__rn", "select", "listActStatus"));
 		ret.add(new ColumnInfo("time_status", "Дата изменения статуса"));
 		ret.add(new ColumnInfo("create_agent__name", "Создан"));
 		ret.add(new ColumnInfo("depart__name", "Структурное подразделение"));
 		ret.add(new ColumnInfo("create_time", "Дата создания"));
 		ret.add(new ColumnInfo("change_agent__name", "Изменен"));
 		ret.add(new ColumnInfo("change_time", "Дата изменения"));
+		return ret;
+	}
+	public static List<ButtonInfo> listButton() {
+		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("newAct", "Сформировать новый акт"));
+		ret.add(new ButtonInfo("sendAct", "Отправить"));
+		ret.add(new ButtonInfo("acceptAct", "Принять"));
+		ret.add(new ButtonInfo("confirmAct", "Утвердить"));
+		ret.add(new ButtonInfo("refuseAct", "Отказать"));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
@@ -125,7 +135,7 @@ public class Act extends IBase {
     	setChange_agent(agent);
     	setChange_time(dt);
     	if (user.getPerson() != null && user.getPerson().getDepart() != null) setDepart(user.getPerson().getDepart() );
-    	setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "0"));
+    	setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "1"));
     	setTime_status(dt);
      	return true;
     }
@@ -205,5 +215,45 @@ public class Act extends IBase {
 			return false;
     	}
     	return true;
+    }
+    @Override
+    public Object onCheckExecute(String param) { 
+     	Object ret = invoke("onCheckExecute", param);
+     	if (ret != null) return ret;
+    	if (getRn() == null) return false;
+    	if ("edit".equals(param)) return onCheckRights(Operation.update);
+		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
+		else if ("view".equals(param)) return onCheckRights(Operation.load);
+		else if ("newAct".equals(param)) {
+			return true; 
+		}
+		else if ("sendAct".equals(param)) {
+			return true;
+		}
+		else if ("acceptAct".equals(param)) {
+			return true;
+		}
+		else if ("confirmAct".equals(param)) {
+			return true;
+		}
+		else if ("refuseAct".equals(param)) {
+			return true;
+		}
+		return false;
+    }
+    public void newAct() {
+    	
+    }
+    public void sendAct() {
+    	
+    }
+    public void acceptAct() {
+    	
+    }
+    public void confirmAct() {
+    	
+    }
+    public void refuseAct() {
+    	
     }
 }
