@@ -18,7 +18,8 @@ list_init = function() {
 			var url = "detailsObj";
 			if (op=="remove") url = "removeObj";
 			if (op=="execute") url = "executeObj";
-			url += "?rn=" + rn + "&clazz=" + $('#clazz').val();
+			url += "?clazz=" + $('#clazz').val();
+			if (rn > 0) url += "&rn=" + rn;
 			if (op=="view") url += "&readonly=1";
 			if (op=="execute") url += "&param" + param;
 			window.location = url;
@@ -43,7 +44,6 @@ list_init = function() {
 		});
 	};
 	check_execute = function(rn, param, fun) {
-		if (!(rn > 0)) { fun(false); return; }
 		var clazz = $('#clazz').val();
 		$.ajax({ method: "GET", 
 			url: "checkExecuteObj",

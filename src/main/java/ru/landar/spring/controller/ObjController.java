@@ -392,15 +392,18 @@ public class ObjController {
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/executeObj", method = RequestMethod.GET)
-	public String executeObj(@RequestParam("rn") Integer rn, 
+	public String executeObj(@RequestParam("rn") Optional<Integer> rnParam, 
 							 @RequestParam("clazz") String clazz,
 							 @RequestParam("param") String param,
 							 Model model) throws Exception {
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
-		Object obj = objService.find(cl, rn);
-		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
+		Integer rn = rnParam.orElse(null);
+		Object obj = rn != null ? objService.find(cl, rn) : null;
+		if (rn != null && obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
+		if (obj == null) obj = cl.newInstance();
 		if (!(Boolean)hs.invoke(obj, "onCheckExecute", param)) throw new Exception("Вам запрещено выполнение функции " + param + " для объека по имени класса '" + clazz + "' с идентификатором " + rn);
+		if (rn != null) hs.invoke(obj, param); else hs.invoke(cl, param);
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
@@ -408,7 +411,7 @@ public class ObjController {
 	}
 	@RequestMapping(value = "/checkExecuteObj", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
-	public String checkExecuteObj(@RequestParam("rn") Integer rn, 
+	public String checkExecuteObj(@RequestParam("rn") Optional<Integer> rnParam, 
 							 @RequestParam("clazz") String clazz,
 							 @RequestParam("param") String param,
 							 Model model) throws Exception {
@@ -416,7 +419,8 @@ public class ObjController {
 		for (; ;) {
 			Class<?> cl = objService.getClassByName(clazz);
 			if (cl == null) break;
-			Object obj = objService.find(cl, rn);
+			Integer rn = rnParam.orElse(null);
+			Object obj = rn != null ? objService.find(cl, rn) : cl.newInstance();
 			if (obj == null) break;
 			b = (Boolean)hs.invoke(obj, "onCheckExecute", param);
 			break;

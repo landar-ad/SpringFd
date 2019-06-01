@@ -220,7 +220,7 @@ public class Act extends IBase {
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
-    	if (getRn() == null) return false;
+    	if (!"newAct".equals(param) || getRn() == null) return false;
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
@@ -241,7 +241,7 @@ public class Act extends IBase {
 		}
 		return false;
     }
-    public void newAct() {
+    public static void newAct() {
     	
     }
     public void sendAct() {
