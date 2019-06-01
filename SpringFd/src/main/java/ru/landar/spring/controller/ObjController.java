@@ -132,7 +132,7 @@ public class ObjController {
 		model.addAttribute("listColumn", listColumnVisible);
 		model.addAttribute("listColumnAll", listColumn);
 		// Дополнительные кнопки
-		List<ButtonInfo> listButton = (List<ButtonInfo>)hs.invoke(cl.newInstance(), "onListButton");
+		List<ButtonInfo> listButton = (List<ButtonInfo>)hs.invoke(obj, "onListButton");
 		if (listButton != null && listButton.size() > 0) model.addAttribute("listButton", listButton);
 		// Есть ли фильтрация?
 		boolean p_filtering = false;

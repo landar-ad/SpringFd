@@ -155,6 +155,11 @@ public abstract class IBase {
 		if (ret != null) return ret;
 		return hs.invoke(getClass(), "listColumn");
 	}
+	public Object onListButton() {
+		Object ret = invoke("onListButton");
+		if (ret != null) return ret;
+		return hs.invoke(getClass(), "listButton");
+	}
 	public Object onListPaginated() {
 		Object ret = invoke("onListPaginated");
 		if (ret != null) return ret;

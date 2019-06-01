@@ -189,7 +189,7 @@ public class Document extends IBase {
 	}
 	public static List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("confirm", "Завершить подготовку документа", "confirmDocument"));
+		ret.add(new ButtonInfo("confirm", "Завершить подготовку документа"));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
