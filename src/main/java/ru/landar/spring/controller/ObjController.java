@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ru.landar.spring.classes.AttributeInfo;
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
@@ -130,6 +131,9 @@ public class ObjController {
 		// Видимые колонки и все
 		model.addAttribute("listColumn", listColumnVisible);
 		model.addAttribute("listColumnAll", listColumn);
+		// Дополнительные кнопки
+		List<ButtonInfo> listButton = (List<ButtonInfo>)hs.invoke(cl.newInstance(), "onListButton");
+		if (listButton != null && listButton.size() > 0) model.addAttribute("listButton", listButton);
 		// Есть ли фильтрация?
 		boolean p_filtering = false;
 		for (ColumnInfo ci : listColumn) { if (!hs.isEmpty(ci.getFilter())) p_filtering = true; break; }
