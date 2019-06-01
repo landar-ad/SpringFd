@@ -23,6 +23,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.AttributeInfo;
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
@@ -173,6 +174,9 @@ public abstract class IBase {
 		ret.add(new ColumnInfo("code", "Код")); 
 		ret.add(new ColumnInfo("name", "Наименование"));
 		return ret;
+	}
+	public static List<ButtonInfo> listButton() {
+		return null;
 	}
 	public static boolean listPaginated() { return false; }
 	public static List<AttributeInfo> listAttribute() {

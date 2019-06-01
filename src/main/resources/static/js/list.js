@@ -12,9 +12,17 @@ list_init = function() {
 			}
 		});
 	};
-	exec_obj = function(op) {
+	exec_obj = function(op, param) {
 		var rn = $('input[name="rn"]').val();
-		if (rn > 0) window.location = (op=="edit" ? "detailsObj" : "removeObj") + "?rn=" + rn + "&clazz=" + $('#clazz').val();
+		if (rn > 0) {
+			var url = "detailsObj";
+			if (op=="remove") url = "removeObj";
+			if (op=="execute") url = "executeObj";
+			url += "?rn=" + rn + "&clazz=" + $('#clazz').val();
+			if (op=="view") url += "&readonly=1";
+			if (op=="execute") url += "&param" + param;
+			window.location = url;
+		}
 	};
 	click_row = function(a) {
 		var b = $(a).hasClass('table-success'), rn = "";
@@ -26,7 +34,7 @@ list_init = function() {
 			rn = $(a).find("td.d-none").first().text();
 		}
 		$('input[name="rn"]').val(rn);
-		$('#edit_obj,#remove_obj').prop('disabled', !(rn > 0)); 
+		$('#edit_obj,#remove_obj,#view_obj,#execute_obj').prop('disabled', !(rn > 0)); 
 	};
 	sort_fill = function() {
 		$(".sorting,.sorting_asc,.sorting_desc").each(function() {
@@ -58,9 +66,11 @@ list_init = function() {
 		$("th input[type='checkbox']").prop('checked', false);
 	};
 	// Выделение строк, редактирование и удаление
-	$('#edit_obj,#remove_obj').prop('disabled', true);
+	$('#edit_obj,#remove_obj,#view_obj,#execute_obj').prop('disabled', true);
 	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
 	add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
+	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
+	add_on($('#execute_obj'), "click", function() { exec_obj("execute", $(this).prop("data-param")); });
 	add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
 	add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this); exec_obj("edit"); });
 	// Выделение строки по идентификатору выделенного объекта
