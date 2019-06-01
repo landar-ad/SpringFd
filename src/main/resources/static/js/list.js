@@ -53,7 +53,7 @@ list_init = function() {
 				param: param
 			},
 			success: function(result) {
-				fun(true);
+				fun(result == "1");
 			},
 			error: function() {
 				fun(false);
