@@ -193,7 +193,7 @@ public class Document extends IBase {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
-	public void confirmDocument() {
+	public void confirm() {
 		if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) return;
 		setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
 	}
@@ -297,5 +297,16 @@ public class Document extends IBase {
 	    	if (mapChanged.containsKey("doc_status")) setTime_status(dt);
     	}
 		return true;
+    }
+    @Override
+    public Object onCheckExecute(String param) { 
+     	Object ret = invoke("onCheckExecute", param);
+     	if (ret != null) return ret;
+    	if (getRn() == null) return false;
+    	if ("edit".equals(param)) return onCheckRights(Operation.update);
+		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
+		else if ("load".equals(param)) return onCheckRights(Operation.load);
+		else if ("confirm".equals(param)) return getDoc_status() == null || "1".equals(getDoc_status().getCode()); 
+		return false;
     }
 }

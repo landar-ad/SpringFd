@@ -388,22 +388,36 @@ public class ObjController {
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/executeObj", method = RequestMethod.GET)
-	public String executeObj(@RequestParam("rn") Optional<Integer> paramRn, 
+	public String executeObj(@RequestParam("rn") Integer rn, 
 							 @RequestParam("clazz") String clazz,
-							 @RequestParam("param") Optional<String> paramParam,
+							 @RequestParam("param") String param,
 							 Model model) throws Exception {
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
-		Integer rn = paramRn.orElse(null);
-		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
+		Object obj = objService.find(cl, rn);
 		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
-		String param = paramParam.orElse(null);
-		if (hs.isEmpty(param)) throw new Exception("Не задана функция для объека по имени класса '" + clazz + "' с идентификатором " + rn);
-		hs.invoke(obj, param);
-		model.addAttribute("hs", hs);
-		setObjModel(obj, model);
-		String t = "details" + clazz + "Page";
-		return hs.templateExists(t) ? t : "detailsObjPage";
+		if (!(Boolean)hs.invoke(obj, "onCheckExecute", param)) throw new Exception("Вам запрещено выполнение функции " + param + " для объека по имени класса '" + clazz + "' с идентификатором " + rn);
+		// Переход на страницу
+		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
+		if (hs.isEmpty(redirect)) redirect = "mainPage";
+		return "redirect:" + redirect;
+	}
+	@RequestMapping(value = "/checkExecuteObj", method = RequestMethod.GET, produces = "text/plain")
+	@ResponseBody
+	public String checkExecuteObj(@RequestParam("rn") Integer rn, 
+							 @RequestParam("clazz") String clazz,
+							 @RequestParam("param") String param,
+							 Model model) throws Exception {
+		boolean b = false;
+		for (; ;) {
+			Class<?> cl = objService.getClassByName(clazz);
+			if (cl == null) break;
+			Object obj = objService.find(cl, rn);
+			if (obj == null) break;
+			b = (Boolean)hs.invoke(obj, "onCheckExecute", param);
+			break;
+		}
+		return b ? "1" : "0";
 	}
 	@RequestMapping(value = "/removeObj", method = RequestMethod.GET)
 	public String removeObj(@RequestParam("rn") Integer rn, 

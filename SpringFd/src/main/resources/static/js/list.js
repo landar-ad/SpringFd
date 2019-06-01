@@ -34,7 +34,31 @@ list_init = function() {
 			rn = $(a).find("td.d-none").first().text();
 		}
 		$('input[name="rn"]').val(rn);
-		$('#edit_obj,#remove_obj,#view_obj,#execute_obj').prop('disabled', !(rn > 0)); 
+		check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled'), !b); });
+		check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled'), !b); });
+		check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled'), !b); });
+		$("#execute_obj").each(function() {
+			var target = $(this), param = $(this).prop("data-param");
+			check_execute(rn, param, function(b) { target.prop('disabled'), !b); });
+		});
+	};
+	check_execute = function(rn, param, fun) {
+		if (!(rn > 0)) { fun(false); return; }
+		var clazz = $('#clazz').val();
+		$.ajax({ method: "GET", 
+			url: "checkExecuteObj",
+			data: {
+				clazz: clazz,
+				rn: rn,
+				param: param
+			},
+			success: function(result) {
+				fun(true);
+			},
+			error: function() {
+				fun(false);
+			}
+		});
 	};
 	sort_fill = function() {
 		$(".sorting,.sorting_asc,.sorting_desc").each(function() {
