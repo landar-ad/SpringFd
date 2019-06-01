@@ -203,6 +203,7 @@ public class ObjController {
 							 @RequestParam("clazz") String clazz,
 							 @RequestParam("prn") Optional<Integer> paramPrn,
 							 @RequestParam("p_tab") Optional<Integer> paramTab, 
+							 @RequestParam("readonly") Optional<Integer> paramReadonly, 
 							 Model model) throws Exception {
 		Class<?> cl = objService.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
@@ -213,6 +214,7 @@ public class ObjController {
 		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		model.addAttribute("hs", hs);
 		if (prn != null) model.addAttribute("prn", prn);
+		if (paramReadonly.orElse(0) == 1) model.addAttribute("readonly", true);
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		String t = "details" + clazz + "Page";
@@ -385,6 +387,24 @@ public class ObjController {
 		String t = "details" + clazz + "Page";
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
+	@RequestMapping(value = "/executeObj", method = RequestMethod.GET)
+	public String executeObj(@RequestParam("rn") Optional<Integer> paramRn, 
+							 @RequestParam("clazz") String clazz,
+							 @RequestParam("param") Optional<String> paramParam,
+							 Model model) throws Exception {
+		Class<?> cl = objService.getClassByName(clazz);
+		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
+		Integer rn = paramRn.orElse(null);
+		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
+		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
+		String param = paramParam.orElse(null);
+		if (hs.isEmpty(param)) throw new Exception("Не задана функция для объека по имени класса '" + clazz + "' с идентификатором " + rn);
+		hs.invoke(obj, param);
+		model.addAttribute("hs", hs);
+		setObjModel(obj, model);
+		String t = "details" + clazz + "Page";
+		return hs.templateExists(t) ? t : "detailsObjPage";
+	}
 	@RequestMapping(value = "/removeObj", method = RequestMethod.GET)
 	public String removeObj(@RequestParam("rn") Integer rn, 
 							@RequestParam("clazz") Optional<String> paramClazz, 
@@ -512,7 +532,7 @@ public class ObjController {
 			Integer prn = (Integer)hs.getProperty(obj, "parent__rn");
 			if (prn != null) model.addAttribute("prn", prn);
 		}
-		model.addAttribute("readonly", !hs.checkRights(obj, Operation.update)); 
+		if (!model.containsAttribute("readonly")) model.addAttribute("readonly", !hs.checkRights(obj, Operation.update)); 
 		List<AttributeInfo> listAttribute = (List<AttributeInfo>)hs.invoke(obj, "onListAttribute");
 		if (listAttribute != null) model.addAttribute("listAttribute", listAttribute);
 		model.addAttribute("p_login", userService.getPrincipal());

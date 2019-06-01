@@ -11,6 +11,7 @@ import javax.persistence.TemporalType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
@@ -186,8 +187,16 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		return ret;
 	}
+	public static List<ButtonInfo> listButton() {
+		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("confirm", "Завершить подготовку документа", "confirmDocument"));
+		return ret;
+	}
 	public static boolean listPaginated() { return true; }
-	
+	public void confirmDocument() {
+		if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) return;
+		setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+	}
 	@Override
     public Object onNew() {
      	Object ret = super.onNew();
