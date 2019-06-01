@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
@@ -140,6 +141,12 @@ public class Reestr extends IBase {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
+	public static List<ButtonInfo> listButton() {
+		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр"));
+		ret.add(new ButtonInfo("sendReestr", "Передать в ФК"));
+		return ret;
+	}
 	
 	@Override
     public Object onNew() {
@@ -250,5 +257,27 @@ public class Reestr extends IBase {
 			return false;
     	}
     	return true;
+    }
+    @Override
+    public Object onCheckExecute(String param) { 
+     	Object ret = invoke("onCheckExecute", param);
+     	if (ret != null) return ret;
+     	if (!"newReestr".equals(param) || getRn() == null) return false;
+    	if ("edit".equals(param)) return onCheckRights(Operation.update);
+		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
+		else if ("view".equals(param)) return onCheckRights(Operation.load);
+		else if ("newReestr".equals(param)) {
+			return true; 
+		}
+		else if ("sendReestr".equals(param)) {
+			return true;
+		}
+		return false;
+    }
+    public static void newReestr() {
+    	
+    }
+    public void sendReestr() {
+    	
     }
 }
