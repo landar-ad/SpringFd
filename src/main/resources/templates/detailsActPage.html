@@ -97,7 +97,10 @@
 							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 							        </tr>
 							        <tr th:each="d,iter : ${obj?.list_doc}">
-							            <td class="d-none" th:text="${d.rn}"/>
+							            <td class="d-none">
+							            	<input type="hidden" name="list_doc__rn" th:value="${d.rn}">
+							            	<input type="hidden" name="list_doc__clazz"value="Act_document">
+							            </td>
 							            <td th:text="${iter.index + 1}"/>
 							            <td class="edited">
 							            	<span th:text="${d.doc?.name}"></span>
