@@ -56,7 +56,7 @@ page_init = function(list, clazzItem) {
 		s.show();
 	};
 	popup_select = function(a, s) {
-		var data = a.prop("data-param");
+		var data = a.attr("data-param");
 		$.ajax({ method: "POST", url: "popupSelect", 
 			data: data,
 			success: function(result) {
