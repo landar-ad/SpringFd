@@ -95,4 +95,10 @@ public class Act_document extends IBase {
 		catch (Exception ex) { }
 		return true;
 	}
+    @Override
+    public Object onRedirectAfterUpdate() { 
+    	Object ret = invoke("onRedirectAfterUpdate");
+    	if (ret != null) return ret;
+    	return getParent() != null ? "/detailsObj?clazz=Act" + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
+    }
 }
