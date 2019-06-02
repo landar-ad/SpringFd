@@ -56,7 +56,12 @@ page_init = function(list, clazzItem) {
 		s.show();
 	};
 	popup_select = function(a, s) {
-		var data = a.attr("data-param");
+		var data = {
+			clazz: a.attr("data-clazz"),
+			p_title: a.attr("data-title"),
+			p_column: a.attr("data-column"),
+			p_filter: a.attr("data-filter")
+		};
 		$.ajax({ method: "POST", url: "popupSelect", 
 			data: data,
 			success: function(result) {
@@ -71,7 +76,7 @@ page_init = function(list, clazzItem) {
 						var rn = $(this).find(".d-none").first().text();
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						var t = $(this).find(".text-select").text();
-						if (c == "checked") {
+						if (c) {
 							a.val(rn);
 							s.text(t);
 							return false;
