@@ -257,41 +257,44 @@ public class ObjController {
 			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
 		}
 		// Файлы
-		Collection<Part> colParts = request.getParts();
-		for (Part part : colParts) {
-			String p = part.getName();
-			// Берем только файлы
-			if (part.getSubmittedFileName() == null) continue;
-			if ("clazz".equals(p) || "rn".equals(p)) continue;
-			int k = p.indexOf("__");
-			if (k > 0) {
-				String a = p.substring(0, k);
-				Class<?> clItem = hs.getAttrType(cl, a);
-				if (clItem == null) continue;
-				Object o = mapItems.get(a);
-				if (o == null) {
-					o = new LinkedHashMap<String, Object>();
-					mapItems.put(a, o);
+		Collection<Part> colParts = null;
+		try { colParts = request.getParts(); } catch (Exception ex) { }
+		if (colParts != null) {
+			for (Part part : colParts) {
+				String p = part.getName();
+				// Берем только файлы
+				if (part.getSubmittedFileName() == null) continue;
+				if ("clazz".equals(p) || "rn".equals(p)) continue;
+				int k = p.indexOf("__");
+				if (k > 0) {
+					String a = p.substring(0, k);
+					Class<?> clItem = hs.getAttrType(cl, a);
+					if (clItem == null) continue;
+					Object o = mapItems.get(a);
+					if (o == null) {
+						o = new LinkedHashMap<String, Object>();
+						mapItems.put(a, o);
+					}
+					String attr = p.substring(k + 2);
+					Map<String, Object> m = (Map<String, Object>)o;
+					List<Object> l = (List<Object>)m.get(attr);
+					if (l == null) {
+						l = new ArrayList<Object>();
+						m.put(attr, l);
+					}
+					l.add(hs.getObjectByPart(part));
 				}
-				String attr = p.substring(k + 2);
-				Map<String, Object> m = (Map<String, Object>)o;
-				List<Object> l = (List<Object>)m.get(attr);
-				if (l == null) {
-					l = new ArrayList<Object>();
-					m.put(attr, l);
-				}
-				l.add(hs.getObjectByPart(part));
-			}
-			else if (hs.getAttrType(cl, p) != null) {
-				Object o = hs.getObjectByPart(part);
-				if (o != null) { 
-					mapValue.put(p, hs.getProperty(o, p));
-					if (o instanceof IFile && "fileuri".equals(p)) {
-						IFile f = (IFile)o;
-						if (f.getFilename() != null) mapValue.put("filename", f.getFilename());
-						if (f.getFileext() != null) mapValue.put("fileext", f.getFileext());
-						if (f.getFiletype() != null) mapValue.put("filetype", "" + f.getFiletype().getRn());
-						if (f.getFilelength() != null) mapValue.put("filelength", "" + f.getFilelength());
+				else if (hs.getAttrType(cl, p) != null) {
+					Object o = hs.getObjectByPart(part);
+					if (o != null) { 
+						mapValue.put(p, hs.getProperty(o, p));
+						if (o instanceof IFile && "fileuri".equals(p)) {
+							IFile f = (IFile)o;
+							if (f.getFilename() != null) mapValue.put("filename", f.getFilename());
+							if (f.getFileext() != null) mapValue.put("fileext", f.getFileext());
+							if (f.getFiletype() != null) mapValue.put("filetype", "" + f.getFiletype().getRn());
+							if (f.getFilelength() != null) mapValue.put("filelength", "" + f.getFilelength());
+						}
 					}
 				}
 			}
