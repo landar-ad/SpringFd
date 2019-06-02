@@ -182,13 +182,9 @@ public class Reestr extends IBase {
     	setChange_agent(agent);
     	setChange_time(dt);
 		int doccount = 0, sheetcount = 0;
-		Page<Object> p = objService.findAll(Document.class, null, new String[] {"reestr__rn"}, new Object[] {getRn()});
-		if (p != null && p.getContent() != null) {
-			for (Object o : p.getContent()) {
-				Document doc = (Document)o;
-				doccount++;
-				if (doc.getSheet_count() != null) sheetcount += doc.getSheet_count();
-			}
+		for (Document doc : getList_doc()) {
+			doccount++;
+			if (doc.getSheet_count() != null) sheetcount += doc.getSheet_count();
 		}
 		setDoc_count(doccount);
 		setSheet_count(sheetcount);
