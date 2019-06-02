@@ -149,7 +149,7 @@
                         <div class="col-sm-4">
 	                    	<select name="reestr_status" class="form-control form-control-sm">
 	                    		<option value=""></option>
-								<option th:each="d : ${listActStatus}" th:selected="${obj.reestr_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+								<option th:each="d : listReestrStatus" th:selected="${obj.reestr_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
 							</select>    
 						</div>
                         <label class="col-sm-2 col-form-label">Дата присвоения статуса</label>
