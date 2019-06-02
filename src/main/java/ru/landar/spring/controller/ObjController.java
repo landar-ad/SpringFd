@@ -318,9 +318,12 @@ public class ObjController {
 			if (lcmd == null) return;
 			List<Object> lrn = (List<Object>)map.get("rn");
 			List<Object> lclazz = (List<Object>)map.get("clazz");
+			List<Object> ladd = (List<Object>)map.get("p_add");
 			for (int i=0; i<lcmd.size(); i++) {
 				String cmd = (String)lcmd.get(i);
 				if (hs.isEmpty(cmd)) continue;
+				String add = (String)ladd.get(i);
+				boolean bNew = !"exists".equals(add);
 				Integer rnItem = null;
 				try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
 				String clazzItem = (String)lclazz.get(i); 
@@ -328,11 +331,11 @@ public class ObjController {
 				if (clItem == null) continue;
 				Object item = null;
 				if ("remove".equals(cmd) && rnItem != null) {
-					try { objService.executeItem(obj, list, cmd, clItem.getSimpleName(), rnItem); } catch (Exception ex) { }
+					try { objService.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 				}
 				else if ("add".equals(cmd) && rnItem == null) {
 					try { 
-						item = objService.executeItem(obj, list, cmd, (String)lclazz.get(i), null);
+						item = objService.executeItem(obj, list, cmd, clazzItem, null, bNew);
 						item = objService.saveObj(item);
 					} catch (Exception ex) { }
 				}
@@ -378,6 +381,7 @@ public class ObjController {
 	public String executeItem(@RequestParam("list") String listAttr, 
 						@RequestParam("rn") Integer rn, 
 						@RequestParam("clazz") Optional<String> paramClazz,
+						@RequestParam("add") Optional<String> paramAdd,
 						@RequestParam("clazzItem") String clazzItem,
 						@RequestParam("cmdItem") Optional<String> cmdItemParam,
 						@RequestParam("rnItem") Optional<Integer> rnItemParam,
@@ -388,7 +392,7 @@ public class ObjController {
 		String clazz = obj.getClass().getSimpleName();
 		String cmd = cmdItemParam.orElse("add");
 		Integer rnItem = rnItemParam.orElse(null);
-		objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem);
+		objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem, "new".equals(paramAdd.orElse("new")));
 		model.addAttribute("hs", hs);
 		setObjModel(obj, model);
 		String t = "details" + clazz + "Page";

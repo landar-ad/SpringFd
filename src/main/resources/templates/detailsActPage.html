@@ -74,6 +74,7 @@
 							            <td class="d-none">
 							            	<input type="hidden" name="list_doc__rn" value="">
 							            	<input type="hidden" name="list_doc__clazz"value="Act_document">
+							            	<input type="hidden" name="list_doc__p_add" value="new">
 							            </td>
 							            <td></td>
 							            <td class="edited">
@@ -99,7 +100,8 @@
 							        <tr th:each="d,iter : ${obj?.list_doc}">
 							            <td class="d-none">
 							            	<input type="hidden" name="list_doc__rn" th:value="${d.rn}">
-							            	<input type="hidden" name="list_doc__clazz"value="Act_document">
+							            	<input type="hidden" name="list_doc__clazz" value="Act_document">
+							            	<input type="hidden" name="list_doc__p_add" value="new">
 							            </td>
 							            <td th:text="${iter.index + 1}"/>
 							            <td class="edited">
