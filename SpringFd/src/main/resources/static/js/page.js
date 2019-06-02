@@ -22,7 +22,7 @@ page_init = function(list, clazzItem) {
 			});
 		}
 		else {
-			var a = $(c).find('input[type="hidden"]').first(), t = a.prop("data-type");
+			var a = $(c).find('input[type="hidden"]').first(), t = a.attr("data-type");
 			if (t == "checkbox") {
 				var v = a.val();
 				v = (v == '0') ? '1' : '0';
