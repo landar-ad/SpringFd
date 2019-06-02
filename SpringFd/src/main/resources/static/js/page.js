@@ -98,7 +98,9 @@ page_init = function(list, clazzItem) {
 		$(c).find(".cmd > input").val("add");
 		c.show();
 		add_on(c.find('.remove-item'), 'click', function(event) {
-			$(event.delegateTarget).closest("tr").hide();
+			var c = $(event.delegateTarget).closest("tr");
+			$(c).find(".cmd > input").val("remove");
+			c.hide();
 		});
 		add_on(c.find('.custom-file-input'), "change", function() { 
 			   var fileName = $(this).val().split('\\').pop(); 
