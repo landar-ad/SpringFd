@@ -86,7 +86,7 @@
 						            	</td>
 							            <td class="edited">
 							            	<span></span>
-							            	<input name="list_doc__exclude_date" class="not-visible input_date form-control form-control-sm" type="text" value="">
+							            	<input name="list_doc__exclude_date" class="not-visible input_date form-control form-control-sm" type="text" th:value="${#dates.format(#dates.createNow(),'dd.MM.yyyy')}">
 							            </td>
 							            <td class="edited">
 							            	<span></span>
