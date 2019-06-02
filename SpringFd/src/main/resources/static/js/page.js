@@ -103,6 +103,7 @@ page_init = function(list, clazzItem) {
 			   var fileName = $(this).val().split('\\').pop(); 
 			   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
 		});
+		c.find('.input_date').datepicker({language: "ru"});
 		add_on(c.find('.edited'), 'click', function(event) {
 			start_edit(this);
 		});
