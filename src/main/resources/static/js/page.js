@@ -41,7 +41,8 @@ page_init = function(list, clazzItem) {
 		var a = $(c).find(".not-visible").first(), q = a;
 		var s = $(c).find("span").first();
 		var b = $(c).closest("tr"); 
-		var t = $(c).val();
+		if (q.prop("tagName").toLowerCase() == "div") a = q.find("input,select,textarea").first();
+		var t = $(a).val();
 		if (q.prop("tagName").toLowerCase() == "div") t = t.split('\\').pop(); 
 		s.text(t);
 		q.hide();
