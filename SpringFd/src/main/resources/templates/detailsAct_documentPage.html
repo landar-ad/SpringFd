@@ -22,6 +22,20 @@
 						$(".modal").modal();
 						$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
 						$(".modal-body").css("overflow-y", "auto");
+						add_on($(".modal").find("#save-button"), "click", function() {
+							$("#columnTable tbody tr").each(function() {
+								var rn = $(this).find(".d-none").first().text();
+								var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
+								if (c) {
+									var t1 = $(this).find(".text-select")[0].text();
+									$("input[name='doc_number']").val(t1);
+									var t2 = $(this).find(".text-select")[1].text();
+									$("input[name='doc_date']").val(t2);
+									$("input[name='doc']").val(rn);
+									return false;
+								}
+							});
+						});
 					},
 					error: function() {
 					}
