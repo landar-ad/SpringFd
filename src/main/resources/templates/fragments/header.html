@@ -61,7 +61,7 @@
   			<button id="remove_obj"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-trash"></i> Удалить</button>
 		</div>
 		<div th:if="${listButton!=null}" class="btn-group">
-			<button th:each="btn : ${listButton}" class="execute_obj" th:data-param="${btn.name}" class="btn btn-sm btn-success" type="button" th:text="${' ' + btn.title}"><i th:if=${btn.icon!=null} class="${'fa fa-sm fa-' + btn.icon}"></i></button>
+			<button th:each="btn : ${listButton}" th:data-param="${btn.name}" class="execute_obj btn btn-sm btn-success" type="button" th:text="${' ' + btn.title}"><i th:if=${btn.icon!=null} class="${'fa fa-sm fa-' + btn.icon}"></i></button>
 		</div>
 		<div class="col grow">
 			<div class="text-align-right">
