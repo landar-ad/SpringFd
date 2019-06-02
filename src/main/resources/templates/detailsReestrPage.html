@@ -101,7 +101,7 @@
 							            <td></td>
 							            <td class="edited">
 							            	<span></span>
-							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='7'">
+							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2'">
 							            </td>
 							            <td></td>
 							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
@@ -169,8 +169,9 @@
                     </div>
 				</div>
 			</div>
-			</form>
+		</form>
 	</div>
+	<div class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
 	<footer class="footer">
     	<div th:replace="fragments/header :: change_info"></div>
     </footer>
