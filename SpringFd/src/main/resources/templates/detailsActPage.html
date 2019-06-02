@@ -78,7 +78,7 @@
 							            <td></td>
 							            <td class="edited">
 							            	<span></span>
-							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code='2'">
+							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2'">
 							            </td>
 							            <td class="edited">
 							            	<button class="btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-times"></i></button>
@@ -104,7 +104,7 @@
 							            <td th:text="${iter.index + 1}"/>
 							            <td class="edited">
 							            	<span th:text="${d.doc?.name}"></span>
-							            	<input name="list_doc__doc" type="hidden" th:value="${d.doc?.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code='2'">
+							            	<input name="list_doc__doc" type="hidden" th:value="${d.doc?.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2'">
 							            </td>
 							            <td class="edited">
 							            	<button class="btn btn-light btn-sm" type="button"><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'check' : 'times')}"></i></button>
