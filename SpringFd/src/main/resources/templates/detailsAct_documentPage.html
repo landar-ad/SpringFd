@@ -75,7 +75,7 @@
                        	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1">
-                    	<div class="col-sm-3 form-check'}">
+                    	<div class="col-sm-2 form-check'}">
 	                    	<label class="form-check-label">
 	                    		<input name="exclude" type="checkbox" class="form-check-input" th:checked="${obj.exclude}==true" th:text="${'Исключен из акта'}">
 	                    		<input type="hidden" name="exclude" value="0">
@@ -86,7 +86,7 @@
                         	<input class="form-control form-control-sm" type="text" th:value="${obj.exclude_reason}"></input>
                        	</div>
                        	<label class="col-sm-2 col-form-label">Дата исключения</label>
-                    	<div class="col-sm-1">
+                    	<div class="col-sm-2">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${obj.exclude_date}"></input>
                        	</div>
                     </div>
