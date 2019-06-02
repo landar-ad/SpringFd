@@ -7,8 +7,7 @@
 			$('.input_date').datepicker({language: "ru"});
 			size_init();
 			add_on($('#choose_document'), 'click', function(event) {
-				var popupUrl = $(event.delegateTarget).attr("data-popup-url");
-				$.ajax({ method: "POST", url: popupUrl, 
+				$.ajax({ method: "POST", url: "popupSelect", 
 					data: {
 						clazz: "Document",
 						p_title: "Выберите документ",
@@ -29,7 +28,7 @@
 								if (c) {
 									var t1 = $(this).find(".text-select:eq(0)").text();
 									$("input[name='doc_number']").val(t1);
-									var t2 = $(this).find(".text-select:eq(1)")[1].text();
+									var t2 = $(this).find(".text-select:eq(1)").text();
 									$("input[name='doc_date']").val(t2);
 									$("input[name='doc']").val(rn);
 									return false;
