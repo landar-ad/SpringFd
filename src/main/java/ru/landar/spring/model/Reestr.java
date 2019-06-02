@@ -262,13 +262,11 @@ public class Reestr extends IBase {
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
-     	if (!"newReestr".equals(param) || getRn() == null) return false;
+     	if ("newReestr".equals(param)) return true;
+     	if (getRn() == null) return false;
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		else if ("newReestr".equals(param)) {
-			return true; 
-		}
 		else if ("sendReestr".equals(param)) {
 			return true;
 		}
