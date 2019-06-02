@@ -38,7 +38,7 @@ list_init = function() {
 		check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled', !b); });
 		check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled', !b); });
 		check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled', !b); });
-		$("#execute_obj").each(function() {
+		$(".execute_obj").each(function() {
 			var target = $(this), param = $(this).prop("data-param");
 			check_execute(rn, param, function(b) { target.prop('disabled', !b); });
 		});
@@ -90,11 +90,11 @@ list_init = function() {
 		$("th input[type='checkbox']").prop('checked', false);
 	};
 	// Выделение строк, редактирование и удаление
-	$('#edit_obj,#remove_obj,#view_obj,#execute_obj').prop('disabled', true);
+	$('#edit_obj,#remove_obj,#view_obj,.execute_obj').prop('disabled', true);
 	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
 	add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
 	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
-	add_on($('#execute_obj'), "click", function() { exec_obj("execute", $(this).prop("data-param")); });
+	add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).prop("data-param")); });
 	add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
 	add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this); exec_obj("edit"); });
 	// Выделение строки по идентификатору выделенного объекта
