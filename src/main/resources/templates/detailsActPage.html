@@ -34,22 +34,22 @@
                         <div class="col-sm-2">
                         	<input class="form-control form-control-sm" type="text" th:value="${obj.create_agent?.name}"></input>
                        	</div>
-                        <label class="col-sm-2 col-form-label">Структурное подразделение</label>
-                        <div class="col-sm-2">
-                        	<select name="depart" class="form-control form-control-sm">
-	                    		<option value=""></option>
-								<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
-							</select>
-                       	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1">
                         <label class="col-sm-1 col-form-label required">№ акта</label>
                         <div class="col-sm-2">
                         	<input class="form-control form-control-sm" type="text" name="act_number" th:value="${obj.act_number}" required="required"></input>
                        	</div>
-                        <label class="col-sm-2 col-form-label required">Дата акта</label>
-                        <div class="col-sm-2">
+                        <label class="col-sm-1 col-form-label required">Дата акта</label>
+                        <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" name="act_date" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required"></input>
+                       	</div>
+                       	<label class="col-sm-2 col-form-label">Структурное подразделение</label>
+                        <div class="col-sm-5">
+                        	<select name="depart" class="form-control form-control-sm">
+	                    		<option value=""></option>
+								<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+							</select>
                        	</div>
                     </div>
 					<div id="list_doc" class="form-group-sm mt-sm-1">
