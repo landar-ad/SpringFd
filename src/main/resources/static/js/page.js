@@ -1,10 +1,10 @@
 page_init = function(list, clazzItem) {
 	start_edit = function(c) {
 		$.each($(".edited"), function() { cancel_edit(this); });
-		var a = $(c).find("input,div,select,textarea").first(), q = a;
+		var a = $(c).find(".not-visible").first(), q = a;
 		var s = $(c).find("span").first();
 		var b = $(c).closest("tr"); 
-		if (a) {
+		if (a.length > 0) {
 			s.hide();
 			q.show();
 			if (q.prop("tagName").toLowerCase() == "div") a = q.find("input,select,textarea").first();
@@ -21,9 +21,24 @@ page_init = function(list, clazzItem) {
 				}
 			});
 		}
+		else {
+			var a = $(c).find('input[type="hidden"]').first(), t = a.prop("data-type");
+			if (t == "checkbox") {
+				var v = a.val();
+				v = (v == '0') ? '1' : '0';
+				a.val(v);
+				var b = $(c).find('i');
+				b.removeClass("fa-times");
+				b.removeClass("fa-check");
+				b.addClass(v == '1' ? "fa-check" : "fa-times");
+			}
+			else if (t == "select") {
+				popup_select(a, s);
+			}
+		}
 	};
 	stop_edit = function(c) {
-		var a = $(c).find("input,div,select,textarea").first(), q = a;
+		var a = $(c).find(".not-visible").first(), q = a;
 		var s = $(c).find("span").first();
 		var b = $(c).closest("tr"); 
 		var t = $(c).val();
@@ -39,6 +54,34 @@ page_init = function(list, clazzItem) {
 		var s = $(c).find("span").first();
 		q.hide();
 		s.show();
+	};
+	popup_select = function(a, s) {
+		var data = a.prop("data-param");
+		$.ajax({ method: "POST", url: "popupSelect", 
+			data: data,
+			success: function(result) {
+				var div = $('<div></div>');
+				div.html(result);
+				$('.modal').html(div.find('.modal').html());
+				$(".modal").modal();
+				$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
+				$(".modal-body").css("overflow-y", "auto");
+				add_on($(".modal").find("#save-button"), "click", function() {
+					$("#columnTable tbody tr").each(function() {
+						var rn = $(this).find(".d-none").first().text();
+						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
+						var t = $(this).find(".text-select").text();
+						if (c == "checked") {
+							a.val(rn);
+							s.text(t);
+							return false;
+						}
+					});
+				});
+			},
+			error: function() {
+			}
+		});
 	};
 	add_on($('.edited'), 'click', function(event) {
 		start_edit(this);

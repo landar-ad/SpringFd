@@ -23,14 +23,14 @@
 				        <tr th:each="obj,iter : ${listObj}">
 				            <td class="d-none" th:text="${obj.rn}"/>
 				            <td th:text="${iter.index + 1}"/>
-				            <td><input type="checkbox"></input></td>
-				            <td th:each="col : ${listColumn}"><div th:text="${hs.getPropertyString(obj,col.name)}"></div></td>
+				            <td class="check-select"><input type="checkbox"></input></td>
+				            <td class="text-select" th:each="col : ${listColumn}" th:text="${hs.getPropertyString(obj,col.name)}"></td>
 				        </tr>
 			        </tbody>
 				</table>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Выбрать</button>
+				<button id="save-button" type="button" class="btn btn-sm btn-light" data-dismiss="modal">Выбрать</button>
 				<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
 			</div>
 		</div>
