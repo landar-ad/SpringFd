@@ -163,7 +163,7 @@ public class Reestr extends IBase {
     	setChange_agent(agent);
     	setChange_time(dt);
     	if (user.getPerson() != null && user.getPerson().getDepart() != null) setDepart(user.getPerson().getDepart() );
-    	setReestr_status((SpReestrStatus)objService.getObjByCode(SpReestrStatus.class, "0"));
+    	setReestr_status((SpReestrStatus)objService.getObjByCode(SpReestrStatus.class, "1"));
     	setTime_status(dt);
     	setDoc_count(0);
 		setSheet_count(0);
