@@ -12,11 +12,11 @@ page_init = function(list, clazzItem) {
 			a.focus();
 			add_on($(a), "keypress", function(e) {
 				if (e.which == 13) {
-					stop_edit(this);
+					stop_edit(c);
 					e.preventDefault();
 				}
 				if (e.which == 27) {
-					cancel_edit(this);
+					cancel_edit(c);
 					e.preventDefault();
 				}
 			});
