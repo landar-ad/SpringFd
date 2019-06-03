@@ -124,17 +124,15 @@ public class Act extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	
-    	Date dt = new Date();
+     	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-    	IAgent agent = user.getPerson();
-    	if (agent == null) agent = user.getOrg(); 
-    	setCreate_agent(agent);
+     	setCreate_agent(user.getPerson());
     	setCreate_time(dt);
-    	setChange_agent(agent);
+    	setChange_agent(user.getPerson());
     	setChange_time(dt);
-    	if (user.getPerson() != null && user.getPerson().getDepart() != null) setDepart(user.getPerson().getDepart() );
+    	setAct_date(dt);
+    	setDepart(hs.getDepartment());
     	setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "1"));
     	setTime_status(dt);
      	return true;
@@ -143,13 +141,10 @@ public class Act extends IBase {
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
-    	
-    	Date dt = new Date();
+     	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-    	IAgent agent = user.getPerson();
-    	if (agent == null) agent = user.getOrg(); 
-    	setChange_agent(agent);
+    	setChange_agent(user.getPerson());
     	setChange_time(dt);
     	return true;
 	}
@@ -157,24 +152,15 @@ public class Act extends IBase {
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
  		Object ret = super.onListAddFilter(listAttr, listValue);
 		if (ret != null) return ret;
-		
 		IUser user = userService.getUser((String)null);
 		if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 		String roles = user.getRoles();
 		if (roles.indexOf("ADMIN") < 0) {
-			IOrganization org = user.getOrg();
-			IPerson person = user.getPerson();
-			if (org == null && person == null) throw new SecurityException("У пользователя " + user.getLogin() + " не указан контрагент");
-			Integer rnOrg = org != null ? org.getRn() : null;
-			Integer rnPerson = person != null ? person.getRn() : null;
-			listAttr.add("create_agent__rn");
-			String v = "";
-			if (rnOrg != null) v += "eq " + rnOrg;
-			if (rnPerson != null) {
-				if (!v.isEmpty()) v += " or ";
-				v += "eq " + rnPerson;
+			Integer rnDep = hs.getDepartmentKey();
+			if (rnDep != null) {
+				listAttr.add("depart__rn");
+				listValue.add("eq " + rnDep);
 			}
-			listValue.add(v);
 		}
 		return true;
 	}
@@ -182,13 +168,11 @@ public class Act extends IBase {
 	public Object onAddAttributes(Model model, boolean list) {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
-		
 		try {
 			model.addAttribute("listActStatus", objService.findAll(SpActStatus.class));
 			if (!list) {
 				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
-				model.addAttribute("listAgent", objService.findAll(IAgent.class));
-				model.addAttribute("listDocument", objService.findAll(Document.class));
+				model.addAttribute("listAgent", objService.findAll(IOrganization.class));
 			}	
 		}
 		catch (Exception ex) { }

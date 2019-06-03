@@ -1,7 +1,6 @@
 package ru.landar.spring.controller;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
@@ -336,13 +334,13 @@ public class ObjController {
 				else if ("add".equals(cmd) && rnItem == null) {
 					try { 
 						item = objService.executeItem(obj, list, cmd, clazzItem, null, bNew);
-						item = objService.saveObj(item);
 					} catch (Exception ex) { }
 				}
 				else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
 					item = objService.find(clItem, rnItem);
 				}
 				if (item != null) {
+					Map<String, Object> mapChangedItem = new LinkedHashMap<String, Object>();
 					Object f = null;
 					Iterator<String> it = map.keySet().iterator();
 					while (it.hasNext()) {
@@ -355,10 +353,18 @@ public class ObjController {
 							v = hs.getProperty(v, ap);
 						}
 						else v = hs.getObjectByString(clItem, ap, (String)v);
-						if (v != null) hs.setProperty(item, ap, v);
+						if (v != null) {
+							Object valueOld = hs.getProperty(item, ap);
+							if (!hs.equals(valueOld, v)) {
+								mapChangedItem.put(ap, new Object[]{valueOld, v});
+								hs.setProperty(obj, ap, v);
+							}
+						}
 					}
 					if (f != null) hs.copyProperties(f, item, true);
 					objService.saveObj(item);
+					// Добавление информации об изменении объекта
+					hs.invoke(item, "onUpdate", mapItems, mapChangedItem);
 				}
 			}
 		});

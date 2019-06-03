@@ -49,8 +49,7 @@ public class Act_document extends IBase {
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception {
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
-    	
-    	Document doc = getDoc();
+     	Document doc = getDoc();
     	if (doc != null) {
     		boolean exclude = getExclude();
     		if (mapChanged.containsKey("exclude")) {

@@ -197,17 +197,15 @@ public class Document extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	
     	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-    	IAgent agent = user.getPerson();
-    	if (agent == null) agent = user.getOrg(); 
-    	setCreate_agent(agent);
+    	setCreate_agent(user.getPerson());
     	setCreate_time(dt);
     	setChange_agent(agent);
     	setChange_time(dt);
-    	if (user.getPerson() != null && user.getPerson().getDepart() != null) setDepart(user.getPerson().getDepart() );
+    	setDepart(hs.getDepartment());
+    	setDoc_date(dt);
     	setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "1"));
     	setTime_status(dt);
     	setSheet_count(0);
@@ -217,22 +215,14 @@ public class Document extends IBase {
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
  		Object ret = super.onListAddFilter(listAttr, listValue);
 		if (ret != null) return ret;
-		
 		IUser user = userService.getUser((String)null);
 		if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 		String roles = user.getRoles();
 		if (roles.indexOf("ADMIN") < 0) {
-			IOrganization org = user.getOrg();
-			IPerson person = user.getPerson();
-			if (org == null && person == null) throw new SecurityException("У пользователя " + user.getLogin() + " не задан контрагент");
-			Integer rnOrg = org != null ? org.getRn() : null;
-			Integer rnPerson = person != null ? person.getRn() : null;
-			listAttr.add("agent__rn");
-			String v = "";
-			if (rnOrg != null) v += "eq " + rnOrg;
-			if (rnPerson != null) {
-				if (!v.isEmpty()) v += " or ";
-				v += "eq " + rnPerson;
+			Integer rnDep = hs.getDepartmentKey();
+			if (rnDep != null) {
+				listAttr.add("depart__rn");
+				listValue.add("eq " + rnDep);
 			}
 		}
 		return true;
@@ -249,7 +239,7 @@ public class Document extends IBase {
 				model.addAttribute("listFileType", objService.findAll(SpFileType.class));
 				model.addAttribute("listDocument", objService.findAll(Document.class));
 				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
-				model.addAttribute("listAgent", objService.findAll(IAgent.class));
+				model.addAttribute("listAgent", objService.findAll(IOrganization.class));
 			}	
 		}
 		catch (Exception ex) { }
@@ -286,9 +276,7 @@ public class Document extends IBase {
 	    	Date dt = new Date();
 	    	IUser user = userService.getUser((String)null);
 	    	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-	    	IAgent agent = user.getPerson();
-	    	if (agent == null) agent = user.getOrg(); 
-	    	setChange_agent(agent);
+	    	setChange_agent(user.getPerson());
 	    	setChange_time(dt);
 	    	if (mapChanged.containsKey("doc_status")) setTime_status(dt);
     	}
