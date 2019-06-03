@@ -227,6 +227,7 @@ public class ObjController {
 								 @RequestParam("rn") Optional<Integer> paramRn, 
 								 HttpServletRequest request,
 								 Model model) throws Exception {
+		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Integer rn = paramRn.orElse(null);
 		Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
 		Class<?> cl = objService.getClassByName(clazz);
@@ -340,17 +341,17 @@ public class ObjController {
 					item = objService.find(clItem, rnItem);
 				}
 				if (item != null) {
-					Map<String, Object> mapChangedItem = new LinkedHashMap<String, Object>();
+					Map<String, Object[]> mapChangedItem = new LinkedHashMap<String, Object[]>();
 					Object f = null;
 					Iterator<String> it = map.keySet().iterator();
 					while (it.hasNext()) {
 						String ap = it.next();
-						if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap)) continue;
+						if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap) || "p_add".equals(ap)) continue;
 						List<Object> lvalue = (List<Object>)map.get(ap);
 						Object v = lvalue.get(i);
 						if (v != null && v instanceof IBase) {
 							f = v;
-							v = hs.getProperty(v, ap);
+							v = hs.getProperty(v, ap); 
 						}
 						else v = hs.getObjectByString(clItem, ap, (String)v);
 						if (v != null) {
@@ -365,6 +366,13 @@ public class ObjController {
 					objService.saveObj(item);
 					// Добавление информации об изменении объекта
 					hs.invoke(item, "onUpdate", mapItems, mapChangedItem);
+					// Запись в журнал
+					objService.writeLog(userService.getPrincipal(), 
+										item, 
+										mapChangedItem, 
+										"add".equals(cmd) ? "create" : "update", 
+										ip, 
+										browser);
 				}
 			}
 		});
@@ -376,8 +384,8 @@ public class ObjController {
 							obj, 
 							mapChanged, 
 							rn == null ? "create" : "update", 
-							(String)request.getSession().getAttribute("ip"), 
-							(String)request.getSession().getAttribute("browser"));
+							ip, 
+							browser);
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
