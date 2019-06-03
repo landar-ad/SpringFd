@@ -89,6 +89,14 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return ret;
 	}
 	@Override
+	public Object getMaxAttr(Class<?> cl, String attr) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<?> query = cb.createQuery(hs.getAttrType(cl, attr));
+		Root<?> root = query.from(cl);
+		query.select(cb.max(root.get(attr)));
+		return em.createQuery(query).getSingleResult();
+	}
+	@Override
 	public Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value) {
 		boolean paged = p != null && p.isPaged() && p.getPageSize() != Integer.MAX_VALUE;
 		List<Object> l = new ArrayList<Object>();
