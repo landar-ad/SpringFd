@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -43,6 +44,11 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	HelperService hs;
 	@PersistenceContext
 	private EntityManager em;
+	@Override
+	public 
+	EntityTransaction beginTransaction() {
+		return em.getTransaction();
+	}
 	@Override
 	public Object createObj(Object obj) {
 		if (obj instanceof IBase) {
