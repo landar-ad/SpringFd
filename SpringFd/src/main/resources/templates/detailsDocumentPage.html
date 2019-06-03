@@ -140,7 +140,7 @@
 							            	<input type="hidden" name="list_doc__p_add" value="new">
 						            	</td>
 							            <td th:text="${iter.index + 1}"/>
-							            <td><button th:if=${readonly!=true} class="view-item btn btn-light btn-sm" type="button" th:data-item="@{/fileView?rn=} + ${f.rn}" th:text="${f.filename}"></button></td>
+							            <td><button class="view-item btn btn-light btn-sm" type="button" th:data-item="@{/fileView?rn=} + ${f.rn}" th:text="${f.filename}"></button></td>
 							            <td class="edited">
 							            	<span></span>
 											<div th:if=${readonly!=true} class="custom-file not-visible">

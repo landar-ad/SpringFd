@@ -120,7 +120,7 @@
 							            	<span th:utext="${d.exclude_reason}"></span>
 							            	<input name="list_doc__exclude_reason" class="not-visible input_date form-control form-control-sm" type="text" th:value="${d.exclude_reason}">
 							            </td>
-							            <td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=Act_document&rn=} + ${d.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
+							            <td><a th:if=${d.doc!=null} th:href="@{/detailsObj?clazz=Document&readonly=1&rn=} + ${d.doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
 							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
 							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 							        </tr>

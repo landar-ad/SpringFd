@@ -12,8 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Lock;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
@@ -38,6 +43,7 @@ import javax.persistence.Column;
 @PrimaryKeyJoinColumn(name="rn")
 public class Act extends IBase {
 	private String act_number;
+	private Integer act_num;
 	private Date act_date;
 	private SpActStatus act_status;
 	private Date time_status;
@@ -51,6 +57,9 @@ public class Act extends IBase {
     @Column(length=40)
     public String getAct_number() { return act_number; }
     public void setAct_number(String act_number) { this.act_number = act_number; updateName(); }
+    
+    public Integer getAct_num() { return act_num; }
+    public void setAct_num(Integer act_num) { this.act_num = act_num; }
     
     @Temporal(TemporalType.DATE)
     public Date getAct_date() { return act_date; }
@@ -138,6 +147,7 @@ public class Act extends IBase {
     	setChange_agent(user.getPerson());
     	setChange_time(dt);
     	setAct_date(dt);
+    	setAct_num(0);
     	setDepart(hs.getDepartment());
     	setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "1"));
     	setTime_status(dt);
@@ -230,13 +240,41 @@ public class Act extends IBase {
 		return false;
     }
     @Autowired
+    private PlatformTransactionManager transactionManager;
+    @Autowired
 	ObjRepositoryCustom objRepository;
-    @Transactional
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void newAct(HttpServletRequest request) throws Exception {
-    	Act act = new Act();
-    	act.setAct_number("test");
-    	objRepository.createObj(act);
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code"}, new Object[] {"2"});
+    		if (p != null && !p.isEmpty()) {
+		    	Act act = new Act();
+		    	act.onNew();
+		    	Integer max = (Integer)objRepository.getMaxAttr(Act.class, "act_num");
+		    	if (max == null) max = 0;
+	    		act.setAct_num(max + 1); 
+	    		act.setAct_number("" + getAct_num());
+		    	act = (Act)objRepository.createObj(act);
+		    	List<Act_document> l = act.getList_doc();
+		    	for (Object o : p.getContent()) {
+		    		Document doc = (Document)o;
+		    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3"));
+		    		doc.setAct(act);
+		    		Act_document act_doc = new Act_document();
+		    		act_doc.setDoc(doc);
+		    		act_doc.onNew();
+		    		act_doc = (Act_document)objRepository.createObj(act_doc);
+		    		l.add(act_doc);
+		    	}
+		    	act.setList_doc(l);
+		    	objRepository.saveObj(act);
+    		}
+	    	transactionManager.commit(ts);
+    	}
+    	catch (Exception ex) {
+    		transactionManager.rollback(ts);
+    	}
     }
     public void sendAct(HttpServletRequest request) throws Exception {
     	
