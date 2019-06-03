@@ -14,16 +14,14 @@ list_init = function() {
 	};
 	exec_obj = function(op, param) {
 		var rn = $('input[name="rn"]').val();
-		if (rn > 0) {
-			var url = "detailsObj";
-			if (op=="remove") url = "removeObj";
-			if (op=="execute") url = "executeObj";
-			url += "?clazz=" + $('#clazz').val();
-			if (rn > 0) url += "&rn=" + rn;
-			if (op=="view") url += "&readonly=1";
-			if (op=="execute") url += "&param=" + param;
-			window.location = url;
-		}
+		var url = "detailsObj";
+		if (op=="remove") url = "removeObj";
+		if (op=="execute") url = "executeObj";
+		url += "?clazz=" + $('#clazz').val();
+		if (rn > 0) url += "&rn=" + rn;
+		if (op=="view") url += "&readonly=1";
+		if (op=="execute") url += "&param=" + param;
+		window.location = url;
 	};
 	click_row = function(a) {
 		var b = $(a).hasClass('table-success'), rn = "";
@@ -90,6 +88,14 @@ list_init = function() {
 		$("th input[type='checkbox']").prop('checked', false);
 	};
 	// Выделение строк, редактирование и удаление
+	var rn = $('input[name="rn"]').val();
+	check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled', !b); });
+	check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled', !b); });
+	check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled', !b); });
+	$(".execute_obj").each(function() {
+		var target = $(this), param = $(this).attr("data-param");
+		check_execute(rn, param, function(b) { target.prop('disabled', !b); });
+	});
 	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
 	add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
 	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
