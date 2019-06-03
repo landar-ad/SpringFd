@@ -84,6 +84,16 @@ public class Act_document extends IBase {
 		return true;
 	}
     @Override
+    public Object onRemove() {
+    	Object ret = super.onRemove();
+    	if (ret != null) return ret;
+    	Document doc = getDoc();
+    	if (doc != null) {
+    		doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+    	}
+    	return true;
+    }
+    @Override
 	public Object onAddAttributes(Model model, boolean list) {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;

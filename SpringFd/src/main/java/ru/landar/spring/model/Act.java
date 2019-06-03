@@ -165,6 +165,17 @@ public class Act extends IBase {
     	return true;
 	}
 	@Override
+    public Object onRemove() {
+    	Object ret = super.onRemove();
+    	if (ret != null) return ret;
+    	List<Act_document> l = getList_doc();
+    	for (Act_document act_doc : l) {
+    		Document doc = act_doc.getDoc();
+    		if (doc != null) doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+    	}
+    	return true;
+    }
+	@Override
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
  		Object ret = super.onListAddFilter(listAttr, listValue);
 		if (ret != null) return ret;
