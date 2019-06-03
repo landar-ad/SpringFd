@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import ru.landar.spring.service.UserService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -295,8 +297,17 @@ public class Document extends IBase {
 		}
 		return false;
     }
-    public void confirm() {
+    public void confirm(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);	
 		if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) return;
-		setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+		Object valueOld = getDoc_status(), valueNew = objService.getObjByCode(SpDocStatus.class, "2");
+		setDoc_status((SpDocStatus)valueNew);
+		objService.saveObj(this);
+		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
+		mapChanged.put("doc_status", new Object[] {valueOld, valueNew});
+		onUpdate(null, mapChanged);
+		String ip = request != null ? (String)request.getSession().getAttribute("ip") : null, browser = request != null ? (String)request.getSession().getAttribute("browser") : null;
+		// Запись в журнал
+		objService.writeLog(userService.getPrincipal(), this, mapChanged, "update", ip, browser);
 	}
 }

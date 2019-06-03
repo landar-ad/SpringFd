@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -223,19 +224,19 @@ public class Act extends IBase {
 		}
 		return false;
     }
-    public static void newAct() {
+    public static void newAct(HttpServletRequest request) throws Exception {
     	
     }
-    public void sendAct() {
+    public void sendAct(HttpServletRequest request) throws Exception {
     	
     }
-    public void acceptAct() {
+    public void acceptAct(HttpServletRequest request) throws Exception {
     	
     }
-    public void confirmAct() {
+    public void confirmAct(HttpServletRequest request) throws Exception {
     	
     }
-    public void refuseAct() {
+    public void refuseAct(HttpServletRequest request) throws Exception {
     	
     }
 }
