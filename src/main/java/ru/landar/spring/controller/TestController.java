@@ -31,6 +31,10 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, Model model) {
+		model.addAttribute("username", "Мама655647657");
+		
+		
+		
 		return "loginPage";
 	}
 	
@@ -46,17 +50,8 @@ public class TestController {
 	}
 	
 	@RequestMapping(value = "/test/file", method = RequestMethod.GET, produces = "text/plain")
-	@ResponseBody
 	public String test() {
-		IFile f = new IFile();
-		f.setFilename("1");
-		f = (IFile)objService.saveObj(f);
-		f.setFilename("2");
-		f = (IFile)objService.saveObj(f);
-		f = (IFile)objService.find(IFile.class,  f.getRn());
-		String ret = f.getFilename();
-		objService.removeObj(f);
-		return ret;
+		return "";
 	}
 	
 	@RequestMapping(value = "/test/pagination")
