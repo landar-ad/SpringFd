@@ -424,8 +424,8 @@ public class ObjController {
 		Object obj = rn != null ? objService.find(cl, rn) : null;
 		if (rn != null && obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		if (obj == null) obj = cl.newInstance();
-		if (!(Boolean)hs.invoke(obj, "onCheckExecute", param)) throw new Exception("Вам запрещено выполнение функции " + param + " для объека по имени класса '" + clazz + "' с идентификатором " + rn);
-		if (rn != null) hs.invoke(obj, param, request); else hs.invoke(cl, param, request);
+		if (!(Boolean)hs.invoke(obj, "onCheckExecute", param)) throw new Exception("Вам запрещено выполнение функции " + param + " для объекта по имени класса '" + clazz + "' с идентификатором " + rn);
+		hs.invoke(obj, param, request);
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";

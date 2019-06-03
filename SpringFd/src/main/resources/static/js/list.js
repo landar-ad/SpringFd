@@ -39,7 +39,7 @@ list_init = function() {
 		check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled', !b); });
 		check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled', !b); });
 		$(".execute_obj").each(function() {
-			var target = $(this), param = $(this).prop("data-param");
+			var target = $(this), param = $(this).attr("data-param");
 			check_execute(rn, param, function(b) { target.prop('disabled', !b); });
 		});
 	};

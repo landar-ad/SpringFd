@@ -363,6 +363,12 @@ public class HelperServiceImpl implements HelperService {
 		return null;
 	}
 	@Override
+	public Object invokePure(Object obj, String method, Object... args) throws Exception {
+		Method m = getInvokeMethod(obj, method, args);
+		if (m == null) return null;
+		return m.invoke(obj, args); 
+	}
+	@Override
 	public Object invoke(Class<?> cl, String method, Object... args) {
 		Method m = getInvokeMethod(cl, method, args);
 		if (m == null) return null;

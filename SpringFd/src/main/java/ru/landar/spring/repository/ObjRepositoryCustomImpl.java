@@ -43,7 +43,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	@Autowired
 	HelperService hs;
 	@PersistenceContext
-	private EntityManager em;
+    private EntityManager em;
 	@Override
 	public 
 	EntityTransaction beginTransaction() {

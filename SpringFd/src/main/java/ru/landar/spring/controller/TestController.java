@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.persistence.EntityTransaction;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import ru.landar.spring.model.IFile;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.repository.UserRepositoryCustomImpl;
+import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 
 @Controller
@@ -29,12 +34,12 @@ public class TestController {
 	@Autowired
 	ObjService objService;
 	
+	@Autowired
+	HelperService hs;
+	
 	@RequestMapping(value = "/test/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, Model model) {
 		model.addAttribute("username", "Мама655647657");
-		
-		
-		
 		return "loginPage";
 	}
 	
@@ -49,8 +54,11 @@ public class TestController {
 		return UserRepositoryCustomImpl.encoder.encode(p);
 	}
 	
-	@RequestMapping(value = "/test/file", method = RequestMethod.GET, produces = "text/plain")
-	public String test() {
+	@RequestMapping(value = "/test/transaction", method = RequestMethod.GET, produces = "text/plain")
+	@ResponseBody
+	public String test() throws Exception {
+		//LockModeType.PESSIMISTIC_READ
+		
 		return "";
 	}
 	
