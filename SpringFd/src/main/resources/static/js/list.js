@@ -94,7 +94,7 @@ list_init = function() {
 	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
 	add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
 	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
-	add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).prop("data-param")); });
+	add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).attr("data-param")); });
 	add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
 	add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this); exec_obj("edit"); });
 	// Выделение строки по идентификатору выделенного объекта
