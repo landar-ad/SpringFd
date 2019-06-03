@@ -2,6 +2,7 @@ package ru.landar.spring.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.LockModeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -9,13 +10,17 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -224,8 +229,14 @@ public class Act extends IBase {
 		}
 		return false;
     }
-    public static void newAct(HttpServletRequest request) throws Exception {
-    	
+    @Autowired
+	ObjRepositoryCustom objRepository;
+    @Transactional
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void newAct(HttpServletRequest request) throws Exception {
+    	Act act = new Act();
+    	act.setAct_number("test");
+    	objRepository.createObj(act);
     }
     public void sendAct(HttpServletRequest request) throws Exception {
     	

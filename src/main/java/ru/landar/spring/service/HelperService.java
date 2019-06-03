@@ -32,6 +32,7 @@ public interface HelperService {
 	boolean isServerConnected(String url, int timeout);
 	boolean checkRights(Object obj, Operation op);
 	Object invoke(Object obj, String method, Object... args);
+	Object invokePure(Object obj, String method, Object... args) throws Exception;
 	Object invoke(Class<?> cl, String method, Object... args);
 	boolean templateExists(String template);
 	String getTemplateSource(String template);
