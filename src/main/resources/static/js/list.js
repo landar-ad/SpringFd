@@ -21,7 +21,7 @@ list_init = function() {
 			url += "?clazz=" + $('#clazz').val();
 			if (rn > 0) url += "&rn=" + rn;
 			if (op=="view") url += "&readonly=1";
-			if (op=="execute") url += "&param" + param;
+			if (op=="execute") url += "&param=" + param;
 			window.location = url;
 		}
 	};
