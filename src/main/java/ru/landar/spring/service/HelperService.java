@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import javax.servlet.http.Part;
 
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.model.IDepartment;
 
 public interface HelperService {
 	boolean isEmpty(String v);
@@ -37,4 +38,6 @@ public interface HelperService {
 	Class<?> getHandlerClass(String code); 
 	ObjService getObjService();
 	UserService getUserService();
+	IDepartment getDepartment();
+	Integer getDepartmentKey();
 }

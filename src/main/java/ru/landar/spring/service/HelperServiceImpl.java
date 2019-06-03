@@ -33,7 +33,6 @@ import javax.tools.ToolProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolution;
@@ -42,7 +41,10 @@ import org.thymeleaf.templateresource.ITemplateResource;
 import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
+import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.IPerson;
+import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpFileType;
 
 @Component
@@ -515,7 +517,19 @@ public class HelperServiceImpl implements HelperService {
 		else if ("modifier".equals(attr)) ret = "Изменил";
 		return ret;
 	}
-	
+	@Override
+	public IDepartment getDepartment() {
+		IUser user = userService.getUser((String)null);
+		if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+		IPerson person = user.getPerson();
+		if (person == null) return null;
+		return person.getDepart();
+	}
+	@Override
+	public Integer getDepartmentKey() {
+		IDepartment dep = getDepartment();
+		return dep == null ? null : dep.getRn();
+	}
 	private static File createTempDirectory(String name) {
 		
 		File ft = null;
