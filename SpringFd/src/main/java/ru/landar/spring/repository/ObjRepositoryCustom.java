@@ -5,12 +5,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityTransaction;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface ObjRepositoryCustom {
-	
+	EntityTransaction beginTransaction();
 	Object createObj(Object obj);
 	Object updateObj(Object obj);
 	Object saveObj(Object obj);
