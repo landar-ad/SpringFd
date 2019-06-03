@@ -90,7 +90,6 @@ list_init = function() {
 		$("th input[type='checkbox']").prop('checked', false);
 	};
 	// Выделение строк, редактирование и удаление
-	$('#edit_obj,#remove_obj,#view_obj,.execute_obj').prop('disabled', true);
 	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
 	add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
 	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
