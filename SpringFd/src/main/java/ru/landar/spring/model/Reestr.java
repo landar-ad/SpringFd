@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -251,10 +252,10 @@ public class Reestr extends IBase {
 		}
 		return false;
     }
-    public static void newReestr() {
+    public static void newReestr(HttpServletRequest request) throws Exception {
     	
     }
-    public void sendReestr() {
+    public void sendReestr(HttpServletRequest request) throws Exception {
     	
     }
 }
