@@ -49,7 +49,12 @@ public class Act_document extends IBase {
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception {
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
- 
+    	if (mapChanged.containsKey("exclude")) {
+    		if (getExclude() != null && getExclude()) {
+    			if (getExclude_date() == null) setExclude_date(new Date());
+    		}
+    		else setExclude_date(null);
+    	}
     	return true;
 	}
     @Override
