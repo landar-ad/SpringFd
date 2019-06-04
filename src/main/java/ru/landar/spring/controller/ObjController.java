@@ -358,7 +358,7 @@ public class ObjController {
 							Object valueOld = hs.getProperty(item, ap);
 							if (!hs.equals(valueOld, v)) {
 								mapChangedItem.put(ap, new Object[]{valueOld, v});
-								hs.setProperty(obj, ap, v);
+								hs.setProperty(item, ap, v);
 							}
 						}
 					}
