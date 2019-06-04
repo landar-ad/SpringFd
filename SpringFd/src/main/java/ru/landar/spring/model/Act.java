@@ -46,6 +46,7 @@ public class Act extends IBase {
 	private Integer act_num;
 	private Date act_date;
 	private SpActStatus act_status;
+	private String act_reason;
 	private Date time_status;
 	private IAgent create_agent;
 	private IDepartment depart;
@@ -69,6 +70,10 @@ public class Act extends IBase {
     public SpActStatus getAct_status() { return act_status; }
     public void setAct_status(SpActStatus act_status) { this.act_status = act_status; }
 	
+    @Column(length=256)
+    public String getAct_reason() { return act_reason; }
+    public void setAct_reason(String act_reason) { this.act_reason = act_reason; }
+    
 	public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
@@ -287,16 +292,74 @@ public class Act extends IBase {
     		transactionManager.rollback(ts);
     	}
     }
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void sendAct(HttpServletRequest request) throws Exception {
-    	
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if ("1".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "2"));
+	    	transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
     }
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void acceptAct(HttpServletRequest request) throws Exception {
-    	
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if ("2".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "3"));
+	    	transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
     }
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirmAct(HttpServletRequest request) throws Exception {
-    	
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if ("3".equals(act_status)) {
+    			act_status = "4";
+    			for (Act_document act_doc : getList_doc()) {
+    				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
+    				if ("4".equals(act_status) && e) act_status = "5";
+    				// Изменить документ
+    				Document doc = act_doc.getDoc();
+    				if (doc != null) doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, !e ? "4" : "5"));
+    			}
+    			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
+    		}
+	    	transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
     }
     public void refuseAct(HttpServletRequest request) throws Exception {
-    	
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if ("3".equals(act_status)) {
+    			SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
+    			for (Act_document act_doc : getList_doc()) {
+    				// Изменить документ
+    				Document doc = act_doc.getDoc();
+    				if (doc != null) doc.setDoc_status(doc_status);
+    			}
+    			setAct_reason("Отклонен пользователем");
+    			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
+    		}
+	    	transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
     }
 }
