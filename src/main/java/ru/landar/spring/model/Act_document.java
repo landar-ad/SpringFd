@@ -90,7 +90,6 @@ public class Act_document extends IBase {
 	    		}
     		}
     	}
-		objService.saveObj(this);
 		return true;
 	}
     @Override

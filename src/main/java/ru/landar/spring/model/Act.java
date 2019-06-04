@@ -276,7 +276,7 @@ public class Act extends IBase {
 		    	Integer max = (Integer)objRepository.getMaxAttr(Act.class, "act_num");
 		    	if (max == null) max = 0;
 	    		act.setAct_num(max + 1); 
-	    		act.setAct_number("" + getAct_num());
+	    		act.setAct_number("" + act.getAct_num());
 		    	act = (Act)objRepository.createObj(act);
 		    	List<Act_document> l = act.getList_doc();
 		    	for (Object o : p.getContent()) {
