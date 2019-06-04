@@ -241,8 +241,20 @@ public class Act extends IBase {
     		return dep != null;
     	}
     	if (getRn() == null) return false;
-    	if ("edit".equals(param)) return onCheckRights(Operation.update);
-		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
+    	if ("edit".equals(param)) {
+    		if (!(Boolean)onCheckRights(Operation.update)) return false;
+    		String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(act_status) && !"3".equals(act_status)) return false;
+    		return true;
+    	}
+		else if ("remove".equals(param)) {
+			if (!(Boolean)onCheckRights(Operation.delete)) return false;
+    		String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(act_status)) return false;
+    		return true;
+		}
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendAct".equals(param)) {
 			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
