@@ -17,11 +17,11 @@
     		<div class="col-md-12 card-header">
             	<h3 th:text="${p_title}"></h3>
             </div>
-           	<div class="col-sm-12 card small">
+           	<div th:with="st=${obj.act_status?.code}" class="col-sm-12 card small">
             	<div class="m-sm-2">
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
-	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+	            			<button th:if="${st=='1' || st=='3'}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
 			                <a href="listObj?clazz=Act" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
@@ -54,7 +54,7 @@
                     </div>
 					<div id="list_doc" class="form-group-sm mt-sm-1">
                         <label class="col-sm-2 col-form-label">Документы, включенные в акт</label>
-                        <div th:with="st=${obj.act_status?.code}" class="col-sm-12">
+                        <div class="col-sm-12">
 	                        <table class="table table-sm table-striped table-light table-bordered">
 						    	<thead>
 							        <tr>
@@ -70,7 +70,7 @@
 							        </tr>
 						        </thead>
 						        <tbody>
-						        	<tr th:if=${readonly!=true} class="first-row not-visible">
+						        	<tr class="first-row not-visible">
 							            <td class="d-none">
 							            	<input type="hidden" name="list_doc__rn" value="">
 							            	<input type="hidden" name="list_doc__clazz"value="Act_document">
@@ -123,10 +123,10 @@
 							            </td>
 							            <td th:if="${st!='3'}" th:utext="${d.exclude_reason}"></td>
 							            <td><a th:if=${d.doc!=null} th:href="@{/detailsObj?clazz=Document&readonly=1&rn=} + ${d.doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
-							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
+							            <td><button th:if="${st=='1'}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
 							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 							        </tr>
-							        <tr class="last-row">
+							        <tr th:if="${st=='1'}" class="last-row">
 							        	<td class="d-none"/>
 							        	<td><button th:if=${readonly!=true} class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
 							        	<td></td>
