@@ -46,7 +46,33 @@ public class IFile extends IBase {
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
-    	
+    	for (; ;) {
+    		String filename = getFilename();
+    		if (hs.isEmpty(filename)) {
+    			String fileuri = getFileuri();
+    			if (hs.isEmpty(fileuri)) break;
+				int k = fileuri.lastIndexOf('/');
+				if (k < 0) k = fileuri.lastIndexOf('\\');
+				if (k > 0) {
+					int s = fileuri.indexOf('_', k);
+					if (s > 0) k = s;
+					filename = fileuri.substring(k + 1);
+					setFilename(filename);
+				}
+			}
+    		if (hs.isEmpty(filename)) break;
+	    	String fileext = getFileext();
+			if (hs.isEmpty(fileext)) {
+				int k = filename.lastIndexOf('.');
+				fileext = k > 0 ? filename.substring(k + 1) : "";
+				setFileext(fileext);
+			}
+			if (!hs.isEmpty(fileext) && getFiletype() == null) {
+				SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, fileext.toLowerCase());
+				setFiletype(filetype);
+			}
+			break;
+    	}
 		return true;
     }
     @Override
