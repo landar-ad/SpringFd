@@ -377,4 +377,43 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		try { obj = em.createQuery(query).getSingleResult(); } catch (Exception ex) { }
 		return obj != null ? obj.getClazz() : null;
 	}
+	@Override
+	public Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception {
+		Object listObj = hs.getProperty(obj, listAttr);
+		if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
+		List list = (List<?>)listObj;
+		Class<?> clItem = hs.getClassByName(clazzItem);
+		if (clItem == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
+		if ("add".equals(cmd)) {
+			if (!bNew &&  rnItem == null) throw new Exception("Не задан объект для добавления в список '" + listAttr + "'");
+			Object item = rnItem != null ? find(clItem, rnItem) : clItem.newInstance();
+			if (rnItem == null) {
+				hs.invoke(item, "onNew");
+				hs.setProperty(item, "parent", obj);
+				item = createObj(item);
+			}
+			else if (item == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem + " для добавления в список '" + listAttr + "'");
+			list.add(item);
+			hs.setProperty(obj, listAttr, list);
+			saveObj(obj);
+			return item;
+		}
+		else if ("remove".equals(cmd)) {
+			if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления из списка");
+			for (int i=0; i<list.size(); i++) {
+				Object o = list.get(i);
+				if (!(o instanceof IBase) || rnItem.compareTo(((IBase)o).getRn()) != 0) continue;
+				list.remove(i);
+				break;
+			}
+			hs.setProperty(obj, listAttr, list);
+			saveObj(obj);
+			if (bNew) {
+				Object objItem = find(clItem, rnItem);
+				if (objItem == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem);
+				removeObj(objItem);
+			}
+		}
+		return null;
+	}
 }

@@ -70,7 +70,7 @@ public class ObjServiceImpl implements ObjService {
     public Object find(String clazz, Object pk) throws Exception {
 		if (clazz == null) clazz = objRepository.getClassByKey(pk);
 		if (clazz == null) throw new Exception("Не найден класс объекта с идентификатором " + pk);
-		Class<?> cl = getClassByName(clazz);
+		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		return find(cl, pk);
 	}
@@ -105,12 +105,6 @@ public class ObjServiceImpl implements ObjService {
 		return objRepository.getClassByKey(rn);
 	}
 	@Override
-	public Class<Object> getClassByName(String clazz) {
-		Class<Object> ret = null;
-		try { ret = (Class<Object>)Class.forName(IBase.class.getName().substring(0, IBase.class.getName().lastIndexOf('.') + 1) + clazz); } catch (Exception ex) { }
-		return ret;
-	}
-	@Override
 	public void removeObj(Object obj) {
 		objRepository.removeObj(obj);
 	}
@@ -118,7 +112,7 @@ public class ObjServiceImpl implements ObjService {
 	public void removeObj(String clazz, Integer rn) throws Exception {
 		if (clazz == null) clazz = objRepository.getClassByKey(rn);
 		if (clazz == null) throw new Exception("Не найдено имя класса объекта с идентификатором " + rn);
-		Class<Object> cl = getClassByName(clazz);
+		Class<Object> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = find(cl, rn);
 		if (obj == null) throw new Exception("Не найден объект '" + clazz + "' с идентификатором " + rn);
@@ -208,42 +202,7 @@ public class ObjServiceImpl implements ObjService {
 	}
 	@Override
 	public Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception {
-		Object listObj = hs.getProperty(obj, listAttr);
-		if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
-		List list = (List<?>)listObj;
-		Class<?> clItem = getClassByName(clazzItem);
-		if (clItem == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazzItem + "'");
-		if ("add".equals(cmd)) {
-			if (!bNew &&  rnItem == null) throw new Exception("Не задан объект для добавления в список '" + listAttr + "'");
-			Object item = rnItem != null ? objRepository.find(clItem, rnItem) : clItem.newInstance();
-			if (rnItem == null) {
-				hs.invoke(item, "onNew");
-				hs.setProperty(item, "parent", obj);
-				item = objRepository.createObj(item);
-			}
-			else if (item == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem + " для добавлпния в список '" + listAttr + "'");
-			list.add(item);
-			hs.setProperty(obj, listAttr, list);
-			objRepository.saveObj(obj);
-			return item;
-		}
-		else if ("remove".equals(cmd)) {
-			if (rnItem == null) throw new Exception("Не задан идентификатор объекта для удаления из списка");
-			for (int i=0; i<list.size(); i++) {
-				Object o = list.get(i);
-				if (!(o instanceof IBase) || rnItem.compareTo(((IBase)o).getRn()) != 0) continue;
-				list.remove(i);
-				break;
-			}
-			hs.setProperty(obj, listAttr, list);
-			objRepository.saveObj(obj);
-			if (bNew) {
-				Object objItem = objRepository.find(clItem, rnItem);
-				if (objItem == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem);
-				objRepository.removeObj(objItem);
-			}
-		}
-		return null;
+		return objRepository.executeItem(obj, listAttr, cmd, clazzItem, rnItem, bNew);
 	}
 }
 

@@ -74,7 +74,7 @@ public class Document extends IBase {
     public Document getParent_doc() { return parent_doc; }
     public void setParent_doc(Document parent_doc) { this.parent_doc = parent_doc; }
 
-	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=IAgent.class)
     public IAgent getAgent() { return agent; }
     public void setAgent(IAgent agent) { this.agent = agent; }
 	

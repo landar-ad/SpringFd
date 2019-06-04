@@ -51,7 +51,7 @@ public class PopupController {
 			listColumn.add(new ColumnInfo(name, title));
 		}
 		model.addAttribute("listColumn", listColumn);
-		Class<?> cl = objService.getClassByName(clazz);
+		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
 		String[] attr = null;
 		Object[] value = null; 

@@ -536,6 +536,12 @@ public class HelperServiceImpl implements HelperService {
 		IDepartment dep = getDepartment();
 		return dep == null ? null : dep.getRn();
 	}
+	@Override
+	public Class<Object> getClassByName(String clazz) {
+		Class<Object> ret = null;
+		try { ret = (Class<Object>)Class.forName(IBase.class.getName().substring(0, IBase.class.getName().lastIndexOf('.') + 1) + clazz); } catch (Exception ex) { }
+		return ret;
+	}
 	private static File createTempDirectory(String name) {
 		
 		File ft = null;
