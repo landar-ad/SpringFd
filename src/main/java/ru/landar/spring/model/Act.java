@@ -236,22 +236,25 @@ public class Act extends IBase {
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
-    	if ("newAct".equals(param)) return true; 
+     	IDepartment dep = hs.getDepartment();
+    	if ("newAct".equals(param)) {
+    		return dep != null;
+    	}
     	if (getRn() == null) return false;
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendAct".equals(param)) {
-			return true;
+			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
 		}
 		else if ("acceptAct".equals(param)) {
-			return true;
+			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
 		}
 		else if ("confirmAct".equals(param)) {
-			return true;
+			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
 		}
 		else if ("refuseAct".equals(param)) {
-			return true;
+			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
 		}
 		return false;
     }
@@ -263,8 +266,11 @@ public class Act extends IBase {
     public void newAct(HttpServletRequest request) throws Exception {
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-    		Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code"}, new Object[] {"2"});
-    		if (p != null && !p.isEmpty()) {
+    		for (; ;) {
+    			IDepartment dep = hs.getDepartment();
+    			if (dep == null) break;
+    			Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code, depart__rn"}, new Object[] {"2", dep.getRn()});
+    			if (p == null || p.isEmpty()) break;
 		    	Act act = new Act();
 		    	act.onNew();
 		    	Integer max = (Integer)objRepository.getMaxAttr(Act.class, "act_num");
@@ -285,6 +291,7 @@ public class Act extends IBase {
 		    	}
 		    	act.setList_doc(l);
 		    	objRepository.saveObj(act);
+		    	break;
     		}
 	    	transactionManager.commit(ts);
     	}
@@ -296,9 +303,14 @@ public class Act extends IBase {
     public void sendAct(HttpServletRequest request) throws Exception {
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-    		String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if ("1".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "2"));
+    		for (; ;) {
+    			IDepartment dep = hs.getDepartment();
+    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
+	    		String act_status = "1";
+	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		if ("1".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "2"));
+	    		break;
+    		}
 	    	transactionManager.commit(ts);
 		}
 		catch (Exception ex) {
@@ -309,9 +321,14 @@ public class Act extends IBase {
     public void acceptAct(HttpServletRequest request) throws Exception {
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-    		String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if ("2".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "3"));
+    		for (; ;) {
+    			IDepartment dep = hs.getDepartment();
+    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
+	    		String act_status = "1";
+	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		if ("2".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "3"));
+	    		break;
+    		}
 	    	transactionManager.commit(ts);
 		}
 		catch (Exception ex) {
@@ -322,9 +339,12 @@ public class Act extends IBase {
     public void confirmAct(HttpServletRequest request) throws Exception {
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-    		String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if ("3".equals(act_status)) {
+    		for (; ;) {
+    			IDepartment dep = hs.getDepartment();
+    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
+	    		String act_status = "1";
+	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		if (!"3".equals(act_status)) break;
     			act_status = "4";
     			for (Act_document act_doc : getList_doc()) {
     				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
@@ -334,6 +354,7 @@ public class Act extends IBase {
     				if (doc != null) doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, !e ? "4" : "5"));
     			}
     			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
+	    		break;
     		}
 	    	transactionManager.commit(ts);
 		}
@@ -344,9 +365,12 @@ public class Act extends IBase {
     public void refuseAct(HttpServletRequest request) throws Exception {
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-    		String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if ("3".equals(act_status)) {
+    		for (; ;) {
+    			IDepartment dep = hs.getDepartment();
+    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
+	    		String act_status = "1";
+	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		if (!"3".equals(act_status)) break;
     			SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
     			for (Act_document act_doc : getList_doc()) {
     				// Изменить документ
@@ -355,6 +379,7 @@ public class Act extends IBase {
     			}
     			setAct_reason("Отклонен пользователем");
     			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
+	    		break;
     		}
 	    	transactionManager.commit(ts);
 		}

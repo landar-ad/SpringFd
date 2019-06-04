@@ -2,6 +2,7 @@ package ru.landar.spring.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.LockModeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -10,12 +11,20 @@ import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -32,6 +41,7 @@ import javax.persistence.Column;
 @PrimaryKeyJoinColumn(name="rn")
 public class Reestr extends IBase {
 	private String reestr_number;
+	private Integer reestr_num;
 	private Date reestr_date;
 	private SpReestrStatus reestr_status;
 	private Date time_status;
@@ -51,6 +61,9 @@ public class Reestr extends IBase {
     public String getReestr_number() { return reestr_number; }
     public void setReestr_number(String reestr_number) { this.reestr_number = reestr_number; updateName(); }
     
+    public Integer getReestr_num() { return reestr_num; }
+    public void setReestr_num(Integer reestr_num) { this.reestr_num = reestr_num; }
+        
     @Temporal(TemporalType.DATE)
     public Date getReestr_date() { return reestr_date; }
     public void setReestr_date(Date reestr_date) { this.reestr_date = reestr_date; updateName(); }
@@ -252,8 +265,38 @@ public class Reestr extends IBase {
 		}
 		return false;
     }
-    public static void newReestr(HttpServletRequest request) throws Exception {
-    	
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+    @Autowired
+	ObjRepositoryCustom objRepository;
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void newReestr(HttpServletRequest request) throws Exception {
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code"}, new Object[] {"4"});
+    		if (p != null && !p.isEmpty()) {
+		    	Reestr reestr = new Reestr();
+		    	reestr.onNew();
+		    	Integer max = (Integer)objRepository.getMaxAttr(Reestr.class, "reestr_num");
+		    	if (max == null) max = 0;
+	    		reestr.setReestr_num(max + 1); 
+	    		reestr.setReestr_number("" + getReestr_num());
+		    	reestr = (Reestr)objRepository.createObj(reestr);
+		    	List<Document> l = reestr.getList_doc();
+		    	for (Object o : p.getContent()) {
+		    		Document doc = (Document)o;
+		    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
+		    		doc.setReestr(reestr);
+		    		l.add(doc);
+		    	}
+		    	reestr.setList_doc(l);
+		    	objRepository.saveObj(reestr);
+    		}
+	    	transactionManager.commit(ts);
+    	}
+    	catch (Exception ex) {
+    		transactionManager.rollback(ts);
+    	}
     }
     public void sendReestr(HttpServletRequest request) throws Exception {
     	
