@@ -54,7 +54,7 @@
                     </div>
 					<div id="list_doc" class="form-group-sm mt-sm-1">
                         <label class="col-sm-2 col-form-label">Документы, включенные в акт</label>
-                        <div class="col-sm-12">
+                        <div th:with="st=${obj.act_status?.code}" class="col-sm-12">
 	                        <table class="table table-sm table-striped table-light table-bordered">
 						    	<thead>
 							        <tr>
@@ -77,22 +77,22 @@
 							            	<input type="hidden" name="list_doc__p_add" value="new">
 							            </td>
 							            <td></td>
-							            <td class="edited">
+							            <td th:if="${st=='1'}" class="edited">
 							            	<span></span>
 							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2'">
 							            </td>
-							            <td class="edited">
+							            <td th:if="${st!='1'}"></td>
+							            <td th:if="${st=='3'}" class="edited">
 							            	<button class="btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-times"></i></button>
 							            	<input name="list_doc__exclude" type="hidden" value="0" data-type="checkbox">
 						            	</td>
-							            <td class="edited">
-							            	<span></span>
-							            	<input name="list_doc__exclude_date" class="not-visible input_date form-control form-control-sm" type="text" th:value="${#dates.format(#dates.createNow(),'dd.MM.yyyy')}">
-							            </td>
-							            <td class="edited">
+						            	<td th:if="${st!='3'}"></td>
+							            <td></td>
+							            <td th:if="${st=='3'}" class="edited">
 							            	<span></span>
 							            	<input name="list_doc__exclude_reason" class="not-visible input_date form-control form-control-sm" type="text" value="">
 							            </td>
+							            <td th:if="${st!='3'}"></td>
 							            <td></td>
 							            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item=""><i class="fa fa-sm fa-minus"></i></button></td>
 							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
@@ -104,22 +104,24 @@
 							            	<input type="hidden" name="list_doc__p_add" value="new">
 							            </td>
 							            <td th:text="${iter.index + 1}"/>
-							            <td class="edited">
+							            <td th:if="${st=='1'}" class="edited">
 							            	<span th:text="${d.doc?.name}"></span>
 							            	<input name="list_doc__doc" type="hidden" th:value="${d.doc?.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2'">
 							            </td>
-							            <td class="edited">
+							            <td th:if="${st!='1'}" th:text="{$d.doc?.name}"></td>
+							            <td th:if="${st=='3'}" class="edited">
 							            	<button class="btn btn-light btn-sm" type="button"><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'check' : 'times')}"></i></button>
 							            	<input name="list_doc__exclude" type="hidden" th:value="${d.exclude==true?'1':'0'}" data-type="checkbox">
 						            	</td>
-							            <td class="edited">
-							            	<span th:text="${#dates.format(d.exclude_date,'dd.MM.yyyy')}"></span>
-							            	<input name="list_doc__exclude_date" class="not-visible input_date form-control form-control-sm" type="text" th:value="${#dates.format(d.exclude_date,'dd.MM.yyyy')}">
-							            </td>
-							            <td class="edited">
+						            	<td th:if="${st!='3'}">
+						            		<button class="btn btn-light btn-sm" type="button"><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'check' : 'times')}"></i></button>
+						            	</td>
+							            <td th:text="${#dates.format(d.exclude_date,'dd.MM.yyyy')}"></td>
+							            <td th:if="${st=='3'}" class="edited">
 							            	<span th:utext="${d.exclude_reason}"></span>
 							            	<input name="list_doc__exclude_reason" class="not-visible form-control form-control-sm" type="text" th:value="${d.exclude_reason}">
 							            </td>
+							            <td th:if="${st!='3'}" th:utext="${d.exclude_reason}"></td>
 							            <td><a th:if=${d.doc!=null} th:href="@{/detailsObj?clazz=Document&readonly=1&rn=} + ${d.doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
 							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
 							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
