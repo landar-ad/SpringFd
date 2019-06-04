@@ -19,7 +19,7 @@ import ru.landar.spring.classes.AppClassLoader;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { FreeMarkerAutoConfiguration.class })
-@EnableTransactionManagement
+//@EnableTransactionManagement
 public class SpringFdApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringFdApplication.class, args);
@@ -52,11 +52,13 @@ public class SpringFdApplication {
 	public AppClassLoader getAppClassLoader() {
 		return new AppClassLoader();
 	}
+	/*
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
 		transactionManager.setDataSource(dataSource());
 		return transactionManager;
 	}
+	*/
 }
 

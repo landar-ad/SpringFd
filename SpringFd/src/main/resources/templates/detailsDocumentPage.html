@@ -112,7 +112,7 @@
 							            <td class="d-none">
 							            	<input type="hidden" name="list_file__rn" value="">
 							            	<input type="hidden" name="list_file__clazz"value="IFile">
-							            	<input type="hidden" name="list_doc__p_add" value="new">
+							            	<input type="hidden" name="list_file__p_add" value="new">
 							            </td>
 							            <td></td>
 							            <td><button class="btn btn-light btn-sm" type="button" data-item="" th:text="${''}"></button></td>
@@ -123,10 +123,7 @@
 						   						<label class="custom-file-label" data-browse="Прикрепить файл"></label>
 											</div>
 							            </td>
-							            <td class="edited">
-							            	<span></span>
-							            	<input name="list_file__fileext" class="not-visible form-control form-control-sm" type="text">
-						            	</td>
+							            <td></td>
 							            <td></td>
 							            <td></td>
 							            <td></td>
@@ -137,7 +134,7 @@
 							            <td class="d-none">
 							            	<input type="hidden" name="list_file__rn" th:value="${f.rn}">
 							            	<input type="hidden" name="list_file__clazz" value="IFile">
-							            	<input type="hidden" name="list_doc__p_add" value="new">
+							            	<input type="hidden" name="list_file__p_add" value="new">
 						            	</td>
 							            <td th:text="${iter.index + 1}"/>
 							            <td><button class="view-item btn btn-light btn-sm" type="button" th:data-item="@{/fileView?rn=} + ${f.rn}" th:text="${f.filename}"></button></td>
@@ -148,7 +145,7 @@
 						   						<label class="custom-file-label" data-browse="Прикрепить файл"></label>
 											</div>							            
 							            </td>
-							            <td th:text="${f.filelength}"/>
+							            <td th:text="${f.fileext}"/>
 							            <td th:text="${f.filetype?.name}"/>
 							            <td th:text="${f.filelength}"/>
 							            <td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
