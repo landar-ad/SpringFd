@@ -299,6 +299,26 @@ public class Reestr extends IBase {
     	}
     }
     public void sendReestr(HttpServletRequest request) throws Exception {
-    	
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		for (; ;) {
+    			IDepartment dep = hs.getDepartment();
+    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
+	    		String reestr_status = "1";
+	    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+	    		if (!"1".equals(reestr_status)) break;
+	    		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
+    			for (Document doc : getList_doc()) {
+    				// Изменить документ
+    				doc.setDoc_status(doc_status);
+    			}
+    			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
+	    		break;
+    		}
+	    	transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
     }
 }
