@@ -25,6 +25,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +47,7 @@ import ru.landar.spring.model.SpDocStatus;
 import ru.landar.spring.model.SpDocType;
 import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.model.SpReestrStatus;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.model.ISettings;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -58,6 +62,11 @@ public class ObjController {
 	private UserService userService;
 	@Autowired
 	private HelperService hs;
+	@Autowired
+    private PlatformTransactionManager transactionManager;
+	@Autowired
+	ObjRepositoryCustom objRepository;
+	
 	@RequestMapping(value = "/listObj")
 	public String listObj(@RequestParam("clazz") String clazz,
 						  @RequestParam("p_off") Optional<Integer> offParam,
@@ -301,96 +310,99 @@ public class ObjController {
 				}
 			}
 		}
-		// Изменение объекта
-		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
-		if (rn == null) hs.invoke(obj, "onNew");
-		if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
-		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
-		mapValue.forEach((attr, valueNew) -> {
-			Object valueOld = hs.getProperty(obj, attr);
-			if (!hs.equals(valueOld, valueNew)) {
-				mapChanged.put(attr, new Object[]{valueOld, valueNew});
-				hs.setProperty(obj, attr, valueNew);
-			}
-		});
-		// list - атрибут списка
-		mapItems.forEach((list, o) -> {
-			Map<String, Object> map = (Map<String, Object>)o;
-			List<Object> lcmd = (List<Object>)map.get("p_cmd");
-			if (lcmd == null) return;
-			List<Object> lrn = (List<Object>)map.get("rn");
-			List<Object> lclazz = (List<Object>)map.get("clazz");
-			List<Object> ladd = (List<Object>)map.get("p_add");
-			for (int i=0; i<lcmd.size(); i++) {
-				String cmd = (String)lcmd.get(i);
-				if (hs.isEmpty(cmd)) continue;
-				String add = (String)ladd.get(i);
-				boolean bNew = !"exists".equals(add);
-				Integer rnItem = null;
-				try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
-				String clazzItem = (String)lclazz.get(i); 
-				Class<?> clItem = hs.getClassByName(clazzItem);
-				if (clItem == null) continue;
-				Object item = null;
-				if ("remove".equals(cmd) && rnItem != null) {
-					try { objService.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
+		String redirect = null;
+		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+			// Изменение объекта
+    		Object obj = rn == null ? cl.newInstance() : objRepository.find(cl, rn);
+			if (rn == null) hs.invoke(obj, "onNew");
+			if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
+			Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
+			mapValue.forEach((attr, valueNew) -> {
+				Object valueOld = hs.getProperty(obj, attr);
+				if (!hs.equals(valueOld, valueNew)) {
+					mapChanged.put(attr, new Object[]{valueOld, valueNew});
+					hs.setProperty(obj, attr, valueNew);
 				}
-				else if ("add".equals(cmd) && rnItem == null) {
-					try { 
-						item = objService.executeItem(obj, list, cmd, clazzItem, null, bNew);
-					} catch (Exception ex) { }
-				}
-				else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
-					item = objService.find(clItem, rnItem);
-				}
-				if (item != null) {
-					Map<String, Object[]> mapChangedItem = new LinkedHashMap<String, Object[]>();
-					Object f = null;
-					Iterator<String> it = map.keySet().iterator();
-					while (it.hasNext()) {
-						String ap = it.next();
-						if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap) || "p_add".equals(ap)) continue;
-						List<Object> lvalue = (List<Object>)map.get(ap);
-						Object v = lvalue.get(i);
-						if (v != null && v instanceof IBase) {
-							f = v;
-							v = hs.getProperty(v, ap); 
-						}
-						else v = hs.getObjectByString(clItem, ap, (String)v);
-						if (v != null) {
-							Object valueOld = hs.getProperty(item, ap);
-							if (!hs.equals(valueOld, v)) {
-								mapChangedItem.put(ap, new Object[]{valueOld, v});
-								hs.setProperty(item, ap, v);
+			});
+			// list - атрибут списка
+			mapItems.forEach((list, o) -> {
+				Map<String, Object> map = (Map<String, Object>)o;
+				List<Object> lcmd = (List<Object>)map.get("p_cmd");
+				if (lcmd == null) return;
+				List<Object> lrn = (List<Object>)map.get("rn");
+				List<Object> lclazz = (List<Object>)map.get("clazz");
+				List<Object> ladd = (List<Object>)map.get("p_add");
+				for (int i=0; i<lcmd.size(); i++) {
+					String cmd = (String)lcmd.get(i);
+					if (hs.isEmpty(cmd)) continue;
+					String add = (String)ladd.get(i);
+					boolean bNew = !"exists".equals(add);
+					Integer rnItem = null;
+					try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
+					String clazzItem = (String)lclazz.get(i); 
+					Class<?> clItem = hs.getClassByName(clazzItem);
+					if (clItem == null) continue;
+					Object item = null;
+					if ("remove".equals(cmd) && rnItem != null) {
+						try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
+					}
+					else if ("add".equals(cmd) && rnItem == null) {
+						try { 
+							item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew);
+						} catch (Exception ex) { }
+					}
+					else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
+						item = objRepository.find(clItem, rnItem);
+					}
+					if (item != null) {
+						Map<String, Object[]> mapChangedItem = new LinkedHashMap<String, Object[]>();
+						Object f = null;
+						Iterator<String> it = map.keySet().iterator();
+						while (it.hasNext()) {
+							String ap = it.next();
+							if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap) || "p_add".equals(ap)) continue;
+							List<Object> lvalue = (List<Object>)map.get(ap);
+							Object v = lvalue.get(i);
+							if (v != null && v instanceof IBase) {
+								f = v;
+								v = hs.getProperty(v, ap); 
+							}
+							else v = hs.getObjectByString(clItem, ap, (String)v);
+							if (v != null) {
+								Object valueOld = hs.getProperty(item, ap);
+								if (!hs.equals(valueOld, v)) {
+									mapChangedItem.put(ap, new Object[]{valueOld, v});
+									hs.setProperty(item, ap, v);
+								}
 							}
 						}
+						if (f != null) hs.copyProperties(f, item, true);
+						objRepository.saveObj(item);
+						// Добавление информации об изменении объекта
+						hs.invoke(item, "onUpdate", mapItems, mapChangedItem);
+						// Запись в журнал
+						objRepository.writeLog(userService.getPrincipal(), 
+											item, 
+											mapChangedItem, 
+											"add".equals(cmd) ? "create" : "update", 
+											ip, 
+											browser);
 					}
-					if (f != null) hs.copyProperties(f, item, true);
-					objService.saveObj(item);
-					// Добавление информации об изменении объекта
-					hs.invoke(item, "onUpdate", mapItems, mapChangedItem);
-					// Запись в журнал
-					objService.writeLog(userService.getPrincipal(), 
-										item, 
-										mapChangedItem, 
-										"add".equals(cmd) ? "create" : "update", 
-										ip, 
-										browser);
 				}
-			}
-		});
-		objService.saveObj(obj);
-		// Добавление информации об изменении объекта
-		hs.invoke(obj, "onUpdate", mapItems, mapChanged);
-		// Запись в журнал
-		objService.writeLog(userService.getPrincipal(), 
-							obj, 
-							mapChanged, 
-							rn == null ? "create" : "update", 
-							ip, 
-							browser);
-		// Переход на страницу
-		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
+			});
+			objRepository.saveObj(obj);
+			// Добавление информации об изменении объекта
+			hs.invoke(obj, "onUpdate", mapItems, mapChanged);
+			// Запись в журнал
+			objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, rn == null ? "create" : "update", ip, browser);
+			transactionManager.commit(ts);
+			// Переход на страницу
+			redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
+    	}
+    	catch (Exception ex) {
+    		transactionManager.rollback(ts);
+    	}
 		if (hs.isEmpty(redirect)) redirect = "mainPage";
 		return "redirect:" + redirect;
 	}
@@ -468,9 +480,9 @@ public class ObjController {
 								@RequestParam("clazz") Optional<String> paramClazz,
 								HttpServletRequest request,
 								Model model) throws Exception {
-		Object obj = objService.find(paramClazz.orElse(null), rn);
 		String msg = "", name = "";
 		for (; ;) {
+			Object obj = objService.find(paramClazz.orElse(null), rn);
 			if (obj == null) { msg = String.format("Не найден объект с идентификатором '%s'", rn); break; }
 			name = (String)hs.getProperty(obj, "name");
 			if (!hs.checkRights(obj, Operation.delete)) { msg = String.format("Вы не имеете прав на удаление объекта '%s'", name); break; }
@@ -478,12 +490,7 @@ public class ObjController {
 			if (b != null && !b) { msg = String.format("Отказано в удалении объекта '%s'", name); break; }
 			objService.removeObj(paramClazz.orElse(null), rn);
 			// Запись в журнал
-			objService.writeLog(userService.getPrincipal(), 
-								obj, 
-								null, 
-								"remove", 
-								(String)request.getSession().getAttribute("ip"), 
-								(String)request.getSession().getAttribute("browser"));
+			objService.writeLog(userService.getPrincipal(), obj, null, "remove", (String)request.getSession().getAttribute("ip"), (String)request.getSession().getAttribute("browser"));
 			msg = String.format("Объект '%s' успешно удален", name);
 			break;
 		}
