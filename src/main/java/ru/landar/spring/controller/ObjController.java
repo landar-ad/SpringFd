@@ -261,9 +261,12 @@ public class ObjController {
 		if (colParts != null) {
 			for (Part part : colParts) {
 				String p = part.getName();
-				// Берем только файлы
-				if (part.getSubmittedFileName() == null) continue;
 				if ("clazz".equals(p) || "rn".equals(p)) continue;
+				// Берем только файлы
+				if (part.getSubmittedFileName() == null) {
+					
+					continue;
+				}
 				int k = p.indexOf("__");
 				if (k > 0) {
 					String a = p.substring(0, k);
