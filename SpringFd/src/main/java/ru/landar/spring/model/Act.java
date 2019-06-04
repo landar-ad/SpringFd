@@ -245,16 +245,32 @@ public class Act extends IBase {
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendAct".equals(param)) {
-			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
+			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(act_status)) return false;
+			return true;
 		}
 		else if ("acceptAct".equals(param)) {
-			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
+			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"2".equals(act_status)) return false;
+			return true;
 		}
 		else if ("confirmAct".equals(param)) {
-			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
+			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"3".equals(act_status)) return false;
+			return true;
 		}
 		else if ("refuseAct".equals(param)) {
-			return dep != null && getDepart() != null && dep.getRn() == getDepart().getRn();
+			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			String act_status = "1";
+    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"3".equals(act_status)) return false;
+			return true;
 		}
 		return false;
     }
