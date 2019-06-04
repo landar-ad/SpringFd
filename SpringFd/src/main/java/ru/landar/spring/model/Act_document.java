@@ -62,22 +62,32 @@ public class Act_document extends IBase {
     				setExclude_reason(null);
     			}
     		}
-    		SpDocStatus doc_status = null;
-    		Act act = null;
-    		if (getParent() != null && getParent() instanceof Act) act = (Act)getParent();
-    		doc_status = (SpDocStatus)objService.getObjByCode(SpDocStatus.class, !exclude ? "4" : "5");
-    		doc.setDoc_status(doc_status);
-    		if (doc_status != null && act != null && "4".equals(doc_status.getCode())) {
-    			doc.setAct(act);
-    			doc.setAct_exclude_num(null);
-				doc.setAct_exclude_date(null);
+    		SpDocStatus doc_status = doc.getDoc_status();
+    		if (doc_status  == null || (!"2".equals(doc_status) && !"3".equals(doc_status))) 
+    		{ 
+    			setExclude(true);
+    			setExclude_date(null);
+				setExclude_reason("Состояние документа не позволяет включить его в этот акт");
+    			setDoc(null); 
     		}
-    		if (doc_status != null && "5".equals(doc_status.getCode())) {
-    			doc.setAct(null);
-    			if (act != null) {
-    				doc.setAct_exclude_num(act.getAct_number());
-    				doc.setAct_exclude_date(act.getAct_date());
-    			}
+    		else
+    		{
+	    		Act act = null;
+	    		if (getParent() != null && getParent() instanceof Act) act = (Act)getParent();
+	    		doc_status = (SpDocStatus)objService.getObjByCode(SpDocStatus.class, !exclude ? "4" : "5");
+	    		doc.setDoc_status(doc_status);
+	    		if (doc_status != null && act != null && "4".equals(doc_status.getCode())) {
+	    			doc.setAct(act);
+	    			doc.setAct_exclude_num(null);
+					doc.setAct_exclude_date(null);
+	    		}
+	    		if ("5".equals(doc_status.getCode())) {
+	    			doc.setAct(null);
+	    			if (act != null) {
+	    				doc.setAct_exclude_num(act.getAct_number());
+	    				doc.setAct_exclude_date(act.getAct_date());
+	    			}
+	    		}
     		}
     	}
 		objService.saveObj(this);
