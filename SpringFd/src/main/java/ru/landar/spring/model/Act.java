@@ -191,7 +191,7 @@ public class Act extends IBase {
 			Integer rnDep = hs.getDepartmentKey();
 			if (rnDep != null) {
 				listAttr.add("depart__rn");
-				listValue.add("eq " + rnDep);
+				listValue.add("= " + rnDep);
 			}
 		}
 		return true;
