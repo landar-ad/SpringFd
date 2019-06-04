@@ -409,7 +409,7 @@ public class ObjController {
 		String clazz = obj.getClass().getSimpleName();
 		String cmd = cmdItemParam.orElse("add");
 		Integer rnItem = rnItemParam.orElse(null);
-		objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem, "new".equals(paramAdd.orElse("new")));
+		objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem, !"exists".equals(paramAdd.orElse("new")));
 		model.addAttribute("hs", hs);
 		setObjModel(obj, model);
 		String t = "details" + clazz + "Page";
