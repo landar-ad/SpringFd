@@ -269,7 +269,7 @@ public class Act extends IBase {
     		for (; ;) {
     			IDepartment dep = hs.getDepartment();
     			if (dep == null) break;
-    			Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code, depart__rn"}, new Object[] {"2", dep.getRn()});
+    			Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code", "depart__rn"}, new Object[] {"2", dep.getRn()});
     			if (p == null || p.isEmpty()) break;
 		    	Act act = new Act();
 		    	act.onNew();
