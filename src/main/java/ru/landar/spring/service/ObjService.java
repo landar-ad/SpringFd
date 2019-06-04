@@ -24,7 +24,6 @@ public interface ObjService {
     Object find(Class<?> cl, String attr, Object value);
     Object getObjByCode(Class<?> cl, String code);
     String getClassByKey(Integer rn);
-    Class<Object> getClassByName(String clazz);
     Object getSettings(String code, String type);
     ISettings loadSettings(String code, String type);
     Page<SearchContent> search(String text, int off, int page);

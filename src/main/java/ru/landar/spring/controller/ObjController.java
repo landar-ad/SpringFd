@@ -70,7 +70,7 @@ public class ObjController {
 		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
 		Integer rn = rnParam.orElse(null);
 		String listVisible = listVisibleParam.orElse(null);
-		Class<Object> cl = objService.getClassByName(clazz);
+		Class<Object> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = cl.newInstance();
 		// Поисковые атрибуты
@@ -207,7 +207,7 @@ public class ObjController {
 							 @RequestParam("p_tab") Optional<Integer> paramTab, 
 							 @RequestParam("readonly") Optional<Integer> paramReadonly, 
 							 Model model) throws Exception {
-		Class<?> cl = objService.getClassByName(clazz);
+		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Integer rn = paramRn.orElse(null);
 		Integer prn = paramPrn.orElse(null);
@@ -230,7 +230,7 @@ public class ObjController {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Integer rn = paramRn.orElse(null);
 		Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
-		Class<?> cl = objService.getClassByName(clazz);
+		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
 		Map<String, Object> mapItems = new LinkedHashMap<String, Object>();
 		// Все кроме файлов
@@ -329,7 +329,7 @@ public class ObjController {
 				Integer rnItem = null;
 				try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
 				String clazzItem = (String)lclazz.get(i); 
-				Class<?> clItem = objService.getClassByName(clazzItem);
+				Class<?> clItem = hs.getClassByName(clazzItem);
 				if (clItem == null) continue;
 				Object item = null;
 				if ("remove".equals(cmd) && rnItem != null) {
@@ -421,7 +421,7 @@ public class ObjController {
 							 @RequestParam("param") String param,
 							 HttpServletRequest request,
 							 Model model) throws Exception {
-		Class<?> cl = objService.getClassByName(clazz);
+		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Integer rn = rnParam.orElse(null);
 		Object obj = rn != null ? objService.find(cl, rn) : null;
@@ -442,7 +442,7 @@ public class ObjController {
 							 Model model) throws Exception {
 		boolean b = false;
 		for (; ;) {
-			Class<?> cl = objService.getClassByName(clazz);
+			Class<?> cl = hs.getClassByName(clazz);
 			if (cl == null) break;
 			Integer rn = rnParam.orElse(null);
 			Object obj = rn != null ? objService.find(cl, rn) : cl.newInstance();

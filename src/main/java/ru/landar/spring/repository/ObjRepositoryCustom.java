@@ -25,4 +25,5 @@ public interface ObjRepositoryCustom {
 	List<Object> findAll(Class<?> cl);
 	Object findByCode(Class<?> cl, String code);
 	String getClassByKey(Object pk);
+	Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception;
 }
