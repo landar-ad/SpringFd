@@ -50,15 +50,26 @@ public class Act_document extends IBase {
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
     	if (mapChanged.containsKey("exclude")) {
+    		Act act = (Act)getParent();
     		Document doc = getDoc();
     		if (getExclude() != null && getExclude()) {
     			if (getExclude_date() == null) setExclude_date(new Date());
-    			if (doc != null) doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "5"));
+    			if (doc != null) {
+    				doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "5"));
+    				doc.setAct_exclude_date(act != null ? act.getAct_date() : null);
+    				doc.setAct_exclude_num(act != null ? act.getAct_number() : null);
+    				doc.setAct_exclude_reason(getExclude_reason());
+    			}
     		}
     		else {
     			setExclude_date(null);
     			setExclude_reason(null);
-    			if (doc != null) doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "3"));
+    			if (doc != null) {
+    				doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "3"));
+    				doc.setAct_exclude_date(null);
+    				doc.setAct_exclude_num(null);
+    				doc.setAct_exclude_reason(null);
+    			}
     		}
     	}
     	return true;
