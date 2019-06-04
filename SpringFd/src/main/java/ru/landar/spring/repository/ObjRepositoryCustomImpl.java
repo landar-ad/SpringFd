@@ -31,8 +31,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
+import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.ISession;
+import ru.landar.spring.model.SpActionType;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.UserService;
 
@@ -415,5 +417,39 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			}
 		}
 		return null;
+	}
+	@Override
+	public void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser) {
+		Integer obj_rn = (Integer)hs.getProperty(obj, "rn");
+		SpActionType action_type = (SpActionType)findByCode(SpActionType.class, op);
+		Date dt = new Date();
+		String obj_name = obj.getClass().getSimpleName();
+		if (mapChanged != null) {
+			if (!mapChanged.isEmpty()) mapChanged.forEach((attr, o) -> {
+				ActionLog al = new ActionLog();
+	    		al.setUser_login(user_login);
+	    		al.setAction_type(action_type);
+	    		al.setAction_time(dt);
+	    		al.setClient_ip(ip);
+	    		al.setClient_browser(browser);
+	    		al.setObj_name(obj_name);
+	    		al.setObj_rn(obj_rn);
+	    		al.setObj_attr(attr);
+	    		al.setObj_value_before(o[0] != null ? o[0].toString() : null);
+	    		al.setObj_value_after(o[1] != null ? o[1].toString() : null);
+	    		saveObj(al);
+			});
+		}
+		else {
+			ActionLog al = new ActionLog();
+			al.setUser_login(user_login);
+			al.setAction_type(action_type);
+			al.setAction_time(dt);
+			al.setClient_ip(ip);
+			al.setClient_browser(browser);
+			al.setObj_name(obj_name);
+			al.setObj_rn(obj_rn);
+			saveObj(al);
+		}
 	}
 }
