@@ -81,6 +81,7 @@ public class Act_document extends IBase {
     	Document doc = getDoc();
     	if (doc != null) {
     		doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+    		doc.setAct(null);
     	}
     	return true;
     }

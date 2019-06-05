@@ -179,11 +179,9 @@ public class Act extends IBase {
     	for (Act_document act_doc : l) {
     		Document doc = act_doc.getDoc();
     		if (doc == null) continue;
-			doc.setAct(null);
-			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
-			objRepository.saveObj(doc);
-			act_doc.setDoc(null);
-			objRepository.saveObj(act_doc);
+    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+    		doc.setAct(null);
+    		objRepository.saveObj(doc);
     	}
     	return true;
     }
@@ -301,11 +299,13 @@ public class Act extends IBase {
     		setAct_num(max + 1); 
     		setAct_number("" + getAct_num());
 	    	Act act = (Act)objRepository.createObj(this);
+	    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3");
 	    	List<Act_document> l = act.getList_doc();
 	    	for (Object o : p.getContent()) {
 	    		Document doc = (Document)o;
-	    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3"));
+	    		doc.setDoc_status(doc_status);
 	    		doc.setAct(act);
+	    		objRepository.saveObj(doc);
 	    		Act_document act_doc = new Act_document();
 	    		act_doc.setDoc(doc);
 	    		act_doc.onNew();
