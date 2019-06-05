@@ -21,7 +21,7 @@ public class Act_document extends IBase {
 	private String exclude_reason;
 	private Date exclude_date;
 	
-	@ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Document.class)
     public Document getDoc() { return doc; }
     public void setDoc(Document doc) { this.doc = doc; }
     

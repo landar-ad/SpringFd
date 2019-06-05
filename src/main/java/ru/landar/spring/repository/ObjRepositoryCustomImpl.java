@@ -71,6 +71,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
 		Object ret = em.merge(obj);
 		em.flush();
+		em.close();
 		return ret;
 	}
 	@Override
