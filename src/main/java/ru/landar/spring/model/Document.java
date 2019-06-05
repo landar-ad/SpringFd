@@ -2,6 +2,7 @@ package ru.landar.spring.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.LockModeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -10,12 +11,17 @@ import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -261,11 +267,11 @@ public class Document extends IBase {
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();
 			if (roles.indexOf("ADMIN") >= 0) return true;
-			IOrganization org = user.getOrg();
-			IPerson person = user.getPerson();
-			if (org == null && person == null) throw new SecurityException("У пользователя " + user.getLogin() + " не указан контрагент");
-			IAgent agent = getAgent();
-			if (agent != null && ((org != null && org.getRn().compareTo(agent.getRn()) == 0) || (person != null && person.getRn().compareTo(agent.getRn()) == 0))) return true;
+			IAgent agent = getCreate_agent(), person = user.getPerson();
+			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
+			IDepartment dep = hs.getDepartment();
+			if (dep != null && "11".equals(dep.getCode())) return true;
+			if (dep != null && getDepart() != null && dep.getRn() == getDepart().getRn()) return true;
 			return false;
     	}
     	return true;
@@ -297,17 +303,32 @@ public class Document extends IBase {
 		}
 		return false;
     }
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+    @Autowired
+	ObjRepositoryCustom objRepository;
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirm(HttpServletRequest request) throws Exception {
-    	AutowireHelper.autowire(this);	
-		if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) return;
-		Object valueOld = getDoc_status(), valueNew = objService.getObjByCode(SpDocStatus.class, "2");
-		setDoc_status((SpDocStatus)valueNew);
-		objService.saveObj(this);
-		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
-		mapChanged.put("doc_status", new Object[] {valueOld, valueNew});
-		onUpdate(null, mapChanged);
-		String ip = request != null ? (String)request.getSession().getAttribute("ip") : null, browser = request != null ? (String)request.getSession().getAttribute("browser") : null;
-		// Запись в журнал
-		objService.writeLog(userService.getPrincipal(), this, mapChanged, "update", ip, browser);
+    	AutowireHelper.autowire(this);
+    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		for (; ;) {
+				if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) break;
+				Object valueOld = getDoc_status(), valueNew = objRepository.findByCode(SpDocStatus.class, "2");
+				setDoc_status((SpDocStatus)valueNew);
+				objRepository.saveObj(this);
+				Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
+				mapChanged.put("doc_status", new Object[] {valueOld, valueNew});
+				onUpdate(null, mapChanged);
+				String ip = request != null ? (String)request.getSession().getAttribute("ip") : null, browser = request != null ? (String)request.getSession().getAttribute("browser") : null;
+				// Запись в журнал
+				objRepository.writeLog(userService.getPrincipal(), this, mapChanged, "update", ip, browser);
+				break;
+    		}
+    		transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
 	}
 }

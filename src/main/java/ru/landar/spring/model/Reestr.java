@@ -196,7 +196,6 @@ public class Reestr extends IBase {
 		}
 		setDoc_count(doccount);
 		setSheet_count(sheetcount);
-		objService.saveObj(this);
 		return true;
 	}
 	@Override
@@ -233,8 +232,7 @@ public class Reestr extends IBase {
     public Object onCheckRights(Operation op) { 
     	Object ret = invoke("onCheckRights", op);
      	if (ret != null) return ret;
-    	
-    	Integer rn = getRn();
+     	Integer rn = getRn();
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete)
     	{
@@ -242,11 +240,11 @@ public class Reestr extends IBase {
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();
 			if (roles.indexOf("ADMIN") >= 0) return true;
-			IOrganization org = user.getOrg();
-			IPerson person = user.getPerson();
-			if (org == null && person == null) throw new SecurityException("У пользователя " + user.getLogin() + " не указан контрагент");
-			IAgent cragent = getCreate_agent();
-			if (cragent != null && ((org != null && org.getRn().compareTo(cragent.getRn()) == 0) || (person != null && person.getRn().compareTo(cragent.getRn()) == 0))) return true;
+			IAgent agent = getCreate_agent(), person = user.getPerson();
+			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
+			IDepartment dep = hs.getDepartment();
+			if (dep != null && "11".equals(dep.getCode())) return true;
+			if (dep != null && getDepart() != null && dep.getRn() == getDepart().getRn()) return true;
 			return false;
     	}
     	return true;
@@ -257,10 +255,25 @@ public class Reestr extends IBase {
      	if (ret != null) return ret;
      	if ("newReestr".equals(param)) return true;
      	if (getRn() == null) return false;
-    	if ("edit".equals(param)) return onCheckRights(Operation.update);
-		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
+    	if ("edit".equals(param)) {
+    		if (!(Boolean)onCheckRights(Operation.update)) return false;
+    		String reestr_status = "1";
+    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(reestr_status)) return false;
+    		return true;
+    	}
+		else if ("remove".equals(param)) {
+			if (!(Boolean)onCheckRights(Operation.delete)) return false;
+    		String reestr_status = "1";
+    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(reestr_status)) return false;
+    		return true;
+		}
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendReestr".equals(param)) {
+			String reestr_status = "1";
+    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(reestr_status)) return false;
 			return true;
 		}
 		return false;
@@ -287,6 +300,7 @@ public class Reestr extends IBase {
 		    		Document doc = (Document)o;
 		    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
 		    		doc.setReestr(reestr);
+		    		objRepository.saveObj(doc);
 		    		l.add(doc);
 		    	}
 		    	reestr.setList_doc(l);
@@ -299,6 +313,7 @@ public class Reestr extends IBase {
     	}
     }
     public void sendReestr(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
     		for (; ;) {
@@ -309,10 +324,11 @@ public class Reestr extends IBase {
 	    		if (!"1".equals(reestr_status)) break;
 	    		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
     			for (Document doc : getList_doc()) {
-    				// Изменить документ
     				doc.setDoc_status(doc_status);
+    				objRepository.saveObj(doc);
     			}
     			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
+    			objRepository.saveObj(this);
 	    		break;
     		}
 	    	transactionManager.commit(ts);
