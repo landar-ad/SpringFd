@@ -52,7 +52,7 @@
 	                    		<option value=""></option>
 								<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
 							</select>
-							<select th:if="${st!='1'}" class="form-control form-control-sm">
+							<select th:if="${st!='1'}" class="form-control form-control-sm" disabed>
 								<option selected="selected" th:value="${obj.depart?.rn}" th:utext="${obj.depart?.name}"/>
 							</select>
                        	</div>
@@ -144,7 +144,7 @@
 	                    		<option value=""></option>
 								<option th:each="d : ${listActStatus}" th:selected="${obj.act_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
 							</select>  
-							<select th:if="${st!='1'}" class="form-control form-control-sm">
+							<select th:if="${st!='1'}" class="form-control form-control-sm" disabled>
 								<option selected="selected" th:value="${obj.act_status?.rn}" th:utext="${obj.act_status?.name}"/>
 							</select>  
 						</div>
