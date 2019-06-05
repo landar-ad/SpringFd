@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.landar.spring.model.Act;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.repository.UserRepositoryCustomImpl;
@@ -54,12 +55,11 @@ public class TestController {
 		return UserRepositoryCustomImpl.encoder.encode(p);
 	}
 	
-	@RequestMapping(value = "/test/transaction", method = RequestMethod.GET, produces = "text/plain")
+	@RequestMapping(value = "/test/find", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String test() throws Exception {
-		//LockModeType.PESSIMISTIC_READ
-		
-		return "";
+		Page<?> p = objService.findAll(Act.class, null, new String[] {"list_doc__doc_rn"}, new Object[] {131});
+		return "" + p.getContent().size();
 	}
 	
 	@RequestMapping(value = "/test/pagination")

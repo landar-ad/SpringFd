@@ -181,8 +181,7 @@ public class Act extends IBase {
     		if (doc == null) continue;
     		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
     		doc.setAct(null);
-    		objRepository.saveObj(doc);
-    	}
+     	}
     	return true;
     }
 	@Override

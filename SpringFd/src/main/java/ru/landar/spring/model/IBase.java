@@ -115,9 +115,7 @@ public abstract class IBase {
     	return invoke("onUpdate", map, mapChanged);
     }
     public Object onRemove() { 
-    	Object ret = invoke("onRemove");
-    	if (ret == null) ret = true;
-		return ret; 
+    	return invoke("onRemove");
 	}
     public Object onRedirectAfterUpdate() { 
     	Object ret = invoke("onRedirectAfterUpdate");
