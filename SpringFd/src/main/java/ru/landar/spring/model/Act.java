@@ -378,10 +378,17 @@ public class Act extends IBase {
 	    		String act_status = "1";
 	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
 	    		if (!"3".equals(act_status)) break;
-    			act_status = "4";
+    			act_status = "5";
     			for (Act_document act_doc : getList_doc()) {
     				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
-    				if ("4".equals(act_status) && e) act_status = "5";
+    				if (!e) {
+    					act_status = "4";
+    					break;
+    				}
+    			}
+    			for (Act_document act_doc : getList_doc()) {
+    				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
+    				if ("5".equals(act_status) && e) e = true;
     				// Изменить документ
     				Document doc = act_doc.getDoc();
     				if (doc == null) continue;
