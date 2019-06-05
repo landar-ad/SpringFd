@@ -496,18 +496,27 @@ public class ObjController {
 								@RequestParam("clazz") Optional<String> paramClazz,
 								HttpServletRequest request,
 								Model model) throws Exception {
+		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		String msg = "", name = "";
 		for (; ;) {
 			Object obj = objService.find(paramClazz.orElse(null), rn);
 			if (obj == null) { msg = String.format("Не найден объект с идентификатором '%s'", rn); break; }
 			name = (String)hs.getProperty(obj, "name");
 			if (!hs.checkRights(obj, Operation.delete)) { msg = String.format("Вы не имеете прав на удаление объекта '%s'", name); break; }
-			Boolean b = (Boolean)hs.invoke(obj, "onRemove");
-			if (b != null && !b) { msg = String.format("Отказано в удалении объекта '%s'", name); break; }
-			objService.removeObj(paramClazz.orElse(null), rn);
-			// Запись в журнал
-			objService.writeLog(userService.getPrincipal(), obj, null, "remove", (String)request.getSession().getAttribute("ip"), (String)request.getSession().getAttribute("browser"));
-			msg = String.format("Объект '%s' успешно удален", name);
+			TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+	    	try {
+				Boolean b = (Boolean)hs.invoke(obj, "onRemove");
+				if (b != null && !b) throw new Exception(String.format("Отказано в удалении объекта '%s'", name));
+				objRepository.removeObj(obj);
+				// Запись в журнал
+				objRepository.writeLog(userService.getPrincipal(), obj, null, "remove", ip, browser);
+				msg = String.format("Объект '%s' успешно удален", name);
+				transactionManager.commit(ts);
+			}
+			catch (Exception ex) {
+				msg = ex.getMessage();
+				transactionManager.rollback(ts);
+			}
 			break;
 		}
 		setMainModel(model, "Удаление объекта");
