@@ -101,9 +101,9 @@ public class Act extends IBase {
 	
     private void updateName() {
     	AutowireHelper.autowire(this);
-    	String name = "";
-    	if (!hs.isEmpty(getAct_number())) name = "№ " + getAct_number();
-    	if (getAct_date() != null) name += (!name.isEmpty() ? " от " : "От ") + new SimpleDateFormat("dd.MM.yyyy").format(getAct_date());
+    	String name = "Акт приема-передачи";
+    	if (!hs.isEmpty(getAct_number())) name += " № " + getAct_number();
+    	if (getAct_date() != null) name += " от " + new SimpleDateFormat("dd.MM.yyyy").format(getAct_date());
     	setName(name);
     }
     
@@ -122,6 +122,7 @@ public class Act extends IBase {
 		ret.add(new ColumnInfo("act_date", "Дата акта"));
 		ret.add(new ColumnInfo("act_status__name", "Статус акта", true, true, "act_status__rn", "select", "listActStatus"));
 		ret.add(new ColumnInfo("time_status", "Дата изменения статуса"));
+		ret.add(new ColumnInfo("act_reason", "Причина отказа"));
 		ret.add(new ColumnInfo("create_agent__name", "Создан"));
 		ret.add(new ColumnInfo("depart__name", "Структурное подразделение"));
 		ret.add(new ColumnInfo("create_time", "Дата создания"));
