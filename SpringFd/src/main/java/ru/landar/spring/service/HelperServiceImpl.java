@@ -537,6 +537,13 @@ public class HelperServiceImpl implements HelperService {
 		return dep == null ? null : dep.getRn();
 	}
 	@Override
+	public boolean checkDepartment(IDepartment depart) {
+		IDepartment dep = getDepartment();
+		if (dep != null && "11".equals(dep.getCode())) return true;
+		if (dep != null && depart != null && dep.getRn() == depart.getRn()) return true;
+		return false;
+	}
+	@Override
 	public Class<Object> getClassByName(String clazz) {
 		Class<Object> ret = null;
 		try { ret = (Class<Object>)Class.forName(IBase.class.getName().substring(0, IBase.class.getName().lastIndexOf('.') + 1) + clazz); } catch (Exception ex) { }

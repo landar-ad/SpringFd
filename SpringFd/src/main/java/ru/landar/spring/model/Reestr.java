@@ -234,17 +234,16 @@ public class Reestr extends IBase {
      	if (ret != null) return ret;
      	Integer rn = getRn();
     	if (rn == null) return true;
-    	if (op == Operation.update || op == Operation.delete)
-    	{
+    	if (op == Operation.update || op == Operation.delete) {
 	     	IUser user = userService.getUser((String)null);
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();
 			if (roles.indexOf("ADMIN") >= 0) return true;
+			String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { }
+    		if (!"1".equals(reestr_status)) return false;
 			IAgent agent = getCreate_agent(), person = user.getPerson();
 			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
-			IDepartment dep = hs.getDepartment();
-			if (dep != null && "11".equals(dep.getCode())) return true;
-			if (dep != null && getDepart() != null && dep.getRn() == getDepart().getRn()) return true;
+			if (hs.checkDepartment(getDepart())) return true;
 			return false;
     	}
     	return true;
@@ -257,22 +256,19 @@ public class Reestr extends IBase {
      	if (getRn() == null) return false;
     	if ("edit".equals(param)) {
     		if (!(Boolean)onCheckRights(Operation.update)) return false;
-    		String reestr_status = "1";
-    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+    		String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(reestr_status)) return false;
     		return true;
     	}
 		else if ("remove".equals(param)) {
 			if (!(Boolean)onCheckRights(Operation.delete)) return false;
-    		String reestr_status = "1";
-    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+    		String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(reestr_status)) return false;
     		return true;
 		}
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendReestr".equals(param)) {
-			String reestr_status = "1";
-    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+			String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(reestr_status)) return false;
 			return true;
 		}
@@ -284,6 +280,7 @@ public class Reestr extends IBase {
 	ObjRepositoryCustom objRepository;
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void newReestr(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
     		Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code"}, new Object[] {"4"});
