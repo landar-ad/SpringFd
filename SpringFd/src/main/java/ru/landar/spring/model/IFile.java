@@ -8,7 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+
+import ru.landar.spring.classes.Operation;
+import ru.landar.spring.service.UserService;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -74,6 +78,18 @@ public class IFile extends IBase {
 			break;
     	}
 		return true;
+    }
+    @Autowired
+	UserService userService;
+    @Override
+    public Object onCheckRights(Operation op) { 
+    	Object ret = invoke("onCheckRights", op);
+     	if (ret != null) return ret;
+     	Integer rn = getRn();
+    	if (rn == null) return true;
+    	if (getParent() != null) return getParent().onCheckRights(op);
+    	if (getCreator() != null) return getCreator().equals(userService.getPrincipal());
+    	return true;
     }
     @Override
 	public Object onAddAttributes(Model model, boolean list) {
