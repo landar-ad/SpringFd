@@ -41,5 +41,6 @@ public interface HelperService {
 	UserService getUserService();
 	IDepartment getDepartment();
 	Integer getDepartmentKey();
+	boolean checkDepartment(IDepartment depart);
 	Class<Object> getClassByName(String clazz);
 }

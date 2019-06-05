@@ -216,17 +216,16 @@ public class Act extends IBase {
      	if (ret != null) return ret;
      	Integer rn = getRn();
     	if (rn == null) return true;
-    	if (op == Operation.update || op == Operation.delete)
-    	{
+    	if (op == Operation.update || op == Operation.delete) {
 	     	IUser user = userService.getUser((String)null);
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();
 			if (roles.indexOf("ADMIN") >= 0) return true;
+			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { }
+    		if (op == Operation.delete && !"1".equals(act_status)) return false;
 			IAgent agent = getCreate_agent(), person = user.getPerson();
 			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
-			IDepartment dep = hs.getDepartment();
-			if (dep != null && "11".equals(dep.getCode())) return true;
-			if (dep != null && getDepart() != null && dep.getRn() == getDepart().getRn()) return true;
+			if (hs.checkDepartment(getDepart())) return true;
 			return false;
     	}
     	return true;
@@ -235,13 +234,12 @@ public class Act extends IBase {
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
-     	IDepartment dep = hs.getDepartment();
+     	IDepartment dep = hs.getDepartment(), depart = getDepart();
     	if ("newAct".equals(param)) return dep != null;
     	if (getRn() == null) return false;
     	if ("edit".equals(param)) {
     		if (!(Boolean)onCheckRights(Operation.update)) return false;
-    		String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(act_status) && !"3".equals(act_status) && !"6".equals(act_status)) return false;
     		return true;
     	}
@@ -254,28 +252,28 @@ public class Act extends IBase {
 		}
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendAct".equals(param)) {
-			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			if (!hs.checkDepartment(depart)) return false;
 			String act_status = "1";
     		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(act_status)) return false;
 			return true;
 		}
 		else if ("acceptAct".equals(param)) {
-			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			if (!hs.checkDepartment(depart)) return false;
 			String act_status = "1";
     		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"2".equals(act_status)) return false;
 			return true;
 		}
 		else if ("confirmAct".equals(param)) {
-			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			if (!hs.checkDepartment(depart)) return false;
 			String act_status = "1";
     		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"3".equals(act_status)) return false;
 			return true;
 		}
 		else if ("refuseAct".equals(param)) {
-			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) return false;
+			if (!hs.checkDepartment(depart)) return false;
 			String act_status = "1";
     		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"3".equals(act_status)) return false;
@@ -333,8 +331,7 @@ public class Act extends IBase {
     		for (; ;) {
     			IDepartment dep = hs.getDepartment();
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1";
-	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
 	    		if (!"1".equals(act_status)) break;
 	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
 	    		objRepository.saveObj(this);
@@ -354,8 +351,7 @@ public class Act extends IBase {
     		for (; ;) {
     			IDepartment dep = hs.getDepartment();
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1";
-	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
 	    		if (!"2".equals(act_status)) break;
 	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
 	    		objRepository.saveObj(this);
@@ -375,8 +371,7 @@ public class Act extends IBase {
     		for (; ;) {
     			IDepartment dep = hs.getDepartment();
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1";
-	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
 	    		if (!"3".equals(act_status)) break;
     			act_status = "5";
     			for (Act_document act_doc : getList_doc()) {
