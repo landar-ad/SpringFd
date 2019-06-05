@@ -117,14 +117,9 @@ public class Reestr extends IBase {
     
     private void updateName() {
     	AutowireHelper.autowire(this);
-    	String name = "";
-    	if (!hs.isEmpty(getReestr_number())) name = "№ "+ getReestr_number();
-    	if (getReestr_date() != null)
-		{
-    		if (!name.isEmpty()) name += " от ";
-    		else name += "От ";
-    		name += new SimpleDateFormat("dd.MM.yyyy").format(getReestr_date());
-		}
+    	String name = "Реестр сдачи документов";
+    	if (!hs.isEmpty(getReestr_number())) name = " № "+ getReestr_number();
+    	if (getReestr_date() != null) name += " от " + new SimpleDateFormat("dd.MM.yyyy").format(getReestr_date());
     	setName(name);
     }
     
@@ -141,7 +136,7 @@ public class Reestr extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("reestr_number", "Номер реестра"));
 		ret.add(new ColumnInfo("reestr_date", "Дата реестра"));
-		ret.add(new ColumnInfo("reestr_status__name", "Статус реестра", true, true, "reestrstatus__rn", "select", "listReestrStatus"));
+		ret.add(new ColumnInfo("reestr_status__name", "Статус реестра", true, true, "reestr_status__rn", "select", "listReestrStatus"));
 		ret.add(new ColumnInfo("agent_from__name", "Документы сдал"));
 		ret.add(new ColumnInfo("agent_to__name", "Документы принял"));
 		ret.add(new ColumnInfo("mol__name", "Материально-ответственное лицо"));
