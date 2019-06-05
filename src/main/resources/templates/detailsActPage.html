@@ -38,13 +38,13 @@
                     <div class="form-group-sm row mt-sm-1">
                         <label class="col-sm-1 col-form-label required">№ акта</label>
                         <div class="col-sm-2">
-                        	<input th:if="${st!='1'}" name="act_number" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" required="required" th:readonly="${st!='1' ? 'readonly' : ''}"></input>
-                        	<input th:if="${st=='1'}" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" readonly="readonly"></input>
+                        	<input th:if="${st=='1'}" name="act_number" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" required="required" th:readonly="${st!='1' ? 'readonly' : ''}"></input>
+                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" readonly="readonly"></input>
                        	</div>
                         <label class="col-sm-1 col-form-label required">Дата акта</label>
                         <div class="col-sm-1">
-                        	<input th:if="${st!='1'}" name="act_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required" th:readonly="${st!='1' ? 'readonly' : ''}"></input>
-                        	<input th:if="${st=='1'}" class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" readonly="readonly"></input>
+                        	<input th:if="${st=='1'}" name="act_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required" th:readonly="${st!='1' ? 'readonly' : ''}"></input>
+                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" readonly="readonly"></input>
                        	</div>
                        	<label class="col-sm-1 col-form-label">Структурное подразделение</label>
                         <div class="col-sm-6">

@@ -11,6 +11,7 @@
 			});
 			size_init();
 			page_init("list_file", "IFile");
+			popup_init();
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
@@ -66,18 +67,19 @@
                     <div class="form-group-sm row mt-sm-1">
                         <label class="col-sm-2 col-form-label">Тип основного документа</label>
                         <div class="col-sm-2">
-	                    	<select class="form-control form-control-sm">
-	                    		<option value=""></option>
-								<option th:each="d : ${listDocType}" th:selected="${obj.parent_doc?.doc_type?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
-							</select>    
+                        	<input class="form-control form-control-sm" type="text" th:value="${obj.parent_doc?.doc_type?.name}"></input>
 						</div>
                         <label class="col-sm-2 col-form-label">№ основного документа</label>
                         <div class="col-sm-2">
-                        	<input class="form-control form-control-sm" type="text" th:value="${obj.parent_doc?.doc_num}"></input>
+                        	<input class="form-control form-control-sm" type="text" th:value="${obj.parent_doc?.doc_number}"></input>
                        	</div>
                         <label class="col-sm-2 col-form-label">Дата основного документа</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                         	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.parent_doc?.doc_date,'dd.MM.yyyy')}"></input>
+                       	</div>
+                       	<div class="col-sm-1">
+                       		<button type="button" class="choose_document btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></button>
+                       		<input name="parent_doc" type="hidden" th:value="${obj.parent_doc?.rn}">
                        	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1">
