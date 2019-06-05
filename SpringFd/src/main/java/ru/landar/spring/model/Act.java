@@ -214,8 +214,7 @@ public class Act extends IBase {
     public Object onCheckRights(Operation op) { 
     	Object ret = invoke("onCheckRights", op);
      	if (ret != null) return ret;
-    	
-    	Integer rn = getRn();
+     	Integer rn = getRn();
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete)
     	{
@@ -223,11 +222,11 @@ public class Act extends IBase {
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();
 			if (roles.indexOf("ADMIN") >= 0) return true;
-			IOrganization org = user.getOrg();
-			IPerson person = user.getPerson();
-			if (org == null && person == null) throw new SecurityException("У пользователя " + user.getLogin() + " не указан контрагент");
-			IAgent cragent = getCreate_agent();
-			if (cragent != null && ((org != null && org.getRn().compareTo(cragent.getRn()) == 0) || (person != null && person.getRn().compareTo(cragent.getRn()) == 0))) return true;
+			IAgent agent = getCreate_agent(), person = user.getPerson();
+			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
+			IDepartment dep = hs.getDepartment();
+			if (dep != null && "11".equals(dep.getCode())) return true;
+			if (dep != null && getDepart() != null && dep.getRn() == getDepart().getRn()) return true;
 			return false;
     	}
     	return true;
@@ -237,9 +236,7 @@ public class Act extends IBase {
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
      	IDepartment dep = hs.getDepartment();
-    	if ("newAct".equals(param)) {
-    		return dep != null;
-    	}
+    	if ("newAct".equals(param)) return dep != null;
     	if (getRn() == null) return false;
     	if ("edit".equals(param)) {
     		if (!(Boolean)onCheckRights(Operation.update)) return false;
@@ -292,6 +289,7 @@ public class Act extends IBase {
 	ObjRepositoryCustom objRepository;
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void newAct(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
     		for (; ;) {
@@ -329,6 +327,7 @@ public class Act extends IBase {
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void sendAct(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
     		for (; ;) {
@@ -336,7 +335,9 @@ public class Act extends IBase {
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
 	    		String act_status = "1";
 	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-	    		if ("1".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "2"));
+	    		if (!"1".equals(act_status)) break;
+	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
+	    		objRepository.saveObj(this);
 	    		break;
     		}
 	    	transactionManager.commit(ts);
@@ -347,6 +348,7 @@ public class Act extends IBase {
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void acceptAct(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
     		for (; ;) {
@@ -354,7 +356,9 @@ public class Act extends IBase {
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
 	    		String act_status = "1";
 	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-	    		if ("2".equals(act_status)) setAct_status((SpActStatus)objService.getObjByCode(SpActStatus.class, "3"));
+	    		if (!"2".equals(act_status)) break;
+	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
+	    		objRepository.saveObj(this);
 	    		break;
     		}
 	    	transactionManager.commit(ts);
@@ -365,6 +369,7 @@ public class Act extends IBase {
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirmAct(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
     		for (; ;) {
@@ -379,9 +384,12 @@ public class Act extends IBase {
     				if ("4".equals(act_status) && e) act_status = "5";
     				// Изменить документ
     				Document doc = act_doc.getDoc();
-    				if (doc != null) doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, !e ? "4" : "5"));
+    				if (doc == null) continue;
+    				doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, !e ? "4" : "5"));
+    				objRepository.saveObj(doc);
     			}
     			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
+    			objRepository.saveObj(this);
 	    		break;
     		}
 	    	transactionManager.commit(ts);
@@ -391,6 +399,7 @@ public class Act extends IBase {
 		}
     }
     public void refuseAct(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
     		for (; ;) {
@@ -403,10 +412,13 @@ public class Act extends IBase {
     			for (Act_document act_doc : getList_doc()) {
     				// Изменить документ
     				Document doc = act_doc.getDoc();
-    				if (doc != null) doc.setDoc_status(doc_status);
+    				if (doc == null) continue;
+    				doc.setDoc_status(doc_status);
+    				objRepository.saveObj(doc);
     			}
     			setAct_reason("Отклонен пользователем");
     			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
+    			objRepository.saveObj(this);
 	    		break;
     		}
 	    	transactionManager.commit(ts);
