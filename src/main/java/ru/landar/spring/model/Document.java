@@ -304,31 +304,14 @@ public class Document extends IBase {
 		return false;
     }
     @Autowired
-    private PlatformTransactionManager transactionManager;
-    @Autowired
 	ObjRepositoryCustom objRepository;
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirm(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
-    		for (; ;) {
-				if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) break;
-				Object valueOld = getDoc_status(), valueNew = objRepository.findByCode(SpDocStatus.class, "2");
-				setDoc_status((SpDocStatus)valueNew);
-				objRepository.saveObj(this);
-				Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
-				mapChanged.put("doc_status", new Object[] {valueOld, valueNew});
-				onUpdate(null, mapChanged);
-				String ip = request != null ? (String)request.getSession().getAttribute("ip") : null, browser = request != null ? (String)request.getSession().getAttribute("browser") : null;
-				// Запись в журнал
-				objRepository.writeLog(userService.getPrincipal(), this, mapChanged, "update", ip, browser);
-				break;
-    		}
-    		transactionManager.commit(ts);
-		}
-		catch (Exception ex) {
-			transactionManager.rollback(ts);
-		}
+    	for (; ;) {
+			if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) break;
+			setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+			break;
+    	}
 	}
 }

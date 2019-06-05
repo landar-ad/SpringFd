@@ -433,6 +433,7 @@ public class ObjController {
 							 @RequestParam("param") String param,
 							 HttpServletRequest request,
 							 Model model) throws Exception {
+		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Integer rn = rnParam.orElse(null);
@@ -440,7 +441,22 @@ public class ObjController {
 		if (rn != null && obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		if (obj == null) obj = cl.newInstance();
 		if (!(Boolean)hs.invoke(obj, "onCheckExecute", param)) throw new Exception("Вам запрещено выполнение функции " + param + " для объекта по имени класса '" + clazz + "' с идентификатором " + rn);
-		hs.invoke(obj, param, request);
+		// Выполнение операции через транзакцию
+		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+			Map<String, Object> mapValueOld = hs.getMapProperties(obj);
+			hs.invoke(obj, param, request);
+			obj = objRepository.find(obj.getClass(), hs.getProperty(obj, "rn"));
+			Map<String, Object> mapValueNew = hs.getMapProperties(obj);
+			Map<String, Object[]> mapChanged = hs.getMapChanged(mapValueOld, mapValueNew);
+			hs.invoke(obj, "onUpdate", null, mapChanged);
+			objRepository.saveObj(obj);
+			objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, rn == null ? "create" : "update", ip, browser);
+			transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
 		// Переход на страницу
 		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
 		if (hs.isEmpty(redirect)) redirect = "mainPage";

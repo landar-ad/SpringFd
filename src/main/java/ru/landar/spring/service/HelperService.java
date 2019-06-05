@@ -23,6 +23,7 @@ public interface HelperService {
 	Object getProperty(Object obj, String attr);
 	void copyProperties(Object src, Object dest, boolean notNull);
 	Map<String, Object> getMapProperties(Object obj, boolean persist);
+	Map<String, Object> getMapProperties(Object obj);
 	Map<String, Object[]> getMapChanged(Map<String, Object> mapOld, Map<String, Object> mapNew);
 	boolean propertyExists(Object obj, String attr);
 	Object getPropertyString(Object obj, String attr);
