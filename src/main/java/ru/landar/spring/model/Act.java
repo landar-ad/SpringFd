@@ -217,6 +217,7 @@ public class Act extends IBase {
      	Integer rn = getRn();
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
+    		if (userService.isAdmin(null)) return true;
 	     	IUser user = userService.getUser((String)null);
 			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 			String roles = user.getRoles();
@@ -239,43 +240,39 @@ public class Act extends IBase {
     	if (getRn() == null) return false;
     	if ("edit".equals(param)) {
     		if (!(Boolean)onCheckRights(Operation.update)) return false;
+    		if (userService.isAdmin(null)) return true;
     		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(act_status) && !"3".equals(act_status) && !"6".equals(act_status)) return false;
     		return true;
     	}
 		else if ("remove".equals(param)) {
 			if (!(Boolean)onCheckRights(Operation.delete)) return false;
-    		String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(act_status)) return false;
     		return true;
 		}
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"1".equals(act_status)) return false;
 			return true;
 		}
 		else if ("acceptAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"2".equals(act_status)) return false;
 			return true;
 		}
 		else if ("confirmAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"3".equals(act_status)) return false;
 			return true;
 		}
 		else if ("refuseAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1";
-    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
     		if (!"3".equals(act_status)) return false;
 			return true;
 		}
