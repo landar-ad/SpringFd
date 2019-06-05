@@ -145,7 +145,7 @@
 								<option th:each="d : ${listActStatus}" th:selected="${obj.act_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
 							</select>  
 							<select th:if="${st!='1'}" class="form-control form-control-sm">
-								<option selected="selected" th:value="${obj.status?.rn}" th:utext="${obj.status?.name}"/>
+								<option selected="selected" th:value="${obj.act_status?.rn}" th:utext="${obj.act_status?.name}"/>
 							</select>  
 						</div>
                         <label class="col-sm-2 col-form-label">Дата присвоения статуса</label>
