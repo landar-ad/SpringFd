@@ -328,7 +328,7 @@ public class Act extends IBase {
     		for (; ;) {
     			IDepartment dep = hs.getDepartment();
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
 	    		if (!"1".equals(act_status)) break;
 	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
 	    		objRepository.saveObj(this);
@@ -348,7 +348,7 @@ public class Act extends IBase {
     		for (; ;) {
     			IDepartment dep = hs.getDepartment();
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
 	    		if (!"2".equals(act_status)) break;
 	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
 	    		objRepository.saveObj(this);
@@ -368,7 +368,7 @@ public class Act extends IBase {
     		for (; ;) {
     			IDepartment dep = hs.getDepartment();
     			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+	    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
 	    		if (!"3".equals(act_status)) break;
     			act_status = "5";
     			for (Act_document act_doc : getList_doc()) {
@@ -397,6 +397,7 @@ public class Act extends IBase {
 			transactionManager.rollback(ts);
 		}
     }
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void refuseAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	

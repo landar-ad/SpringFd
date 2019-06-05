@@ -309,6 +309,7 @@ public class Reestr extends IBase {
     		transactionManager.rollback(ts);
     	}
     }
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void sendReestr(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
