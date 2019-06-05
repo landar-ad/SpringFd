@@ -21,7 +21,6 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 	
 	@Override
 	public IUser addUser(IUser user) {
-
 		String login = user.getLogin();
 		if (hs.isEmpty(login)) return null; 
 		String password = user.getPassword();
