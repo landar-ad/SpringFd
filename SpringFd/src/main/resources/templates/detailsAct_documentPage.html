@@ -6,40 +6,7 @@
 		$(document).ready(function() {
 			$('.input_date').datepicker({language: "ru"});
 			size_init();
-			add_on($('#choose_document'), 'click', function(event) {
-				$.ajax({ method: "POST", url: "popupSelect", 
-					data: {
-						clazz: "Document",
-						p_title: "Выберите документ",
-						p_column: "doc_number=№ документа;doc_date=Дата документа",
-						p_filter: "doc_status__code ='2'"
-					},
-					success: function(result) {
-						var div = $('<div></div>');
-						div.html(result);
-						$('.modal').html(div.find('.modal').html());
-						$(".modal").modal();
-						$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
-						$(".modal-body").css("overflow-y", "auto");
-						add_on($(".modal").find("#save-button"), "click", function() {
-							$("#columnTable tbody tr").each(function() {
-								var rn = $(this).find(".d-none").first().text();
-								var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
-								if (c) {
-									var t1 = $(this).find(".text-select:eq(0)").text();
-									$("input[name='doc_number']").val(t1);
-									var t2 = $(this).find(".text-select:eq(1)").text();
-									$("input[name='doc_date']").val(t2);
-									$("input[name='doc']").val(rn);
-									return false;
-								}
-							});
-						});
-					},
-					error: function() {
-					}
-				});
-			});
+			popup_init();
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
@@ -62,15 +29,15 @@
                     <div class="form-group-sm row mt-sm-1">
                        	<label class="col-sm-2 col-form-label">№ документа</label>
                         <div class="col-sm-2">
-                        	<input id="doc_number" class="form-control form-control-sm" type="text" th:value="${obj.doc?.doc_number}"></input>
+                        	<input class="form-control form-control-sm" type="text" th:value="${obj.doc?.doc_number}"></input>
                        	</div>
                         <label class="col-sm-2 col-form-label">Дата документа</label>
                         <div class="col-sm-2">
-                        	<input id="doc_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.doc?.doc_date,'dd.MM.yyyy')}"></input>
+                        	<input class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.doc?.doc_date,'dd.MM.yyyy')}"></input>
                        	</div>
-                       	<input type="hidden" name="doc" th:value="${obj.doc?.rn}" />
                        	<div class="col-sm-2">
-                       		<button id="choose_document" type="button" class="btn btn-sm btn-light" th:data-popup-url="@{popupSelect}"><i class="fa fa-sm fa-file"></i></button>
+                       		<button type="button" class="choose_document btn btn-light btn-sm" data-clazz="Document" data-title="Выберите документ" data-column="doc_number=№ документа;doc_date=Дата документа" data-filter="doc_status__code ='2'"><i class="fa fa-sm fa-file"></i></button>
+                       		<input name="doc" type="hidden" th:value="${obj.doc?.rn}">
                        	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1 margin-left-0">
