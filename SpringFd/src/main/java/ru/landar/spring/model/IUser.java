@@ -86,7 +86,8 @@ public class IUser extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("login", "Логин"));
 		ret.add(new ColumnInfo("roles", "Роли"));
-		ret.add(new ColumnInfo("org__name", "Организация", true, true, "org__rn", "select", "listOrg")); 
+		ret.add(new ColumnInfo("org__name", "Организация", true, true, "org__rn", "select", "listOrg"));
+		ret.add(new ColumnInfo("person__name", "Контрагент (физическое лицо)", true, true, "person__rn", "select", "listPerson"));
 		ret.add(new ColumnInfo("disabled", "Заблокирован"));
 		return ret;
 	}
