@@ -125,7 +125,7 @@ public class Document extends IBase {
     public Date getAct_exclude_date() { return act_exclude_date; }
     public void setAct_exclude_date(Date act_exclude_date) { this.act_exclude_date = act_exclude_date; }
 	
-    @ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
+    @ManyToOne(targetEntity=Reestr.class, fetch=FetchType.LAZY)
     public Reestr getReestr() { return reestr; }
     public void setReestr(Reestr reestr) { this.reestr = reestr; }
 
