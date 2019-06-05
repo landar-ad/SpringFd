@@ -242,7 +242,7 @@ public class Act extends IBase {
     		if (!(Boolean)onCheckRights(Operation.update)) return false;
     		String act_status = "1";
     		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(act_status) && !"3".equals(act_status)) return false;
+    		if (!"1".equals(act_status) && !"3".equals(act_status) && !"6".equals(act_status)) return false;
     		return true;
     	}
 		else if ("remove".equals(param)) {
