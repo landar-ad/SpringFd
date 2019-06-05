@@ -1,13 +1,14 @@
 popup_init = function() {
 	add_on($('.choose_document'), 'click', function(event) {
 		var target = $(this);
+		var data = {
+				clazz: target.attr("data-clazz"),
+				p_title: target.attr("data-title"),
+				p_column: target.attr("data-column"),
+				p_filter: target.attr("data-filter")
+			};
 		$.ajax({ method: "POST", url: "popupSelect", 
-			data: {
-				clazz: "Document",
-				p_title: "Выберите документ",
-				p_column: "doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа",
-				p_filter: ""
-			},
+			data: data,
 			success: function(result) {
 				var div = $('<div></div>');
 				div.html(result);
@@ -21,7 +22,7 @@ popup_init = function() {
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						if (c) {
 							var p = $(target).parent();
-							p.find("input[name='parent_doc']").val(rn);	
+							p.find("input[type='hidden']").val(rn);	
 							p = $(p).parent();
 							var t1 = $(this).find(".text-select:eq(0)").text();
 							$(p).find("input:eq(0)").val(t1);
