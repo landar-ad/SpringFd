@@ -17,22 +17,22 @@ popup_init = function() {
 				$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
 				add_on($(".modal").find("#save-button"), "click", function() {
+					var rn = "";
 					$("#columnTable tbody tr").each(function() {
-						var rn = $(this).find(".d-none").first().text();
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						if (c) {
-							var p = $(target).parent();
-							p.find("input[type='hidden']").val(rn);	
-							p = $(p).parent();
-							var t1 = $(this).find(".text-select:eq(0)").text();
-							$(p).find("input:eq(0)").val(t1);
-							var t2 = $(this).find(".text-select:eq(1)").text();
-							$(p).find("input:eq(1)").val(t2);
-							var t3 = $(this).find(".text-select:eq(2)").text();
-							$(p).find("input:eq(2)").val(t3);
+							rn = $(this).find(".d-none").first().text();
 							return false;
 						}
 					});
+					var p = $(target).parent();
+					p.find("input[type='hidden']").val(rn > 0 ? rn : "");	
+					p = $(p).parent();
+					var arr = data.p_column.split(";");
+					for (i=0; i<arr.length; i++) {
+						var t = rn > 0 ?  $(this).find(".text-select:eq("+ i + ")").text() : "";
+						$(p).find("input:eq(" + i + ")").val(t);
+					}
 				});
 			},
 			error: function() {
