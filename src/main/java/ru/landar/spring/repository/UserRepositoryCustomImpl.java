@@ -31,6 +31,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 			userOld.setRoles(user.getRoles());
 			userOld.setDisabled(user.getDisabled());
 			userOld.setOrg(user.getOrg());
+			userOld.setPerson(user.getPerson());
 			user = userOld;
 		}
 		if (!hs.isEmpty(password)) user.setPassword(encoder.encode(password));
