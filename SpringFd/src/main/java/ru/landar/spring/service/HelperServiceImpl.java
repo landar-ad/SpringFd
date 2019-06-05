@@ -22,7 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -164,6 +166,40 @@ public class HelperServiceImpl implements HelperService {
      		cl = ret;
     	}
 		return ret;
+	}
+	@Override
+	public Map<String, Object> getMapProperties(Object obj, boolean persist) {
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		Field[] fs = getFields(obj.getClass(), persist);
+		for (Field f: fs) {
+			String attr = f.getName();
+			if (isEmpty(attr)) continue;
+			map.put(attr, getProperty(obj, attr));
+		}
+		return map;
+	}
+	@Override
+	public Map<String, Object[]> getMapChanged(Map<String, Object> mapOld, Map<String, Object> mapNew) {
+		Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
+		for (; ;) {
+			if (mapOld == null || mapNew == null) break;
+			Iterator<String> it;
+			it = mapOld.keySet().iterator();
+			while (it.hasNext()) {
+				String attr = it.next();
+				Object valueOld = mapOld.get(attr), valueNew = mapNew.get(attr);
+				if (!equals(valueOld, valueNew)) mapChanged.put(attr, new Object[] {valueOld, valueNew});
+			}
+			it = mapNew.keySet().iterator();
+			while (it.hasNext()) {
+				String attr = it.next();
+				if (mapChanged.containsKey(attr)) continue;
+				Object valueOld = mapOld.get(attr), valueNew = mapNew.get(attr);
+				if (!equals(valueOld, valueNew)) mapChanged.put(attr, new Object[] {valueOld, valueNew});
+			}
+			break;
+		}
+		return mapChanged;
 	}
 	@Override
 	public Field[] getFields(Class<?> cl, boolean persist) {

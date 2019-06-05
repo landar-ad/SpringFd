@@ -3,6 +3,7 @@ package ru.landar.spring.service;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import javax.servlet.http.Part;
 
@@ -21,6 +22,8 @@ public interface HelperService {
 	void setProperty(Object obj, String attr, Object value);
 	Object getProperty(Object obj, String attr);
 	void copyProperties(Object src, Object dest, boolean notNull);
+	Map<String, Object> getMapProperties(Object obj, boolean persist);
+	Map<String, Object[]> getMapChanged(Map<String, Object> mapOld, Map<String, Object> mapNew);
 	boolean propertyExists(Object obj, String attr);
 	Object getPropertyString(Object obj, String attr);
 	boolean equals(Object o1, Object o2);
