@@ -180,7 +180,8 @@ public class Act extends IBase {
     		Document doc = act_doc.getDoc();
     		if (doc != null) {
     			doc.setAct(null);
-    			doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+    			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+    			objRepository.saveObj(doc);
     		}
     	}
     	return true;
