@@ -168,6 +168,7 @@ public class Act extends IBase {
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
     	setChange_agent(user.getPerson());
     	setChange_time(dt);
+    	if (mapChanged.containsKey("act_status")) setTime_status(dt);
     	return true;
 	}
 	@Override
