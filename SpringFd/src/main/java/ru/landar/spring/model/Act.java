@@ -178,7 +178,10 @@ public class Act extends IBase {
     	List<Act_document> l = getList_doc();
     	for (Act_document act_doc : l) {
     		Document doc = act_doc.getDoc();
-    		if (doc != null) doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+    		if (doc != null) {
+    			doc.setAct(null);
+    			doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+    		}
     	}
     	return true;
     }
@@ -281,152 +284,105 @@ public class Act extends IBase {
 		return false;
     }
     @Autowired
-    private PlatformTransactionManager transactionManager;
-    @Autowired
 	ObjRepositoryCustom objRepository;
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void newAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
-    		for (; ;) {
-    			IDepartment dep = hs.getDepartment();
-    			if (dep == null) break;
-    			Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code", "depart__rn"}, new Object[] {"2", dep.getRn()});
-    			if (p == null || p.isEmpty()) break;
-		    	Act act = new Act();
-		    	act.onNew();
-		    	Integer max = (Integer)objRepository.getMaxAttr(Act.class, "act_num");
-		    	if (max == null) max = 0;
-	    		act.setAct_num(max + 1); 
-	    		act.setAct_number("" + act.getAct_num());
-		    	act = (Act)objRepository.createObj(act);
-		    	List<Act_document> l = act.getList_doc();
-		    	for (Object o : p.getContent()) {
-		    		Document doc = (Document)o;
-		    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3"));
-		    		doc.setAct(act);
-		    		Act_document act_doc = new Act_document();
-		    		act_doc.setDoc(doc);
-		    		act_doc.onNew();
-		    		act_doc = (Act_document)objRepository.createObj(act_doc);
-		    		l.add(act_doc);
-		    	}
-		    	act.setList_doc(l);
-		    	objRepository.saveObj(act);
-		    	break;
-    		}
-	    	transactionManager.commit(ts);
-    	}
-    	catch (Exception ex) {
-    		transactionManager.rollback(ts);
-    	}
+    	for (; ;) {
+			IDepartment dep = hs.getDepartment();
+			if (dep == null) break;
+			Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code", "depart__rn"}, new Object[] {"2", dep.getRn()});
+			if (p == null || p.isEmpty()) break;
+	    	onNew();
+	    	Integer max = (Integer)objRepository.getMaxAttr(Act.class, "act_num");
+	    	if (max == null) max = 0;
+    		setAct_num(max + 1); 
+    		setAct_number("" + getAct_num());
+	    	Act act = (Act)objRepository.createObj(this);
+	    	List<Act_document> l = act.getList_doc();
+	    	for (Object o : p.getContent()) {
+	    		Document doc = (Document)o;
+	    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3"));
+	    		doc.setAct(act);
+	    		Act_document act_doc = new Act_document();
+	    		act_doc.setDoc(doc);
+	    		act_doc.onNew();
+	    		act_doc = (Act_document)objRepository.createObj(act_doc);
+	    		l.add(act_doc);
+	    	}
+	    	act.setList_doc(l);
+	    	break;
+		}
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void sendAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
-    		for (; ;) {
-    			IDepartment dep = hs.getDepartment();
-    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-	    		if (!"1".equals(act_status)) break;
-	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
-	    		objRepository.saveObj(this);
-	    		break;
-    		}
-	    	transactionManager.commit(ts);
-		}
-		catch (Exception ex) {
-			transactionManager.rollback(ts);
-		}
+    	for (; ;) {
+			IDepartment dep = hs.getDepartment();
+			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
+    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(act_status)) break;
+    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
+    		break;
+    	}
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void acceptAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
-    		for (; ;) {
-    			IDepartment dep = hs.getDepartment();
-    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-	    		if (!"2".equals(act_status)) break;
-	    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
-	    		objRepository.saveObj(this);
-	    		break;
-    		}
-	    	transactionManager.commit(ts);
-		}
-		catch (Exception ex) {
-			transactionManager.rollback(ts);
+    	for (; ;) {
+    		if (!hs.checkDepartment(getDepart())) break;
+    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"2".equals(act_status)) break;
+    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
+    		break;
 		}
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirmAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
-    		for (; ;) {
-    			IDepartment dep = hs.getDepartment();
-    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-	    		if (!"3".equals(act_status)) break;
-    			act_status = "5";
-    			for (Act_document act_doc : getList_doc()) {
-    				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
-    				if (!e) {
-    					act_status = "4";
-    					break;
-    				}
-    			}
-    			for (Act_document act_doc : getList_doc()) {
-    				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
-    				if ("5".equals(act_status) && e) e = true;
-    				// Изменить документ
-    				Document doc = act_doc.getDoc();
-    				if (doc == null) continue;
-    				doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, !e ? "4" : "5"));
-    				objRepository.saveObj(doc);
-    			}
-    			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
-    			objRepository.saveObj(this);
-	    		break;
-    		}
-	    	transactionManager.commit(ts);
-		}
-		catch (Exception ex) {
-			transactionManager.rollback(ts);
+    	for (; ;) {
+			if (!hs.checkDepartment(getDepart())) break;
+    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"3".equals(act_status)) break;
+			act_status = "5";
+			for (Act_document act_doc : getList_doc()) {
+				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
+				if (!e) {
+					act_status = "4";
+					break;
+				}
+			}
+			for (Act_document act_doc : getList_doc()) {
+				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
+				if ("5".equals(act_status) && e) e = true;
+				// Изменить документ
+				Document doc = act_doc.getDoc();
+				if (doc == null) continue;
+				doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, !e ? "4" : "5"));
+				objRepository.saveObj(doc);
+			}
+			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
+    		break;
 		}
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void refuseAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
-    		for (; ;) {
-    			IDepartment dep = hs.getDepartment();
-    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String act_status = "1";
-	    		try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-	    		if (!"3".equals(act_status)) break;
-    			SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
-    			for (Act_document act_doc : getList_doc()) {
-    				// Изменить документ
-    				Document doc = act_doc.getDoc();
-    				if (doc == null) continue;
-    				doc.setDoc_status(doc_status);
-    				objRepository.saveObj(doc);
-    			}
-    			setAct_reason("Отклонен пользователем");
-    			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
-    			objRepository.saveObj(this);
-	    		break;
-    		}
-	    	transactionManager.commit(ts);
-		}
-		catch (Exception ex) {
-			transactionManager.rollback(ts);
+    	for (; ;) {
+			if (!hs.checkDepartment(getDepart())) break;
+    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
+    		if (!"3".equals(act_status)) break;
+			SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
+			for (Act_document act_doc : getList_doc()) {
+				// Изменить документ
+				Document doc = act_doc.getDoc();
+				if (doc == null) continue;
+				doc.setDoc_status(doc_status);
+				objRepository.saveObj(doc);
+			}
+			setAct_reason("Отклонен пользователем");
+			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
+    		break;
 		}
     }
 }

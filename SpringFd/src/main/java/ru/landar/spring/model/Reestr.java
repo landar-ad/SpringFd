@@ -194,6 +194,17 @@ public class Reestr extends IBase {
 		setSheet_count(sheetcount);
 		return true;
 	}
+    @Override
+    public Object onRemove() {
+    	Object ret = super.onRemove();
+    	if (ret != null) return ret;
+    	List<Document> l = getList_doc();
+    	for (Document doc : l) {
+   			doc.setReestr(null);
+   			doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "4"));
+    	}
+    	return true;
+    }
 	@Override
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
  		Object ret = super.onListAddFilter(listAttr, listValue);
@@ -271,64 +282,45 @@ public class Reestr extends IBase {
 		return false;
     }
     @Autowired
-    private PlatformTransactionManager transactionManager;
-    @Autowired
 	ObjRepositoryCustom objRepository;
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void newReestr(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
+    	for (; ;) {
     		Page<?> p = objRepository.findAll(Document.class, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), new String[] {"doc_status__code"}, new Object[] {"4"});
-    		if (p != null && !p.isEmpty()) {
-		    	Reestr reestr = new Reestr();
-		    	reestr.onNew();
-		    	Integer max = (Integer)objRepository.getMaxAttr(Reestr.class, "reestr_num");
-		    	if (max == null) max = 0;
-	    		reestr.setReestr_num(max + 1); 
-	    		reestr.setReestr_number("" + getReestr_num());
-		    	reestr = (Reestr)objRepository.createObj(reestr);
-		    	List<Document> l = reestr.getList_doc();
-		    	for (Object o : p.getContent()) {
-		    		Document doc = (Document)o;
-		    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
-		    		doc.setReestr(reestr);
-		    		objRepository.saveObj(doc);
-		    		l.add(doc);
-		    	}
-		    	reestr.setList_doc(l);
-		    	objRepository.saveObj(reestr);
-    		}
-	    	transactionManager.commit(ts);
-    	}
-    	catch (Exception ex) {
-    		transactionManager.rollback(ts);
-    	}
+    		if (p == null || p.isEmpty())  break;
+	    	onNew();
+	    	Integer max = (Integer)objRepository.getMaxAttr(Reestr.class, "reestr_num");
+	    	if (max == null) max = 0;
+    		setReestr_num(max + 1); 
+    		setReestr_number("" + getReestr_num());
+	    	Reestr reestr = (Reestr)objRepository.createObj(this);
+	    	List<Document> l = reestr.getList_doc();
+	    	for (Object o : p.getContent()) {
+	    		Document doc = (Document)o;
+	    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
+	    		doc.setReestr(reestr);
+	    		objRepository.saveObj(doc);
+	    		l.add(doc);
+	    	}
+	    	reestr.setList_doc(l);
+	    	break;
+		}
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void sendReestr(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
-    	try {
-    		for (; ;) {
-    			IDepartment dep = hs.getDepartment();
-    			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-	    		String reestr_status = "1";
-	    		try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
-	    		if (!"1".equals(reestr_status)) break;
-	    		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
-    			for (Document doc : getList_doc()) {
-    				doc.setDoc_status(doc_status);
-    				objRepository.saveObj(doc);
-    			}
-    			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
-    			objRepository.saveObj(this);
-	    		break;
-    		}
-	    	transactionManager.commit(ts);
-		}
-		catch (Exception ex) {
-			transactionManager.rollback(ts);
+    	for (; ;) {
+			if (!hs.checkDepartment(getDepart())) break;
+    		String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
+    		if (!"1".equals(reestr_status)) break;
+    		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
+			for (Document doc : getList_doc()) {
+				doc.setDoc_status(doc_status);
+				objRepository.saveObj(doc);
+			}
+			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
+    		break;
 		}
     }
 }

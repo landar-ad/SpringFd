@@ -170,13 +170,21 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public Map<String, Object> getMapProperties(Object obj, boolean persist) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		Field[] fs = getFields(obj.getClass(), persist);
+		if (obj == null) return map;
+		Class<?> cl = obj.getClass();
+		Field[] fs = getFields(cl, persist);
 		for (Field f: fs) {
 			String attr = f.getName();
 			if (isEmpty(attr)) continue;
+			Class<?> clAttr = getAttrType(cl, attr);
+			if (clAttr == null || List.class.isAssignableFrom(clAttr)) continue;
 			map.put(attr, getProperty(obj, attr));
 		}
 		return map;
+	}
+	@Override
+	public Map<String, Object> getMapProperties(Object obj) {
+		return getMapProperties(obj, true);
 	}
 	@Override
 	public Map<String, Object[]> getMapChanged(Map<String, Object> mapOld, Map<String, Object> mapNew) {
