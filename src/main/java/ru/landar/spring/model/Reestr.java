@@ -184,6 +184,7 @@ public class Reestr extends IBase {
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
     	setChange_agent(user.getPerson());
     	setChange_time(dt);
+    	if (mapChanged.containsKey("reestr_status")) setTime_status(dt);
 		int doccount = 0, sheetcount = 0;
 		for (Document doc : getList_doc()) {
 			doccount++;
