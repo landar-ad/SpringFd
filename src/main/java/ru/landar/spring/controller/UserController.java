@@ -59,6 +59,6 @@ public class UserController {
 		user.setPerson(person);
 		if (!hs.checkRights(user, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование пользователя " + user.getLogin());
 		user = userService.addUser(user);
-		return "redirect:/listObj?clazz=IUser";
+		return "redirect:/listObj?clazz=IUser&rn=" + user.getRn();
 	}
 }
