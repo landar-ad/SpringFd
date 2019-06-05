@@ -178,11 +178,12 @@ public class Act extends IBase {
     	List<Act_document> l = getList_doc();
     	for (Act_document act_doc : l) {
     		Document doc = act_doc.getDoc();
-    		if (doc != null) {
-    			doc.setAct(null);
-    			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
-    			objRepository.saveObj(doc);
-    		}
+    		if (doc == null) continue;
+			doc.setAct(null);
+			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+			objRepository.saveObj(doc);
+			act_doc.setDoc(null);
+			objRepository.saveObj(act_doc);
     	}
     	return true;
     }
