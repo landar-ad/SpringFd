@@ -92,6 +92,11 @@ page_init = function(list, clazzItem) {
 	add_on($('.edited'), 'click', function(event) {
 		start_edit(this);
 	});
+	add_on($('.custom-file-input'), "change", function() { 
+		var fileName = $(this).val().split('\\').pop(); 
+		$(this).next('.custom-file-label').addClass("selected").html(fileName); 
+		stop_edit($(this).closest(".edited"));   
+	});
 	add_on($('.add-item'), 'click', function(event) {
 		var c = $(".first-row").clone().insertBefore($(".last-row"));
 		c.removeClass("first-row");
@@ -103,8 +108,9 @@ page_init = function(list, clazzItem) {
 			c.hide();
 		});
 		add_on(c.find('.custom-file-input'), "change", function() { 
-			   var fileName = $(this).val().split('\\').pop(); 
-			   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+			var fileName = $(this).val().split('\\').pop(); 
+			$(this).next('.custom-file-label').addClass("selected").html(fileName); 
+			stop_edit($(this).closest(".edited"));   
 		});
 		c.find('.input_date').datepicker({language: "ru"});
 		add_on(c.find('.edited'), 'click', function(event) {
