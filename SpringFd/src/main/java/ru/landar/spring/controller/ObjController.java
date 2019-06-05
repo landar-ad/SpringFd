@@ -501,10 +501,11 @@ public class ObjController {
 		for (; ;) {
 			Object obj = objService.find(paramClazz.orElse(null), rn);
 			if (obj == null) { msg = String.format("Не найден объект с идентификатором '%s'", rn); break; }
-			name = (String)hs.getProperty(obj, "name");
-			if (!hs.checkRights(obj, Operation.delete)) { msg = String.format("Вы не имеете прав на удаление объекта '%s'", name); break; }
 			TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
 	    	try {
+				obj = objRepository.find(obj.getClass(), rn);
+				name = (String)hs.getProperty(obj, "name");
+				if (!hs.checkRights(obj, Operation.delete)) { msg = String.format("Вы не имеете прав на удаление объекта '%s'", name); break; }
 				Boolean b = (Boolean)hs.invoke(obj, "onRemove");
 				if (b != null && !b) throw new Exception(String.format("Отказано в удалении объекта '%s'", name));
 				objRepository.removeObj(obj);
