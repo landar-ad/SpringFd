@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedBy;
@@ -114,6 +115,12 @@ public abstract class IBase {
     }
     public Object onRemove() { 
     	return invoke("onRemove");
+	}
+    public Object onExecute(String param, HttpServletRequest request) { 
+    	Object ret = invoke("onExecute", param, request);
+    	if (ret != null) return ret;
+    	ret = hs.invoke(this, param, request);
+    	return ret;
 	}
     public Object onRedirectAfterUpdate() { 
     	Object ret = invoke("onRedirectAfterUpdate");
