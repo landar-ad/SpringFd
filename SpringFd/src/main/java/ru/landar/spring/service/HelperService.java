@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.Part;
 
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 
 public interface HelperService {
@@ -46,5 +47,6 @@ public interface HelperService {
 	IDepartment getDepartment();
 	Integer getDepartmentKey();
 	boolean checkDepartment(IDepartment depart);
+	boolean checkPerson(IBase base);
 	Class<Object> getClassByName(String clazz);
 }

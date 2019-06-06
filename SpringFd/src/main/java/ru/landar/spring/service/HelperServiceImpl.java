@@ -42,6 +42,7 @@ import org.thymeleaf.templateresource.ITemplateResource;
 
 import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.model.IAgent;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
@@ -586,6 +587,13 @@ public class HelperServiceImpl implements HelperService {
 		if (dep != null && "11".equals(dep.getCode())) return true;
 		if (dep != null && depart != null && dep.getRn() == depart.getRn()) return true;
 		return false;
+	}
+	@Override
+	public boolean checkPerson(IBase base) {
+		IUser user = userService.getUser((String)null);
+		if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+		IPerson person = user.getPerson();
+		return person != null && base != null && person.getRn() == base.getRn();
 	}
 	@Override
 	public Class<Object> getClassByName(String clazz) {

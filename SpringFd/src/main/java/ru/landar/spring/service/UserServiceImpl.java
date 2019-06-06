@@ -17,16 +17,12 @@ import ru.landar.spring.repository.UserRepositoryCustom;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 	@Autowired
 	UserRepository userRepository;
-	
 	@Autowired
 	UserRepositoryCustom userRepositoryCustom;
-	
 	@Override
 	public String getPrincipal() {
-		
 		String principal = "";
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) principal = authentication.getName();
@@ -34,7 +30,6 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public List<IUser> getUsers() {
-		
 		return userRepository.findAll();
 	}
 	@Override
@@ -43,25 +38,19 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public IUser getUser(String username) {
-		
 		if (username == null || username.isEmpty()) username = getPrincipal();
 		return userRepository.find(username);
 	}
 	@Override
 	public String getRoles(String username) {
-		
 		String roles = "";
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (username != null && !username.isEmpty() && !username.equals(authentication.getName())) roles = userRepositoryCustom.getRoles(username);
-		else 
-		{
-			if (authentication.getAuthorities() != null)
-			{
-				for (GrantedAuthority ga : authentication.getAuthorities())
-				{
+		else {
+			if (authentication.getAuthorities() != null) {
+				for (GrantedAuthority ga : authentication.getAuthorities()) {
 					String role = ga.getAuthority();
-					if (role != null && !role.isEmpty())
-					{
+					if (role != null && !role.isEmpty()) {
 						if (!roles.isEmpty()) roles += ",";
 						roles += role;
 					}
@@ -71,8 +60,7 @@ public class UserServiceImpl implements UserService {
 		return roles;
 	}
 	@Override
-	public boolean isAdmin(String username)
-	{
+	public boolean isAdmin(String username) {
 		IUser user = getUser(username);
 		if (user == null) return false;
 		String roles = user.getRoles();
@@ -82,7 +70,6 @@ public class UserServiceImpl implements UserService {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional
 	public IUser addUser(IUser user) {
-		
 		return userRepositoryCustom.addUser(user);
 	}
 }
