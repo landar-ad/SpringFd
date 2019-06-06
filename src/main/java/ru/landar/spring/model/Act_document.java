@@ -10,7 +10,10 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+
+import ru.landar.spring.repository.ObjRepositoryCustom;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -44,6 +47,8 @@ public class Act_document extends IBase {
     	setExclude(false);
      	return true;
     }
+    @Autowired
+	ObjRepositoryCustom objRepository;
     @Override
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception {
     	Object ret = super.onUpdate(map, mapChanged);
@@ -52,6 +57,7 @@ public class Act_document extends IBase {
     		Act act = (Act)getParent();
     		Document doc = getDoc();
     		if (getExclude() != null && getExclude()) {
+    			if (hs.isEmpty(getExclude_reason())) setExclude_reason("Причина не указана");
     			if (getExclude_date() == null) setExclude_date(new Date());
     			if (doc != null) {
     				doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "5"));
@@ -79,7 +85,7 @@ public class Act_document extends IBase {
     	if (ret != null) return ret;
     	Document doc = getDoc();
     	if (doc != null) {
-    		doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "2"));
+    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
     		doc.setAct(null);
     	}
     	return true;
