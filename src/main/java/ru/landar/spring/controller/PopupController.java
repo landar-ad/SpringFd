@@ -60,7 +60,7 @@ public class PopupController {
 			Integer rnDep = hs.getDepartmentKey();
 			List<String> listAttr = new ArrayList<String>();
 			List<Object> listValue = new ArrayList<Object>();
-			String[] fs = filter.split(",");
+			String[] fs = filter.split(";");
 			for (String f : fs) {
 				int k = f.indexOf(' ');
 				if (k < 0) continue;
