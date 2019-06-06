@@ -7,6 +7,7 @@
 			$('.input_date').datepicker({language: "ru"});
 			size_init();
 			page_init("list_doc", "Act_document");
+			page_init("list_file", "IFile");
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
@@ -168,7 +169,7 @@
                     	    <input class="form-control form-control-sm" type="text" th:value="${obj.change_agent?.name}" readonly="readonly"></input>
 						</div>
                     </div>
-                    
+                    <div th:replace="fragments/header :: list_file"></div>
 				</div>
 			</div>
 			</form>
