@@ -152,10 +152,13 @@ public class Reestr extends IBase {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
-	public static List<ButtonInfo> listButton() {
+	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр"));
-		ret.add(new ButtonInfo("sendReestr", "Передать в ФК"));
+		String roles = userService.getRoles(null);
+		if (roles.indexOf("DF") >= 0) {
+			ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр"));
+			ret.add(new ButtonInfo("sendReestr", "Передать в ФК"));
+		}
 		return ret;
 	}
 	@Override
@@ -274,10 +277,15 @@ public class Reestr extends IBase {
      	if (ret != null) return ret;
      	if ("newReestr".equals(param)) return true;
      	if (getRn() == null) return false;
+     	String roles = userService.getRoles(null);
      	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		else if ("sendReestr".equals(param)) return statusCode() == 1;
+		else if ("sendReestr".equals(param)) {
+			if (statusCode() != 1) return false;
+			if (roles.indexOf("DF") < 0) return false;
+			return true;
+		}
 		return false;
     }
     @Autowired
