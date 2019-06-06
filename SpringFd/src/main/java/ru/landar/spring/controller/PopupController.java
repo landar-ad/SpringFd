@@ -70,7 +70,7 @@ public class PopupController {
 				if (hs.isEmpty(v)) continue;
 				if (v.indexOf("#d#") > 0) {
 					if (rnDep == null) continue;
-					v.replaceAll("#d#", "" + rnDep);
+					v = v.replaceAll("#d#", "" + rnDep);
 				}
 				listAttr.add(a);
 				listValue.add(v);
