@@ -210,7 +210,7 @@ public class Document extends IBase {
     	setChange_time(dt);
     	setDepart(hs.getDepartment());
     	setDoc_date(dt);
-    	setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "1"));
+    	setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "1"));
     	setTime_status(dt);
     	setSheet_count(0);
      	return true;
