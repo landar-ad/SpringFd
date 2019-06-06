@@ -232,6 +232,7 @@ public class Reestr extends IBase {
 			if (!list) {
 				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
 				model.addAttribute("listAgent", objService.findAll(IOrganization.class));
+				model.addAttribute("listPerson", objService.findAll(IPerson.class));
 			}	
 		}
 		catch (Exception ex) { }
