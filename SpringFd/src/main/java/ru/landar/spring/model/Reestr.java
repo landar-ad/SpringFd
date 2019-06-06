@@ -289,7 +289,6 @@ public class Reestr extends IBase {
     public void sendReestr(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	for (; ;) {
-			if (!hs.checkDepartment(getDepart())) break;
     		if (statusCode() != 1) break;
     		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
 			for (Document doc : getList_doc()) {
