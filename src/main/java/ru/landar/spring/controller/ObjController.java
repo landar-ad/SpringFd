@@ -325,6 +325,11 @@ public class ObjController {
 					hs.setProperty(obj, attr, valueNew);
 				}
 			});
+			objRepository.saveObj(obj);
+			// Добавление информации об изменении объекта
+			hs.invoke(obj, "onUpdate", mapItems, mapChanged);
+			// Запись в журнал
+			objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, rn == null ? "create" : "update", ip, browser);
 			// list - атрибут списка
 			mapItems.forEach((list, o) -> {
 				Map<String, Object> map = (Map<String, Object>)o;
@@ -348,7 +353,10 @@ public class ObjController {
 						try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 					}
 					else if ("add".equals(cmd) && rnItem == null) {
-						try { item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); } catch (Exception ex) { }
+						try 
+						{ 
+							item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); 
+						} catch (Exception ex) { }
 					}
 					else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
 						item = objRepository.find(clItem, rnItem);
@@ -389,11 +397,6 @@ public class ObjController {
 					}
 				}
 			});
-			objRepository.saveObj(obj);
-			// Добавление информации об изменении объекта
-			hs.invoke(obj, "onUpdate", mapItems, mapChanged);
-			// Запись в журнал
-			objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, rn == null ? "create" : "update", ip, browser);
 			transactionManager.commit(ts);
 			// Переход на страницу
 			redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
