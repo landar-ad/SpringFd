@@ -445,7 +445,7 @@ public class ObjController {
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
 			Map<String, Object> mapValueOld = hs.getMapProperties(obj);
-			hs.invoke(obj, param, request);
+			hs.invoke(obj, "onExecute", param, request);
 			obj = objRepository.find(obj.getClass(), hs.getProperty(obj, "rn"));
 			Map<String, Object> mapValueNew = hs.getMapProperties(obj);
 			Map<String, Object[]> mapChanged = hs.getMapChanged(mapValueOld, mapValueNew);
