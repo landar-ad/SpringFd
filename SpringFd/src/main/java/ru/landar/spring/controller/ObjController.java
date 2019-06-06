@@ -348,9 +348,7 @@ public class ObjController {
 						try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 					}
 					else if ("add".equals(cmd) && rnItem == null) {
-						try { 
-							item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew);
-						} catch (Exception ex) { }
+						try { item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); } catch (Exception ex) { }
 					}
 					else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
 						item = objRepository.find(clItem, rnItem);
