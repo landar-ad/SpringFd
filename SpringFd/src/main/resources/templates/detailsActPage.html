@@ -79,6 +79,7 @@
 						        	<tr th:if="${st=='1'}" class="first-row not-visible">
 							            <td class="d-none">
 							            	<input type="hidden" name="list_doc__rn" value="">
+							            	<input type="hidden" name="list_doc__rnOld" value="">
 							            	<input type="hidden" name="list_doc__clazz"value="Act_document">
 							            	<input type="hidden" name="list_doc__p_add" value="new">
 							            </td>
@@ -97,6 +98,7 @@
 							        <tr th:each="d,iter : ${obj?.list_doc}">
 							            <td class="d-none">
 							            	<input type="hidden" name="list_doc__rn" th:value="${d.rn}">
+							            	<input type="hidden" name="list_doc__rnOld" th:value="${d.rn}">
 							            	<input type="hidden" name="list_doc__clazz" value="Act_document">
 							            	<input type="hidden" name="list_doc__p_add" value="new">
 							            </td>

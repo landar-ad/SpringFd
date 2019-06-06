@@ -420,6 +420,23 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return null;
 	}
 	@Override
+	public Object updateItem(Object obj, String listAttr, String clazzItem, Integer rnItemOld, Integer rnItem) throws Exception {
+		Object listObj = hs.getProperty(obj, listAttr);
+		if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
+		List list = (List<?>)listObj;
+		Class<?> clItem = hs.getClassByName(clazzItem);
+		if (clItem == null || rnItemOld == null || rnItem == null) return null;
+		Object item = find(clItem, rnItem);
+		if (item == null) return null;
+		for (int i=0; i<list.size(); i++) {
+			Object o = list.get(i);
+			if (!(o instanceof IBase) || rnItemOld.compareTo(((IBase)o).getRn()) != 0) continue;
+			list.set(i, item);
+			break;
+		}
+		return item;
+	}
+	@Override
 	public void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser) {
 		Integer obj_rn = (Integer)hs.getProperty(obj, "rn");
 		SpActionType action_type = (SpActionType)findByCode(SpActionType.class, op);
