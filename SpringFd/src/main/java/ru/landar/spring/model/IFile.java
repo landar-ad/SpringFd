@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.UserService;
 
 @Entity
@@ -46,6 +47,8 @@ public class IFile extends IBase {
     public Long getFilelength() { return filelength; }
     public void setFilelength(Long filelength) { this.filelength = filelength; }
     
+    @Autowired
+	ObjRepositoryCustom objRepository;
     @Override
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
     	Object ret = super.onUpdate(map, mapChanged);
@@ -72,7 +75,7 @@ public class IFile extends IBase {
 				setFileext(fileext);
 			}
 			if (!hs.isEmpty(fileext) && getFiletype() == null) {
-				SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, fileext.toLowerCase());
+				SpFileType filetype = (SpFileType)objRepository.findByCode(SpFileType.class, fileext.toLowerCase());
 				setFiletype(filetype);
 			}
 			break;
