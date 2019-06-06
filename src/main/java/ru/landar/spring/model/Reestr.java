@@ -165,7 +165,7 @@ public class Reestr extends IBase {
     	setChange_time(dt);
     	setReestr_date(dt);
     	setDepart(hs.getDepartment());
-    	setReestr_status((SpReestrStatus)objService.getObjByCode(SpReestrStatus.class, "1"));
+    	setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "1"));
     	setTime_status(dt);
     	setDoc_count(0);
 		setSheet_count(0);
@@ -197,7 +197,7 @@ public class Reestr extends IBase {
     	List<Document> l = getList_doc();
     	for (Document doc : l) {
    			doc.setReestr(null);
-   			doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "4"));
+   			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4"));
     	}
     	return true;
     }
