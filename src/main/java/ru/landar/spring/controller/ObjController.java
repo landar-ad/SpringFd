@@ -338,6 +338,7 @@ public class ObjController {
 				List<Object> lrn = (List<Object>)map.get("rn");
 				List<Object> lclazz = (List<Object>)map.get("clazz");
 				List<Object> ladd = (List<Object>)map.get("p_add");
+				List<Object> lrnOld = (List<Object>)map.get("rnOld");
 				for (int i=0; i<lcmd.size(); i++) {
 					String cmd = (String)lcmd.get(i);
 					if (hs.isEmpty(cmd)) continue;
@@ -345,6 +346,8 @@ public class ObjController {
 					boolean bNew = !"exists".equals(add);
 					Integer rnItem = null;
 					try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
+					Integer rnItemOld = null;
+					try { rnItemOld = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
 					String clazzItem = (String)lclazz.get(i); 
 					Class<?> clItem = hs.getClassByName(clazzItem);
 					if (clItem == null) continue;
@@ -353,13 +356,15 @@ public class ObjController {
 						try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 					}
 					else if ("add".equals(cmd) && rnItem == null) {
-						try 
-						{ 
-							item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); 
-						} catch (Exception ex) { }
+						try { item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); } catch (Exception ex) { }
 					}
 					else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
-						item = objRepository.find(clItem, rnItem);
+						cmd = "update";
+						try {
+							item = objRepository.updateItem(obj, list, clazzItem, rnItemOld, rnItem);
+							if (item != null && rnItemOld != rnItem) hs.invoke(obj, "onUpdateItem", clItem, rnItemOld, rnItem);
+						}
+						catch (Exception ex) { }
 					}
 					if (item != null) {
 						Map<String, Object[]> mapChangedItem = new LinkedHashMap<String, Object[]>();
@@ -367,7 +372,7 @@ public class ObjController {
 						Iterator<String> it = map.keySet().iterator();
 						while (it.hasNext()) {
 							String ap = it.next();
-							if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap) || "p_add".equals(ap)) continue;
+							if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap) || "rnOld".equals(ap) || "p_add".equals(ap)) continue;
 							List<Object> lvalue = (List<Object>)map.get(ap);
 							Object v = lvalue.get(i);
 							if (v != null && v instanceof IBase) {
@@ -388,12 +393,7 @@ public class ObjController {
 						// Добавление информации об изменении объекта
 						hs.invoke(item, "onUpdate", mapItems, mapChangedItem);
 						// Запись в журнал
-						objRepository.writeLog(userService.getPrincipal(), 
-											item, 
-											mapChangedItem, 
-											"add".equals(cmd) ? "create" : "update", 
-											ip, 
-											browser);
+						objRepository.writeLog(userService.getPrincipal(), item, mapChangedItem, "add".equals(cmd) ? "create" : "update", ip, browser);
 					}
 				}
 			});

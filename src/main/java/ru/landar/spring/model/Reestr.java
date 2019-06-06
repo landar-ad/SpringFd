@@ -196,6 +196,20 @@ public class Reestr extends IBase {
 		setSheet_count(sheetcount);
 		return true;
 	}
+    public void onUpdateItem(Class<?> clItem, Integer rnItemOld, Integer rnItem) {
+    	if (clItem == null || rnItemOld == null || rnItem == null || rnItemOld == rnItem) return;
+    	if (Document.class.isAssignableFrom(clItem)) {
+    		Document docOld = (Document)objRepository.find(clItem, rnItemOld);
+    		Document doc = (Document)objRepository.find(clItem, rnItem);
+    		if (docOld != null && doc != null) {
+    			docOld.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "8"));
+    			docOld.setChange_doc(doc);
+    			docOld.setReestr(null);
+    			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
+    			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "4"));
+    		}
+    	}
+    }
     @Override
     public Object onRemove() {
     	Object ret = super.onRemove();

@@ -141,6 +141,7 @@
 			   		<tr th:if=${readonly!=true} class="first-row not-visible">
 			        	<td class="d-none">
 			        		<input type="hidden" name="list_file__rn" value="">
+			        		<input type="hidden" name="list_file__rnOld" value="">
 			        		<input type="hidden" name="list_file__clazz"value="IFile">
 			        		<input type="hidden" name="list_file__p_add" value="new">
 			        	</td>
@@ -163,6 +164,7 @@
 			    	<tr th:each="f,iter : ${obj?.list_file}">
 				        <td class="d-none">
 				        	<input type="hidden" name="list_file__rn" th:value="${f.rn}">
+				        	<input type="hidden" name="list_file__rnOld" value="">
 				        	<input type="hidden" name="list_file__clazz" value="IFile">
 				        	<input type="hidden" name="list_file__p_add" value="new">
 				       	</td>
