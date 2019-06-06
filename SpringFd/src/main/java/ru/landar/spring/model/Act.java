@@ -51,6 +51,7 @@ public class Act extends IBase {
 	private IAgent change_agent;
 	private Date change_time;
 	private List<Act_document> list_doc;
+	private List<IFile> list_file;
 	
     @Column(length=40)
     public String getAct_number() { return act_number; }
@@ -95,6 +96,10 @@ public class Act extends IBase {
     @ManyToMany(targetEntity=Act_document.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Act_document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Act_document>(); }
     public void setList_doc(List<Act_document> list_doc) { this.list_doc = list_doc; }
+    
+    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
+    public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
 	
     private void updateName() {
     	AutowireHelper.autowire(this);

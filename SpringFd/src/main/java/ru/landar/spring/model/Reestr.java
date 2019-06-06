@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 @Entity
@@ -53,6 +54,7 @@ public class Reestr extends IBase {
 	private IAgent change_agent;
 	private Date change_time;
 	private List<Document> list_doc;
+	private List<IFile> list_file;
 	
     @Column(length=40)
     public String getReestr_number() { return reestr_number; }
@@ -111,6 +113,10 @@ public class Reestr extends IBase {
     @ManyToMany(targetEntity=Document.class, fetch=FetchType.LAZY)
     public List<Document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Document>(); }
     public void setList_doc(List<Document> list_doc) { this.list_doc = list_doc; }
+    
+    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
+    public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     
     private void updateName() {
     	AutowireHelper.autowire(this);
