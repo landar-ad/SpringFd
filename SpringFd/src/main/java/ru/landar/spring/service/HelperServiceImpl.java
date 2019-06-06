@@ -584,7 +584,7 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public boolean checkDepartment(IDepartment depart) {
 		IDepartment dep = getDepartment();
-		if (dep != null && "11".equals(dep.getCode())) return true;
+		//if (dep != null && "11".equals(dep.getCode())) return true;
 		if (dep != null && depart != null && dep.getRn() == depart.getRn()) return true;
 		return false;
 	}
