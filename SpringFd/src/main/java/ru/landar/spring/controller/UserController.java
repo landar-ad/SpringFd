@@ -32,6 +32,7 @@ public class UserController {
 						   @RequestParam("password") String password, 
 						   @RequestParam("role_user") Optional<Boolean> role_userParam, 
 						   @RequestParam("role_admin") Optional<Boolean> role_userAdmin,
+						   @RequestParam("role_df") Optional<Boolean> role_userDf,
 						   @RequestParam("disabled") Optional<Boolean> disabledParam,
 						   @RequestParam("org") Optional<Integer> orgParam,
 						   @RequestParam("person") Optional<Integer> personParam,
@@ -42,11 +43,16 @@ public class UserController {
 		if (!hs.isEmpty(password)) user.setPassword(password);
 		boolean role_user = role_userParam.orElse(false);
 		boolean role_admin = role_userAdmin.orElse(false);
+		boolean role_df = role_userDf.orElse(false);
 		String roles = "";
 		if (role_user) roles += "ROLE_USER";
 		if (role_admin) {
 			if (!hs.isEmpty(roles)) roles += ',';
 			roles += "ROLE_ADMIN";
+		}
+		if (role_df) {
+			if (!hs.isEmpty(roles)) roles += ',';
+			roles += "ROLE_DF";
 		}
 		if (hs.isEmpty(roles)) roles = "ROLE_USER";
 		user.setRoles(roles);
