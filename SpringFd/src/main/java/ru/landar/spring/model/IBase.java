@@ -119,11 +119,9 @@ public abstract class IBase {
 	}
     public Object onRedirectAfterUpdate() { 
     	Object ret = invoke("onRedirectAfterUpdate");
-     	if (ret == null) {
-	    	ret = "/listObj?clazz=" + getClazz();
-			if (getRn() != null) ret += "&rn=" + getRn();
-    	}
-    	return ret; 
+    	if (ret != null) return ret;
+    	if (getParent() != null) return "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn();
+    	return "/listObj?clazz=" + getClazz() + "&rn=" + getRn();
     }
     public Object onCheckRights(Operation op) { 
      	Object ret = invoke("onCheckRights", op);

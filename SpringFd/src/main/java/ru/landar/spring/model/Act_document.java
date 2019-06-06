@@ -100,6 +100,6 @@ public class Act_document extends IBase {
     public Object onRedirectAfterUpdate() { 
     	Object ret = invoke("onRedirectAfterUpdate");
     	if (ret != null) return ret;
-    	return getParent() != null ? "/detailsObj?clazz=Act" + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
+    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
     }
 }

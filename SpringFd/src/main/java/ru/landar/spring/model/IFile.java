@@ -95,7 +95,6 @@ public class IFile extends IBase {
 	public Object onAddAttributes(Model model, boolean list) {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
-		
 		try {
 			model.addAttribute("listFileType", objService.findAll(SpFileType.class));
 		}
@@ -106,6 +105,6 @@ public class IFile extends IBase {
     public Object onRedirectAfterUpdate() { 
     	Object ret = invoke("onRedirectAfterUpdate");
     	if (ret != null) return ret;
-    	return getParent() != null ? "/detailsObj?clazz=Document" + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
+    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
     }
 }
