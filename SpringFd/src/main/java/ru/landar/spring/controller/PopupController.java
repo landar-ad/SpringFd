@@ -57,6 +57,7 @@ public class PopupController {
 		Object[] value = null; 
 		String filter = pFilterParam.orElse(null);
 		if (!hs.isEmpty(filter)) {
+			Integer rnDep = hs.getDepartmentKey();
 			List<String> listAttr = new ArrayList<String>();
 			List<Object> listValue = new ArrayList<Object>();
 			String[] fs = filter.split(",");
@@ -67,6 +68,10 @@ public class PopupController {
 				if (hs.isEmpty(a)) continue;
 				String v = f.substring(k + 1).trim();
 				if (hs.isEmpty(v)) continue;
+				if (v.indexOf("#d#") > 0) {
+					if (rnDep == null) continue;
+					v.replaceAll("#d#", "" + rnDep);
+				}
 				listAttr.add(a);
 				listValue.add(v);
 			}

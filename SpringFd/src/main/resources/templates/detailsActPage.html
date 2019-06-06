@@ -86,7 +86,7 @@
 							            <td></td>
 							            <td class="edited">
 							            	<span></span>
-							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2'">
+							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2',depart__rn =#d#">
 							            </td>
 						            	<td></td>
 							            <td></td>
@@ -105,7 +105,7 @@
 							            <td th:text="${iter.index + 1}"/>
 							            <td th:if="${st=='1'}" class="edited">
 							            	<span th:text="${d.doc?.name}"></span>
-							            	<input name="list_doc__doc" type="hidden" th:value="${d.doc?.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2'">
+							            	<input name="list_doc__doc" type="hidden" th:value="${d.doc?.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2',depart__rn =#d#">
 							            </td>
 							            <td th:if="${st!='1'}" th:text="${d.doc?.name}"></td>
 							            <td th:if="${st=='3'}" class="edited">
