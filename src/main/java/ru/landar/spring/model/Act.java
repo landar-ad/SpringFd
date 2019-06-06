@@ -222,15 +222,9 @@ public class Act extends IBase {
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
     		if (userService.isAdmin(null)) return true;
-	     	IUser user = userService.getUser((String)null);
-			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-			String roles = user.getRoles();
-			if (roles.indexOf("ADMIN") >= 0) return true;
-			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { }
-    		if (op == Operation.delete && !"1".equals(act_status)) return false;
-			IAgent agent = getCreate_agent(), person = user.getPerson();
-			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
-			if (hs.checkDepartment(getDepart())) return true;
+    		if (statusCode() != 1) return false;
+    		if (hs.checkPerson(getCreate_agent())) return true;
+ 			if (hs.checkDepartment(getDepart())) return true;
 			return false;
     	}
     	return true;
@@ -242,42 +236,27 @@ public class Act extends IBase {
      	IDepartment dep = hs.getDepartment(), depart = getDepart();
     	if ("newAct".equals(param)) return dep != null;
     	if (getRn() == null) return false;
-    	if ("edit".equals(param)) {
-    		if (!(Boolean)onCheckRights(Operation.update)) return false;
-    		if (userService.isAdmin(null)) return true;
-    		String act_status = "1";try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(act_status) && !"3".equals(act_status) && !"6".equals(act_status)) return false;
-    		return true;
-    	}
-		else if ("remove".equals(param)) {
-			if (!(Boolean)onCheckRights(Operation.delete)) return false;
-    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(act_status)) return false;
-    		return true;
-		}
+    	if ("edit".equals(param)) return onCheckRights(Operation.update);
+		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(act_status)) return false;
+			if (statusCode() != 1) return false;
 			return true;
 		}
 		else if ("acceptAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"2".equals(act_status)) return false;
+			if (statusCode() != 2) return false;
 			return true;
 		}
 		else if ("confirmAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"3".equals(act_status)) return false;
+			if (statusCode() != 3) return false;
 			return true;
 		}
 		else if ("refuseAct".equals(param)) {
 			if (!hs.checkDepartment(depart)) return false;
-			String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"3".equals(act_status)) return false;
+			if (statusCode() != 3) return false;
 			return true;
 		}
 		return false;
@@ -319,10 +298,8 @@ public class Act extends IBase {
     public void sendAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	for (; ;) {
-			IDepartment dep = hs.getDepartment();
-			if (dep == null || getDepart() == null || dep.getRn() != getDepart().getRn()) break;
-    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(act_status)) break;
+    		if (!hs.checkDepartment(getDepart())) break;
+    		if (statusCode() != 1) break;
     		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
     		break;
     	}
@@ -332,8 +309,7 @@ public class Act extends IBase {
     	AutowireHelper.autowire(this);
     	for (; ;) {
     		if (!hs.checkDepartment(getDepart())) break;
-    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"2".equals(act_status)) break;
+    		if (statusCode() != 2) break;
     		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
     		break;
 		}
@@ -343,23 +319,24 @@ public class Act extends IBase {
     	AutowireHelper.autowire(this);
     	for (; ;) {
 			if (!hs.checkDepartment(getDepart())) break;
-    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"3".equals(act_status)) break;
-			act_status = "5";
+    		if (statusCode() != 3) break;
+			boolean e = false, ne = false;
 			for (Act_document act_doc : getList_doc()) {
-				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
-				if (!e) {
-					act_status = "4";
-					break;
-				}
+				if (act_doc.getExclude() != null && act_doc.getExclude()) e = true;
+				else ne = true;
 			}
+			String act_status = "4";
+			if (ne && !e) act_status = "4";
+			else if (!ne && e) act_status = "6";
+			else if (ne && e) act_status = "5";
+			// Изменить документы
+			SpDocStatus doc_status4 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4");
+			SpDocStatus doc_status5 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
 			for (Act_document act_doc : getList_doc()) {
-				boolean e = act_doc.getExclude() != null && act_doc.getExclude();
-				if ("5".equals(act_status) && e) e = true;
-				// Изменить документ
+				e = act_doc.getExclude() != null && act_doc.getExclude();
 				Document doc = act_doc.getDoc();
 				if (doc == null) continue;
-				doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, !e ? "4" : "5"));
+				doc.setDoc_status(e ? doc_status5 : doc_status4);
 				objRepository.saveObj(doc);
 			}
 			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
@@ -371,11 +348,10 @@ public class Act extends IBase {
     	AutowireHelper.autowire(this);
     	for (; ;) {
 			if (!hs.checkDepartment(getDepart())) break;
-    		String act_status = "1"; try { act_status = getAct_status().getCode(); } catch (Exception ex) { } 
-    		if (!"3".equals(act_status)) break;
+    		if (statusCode() != 3) break;
+    		// Изменить документы
 			SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
 			for (Act_document act_doc : getList_doc()) {
-				// Изменить документ
 				Document doc = act_doc.getDoc();
 				if (doc == null) continue;
 				doc.setDoc_status(doc_status);
@@ -385,5 +361,10 @@ public class Act extends IBase {
 			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
     		break;
 		}
+    }
+    private int statusCode() {
+    	int ret = 1; 
+    	try { ret = Integer.valueOf(getAct_status().getCode()); } catch (Exception ex) { }
+    	return ret;
     }
 }

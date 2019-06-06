@@ -15,9 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Lock;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
@@ -155,7 +152,6 @@ public class Reestr extends IBase {
 		ret.add(new ButtonInfo("sendReestr", "Передать в ФК"));
 		return ret;
 	}
-	
 	@Override
     public Object onNew() {
      	Object ret = super.onNew();
@@ -242,15 +238,10 @@ public class Reestr extends IBase {
      	Integer rn = getRn();
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
-	     	IUser user = userService.getUser((String)null);
-			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-			String roles = user.getRoles();
-			if (roles.indexOf("ADMIN") >= 0) return true;
-			String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { }
-    		if (!"1".equals(reestr_status)) return false;
-			IAgent agent = getCreate_agent(), person = user.getPerson();
-			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
-			if (hs.checkDepartment(getDepart())) return true;
+    		if (userService.isAdmin(null)) return true;
+    		if (statusCode() != 1) return false;
+    		if (hs.checkPerson(getCreate_agent())) return true;
+    		if (hs.checkDepartment(getDepart())) return true;
 			return false;
     	}
     	return true;
@@ -261,24 +252,10 @@ public class Reestr extends IBase {
      	if (ret != null) return ret;
      	if ("newReestr".equals(param)) return true;
      	if (getRn() == null) return false;
-    	if ("edit".equals(param)) {
-    		if (!(Boolean)onCheckRights(Operation.update)) return false;
-    		String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(reestr_status)) return false;
-    		return true;
-    	}
-		else if ("remove".equals(param)) {
-			if (!(Boolean)onCheckRights(Operation.delete)) return false;
-    		String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(reestr_status)) return false;
-    		return true;
-		}
+     	if ("edit".equals(param)) return onCheckRights(Operation.update);
+		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		else if ("sendReestr".equals(param)) {
-			String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(reestr_status)) return false;
-			return true;
-		}
+		else if ("sendReestr".equals(param)) return statusCode() == 1;
 		return false;
     }
     @Autowired
@@ -295,10 +272,11 @@ public class Reestr extends IBase {
     		setReestr_num(max + 1); 
     		setReestr_number("" + getReestr_num());
 	    	Reestr reestr = (Reestr)objRepository.createObj(this);
+	    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6");
 	    	List<Document> l = reestr.getList_doc();
 	    	for (Object o : p.getContent()) {
 	    		Document doc = (Document)o;
-	    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
+	    		doc.setDoc_status(doc_status);
 	    		doc.setReestr(reestr);
 	    		objRepository.saveObj(doc);
 	    		l.add(doc);
@@ -312,8 +290,7 @@ public class Reestr extends IBase {
     	AutowireHelper.autowire(this);
     	for (; ;) {
 			if (!hs.checkDepartment(getDepart())) break;
-    		String reestr_status = "1"; try { reestr_status = getReestr_status().getCode(); } catch (Exception ex) { } 
-    		if (!"1".equals(reestr_status)) break;
+    		if (statusCode() != 1) break;
     		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
 			for (Document doc : getList_doc()) {
 				doc.setDoc_status(doc_status);
@@ -322,5 +299,10 @@ public class Reestr extends IBase {
 			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
     		break;
 		}
+    }
+    private int statusCode() {
+    	int ret = 1; 
+    	try { ret = Integer.valueOf(getReestr_status().getCode()); } catch (Exception ex) { }
+    	return ret;
     }
 }

@@ -254,29 +254,6 @@ public class Document extends IBase {
 		return true;
 	}
     @Override
-    public Object onCheckRights(Operation op) { 
-    	Object ret = invoke("onCheckRights", op);
-     	if (ret != null) return ret;
-    	Integer rn = getRn();
-    	if (rn == null) return true;
-    	if (op == Operation.update || op == Operation.delete) {
-    		String code = null;
-    		try { code = getDoc_status().getCode(); } catch (Exception ex) { }
-    		if (code != null && !"1".equals(code)) return false;
-	     	IUser user = userService.getUser((String)null);
-			if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-			String roles = user.getRoles();
-			if (roles.indexOf("ADMIN") >= 0) return true;
-			IAgent agent = getCreate_agent(), person = user.getPerson();
-			if (person != null && agent != null && person.getRn() == agent.getRn()) return true;
-			IDepartment dep = hs.getDepartment();
-			if (dep != null && "11".equals(dep.getCode())) return true;
-			if (dep != null && getDepart() != null && dep.getRn() == getDepart().getRn()) return true;
-			return false;
-    	}
-    	return true;
-    }
-    @Override
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
@@ -291,6 +268,21 @@ public class Document extends IBase {
 		return true;
     }
     @Override
+    public Object onCheckRights(Operation op) { 
+    	Object ret = invoke("onCheckRights", op);
+     	if (ret != null) return ret;
+    	Integer rn = getRn();
+    	if (rn == null) return true;
+    	if (op == Operation.update || op == Operation.delete) {
+    		if (userService.isAdmin(null)) return true;
+    		if (statusCode() != 1) return false;
+    		if (hs.checkPerson(getCreate_agent())) return true;
+ 			if (hs.checkDepartment(getDepart())) return true;
+			return false;
+    	}
+    	return true;
+    }
+    @Override
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
@@ -298,9 +290,7 @@ public class Document extends IBase {
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		else if ("confirm".equals(param)) {
-			return getDoc_status() == null || "1".equals(getDoc_status().getCode()); 
-		}
+		else if ("confirm".equals(param)) return statusCode() == 1; 
 		return false;
     }
     @Autowired
@@ -309,9 +299,14 @@ public class Document extends IBase {
     public void confirm(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	for (; ;) {
-			if (getDoc_status() != null && !"1".equals(getDoc_status().getCode())) break;
+			if (statusCode() != 1) break;
 			setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
 			break;
     	}
 	}
+    private int statusCode() {
+    	int ret = 1; 
+    	try { ret = Integer.valueOf(getDoc_status().getCode()); } catch (Exception ex) { }
+    	return ret;
+    }
 }
