@@ -35,7 +35,6 @@ import ru.landar.spring.service.UserService;
 @EntityListeners(IBaseListener.class)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class IBase {
-	
 	private Integer rn; 
 	private String clazz;
 	private String name;
@@ -46,7 +45,6 @@ public abstract class IBase {
 	private String modifier;
 	private Date mdate;
 	private IBase parent;
-	
 	public IBase() {
 		super();
 		setClazz(getClass().getSimpleName());
