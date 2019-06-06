@@ -347,7 +347,7 @@ public class ObjController {
 					Integer rnItem = null;
 					try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
 					Integer rnItemOld = null;
-					try { rnItemOld = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
+					try { rnItemOld = Integer.valueOf((String)lrnOld.get(i)); } catch (Exception ex) { }
 					String clazzItem = (String)lclazz.get(i); 
 					Class<?> clItem = hs.getClassByName(clazzItem);
 					if (clItem == null) continue;
