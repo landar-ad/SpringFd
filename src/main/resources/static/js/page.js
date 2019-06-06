@@ -80,6 +80,9 @@ page_init = function(list, clazzItem) {
 						if (c) {
 							a.val(rn);
 							s.text(t);
+							var b = a.closest("tr"); 
+							var cmd = $(b).find(".cmd > input").val();
+							if (cmd != "add") $(b).find(".cmd > input").val("update");
 							return false;
 						}
 					});

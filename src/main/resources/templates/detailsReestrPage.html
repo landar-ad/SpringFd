@@ -109,7 +109,6 @@
 						        <tbody>
 						        	<tr th:if="${st=='1'}" class="first-row not-visible">
 							            <td class="d-none">
-							            	<input type="hidden" name="list_doc__rn" value="">
 							            	<input type="hidden" name="list_doc__rnOld" value="">
 							            	<input type="hidden" name="list_doc__clazz" value="Document">
 							            	<input type="hidden" name="list_doc__p_add" value="exists">
@@ -117,7 +116,7 @@
 							            <td></td>
 							            <td class="edited">
 							            	<span></span>
-							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
+							            	<input name="list_doc__rn" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
 							            </td>
 							            <td></td>
 							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
@@ -125,7 +124,6 @@
 							        </tr>
 							        <tr th:each="doc,iter : ${obj?.list_doc}">
 							            <td class="d-none">
-							            	<input type="hidden" name="list_doc__rn" th:value="${doc.rn}">
 							            	<input type="hidden" name="list_doc__rnOld" th:value="${doc.rn}">
 							            	<input type="hidden" name="list_doc__clazz" value="Document">
 							            	<input type="hidden" name="list_doc__p_add" value="exists">
@@ -133,7 +131,7 @@
 							            <td th:text="${iter.index + 1}"/>
 							            <td class="edited">
 							            	<span th:text="${doc.name}"></span>
-							            	<input name="list_doc__doc" type="hidden" th:value="${doc.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
+							            	<input name="list_doc__rn" type="hidden" th:value="${doc.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
 							            </td>
 							            <td><a th:href="@{/detailsObj?clazz=Document&readonly=1&&rn=} + ${doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
 							            <td><button th:if="${st=='1'}" class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
