@@ -31,6 +31,9 @@ page_init = function(list, clazzItem) {
 				b.removeClass("fa-times");
 				b.removeClass("fa-check");
 				b.addClass(v == '1' ? "fa-check" : "fa-times");
+				b = a.closest("tr"); 
+				var cmd = $(b).find(".cmd > input").val();
+				if (cmd != "add") $(b).find(".cmd > input").val("update");
 			}
 			else if (t == "select") {
 				popup_select(a, s);
