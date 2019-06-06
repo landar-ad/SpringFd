@@ -120,8 +120,8 @@ public class Reestr extends IBase {
     
     private void updateName() {
     	AutowireHelper.autowire(this);
-    	String name = "Реестр сдачи документов";
-    	if (!hs.isEmpty(getReestr_number())) name = " № "+ getReestr_number();
+    	String name = "Реестр ";
+    	if (!hs.isEmpty(getReestr_number())) name += " № "+ getReestr_number();
     	if (getReestr_date() != null) name += " от " + new SimpleDateFormat("dd.MM.yyyy").format(getReestr_date());
     	setName(name);
     }

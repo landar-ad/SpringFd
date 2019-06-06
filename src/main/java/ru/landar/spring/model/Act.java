@@ -103,7 +103,7 @@ public class Act extends IBase {
 	
     private void updateName() {
     	AutowireHelper.autowire(this);
-    	String name = "Акт приема-передачи";
+    	String name = "Акт П/П";
     	if (!hs.isEmpty(getAct_number())) name += " № " + getAct_number();
     	if (getAct_date() != null) name += " от " + new SimpleDateFormat("dd.MM.yyyy").format(getAct_date());
     	setName(name);
