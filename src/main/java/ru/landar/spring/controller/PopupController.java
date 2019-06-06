@@ -1,7 +1,6 @@
 package ru.landar.spring.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +24,8 @@ import ru.landar.spring.service.UserService;
 public class PopupController {
 	@Autowired
 	private ObjService objService;
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private HelperService hs;
 	@RequestMapping(value = "/popupEdit")
@@ -58,6 +59,7 @@ public class PopupController {
 		String filter = pFilterParam.orElse(null);
 		if (!hs.isEmpty(filter)) {
 			Integer rnDep = hs.getDepartmentKey();
+			String roles = userService.getRoles(null);
 			List<String> listAttr = new ArrayList<String>();
 			List<Object> listValue = new ArrayList<Object>();
 			String[] fs = filter.split(";");
@@ -70,6 +72,7 @@ public class PopupController {
 				if (hs.isEmpty(v)) continue;
 				if (v.indexOf("#d#") > 0) {
 					if (rnDep == null) continue;
+					if (roles.indexOf("DF") > 0) continue;
 					v = v.replaceAll("#d#", "" + rnDep);
 				}
 				listAttr.add(a);
