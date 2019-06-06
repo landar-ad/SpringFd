@@ -132,17 +132,19 @@ public class Act extends IBase {
 		ret.add(new ColumnInfo("change_time", "Дата изменения"));
 		return ret;
 	}
-	public static List<ButtonInfo> listButton() {
+	public List<ButtonInfo> listButton() {
+		String roles = userService.getRoles(null);
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		ret.add(new ButtonInfo("newAct", "Сформировать новый акт"));
 		ret.add(new ButtonInfo("sendAct", "Отправить"));
-		ret.add(new ButtonInfo("acceptAct", "Принять"));
-		ret.add(new ButtonInfo("confirmAct", "Утвердить"));
-		ret.add(new ButtonInfo("refuseAct", "Отказать"));
+		if (roles.indexOf("DF") >= 0) {
+			ret.add(new ButtonInfo("acceptAct", "Принять"));
+			ret.add(new ButtonInfo("confirmAct", "Утвердить"));
+			ret.add(new ButtonInfo("refuseAct", "Отказать"));
+		}
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
-	
 	@Override
     public Object onNew() {
      	Object ret = super.onNew();
@@ -237,27 +239,31 @@ public class Act extends IBase {
      	IDepartment dep = hs.getDepartment(), depart = getDepart();
     	if ("newAct".equals(param)) return dep != null;
     	if (getRn() == null) return false;
+    	String roles = userService.getRoles(null);
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendAct".equals(param)) {
-			if (!hs.checkDepartment(depart)) return false;
 			if (statusCode() != 1) return false;
-			return true;
+			if (hs.checkPerson(getCreate_agent())) return true;
+			if (hs.checkDepartment(depart)) return true;
+			if (statusCode() == 1) return true;
+			return false;
 		}
 		else if ("acceptAct".equals(param)) {
-			if (!hs.checkDepartment(depart)) return false;
 			if (statusCode() != 2) return false;
-			return true;
+			if (hs.checkPerson(getCreate_agent())) return true;
+			if (hs.checkDepartment(depart)) return true;
+			return false;
 		}
 		else if ("confirmAct".equals(param)) {
-			if (!hs.checkDepartment(depart)) return false;
 			if (statusCode() != 3) return false;
+			if (roles.indexOf("DF") < 0) return false;
 			return true;
 		}
 		else if ("refuseAct".equals(param)) {
-			if (!hs.checkDepartment(depart)) return false;
 			if (statusCode() != 3) return false;
+			if (roles.indexOf("DF") < 0) return false;
 			return true;
 		}
 		return false;

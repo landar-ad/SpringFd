@@ -159,7 +159,7 @@ public abstract class IBase {
 	public Object onListButton() {
 		Object ret = invoke("onListButton");
 		if (ret != null) return ret;
-		return hs.invoke(getClass(), "listButton");
+		return hs.invoke(this, "listButton");
 	}
 	public Object onListPaginated() {
 		Object ret = invoke("onListPaginated");
@@ -190,7 +190,7 @@ public abstract class IBase {
 		ret.add(new ColumnInfo("name", "Наименование"));
 		return ret;
 	}
-	public static List<ButtonInfo> listButton() {
+	public List<ButtonInfo> listButton() {
 		return null;
 	}
 	public static boolean listPaginated() { return false; }

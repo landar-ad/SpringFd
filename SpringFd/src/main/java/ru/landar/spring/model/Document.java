@@ -191,7 +191,7 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		return ret;
 	}
-	public static List<ButtonInfo> listButton() {
+	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		ret.add(new ButtonInfo("confirm", "Завершить подготовку документа"));
 		return ret;
@@ -286,7 +286,12 @@ public class Document extends IBase {
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		else if ("confirm".equals(param)) return statusCode() == 1; 
+		else if ("confirm".equals(param)) {
+			if (statusCode() != 1) return false;
+			if (userService.isAdmin(null)) return true;
+			if (hs.checkPerson(getCreate_agent())) return true;
+ 			if (hs.checkDepartment(getDepart())) return true;
+		}
 		return false;
     }
     @Autowired
