@@ -201,13 +201,15 @@ public class Reestr extends IBase {
     	if (Document.class.isAssignableFrom(clItem)) {
     		Document docOld = (Document)objRepository.find(clItem, rnItemOld);
     		Document doc = (Document)objRepository.find(clItem, rnItem);
-    		if (docOld != null && doc != null) {
+    		if (docOld != null) {
     			docOld.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "8"));
     			docOld.setChange_doc(doc);
+    		}
+    		if (doc != null) {
     			docOld.setReestr(null);
     			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
-    			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "4"));
     		}
+    		setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "4"));
     	}
     }
     @Override
