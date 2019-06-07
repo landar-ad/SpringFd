@@ -285,6 +285,9 @@ public class Document extends IBase {
     	int st = statusCode();
     	if (st == 1) return true;
     	if (userService.isAdmin(null)) return true;
+    	if ("buh_date".equals(attr) || 
+    		"extract_number".equals(attr) || 
+    		"extract_date".equals(attr)) return true;
      	return false;
     }
     @Override
