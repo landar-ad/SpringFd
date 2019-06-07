@@ -59,7 +59,11 @@
                        	</div>
                     </div>
                     <div class="form-group-sm row mt-sm-1">
-                        <label class="col-sm-2 col-form-label">Документы сдал</label>
+                        <label class="col-sm-4 col-form-label">Документы сдал</label>
+                        <label class="col-sm-4 col-form-label">Документы принял</label>
+                        <label class="col-sm-4 col-form-label">Материально-ответственное лицо</label>
+                    </div>
+                    <div class="form-group-sm row mt-sm-1">
                         <div class="col-sm-4">
 	                    	<select th:if="${st=='1'}" name="agent_from" class="form-control form-control-sm">
 	                    		<option value=""></option>
@@ -69,7 +73,6 @@
 								<option selected="selected" th:value="${obj.agent_from?.rn}" th:utext="${obj.agent_from?.name}"/>
 							</select>    
 						</div>
-						<label class="col-sm-2 col-form-label">Документы принял</label>
                         <div class="col-sm-4">
 	                    	<select th:if="${st=='1'}" name="agent_to" class="form-control form-control-sm">
 	                    		<option value=""></option>
@@ -79,10 +82,7 @@
 								<option selected="selected" th:value="${obj.agent_to?.rn}" th:utext="${obj.agent_to?.name}"/>
 							</select>    
 						</div>
-					</div>
-					<div class="form-group-sm row mt-sm-1">
-                        <label class="col-sm-4 col-form-label">Материально-ответственное лицо</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-4">
 	                    	<select th:if="${st=='1'}" name="mol" class="form-control form-control-sm">
 	                    		<option value=""></option>
 								<option th:each="a : ${listPerson}" th:selected="${obj.mol?.rn==a.rn}" th:value="${a.rn}" th:utext="${a.name}"/>
