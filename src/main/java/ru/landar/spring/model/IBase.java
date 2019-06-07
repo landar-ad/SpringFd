@@ -133,6 +133,13 @@ public abstract class IBase {
     	if (ret == null) ret = getRn() == null ? true : (op == Operation.update || op == Operation.delete) && userService.isAdmin(null);
     	return ret;
     }
+    public Object onCheckUpdateAttribute(String attr) { 
+     	Object ret = invoke("onCheckUpdateAttribute", attr);
+    	if (ret != null) return ret;
+    	if (hs.getAttrType(getClass(), attr) == null) return true;
+    	if ("clazz".equals(attr) || "rn".equals(attr)) return false;
+      	return ret;
+    }
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
