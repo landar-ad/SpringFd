@@ -328,16 +328,13 @@ public class Reestr extends IBase {
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void sendReestr(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	for (; ;) {
-    		if (statusCode() != 1) break;
-    		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
-			for (Document doc : getList_doc()) {
-				doc.setDoc_status(doc_status);
-				objRepository.saveObj(doc);
-			}
-			setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
-    		break;
+    	if (!(Boolean)onCheckExecute("sendReestr")) return;
+		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
+		for (Document doc : getList_doc()) {
+			doc.setDoc_status(doc_status);
+			objRepository.saveObj(doc);
 		}
+		setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
     }
     private int statusCode() {
     	int ret = 1; 

@@ -311,11 +311,8 @@ public class Document extends IBase {
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirm(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	for (; ;) {
-			if (statusCode() != 1) break;
-			setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
-			break;
-    	}
+    	if (!(Boolean)onCheckExecute("confirm")) return;
+		setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
 	}
     private int statusCode() {
     	int ret = 1; 
