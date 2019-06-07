@@ -315,70 +315,53 @@ public class Act extends IBase {
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void sendAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	for (; ;) {
-    		if (!hs.checkDepartment(getDepart())) break;
-    		if (statusCode() != 1) break;
-    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
-    		break;
-    	}
+    	if (!(Boolean)onCheckExecute("sendAct")) return;
+    	setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void acceptAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	for (; ;) {
-    		if (!hs.checkDepartment(getDepart())) break;
-    		if (statusCode() != 2) break;
-    		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
-    		break;
-		}
+    	if (!(Boolean)onCheckExecute("acceptAct")) return;
+    	setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirmAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	for (; ;) {
-			if (!hs.checkDepartment(getDepart())) break;
-    		if (statusCode() != 3) break;
-			boolean e = false, ne = false;
-			for (Act_document act_doc : getList_doc()) {
-				if (act_doc.getExclude() != null && act_doc.getExclude()) e = true;
-				else ne = true;
-			}
-			String act_status = "4";
-			if (ne && !e) act_status = "4";
-			else if (!ne && e) act_status = "6";
-			else if (ne && e) act_status = "5";
-			// Изменить документы
-			SpDocStatus doc_status4 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4");
-			SpDocStatus doc_status5 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
-			for (Act_document act_doc : getList_doc()) {
-				e = act_doc.getExclude() != null && act_doc.getExclude();
-				Document doc = act_doc.getDoc();
-				if (doc == null) continue;
-				doc.setDoc_status(e ? doc_status5 : doc_status4);
-				objRepository.saveObj(doc);
-			}
-			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
-    		break;
+    	if (!(Boolean)onCheckExecute("confirmAct")) return;
+		boolean e = false, ne = false;
+		for (Act_document act_doc : getList_doc()) {
+			if (act_doc.getExclude() != null && act_doc.getExclude()) e = true;
+			else ne = true;
 		}
+		String act_status = "4";
+		if (ne && !e) act_status = "4";
+		else if (!ne && e) act_status = "6";
+		else if (ne && e) act_status = "5";
+		// Изменить документы
+		SpDocStatus doc_status4 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4");
+		SpDocStatus doc_status5 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
+		for (Act_document act_doc : getList_doc()) {
+			e = act_doc.getExclude() != null && act_doc.getExclude();
+			Document doc = act_doc.getDoc();
+			if (doc == null) continue;
+			doc.setDoc_status(e ? doc_status5 : doc_status4);
+			objRepository.saveObj(doc);
+		}
+		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void refuseAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	for (; ;) {
-			if (!hs.checkDepartment(getDepart())) break;
-    		if (statusCode() != 3) break;
-    		// Изменить документы
-			SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
-			for (Act_document act_doc : getList_doc()) {
-				Document doc = act_doc.getDoc();
-				if (doc == null) continue;
-				doc.setDoc_status(doc_status);
-				objRepository.saveObj(doc);
-			}
-			setAct_reason("Отклонен пользователем");
-			setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
-    		break;
+    	if (!(Boolean)onCheckExecute("refuseAct")) return;
+    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
+		for (Act_document act_doc : getList_doc()) {
+			Document doc = act_doc.getDoc();
+			if (doc == null) continue;
+			doc.setDoc_status(doc_status);
+			objRepository.saveObj(doc);
 		}
+		setAct_reason("Отклонен пользователем");
+		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
     }
     private int statusCode() {
     	int ret = 1; 
