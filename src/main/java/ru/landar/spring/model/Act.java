@@ -240,6 +240,7 @@ public class Act extends IBase {
     	if (st == 1) return true;
     	if (userService.isAdmin(null)) return true;
     	if ((st == 3) && (attr.startsWith("list_doc"))) return true;
+    	if ((st == 6) && ("act_reason".equals(attr))) return true;
     	if (attr.startsWith("list_file")) return true;
      	return false;
     }
