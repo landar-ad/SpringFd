@@ -263,7 +263,7 @@ public class Act extends IBase {
 			return false;
 		}
 		else if ("acceptAct".equals(param)) {
-			if (statusCode() != 3) return false;
+			if (statusCode() != 2) return false;
 			if (roles.indexOf("DF") < 0) return false;
 			return true;
 		}
