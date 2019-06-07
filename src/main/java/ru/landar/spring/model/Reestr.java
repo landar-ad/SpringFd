@@ -233,7 +233,7 @@ public class Reestr extends IBase {
 		IUser user = userService.getUser((String)null);
 		if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
 		String roles = user.getRoles();
-		if (roles.indexOf("ADMIN") < 0) {
+		if (roles.indexOf("ADMIN") < 0 && roles.indexOf("DF") < 0) {
 			Integer rnDep = hs.getDepartmentKey();
 			if (rnDep != null) {
 				listAttr.add("depart__rn");
