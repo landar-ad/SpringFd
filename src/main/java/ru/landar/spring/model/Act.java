@@ -182,7 +182,7 @@ public class Act extends IBase {
     	int st = statusCode();
     	if (st == 1) return true;
     	if (userService.isAdmin(null)) return true;
-    	if ((st == 3 || st  == 6) && (attr.startsWith("list_doc"))) return true;
+    	if ((st == 3) && (attr.startsWith("list_doc"))) return true;
     	if (attr.startsWith("list_file")) return true;
      	return false;
     }
