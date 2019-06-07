@@ -62,17 +62,19 @@ public class IUser extends IBase {
 			model.addAttribute("listOrg", objService.findAll(IOrganization.class));
 			model.addAttribute("listPerson", objService.findAll(IPerson.class));
 			if (!list) {
-				boolean role_user = false, role_admin = false;
+				boolean role_user = false, role_admin = false, role_df = false;
 				String roles = getRoles();
 				if (!hs.isEmpty(roles)) {
 					String[] rs = roles.split(",");
 					for (String r : rs) {
 						if (r.indexOf("USER") > 0) role_user = true;
 						if (r.indexOf("ADMIN") > 0) role_admin = true;
+						if (r.indexOf("DF") > 0) role_df = true;
 					}
 				}
 				model.addAttribute("role_user", role_user);
 				model.addAttribute("role_admin", role_admin);
+				model.addAttribute("role_df", role_df);
 				model.addAttribute("p_title", getRn() == null ? "Новый пользователь" : "Данные пользователя " + getLogin());
 			}
 		}
