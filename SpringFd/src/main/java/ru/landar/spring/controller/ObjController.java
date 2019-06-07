@@ -238,15 +238,17 @@ public class ObjController {
 								 Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Integer rn = paramRn.orElse(null);
-		Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
+		Object obj = rn == null ? cl.newInstance() : objRepository.find(cl, rn);
+		Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
 		Map<String, Object> mapItems = new LinkedHashMap<String, Object>();
 		// Все кроме файлов
 		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
 		for (String p : listNames) {
 			String[] vs = request.getParameterValues(p);
 			if ("clazz".equals(p) || "rn".equals(p)) continue;
+			if (!(Boolean)hs.invoke(obj, "onCheckUpdateAttribute", p)) continue;
 			int k = p.indexOf("__");
 			if (k > 0)
 			{
@@ -313,8 +315,6 @@ public class ObjController {
 		String redirect = null;
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-			// Изменение объекта
-    		Object obj = rn == null ? cl.newInstance() : objRepository.find(cl, rn);
 			if (rn == null) hs.invoke(obj, "onNew");
 			if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
 			Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
