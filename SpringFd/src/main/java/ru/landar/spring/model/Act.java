@@ -263,10 +263,9 @@ public class Act extends IBase {
 			return false;
 		}
 		else if ("acceptAct".equals(param)) {
-			if (statusCode() != 2) return false;
-			if (hs.checkPerson(getCreate_agent())) return true;
-			if (hs.checkDepartment(depart)) return true;
-			return false;
+			if (statusCode() != 3) return false;
+			if (roles.indexOf("DF") < 0) return false;
+			return true;
 		}
 		else if ("confirmAct".equals(param)) {
 			if (statusCode() != 3) return false;
