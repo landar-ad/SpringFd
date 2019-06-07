@@ -176,17 +176,6 @@ public class Act extends IBase {
     	return true;
 	}
 	@Override
-	public Object onCheckUpdateAttribute(String attr) { 
-     	Object ret = super.onCheckUpdateAttribute(attr);
-    	if (ret != null) return ret;
-    	int st = statusCode();
-    	if (st == 1) return true;
-    	if (userService.isAdmin(null)) return true;
-    	if ((st == 3) && (attr.startsWith("list_doc"))) return true;
-    	if (attr.startsWith("list_file")) return true;
-     	return false;
-    }
-	@Override
     public Object onRemove() {
     	Object ret = super.onRemove();
     	if (ret != null) return ret;
@@ -242,6 +231,17 @@ public class Act extends IBase {
 			return false;
     	}
     	return true;
+    }
+    @Override
+	public Object onCheckUpdateAttribute(String attr) { 
+     	Object ret = super.onCheckUpdateAttribute(attr);
+    	if (ret != null) return ret;
+    	int st = statusCode();
+    	if (st == 1) return true;
+    	if (userService.isAdmin(null)) return true;
+    	if ((st == 3) && (attr.startsWith("list_doc"))) return true;
+    	if (attr.startsWith("list_file")) return true;
+     	return false;
     }
     @Override
     public Object onCheckExecute(String param) { 

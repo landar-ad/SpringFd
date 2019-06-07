@@ -279,6 +279,15 @@ public class Document extends IBase {
     	return true;
     }
     @Override
+	public Object onCheckUpdateAttribute(String attr) { 
+     	Object ret = super.onCheckUpdateAttribute(attr);
+    	if (ret != null) return ret;
+    	int st = statusCode();
+    	if (st == 1) return true;
+    	if (userService.isAdmin(null)) return true;
+     	return false;
+    }
+    @Override
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
