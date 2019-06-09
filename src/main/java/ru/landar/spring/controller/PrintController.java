@@ -3,11 +3,15 @@ package ru.landar.spring.controller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +29,11 @@ import ru.landar.spring.model.Act;
 import ru.landar.spring.model.Act_document;
 import ru.landar.spring.model.Document;
 import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.Reestr;
 import ru.landar.spring.service.DocxService;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
+import ru.landar.spring.service.XlsService;
 
 @Controller
 public class PrintController {
@@ -35,6 +41,8 @@ public class PrintController {
 	private HelperService hs;
 	@Autowired
 	private DocxService d;
+	@Autowired
+	private XlsService x;
 	@Autowired
 	private ObjService objService;
 	
@@ -153,6 +161,62 @@ public class PrintController {
 		String ext = f.getFileext();
 		if (hs.isEmpty(ext)) ext = "docx";
 		String fileName = act.getName() + "." + ext;
+		Optional<MediaType> mt = MediaTypeFactory.getMediaType(fileName);
+		String content = "attachment; filename*=UTF-8''" + URLEncoder.encode(hs.replaceSpecial(fileName), "UTF-8");
+		return ResponseEntity.ok()
+	                .header(HttpHeaders.CONTENT_DISPOSITION, content)
+	                .contentType(mt.orElse(MediaType.ALL))
+	                .contentLength(file.length())
+	                .body(isr);
+	}
+	@RequestMapping(value = "/printReestr", method = RequestMethod.GET)
+	public ResponseEntity<InputStreamResource> printReestr(@RequestParam Integer rn) throws Exception {
+	    // Реестр
+		Reestr reestr = (Reestr)objService.find(Reestr.class, rn);
+		if (reestr == null) throw new Exception("Не найден реестр сдачи документов по идентификатору " + rn);
+		// Шаблон
+		IFile f = (IFile)objService.find(IFile.class, "filename", "Реестр сдачи документов.xls");
+		if (f == null || hs.isEmpty(f.getFileuri())) throw new Exception("Не найден шаблон реестра сдачи документов");
+		File file = new File(f.getFileuri());
+		if (!file.exists()) throw new Exception("Не найден файл реестра сдачи документов на сервере");
+		// Шаблон и его заполнение
+		HSSFWorkbook wb = (HSSFWorkbook)x.loadWorkbook(new FileInputStream(f.getFileuri()));
+		HSSFSheet sheet = wb.getSheetAt(0);
+		// Название листа
+		wb.setSheetName(0, "Данные реестра");
+		// Строки документа
+		int docRow = x.findRow(sheet, "{row}");
+		// Первая строка
+		int crow = docRow + 1;
+		HSSFRow rowSource = sheet.getRow(docRow);
+		// До таблицы
+		Map<String, Object> mapValue = new HashMap<String, Object>();
+		
+		x.replaceValue(sheet, -1, docRow - 1, -1, -1, mapValue);
+		// Обработка сведений документов
+		if (reestr.getList_doc() != null)
+		for (Document doc : reestr.getList_doc()) {
+			mapValue.clear();
+			
+			HSSFRow rowTarget = x.createRow(sheet, crow++);
+			x.copyRow(rowSource, rowTarget);
+			x.replaceValue(sheet, rowTarget.getRowNum(), rowTarget.getRowNum(), -1, -1, mapValue);
+		}
+		// После таблицы
+		mapValue.clear();
+		
+		x.replaceValue(sheet, crow + 1, -1, -1, -1, mapValue);
+		x.removeRow(sheet, docRow);
+		
+		// Вывод данных в память
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		wb.write(out);
+		out.close();
+		// Отправка данных пользователю
+		InputStreamResource isr = new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
+		String ext = f.getFileext();
+		if (hs.isEmpty(ext)) ext = "xls";
+		String fileName = reestr.getName() + "." + ext;
 		Optional<MediaType> mt = MediaTypeFactory.getMediaType(fileName);
 		String content = "attachment; filename*=UTF-8''" + URLEncoder.encode(hs.replaceSpecial(fileName), "UTF-8");
 		return ResponseEntity.ok()
