@@ -297,12 +297,17 @@ public class HelperServiceImpl implements HelperService {
 	final SimpleDateFormat dMy = new SimpleDateFormat("dd.MM.yyyy"), dMyHms = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 	@Override
 	public String getPropertyString(Object obj, String attr) {
-		Object o = getProperty(obj, attr);
+		return getObjectString(getProperty(obj, attr), attr.indexOf("time") >= 0);
+	}
+	@Override
+	public String getObjectString(Object o, boolean time) {
 		if (o == null || o instanceof String) return (String)o;
 		else if (o instanceof Boolean) return (Boolean)o ? "да" : "нет";
-		else if (o instanceof Date) return attr.indexOf("time") < 0 ? dMy.format((Date)o) : dMyHms.format((Date)o); 
+		else if (o instanceof Date) return !time ? dMy.format((Date)o) : dMyHms.format((Date)o); 
 		return o.toString();
 	}
+	@Override
+	public String getObjectString(Object o) { return getObjectString(o, false); }
 	@Override
 	public boolean equals(Object o1, Object o2)
 	{
