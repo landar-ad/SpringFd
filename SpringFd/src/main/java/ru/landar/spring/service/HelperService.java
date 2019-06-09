@@ -3,6 +3,7 @@ package ru.landar.spring.service;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.Part;
@@ -51,4 +52,6 @@ public interface HelperService {
 	boolean checkDepartment(IDepartment depart);
 	boolean checkPerson(IBase base);
 	Class<Object> getClassByName(String clazz);
+	String getFullDate(Date date);
+	String getMonthDate(Date date);
 }

@@ -606,6 +606,18 @@ public class HelperServiceImpl implements HelperService {
 		try { ret = (Class<Object>)Class.forName(IBase.class.getName().substring(0, IBase.class.getName().lastIndexOf('.') + 1) + clazz); } catch (Exception ex) { }
 		return ret;
 	}
+	private String[] months = new String[]{"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
+	@Override
+	public String getFullDate(Date date) {
+		if (date == null) return "";
+		String month = months[Integer.valueOf(new SimpleDateFormat("MM").format(date)) - 1];
+		return new SimpleDateFormat("d").format(date) + " " + month + " " + new SimpleDateFormat("yyyy").format(date);
+	}
+	@Override
+	public String getMonthDate(Date date) {
+		if (date == null) return "";
+		return months[Integer.valueOf(new SimpleDateFormat("MM").format(date)) - 1];
+	}
 	private static File createTempDirectory(String name) {
 		
 		File ft = null;
