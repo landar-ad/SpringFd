@@ -4,25 +4,30 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List; 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
+import org.springframework.stereotype.Service;
 
-public class DocxServiceImpl {
+@Service
+public class DocxServiceImpl implements DocxService {
+	@Override
 	public XWPFDocument openDocument(String filePath) throws IOException {
 		return new XWPFDocument(new FileInputStream(filePath));
 	}
+	@Override
 	public XWPFDocument openDocument(InputStream is) throws IOException {
 		return new XWPFDocument(is);
 	}
+	@Override
 	public XWPFTable[] tableContains(XWPFDocument docx, String[] texts) {
 		List<XWPFTable> arr = new ArrayList<XWPFTable>();
         for (XWPFTable table : docx.getTables()) {
@@ -41,6 +46,7 @@ public class DocxServiceImpl {
         }
 		return arr.toArray(new XWPFTable[arr.size()]);
 	}
+	@Override
 	public void addRow(XWPFTable table, String key, Map<String, String> mapData) {
 		if (!key.startsWith("{")) key = "{" + key;
 		if (!key.endsWith("}")) key += "}";
@@ -50,14 +56,11 @@ public class DocxServiceImpl {
 		CTRow ctRow = CTRow.Factory.newInstance();
 		ctRow.set(tableRow.getCtRow());
 		XWPFTableRow row2 = new XWPFTableRow(ctRow, table);
-		List<XWPFTableCell> tableCells = row2.getTableCells();
-		for (int j=0; j<tableCells.size(); j++) {
-			XWPFTableCell tableCell = tableCells.get(j);
-			List<XWPFParagraph> lp = tableCell.getParagraphs();
-		    for (int i=0; i<lp.size(); i++) replace(lp.get(i), mapData);
-		}
+		for (XWPFTableCell tableCell : row2.getTableCells())
+		    for (XWPFParagraph p : tableCell.getParagraphs()) replace(p, mapData);
 		table.addRow(row2);
 	}
+	@Override
 	public XWPFTableRow findRow(XWPFTable table, String key) {
 		XWPFTableRow ret = null;
         for (XWPFTableRow tableRow : table.getRows()) {
@@ -71,8 +74,9 @@ public class DocxServiceImpl {
         }
 		return ret;
 	}
-	public void deleteRows(XWPFTable table, List<String> arr) {
-		if (arr.size() < 1) return;
+	@Override
+	public void deleteRows(XWPFTable table, String[] arr) {
+		if (arr == null || arr.length < 1) return;
 		List<XWPFTableRow> tableRows = table.getRows();
         for (int i=0; i<tableRows.size(); ) {
         	boolean remove = false;
@@ -80,43 +84,34 @@ public class DocxServiceImpl {
         	for (XWPFTableCell tableCell : tableRow.getTableCells()) {
         		if (remove) break;
                 String t = tableCell.getText();
-                for (int n=0; n<arr.size(); n++) {
+                for (String a : arr) {
                 	if (remove) break;
-                	if (t != null && t.contains(arr.get(n))) remove = true;
+                	if (t != null && t.contains(a)) remove = true;
                 }
         	}
         	if (remove) table.removeRow(i); else i++;
         }
 	}
+	@Override
 	public void replace(XWPFDocument docx, Map<String, String> mapData) {
 		docx.getParagraphs().forEach(p -> replace(p, mapData));
 	}
+	@Override
 	public void replace(XWPFParagraph p, Map<String, String> mapData) {
 		String text = p.getText();
 		if (text == null || text.isEmpty()) return;
-		mapData.forEach((key, r) -> {
-    		if (!text.contains(key)) return;
-    		// Изменить текст параграфа
-    		String replacedText = StringUtils.replace(text, key, r);
-    		XWPFRun run = p.getRuns().get(0);
-    		int fontSize = run.getFontSize();
-    		String fontFamily = run.getFontFamily();
-    		String color = run.getColor();
-    		boolean bold = run.isBold(), italic = run.isItalic();
-    		// Удалить все фрагменты
-    		while (p.getRuns().size() > 0) p.removeRun(0); 
-    		// Добавить фрагменты с измененным текстом
-    		String[] rs = StringUtils.split(replacedText, "\n");
-    	    for (int j=0; j<rs.length; j++) {
-    	        XWPFRun nr = p.insertNewRun(j);
-    	        nr.setText(rs[j]);
-    	        nr.setFontSize(fontSize);
-    	        nr.setFontFamily(fontFamily);
-    	        nr.setBold(bold);
-    	        nr.setItalic(italic);
-    	        nr.setColor(color);;
-    	        if (j < rs.length - 1) nr.addCarriageReturn();
-    	    }
-		});
+		boolean changed = false;
+		Iterator<String> it = mapData.keySet().iterator();
+		while(it.hasNext()) {
+			String key = it.next(), r = mapData.get(key);
+			if (r == null) r = "";
+    		if (!text.contains(key)) continue;
+    		text = StringUtils.replace(text, key, r);
+    		changed = true;
+		}
+		if (!changed) return;
+		for (int j=p.getRuns().size() - 1; j>0; j--) 
+			p.removeRun(j);
+		p.getRuns().get(0).setText(text, 0);
 	}
 }
