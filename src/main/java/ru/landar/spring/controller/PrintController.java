@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -191,23 +193,37 @@ public class PrintController {
 		HSSFRow rowSource = sheet.getRow(docRow);
 		// До таблицы
 		Map<String, Object> mapValue = new HashMap<String, Object>();
-		
+		mapValue.put("rn", reestr.getReestr_number());
+		mapValue.put("rd", hs.getMonthDate(reestr.getReestr_date()));
+		mapValue.put("ry", new SimpleDateFormat("yy").format(reestr.getReestr_date()));
+		Date cdate = new Date();
+		mapValue.put("cd", cdate);
+		mapValue.put("org", "Министерство просвещения Российской Федерации");
+		mapValue.put("dep", hs.getPropertyString(reestr, "depart__name"));
+		mapValue.put("vd", "расходные");
+		mapValue.put("mol", hs.getPropertyString(reestr, "mol__name"));
 		x.replaceValue(sheet, -1, docRow - 1, -1, -1, mapValue);
 		// Обработка сведений документов
 		if (reestr.getList_doc() != null)
 		for (Document doc : reestr.getList_doc()) {
 			mapValue.clear();
-			
+			mapValue.put("row", "");
+			mapValue.put("dt", hs.getPropertyString(doc, "doc_type__name"));
+			mapValue.put("dn", hs.getPropertyString(doc, "doc_number"));
+			mapValue.put("kd", doc.getList_file() != null ? doc.getList_file().size() : 0);
 			HSSFRow rowTarget = x.createRow(sheet, crow++);
 			x.copyRow(rowSource, rowTarget);
 			x.replaceValue(sheet, rowTarget.getRowNum(), rowTarget.getRowNum(), -1, -1, mapValue);
 		}
 		// После таблицы
 		mapValue.clear();
-		
+		mapValue.put("doccount", reestr.getDoc_count());
+		mapValue.put("fp", hs.getPropertyString(reestr, "agent_from__post"));
+		mapValue.put("fn", hs.getPropertyString(reestr, "agent_from__name"));
+		mapValue.put("tp", hs.getPropertyString(reestr, "agent_to__post"));
+		mapValue.put("tn", hs.getPropertyString(reestr, "agent_to__name"));
 		x.replaceValue(sheet, crow + 1, -1, -1, -1, mapValue);
 		x.removeRow(sheet, docRow);
-		
 		// Вывод данных в память
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		wb.write(out);
