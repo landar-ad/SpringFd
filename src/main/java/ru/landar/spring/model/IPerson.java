@@ -68,11 +68,10 @@ public class IPerson extends IAgent {
     	if (surname != null) name = surname;
     	if (firstname != null && !firstname.isEmpty()) {
     		if (!name.isEmpty()) name += " ";
-    		name += firstname;
+    		name += firstname.substring(0, 1) + ".";
     	}
     	if (middlename != null && !middlename.isEmpty()) {
-    		if (!name.isEmpty()) name += " ";
-    		name += middlename;
+    		name += middlename.substring(0, 1) + ".";
     	}	
     	setName(name);
     }

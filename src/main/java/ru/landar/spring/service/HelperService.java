@@ -27,7 +27,7 @@ public interface HelperService {
 	Map<String, Object> getMapProperties(Object obj);
 	Map<String, Object[]> getMapChanged(Map<String, Object> mapOld, Map<String, Object> mapNew);
 	boolean propertyExists(Object obj, String attr);
-	Object getPropertyString(Object obj, String attr);
+	String getPropertyString(Object obj, String attr);
 	boolean equals(Object o1, Object o2);
 	Object getVariable(Object obj, String attr);
 	Object getVariableString(Object obj, String attr);
