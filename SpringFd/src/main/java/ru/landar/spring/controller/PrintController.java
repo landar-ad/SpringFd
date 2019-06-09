@@ -131,6 +131,7 @@ public class PrintController {
 				mapData.put("{doc_number}", hs.getPropertyString(doc, "doc_number"));
 				mapData.put("{doc_date}", hs.getPropertyString(doc, "doc_date"));
 				String reason = hs.getPropertyString(doc, "act_doc.exclude_reason");
+				if (hs.isEmpty(reason)) reason = act.getAct_reason();
 				mapData.put("{note}", reason);
 				d.addRow(table, "{list_doc}", mapData);
 			}
