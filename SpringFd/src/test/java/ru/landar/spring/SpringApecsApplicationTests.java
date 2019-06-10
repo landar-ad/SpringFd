@@ -3,16 +3,31 @@ package ru.landar.spring;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.ListJoin;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Root;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ru.landar.spring.model.Document;
+import ru.landar.spring.model.Reestr;
 import ru.landar.spring.service.DocxServiceImpl;
+import ru.landar.spring.service.ObjService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,5 +78,12 @@ public class SpringApecsApplicationTests {
 		catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	@Autowired
+	ObjService objService;
+	@Test
+	public void testFindService() throws IOException {
+		Page<?> p = objService.findAll(Reestr.class, null, new String[] {"list_doc__rn"}, new Object[] {109});
+		
 	}
 }

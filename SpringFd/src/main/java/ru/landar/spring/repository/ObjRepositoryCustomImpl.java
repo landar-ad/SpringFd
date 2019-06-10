@@ -1,5 +1,8 @@
 package ru.landar.spring.repository;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +15,7 @@ import java.util.stream.StreamSupport;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.ManyToMany;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -179,7 +183,26 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 				String a = attr[i];
 				String[] joinList = a.split("__");
 				Path p = f;
-				for (String join : joinList) p = p.get(join);
+				for (String join : joinList) p = p.get(join); 
+				/*
+				Class<?> clType = cl;
+				for (String join : joinList) {
+					Class<?> clAttr = hs.getAttrType(clType, join);
+					if (List.class.isAssignableFrom(clAttr)) {
+						p = ((Root<?>)p).join(join);
+						try {
+							String getter = "get" + a.substring(0, 1).toUpperCase() + join.substring(1);
+							Method mGet = clType.getMethod(getter);
+							clType = mGet.getAnnotation(ManyToMany.class).targetEntity();
+						}
+						catch (Exception ex) {}
+					}
+					else {
+						p = p.get(join);
+						clType = clAttr;
+					}
+				}
+				*/
 				Class<?> clAttr = hs.getAttrType(cl, a);
 	        	if (clAttr == null) continue;
 	        	Predicate pr = null;

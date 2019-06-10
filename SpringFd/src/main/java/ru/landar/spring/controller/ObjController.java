@@ -498,10 +498,11 @@ public class ObjController {
 								HttpServletRequest request,
 								Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
-		String msg = "", name = "";
+		String msg = "", name = "", clazz = "";
 		for (; ;) {
 			Object obj = objService.find(paramClazz.orElse(null), rn);
 			if (obj == null) { msg = String.format("Не найден объект с идентификатором '%s'", rn); break; }
+			clazz = hs.getPropertyString(obj, "clazz");
 			TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
 	    	try {
 				obj = objRepository.find(obj.getClass(), rn);
@@ -522,6 +523,7 @@ public class ObjController {
 			break;
 		}
 		setMainModel(model, "Удаление объекта");
+		model.addAttribute("clazz", clazz);
 		model.addAttribute("p_message", msg);
 		return "removeObjPage";
 	}
