@@ -53,9 +53,14 @@ public class Act_document extends IBase {
     public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception {
     	Object ret = super.onUpdate(map, mapChanged);
     	if (ret != null) return ret;
+    	Act act = (Act)getParent();
+		Document doc = getDoc();
+		if (mapChanged.containsKey("doc")) {
+			Document docOld = (Document)mapChanged.get("doc")[0];
+			if (docOld != null) docOld.setAct(null);
+			if (act != null && doc != null) doc.setAct(act);
+		}
     	if (mapChanged.containsKey("exclude")) {
-    		Act act = (Act)getParent();
-    		Document doc = getDoc();
     		if (getExclude() != null && getExclude()) {
     			if (hs.isEmpty(getExclude_reason())) setExclude_reason("Причина не указана");
     			if (getExclude_date() == null) setExclude_date(new Date());
