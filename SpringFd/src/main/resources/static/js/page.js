@@ -104,7 +104,7 @@ page_init = function() {
 		stop_edit($(this).closest(".edited"));   
 	});
 	add_on($('.add-item'), 'click', function(event) {
-		var c = $(this).closest(".first-row")).clone().insertBefore($(this).closest(".last-row")));
+		var c = $(this).closest(".first-row").clone().insertBefore($(this).closest(".last-row"));
 		c.removeClass("first-row");
 		$(c).find(".cmd > input").val("add");
 		c.show();
