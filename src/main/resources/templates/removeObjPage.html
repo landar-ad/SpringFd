@@ -27,10 +27,17 @@
 		                    	</div>
 			                    <div class="form-group">
 				                    <button type="submit" class="btn btn-light btn-sm">Да</button>
-				                    <a th:href="@{/main}"><button type="button" class="btn btn-light btn-sm">Нет</button></a>
+				                    <a th:href="${'listObj?clazz=' + obj.clazz}"><button type="button" class="btn btn-light btn-sm">Нет</button></a>
 			                    </div>
 			                </form>
-			                <h4 th:if='${p_message!=null}' th:text=${p_message}></h4>
+			                <div th:if='${p_message!=null}' >
+				                <div class="form-group">
+				                	<h6 th:text=${p_message}></h6>
+			                	</div>
+			                	<div class="form-group">
+				                	<a th:href="${'listObj?clazz=' + clazz}"><button type="button" class="btn btn-light btn-sm">Вернуться</button></a>
+			                	</div>
+		                	</div>
 						</div>
 					</div>
 				</div>
