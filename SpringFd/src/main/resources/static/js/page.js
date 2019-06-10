@@ -1,4 +1,4 @@
-page_init = function(list, clazzItem) {
+page_init = function() {
 	start_edit = function(c) {
 		$.each($(".edited"), function() { cancel_edit(this); });
 		var a = $(c).find(".not-visible").first(), q = a;
@@ -104,7 +104,7 @@ page_init = function(list, clazzItem) {
 		stop_edit($(this).closest(".edited"));   
 	});
 	add_on($('.add-item'), 'click', function(event) {
-		var c = $(".first-row").clone().insertBefore($(".last-row"));
+		var c = $(this).closest(".first-row")).clone().insertBefore($(this).closest(".last-row")));
 		c.removeClass("first-row");
 		$(c).find(".cmd > input").val("add");
 		c.show();
