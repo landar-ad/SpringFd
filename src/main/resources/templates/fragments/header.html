@@ -184,9 +184,9 @@
 			        	<td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${f.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
 			        	<td class="d-none cmd"><input type="hidden" name="list_file__p_cmd" value=""></td>
 			    	</tr>
-			    	<tr class="last-row">
+			    	<tr th:if=${readonly!=true} class="last-row">
 			    		<td class="d-none"/>
-			    		<td><button th:if=${readonly!=true} class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
+			    		<td><button class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
 			    		<td></td>
 			    		<td></td>
 			    		<td></td>
