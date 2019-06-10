@@ -437,6 +437,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			if (bNew) {
 				Object objItem = find(clItem, rnItem);
 				if (objItem == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem);
+				hs.invoke(objItem, "onRemove");
 				removeObj(objItem);
 			}
 		}
