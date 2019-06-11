@@ -39,4 +39,20 @@ popup_init = function() {
 			}
 		});
 	});
+	/*
+	add_on($(".modal").find(".filter-popup"), "change", function(event) {
+		var target = $(this);
+		$("#columnTable tbody tr").show();
+		var t = target.val();
+		if (t) {
+			$("#columnTable tbody tr").each(function() {
+				var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
+				if (c) {
+					rn = $(this).find(".d-none").first().text();
+					return false;
+				}
+			});
+		}
+	});
+	*/
 };

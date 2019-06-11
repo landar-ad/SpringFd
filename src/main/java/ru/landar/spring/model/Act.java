@@ -224,10 +224,12 @@ public class Act extends IBase {
      	if (ret != null) return ret;
      	Integer rn = getRn();
     	if (rn == null) return true;
+    	String roles = userService.getRoles(null);
+    	int st = statusCode();
     	if (op == Operation.update || op == Operation.delete) {
     		if (userService.isAdmin(null)) return true;
-    		if (hs.checkPerson(getCreate_agent())) return true;
- 			if (hs.checkDepartment(getDepart())) return true;
+    		if (st == 1 && hs.checkPerson(getCreate_agent()) && hs.checkDepartment(getDepart())) return true;
+    		if ((st == 6 || st == 3) && roles.indexOf("DF") > 0) return true;
 			return false;
     	}
     	return true;
