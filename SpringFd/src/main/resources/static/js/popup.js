@@ -1,5 +1,5 @@
 popup_init = function() {
-	add_on($('.choose_document'), 'click', function(event) {
+	add_on($('.choose_obj'), 'click', function(event) {
 		var target = $(this);
 		var data = {
 				clazz: target.attr("data-clazz"),
