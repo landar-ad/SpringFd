@@ -168,15 +168,15 @@
                     <div class="form-group-sm row mt-sm-1">
                     	<label class="col-sm-2 col-form-label">Дата отражения в бухгалтерском учете</label>
                     	<div class="col-sm-1">
-                        	<input name="buh_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.buh_date,'dd.MM.yyyy')}"></input>
+                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.buh_date,'dd.MM.yyyy')}" readonly="readonly"></input>
                        	</div>
                        	<label class="col-sm-2 col-form-label">Отражен в выписке: №</label>
                         <div class="col-sm-1">
-                    	    <input name="extract_number" class="form-control form-control-sm" type="text" th:value="${obj.extract_number}"></input>
+                    	    <input class="form-control form-control-sm" type="text" th:value="${obj.extract_number}" readonly="readonly"></input>
 						</div>
 						<label class="col-sm-1 col-form-label">Дата</label>
                         <div class="col-sm-1">
-                        	<input name="extract_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.extract_date,'dd.MM.yyyy')}"></input>
+                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.extract_date,'dd.MM.yyyy')}" readonly="readonly"></input>
                        	</div>
                     </div>
  				</div>
