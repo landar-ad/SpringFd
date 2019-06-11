@@ -6,7 +6,7 @@ body {
 }
 @media (min-width: 1600px) {
   	.container {
-  		max-width: 1024px;
+  		max-width: 1540px;
   	}
   	.modal-dialog {
     	max-width: 1024px;
