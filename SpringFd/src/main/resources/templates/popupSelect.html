@@ -9,29 +9,31 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body fit-height small">
-				<div class="form-group-sm row mt-sm-1">
-					<label class="col-sm-1 col-form-label">Фильтр: </label>
-					<input type="text" class="col-sm-2 filter-popup form-control form-control-sm">
+			<div class="modal-body small">
+				<div class="form-group-sm row">
+					<label class="col-sm-2 col-form-label">Фильтр: </label>
+					<input type="text" class="col-sm-4 filter-popup form-control form-control-sm">
 				</div>
-				<table id="columnTable" class="table table-sm table-striped table-light table-bordered">
-					<thead>
-						<tr>
-							<th class="d-none"></th>
-							<th>#</th>
-							<th></th>
-							<th th:each="col : ${listColumn}"><div><span th:text="${col.title}"></span></div></th>
-						</tr>
-					</thead>
-					<tbody>
-				        <tr th:each="obj,iter : ${listObj}">
-				            <td class="d-none" th:text="${obj.rn}"/>
-				            <td th:text="${iter.index + 1}"/>
-				            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && obj.rn==rn"></input></td>
-				            <td class="text-select" th:each="col : ${listColumn}" th:text="${hs.getPropertyString(obj,col.name)}"></td>
-				        </tr>
-			        </tbody>
-				</table>
+				<div class="fit-height">
+					<table id="columnTable" class="table table-sm table-striped table-light table-bordered">
+						<thead>
+							<tr>
+								<th class="d-none"></th>
+								<th>#</th>
+								<th></th>
+								<th th:each="col : ${listColumn}"><div><span th:text="${col.title}"></span></div></th>
+							</tr>
+						</thead>
+						<tbody>
+					        <tr th:each="obj,iter : ${listObj}">
+					            <td class="d-none" th:text="${obj.rn}"/>
+					            <td th:text="${iter.index + 1}"/>
+					            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && obj.rn==rn}"></input></td>
+					            <td class="text-select" th:each="col : ${listColumn}" th:text="${hs.getPropertyString(obj,col.name)}"></td>
+					        </tr>
+				        </tbody>
+					</table>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button id="save-button" type="button" class="btn btn-sm btn-light" data-dismiss="modal">Выбрать</button>
