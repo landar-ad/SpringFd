@@ -6,10 +6,10 @@ body {
 }
 @media (min-width: 1600px) {
   	.container {
-  		max-width: 1540px;
+  		max-width: 1024px;
   	}
   	.modal-dialog {
-    	max-width: 1540px;
+    	max-width: 1024px;
     	margin: 1.75rem auto;
 	}
 }
