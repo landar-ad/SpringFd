@@ -37,11 +37,13 @@ public class PopupController {
 	}
 	@RequestMapping(value = "/popupSelect")
 	public String popupSelect(@RequestParam("clazz") String clazz,
+							@RequestParam("rn") Optional<Integer> rnParam,
 							@RequestParam("p_title") Optional<String> pTitleParam,
 							@RequestParam("p_column") Optional<String> pColumnParam,
 							@RequestParam("p_filter") Optional<String> pFilterParam,
 							HttpServletRequest request,
 							Model model) throws Exception {
+		Integer rn = rnParam.orElse(null);
 		String column = pColumnParam.orElse("name=Наименование");
 		String[] ss = column.split(";");
 		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();
@@ -82,6 +84,7 @@ public class PopupController {
 			if (listValue.size() > 0) value = listValue.toArray(new String[listValue.size()]);
 		}
 		Page<Object> listObj = objService.findAll(cl, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), attr, value);
+		model.addAttribute("rn", rn);
 		model.addAttribute("listObj", listObj);
 		model.addAttribute("p_title", pTitleParam.orElse("Выбор"));
 		model.addAttribute("hs", hs);
