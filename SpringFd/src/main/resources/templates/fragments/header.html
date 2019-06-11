@@ -40,7 +40,7 @@
 			       	<small>Комплексная автоматизированная система исполнения бюджета Министерства просвещения Российской Федерации</small>
 			       	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 					  	<div class="collapse navbar-collapse">
-					    	<ul th:if="${#strings.contains(#httpServletRequest.requestURI,'listObj') && ()clazz=='Document' || clazz=='Act' || clazz=='Reestr')}" class="navbar-nav mr-auto">
+					    	<ul th:if="${#strings.contains(#httpServletRequest.requestURI,'listObj') && (clazz=='Document' || clazz=='Act' || clazz=='Reestr')}" class="navbar-nav mr-auto">
 							    <li th:if="${clazz!='Document'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Document}">Документы</a></li>
 							    <li th:if="${clazz!='Act'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Act}">Акты приема-передачи</a></li>
 							    <li th:if="${clazz!='Reestr'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Reestr}">Реестры сдачи документов</a></li>
