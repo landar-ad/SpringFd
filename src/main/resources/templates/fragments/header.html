@@ -38,6 +38,15 @@
 				<div class="col-sm-auto mr-sm-1">
 					<h4>Минпросвещения России</h4>
 			       	<small>Комплексная автоматизированная система исполнения бюджета Министерства просвещения Российской Федерации</small>
+			       	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					  	<div class="collapse navbar-collapse">
+					    	<ul th:if="${#strings.contains(#httpServletRequest.requestURI,'listObj')}" class="navbar-nav mr-auto">
+							    <li th:if="${clazz!='Document'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Document}">Документы</a></li>
+							    <li th:if="${clazz!='Act'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Act}">Акты приема-передачи</a></li>
+							    <li th:if="${clazz!='Reestr'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Reestr}">Реестры сдачи документов</a></li>
+						    </ul>
+						</div>
+					</nav>	    
 		       	</div>
 		       	<div class="col grow">
 		       		<div th:if="${p_l}" class="mr-sm-2 text-align-right">
@@ -52,7 +61,6 @@
   	<div th:fragment="list-param">
  		<input type="hidden" id="clazz" th:value="${clazz}" />
  		<input type="hidden" name="rn" th:value="${rn}" />
- 		<input type="hidden" name="p_refreshElement" value=""/>
   	</div>
   	<div th:fragment="list-buttons" class="row small col-sm-12">
 		<div class="btn-group">
