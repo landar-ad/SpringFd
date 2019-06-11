@@ -14,6 +14,7 @@ list_init = function() {
 	};
 	exec_obj = function(op, param) {
 		var rn = $('input[name="rn"]').val();
+		if (!(rn > 0) && (op=="edit" || op=="remove" || op=="view")) return;
 		var url = "detailsObj";
 		if (op=="remove") url = "removeObj";
 		if (op=="execute") url = "executeObj";
@@ -23,11 +24,11 @@ list_init = function() {
 		if (op=="execute") url += "&param=" + param;
 		window.location = url;
 	};
-	click_row = function(a) {
+	click_row = function(a, force) {
 		var b = $(a).hasClass('table-success'), rn = "";
 		$('#objTable tbody tr').removeClass('table-success');
 		$('td .max-width').addClass('one-line');
-		if (!b) {
+		if (!b || force) {
 			$(a).addClass('table-success');
 			$(a).find('.max-width').removeClass('one-line');
 			rn = $(a).find("td.d-none").first().text();
@@ -101,7 +102,7 @@ list_init = function() {
 	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
 	add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).attr("data-param")); });
 	add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
-	add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this); exec_obj("edit"); });
+	add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this, true); exec_obj("edit"); });
 	// Выделение строки по идентификатору выделенного объекта
 	$('td .max-width').addClass('one-line');
 	$('.max-width').css("max-width", "" + (screen.width / 5) + "px");
