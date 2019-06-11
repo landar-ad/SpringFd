@@ -17,11 +17,12 @@ popup_init = function() {
 				$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
 				add_on($(".modal").find("#save-button"), "click", function() {
-					var rn = "";
+					var rn = "", source = null;
 					$("#columnTable tbody tr").each(function() {
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						if (c) {
 							rn = $(this).find(".d-none").first().text();
+							source = this;
 							return false;
 						}
 					});
@@ -30,8 +31,30 @@ popup_init = function() {
 					p = $(p).parent();
 					var arr = data.p_column.split(";");
 					for (i=0; i<arr.length; i++) {
-						var t = rn > 0 ?  $(this).find(".text-select:eq("+ i + ")").text() : "";
+						var t = rn > 0 ?  $(source).find(".text-select:eq("+ i + ")").text() : "";
 						$(p).find("input:eq(" + i + ")").val(t);
+					}
+				});
+				add_on($(".modal").find(".filter-popup"), "input", function() {
+					var target = $(this);
+					$("#columnTable tbody tr").show();
+					var t = target.val();
+					if (t) {
+						t = t.toLowerCase();
+						$("#columnTable tbody tr").each(function() {
+							var b = false;
+							$(this).find("td").each(function() {
+								var tt = $(this).text();
+								if (tt) {
+									tt = tt.toLowerCase();
+									if (tt.indexOf(t) >= 0) {
+										b = true;
+										return false;
+									}
+								}
+							});
+							if (!b) $(this).hide(); 
+						});
 					}
 				});
 			},
@@ -39,24 +62,4 @@ popup_init = function() {
 			}
 		});
 	});
-	/*
-	add_on($(".modal").find(".filter-popup"), "change", function(event) {
-		var target = $(this);
-		$("#columnTable tbody tr").show();
-		var t = target.val();
-		if (t) {
-			$("#columnTable tbody tr").each(function() {
-				var b = false;
-				$(this).find("td").each(function() {
-					var tt = $(this).text();
-					if (tt.indexOf(t) >= 0) {
-						b = true;
-						return false;
-					}
-				});
-				if (!b) $(this).hide(); 
-			});
-		}
-	});
-	*/
 };
