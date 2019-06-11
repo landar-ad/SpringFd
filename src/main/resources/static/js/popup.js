@@ -1,6 +1,7 @@
 popup_init = function() {
 	add_on($('.choose_obj'), 'click', function(event) {
 		var target = $(this), rn = $(target).parent().find("input[type='hidden']").val();
+		var multiple = target.attr("data-multiple")
 		var data = {
 				clazz: target.attr("data-clazz"),
 				rn: rn,
@@ -13,20 +14,28 @@ popup_init = function() {
 			success: function(result) {
 				var div = $('<div></div>');
 				div.html(result);
-				$('.modal').html(div.find('.modal').html());
+				$(".modal").html(div.find('.modal').html());
 				$(".modal").modal();
-				$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
-				$(".modal-body").css("overflow-y", "auto");
-				$('#columnTable tbody tr').each(function() {
+				var h = $(".modal").outerHeight();
+				var a = $(".modal").find(".fit-height");
+				a.outerHeight(h * 3 / 5);
+				a.css("overflow-y", "auto");
+				$(".modal").find('#columnTable tbody tr').each(function() {
 					var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 					if (c) {
-						$(window).scrollTop($(this).offset().top);
+						var off = $(this).offset().top - a.offset().top;
+						$(".modal").find(".fit-height").animate({scrollTop: off});
 						return false;
 					}
 				});
+				add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
+					var p = $(this).prop("checked");
+					if (!multiple) $(".check-select > input[type='checkbox']").prop("checked", false);
+					$(this).prop("checked", p);
+				});
 				add_on($(".modal").find("#save-button"), "click", function() {
 					var rn = "", source = null;
-					$("#columnTable tbody tr").each(function() {
+					$('.modal').find("#columnTable tbody tr").each(function() {
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						if (c) {
 							rn = $(this).find(".d-none").first().text();
@@ -65,6 +74,7 @@ popup_init = function() {
 						});
 					}
 				});
+				
 			},
 			error: function() {
 			}
