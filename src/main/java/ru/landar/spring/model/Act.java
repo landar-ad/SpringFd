@@ -229,7 +229,7 @@ public class Act extends IBase {
     	if (op == Operation.update || op == Operation.delete) {
     		if (userService.isAdmin(null)) return true;
     		if (st == 1 && hs.checkPerson(getCreate_agent()) && hs.checkDepartment(getDepart())) return true;
-    		if ((st == 6 || st == 3) && roles.indexOf("DF") > 0) return true;
+    		if (op == Operation.update && (st == 6 || st == 3) && roles.indexOf("DF") > 0) return true;
 			return false;
     	}
     	return true;
