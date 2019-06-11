@@ -270,6 +270,7 @@ public class Document extends IBase {
     	Integer rn = getRn();
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
+    		if (getAct() != null || getReestr() != null) return false;
     		if (userService.isAdmin(null)) return true;
     		if (statusCode() != 1) return false;
     		if (hs.checkPerson(getCreate_agent())) return true;
