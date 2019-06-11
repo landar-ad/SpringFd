@@ -87,10 +87,15 @@
                     <div class="form-group-sm row mt-sm-1">
                         <label class="col-sm-2 col-form-label">Контрагент</label>
                         <div class="col-sm-10">
+                        	<!--
 	                    	<select name="agent" class="form-control form-control-sm">
 	                    		<option value=""></option>
 								<option th:each="a : ${listAgent}" th:selected="${obj.agent?.rn==a.rn}" th:value="${a.rn}" th:utext="${a.name}"/>
 							</select>
+							-->
+							
+							<button type="button" class="choose_document btn btn-light btn-sm" data-clazz="Document" data-title="Выберите документ" data-column="doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа" data-filter=""><i class="fa fa-sm fa-file"></i></button>
+                       		<input name="parent_doc" type="hidden" th:value="${obj.parent_doc?.rn}">
 						</div>
 					</div>
 					<div th:replace="fragments/header :: list_file"></div>

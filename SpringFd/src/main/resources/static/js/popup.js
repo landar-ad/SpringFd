@@ -46,11 +46,15 @@ popup_init = function() {
 		var t = target.val();
 		if (t) {
 			$("#columnTable tbody tr").each(function() {
-				var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
-				if (c) {
-					rn = $(this).find(".d-none").first().text();
-					return false;
-				}
+				var b = false;
+				$(this).find("td").each(function() {
+					var tt = $(this).text();
+					if (tt.indexOf(t) >= 0) {
+						b = true;
+						return false;
+					}
+				});
+				if (!b) $(this).hide(); 
 			});
 		}
 	});

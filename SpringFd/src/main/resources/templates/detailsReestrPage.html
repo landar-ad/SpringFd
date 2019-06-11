@@ -118,7 +118,7 @@
 							            	<span></span>
 							            	<input name="list_doc__rn" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
 							            </td>
-							            <td th:text="${doc.change_doc?.name}"/>
+							            <td></td>
 							            <td></td>
 							            <td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
 							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
@@ -134,7 +134,7 @@
 							            	<span th:text="${doc.name}"></span>
 							            	<input th:if="${st=='2' || st=='3'}" name="list_doc__rn" type="hidden" th:value="${doc.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
 							            </td>
-							            <td></td>
+							            <td th:text="${doc.change_doc?.name}"></td>
 							            <td><a th:href="@{/detailsObj?clazz=Document&readonly=1&&rn=} + ${doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
 							            <td><button th:if="${st=='1'}" class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
 							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
