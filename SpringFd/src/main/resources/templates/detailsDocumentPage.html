@@ -90,7 +90,7 @@
 	                    	<select name="agent" class="form-control form-control-sm">
 	                    		<option value=""></option>
 								<option th:each="a : ${listAgent}" th:selected="${obj.agent?.rn==a.rn}" th:value="${a.rn}" th:utext="${a.name}"/>
-							</select>    
+							</select>
 						</div>
 					</div>
 					<div th:replace="fragments/header :: list_file"></div>
