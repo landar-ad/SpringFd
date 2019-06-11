@@ -46,9 +46,6 @@ body {
 .pointer {
 	cursor: pointer;
 }
-.edited {
-	cursor: pointer;
-}
 .required:after {
     color: #e32;
     content: '\a0*';
