@@ -16,6 +16,13 @@ popup_init = function() {
 				$(".modal").modal();
 				$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
+				$('#columnTable tbody tr').each(function() {
+					var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
+					if (c) {
+						$(window).scrollTop($(this).offset().top);
+						return false;
+					}
+				});
 				add_on($(".modal").find("#save-button"), "click", function() {
 					var rn = "", source = null;
 					$("#columnTable tbody tr").each(function() {
