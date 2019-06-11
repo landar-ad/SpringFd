@@ -56,10 +56,10 @@
   	</div>
   	<div th:fragment="list-buttons" class="row small col-sm-12">
 		<div class="btn-group">
-  			<button id="edit_obj" class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-edit"></i> Редактировать</button>
-  			<button id="view_obj" class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-readme"></i> Посмотреть</button>
-  			<a th:href="${'detailsObj?clazz=' + clazz}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-clone"></i> Добавить</a>
-  			<button id="remove_obj"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-trash"></i> Удалить</button>
+  			<button th:if="${l_lb==null || #strings.contains(l_lb,'e')}" id="edit_obj" class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-edit"></i> Редактировать</button>
+  			<button th:if="${l_lb==null || #strings.contains(l_lb,'v')}" id="view_obj" class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-readme"></i> Посмотреть</button>
+  			<a th:if="${l_lb==null || #strings.contains(l_lb,'a')}" th:href="${'detailsObj?clazz=' + clazz}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-clone"></i> Добавить</a>
+  			<button th:if="${l_lb==null || #strings.contains(l_lb,'r')}" id="remove_obj"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-trash"></i> Удалить</button>
 		</div>
 		<div th:if="${listButton!=null}" class="btn-group">
 			<button th:each="btn : ${listButton}" th:data-param="${btn.name}" class="execute_obj btn btn-sm btn-success" type="button" th:text="${' ' + btn.title}"><i th:if=${btn.icon!=null} class="${'fa fa-sm fa-' + btn.icon}"></i></button>
