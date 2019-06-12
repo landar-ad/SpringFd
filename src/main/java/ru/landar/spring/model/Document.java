@@ -184,9 +184,9 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("reestr__name", "Включен в реестр"));
 		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта", false));
 		ret.add(new ColumnInfo("change_doc__name", "Заменен документом", false));
-		ret.add(new ColumnInfo("buh_date", "Дата отражения в бухгалтерском учете"));
-		ret.add(new ColumnInfo("extract_number", "Отражен в выписке: №", false));
-		ret.add(new ColumnInfo("extract_date", "Отражен в выписке: дата", false));
+		ret.add(new ColumnInfo("buh_date", "Дата в бухучете"));
+		ret.add(new ColumnInfo("extract_number", "Выписка: №", false));
+		ret.add(new ColumnInfo("extract_date", "Выписка: дата", false));
 		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		return ret;
