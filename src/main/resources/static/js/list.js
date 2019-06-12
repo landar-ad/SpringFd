@@ -6,7 +6,7 @@ list_init = function() {
 			success: function(result) {
 				var div = $('<div></div>');
 				div.html(result);
-				$('.fit-height').html(div.find('.fit-height').html());
+				$('#listTop').html(div.find('#listTop').html());
 				$('.fit-height').outerHeight(h);
 				list_init();
 			}
