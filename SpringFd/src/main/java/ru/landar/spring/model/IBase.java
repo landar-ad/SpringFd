@@ -122,8 +122,8 @@ public abstract class IBase {
     	ret = hs.invoke(this, param, request);
     	return ret;
 	}
-    public Object onRedirectAfterUpdate() { 
-    	Object ret = invoke("onRedirectAfterUpdate");
+    public Object onRedirectAfterUpdate(HttpServletRequest request) { 
+    	Object ret = invoke("onRedirectAfterUpdate", request);
     	if (ret != null) return ret;
     	if (getParent() != null) return "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn();
     	return "/listObj?clazz=" + getClazz() + (getRn() != null ? "&rn=" + getRn() : "");

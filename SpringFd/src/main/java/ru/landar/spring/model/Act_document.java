@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -107,9 +108,9 @@ public class Act_document extends IBase {
 		return true;
 	}
     @Override
-    public Object onRedirectAfterUpdate() { 
-    	Object ret = invoke("onRedirectAfterUpdate");
+    public Object onRedirectAfterUpdate(HttpServletRequest request) { 
+    	Object ret = invoke("onRedirectAfterUpdate", request);
     	if (ret != null) return ret;
-    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
+    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : null;
     }
 }

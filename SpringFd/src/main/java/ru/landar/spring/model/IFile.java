@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -105,9 +106,9 @@ public class IFile extends IBase {
 		return true;
 	}
     @Override
-    public Object onRedirectAfterUpdate() { 
+    public Object onRedirectAfterUpdate(HttpServletRequest request) { 
     	Object ret = invoke("onRedirectAfterUpdate");
     	if (ret != null) return ret;
-    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate();
+    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate(request);
     }
 }
