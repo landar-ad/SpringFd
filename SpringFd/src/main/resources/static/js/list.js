@@ -7,8 +7,9 @@ list_init = function() {
 				var div = $('<div></div>');
 				div.html(result);
 				$('#listTop').html(div.find('#listTop').html());
-				$('.fit-height').outerHeight(h);
+				//$('.fit-height').outerHeight(h);
 				list_init();
+				size_init();
 			}
 		});
 	};

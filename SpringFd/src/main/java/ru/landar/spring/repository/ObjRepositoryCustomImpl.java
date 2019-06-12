@@ -20,6 +20,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -164,7 +165,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		else if (result != null) query = cb.createQuery(Object[].class);
 		else query = cb.createQuery(cl);
 		Root<?> f = query.from(cl);
-		if (count) ((CriteriaQuery<Long>)query).select(cb.count(f));
+		if (count) ((CriteriaQuery<Long>)query).select(cb.count(f)).distinct(true);
 		else if (result != null) {
 			List<Selection<?>> list = new ArrayList<Selection<?>>();
 			for (String r : result) {
@@ -173,9 +174,9 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 				for (String join : joinList) p = p.get(join);
 				list.add(p);
 			}
-			query.multiselect(list);
+			query.multiselect(list).distinct(true);
 		}
-		else query.select((Path)f);
+		else query.select((Path)f).distinct(true);
 		
 		Predicate prTotal = null;
 		if (attr != null && attr.length > 0) {
@@ -288,6 +289,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 				String a = order.getProperty();
 				String[] joinList = a.split("__");
 				Path p = f;
+				for (int j=0; j<joinList.length-1; j++) f.join(joinList[j], JoinType.LEFT);
 				for (String join : joinList) p = p.get(join);
 				Order o = order.getDirection() == Direction.ASC ? cb.asc(p) : cb.desc(p);
 				lo.add(o);
