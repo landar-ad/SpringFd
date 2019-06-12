@@ -10,12 +10,12 @@
 	</script>
 	<div th:with="l_p=${p_paging!=null && p_paging},l_lb=${clazz=='Act' ? 'ev' : (clazz=='Reestr' ? 'ev' : 'eavr')}" id="listTop" class="h-100">
 		<header th:replace="fragments/header :: header"></header>
-	   	<div class="col fit-height">
+	   	<div class="col fit-height1">
 		 	<form id="formSubmit" th:action="${'listObj?clazz=' + clazz}" method="POST" novalidate  autocomplete="off">
 		 		<div th:replace="fragments/header :: list-param"></div>
 				<div th:replace="fragments/header :: list-buttons"></div>
 				<div th:if="${l_p}"><div th:replace="fragments/pager :: pager-param"></div></div>
-				<div class="fit-scroll">
+				<div class="fit-height">
 			    	<table th:replace="fragments/header :: list-table"></table>
 		    	</div>
 			    <div th:replace="fragments/header :: visible"></div>
