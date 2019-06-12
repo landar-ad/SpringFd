@@ -10,7 +10,7 @@
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
-	<div class="container fit-height">
+	<div class="container">
 		<form th:action="@{/detailsObj}" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
 			<input type="hidden" name="clazz" value="Act" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
@@ -18,159 +18,161 @@
             	<h6 th:text="${p_title}"></h6>
             </div>
            	<div th:with="st=${obj.act_status?.code}" class="col-sm-12 card small">
-            	<div class="m-sm-2">
+            	<div class="m-sm-0">
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
 	            			<button class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
 			                <a th:href="${'listObj?clazz=Act' + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
-	                <div class="form-group-sm row mt-sm-1">
-                        <label class="col-sm-1 col-form-label">Дата создания</label>
-                        <div class="col-sm-2">
-                    	    <input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.create_time,'dd.MM.yyyy hh:mm.ss')}" readonly="readonly"></input>
-						</div>
-                        <label class="col-sm-2 col-form-label">Создан пользователем</label>
-                        <div class="col-sm-4">
-                        	<input class="form-control form-control-sm" type="text" th:value="${obj.create_agent?.name}" readonly="readonly"></input>
-                       	</div>
-                    </div>
-                    <div class="form-group-sm row mt-sm-1">
-                        <label class="col-sm-1 col-form-label required">№ акта</label>
-                        <div class="col-sm-1">
-                        	<input th:if="${st=='1'}" name="act_number" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" required="required"></input>
-                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" readonly="readonly"></input>
-                       	</div>
-                        <label class="col-sm-1 col-form-label required">Дата акта</label>
-                        <div class="col-sm-2">
-                        	<input th:if="${st=='1'}" name="act_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required"></input>
-                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" readonly="readonly"></input>
-                       	</div>
-                       	<label class="col-sm-2 col-form-label">Структурное подразделение</label>
-                        <div class="col-sm-5">
-                        	<select th:if="${st=='1'}" name="depart" class="form-control form-control-sm">
-	                    		<option value=""></option>
-								<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
-							</select>
-							<select th:if="${st!='1'}" class="form-control form-control-sm" disabled>
-								<option selected="selected" th:value="${obj.depart?.rn}" th:utext="${obj.depart?.name}"/>
-							</select>
-                       	</div>
-                    </div>
-					<div id="list_doc" class="form-group-sm mt-sm-1">
-                        <label class="col-sm-2 col-form-label">Документы, включенные в акт</label>
-                        <div class="col-sm-12">
-	                        <table class="table table-sm table-striped table-light table-bordered">
-						    	<thead>
-							        <tr>
-							            <th class="d-none">Идентификатор</th>
-							            <th>#</th>
-							            <th>Документ</th>
-							            <th>Исключен из акта</th>
-							            <th>Дата исключения</th>
-							            <th>Причина</th>
-							            <th></th>
-							            <th></th>
-							            <th class="d-none">Команда</th>
-							        </tr>
-						        </thead>
-						        <tbody>
-						        	<tr th:if="${st=='1'}" class="first-row not-visible">
-							            <td class="d-none">
-							            	<input type="hidden" name="list_doc__rn" value="">
-							            	<input type="hidden" name="list_doc__rnOld" value="">
-							            	<input type="hidden" name="list_doc__clazz"value="Act_document">
-							            	<input type="hidden" name="list_doc__p_add" value="new">
-							            </td>
-							            <td></td>
-							            <td class="edited">
-							            	<span></span>
-							            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2';depart__rn =#d#">
-							            </td>
-						            	<td></td>
-							            <td></td>
-							            <td></td>
-							            <td></td>
-							            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item=""><i class="fa fa-sm fa-minus"></i></button></td>
-							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
-							        </tr>
-							        <tr th:each="d,iter : ${obj?.list_doc}">
-							            <td class="d-none">
-							            	<input type="hidden" name="list_doc__rn" th:value="${d.rn}">
-							            	<input type="hidden" name="list_doc__rnOld" th:value="${d.rn}">
-							            	<input type="hidden" name="list_doc__clazz" value="Act_document">
-							            	<input type="hidden" name="list_doc__p_add" value="new">
-							            </td>
-							            <td th:text="${iter.index + 1}"/>
-							            <td th:if="${st=='1'}" class="edited">
-							            	<span th:text="${d.doc?.name}"></span>
-							            	<input name="list_doc__doc" type="hidden" th:value="${d.doc?.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2';depart__rn =#d#">
-							            </td>
-							            <td th:if="${st!='1'}" th:text="${d.doc?.name}"></td>
-							            <td th:if="${st=='3'}" class="edited">
-							            	<button class="btn btn-light btn-sm" type="button"><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'check' : 'times')}"></i></button>
-							            	<input name="list_doc__exclude" type="hidden" th:value="${d.exclude==true?'1':'0'}" data-type="checkbox">
-						            	</td>
-						            	<td th:if="${st!='3'}">
-						            		<button class="btn btn-light btn-sm" type="button"><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'check' : 'times')}"></i></button>
-						            	</td>
-							            <td th:text="${#dates.format(d.exclude_date,'dd.MM.yyyy')}"></td>
-							            <td th:if="${st=='3'}" class="edited">
-							            	<span th:utext="${d.exclude_reason}"></span>
-							            	<input name="list_doc__exclude_reason" class="not-visible form-control form-control-sm" type="text" th:value="${d.exclude_reason}">
-							            </td>
-							            <td th:if="${st!='3'}" th:utext="${d.exclude_reason}"></td>
-							            <td><a th:if=${d.doc!=null} th:href="@{/detailsObj?clazz=Document&readonly=1&rn=} + ${d.doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
-							            <td><button th:if="${st=='1'}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
-							            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
-							        </tr>
-							        <tr th:if="${st=='1'}" class="last-row">
-							        	<td class="d-none"/>
-							        	<td><button class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
-							        	<td></td>
-							        	<td></td>
-							        	<td></td>
-							        	<td></td>
-							        	<td></td>
-							        	<td></td>
-							        	<td class="d-none"/>
-						        	</tr>
-						        </tbody>
-						    </table>
+	                <div class="col-sm-12 fit-height">
+		                <div class="form-group-sm row mt-sm-1">
+	                        <label class="col-sm-1 col-form-label">Дата создания</label>
+	                        <div class="col-sm-2">
+	                    	    <input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.create_time,'dd.MM.yyyy hh:mm.ss')}" readonly="readonly"></input>
+							</div>
+	                        <label class="col-sm-2 col-form-label">Создан пользователем</label>
+	                        <div class="col-sm-4">
+	                        	<input class="form-control form-control-sm" type="text" th:value="${obj.create_agent?.name}" readonly="readonly"></input>
+	                       	</div>
+	                    </div>
+	                    <div class="form-group-sm row mt-sm-1">
+	                        <label class="col-sm-1 col-form-label required">№ акта</label>
+	                        <div class="col-sm-1">
+	                        	<input th:if="${st=='1'}" name="act_number" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" required="required"></input>
+	                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" readonly="readonly"></input>
+	                       	</div>
+	                        <label class="col-sm-1 col-form-label required">Дата акта</label>
+	                        <div class="col-sm-2">
+	                        	<input th:if="${st=='1'}" name="act_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required"></input>
+	                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" readonly="readonly"></input>
+	                       	</div>
+	                       	<label class="col-sm-2 col-form-label">Структурное подразделение</label>
+	                        <div class="col-sm-5">
+	                        	<select th:if="${st=='1'}" name="depart" class="form-control form-control-sm">
+		                    		<option value=""></option>
+									<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+								</select>
+								<select th:if="${st!='1'}" class="form-control form-control-sm" disabled>
+									<option selected="selected" th:value="${obj.depart?.rn}" th:utext="${obj.depart?.name}"/>
+								</select>
+	                       	</div>
+	                    </div>
+						<div id="list_doc" class="form-group-sm mt-sm-1">
+	                        <label class="col-sm-2 col-form-label">Документы, включенные в акт</label>
+	                        <div class="col-sm-12">
+		                        <table class="table table-sm table-striped table-light table-bordered">
+							    	<thead>
+								        <tr>
+								            <th class="d-none">Идентификатор</th>
+								            <th>#</th>
+								            <th>Документ</th>
+								            <th>Исключен из акта</th>
+								            <th>Дата исключения</th>
+								            <th>Причина</th>
+								            <th></th>
+								            <th></th>
+								            <th class="d-none">Команда</th>
+								        </tr>
+							        </thead>
+							        <tbody>
+							        	<tr th:if="${st=='1'}" class="first-row not-visible">
+								            <td class="d-none">
+								            	<input type="hidden" name="list_doc__rn" value="">
+								            	<input type="hidden" name="list_doc__rnOld" value="">
+								            	<input type="hidden" name="list_doc__clazz"value="Act_document">
+								            	<input type="hidden" name="list_doc__p_add" value="new">
+								            </td>
+								            <td></td>
+								            <td class="edited">
+								            	<span></span>
+								            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2';depart__rn =#d#">
+								            </td>
+							            	<td></td>
+								            <td></td>
+								            <td></td>
+								            <td></td>
+								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item=""><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:each="d,iter : ${obj?.list_doc}">
+								            <td class="d-none">
+								            	<input type="hidden" name="list_doc__rn" th:value="${d.rn}">
+								            	<input type="hidden" name="list_doc__rnOld" th:value="${d.rn}">
+								            	<input type="hidden" name="list_doc__clazz" value="Act_document">
+								            	<input type="hidden" name="list_doc__p_add" value="new">
+								            </td>
+								            <td th:text="${iter.index + 1}"/>
+								            <td th:if="${st=='1'}" class="edited">
+								            	<span th:text="${d.doc?.name}"></span>
+								            	<input name="list_doc__doc" type="hidden" th:value="${d.doc?.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2';depart__rn =#d#">
+								            </td>
+								            <td th:if="${st!='1'}" th:text="${d.doc?.name}"></td>
+								            <td th:if="${st=='3'}" class="edited">
+								            	<button class="btn btn-light btn-sm" type="button"><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'check' : 'times')}"></i></button>
+								            	<input name="list_doc__exclude" type="hidden" th:value="${d.exclude==true?'1':'0'}" data-type="checkbox">
+							            	</td>
+							            	<td th:if="${st!='3'}">
+							            		<button class="btn btn-light btn-sm" type="button"><i th:class="${'fa fa-sm fa-' + (d.exclude==true ? 'check' : 'times')}"></i></button>
+							            	</td>
+								            <td th:text="${#dates.format(d.exclude_date,'dd.MM.yyyy')}"></td>
+								            <td th:if="${st=='3'}" class="edited">
+								            	<span th:utext="${d.exclude_reason}"></span>
+								            	<input name="list_doc__exclude_reason" class="not-visible form-control form-control-sm" type="text" th:value="${d.exclude_reason}">
+								            </td>
+								            <td th:if="${st!='3'}" th:utext="${d.exclude_reason}"></td>
+								            <td><a th:if=${d.doc!=null} th:href="@{/detailsObj?clazz=Document&readonly=1&rn=} + ${d.doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
+								            <td><button th:if="${st=='1'}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:if="${st=='1'}" class="last-row">
+								        	<td class="d-none"/>
+								        	<td><button class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td class="d-none"/>
+							        	</tr>
+							        </tbody>
+							    </table>
+						    </div>
 					    </div>
-				    </div>
-					<div class="form-group-sm row mt-sm-1">
-                        <label class="col-sm-1 col-form-label">Статус</label>
-                        <div class="col-sm-2">
-	                    	<select th:if="${st=='1'}" name="act_status" class="form-control form-control-sm">
-	                    		<option value=""></option>
-								<option th:each="d : ${listActStatus}" th:selected="${obj.act_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
-							</select>  
-							<select th:if="${st!='1'}" class="form-control form-control-sm" disabled>
-								<option selected="selected" th:value="${obj.act_status?.rn}" th:utext="${obj.act_status?.name}"/>
-							</select>  
-						</div>
-                        <label class="col-sm-1 col-form-label">Дата присвоения статуса</label>
-                        <div class="col-sm-2">
-                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy HH:mm:ss')}" readonly="readonly"></input>
-                       	</div>
-                       	<label class="col-sm-1 col-form-label">Причина отказа</label>
-                       	<div class="col-sm-5">
-                        	<input th:if="${st=='6'}" class="form-control form-control-sm" type="text" name="act_reason" th:value="${obj.act_reason}"></input>
-                        	<input th:if="${st!='6'}" class="form-control form-control-sm" type="text" th:value="${obj.act_reason}" readonly="readonly"></input>
-                       	</div>
+						<div class="form-group-sm row mt-sm-1">
+	                        <label class="col-sm-1 col-form-label">Статус</label>
+	                        <div class="col-sm-2">
+		                    	<select th:if="${st=='1'}" name="act_status" class="form-control form-control-sm">
+		                    		<option value=""></option>
+									<option th:each="d : ${listActStatus}" th:selected="${obj.act_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+								</select>  
+								<select th:if="${st!='1'}" class="form-control form-control-sm" disabled>
+									<option selected="selected" th:value="${obj.act_status?.rn}" th:utext="${obj.act_status?.name}"/>
+								</select>  
+							</div>
+	                        <label class="col-sm-1 col-form-label">Дата присвоения статуса</label>
+	                        <div class="col-sm-2">
+	                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy HH:mm:ss')}" readonly="readonly"></input>
+	                       	</div>
+	                       	<label class="col-sm-1 col-form-label">Причина отказа</label>
+	                       	<div class="col-sm-5">
+	                        	<input th:if="${st=='6'}" class="form-control form-control-sm" type="text" name="act_reason" th:value="${obj.act_reason}"></input>
+	                        	<input th:if="${st!='6'}" class="form-control form-control-sm" type="text" th:value="${obj.act_reason}" readonly="readonly"></input>
+	                       	</div>
+	                    </div>
+	                    <div class="form-group-sm row mt-sm-1">
+	                    	<label class="col-sm-1 col-form-label">Дата изменения</label>
+	                        <div class="col-sm-2">
+	                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy HH:mm:ss')}" readonly="readonly"></input>
+	                       	</div>
+	                        <label class="col-sm-2 col-form-label">Изменен пользователем</label>
+	                        <div class="col-sm-4">
+	                    	    <input class="form-control form-control-sm" type="text" th:value="${obj.change_agent?.name}" readonly="readonly"></input>
+							</div>
+	                    </div>
+	                    <div th:replace="fragments/header :: list_file"></div>
                     </div>
-                    <div class="form-group-sm row mt-sm-1">
-                    	<label class="col-sm-1 col-form-label">Дата изменения</label>
-                        <div class="col-sm-2">
-                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy HH:mm:ss')}" readonly="readonly"></input>
-                       	</div>
-                        <label class="col-sm-2 col-form-label">Изменен пользователем</label>
-                        <div class="col-sm-4">
-                    	    <input class="form-control form-control-sm" type="text" th:value="${obj.change_agent?.name}" readonly="readonly"></input>
-						</div>
-                    </div>
-                    <div th:replace="fragments/header :: list_file"></div>
 				</div>
 			</div>
 			</form>
