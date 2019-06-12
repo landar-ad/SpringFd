@@ -13,7 +13,7 @@ size_init = function() {
 			return false;
 		});
 	};
-	size_fit_new = function() {
+	size_fit_old = function() {
 		$('.fit-height').each(function () {
 			var h = 0;
 			$(this).parent().children().filter(':visible').each(function() {
