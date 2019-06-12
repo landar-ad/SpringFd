@@ -289,7 +289,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 				String a = order.getProperty();
 				String[] joinList = a.split("__");
 				Path p = f;
-				for (int j=0; j<joinList.length-1; j++) f.join(joinList[j], JoinType.LEFT);
+				if (joinList.length > 1) for (int j=0; j<joinList.length-1; j++) f.join(joinList[j], JoinType.LEFT);
 				for (String join : joinList) p = p.get(join);
 				Order o = order.getDirection() == Direction.ASC ? cb.asc(p) : cb.desc(p);
 				lo.add(o);
