@@ -6,7 +6,7 @@ size_init = function() {
 				if (!$(this).hasClass("fit-height")) h += $(this).outerHeight();
 			});
 			$(this).outerHeight($(this).parent().outerHeight() - h);
-			$(this).css("overflow-y", "auto");
+			$('.fit-height').css("overflow-y", "auto");
 			return false;
 		});
 	};
