@@ -94,8 +94,9 @@ public class PrintController {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		docx.write(out);
 		out.close();
+		byte[] b = out.toByteArray();
 		// Отправка данных пользователю
-		InputStreamResource isr = new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
+		InputStreamResource isr = new InputStreamResource(new ByteArrayInputStream(b));
 		String ext = f.getFileext();
 		if (hs.isEmpty(ext)) ext = "docx";
 		String fileName = act.getName() + "." + ext;
@@ -104,7 +105,7 @@ public class PrintController {
 		return ResponseEntity.ok()
 	                .header(HttpHeaders.CONTENT_DISPOSITION, content)
 	                .contentType(mt.orElse(MediaType.ALL))
-	                .contentLength(file.length())
+	                .contentLength(b.length)
 	                .body(isr);
 	}
 	@RequestMapping(value = "/printActRet", method = RequestMethod.GET)
@@ -158,8 +159,9 @@ public class PrintController {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		docx.write(out);
 		out.close();
+		byte[] b = out.toByteArray();
 		// Отправка данных пользователю
-		InputStreamResource isr = new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
+		InputStreamResource isr = new InputStreamResource(new ByteArrayInputStream(b));
 		String ext = f.getFileext();
 		if (hs.isEmpty(ext)) ext = "docx";
 		String fileName = act.getName() + "." + ext;
@@ -168,7 +170,7 @@ public class PrintController {
 		return ResponseEntity.ok()
 	                .header(HttpHeaders.CONTENT_DISPOSITION, content)
 	                .contentType(mt.orElse(MediaType.ALL))
-	                .contentLength(file.length())
+	                .contentLength(b.length)
 	                .body(isr);
 	}
 	@RequestMapping(value = "/printReestr", method = RequestMethod.GET)
@@ -232,8 +234,9 @@ public class PrintController {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		wb.write(out);
 		out.close();
+		byte[] b = out.toByteArray();
 		// Отправка данных пользователю
-		InputStreamResource isr = new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
+		InputStreamResource isr = new InputStreamResource(new ByteArrayInputStream(b));
 		String ext = f.getFileext();
 		if (hs.isEmpty(ext)) ext = "xls";
 		String fileName = reestr.getName() + "." + ext;
@@ -242,7 +245,7 @@ public class PrintController {
 		return ResponseEntity.ok()
 	                .header(HttpHeaders.CONTENT_DISPOSITION, content)
 	                .contentType(mt.orElse(MediaType.ALL))
-	                .contentLength(file.length())
+	                .contentLength(b.length)
 	                .body(isr);
 	}
 }
