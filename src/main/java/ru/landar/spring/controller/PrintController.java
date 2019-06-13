@@ -194,10 +194,11 @@ public class PrintController {
 		// До таблицы
 		Map<String, Object> mapValue = new HashMap<String, Object>();
 		mapValue.put("rn", reestr.getReestr_number());
-		mapValue.put("rd", hs.getMonthDate(reestr.getReestr_date()));
+		Date rd = reestr.getReestr_date();
+		mapValue.put("rd", new SimpleDateFormat("dd").format(rd) + " " + hs.getMonthDate(rd));
 		mapValue.put("ry", new SimpleDateFormat("yy").format(reestr.getReestr_date()));
 		Date cdate = new Date();
-		mapValue.put("cd", cdate);
+		mapValue.put("cd", new SimpleDateFormat("dd.MM.yyyy").format(cdate));
 		mapValue.put("org", "Министерство просвещения Российской Федерации");
 		mapValue.put("dep", hs.getPropertyString(reestr, "depart__name"));
 		mapValue.put("vd", "расходные");
@@ -215,14 +216,16 @@ public class PrintController {
 			x.copyRow(rowSource, rowTarget);
 			x.replaceValue(sheet, rowTarget.getRowNum(), rowTarget.getRowNum(), -1, -1, mapValue);
 		}
+		mapValue.clear();
+		mapValue.put("itogo_kd", reestr.getSheet_count());
+		x.replaceValue(sheet, crow, crow, -1, -1, mapValue);
 		// После таблицы
 		mapValue.clear();
 		mapValue.put("doccount", reestr.getDoc_count());
-		mapValue.put("fp", hs.getPropertyString(reestr, "agent_from__post"));
+		mapValue.put("fp", hs.getPropertyString(reestr, "agent_from__position"));
 		mapValue.put("fn", hs.getPropertyString(reestr, "agent_from__name"));
-		mapValue.put("tp", hs.getPropertyString(reestr, "agent_to__post"));
+		mapValue.put("tp", hs.getPropertyString(reestr, "agent_to__position"));
 		mapValue.put("tn", hs.getPropertyString(reestr, "agent_to__name"));
-		mapValue.put("itogo_kd", reestr.getSheet_count());
 		x.replaceValue(sheet, crow + 1, -1, -1, -1, mapValue);
 		x.removeRow(sheet, docRow);
 		// Вывод данных в память
