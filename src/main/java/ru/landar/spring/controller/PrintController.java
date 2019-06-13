@@ -74,7 +74,7 @@ public class PrintController {
 				mapData.clear();
 				mapData.put("{#}", "" + i);
 				mapData.put("{list_doc}", "");
-				mapData.put("{pd}", hs.getPropertyString(doc, "parent_doc__name") );
+				mapData.put("{pd}", hs.getPropertyString(doc, doc.getParent_doc() != null ? "parent_doc__name" : "name") );
 				mapData.put("{dt}", hs.getPropertyString(doc, "doc_type__name"));
 				mapData.put("{dn}", hs.getPropertyString(doc, "doc_number"));
 				mapData.put("{dd}", hs.getPropertyString(doc, "doc_date"));
@@ -137,7 +137,7 @@ public class PrintController {
 				mapData.clear();
 				mapData.put("{#}", "" + i);
 				mapData.put("{list_doc}", "");
-				mapData.put("{pd}", hs.getPropertyString(doc, "parent_doc__name") );
+				mapData.put("{pd}", hs.getPropertyString(doc, doc.getParent_doc() != null ? "parent_doc__name" : "name") );
 				mapData.put("{dt}", hs.getPropertyString(doc, "doc_type__name"));
 				mapData.put("{dn}", hs.getPropertyString(doc, "doc_number"));
 				mapData.put("{dd}", hs.getPropertyString(doc, "doc_date"));
