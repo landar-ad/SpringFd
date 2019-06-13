@@ -482,17 +482,22 @@ public class ObjController {
 							 @RequestParam("clazz") String clazz,
 							 @RequestParam("param") String param,
 							 Model model) throws Exception {
-		boolean b = false;
+		String ret = "";
 		for (; ;) {
 			Class<?> cl = hs.getClassByName(clazz);
 			if (cl == null) break;
 			Integer rn = rnParam.orElse(null);
 			Object obj = rn != null ? objService.find(cl, rn) : cl.newInstance();
 			if (obj == null) break;
-			b = (Boolean)hs.invoke(obj, "onCheckExecute", param);
+			String[] ps = param.split(",");
+			for (String p : ps) {
+				boolean b = (Boolean)hs.invoke(obj, "onCheckExecute", p.trim());
+				if (!hs.isEmpty(ret)) ret += ","; 
+				ret += (b ? "1" : "0");
+			}
 			break;
 		}
-		return b ? "1" : "0";
+		return ret;
 	}
 	@RequestMapping(value = "/removeObj", method = RequestMethod.GET)
 	public String removeObj(@RequestParam("rn") Integer rn, 
