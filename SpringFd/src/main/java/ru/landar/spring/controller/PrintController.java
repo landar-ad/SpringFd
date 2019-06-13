@@ -85,7 +85,7 @@ public class PrintController {
 		mapData.put("{act_number}", hs.getPropertyString(act, "act_number"));
 		mapData.put("{act_date}", hs.getPropertyString(act, "act_date"));
 		mapData.put("{depart__name}", hs.getPropertyString(act, "depart__name"));
-		mapData.put("{create_agent__post}", hs.getPropertyString(act, "create_agent__post"));
+		mapData.put("{create_agent__post}", hs.getPropertyString(act, "create_agent__position"));
 		mapData.put("{create_agent__name}", hs.getPropertyString(act, "create_agent__name"));
 		mapData.put("{create_agent__phone}", hs.getPropertyString(act, "create_agent__phone"));
 		mapData.put("{create_agent__email}", hs.getPropertyString(act, "create_agent__email"));
@@ -150,7 +150,7 @@ public class PrintController {
 		mapData.put("{act_number}", hs.getPropertyString(act, "act_number"));
 		mapData.put("{act_date}", hs.getPropertyString(act, "act_date"));
 		mapData.put("{depart__name}", hs.getPropertyString(act, "depart__name"));
-		mapData.put("{create_agent__post}", hs.getPropertyString(act, "create_agent__post"));
+		mapData.put("{create_agent__post}", hs.getPropertyString(act, "create_agent__position"));
 		mapData.put("{create_agent__name}", hs.getPropertyString(act, "create_agent__name"));
 		mapData.put("{create_agent__phone}", hs.getPropertyString(act, "create_agent__phone"));
 		mapData.put("{create_agent__email}", hs.getPropertyString(act, "create_agent__email"));
