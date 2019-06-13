@@ -74,21 +74,22 @@ public class PrintController {
 				mapData.clear();
 				mapData.put("{#}", "" + i);
 				mapData.put("{list_doc}", "");
-				mapData.put("{doc_type__name}", hs.getPropertyString(doc, "doc_type__name"));
-				mapData.put("{doc_number}", hs.getPropertyString(doc, "doc_number"));
-				mapData.put("{doc_date}", hs.getPropertyString(doc, "doc_date"));
+				mapData.put("{pd}", hs.getPropertyString(doc, "parent_doc__name") );
+				mapData.put("{dt}", hs.getPropertyString(doc, "doc_type__name"));
+				mapData.put("{dn}", hs.getPropertyString(doc, "doc_number"));
+				mapData.put("{dd}", hs.getPropertyString(doc, "doc_date"));
 				d.addRow(table, "{list_doc}", mapData);
 			}
 			d.deleteRows(table, new String[] {"list_doc"});
 		}
 		// Общие атрибуты
-		mapData.put("{act_number}", hs.getPropertyString(act, "act_number"));
-		mapData.put("{act_date}", hs.getPropertyString(act, "act_date"));
-		mapData.put("{depart__name}", hs.getPropertyString(act, "depart__name"));
-		mapData.put("{create_agent__post}", hs.getPropertyString(act, "create_agent__position"));
-		mapData.put("{create_agent__name}", hs.getPropertyString(act, "create_agent__name"));
-		mapData.put("{create_agent__phone}", hs.getPropertyString(act, "create_agent__phone"));
-		mapData.put("{create_agent__email}", hs.getPropertyString(act, "create_agent__email"));
+		mapData.put("{an}", hs.getPropertyString(act, "act_number"));
+		mapData.put("{ad}", hs.getPropertyString(act, "act_date"));
+		mapData.put("{dep}", hs.getPropertyString(act, "depart__name"));
+		mapData.put("{ca_position}", hs.getPropertyString(act, "create_agent__position"));
+		mapData.put("{ca_name}", hs.getPropertyString(act, "create_agent__name"));
+		mapData.put("{ca_phone}", hs.getPropertyString(act, "create_agent__phone"));
+		mapData.put("{ca_email}", hs.getPropertyString(act, "create_agent__email"));
 		d.replace(docx, mapData);
 		// Вывод данных в память
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -136,9 +137,10 @@ public class PrintController {
 				mapData.clear();
 				mapData.put("{#}", "" + i);
 				mapData.put("{list_doc}", "");
-				mapData.put("{doc_type__name}", hs.getPropertyString(doc, "doc_type__name"));
-				mapData.put("{doc_number}", hs.getPropertyString(doc, "doc_number"));
-				mapData.put("{doc_date}", hs.getPropertyString(doc, "doc_date"));
+				mapData.put("{pd}", hs.getPropertyString(doc, "parent_doc__name") );
+				mapData.put("{dt}", hs.getPropertyString(doc, "doc_type__name"));
+				mapData.put("{dn}", hs.getPropertyString(doc, "doc_number"));
+				mapData.put("{dd}", hs.getPropertyString(doc, "doc_date"));
 				String reason = hs.getPropertyString(doc, "act_doc.exclude_reason");
 				if (hs.isEmpty(reason)) reason = act.getAct_reason();
 				mapData.put("{note}", reason);
@@ -147,13 +149,13 @@ public class PrintController {
 			d.deleteRows(table, new String[] {"list_doc"});
 		}
 		// Общие атрибуты
-		mapData.put("{act_number}", hs.getPropertyString(act, "act_number"));
-		mapData.put("{act_date}", hs.getPropertyString(act, "act_date"));
-		mapData.put("{depart__name}", hs.getPropertyString(act, "depart__name"));
-		mapData.put("{create_agent__post}", hs.getPropertyString(act, "create_agent__position"));
-		mapData.put("{create_agent__name}", hs.getPropertyString(act, "create_agent__name"));
-		mapData.put("{create_agent__phone}", hs.getPropertyString(act, "create_agent__phone"));
-		mapData.put("{create_agent__email}", hs.getPropertyString(act, "create_agent__email"));
+		mapData.put("{an}", hs.getPropertyString(act, "act_number"));
+		mapData.put("{ad}", hs.getPropertyString(act, "act_date"));
+		mapData.put("{dep}", hs.getPropertyString(act, "depart__name"));
+		mapData.put("{ca__position}", hs.getPropertyString(act, "create_agent__position"));
+		mapData.put("{ca_name}", hs.getPropertyString(act, "create_agent__name"));
+		mapData.put("{ca_phone}", hs.getPropertyString(act, "create_agent__phone"));
+		mapData.put("{ca_email}", hs.getPropertyString(act, "create_agent__email"));
 		d.replace(docx, mapData);
 		// Вывод данных в память
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
