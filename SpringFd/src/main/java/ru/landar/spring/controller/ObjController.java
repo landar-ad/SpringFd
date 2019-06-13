@@ -87,8 +87,14 @@ public class ObjController {
 		// Последние используемые параметры
 		String ret = retParam.orElse("");
 		HttpSession session = request.getSession();
-		Map<String, String[]> mapParam = "1".equals(ret) ? (Map<String, String[]>)session.getAttribute("listObj_" + clazz) : null; 
+		Map<String, String[]> mapParam = "1".equals(ret) ? (Map<String, String[]>)session.getAttribute("listObj_" + clazz) : null;
 		if (mapParam == null) mapParam = request.getParameterMap();
+		else {
+			try { off = Integer.valueOf(mapParam.get("p_off")[0]); } catch (Exception ex) { off = 0; }
+			try { page = Integer.valueOf(mapParam.get("p_page")[0]); } catch (Exception ex) { page = 15; }
+			try { block = Integer.valueOf(mapParam.get("p_block")[0]); } catch (Exception ex) { block = 10; }
+			try { listVisible = mapParam.get("p_listVisible")[0]; } catch (Exception ex) { listVisible = null; }
+		}
 		// Поисковые атрибуты
 		List<String> listAttr = new ArrayList<String>();
 		List<Object> listValue = new ArrayList<Object>();
@@ -115,8 +121,7 @@ public class ObjController {
 				}
 				continue;
 			}
-			if (hs.isEmpty(v) || "clazz".equals(p) || "rn".equals(p) || "p_off".equals(p) || "p_page".equals(p) || "p_block".equals(p) ||  
-				"p_listVisible".equals(p)) continue;
+			if (hs.isEmpty(v) || "clazz".equals(p) || "rn".equals(p) || "p_listVisible".equals(p) || "p_off".equals(p) || "p_page".equals(p) || "p_block".equals(p)) continue;
 			Class<?> attrType = hs.getAttrType(cl, p);
 			if (attrType == null) continue;
 			listAttr.add(p);
