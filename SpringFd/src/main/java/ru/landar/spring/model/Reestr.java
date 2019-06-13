@@ -78,11 +78,11 @@ public class Reestr extends IBase {
     public IAgent getMol() { return mol; }
     public void setMol(IAgent mol) { this.mol = mol; }
 	
-	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getAgent_from() { return agent_from; }
     public void setAgent_from(IAgent agent_from) { this.agent_from = agent_from; }
 	
-	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getAgent_to() { return agent_to; }
     public void setAgent_to(IAgent agent_to) { this.agent_to = agent_to; }
     
