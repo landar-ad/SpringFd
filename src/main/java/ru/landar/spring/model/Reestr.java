@@ -155,10 +155,12 @@ public class Reestr extends IBase {
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		String roles = userService.getRoles(null);
-		if (roles.indexOf("DF") >= 0) {
+		if (roles != null && (roles.indexOf("ADMIN") >= 0 || roles.indexOf("DF") >= 0)) {
 			ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр"));
 			ret.add(new ButtonInfo("sendReestr", "Передать в ФК"));
 		}
+		if (ret.size() > 0) ret.add(new ButtonInfo("", ""));
+		ret.add(new ButtonInfo("printReestr", "Печать"));
 		return ret;
 	}
 	@Override
@@ -287,6 +289,7 @@ public class Reestr extends IBase {
      	if (ret != null) return ret;
      	if ("newReestr".equals(param)) return true;
      	if (getRn() == null) return false;
+     	if ("printReestr".equals(param)) return true;
      	String roles = userService.getRoles(null);
      	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
@@ -335,6 +338,9 @@ public class Reestr extends IBase {
 			objRepository.saveObj(doc);
 		}
 		setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
+    }
+    public String printReestr(HttpServletRequest request) throws Exception {
+    	return getRn() != null ? "/printReestr?rn=" + getRn() : null;
     }
     private int statusCode() {
     	int ret = 1; 
