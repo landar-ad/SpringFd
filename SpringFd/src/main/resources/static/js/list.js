@@ -109,7 +109,11 @@ list_init = function() {
 		$(this).removeClass('table-success');
 		var rn = $('input[name="rn"]').val();
 		if (rn && rn == $(this).find("td.d-none").first().text()) {
-			$(window).scrollTop($(this).offset().top);
+			var a = $(".fit-height");
+			if (a.length > 0) {
+				var off = $(this).offset().top - a.offset().top;
+				a.animate({scrollTop: off});
+			}
 			click_row($(this)[0]);
 		}
 	});

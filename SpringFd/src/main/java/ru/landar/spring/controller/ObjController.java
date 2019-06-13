@@ -412,12 +412,12 @@ public class ObjController {
 			});
 			transactionManager.commit(ts);
 			// Переход на страницу
-			redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
+			redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate", request);
     	}
     	catch (Exception ex) {
     		transactionManager.rollback(ts);
     	}
-		if (hs.isEmpty(redirect)) redirect = "mainPage";
+		if (hs.isEmpty(redirect)) redirect = "/main";
 		return "redirect:" + redirect;
 	}
 	@RequestMapping(value = "/executeItem")
@@ -472,8 +472,8 @@ public class ObjController {
 			transactionManager.rollback(ts);
 		}
 		// Переход на страницу
-		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate");
-		if (hs.isEmpty(redirect)) redirect = "mainPage";
+		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate", request);
+		if (hs.isEmpty(redirect)) redirect = "/main";
 		return "redirect:" + redirect;
 	}
 	@RequestMapping(value = "/checkExecuteObj", method = RequestMethod.GET, produces = "text/plain")

@@ -23,7 +23,7 @@ popup_init = function() {
 					var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 					if (c) {
 						var off = $(this).offset().top - a.offset().top;
-						$(".modal").find(".fit-height").animate({scrollTop: off});
+						a.animate({scrollTop: off});
 						return false;
 					}
 				});

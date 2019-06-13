@@ -107,7 +107,7 @@ public class IFile extends IBase {
 	}
     @Override
     public Object onRedirectAfterUpdate(HttpServletRequest request) { 
-    	Object ret = invoke("onRedirectAfterUpdate");
+    	Object ret = invoke("onRedirectAfterUpdate", request);
     	if (ret != null) return ret;
     	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate(request);
     }
