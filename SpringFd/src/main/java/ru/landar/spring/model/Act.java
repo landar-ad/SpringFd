@@ -137,7 +137,7 @@ public class Act extends IBase {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		ret.add(new ButtonInfo("newAct", "Сформировать новый акт"));
 		ret.add(new ButtonInfo("sendAct", "Отправить"));
-		if (roles.indexOf("DF") >= 0) {
+		if (roles.indexOf("ADMIN") >= 0 || roles.indexOf("DF") >= 0) {
 			ret.add(new ButtonInfo("acceptAct", "Принять"));
 			ret.add(new ButtonInfo("confirmAct", "Утвердить"));
 			ret.add(new ButtonInfo("refuseAct", "Отказать"));

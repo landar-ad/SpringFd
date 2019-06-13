@@ -267,7 +267,8 @@ public class ObjController {
 		for (String p : listNames) {
 			String[] vs = request.getParameterValues(p);
 			if ("clazz".equals(p) || "rn".equals(p)) continue;
-			if (!(Boolean)hs.invoke(obj, "onCheckUpdateAttribute", p)) continue;
+			Object ob = hs.invoke(obj, "onCheckUpdateAttribute", p);
+			if (ob != null && !(Boolean)ob) continue;
 			int k = p.indexOf("__");
 			if (k > 0)
 			{
@@ -461,24 +462,30 @@ public class ObjController {
 		if (rn != null && obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		if (obj == null) obj = cl.newInstance();
 		if (!(Boolean)hs.invoke(obj, "onCheckExecute", param)) throw new Exception("Вам запрещено выполнение функции " + param + " для объекта по имени класса '" + clazz + "' с идентификатором " + rn);
+		String redirect = null;
 		// Выполнение операции через транзакцию
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
 			Map<String, Object> mapValueOld = hs.getMapProperties(obj);
-			hs.invoke(obj, "onExecute", param, request);
-			obj = objRepository.find(obj.getClass(), hs.getProperty(obj, "rn"));
-			Map<String, Object> mapValueNew = hs.getMapProperties(obj);
-			Map<String, Object[]> mapChanged = hs.getMapChanged(mapValueOld, mapValueNew);
-			hs.invoke(obj, "onUpdate", null, mapChanged);
-			objRepository.saveObj(obj);
-			objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, rn == null ? "create" : "update", ip, browser);
+			Object rd = hs.invoke(obj, "onExecute", param, request);
+			// Возврат - редирект
+			if (rd != null && rd instanceof String) redirect = (String)rd;
+			if (rn != null) {
+				obj = objRepository.find(obj.getClass(), hs.getProperty(obj, "rn"));
+				Map<String, Object> mapValueNew = hs.getMapProperties(obj);
+				Map<String, Object[]> mapChanged = hs.getMapChanged(mapValueOld, mapValueNew);
+				hs.invoke(obj, "onUpdate", null, mapChanged);
+				objRepository.saveObj(obj);
+				objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, "update", ip, browser);
+			}
 			transactionManager.commit(ts);
 		}
 		catch (Exception ex) {
 			transactionManager.rollback(ts);
+			throw ex;
 		}
 		// Переход на страницу
-		String redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate", request);
+    	if (hs.isEmpty(redirect)) redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate", request);
 		if (hs.isEmpty(redirect)) redirect = "/main";
 		return "redirect:" + redirect;
 	}

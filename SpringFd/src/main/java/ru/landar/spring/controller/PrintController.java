@@ -210,7 +210,7 @@ public class PrintController {
 			mapValue.put("row", "");
 			mapValue.put("dt", hs.getPropertyString(doc, "doc_type__name"));
 			mapValue.put("dn", hs.getPropertyString(doc, "doc_number"));
-			mapValue.put("kd", doc.getList_file() != null ? doc.getList_file().size() : 0);
+			mapValue.put("kd", doc.getSheet_count());
 			HSSFRow rowTarget = x.createRow(sheet, crow++);
 			x.copyRow(rowSource, rowTarget);
 			x.replaceValue(sheet, rowTarget.getRowNum(), rowTarget.getRowNum(), -1, -1, mapValue);
