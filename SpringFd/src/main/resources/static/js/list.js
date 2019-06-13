@@ -1,13 +1,11 @@
 list_init = function() {
 	form_submit = function() {
-		var h = $('.fit-height').outerHeight();
 		var form = $('#formSubmit');
 		$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
 			success: function(result) {
 				var div = $('<div></div>');
 				div.html(result);
 				$('#listTop').html(div.find('#listTop').html());
-				//$('.fit-height').outerHeight(h);
 				list_init();
 				size_init();
 			}
