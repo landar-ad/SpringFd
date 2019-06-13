@@ -222,6 +222,7 @@ public class PrintController {
 		mapValue.put("fn", hs.getPropertyString(reestr, "agent_from__name"));
 		mapValue.put("tp", hs.getPropertyString(reestr, "agent_to__post"));
 		mapValue.put("tn", hs.getPropertyString(reestr, "agent_to__name"));
+		mapValue.put("itogo_kd", reestr.getSheet_count());
 		x.replaceValue(sheet, crow + 1, -1, -1, -1, mapValue);
 		x.removeRow(sheet, docRow);
 		// Вывод данных в память
