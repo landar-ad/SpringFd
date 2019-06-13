@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,7 @@ public class ObjController {
 						  @RequestParam("p_block") Optional<Integer> blockParam,
 						  @RequestParam("rn") Optional<Integer> rnParam,
 						  @RequestParam("p_listVisible") Optional<String> listVisibleParam,
+						  @RequestParam("p_ret") Optional<String> retParam,
 						  HttpServletRequest request, 
 						  Model model) throws Exception {
 		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
@@ -82,14 +84,25 @@ public class ObjController {
 		Class<Object> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = cl.newInstance();
+		// Последние используемые параметры
+		String ret = retParam.orElse("");
+		HttpSession session = request.getSession();
+		Map<String, String[]> mapParam = "1".equals(ret) ? (Map<String, String[]>)session.getAttribute("listObj_" + clazz) : null; 
+		if (mapParam == null) mapParam = request.getParameterMap();
 		// Поисковые атрибуты
 		List<String> listAttr = new ArrayList<String>();
 		List<Object> listValue = new ArrayList<Object>();
 		// Данные для сортировки
 		Map<String, String> mapSort = new HashMap<String, String>();
 		Sort sort = null;
-		for (String p : Collections.list((Enumeration<String>)request.getParameterNames())) {
-			String v = request.getParameter(p);
+		for (String p : mapParam.keySet()) {
+			String v = "";
+			String[] vs = mapParam.get(p);
+			if (vs != null && vs.length > 0) for (String t : vs) { 
+				if (hs.isEmpty(t)) continue;
+				v = t; 
+				break; 
+			}
 			if (p.startsWith("sort__")) {
 				String n = p.substring(6), d = v;
 				if (hs.isEmpty(d)) d = "NONE";

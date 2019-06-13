@@ -1,6 +1,8 @@
 package ru.landar.spring.config;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -29,16 +31,18 @@ public class RequestFilter implements Filter {
 			if (!(request instanceof HttpServletRequest)) break;
 			HttpServletRequest r = (HttpServletRequest)request;
 			String url = r.getRequestURI(), key = null;
-			if (url.indexOf("listObj") >= 0) key = "listObj";
-			if (url.indexOf("detailsObj") >= 0) key = "detailsObj";
-			if (!hs.isEmpty(key)) {
-				Map<String, String[]> map = r.getParameterMap();
-				if (!map.containsKey("clazz")) break;
-				String clazz = r.getParameter("clazz");
-				if (hs.isEmpty(clazz)) break;
-				HttpSession session = r.getSession();
-				session.setAttribute(key + "_" + clazz, map);
-			}
+			int k = url.lastIndexOf('/');
+			if (k >= 0) key = url.substring(k + 1);
+			if (hs.isEmpty(key)) break;
+			Map<String, String[]> map = r.getParameterMap();
+			if (!map.containsKey("clazz")) break;
+			String clazz = r.getParameter("clazz");
+			if (hs.isEmpty(clazz)) break;
+			if (map.containsKey("p_ret")) break;
+			HttpSession session = r.getSession();
+			Map<String, String[]> mapSave = new LinkedHashMap<String, String[]>();
+			mapSave.putAll(map);
+			session.setAttribute(key + "_" + clazz, mapSave);
 			break;
 		}
 		chain.doFilter(request, response);
