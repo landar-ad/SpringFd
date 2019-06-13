@@ -75,7 +75,7 @@ public class Act extends IBase {
 	public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
-	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
 	
@@ -142,6 +142,9 @@ public class Act extends IBase {
 			ret.add(new ButtonInfo("confirmAct", "Утвердить"));
 			ret.add(new ButtonInfo("refuseAct", "Отказать"));
 		}
+		if (ret.size() > 0) ret.add(new ButtonInfo("", ""));
+		ret.add(new ButtonInfo("printAct", "Печать"));
+		ret.add(new ButtonInfo("printActRet", "Печать акта возврата"));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
@@ -253,6 +256,16 @@ public class Act extends IBase {
      	IDepartment dep = hs.getDepartment(), depart = getDepart();
     	if ("newAct".equals(param)) return dep != null;
     	if (getRn() == null) return false;
+    	if ("printAct".equals(param)) return true;
+    	if ("printActRet".equals(param)) {
+    		if (statusCode() == 6) return true;
+    		if (statusCode() == 5) {
+	    		for (Act_document act_doc : getList_doc()) {
+	    			if (act_doc.getDoc() != null && act_doc.getExclude() != null && (Boolean)act_doc.getExclude()) return true;
+	    		}
+    		}
+    		return false;
+    	}
     	String roles = userService.getRoles(null);
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
@@ -364,6 +377,12 @@ public class Act extends IBase {
 		}
 		setAct_reason("Отклонен пользователем");
 		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
+    }
+    public String printAct(HttpServletRequest request) throws Exception {
+    	return getRn() != null ? "/printAct?rn=" + getRn() : null;
+    }
+    public String printActRet(HttpServletRequest request) throws Exception {
+    	return getRn() != null ? "/printActRet?rn=" + getRn() : null;
     }
     private int statusCode() {
     	int ret = 1; 
