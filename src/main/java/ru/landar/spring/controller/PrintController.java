@@ -54,7 +54,7 @@ public class PrintController {
 		Act act = (Act)objService.find(Act.class, rn);
 		if (act == null) throw new Exception("Не найден акт приема-передачи по идентификатору " + rn);
 		// Шаблон
-		IFile f = (IFile)objService.find(IFile.class, "filename", "Акт приема-передачи.docx");
+		IFile f = (IFile)objService.find(IFile.class, "filename", "Акт приема_передачи.docx");
 		if (f == null || hs.isEmpty(f.getFileuri())) throw new Exception("Не найден шаблон акта приема-передачи");
 		File file = new File(f.getFileuri());
 		if (!file.exists()) throw new Exception("Не найден файл акта приема-передачи на сервере");
