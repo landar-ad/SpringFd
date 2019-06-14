@@ -84,12 +84,13 @@ public class PrintController {
 		}
 		// Общие атрибуты
 		mapData.put("{an}", hs.getPropertyString(act, "act_number"));
-		mapData.put("{ad}", hs.getPropertyString(act, "act_date"));
+		Date ad = act.getAct_date();
+		mapData.put("{ad}", ad != null ? new SimpleDateFormat("dd").format(ad) + " " + hs.getMonthDate(ad) + " " + new SimpleDateFormat("yyyy").format(ad) : "");
 		mapData.put("{dep}", hs.getPropertyString(act, "depart__name"));
-		mapData.put("{ca_position}", hs.getPropertyString(act, "create_agent__position"));
-		mapData.put("{ca_name}", hs.getPropertyString(act, "create_agent__name"));
-		mapData.put("{ca_phone}", hs.getPropertyString(act, "create_agent__phone"));
-		mapData.put("{ca_email}", hs.getPropertyString(act, "create_agent__email"));
+		mapData.put("{pos}", hs.getPropertyString(act, "create_agent__position"));
+		mapData.put("{fio}", hs.getPropertyString(act, "create_agent__name"));
+		mapData.put("{phone}", hs.getPropertyString(act, "create_agent__phone"));
+		mapData.put("{email}", hs.getPropertyString(act, "create_agent__email"));
 		d.replace(docx, mapData);
 		// Вывод данных в память
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -150,7 +151,8 @@ public class PrintController {
 		}
 		// Общие атрибуты
 		mapData.put("{an}", hs.getPropertyString(act, "act_number"));
-		mapData.put("{ad}", hs.getPropertyString(act, "act_date"));
+		Date ad = act.getAct_date();
+		mapData.put("{ad}", ad != null ? new SimpleDateFormat("dd").format(ad) + " " + hs.getMonthDate(ad) + " " + new SimpleDateFormat("yyyy").format(ad) : "");
 		mapData.put("{dep}", hs.getPropertyString(act, "depart__name"));
 		mapData.put("{ca__position}", hs.getPropertyString(act, "create_agent__position"));
 		mapData.put("{ca_name}", hs.getPropertyString(act, "create_agent__name"));
@@ -200,7 +202,7 @@ public class PrintController {
 		mapValue.put("rn", reestr.getReestr_number());
 		Date rd = reestr.getReestr_date();
 		mapValue.put("rd", new SimpleDateFormat("dd").format(rd) + " " + hs.getMonthDate(rd));
-		mapValue.put("ry", new SimpleDateFormat("yy").format(reestr.getReestr_date()));
+		mapValue.put("ry", new SimpleDateFormat("yy").format(rd));
 		Date cdate = new Date();
 		mapValue.put("cd", new SimpleDateFormat("dd.MM.yyyy").format(cdate));
 		mapValue.put("org", "Министерство просвещения Российской Федерации");
