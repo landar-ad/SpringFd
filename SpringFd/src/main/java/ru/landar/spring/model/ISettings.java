@@ -40,7 +40,7 @@ public class ISettings extends IBase {
     public String getValue() { return value; }
     public void setValue(String value) { this.value = value; }
     
-    @ManyToOne(targetEntity=IBase.class, fetch=FetchType.EAGER)
+    @ManyToOne(targetEntity=IBase.class, fetch=FetchType.LAZY)
     public IBase getValue_obj() { return value_obj; }
     public void setValue_obj(IBase value_obj) { this.value_obj = value_obj; }
     
