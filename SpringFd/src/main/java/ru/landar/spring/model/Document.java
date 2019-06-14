@@ -105,7 +105,7 @@ public class Document extends IBase {
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
 	
-    @ManyToOne(targetEntity=Act.class)
+    @ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
     public Act getAct() { return act; }
     public void setAct(Act act) { this.act = act; }
     
