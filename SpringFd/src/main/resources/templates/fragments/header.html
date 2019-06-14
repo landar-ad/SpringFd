@@ -74,8 +74,8 @@
 		</div>
 		<div class="col grow">
 			<div class="text-align-right">
-	 			<button id="set-visible"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-list"></i></button>
-	 			<button id="clear-filter"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-filter"></i></button>
+	 			<button id="set-visible"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-list" title="Задать колонки"></i></button>
+	 			<button id="clear-filter"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-filter" title="Сбросить фильтры"></i></button>
 			</div>
 		</div>
 	</div>
@@ -89,7 +89,7 @@
     	<thead th:with="l_f=${p_filtering!=null && p_filtering}">
 	        <tr>
 	            <th class="d-none">Идентификатор</th>
-	            <th th:if="${l_f}" id="filterButton" class="pointer"><i class="fa fa-sm fa-angle-double-down" aria-hidden="true"></i></th>
+	            <th th:if="${l_f}" id="filterButton" class="pointer"><i class="fa fa-sm fa-angle-double-down" aria-hidden="true" title="Показать/скрыть фильтр"></i></th>
 	            <th th:if="${!l_f}">#</th>
 	            <th th:each="col : ${listColumn}" th:class="${col.sortable ? 'sorting' : ''}">
 	            	<div class="max-width">
@@ -100,7 +100,7 @@
 	        </tr>
 	        <tr th:if="${l_f}" id="filterRow" class="not-visible">
 	        	<th class="d-none"></th>
-	        	<th id="findButton" class="pointer"><i class="fa fa-sm fa-search" aria-hidden="true"></i></th>
+	        	<th id="findButton" class="pointer"><i class="fa fa-sm fa-search" aria-hidden="true" title="Обновить с учетом фильтров"></i></th>
 	        	<th th:each="col : ${listColumn}">
 	        		<div th:with="c_f=${col.filter!=null ? col.filterType : ''}" class="max-width">
 		        		<input th:if="${c_f=='text'}" type="text" th:name="${col.filter}" class="form-control form-control-th" th:value="${hs.getVariableString(#vars,col.filter)}">
