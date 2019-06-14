@@ -114,6 +114,8 @@ public class PrintController {
 	    // Акт
 		Act act = (Act)objService.find(Act.class, rn);
 		if (act == null) throw new Exception("Не найден акт приема-передачи по идентификатору " + rn);
+		int st = 1; 
+    	try { st = Integer.valueOf(act.getAct_status().getCode()); } catch (Exception ex) { }
 		// Шаблон
 		IFile f = (IFile)objService.find(IFile.class, "filename", "Акт возврата.docx");
 		if (f == null || hs.isEmpty(f.getFileuri())) throw new Exception("Не найден шаблон акта возврата");
@@ -130,7 +132,7 @@ public class PrintController {
 		if (act.getList_doc() != null) {
 			for (Act_document act_doc : act.getList_doc()) {
 				boolean b = act_doc.getExclude() != null && act_doc.getExclude(); 
-				if (!b) continue;
+				if (!b && st != 6) continue;
 				Document doc = act_doc.getDoc();
 				if (doc == null) continue;
 				mapData.clear();
@@ -140,7 +142,7 @@ public class PrintController {
 				mapData.put("{dt}", hs.getPropertyString(doc, "doc_type__name"));
 				mapData.put("{dn}", hs.getPropertyString(doc, "doc_number"));
 				mapData.put("{dd}", hs.getPropertyString(doc, "doc_date"));
-				String reason = hs.getPropertyString(act_doc, "exclude_reason");
+				String reason = b ? hs.getPropertyString(act_doc, "exclude_reason") : "";
 				if (hs.isEmpty(reason)) reason = act.getAct_reason();
 				mapData.put("{note}", reason);
 				d.addRow(table, "{list_doc}", mapData);
