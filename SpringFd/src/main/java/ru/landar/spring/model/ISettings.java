@@ -6,7 +6,9 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ public class ISettings extends IBase {
 	private String type;
 	private String filetype;
 	private String value;
+	private IBase value_obj;
 	private String username;
 	private String roles;
 	
@@ -36,6 +39,10 @@ public class ISettings extends IBase {
     @Lob
     public String getValue() { return value; }
     public void setValue(String value) { this.value = value; }
+    
+    @ManyToOne(targetEntity=IBase.class, fetch=FetchType.EAGER)
+    public IBase getValue_obj() { return value_obj; }
+    public void setValue_obj(IBase value_obj) { this.value_obj = value_obj; }
     
     @Column(length=32)
     public String getUsername() { return username; }

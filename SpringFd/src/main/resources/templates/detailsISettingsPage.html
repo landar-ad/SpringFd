@@ -33,7 +33,7 @@
                         <input name="name" class="col-sm-12 form-control form-control-sm" type="text" th:value="${obj.name}"></input>
                      </div>
                      <div class="form-group-sm m-sm-1">
-                     	<label class="col-sm-2 col-form-label">Значение параметра</label>
+                     	<label class="col-sm-2 col-form-label">Значение параметра (текст)</label>
                         <textarea id="text" name="value" class="col-sm-12 form-control form-control-sm" th:text="${obj.value}" rows="8"></textarea>
                         <div class="form-group-sm mt-sm-1 col-sm-12 row">
 	                        <div class="col-sm-6 custom-file">
@@ -44,6 +44,16 @@
 								<button type="button" class="download btn btn-sm btn-light" data-target="text">Выгрузить в файл</button>
 			                </div>
 		                </div>
+                    </div>
+                    <div class="form-group-sm row m-sm-1">
+                     	<label class="col-sm-2 col-form-label">Значение параметра (объект)</label>
+                     	<div class="col-sm-9">
+                        	<input class="form-control form-control-sm" th:text="${obj.value_obj?.name}"></input>
+                       	</div>
+                        <div class="col-sm-1">
+							<button type="button" class="choose_obj btn btn-light btn-sm" data-clazz="IBase" data-title="Выберите объект" data-column="name=Наименование" data-filter=""><i class="fa fa-sm fa-file"></i></button>
+                       		<input name="value_obj" type="hidden" th:value="${obj.value_obj?.rn}">
+						</div>
                     </div>
                     <div class="form-group-sm m-sm-1 row">
                         <label class="col-sm-2 col-form-label">Пользователь</label>
