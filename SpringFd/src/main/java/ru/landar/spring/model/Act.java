@@ -86,7 +86,7 @@ public class Act extends IBase {
     public Date getCreate_time() { return create_time; }
     public void setCreate_time(Date create_time) { this.create_time = create_time; }
 	
-	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getChange_agent() { return change_agent; }
     public void setChange_agent(IAgent change_agent) { this.change_agent = change_agent; }
 	
