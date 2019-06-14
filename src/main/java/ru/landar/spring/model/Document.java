@@ -87,7 +87,7 @@ public class Document extends IBase {
     public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
-	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=IAgent.class)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
 	
