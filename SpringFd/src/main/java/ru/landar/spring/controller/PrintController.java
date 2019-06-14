@@ -70,9 +70,8 @@ public class PrintController {
 			for (Act_document act_doc : act.getList_doc()) {
 				Document doc = act_doc.getDoc();
 				if (doc == null) continue;
-				i++;
 				mapData.clear();
-				mapData.put("{#}", "" + i);
+				mapData.put("{#}", "" + i++);
 				mapData.put("{list_doc}", "");
 				mapData.put("{pd}", hs.getPropertyString(doc, doc.getParent_doc() != null ? "parent_doc__name" : "name") );
 				mapData.put("{dt}", hs.getPropertyString(doc, "doc_type__name"));
@@ -134,15 +133,14 @@ public class PrintController {
 				if (!b) continue;
 				Document doc = act_doc.getDoc();
 				if (doc == null) continue;
-				i++;
 				mapData.clear();
-				mapData.put("{#}", "" + i);
+				mapData.put("{#}", "" + i++);
 				mapData.put("{list_doc}", "");
 				mapData.put("{pd}", hs.getPropertyString(doc, doc.getParent_doc() != null ? "parent_doc__name" : "name") );
 				mapData.put("{dt}", hs.getPropertyString(doc, "doc_type__name"));
 				mapData.put("{dn}", hs.getPropertyString(doc, "doc_number"));
 				mapData.put("{dd}", hs.getPropertyString(doc, "doc_date"));
-				String reason = hs.getPropertyString(doc, "act_doc.exclude_reason");
+				String reason = hs.getPropertyString(act_doc, "exclude_reason");
 				if (hs.isEmpty(reason)) reason = act.getAct_reason();
 				mapData.put("{note}", reason);
 				d.addRow(table, "{list_doc}", mapData);
@@ -154,10 +152,10 @@ public class PrintController {
 		Date ad = act.getAct_date();
 		mapData.put("{ad}", ad != null ? new SimpleDateFormat("dd").format(ad) + " " + hs.getMonthDate(ad) + " " + new SimpleDateFormat("yyyy").format(ad) : "");
 		mapData.put("{dep}", hs.getPropertyString(act, "depart__name"));
-		mapData.put("{ca__position}", hs.getPropertyString(act, "create_agent__position"));
-		mapData.put("{ca_name}", hs.getPropertyString(act, "create_agent__name"));
-		mapData.put("{ca_phone}", hs.getPropertyString(act, "create_agent__phone"));
-		mapData.put("{ca_email}", hs.getPropertyString(act, "create_agent__email"));
+		mapData.put("{pos}", hs.getPropertyString(act, "change_agent__position"));
+		mapData.put("{fio}", hs.getPropertyString(act, "change_agent__name"));
+		mapData.put("{phone}", hs.getPropertyString(act, "change_agent__phone"));
+		mapData.put("{email}", hs.getPropertyString(act, "change_agent__email"));
 		d.replace(docx, mapData);
 		// Вывод данных в память
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
