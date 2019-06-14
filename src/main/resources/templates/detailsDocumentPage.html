@@ -5,6 +5,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('.input_date').datepicker({language: "ru"});
+			$('.input_time').datetimepicker({locale: "ru"});
 			add_on($('.custom-file-input'), "change", function() { 
 				   var fileName = $(this).val().split('\\').pop(); 
 				   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
