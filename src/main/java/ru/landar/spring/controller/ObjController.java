@@ -244,7 +244,7 @@ public class ObjController {
 		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		model.addAttribute("hs", hs);
 		if (prn != null) model.addAttribute("prn", prn);
-		if (paramReadonly.orElse(0) == 1) model.addAttribute("readonly", true);
+		model.addAttribute("readonly", paramReadonly.orElse(0) == 1 ? true : !(Boolean)hs.invoke(obj, "onCheckExecute", "edit"));
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		String t = "details" + clazz + "Page";
@@ -646,7 +646,6 @@ public class ObjController {
 			Integer prn = (Integer)hs.getProperty(obj, "parent__rn");
 			if (prn != null) model.addAttribute("prn", prn);
 		}
-		if (!model.containsAttribute("readonly")) model.addAttribute("readonly", !hs.checkRights(obj, Operation.update)); 
 		List<AttributeInfo> listAttribute = (List<AttributeInfo>)hs.invoke(obj, "onListAttribute");
 		if (listAttribute != null) model.addAttribute("listAttribute", listAttribute);
 		model.addAttribute("p_login", userService.getPrincipal());
