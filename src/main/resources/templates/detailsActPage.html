@@ -132,7 +132,7 @@
 					    </div>
 						<div class="form-group-sm row mt-sm-1">
 	                        <label class="col-sm-1">Статус</label>
-	                        <div class="col-sm-2" th:with="ll=${listActStatus},nn='act_status',vv=${obj.reestr_status},rr=0,ro=${st=='1' ? 0 : 1}">
+	                        <div class="col-sm-2" th:with="ll=${listActStatus},nn='act_status',vv=${obj.act_status},rr=0,ro=${st=='1' ? 0 : 1}">
 								<input th:replace="fragments/component :: select">   
 							</div>
 	                        <label class="col-sm-1">Дата присвоения статуса</label>
