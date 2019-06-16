@@ -33,25 +33,25 @@
 	                </div>
 	                <div class="col-sm-12 fit-height">
 		                <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-1 col-form-label">Дата создания</label>
+	                        <label class="col-sm-2">Дата создания</label>
 	                        <div class="col-sm-2" th:with="vv=${obj.create_time},ro=1">
 	                        	<input th:replace="fragments/component :: datetimepeaker">
 							</div>
-	                        <label class="col-sm-2 col-form-label">Создан пользователем</label>
+	                        <label class="col-sm-2">Создан пользователем</label>
 	                        <div class="col-sm-4" th:with="vv=${obj.create_agent?.name},ro=1">
 	                        	<input th:replace="fragments/component :: text">
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2 col-form-label required">Тип документа</label>
+	                        <label class="col-sm-2 required">Тип документа</label>
 	                        <div class="col-sm-2" th:with="ll=${listDocType},nn='doc_type',vv=${obj.doc_type},rr=1,ro=${rco}">
 								<input th:replace="fragments/component :: select">   
 							</div>
-	                        <label class="col-sm-2 col-form-label required">№ документа</label>
+	                        <label class="col-sm-2 required">№ документа</label>
 	                        <div class="col-sm-2" th:with="nn='doc_number',vv=${obj.doc_number},rr=1,ro=${rco}">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-2 col-form-label required">Дата документа</label>
+	                        <label class="col-sm-2 required">Дата документа</label>
 	                        <div class="col-sm-2" th:with="nn='doc_date',vv=${obj.doc_date},rr=1,ro=${rco}">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
@@ -63,16 +63,16 @@
 							</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2 col-form-label">Тип основного документа</label>
-							<div class="col-sm-2" th:with="nn='',vv=${obj.parent_doc?.doc_type?.name},ro=1">
+	                        <label class="col-sm-2">Тип основного документа</label>
+							<div class="col-sm-2" th:with="vv=${obj.parent_doc?.doc_type?.name},ro=1">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-2 col-form-label">№ основного документа</label>
-	                       	<div class="col-sm-2" th:with="nn='',vv=${obj.parent_doc?.doc_number},ro=1">
+	                        <label class="col-sm-2">№ основного документа</label>
+	                       	<div class="col-sm-2" th:with="vv=${obj.parent_doc?.doc_number},ro=1">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-1 col-form-label">Дата</label>
-	                        <div class="col-sm-2" th:with="nn='',vv=${obj.parent_doc?.doc_date},ro=1">
+	                        <label class="col-sm-1">Дата</label>
+	                        <div class="col-sm-2" th:with="vv=${obj.parent_doc?.doc_date},ro=1">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
 	                       	<div th:if="${readonly!=true}" class="col-sm-1">
@@ -81,8 +81,8 @@
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2 col-form-label">Контрагент</label>
-	                        <div class="col-sm-9" th:with="nn='',vv=${obj.agent?.name},ro=1">
+	                        <label class="col-sm-2">Контрагент</label>
+	                        <div class="col-sm-9" th:with="vv=${obj.agent?.name},ro=1">
 								<input th:replace="fragments/component :: text">
 							</div>
 							<div th:if="${readonly!=true}" class="col-sm-1">
@@ -92,84 +92,84 @@
 						</div>
 						<div th:replace="fragments/header :: list_file"></div>
 					    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2 col-form-label">Количество страниц</label>
+	                        <label class="col-sm-2">Количество страниц</label>
 	                       	<div class="col-sm-1" th:with="nn='sheet_count',vv=${obj.sheet_count},rr=0,ro=${rco}">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
 	                    </div>
 						<div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-1 col-form-label">Статус</label>
+	                        <label class="col-sm-1">Статус</label>
 							<div class="col-sm-2" th:with="ll=${listDocStatus},nn='doc_status',vv=${obj.doc_status},rr=0,ro=${rco}">
 								<input th:replace="fragments/component :: select">   
 							</div>
-	                        <label class="col-sm-2 col-form-label">Дата присвоения статуса</label>
+	                        <label class="col-sm-2">Дата присвоения статуса</label>
 	                       	<div class="col-sm-2" th:with="vv=${obj.time_status},ro=1">
 	                      	    <input th:replace="fragments/component :: datetimepeaker">
 							</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-1 col-form-label">Дата изменения</label>
-	                       	<div class="col-sm-2" th:with="nn='',vv=${obj.change_time},ro=1">
+	                        <label class="col-sm-2">Дата изменения</label>
+	                       	<div class="col-sm-2" th:with="vv=${obj.change_time},ro=1">
 	                      	    <input th:replace="fragments/component :: datetimepeaker">
 							</div>
 	                        <label class="col-sm-2 col-form-label">Изменен пользователем</label>
-							<div class="col-sm-4" th:with="nn='',vv=${obj.change_agent?.name},ro=1">
+							<div class="col-sm-4" th:with="vv=${obj.change_agent?.name},ro=1">
 	                        	<input th:replace="fragments/component :: text">
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
 	                    	<label class="col-sm-1 col-form-label">Включен в акт: №</label>
-							<div class="col-sm-1" th:with="nn='',vv=${obj.act?.act_number},ro=1">
+							<div class="col-sm-1" th:with="vv=${obj.act?.act_number},ro=1">
 	                        	<input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-1 col-form-label">Дата</label>
-	                       	<div class="col-sm-2" th:with="nn='',vv=${obj.act?.act_date},ro=1">
+	                        <label class="col-sm-1">Дата</label>
+	                       	<div class="col-sm-2" th:with="vv=${obj.act?.act_date},ro=1">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
-	                       	<label class="col-sm-1 col-form-label">Включен в реестр: №</label>
-	                        <div class="col-sm-1" th:with="nn='',vv=${obj.reestr?.reestr_number},ro=1">
+	                       	<label class="col-sm-1">Включен в реестр: №</label>
+	                        <div class="col-sm-1" th:with="vv=${obj.reestr?.reestr_number},ro=1">
 	                        	<input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-1 col-form-label">Дата</label>
-	                        <div class="col-sm-2" th:with="nn='',vv=${obj.reestr?.reestr_date},ro=1">
+	                        <label class="col-sm-1">Дата</label>
+	                        <div class="col-sm-2" th:with="vv=${obj.reestr?.reestr_date},ro=1">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<label class="col-sm-2 col-form-label">Исключен из акта: №</label>
+	                    	<label class="col-sm-2">Исключен из акта: №</label>
 							<div class="col-sm-1" th:with="vv=${obj.act_exclude_num},ro=1">
 	                        	<input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-1 col-form-label">Дата</label>
+	                        <label class="col-sm-1">Дата</label>
 	                       	<div class="col-sm-2" th:with="vv=${obj.act_exclude_date},ro=1">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
-	                       	<label class="col-sm-1 col-form-label">Причина</label>
+	                       	<label class="col-sm-1">Причина</label>
 							<div class="col-sm-5" th:with="vv=${obj.act_exclude_reason},ro=1">
 	                        	<input th:replace="fragments/component :: text">
 	                       	</div>
 	                   	</div>
 	                   	<div class="form-group-sm row mt-sm-1"> 	
-	                       	<label class="col-sm-2 col-form-label">Заменен документом: №</label>
+	                       	<label class="col-sm-2">Заменен документом: №</label>
 							<div class="col-sm-1" th:with="vv=${obj.change_doc?.doc_number},ro=1">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-1 col-form-label">Дата</label>
+	                        <label class="col-sm-1">Дата</label>
 	                       	<div class="col-sm-2" th:with="vv=${obj.change_doc?.doc_date},ro=1">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<label class="col-sm-2 col-form-label">Дата отражения в бухгалтерском учете</label>
+	                    	<label class="col-sm-2">Дата отражения в бухгалтерском учете</label>
 	                       	<div class="col-sm-2" th:with="vv=${obj.buh_date},ro=1">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
-	                       	<label class="col-sm-2 col-form-label">Отражен в выписке: №</label>
+	                       	<label class="col-sm-2">Отражен в выписке: №</label>
 							<div class="col-sm-2" th:with="vv=${obj.extract_number},ro=1">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
-							<label class="col-sm-1 col-form-label">Дата</label>
-	                       	<div class="col-sm-2" th:with="nn='',vv=${obj.extract_date},ro=1">
+							<label class="col-sm-1">Дата</label>
+	                       	<div class="col-sm-2" th:with="vv=${obj.extract_date},ro=1">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
 	                    </div>
