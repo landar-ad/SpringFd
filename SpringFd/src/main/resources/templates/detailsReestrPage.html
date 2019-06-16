@@ -21,7 +21,7 @@
             	<div class="m-sm-0">
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
-	            			<button th:if="${st=='1'||st=='2'||st=='3'}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
 			                <a th:href="${'listObj?clazz=Reestr&p_ret=1' + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
