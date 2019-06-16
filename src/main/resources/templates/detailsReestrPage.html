@@ -17,7 +17,7 @@
     		<div class="col-md-12 card-header">
             	<h6 th:text="${p_title}"></h6>
             </div>
-           	<div th:with="st=${obj.reestr_status==null ? '1' : obj.reestr_status?.code}" class="col-sm-12 card small">
+           	<div th:with="st=${obj.reestr_status==null ? '1' : obj.reestr_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0}" class="col-sm-12 card small">
             	<div class="m-sm-0">
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
@@ -38,15 +38,15 @@
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
 	                        <label class="col-sm-1 required">№ реестра</label>
-	                        <div class="col-sm-2" th:with="nn='reestr_number',vv=${obj.reestr_number},rr=1,ro=${st=='1' ? 0 : 1}">
+	                        <div class="col-sm-2" th:with="nn='reestr_number',vv=${obj.reestr_number},rr=1,ro=${adm==1 || st=='1' ? 0 : 1}">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
 	                        <label class="col-sm-1 required">Дата реестра</label>
-	                        <div class="col-sm-2" th:with="nn='reestr_date',vv=${obj.reestr_date},rr=1,ro=${st=='1' ? 0 : 1}">
+	                        <div class="col-sm-2" th:with="nn='reestr_date',vv=${obj.reestr_date},rr=1,ro=${adm==1 || st=='1' ? 0 : 1}">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
 	                       	<label class="col-sm-2">Структурное подразделение</label>
-	                        <div class="col-sm-5" th:with="ll=${listDepartment},nn='depart',vv=${obj.depart},rr=1,ro=${st=='1' ? 0 : 1}">
+	                        <div class="col-sm-5" th:with="ll=${listDepartment},nn='depart',vv=${obj.depart},rr=1,ro=${adm==1 || st=='1' ? 0 : 1}">
 								<input th:replace="fragments/component :: select">   
 							</div>
 	                    </div>
@@ -56,13 +56,13 @@
 	                        <label class="col-sm-4">Материально-ответственное лицо</label>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-4" th:with="ll=${listPerson},nn='agent_from',vv=${obj.agent_from},rr=0,ro=${st=='1' ? 0 : 1}">
+	                        <div class="col-sm-4" th:with="ll=${listPerson},nn='agent_from',vv=${obj.agent_from},rr=0,ro=${adm==1 || st=='1' ? 0 : 1}">
 								<input th:replace="fragments/component :: select">   
 							</div>
-							<div class="col-sm-4" th:with="ll=${listPerson},nn='agent_to',vv=${obj.agent_to},rr=0,ro=${st=='1' ? 0 : 1}">
+							<div class="col-sm-4" th:with="ll=${listPerson},nn='agent_to',vv=${obj.agent_to},rr=0,ro=${adm==1 || st=='1' ? 0 : 1}">
 								<input th:replace="fragments/component :: select">   
 							</div>
-	                        <div class="col-sm-4" th:with="ll=${listPerson},nn='mol',vv=${obj.mol},rr=0,ro=${st=='1' ? 0 : 1}">
+	                        <div class="col-sm-4" th:with="ll=${listPerson},nn='mol',vv=${obj.mol},rr=0,ro=${adm==1 || st=='1' ? 0 : 1}">
 								<input th:replace="fragments/component :: select">   
 							</div>
 						</div>
@@ -82,7 +82,7 @@
 								        </tr>
 							        </thead>
 							        <tbody>
-							        	<tr th:if="${st=='1'}" class="first-row not-visible">
+							        	<tr th:if="${adm==1 || st=='1'}" class="first-row not-visible">
 								            <td class="d-none">
 								            	<input type="hidden" name="list_doc__rnOld" value="">
 								            	<input type="hidden" name="list_doc__clazz" value="Document">
@@ -105,16 +105,19 @@
 								            	<input type="hidden" name="list_doc__p_add" value="exists">
 								            </td>
 								            <td th:text="${iter.index + 1}"/>
-								            <td class="edited">
+								            <td th:if="${adm==1 || st=='2' || st=='3'}" class="edited">
 								            	<span th:text="${doc.name}"></span>
-								            	<input th:if="${st=='2' || st=='3'}" name="list_doc__rn" type="hidden" th:value="${doc.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
+								            	<input name="list_doc__rn" type="hidden" th:value="${doc.rn}" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
+								            </td>
+								            <td th:if="${adm!=1 && st!='2' || st!='3'}">
+								            	<span th:text="${doc.name}"></span>
 								            </td>
 								            <td th:text="${doc.change_doc?.name}"></td>
 								            <td><a th:href="@{/detailsObj?clazz=Document&readonly=1&&rn=} + ${doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
 								            <td><button th:if="${st=='1'}" class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
 								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 								        </tr>
-								        <tr th:if="${st=='1'}" class="last-row">
+								        <tr th:if="${adm==1 || st=='1'}" class="last-row">
 								        	<td class="d-none"/>
 								        	<td><button class="add-item btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></button></td>
 								        	<td></td>
@@ -139,7 +142,7 @@
 					    </div>
 						<div class="form-group-sm row mt-sm-1">
 	                        <label class="col-sm-1">Статус</label>
-	                        <div class="col-sm-2" th:with="ll=${listReestrStatus},nn='reestr_status',vv=${obj.reestr_status},rr=0,ro=${st=='1' ? 0 : 1}">
+	                        <div class="col-sm-2" th:with="ll=${listReestrStatus},nn='reestr_status',vv=${obj.reestr_status},rr=0,ro=${adm==1 || st=='1' ? 0 : 1}">
 								<input th:replace="fragments/component :: select">   
 							</div>
 	                        <label class="col-sm-2">Дата присвоения статуса</label>
