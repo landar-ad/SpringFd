@@ -37,16 +37,18 @@
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-1 required">№ реестра</label>
+	                        <label class="col-sm-2 required">№ реестра</label>
 	                        <div class="col-sm-2" th:with="nn='reestr_number',vv=${obj.reestr_number},rr=1,ro=${adm==1 || st=='1' ? 0 : 1}">
 		                        <input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-1 required">Дата реестра</label>
+	                        <label class="col-sm-2 required">Дата реестра</label>
 	                        <div class="col-sm-2" th:with="nn='reestr_date',vv=${obj.reestr_date},rr=1,ro=${adm==1 || st=='1' ? 0 : 1}">
 	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
+	                   </div>
+	                   <div class="form-group-sm row mt-sm-1">
 	                       	<label class="col-sm-2">Структурное подразделение</label>
-	                        <div class="col-sm-5" th:with="ll=${listDepartment},nn='depart',vv=${obj.depart},rr=1,ro=${adm==1 || st=='1' ? 0 : 1}">
+	                        <div class="col-sm-10" th:with="ll=${listDepartment},nn='depart',vv=${obj.depart},rr=1,ro=${adm==1 || st=='1' ? 0 : 1}">
 								<input th:replace="fragments/component :: select">   
 							</div>
 	                    </div>
