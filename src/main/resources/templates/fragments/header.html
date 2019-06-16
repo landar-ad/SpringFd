@@ -17,12 +17,15 @@
 	<link rel="stylesheet" th:href="@{/static/css/css.css}" type="text/css"/>
 	
 	<script th:src="@{/static/jquery/jquery.min.js}" type="text/javascript"></script>  
-	<script th:src="@{/static/popper/popper.min.js}" type="text/javascript"></script>  
+	<script th:src="@{/static/popper/popper.min.js}" type="text/javascript"></script> 
+	<script th:src="@{/static/moment/min/moment.min.js}" type="text/javascript"></script>
+	<script th:src="@{/static/moment/min/locales.min.js}" type="text/javascript"></script>
 	<script th:src="@{/static/jquery-ui/jquery-ui.min.js}" type="text/javascript"></script>
 	<script th:src="@{/static/bootstrap/js/bootstrap.bundle.min.js}" type="text/javascript"></script>   
 	<script th:src="@{/static/bootstrap-datepicker/js/bootstrap-datepicker.min.js}" type="text/javascript"></script>
 	<script th:src="@{/static/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js}" type="text/javascript"></script>
 	<script th:src="@{/static/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}" type="text/javascript"></script>
+	<script th:src="@{/static/font-awesome/js/all.min.js}" type="text/javacsript"/></script>
 	<script th:src="@{/static/js/bootstrap-combobox.js}" type="text/javascript"></script>
 	<script th:src="@{/static/js/common.js}" type="text/javascript"></script>
 	<script th:src="@{/static/js/list.js}" type="text/javascript"></script>
@@ -40,9 +43,9 @@
 				<div class="col-sm-auto mr-sm-1">
 					<h4>Минпросвещения России</h4>
 			       	<small>Комплексная автоматизированная система исполнения бюджета Министерства просвещения Российской Федерации</small>
-			       	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			       	<nav th:if="${#strings.contains(#httpServletRequest.requestURI,'listObj') && (clazz=='Document' || clazz=='Act' || clazz=='Reestr')}" class="navbar navbar-expand-lg navbar-light bg-light">
 					  	<div class="collapse navbar-collapse">
-					    	<ul th:if="${#strings.contains(#httpServletRequest.requestURI,'listObj') && (clazz=='Document' || clazz=='Act' || clazz=='Reestr')}" class="navbar-nav mr-auto">
+					    	<ul class="navbar-nav mr-auto">
 							    <li th:if="${clazz!='Document'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Document}">Документы</a></li>
 							    <li th:if="${clazz!='Act'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Act}">Акты приема-передачи</a></li>
 							    <li th:if="${clazz!='Reestr'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Reestr}">Реестры сдачи документов</a></li>
