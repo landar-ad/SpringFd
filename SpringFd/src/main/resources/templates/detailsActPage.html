@@ -21,42 +21,34 @@
             	<div class="m-sm-0">
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
-	            			<button class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+	            			<button th:if="${st=='1'||st=='3'||st=='6'}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
 			                <a th:href="${'listObj?clazz=Act' + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
 	                <div class="col-sm-12 fit-height">
 		                <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-1 col-form-label">Дата создания</label>
-	                        <div class="col-sm-2">
-	                    	    <input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.create_time,'dd.MM.yyyy hh:mm.ss')}" readonly="readonly"></input>
+	                        <label class="col-sm-2 col-form-label">Дата создания</label>
+	                        <div class="col-sm-2" th:with="vv=${obj.create_time},ro=1">
+	                      	    <input th:replace="fragments/component :: datetimepeaker">
 							</div>
 	                        <label class="col-sm-2 col-form-label">Создан пользователем</label>
-	                        <div class="col-sm-4">
-	                        	<input class="form-control form-control-sm" type="text" th:value="${obj.create_agent?.name}" readonly="readonly"></input>
+	                        <div class="col-sm-4" th:with="vv=${obj.create_agent?.name},ro=1">
+	                        	<input th:replace="fragments/component :: text">
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-1 col-form-label required">№ акта</label>
-	                        <div class="col-sm-1">
-	                        	<input th:if="${st=='1'}" name="act_number" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" required="required"></input>
-	                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${obj.act_number}" readonly="readonly"></input>
+	                       	<label class="col-sm-2 col-form-label required">№ акта</label>
+	                        <div class="col-sm-2" th:with="nn='act_number',vv=${obj.act_number},rr=1,ro=${st=='1' ? 0 : 1}">
+		                        <input th:replace="fragments/component :: text">
 	                       	</div>
-	                        <label class="col-sm-1 col-form-label required">Дата акта</label>
-	                        <div class="col-sm-2">
-	                        	<input th:if="${st=='1'}" name="act_date" class="input_date form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" required="required"></input>
-	                        	<input th:if="${st!='1'}" class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.act_date,'dd.MM.yyyy')}" readonly="readonly"></input>
+	                        <label class="col-sm-2 col-form-label required">Дата акта</label>
+	                        <div class="col-sm-2" th:with="nn='act_date',vv=${obj.act_date},rr=1,ro=${st=='1' ? 0 : 1}">
+	                        	<input th:replace="fragments/component :: datepeaker">
 	                       	</div>
 	                       	<label class="col-sm-2 col-form-label">Структурное подразделение</label>
-	                        <div class="col-sm-5">
-	                        	<select th:if="${st=='1'}" name="depart" class="form-control form-control-sm">
-		                    		<option value=""></option>
-									<option th:each="d : ${listDepartment}" th:selected="${obj.depart?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
-								</select>
-								<select th:if="${st!='1'}" class="form-control form-control-sm" disabled>
-									<option selected="selected" th:value="${obj.depart?.rn}" th:utext="${obj.depart?.name}"/>
-								</select>
-	                       	</div>
+	                       	<div class="col-sm-5" th:with="ll=${listDepartment},nn='depart',vv=${obj.depart},rr=1,ro=${st=='1' ? 0 : 1}">
+								<input th:replace="fragments/component :: select">   
+							</div>
 	                    </div>
 						<div id="list_doc" class="form-group-sm mt-sm-1">
 	                        <label class="col-sm-2 col-form-label">Документы, включенные в акт</label>
@@ -142,34 +134,27 @@
 					    </div>
 						<div class="form-group-sm row mt-sm-1">
 	                        <label class="col-sm-1 col-form-label">Статус</label>
-	                        <div class="col-sm-2">
-		                    	<select th:if="${st=='1'}" name="act_status" class="form-control form-control-sm">
-		                    		<option value=""></option>
-									<option th:each="d : ${listActStatus}" th:selected="${obj.act_status?.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
-								</select>  
-								<select th:if="${st!='1'}" class="form-control form-control-sm" disabled>
-									<option selected="selected" th:value="${obj.act_status?.rn}" th:utext="${obj.act_status?.name}"/>
-								</select>  
+	                        <div class="col-sm-2" th:with="ll=${listActStatus},nn='act_status',vv=${obj.reestr_status},rr=0,ro=${st=='1' ? 0 : 1}">
+								<input th:replace="fragments/component :: select">   
 							</div>
 	                        <label class="col-sm-1 col-form-label">Дата присвоения статуса</label>
-	                        <div class="col-sm-2">
-	                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy HH:mm:ss')}" readonly="readonly"></input>
-	                       	</div>
+	                        <div class="col-sm-2" th:with="vv=${obj.time_status},ro=1">
+	                      	    <input th:replace="fragments/component :: datetimepeaker">
+							</div>
 	                       	<label class="col-sm-1 col-form-label">Причина отказа</label>
-	                       	<div class="col-sm-5">
-	                        	<input th:if="${st=='6'}" class="form-control form-control-sm" type="text" name="act_reason" th:value="${obj.act_reason}"></input>
-	                        	<input th:if="${st!='6'}" class="form-control form-control-sm" type="text" th:value="${obj.act_reason}" readonly="readonly"></input>
+	                       	<div class="col-sm-5" th:with="nn='act_reason',vv=${obj.act_reason},rr=0,ro=${st=='6' ? 0 : 1}">
+		                        <input th:replace="fragments/component :: text">
 	                       	</div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
 	                    	<label class="col-sm-1 col-form-label">Дата изменения</label>
-	                        <div class="col-sm-2">
-	                        	<input class="form-control form-control-sm" type="text" th:value="${#dates.format(obj.time_status,'dd.MM.yyyy HH:mm:ss')}" readonly="readonly"></input>
-	                       	</div>
-	                        <label class="col-sm-2 col-form-label">Изменен пользователем</label>
-	                        <div class="col-sm-4">
-	                    	    <input class="form-control form-control-sm" type="text" th:value="${obj.change_agent?.name}" readonly="readonly"></input>
+	                       	<div class="col-sm-2" th:with="nn='',vv=${obj.change_time},ro=1">
+	                      	    <input th:replace="fragments/component :: datetimepeaker">
 							</div>
+	                        <label class="col-sm-2 col-form-label">Изменен пользователем</label>
+							<div class="col-sm-4" th:with="nn='',vv=${obj.change_agent?.name},ro=1">
+	                        	<input th:replace="fragments/component :: text">
+	                       	</div>
 	                    </div>
 	                    <div th:replace="fragments/header :: list_file"></div>
                     </div>

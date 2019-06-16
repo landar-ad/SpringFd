@@ -17,6 +17,7 @@ public class WebMvc implements WebMvcConfigurer {
         List<ResourceHandlerRegistration> l = new ArrayList<ResourceHandlerRegistration>();
     	l.add(registry.addResourceHandler("static/jquery/**").addResourceLocations("classpath:/META-INF/resources/webjars/jquery/3.3.1-2/"));
     	l.add(registry.addResourceHandler("static/popper/**").addResourceLocations("classpath:/META-INF/resources/webjars/popper.js/1.14.6/umd/"));
+    	l.add(registry.addResourceHandler("static/moment/**").addResourceLocations("classpath:/META-INF/resources/webjars/momentjs/2.24.0/"));
     	l.add(registry.addResourceHandler("static/bootstrap/**").addResourceLocations("classpath:/META-INF/resources/webjars/bootstrap/4.3.1/"));
     	l.add(registry.addResourceHandler("static/bootstrap-datepicker/**").addResourceLocations("classpath:/META-INF/resources/webjars/bootstrap-datepicker/1.8.0/"));
     	l.add(registry.addResourceHandler("static/tempusdominus-bootstrap-4/**").addResourceLocations("classpath:/META-INF/resources/webjars/tempusdominus-bootstrap-4/5.1.2/"));
