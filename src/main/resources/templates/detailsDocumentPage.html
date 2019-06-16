@@ -35,7 +35,7 @@
 		                <div class="form-group-sm row mt-sm-1">
 	                        <label class="col-sm-1 col-form-label">Дата создания</label>
 	                        <div class="col-sm-2" th:with="vv=${obj.create_time},ro=1">
-	                      	    <input th:replace="fragments/component :: datetimepeaker">
+	                        	<input th:replace="fragments/component :: datetimepeaker">
 							</div>
 	                        <label class="col-sm-2 col-form-label">Создан пользователем</label>
 	                        <div class="col-sm-4" th:with="vv=${obj.create_agent?.name},ro=1">
