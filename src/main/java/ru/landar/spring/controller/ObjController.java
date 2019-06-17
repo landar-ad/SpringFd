@@ -246,7 +246,8 @@ public class ObjController {
 		if (obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		model.addAttribute("hs", hs);
 		if (prn != null) model.addAttribute("prn", prn);
-		model.addAttribute("readonly", paramReadonly.orElse(0) == 1 ? true : !(Boolean)hs.invoke(obj, "onCheckExecute", "edit"));
+		int ro = paramReadonly.orElse(0);
+		model.addAttribute("readonly", ro == 1 ? true : !(Boolean)hs.invoke(obj, "onCheckExecute", "edit"));
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		String t = "details" + clazz + "Page";
