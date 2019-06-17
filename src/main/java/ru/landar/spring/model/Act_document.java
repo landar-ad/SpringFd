@@ -26,7 +26,7 @@ public class Act_document extends IBase {
 	
 	@ManyToOne(targetEntity=Document.class)
     public Document getDoc() { return doc; }
-    public void setDoc(Document doc) { this.doc = doc; }
+    public void setDoc(Document doc) { this.doc = doc; updateName(); }
     
     public Boolean getExclude() { return exclude; }
     public void setExclude(Boolean exclude) { this.exclude = exclude; }
@@ -41,6 +41,15 @@ public class Act_document extends IBase {
     
     public static String singleTitle() { return "Сведения о включенном в акт документе"; }
 	public static String multipleTitle() { return "Сведения о включенных в акты документах"; }
+	
+	private void updateName() {
+		String name = "";
+		if (getParent() != null && getParent() instanceof Act) name += getParent().getName();
+		if (doc != null) {
+			if (!name.isEmpty()) name += " <-> ";
+			name += doc.getName();
+		}
+	}
     @Override
     public Object onNew() {
      	Object ret = super.onNew();
