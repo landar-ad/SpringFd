@@ -3,8 +3,7 @@ popup_init = function() {
 		var target = $(this), rn = $(target).parent().find("input[type='hidden']").val();
 		var multiple = target.attr("data-multiple")
 		var clazz = target.attr("data-clazz");
-		if (!clazz) clazz = $("input[name='value']").val();
-		if (!clazz) clazz = $("input[name='value']").text();
+		if (!clazz) clazz = $("input[name='value'],textarea[name='value']").val();
 		if (!clazz) return;
 		var data = {
 				clazz: clazz,
@@ -18,6 +17,7 @@ popup_init = function() {
 			success: function(result) {
 				var div = $('<div></div>');
 				div.html(result);
+				if (div.find('.modal').length == 0) return;
 				$(".modal").html(div.find('.modal').html());
 				$(".modal").modal();
 				var h = $(".modal").outerHeight();
