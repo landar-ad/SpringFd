@@ -130,8 +130,11 @@ public abstract class IBase {
     }
     public Object onCheckRights(Operation op) { 
      	Object ret = invoke("onCheckRights", op);
-    	if (ret == null) ret = getRn() == null ? true : (op == Operation.update || op == Operation.delete) && userService.isAdmin(null);
-    	return ret;
+     	if (ret != null) return ret;
+    	if (getRn() == null) return true;
+    	if (op == Operation.load) return true;
+    	if (op == Operation.update || op == Operation.delete) return userService.isAdmin(null);
+    	return false;
     }
     public Object onCheckUpdateAttribute(String attr) { 
      	Object ret = invoke("onCheckUpdateAttribute", attr);
