@@ -9,33 +9,33 @@
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
-	<div class="container  w-75 fit-height">
+	<div class="container w-75">
 		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
 			<input type="hidden" name="clazz" th:value="${obj.clazz}" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
-    		<div class="col-md-12 card-header">
-            	<h3 th:text="${p_title}"></h3>
-            </div>
+    		<div class="col-md-12 card-header"><h6 th:text="${p_title}"></h6></div>
            	<div class="col-sm-12 card small">
            		<div class="m-sm-2">
            			<div th:replace="fragments/header :: details-buttons"></div>
-	            	<div th:each="attr : ${listAttribute}" class="form-group-sm mt-sm-1">
-                        <label th:if="${attr.type!='checkbox'}" class="col-form-label" th:text="${attr.title}"></label>
-                        <input th:if="${attr.type=='text'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" type="text" th:value="${hs.getPropertyString(obj,attr.name)}" th:required="${attr.required}"></input>
-                        <input th:if="${attr.type=='password'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" type="password" value="" th:required="${attr.required}"></input>
-                        <textarea th:if="${attr.type=='textarea'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" th:text="${hs.getPropertyString(obj,attr.name)}" th:required="${attr.required}" rows="10"></textarea>
-                       	<select th:if="${attr.type=='select'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" th:required="${attr.required}">
-                       		<option value=""></option>
-							<option th:each="item : ${hs.getVariable(#vars,attr.nameList)}" th:selected="${hs.getProperty(obj,attr.name)==item.rn}" th:value="${item.rn}" th:text="${item.name}"/>
-						</select>
-						<div th:if="${attr.type=='checkbox'}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-check'}">
-	                    	<label class="form-check-label">
-	                    		<input th:name="${attr.name}" type="checkbox" class="form-check-input" th:checked="${hs.getProperty(obj,attr.name)}==true" th:text="${attr.title}"  th:required="${attr.required}">
-	                    		<input type="hidden" th:name="${attr.name}" value="0">
-                    		</label>
+           			<div class="col-sm-12 border fit-height">
+		            	<div th:each="attr : ${listAttribute}" class="form-group-sm mt-sm-1">
+	                        <label th:if="${attr.type!='checkbox'}" class="col-form-label" th:text="${attr.title}"></label>
+	                        <input th:if="${attr.type=='text'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" type="text" th:value="${hs.getPropertyString(obj,attr.name)}" th:required="${attr.required}"></input>
+	                        <input th:if="${attr.type=='password'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" type="password" value="" th:required="${attr.required}"></input>
+	                        <textarea th:if="${attr.type=='textarea'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" th:text="${hs.getPropertyString(obj,attr.name)}" th:required="${attr.required}" rows="10"></textarea>
+	                       	<select th:if="${attr.type=='select'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" th:required="${attr.required}">
+	                       		<option value=""></option>
+								<option th:each="item : ${hs.getVariable(#vars,attr.nameList)}" th:selected="${hs.getProperty(obj,attr.name)==item.rn}" th:value="${item.rn}" th:text="${item.name}"/>
+							</select>
+							<div th:if="${attr.type=='checkbox'}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-check'}">
+		                    	<label class="form-check-label">
+		                    		<input th:name="${attr.name}" type="checkbox" class="form-check-input" th:checked="${hs.getProperty(obj,attr.name)}==true" th:text="${attr.title}"  th:required="${attr.required}">
+		                    		<input type="hidden" th:name="${attr.name}" value="0">
+	                    		</label>
+		                    </div>
+		                    <input th:if="${attr.type=='date'}" th:name="${attr.name}" type="text" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'input_date form-control form-control-sm'}" th:value="${#dates.format(hs.getProperty(obj,attr.name),'dd.MM.yyyy')}"  th:required="${attr.required}"/>
+		                    <input th:if="${attr.type=='time'}" th:name="${attr.name}" type="text" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'input_time form-control form-control-sm'}" th:value="${#dates.format(hs.getProperty(obj,attr.name),'dd.MM.yyyy HH:mm:ss')}"  th:required="${attr.required}"/>
 	                    </div>
-	                    <input th:if="${attr.type=='date'}" th:name="${attr.name}" type="text" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'input_date form-control form-control-sm'}" th:value="${#dates.format(hs.getProperty(obj,attr.name),'dd.MM.yyyy')}"  th:required="${attr.required}"/>
-	                    <input th:if="${attr.type=='time'}" th:name="${attr.name}" type="text" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'input_time form-control form-control-sm'}" th:value="${#dates.format(hs.getProperty(obj,attr.name),'dd.MM.yyyy HH:mm:ss')}"  th:required="${attr.required}"/>
                     </div>
 				</div>
 			</div>
