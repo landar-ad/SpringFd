@@ -55,18 +55,12 @@
 	                        <div th:with="ww=2,tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                       	<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
 	                        <div th:with="ww=2,tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                       	<div th:if="${readonly!=true}" class="col-sm-1">
-	                       		<button type="button" class="choose_obj btn btn-light btn-sm" data-clazz="Document" data-title="Выберите документ" data-column="doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа" data-filter=""><i class="fa fa-sm fa-file"></i></button>
-	                       		<input name="parent_doc" type="hidden" th:value="${obj.parent_doc?.rn}">
-	                       	</div>
+	                        <div th:with="ww=1,tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},dd-cl='Document',dd-ti='Выберите документ',dd-co='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',dd-fi=''"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
 	                    	<div th:with="ww=2,tt='label',vv='Контрагент'"><div th:replace="fragments/component :: c"></div></div>
 	                        <div th:with="ww=2,tt='text',vv=${obj.agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div th:if="${readonly!=true}" class="col-sm-1">
-								<button type="button" class="choose_obj btn btn-light btn-sm" data-clazz="IOrganization" data-title="Выберите организацию" data-column="name=Наименование организации" data-filter=""><i class="fa fa-sm fa-file"></i></button>
-	                       		<input name="agent" type="hidden" th:value="${obj.agent?.rn}">
-							</div>
+							<div th:with="ww=1,tt='pbutton',nn='agent',vv=${obj.agent?.rn},ro=${rco},dd-cl='IOrganization',dd-ti='Выберите организацию',dd-co='name=Наименование организации',dd-fi=''"><div th:replace="fragments/component :: c"></div></div>	                        
 						</div>
 						<div th:replace="fragments/header :: list_file"></div>
 					    <div class="form-group-sm row mt-sm-1">
@@ -74,80 +68,48 @@
 					    	<div th:with="ww=1,tt='text',nn='sheet_count',vv=${obj.sheet_count},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 						<div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2">Статус</label>
-							<div class="col-sm-2" th:with="ll=${listDocStatus},nn='doc_status',vv=${obj.doc_status},rr=0,ro=${rco}">
-								<input th:replace="fragments/component :: select">   
-							</div>
-	                        <label class="col-sm-2">Дата присвоения статуса</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.time_status},ro=1">
-	                      	    <input th:replace="fragments/component :: time">
-							</div>
+							<div th:with="ww=2,tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=2,tt='select',nn='doc_status',ll=${listDocStatus},vv=${obj.doc_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=2,tt='label',vv='Дата присвоения статуса'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div th:with="ww=2,tt='time',vv=${obj.time_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2">Дата изменения</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.change_time},ro=1">
-	                      	    <input th:replace="fragments/component :: time">
-							</div>
-	                        <label class="col-sm-2 col-form-label">Изменен пользователем</label>
-							<div class="col-sm-4" th:with="vv=${obj.change_agent?.name},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
+	                    	<div th:with="ww=2,tt='label',vv='Дата изменения'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=2,tt='time',vv=${obj.change_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=2,tt='label',vv='Изменен пользователем'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=4,tt='text',vv=${obj.change_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<label class="col-sm-2 col-form-label">Включен в акт: №</label>
-							<div class="col-sm-1" th:with="vv=${obj.act?.act_number},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
-	                        <label class="col-sm-1">Дата</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.act?.act_date},ro=1">
-	                        	<input th:replace="fragments/component :: date">
-	                       	</div>
-	                       	<label class="col-sm-2">Включен в реестр: №</label>
-	                        <div class="col-sm-1" th:with="vv=${obj.reestr?.reestr_number},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
-	                        <label class="col-sm-1">Дата</label>
-	                        <div class="col-sm-2" th:with="vv=${obj.reestr?.reestr_date},ro=1">
-	                        	<input th:replace="fragments/component :: date">
-	                       	</div>
+	                    	<div th:with="ww=2,tt='label',vv='Включен в акт: №'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=1,tt='text',vv=${obj.act?.act_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=2,tt='date',vv=${obj.act?.act_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=2,tt='label',vv='Включен в реестр: №'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=1,tt='text',vv=${obj.reestr?.reestr_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=2,tt='date',vv=${obj.reestr?.reestr_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<label class="col-sm-2">Исключен из акта: №</label>
-							<div class="col-sm-1" th:with="vv=${obj.act_exclude_num},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
-	                        <label class="col-sm-1">Дата</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.act_exclude_date},ro=1">
-	                        	<input th:replace="fragments/component :: date">
-	                       	</div>
-	                       	<label class="col-sm-1">Причина</label>
-							<div class="col-sm-5" th:with="vv=${obj.act_exclude_reason},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
+	                    	<div th:with="ww=2,tt='label',vv='Исключен из акта: №'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=1,tt='text',vv=${obj.act_exclude_num},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div th:with="ww=2,tt='date',vv=${obj.act_exclude_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div th:with="ww=1,tt='label',vv='Причина'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div th:with="ww=5,tt='text',vv=${obj.act_exclude_reason},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                   	</div>
 	                   	<div class="form-group-sm row mt-sm-1"> 	
-	                       	<label class="col-sm-2">Заменен документом: №</label>
-							<div class="col-sm-1" th:with="vv=${obj.change_doc?.doc_number},ro=1">
-		                        <input th:replace="fragments/component :: text">
-	                       	</div>
-	                        <label class="col-sm-1">Дата</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.change_doc?.doc_date},ro=1">
-	                        	<input th:replace="fragments/component :: date">
-	                       	</div>
+	                   		<div th:with="ww=2,tt='label',vv='Заменен документом: №'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=1,tt='text',vv=${obj.change_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=2,tt='date',vv=${obj.change_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<label class="col-sm-2">Дата отражения в бухгалтерском учете</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.buh_date},ro=1">
-	                        	<input th:replace="fragments/component :: date">
-	                       	</div>
-	                       	<label class="col-sm-2">Отражен в выписке: №</label>
-							<div class="col-sm-2" th:with="vv=${obj.extract_number},ro=1">
-		                        <input th:replace="fragments/component :: text">
-	                       	</div>
-							<label class="col-sm-1">Дата</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.extract_date},ro=1">
-	                        	<input th:replace="fragments/component :: date">
-	                       	</div>
+	                    	<div th:with="ww=2,tt='label',vv='Дата отражения в бухгалтерском учете'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=2,tt='date',vv=${obj.buh_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=2,tt='label',vv='Отражен в выписке: №'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div th:with="ww=2,tt='text',vv=${obj.extract_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+							<div th:with="ww=2,tt='date',vv=${obj.extract_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
                     </div>
  				</div>
