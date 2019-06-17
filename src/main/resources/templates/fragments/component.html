@@ -29,6 +29,9 @@
 			<input class="form-control form-control-sm" type="text" th:value="${vv}" readonly="readonly"></input>
 		</div>
 	</div>
+	<div th:if="${tt=='password'}">
+		<input class="form-control form-control-sm" type="password" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : ''}"></input>
+	</div>
 	<div th:if="${tt=='select'}">
 		<select th:if="${ro!=1}" th:name="${nn}" class="form-control form-control-sm" th:required="${rr==1 ? 'required' : ''}">
 			<option value=""></option>
