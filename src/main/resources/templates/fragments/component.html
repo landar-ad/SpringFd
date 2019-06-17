@@ -46,11 +46,11 @@
 	</div>
 	<div th:if="${tt=='check'}" class="form-check">
 		<label th:if="${ro!=1}" class="form-check-label">
-			<input th:name="${nn}" type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${tt}">
+			<input th:name="${nn}" type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${xx}">
 			<input type="hidden" th:name="${nn}" value="0">
 		</label>
 		<label th:if="${ro==1}" class="form-check-label">
-			<input type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${tt}" disabled>
+			<input type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${xx}" disabled>
 		</label>
 	</div>
 </div>
