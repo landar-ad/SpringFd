@@ -16,7 +16,7 @@
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
 			<div class="col-sm-12 card-header"><h6 th:text="${p_title}"></h6></div>
 	       	<div class="col-sm-12 card small">
-	            <div class="m-sm-0">
+	            <div class="m-sm-2">
 	            	<div class="row col-sm-12">
 	            		<div class="btn-group">
                     		<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
@@ -24,31 +24,31 @@
                     	</div>
 	                </div>
 	            	<div class="col-sm-12 border fit-height">
-	                    <div class="form-group-sm">
+	                    <div class="form-group-sm mt-sm-2">
 	                    	<div th:with="tt='label',vv='Логин',rr=1"><div th:replace="fragments/component :: c"></div></div>
 	                    	<div th:with="tt='text',nn='login',vv=${obj.login},rr=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
-	                    <div class="form-group-sm">
+	                    <div class="form-group-sm mt-sm-2">
 	                    	<div th:with="tt='label',vv='Пароль'"><div th:replace="fragments/component :: c"></div></div>
 	                    	<div th:with="tt='password',nn='password',vv=''"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
-	                    <h4>Роли</h4>
-	                    <div class="form-group-sm row">
+	                    <h6>Роли</h6>
+	                    <div class="form-group-sm  mt-sm-2 row">
 	                    	<div class="col-sm-4" th:with="tt='check',nn='role_user',vv=${role_user},xx='Пользователь'"><div th:replace="fragments/component :: c"></div></div>
 	                    	<div class="col-sm-4" th:with="tt='check',nn='role_admin',vv=${role_admin},xx='Администратор'"><div th:replace="fragments/component :: c"></div></div>
 	                    	<div class="col-sm-4" th:with="tt='check',nn='role_df',vv=${role_df},xx='Сотрудник Департамента финансов'"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
-	                    <div class="form-group-sm">
+	                    <div class="form-group-sm mt-sm-2">
 	                    	<div th:with="tt='check',nn='disabled',vv=${obj.disabled},xx='Заблокирован'"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
-	                    <div class="form-group-sm">
+	                    <div class="form-group-sm mt-sm-2">
 	                    	<div class="col-sm-4" th:with="tt='label',vv='Организация'"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
-	                    <div class="form-group row parent-popup">
+	                    <div class="form-group mt-sm-2 row parent-popup">
 	                        <div class="col-sm-11" th:with="tt='text',vv=${obj.org?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
 							<div class="col-sm-1" th:with="tt='pbutton',nn='org',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='name=Наименование организации',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
 						</div>	                        
-	                    <div class="form-group-sm">
+	                    <div class="form-group-sm mt-sm-2">
 	                    	<div th:with="tt='label',vv='Контрагент (физическое лицо)'"><div th:replace="fragments/component :: c"></div></div>
 							<div th:with="tt='select',nn='person',ll=${listPerson},vv=${obj.person}"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
