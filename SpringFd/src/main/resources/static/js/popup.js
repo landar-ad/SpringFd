@@ -2,8 +2,11 @@ popup_init = function() {
 	add_on($('.choose_obj'), 'click', function(event) {
 		var target = $(this), rn = $(target).parent().find("input[type='hidden']").val();
 		var multiple = target.attr("data-multiple")
+		var clazz = target.attr("data-clazz");
+		if (!clazz) clazz = $("input[name='value']").val();
+		if (!clazz) return;
 		var data = {
-				clazz: target.attr("data-clazz"),
+				clazz: clazz,
 				rn: rn,
 				p_title: target.attr("data-title"),
 				p_column: target.attr("data-column"),
