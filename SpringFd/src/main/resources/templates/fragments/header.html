@@ -87,7 +87,7 @@
 	<div th:fragment="details-buttons" class="row small col-sm-12">
 		<div class="btn-group">
             <button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
-            <a th:href="@{/listObj?clazz=} + ${obj.clazz} + ${obj.rn!=null ? '&rn=' + obj.rn : ''}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+            <a th:href="@{/listObj?p_ret=1&clazz=} + ${obj.clazz} + ${obj.rn!=null ? '&rn=' + obj.rn : ''}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		</div>
 	</div>
 	<table th:fragment="list-table" id="objTable" class="table table-sm table-striped table-light table-bordered small">
