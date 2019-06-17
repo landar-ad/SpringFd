@@ -53,8 +53,18 @@
 			<input type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${xx}" disabled>
 		</label>
 	</div>
-	<div th:if="${tt=='file'}" class="castom-file">
-		<input name="${nn}" type="file" class="custom-file-input">
-		<label class="custom-file-label" th:data-browse="${vv}"></label>
+	<div th:if="${tt=='file'}" class="custom-file">
+		<div th:if="${ro!=1}">
+			<input th:name="${nn}" type="file" class="custom-file-input">
+			<label class="custom-file-label" th:data-browse="${vv}"></label>
+		</div>
 	</div>
+	<div th:if="${tt=='mtext'}">
+		<div th:if="${ro!=1}">
+			<textarea class="form-control form-control-sm" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : ''}"></textarea>
+		</div>
+		<div th:if="${ro==1}">
+			<textarea class="form-control form-control-sm" th:text="${vv}" readonly="readonly"></textarea>
+		</div>
+     </div>
 </div>
