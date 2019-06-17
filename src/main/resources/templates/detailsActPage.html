@@ -15,7 +15,7 @@
 			<input type="hidden" name="clazz" value="Act" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
     		<div class="col-md-12 card-header"><h6 th:text="${p_title}"></h6></div>
-           	<div th:with="st=${obj.act_status==null ? '1' : obj.act_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0,rco=$(adm==1 || st=='1' ? 0 : 1)}" class="col-sm-12 card small">
+           	<div th:with="st=${obj.act_status==null ? '1' : obj.act_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card small">
             	<div class="m-sm-0">
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
