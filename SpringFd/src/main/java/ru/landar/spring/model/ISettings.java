@@ -76,6 +76,7 @@ public class ISettings extends IBase {
 		ret.add(new ColumnInfo("type", "Тип"));
 		ret.add(new ColumnInfo("filetype", "Тип файла"));
 		ret.add(new ColumnInfo("value", "Значение"));
+		ret.add(new ColumnInfo("value_obj__name", "Значение (объект)"));
 		ret.add(new ColumnInfo("username", "Пользователь"));
 		ret.add(new ColumnInfo("roles", "Роли"));
 		return ret;

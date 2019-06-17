@@ -4,6 +4,7 @@ popup_init = function() {
 		var multiple = target.attr("data-multiple")
 		var clazz = target.attr("data-clazz");
 		if (!clazz) clazz = $("input[name='value']").val();
+		if (!clazz) clazz = $("input[name='value']").text();
 		if (!clazz) return;
 		var data = {
 				clazz: clazz,
