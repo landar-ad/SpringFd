@@ -25,46 +25,30 @@
 	                </div>
 	                <div class="col-sm-12 border fit-height">
 		                <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2">Дата создания</label>
-	                        <div class="col-sm-2" th:with="vv=${obj.create_time},ro=1">
-	                      	    <input th:replace="fragments/component :: datetimepeaker">
-							</div>
-	                        <label class="col-sm-2">Создан пользователем</label>
-	                        <div class="col-sm-4" th:with="vv=${obj.create_agent?.name},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Дата создания'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='time',vv=${obj.create_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Создан пользователем'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-4" th:with="tt='text',vv=${obj.create_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2 required">№ реестра</label>
-	                        <div class="col-sm-2" th:with="nn='reestr_number',vv=${obj.reestr_number},rr=1,ro=${rco}">
-		                        <input th:replace="fragments/component :: text">
-	                       	</div>
-	                        <label class="col-sm-2 required">Дата реестра</label>
-	                        <div class="col-sm-2" th:with="nn='reestr_date',vv=${obj.reestr_date},rr=1,ro=${rco}">
-	                        	<input th:replace="fragments/component :: datepeaker">
-	                       	</div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='№ реестра',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='text',nn='reestr_number',vv=${obj.reestr_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Дата реестра',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='date',nn='reestr_date',vv=${obj.reestr_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 	                   </div>
 	                   <div class="form-group-sm row mt-sm-1">
-	                       	<label class="col-sm-2">Структурное подразделение</label>
-	                        <div class="col-sm-10" th:with="ll=${listDepartment},nn='depart',vv=${obj.depart},rr=1,ro=${rco}">
-								<input th:replace="fragments/component :: select">   
-							</div>
+	                       	<div class="col-sm-2" th:with="tt='label',vv='Структурное подразделение'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-4">Документы сдал</label>
-	                        <label class="col-sm-4">Документы принял</label>
-	                        <label class="col-sm-4">Материально-ответственное лицо</label>
+	                    	<div class="col-sm-4" th:with="tt='label',vv='Документы сдал'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-4" th:with="tt='label',vv='Документы принял'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-4" th:with="tt='label',vv='Материально-ответственное лицо'"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-4" th:with="ll=${listPerson},nn='agent_from',vv=${obj.agent_from},rr=0,ro=${rco}">
-								<input th:replace="fragments/component :: select">   
-							</div>
-							<div class="col-sm-4" th:with="ll=${listPerson},nn='agent_to',vv=${obj.agent_to},rr=0,ro=${rco}">
-								<input th:replace="fragments/component :: select">   
-							</div>
-	                        <div class="col-sm-4" th:with="ll=${listPerson},nn='mol',vv=${obj.mol},rr=0,ro=${rco}">
-								<input th:replace="fragments/component :: select">   
-							</div>
+	                    	<div class="col-sm-4" th:with="tt='select',nn='agent_from',ll=${listPerson},vv=${obj.agent_from},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-4" th:with="tt='select',nn='agent_to',ll=${listPerson},vv=${obj.agent_to},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-4" th:with="tt='select',nn='mol',ll=${listPerson},vv=${obj.mol},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 						</div>
 						<div id="list_doc" class="form-group-sm mt-sm-1">
 	                        <label class="col-sm-4">Документы, включенные в реестр</label>
@@ -131,34 +115,22 @@
 						    </div>
 					    </div>
 					    <div class="form-group-sm row mt-sm-1">
-					    	<label class="col-sm-2">Количество документов</label>
-					    	<div class="col-sm-1" th:with="vv=${obj.doc_count},ro=1">
-		                        <input th:replace="fragments/component :: text">
-	                       	</div>
-					    	<label class="col-sm-2">Количество страниц</label>
-	                        <div class="col-sm-1" th:with="vv=${obj.sheet_count},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
+					    	<div class="col-sm-2" th:with="tt='label',vv='Количество документов'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='text',vv=${obj.doc_count},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                       	<div class="col-sm-2" th:with="tt='label',vv='Количество страниц'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='text',vv=${obj.sheet_count},ro=1"><div th:replace="fragments/component :: c"></div></div>
 					    </div>
 						<div class="form-group-sm row mt-sm-1">
-	                        <label class="col-sm-2">Статус</label>
-	                        <div class="col-sm-2" th:with="ll=${listReestrStatus},nn='reestr_status',vv=${obj.reestr_status},rr=0,ro=${rco}">
-								<input th:replace="fragments/component :: select">   
-							</div>
-	                        <label class="col-sm-2">Дата присвоения статуса</label>
-	                        <div class="col-sm-2" th:with="vv=${obj.time_status},ro=1">
-	                      	    <input th:replace="fragments/component :: datetimepeaker">
-							</div>
+							<div class="col-sm-2" th:with="tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='select',nn='reestr_status',ll=${listReestrStatus},vv=${obj.reestr_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='label',vv='Дата присвоения статуса'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='time',vv=${obj.time_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<label class="col-sm-2">Дата изменения</label>
-	                       	<div class="col-sm-2" th:with="vv=${obj.change_time},ro=1">
-	                      	    <input th:replace="fragments/component :: datetimepeaker">
-							</div>
-	                        <label class="col-sm-2">Изменен пользователем</label>
-							<div class="col-sm-4" th:with="vv=${obj.change_agent?.name},ro=1">
-	                        	<input th:replace="fragments/component :: text">
-	                       	</div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Дата изменения'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='time',vv=${obj.change_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='label',vv='Изменен пользователем'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-4" th:with="tt='text',vv=${obj.change_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div th:replace="fragments/header :: list_file"></div>
                     </div>
