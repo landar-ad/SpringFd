@@ -230,14 +230,16 @@ public class ObjController {
 	}
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.GET)
 	public String detailsObj(@RequestParam("rn") Optional<Integer> paramRn, 
-							 @RequestParam("clazz") String clazz,
+							 @RequestParam("clazz") Optional<String> paramClazz,
 							 @RequestParam("prn") Optional<Integer> paramPrn,
 							 @RequestParam("p_tab") Optional<Integer> paramTab, 
 							 @RequestParam("readonly") Optional<Integer> paramReadonly, 
 							 Model model) throws Exception {
+		String clazz = paramClazz.orElse(null);
+		Integer rn = paramRn.orElse(null);
+		if (hs.isEmpty(clazz) && rn != null) clazz = objService.getClassByKey(rn);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
-		Integer rn = paramRn.orElse(null);
 		Integer prn = paramPrn.orElse(null);
 		Object obj = rn == null ? cl.newInstance() : objService.find(cl, rn);
 		if (rn == null) hs.invoke(obj, "onNew");
@@ -251,12 +253,14 @@ public class ObjController {
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.POST)
-	public String detailsObjPost(@RequestParam("clazz") String clazz, 
+	public String detailsObjPost(@RequestParam("clazz") Optional<String> paramClazz, 
 								 @RequestParam("rn") Optional<Integer> paramRn, 
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Integer rn = paramRn.orElse(null);
+		String clazz = paramClazz.orElse(null);
+		if (hs.isEmpty(clazz) && rn != null) clazz = objService.getClassByKey(rn);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
 		Object obj = rn == null ? cl.newInstance() : objRepository.find(cl, rn);
