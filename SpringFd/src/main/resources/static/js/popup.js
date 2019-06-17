@@ -44,7 +44,7 @@ popup_init = function() {
 					});
 					var p = $(target).parent();
 					p.find("input[type='hidden']").val(rn > 0 ? rn : "");	
-					p = $(p).parent();
+					p = $(p).closest(".parent-popup");
 					var arr = data.p_column.split(";");
 					for (i=0; i<arr.length; i++) {
 						var t = rn > 0 ?  $(source).find(".text-select:eq("+ i + ")").text() : "";

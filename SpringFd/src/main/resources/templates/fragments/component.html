@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="c">
-	<label th:if="${tt=='label'}" th:class="${'col-sm-' + ww + (rr==1 ? 'required' : '')}" th:utext="${vv}"></label>
-	<div th:if="${tt=='time'}" th:class="${'col-sm-' + ww}">
+	<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:utext="${vv}"></label>
+	<div th:if="${tt=='time'}">
 		<div th:if="${ro!=1}" class="input-group date input_time" data-target-input="nearest">
 			<input th:name="${nn}" class="form-control form-control-sm datetimepicker-input" th:data-target="${'div:has(>input[name='''+nn+'''])'}" type="text" th:value="${#dates.format(vv,'dd.MM.yyyy HH:mm.ss')}" th:required="${rr==1 ? 'required' : ''}"></input>
 			<div class="input-group-append" th:data-target="${'div:has(>input[name='''+nn+'''])'}" data-toggle="datetimepicker">
@@ -13,7 +13,7 @@
 			<input class="form-control form-control-sm" type="text" th:value="${#dates.format(vv,'dd.MM.yyyy HH:mm.ss')}" readonly="readonly"></input>
 		</div>
 	</div>
-	<div th:th:if="${tt=='date'}" th:class="${'col-sm-' + ww}">
+	<div th:th:if="${tt=='date'}">
 		<div th:if="${ro!=1}">
 			<input class="input_date form-control form-control-sm" type="text" th:name="${nn}" th:value="${#dates.format(vv,'dd.MM.yyyy')}" th:required="${rr==1 ? 'required' : ''}"></input>
 		</div>
@@ -21,7 +21,7 @@
 			<input class="form-control form-control-sm" type="text" th:value="${#dates.format(vv,'dd.MM.yyyy')}" readonly="readonly"></input>
 		</div>
 	</div>
-	<div th:if="${tt=='text'}" th:class="${'col-sm-' + ww}">
+	<div th:if="${tt=='text'}">
 		<div th:if="${ro!=1}">
 			<input class="form-control form-control-sm" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : ''}"></input>
 		</div>
@@ -29,7 +29,7 @@
 			<input class="form-control form-control-sm" type="text" th:value="${vv}" readonly="readonly"></input>
 		</div>
 	</div>
-	<div th:if="${tt=='select'}" th:class="${'col-sm-' + ww}">
+	<div th:if="${tt=='select'}">
 		<select th:if="${ro!=1}" th:name="${nn}" class="form-control form-control-sm" th:required="${rr==1 ? 'required' : ''}">
 			<option value=""></option>
 			<option th:each="d : ${ll}" th:selected="${vv!=null && vv.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
@@ -38,9 +38,9 @@
 			<option selected="selected" th:value="${vv!=null ? vv.rn : ''}" th:utext="${vv!=null ? vv.name : ''}"/>
 		</select>
 	</div>
-	<div th:if="${tt=='pbutton'}" th:class="${'col-sm-' + ww}">
+	<div th:if="${tt=='pbutton'}">
 		<div th:if="${ro!=1}">
-			<button type="button" class="choose_obj btn btn-light btn-sm" th:data-clazz="${dd-cl}" th:data-title="${dd-ti}" th:data-column="${dd-co}" th:data-filter="${dd-fi}"><i class="fa fa-sm fa-file"></i></button>
+			<button type="button" class="choose_obj btn btn-light btn-sm" th:data-clazz="${ddcl}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
 			<input th:name="${nn}" type="hidden" th:value="${vv}">
 		</div>
 	</div>
