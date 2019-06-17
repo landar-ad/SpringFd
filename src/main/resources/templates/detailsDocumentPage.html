@@ -31,85 +31,85 @@
 	                </div>
 	                <div class="col-sm-12 border fit-height">
 		                <div class="form-group-sm row mt-sm-1">
-	                        <div th:with="ww=2,tt='label',vv='Дата создания'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='time',vv=${obj.create_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='label',vv='Создан пользователем'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=4,tt='text',vv=${obj.create_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Дата создания'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='time',vv=${obj.create_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Создан пользователем'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-4" th:with="tt='text',vv=${obj.create_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Тип документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='select',nn='doc_type',ll=${listDocType},vv=${obj.doc_type},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='label',vv='>№ документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='label',vv='>Дата документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='date',nn='doc_date',vv=${obj.doc_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='select',nn='doc_type',ll=${listDocType},vv=${obj.doc_type},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='№ документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Дата документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='date',nn='doc_date',vv=${obj.doc_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Структурное подразделение',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=10,tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Структурное подразделение',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Тип основного документа'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='text',vv=${obj.parent_doc?.doc_type?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='label',vv='№ основного документа'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                       	<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=1,tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},dd-cl='Document',dd-ti='Выберите документ',dd-co='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',dd-fi=''"><div th:replace="fragments/component :: c"></div></div>
+	                    <div class="form-group-sm row mt-sm-1 parent-popup">
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Тип основного документа'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.parent_doc?.doc_type?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='№ основного документа'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                       	<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Контрагент'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='text',vv=${obj.agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=1,tt='pbutton',nn='agent',vv=${obj.agent?.rn},ro=${rco},dd-cl='IOrganization',dd-ti='Выберите организацию',dd-co='name=Наименование организации',dd-fi=''"><div th:replace="fragments/component :: c"></div></div>	                        
+	                    <div class="form-group-sm row mt-sm-1 parent-popup">
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Контрагент'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-9" th:with="tt='text',vv=${obj.agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='pbutton',nn='agent',vv=${obj.agent?.rn},ro=${rco},ddcl='IOrganization',ddti='Выберите организацию',ddco='name=Наименование организации',ddfi=''"><div th:replace="fragments/component :: c"></div></div>	                        
 						</div>
 						<div th:replace="fragments/header :: list_file"></div>
 					    <div class="form-group-sm row mt-sm-1">
-					    	<div th:with="ww=2,tt='label',vv='Количество страниц'"><div th:replace="fragments/component :: c"></div></div>
-					    	<div th:with="ww=1,tt='text',nn='sheet_count',vv=${obj.sheet_count},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+					    	<div class="col-sm-2" th:with="tt='label',vv='Количество страниц'"><div th:replace="fragments/component :: c"></div></div>
+					    	<div class="col-sm-1" th:with="tt='text',nn='sheet_count',vv=${obj.sheet_count},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 						<div class="form-group-sm row mt-sm-1">
-							<div th:with="ww=2,tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=2,tt='select',nn='doc_status',ll=${listDocStatus},vv=${obj.doc_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=2,tt='label',vv='Дата присвоения статуса'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='time',vv=${obj.time_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='select',nn='doc_status',ll=${listDocStatus},vv=${obj.doc_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='label',vv='Дата присвоения статуса'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='time',vv=${obj.time_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Дата изменения'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=2,tt='time',vv=${obj.change_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=2,tt='label',vv='Изменен пользователем'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=4,tt='text',vv=${obj.change_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Дата изменения'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='time',vv=${obj.change_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='label',vv='Изменен пользователем'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-4" th:with="tt='text',vv=${obj.change_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Включен в акт: №'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=1,tt='text',vv=${obj.act?.act_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=2,tt='date',vv=${obj.act?.act_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=2,tt='label',vv='Включен в реестр: №'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=1,tt='text',vv=${obj.reestr?.reestr_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=2,tt='date',vv=${obj.reestr?.reestr_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Включен в акт: №'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-1" th:with="tt='text',vv=${obj.act?.act_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='date',vv=${obj.act?.act_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Включен в реестр: №'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='text',vv=${obj.reestr?.reestr_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='date',vv=${obj.reestr?.reestr_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Исключен из акта: №'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=1,tt='text',vv=${obj.act_exclude_num},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=2,tt='date',vv=${obj.act_exclude_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=1,tt='label',vv='Причина'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div th:with="ww=5,tt='text',vv=${obj.act_exclude_reason},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Исключен из акта: №'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-1" th:with="tt='text',vv=${obj.act_exclude_num},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='date',vv=${obj.act_exclude_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='label',vv='Причина'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-5" th:with="tt='text',vv=${obj.act_exclude_reason},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                   	</div>
 	                   	<div class="form-group-sm row mt-sm-1"> 	
-	                   		<div th:with="ww=2,tt='label',vv='Заменен документом: №'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=1,tt='text',vv=${obj.change_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=2,tt='date',vv=${obj.change_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                   		<div class="col-sm-2" th:with="tt='label',vv='Заменен документом: №'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='text',vv=${obj.change_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='date',vv=${obj.change_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:with="ww=2,tt='label',vv='Дата отражения в бухгалтерском учете'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=2,tt='date',vv=${obj.buh_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=2,tt='label',vv='Отражен в выписке: №'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div th:with="ww=2,tt='text',vv=${obj.extract_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=1,tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
-							<div th:with="ww=2,tt='date',vv=${obj.extract_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Дата отражения в бухгалтерском учете'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='date',vv=${obj.buh_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Отражен в выписке: №'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='text',vv=${obj.extract_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='date',vv=${obj.extract_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
                     </div>
  				</div>
