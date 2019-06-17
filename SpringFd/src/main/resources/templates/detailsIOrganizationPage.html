@@ -9,7 +9,7 @@
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
-	<div class="container">
+	<div class="container w-75">
 		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
 			<input type="hidden" name="clazz" th:value="${obj.clazz}" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
@@ -18,9 +18,6 @@
             	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
             		<div class="col-sm-12 border fit-height">
-            			<div class="form-group-sm row mt-sm-1">
-            				<div class="col-sm-2" th:with="tt='label',vv=${readonly}"><div th:replace="fragments/component :: c"></div></div>
-            			</div>
 	                    <div class="form-group-sm row mt-sm-1">
 	                    	<div class="col-sm-2" th:with="tt='label',vv='Машинный код'"><div th:replace="fragments/component :: c"></div></div>
 	                    	<div class="col-sm-2" th:with="tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>

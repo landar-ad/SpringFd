@@ -13,7 +13,7 @@
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
-	<div class="container fit-height">
+	<div class="container w-75">
 		<form th:action="@{/detailsObj}" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
 			<input type="hidden" name="clazz" value="IFile" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
@@ -29,22 +29,24 @@
 			                <a th:if="${prn==null}" th:href="${'listObj?clazz=IFile&p_ret=1&rn=' + obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
-                	<div class="form-group-sm row mt-sm-1">
-                      	<div class="col-sm-12" th:with="tt='file',nn='fileuri',vv='Прикрепить файл',ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-                    </div>
-                    <div class="form-group-sm row mt-sm-1">
-                    	<div class="col-sm-1" th:with="tt='label',vv='Имя файла'"><div th:replace="fragments/component :: c"></div></div>
-                    	<div class="col-sm-2" th:with="tt='text',nn='filename',vv=${obj.filename},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-1" th:with="tt='label',vv='Расширение'"><div th:replace="fragments/component :: c"></div></div>
-                       	<div class="col-sm-1" th:with="tt='text',nn='fileext',vv=${obj.fileext},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-1" th:with="tt='label',vv='Тип файла'"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-6" th:with="tt='select',nn='filetype',ll=${listFileType},vv=${obj.filetype},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-                    </div>
-                    <div class="form-group-sm row mt-sm-1">
-                    	<div class="col-sm-1" th:with="tt='label',vv='Длина файла'"><div th:replace="fragments/component :: c"></div></div>
-						<div class="col-sm-2" th:with="tt='text',nn='filelength',vv=${obj.filelength},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-						<div class="col-sm-1" th:with="tt='label',vv='Внутренняя ссылка'"><div th:replace="fragments/component :: c"></div></div>
-						<div class="col-sm-8" th:with="tt='text',vv=${obj.fileuri},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                <div class="col-sm-12 border fit-height">
+	                	<div class="form-group-sm row mt-sm-1">
+	                      	<div class="col-sm-12" th:with="tt='file',nn='fileuri',vv='Прикрепить файл',ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
+	                    <div class="form-group-sm row mt-sm-1">
+	                    	<div class="col-sm-1" th:with="tt='label',vv='Имя файла'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='text',nn='filename',vv=${obj.filename},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='label',vv='Расширение'"><div th:replace="fragments/component :: c"></div></div>
+	                       	<div class="col-sm-1" th:with="tt='text',nn='fileext',vv=${obj.fileext},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='label',vv='Тип файла'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-6" th:with="tt='select',nn='filetype',ll=${listFileType},vv=${obj.filetype},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
+	                    <div class="form-group-sm row mt-sm-1">
+	                    	<div class="col-sm-1" th:with="tt='label',vv='Длина файла'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='text',nn='filelength',vv=${obj.filelength},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='label',vv='Внутренняя ссылка'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-8" th:with="tt='text',vv=${obj.fileuri},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
                     </div>
 				</div>
 			</div>
