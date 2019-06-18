@@ -15,11 +15,8 @@
 	<header th:replace="fragments/header :: header"></header>
 	<div class="container w-75">
 		<form th:action="@{/detailsObj}" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
-			<input type="hidden" name="clazz" value="IFile" />
-			<input type="hidden" name="rn" th:value="${obj.rn}" />
-    		<div class="col-md-12 card-header">
-            	<h5 th:text="${p_title}"></h5>
-            </div>
+			<div th:replace="fragments/header :: details-param"></div>
+    		<div class="col-sm-12 card-header"><h6 th:text="${p_title}"></h6></div>
            	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
             	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
