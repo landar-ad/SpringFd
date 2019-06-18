@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/header :: head"></head>
+<head th:replace="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -8,14 +8,14 @@
 			size_init();
 		});
 	</script>
-	<header th:include="fragments/header :: header"></header>
+	<header th:replace="fragments/header :: header"></header>
 	<div class="container w-75">
 		<form action="detailsObj" method="POST" autocomplete="off">
-			<div th:include="fragments/header :: details-param"></div>
-			<div th:include="fragments/header :: details-header"></div>
+			<div th:replace="fragments/header :: details-param"></div>
+			<div th:replace="fragments/header :: details-header"></div>
            	<div class="col-sm-12 card small">
            		<div class="m-sm-2">
-           			<div th:include="fragments/header :: details-buttons"></div>
+           			<div th:replace="fragments/header :: details-buttons"></div>
            			<div class="col-sm-12 border fit-height">
 		            	<div th:each="attr : ${listAttribute}" class="form-group-sm mt-sm-1">
 	                        <label th:if="${attr.type!='checkbox'}" class="col-form-label" th:text="${attr.title}"></label>
@@ -41,7 +41,7 @@
 		</form>
 	</div>
 	<footer class="footer">
-    	<div th:include="fragments/header :: change_info"></div>
+    	<div th:replace="fragments/header :: change_info"></div>
     </footer>
 </body>
 </html>

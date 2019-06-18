@@ -1,20 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/header :: head"></head>
+<head th:replace="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			details_init();
 		});
 	</script>
-	<div th:include="fragments/header :: header"></div>
+	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
 		<form action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
-			<div th:include="fragments/header :: details-param"></div>
-    		<div th:include="fragments/header :: details-header"></div>
+			<div th:replace="fragments/header :: details-param"></div>
+    		<div th:replace="fragments/header :: details-header"></div>
            	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
             	<div class="m-sm-2">
-            		<div th:include="fragments/header :: details-buttons"></div>
+            		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
 		                <div class="form-group-sm row mt-sm-1">
 	                        <div class="col-sm-2" th:with="tt='label',vv='Дата создания'"><div th:replace="fragments/component :: c"></div></div>
@@ -48,7 +48,7 @@
 	                        <div class="col-sm-9" th:with="tt='text',vv=${obj.agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
 							<div class="col-sm-1" th:with="tt='pbutton',nn='agent',vv=${obj.agent?.rn},ro=${rco},ddcl='IOrganization',ddti='Выберите организацию',ddco='name=Наименование организации',ddfi=''"><div th:replace="fragments/component :: c"></div></div>	                        
 						</div>
-						<div th:include="fragments/header :: list_file"></div>
+						<div th:replace="fragments/header :: list_file"></div>
 					    <div class="form-group-sm row mt-sm-1">
 					    	<div class="col-sm-2" th:with="tt='label',vv='Количество страниц'"><div th:replace="fragments/component :: c"></div></div>
 					    	<div class="col-sm-1" th:with="tt='text',nn='sheet_count',vv=${obj.sheet_count},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
@@ -103,6 +103,6 @@
 		</form>
 	</div>
 	<div th:replace="fragments/header :: modal"></div>
-	<div th:include="fragments/header :: details-footer"></div>
+	<div th:replace="fragments/header :: details-footer"></div>
 </body>
 </html>
