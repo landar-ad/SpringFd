@@ -15,7 +15,7 @@
 	</div>
 	<div th:th:if="${tt=='date'}">
 		<div th:if="${ro!=1}">
-			<input class="input_date form-control form-control-sm" type="text" th:name="${nn}" th:value="${#dates.format(vv,'dd.MM.yyyy')}" th:required="${rr==1 ? 'required' : ''}"></input>
+			<input class="input_date form-control form-control-sm" type="text" th:name="${nn}" th:value="${#dates.format(vv,'dd.MM.yyyy')}" th:required="${rr==1 ? 'required' : null}"></input>
 		</div>
 		<div th:if="${ro==1}">
 			<input class="form-control form-control-sm" type="text" th:value="${#dates.format(vv,'dd.MM.yyyy')}" readonly="readonly"></input>
@@ -23,17 +23,17 @@
 	</div>
 	<div th:if="${tt=='text'}">
 		<div th:if="${ro!=1}">
-			<input class="form-control form-control-sm" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : ''}"></input>
+			<input class="form-control form-control-sm" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
 		</div>
 		<div th:if="${ro==1}">
 			<input class="form-control form-control-sm" type="text" th:value="${vv}" readonly="readonly"></input>
 		</div>
 	</div>
 	<div th:if="${tt=='password'}">
-		<input class="form-control form-control-sm" type="password" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : ''}"></input>
+		<input class="form-control form-control-sm" type="password" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
 	</div>
 	<div th:if="${tt=='select'}">
-		<select th:if="${ro!=1}" th:name="${nn}" class="form-control form-control-sm" th:required="${rr==1 ? 'required' : ''}">
+		<select th:if="${ro!=1}" th:name="${nn}" class="form-control form-control-sm" th:required="${rr==1 ? 'required' : null}">
 			<option value=""></option>
 			<option th:each="d : ${ll}" th:selected="${vv!=null && vv.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
 		</select>  
@@ -64,7 +64,7 @@
 	</div>
 	<div th:if="${tt=='mtext'}">
 		<div th:if="${ro!=1}">
-			<textarea class="form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : ''}" th:rows="${rows==null ? 3 : rows}"></textarea>
+			<textarea class="form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : null}" th:rows="${rows==null ? 3 : rows}"></textarea>
 		</div>
 		<div th:if="${ro==1}">
 			<textarea class="form-control form-control-sm" th:text="${vv}" readonly="readonly" th:rows="${rows==null ? 3 : rows}"></textarea>
