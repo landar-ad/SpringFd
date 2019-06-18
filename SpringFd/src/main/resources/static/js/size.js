@@ -13,7 +13,15 @@ size_init = function() {
 			else {
 				var a = $(".fixed_header tbody").first();
 				if (a.length > 0) {
-					$(a).outerHeight(h - $(".fixed_header th tr").outerHeight() * 2);
+					var p = $(a).parents(), b = false;
+					if (p.length > 0) for (var i=p.length-1; i>=0; i--) {
+						var e = p[i];
+						if (b) {
+							calc_height(e);
+						}
+						else if ($(e).hasClass("fixed_header")) b = true;
+					}
+					calc_height(a);
 				}
 			}
 			return false;
