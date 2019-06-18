@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" th:with="p_title='Загрузка справочников'" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
+<head th:include="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -12,7 +12,7 @@
 			$('button[type="submit"]').prop('disabled', true);
 		});
 	</script>
-	<header th:replace="fragments/header :: header"></header>
+	<div th:replace="fragments/header :: header"></div>
 	<section>
 	    <div class="col-sm-8 m-sm-2">
 			<form th:action="@{/load}" method="post" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
@@ -22,7 +22,7 @@
 				</div>
 				<div class="form-group-sm float-right mt-sm-2">
 					<button type="submit" class="btn btn-light btn-sm"><i class="fa fa-sm fa-upload"></i> Загрузить</button>
-					<a th:href="@{/main}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+					<a href="main" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
                 </div>	
 			</form>
 		</div>

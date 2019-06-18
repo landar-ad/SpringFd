@@ -1,32 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
+<head th:include="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('.input_date').datepicker({language: "ru"});
+			date_on();
 			size_init();
 			popup_init();
 		});
 	</script>
-	<header th:replace="fragments/header :: header"></header>
+	<div th:include="fragments/header :: header"></div>
 	<div class="container w-75">
-		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
-			<input type="hidden" name="clazz" value="Act_document" />
-			<input type="hidden" name="rn" th:value="${obj.rn}" />
-			<input type="hidden" name="p_popup" value="" />
-    		<div class="col-md-12 card-header">
-            	<h5 th:text="${p_title}"></h5>
-            </div>
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:include="fragments/header :: details-param"></div>
+			<div th:include="fragments/header :: details-header"></div>
            	<div class="col-sm-12 card small">
-            	<div class="m-sm-0">
-            		<div class="row small col-sm-12">
-	            		<div class="btn-group">
-	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
-			                <a th:if="${prn!=null}" th:href="${'detailsObj?rn=' + prn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
-			                <a th:if="${prn==null}" th:href="${'listObj?clazz=Act&p_ret=1'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
-		                </div>
-	                </div>
+            	<div class="m-sm-2">
+            		<div th:include="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
 	                    <div class="form-group-sm row mt-sm-1">
 	                        <div class="col-sm-2" th:with="tt='label',vv='№ документа'"><div th:replace="fragments/component :: c"></div></div>
@@ -47,9 +37,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
-	<footer class="footer">
-    	<div th:replace="fragments/header :: change_info"></div>
-    </footer>
+	<div th:include="fragments/header :: modal"></div>
+	<div th:include="fragments/header :: details-footer"></div>
 </body>
 </html>

@@ -1,22 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
+<head th:include="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('.input_date').datepicker({language: "ru"});
-			size_init();
-			page_init();
+			details_init();
 		});
 	</script>
-	<header th:replace="fragments/header :: header"></header>
+	<div th:include="fragments/header :: header"></div>
 	<div class="container">
-		<form th:action="@{/detailsObj}" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
-			<div th:replace="fragments/header :: details-param"></div>
-    		<div class="col-sm-12 card-header"><h6 th:text="${p_title}"></h6></div>
+		<form action="detailsObj" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
+			<div th:include="fragments/header :: details-param"></div>
+    		<div th:include="fragments/header :: details-header"></div>
            	<div th:with="st=${obj.act_status==null ? '1' : obj.act_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card small">
-            	<div class="m-sm-0">
-            		<div th:replace="fragments/header :: details-buttons"></div>
+            	<div class="m-sm-2">
+            		<div th:include="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
 		                <div class="form-group-sm row mt-sm-1">
 		                	<div class="col-sm-2" th:with="tt='label',vv='Дата создания'"><div th:replace="fragments/component :: c"></div></div>
@@ -136,9 +134,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
-	<footer class="footer">
-    	<div th:replace="fragments/header :: change_info"></div>
-    </footer>
+	<div th:include="fragments/header :: modal"></div>
+	<div th:include="fragments/header :: details-footer"></div>
 </body>
 </html>
