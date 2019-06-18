@@ -1,22 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
+<head th:include="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('.input_date,.input_time').datepicker({language: "ru"});
 			size_init();
 		});
 	</script>
-	<header th:replace="fragments/header :: header"></header>
+	<div th:include="fragments/header :: header"></div>
 	<div class="container w-75">
-		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
-			<input type="hidden" name="clazz" th:value="${obj.clazz}" />
-			<input type="hidden" name="rn" th:value="${obj.rn}" />
-    		<div class="col-md-12 card-header"><h6 th:text="${p_title}"></h6></div>
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:include="fragments/header :: details-param"></div>
+    		<div th:include="fragments/header :: details-header"></div>
            	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-md-12 card small">
             	<div class="m-sm-0">
-            		<div th:replace="fragments/header :: details-buttons"></div>
+            		<div th:include="fragments/header :: details-buttons"></div>
             		<div class="col-sm-12 border fit-height">
 	                    <div class="form-group-sm row mt-sm-1">
 	                    	<div class="col-sm-2" th:with="tt='label',vv='Машинный код'"><div th:replace="fragments/component :: c"></div></div>
@@ -53,8 +51,6 @@
 			</div>
 		</form>
 	</div>
-	<footer class="footer">
-    	<div th:replace="fragments/header :: change_info"></div>
-    </footer>
+	<div th:include="fragments/header :: details-footer"></div>
 </body>
 </html>

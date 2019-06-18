@@ -1,58 +1,59 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
+<head th:include="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('.input_date,.input_time').datepicker({language: "ru"});
 			size_init();
 			file_init();
 			popup_init();
 		});
 	</script>
-	<header th:replace="fragments/header :: header"></header>
-	<div class="container  w-75 fit-height">
-		<form th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
-			<div th:replace="fragments/header :: details-param"></div>
-    		<div class="col-sm-12 card-header"><h6 th:text="${p_title}"></h6></div>
+	<div th:include="fragments/header :: header"></div>
+	<div class="container w-75">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:include="fragments/header :: details-param"></div>
+    		<div th:include="fragments/header :: details-header"></div>
            	<div class="col-md-12 card small">
            		<div class="m-sm-2">
-           			<div th:replace="fragments/header :: details-buttons"></div>
-	            	<div class="form-group-sm m-sm-1 row">
-                        <div class="col-sm-1" th:with="tt='label',vv='Код'"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-4" th:with="nn='code',tt='text',vv=${obj.code}"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-1" th:with="tt='label',vv='Тип'"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-2" th:with="nn='type',tt='text',vv=${obj.type}"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-2" th:with="tt='label',vv='Тип файла'"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-2" th:with="nn='filetype',tt='text',vv=${obj.filetype}"><div th:replace="fragments/component :: c"></div></div>
-                     </div>
-                     <div class="form-group-sm m-sm-1">
-                        <div class="col-sm-2" th:with="tt='label',vv='Наименование'"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-2" th:with="nn='name',tt='text',vv=${obj.name}"><div th:replace="fragments/component :: c"></div></div>
-                     </div>
-                     <div class="form-group-sm m-sm-1">
-                     	<div class="col-sm-2" th:with="tt='label',vv='Значение параметра (текст)'"><div th:replace="fragments/component :: c"></div></div>
-                     	<div class="col-sm-12" th:with="tt='mtext',ii='text',nn='value',vv=${obj.value},rows=8"><div th:replace="fragments/component :: c"></div></div>
-                     	<div class="col-sm-12 form-group-sm row mt-sm-1" th:with="tt='feditor',ii='text'"><div th:replace="fragments/component :: c"></div></div>
-                    </div>
-                    <div class="form-group-sm m-sm-1 row parent-popup">
-                    	<div class="col-sm-2" th:with="tt='label',vv='Значение параметра (объект)'"><div th:replace="fragments/component :: c"></div></div>
-                        <div class="col-sm-9" th:with="tt='text',vv=${obj.value_obj?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-						<div class="col-sm-1" th:with="tt='pbutton',nn='value_obj',vv=${obj.value_obj?.rn},ddcl=${obj.value},ddti='Выберите объект',ddco='name=Наименование',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
-                    </div>
-                    <div class="form-group-sm m-sm-1 row">
-                        <label class="col-sm-2 col-form-label">Пользователь</label>
-                        <input name="username" class="col-sm-2 form-control form-control-sm" type="text" th:value="${obj.username}"></input>
-                        <label class="col-sm-1 col-form-label">Роли</label>
-                        <input name="roles" class="col-sm-2 form-control form-control-sm" type="text" th:value="${obj.roles}"></input>
+           			<div th:include="fragments/header :: details-buttons"></div>
+           			<div class="col-sm-12 border fit-height">
+		            	<div class="form-group-sm m-sm-1 row">
+	                        <div class="col-sm-1" th:with="tt='label',vv='Код'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-4" th:with="nn='code',tt='text',vv=${obj.code}"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='label',vv='Тип'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="nn='type',tt='text',vv=${obj.type}"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Тип файла'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="nn='filetype',tt='text',vv=${obj.filetype}"><div th:replace="fragments/component :: c"></div></div>
+	                     </div>
+	                     <div class="form-group-sm m-sm-1">
+	                        <div class="col-sm-2" th:with="tt='label',vv='Наименование'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="nn='name',tt='text',vv=${obj.name}"><div th:replace="fragments/component :: c"></div></div>
+	                     </div>
+	                     <div class="form-group-sm m-sm-1">
+	                     	<div class="col-sm-2" th:with="tt='label',vv='Значение параметра (текст)'"><div th:replace="fragments/component :: c"></div></div>
+	                     	<div class="col-sm-12" th:with="tt='mtext',ii='text',nn='value',vv=${obj.value},rows=8"><div th:replace="fragments/component :: c"></div></div>
+	                   	</div>
+	                   	<div class="form-group-sm m-sm-1">
+	                     	<div class="col-sm-12 row" th:with="tt='feditor',ii='text'"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
+	                    <div class="form-group-sm m-sm-1 row parent-popup">
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Значение параметра (объект)'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-9" th:with="tt='text',vv=${obj.value_obj?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='pbutton',nn='value_obj',vv=${obj.value_obj?.rn},ddcl=${obj.value},ddti='Выберите объект',ddco='name=Наименование',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
+	                    <div class="form-group-sm m-sm-1 row">
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Пользователь'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="nn='username',tt='text',vv=${obj.username}"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-1" th:with="tt='label',vv='Роли'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="nn='roles',tt='text',vv=${obj.roles}"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
                     </div>
  				</div>
 			</div>
 		</form>
 	</div>
-	<div class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
-	<footer class="footer">
-    	<div th:replace="fragments/header :: change_info"></div>
-    </footer>
+	<div th:include="fragments/header :: modal"></div>
+	<div th:include="fragments/header :: details-footer"></div>
 </body>
 </html>
