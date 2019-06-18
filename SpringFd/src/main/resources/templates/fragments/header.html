@@ -95,7 +95,7 @@
             <a th:if="${prn!=null}" th:href="${'detailsObj?rn=' + prn}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		</div>
 	</div>
-	<div th:fragment="details-header" class="col-sm-12 card-header"><h6 th:text="${p_title}"></h6></div>
+	<div th:fragment="details-header" class="col-sm-12 card-header"><h5 th:text="${p_title}"></h5></div>
 	<table th:fragment="list-table" id="objTable" class="table table-sm table-striped table-light table-bordered small">
     	<thead th:with="l_f=${p_filtering!=null && p_filtering}">
 	        <tr>
