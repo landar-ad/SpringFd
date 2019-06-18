@@ -4,6 +4,14 @@ html {
 body {
     height: 100%;
 }
+.fixed_header tbody {
+  display:block;
+  overflow-y:auto;
+  width:100%;
+}
+.fixed_header thead tr {
+  display:block;
+}
 .thead_th {
   position: -webkit-sticky;
   position: sticky;
