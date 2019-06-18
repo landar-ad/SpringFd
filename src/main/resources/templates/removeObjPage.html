@@ -14,10 +14,10 @@
             	<div class="col-md-6 mx-auto">
 	            	<div class="card rounded-0">
 		                <div class="card-header">
-		                    <h3 class="mb-0" th:text="${p_title}"></h3>
+		                    <h5 class="mb-0" th:text="${p_title}"></h5>
 		                </div>
 		                <div class="card-body">
-			                <form th:if=${p_message==null} th:action="@{/removeObj}" method="post" class="form" role="form" autocomplete="off">
+			                <form th:if=${p_message==null} action="removeObj" method="POST" autocomplete="off">
 			                	<input type="hidden" name="rn" th:value="${obj.rn}" />
 			                	<input type="hidden" name="clazz" th:value="${obj.clazz}" />
 			                	<input type="hidden" name="prn" th:value="${prn}" />
