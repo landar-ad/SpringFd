@@ -64,10 +64,19 @@
 	</div>
 	<div th:if="${tt=='mtext'}">
 		<div th:if="${ro!=1}">
-			<textarea class="form-control form-control-sm" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : ''}"></textarea>
+			<textarea class="form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : ''}" th:rows="${rows==null ? 3 : rows}"></textarea>
 		</div>
 		<div th:if="${ro==1}">
-			<textarea class="form-control form-control-sm" th:text="${vv}" readonly="readonly"></textarea>
+			<textarea class="form-control form-control-sm" th:text="${vv}" readonly="readonly" th:rows="${rows==null ? 3 : rows}"></textarea>
 		</div>
-     </div>
+	</div>
+	<div th:if="${tt=='feditor'}">
+		<div class="col-sm-6 custom-file">
+			<input type="file" class="custom-file-input" th:data-target="${ii}">
+			<label class="custom-file-label text-truncate" data-browse="Загрузить из файла"></label>
+		</div>
+		<div class="col-sm-2">
+			<button type="button" class="download btn btn-sm btn-light" th:data-target="${ii}">Выгрузить в файл</button>
+		</div>
+	</div>
 </div>

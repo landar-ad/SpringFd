@@ -84,6 +84,10 @@
 			</div>
 		</div>
 	</div>
+	<div th:fragment="details-param">
+ 		<input type="hidden" name="clazz" th:value="${obj.clazz}" />
+ 		<input type="hidden" name="rn" th:value="${obj.rn}" />
+  	</div>
 	<div th:fragment="details-buttons" class="row small col-sm-12">
 		<div class="btn-group">
             <button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
