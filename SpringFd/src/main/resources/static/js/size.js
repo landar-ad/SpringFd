@@ -8,8 +8,14 @@ size_init = function() {
 				if (tag == "html" || tag == "body") continue;
 				calc_height(e);
 			}
-			calc_height(this);
-			$(this).css("overflow-y", "auto");
+			var h = calc_height(this);
+			if (!$(this).hasClass("fixed_header")) $(this).css("overflow-y", "auto");
+			else {
+				var a = $(".fixed_header tbody").first();
+				if (a.length > 0) {
+					$(a).outerHeight(h - $(".fixed_header th tr").outerHeight() * 2);
+				}
+			}
 			return false;
 		});
 	};
@@ -32,7 +38,7 @@ size_init = function() {
 		});
 		var ph = pa.outerHeight();
 		$(a).outerHeight(ph - h);
-		return h;
+		return ph - h;
 	}
 	$(window).on('resize', size_fit);
 	setTimeout(function() { size_fit(); }, 40);
