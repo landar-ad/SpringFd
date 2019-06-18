@@ -12,6 +12,17 @@ popup_init = function() {
 				p_column: target.attr("data-column"),
 				p_filter: target.attr("data-filter")
 			};
+		var scrollTo = function() {
+			var a = $(".modal").find(".fixed_header tbody");
+			$(".modal").find('table tbody tr').each(function() {
+				var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
+				if (c) {
+					var off = $(this).offset().top - a.offset().top;
+					a.animate({scrollTop: off});
+					return false;
+				}
+			});
+		};
 		$.ajax({ method: "POST", url: "popupSelect", 
 			data: data,
 			success: function(result) {
@@ -21,16 +32,9 @@ popup_init = function() {
 				$(".modal").html(div.find('.modal').html());
 				$(".modal").modal();
 				var h = $(".modal").outerHeight();
-				var a = $(".modal").find(".fit-scroll");
-				a.outerHeight(h * 3 / 5);
-				$(".modal").find('#columnTable tbody tr').each(function() {
-					var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
-					if (c) {
-						var off = $(this).offset().top - a.offset().top;
-						a.animate({scrollTop: off});
-						return false;
-					}
-				});
+				var a = $(".modal").find(".fixed_header tbody");
+				a.outerHeight(h / 2);
+				scrollTo();
 				add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
 					var p = $(this).prop("checked");
 					if (!multiple) $(".check-select > input[type='checkbox']").prop("checked", false);
@@ -38,7 +42,7 @@ popup_init = function() {
 				});
 				add_on($(".modal").find("#save-button"), "click", function() {
 					var rn = "", source = null;
-					$('.modal').find("#columnTable tbody tr").each(function() {
+					$('.modal').find("table tbody tr").each(function() {
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						if (c) {
 							rn = $(this).find(".d-none").first().text();
@@ -57,11 +61,11 @@ popup_init = function() {
 				});
 				add_on($(".modal").find(".filter-popup"), "input", function() {
 					var target = $(this);
-					$("#columnTable tbody tr").show();
+					$(".modal").find("table tbody tr").show();
 					var t = target.val();
 					if (t) {
 						t = t.toLowerCase();
-						$("#columnTable tbody tr").each(function() {
+						$(".modal").find("table tbody tr").each(function() {
 							var b = false;
 							$(this).find("td").each(function() {
 								var tt = $(this).text();
@@ -76,8 +80,8 @@ popup_init = function() {
 							if (!b) $(this).hide(); 
 						});
 					}
+					scrollTo();
 				});
-				
 			},
 			error: function() {
 			}
