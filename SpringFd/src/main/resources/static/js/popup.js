@@ -21,7 +21,7 @@ popup_init = function() {
 				$(".modal").html(div.find('.modal').html());
 				$(".modal").modal();
 				var h = $(".modal").outerHeight();
-				var a = $(".modal").find(".fit-height");
+				var a = $(".modal").find(".fit-scroll");
 				a.outerHeight(h * 3 / 5);
 				$(".modal").find('#columnTable tbody tr').each(function() {
 					var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
