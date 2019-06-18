@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/header :: head"></head>
+<head th:replace="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			size_init();
 		});
 	</script>
-	<div th:include="fragments/header :: header"></div>
+	<div th:replace="fragments/header :: header"></div>
    	<div class="col-sm-12 fit-height">
    		<div class="card">
 	        <div class="card-header"><h6 class="mb-0" th:text="${p_title}"></h6></div>
@@ -32,7 +32,7 @@
      	</div>
    	</div>
    	<footer class="footer">
-    	<div th:include="fragments/pager :: total"></div>
+    	<div th:replace="fragments/pager :: total"></div>
     </footer>
  </body>
  </html>

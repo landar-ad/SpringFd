@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/header :: head"></head>
+<head th:replace="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -10,14 +10,14 @@
             if (!($('input[name="rn"]').val() > 0)) $('input[name="password"]').attr("required") = "required";
 		});
 	</script>
-	<div th:include="fragments/header :: header"></div>
+	<div th:replace="fragments/header :: header"></div>
 	<div class="container w-75">
 		<form action="user" method="POST" autocomplete="off">
-			<div th:include="fragments/header :: details-param"></div>
-    		<div th:include="fragments/header :: details-header"></div>
+			<div th:replace="fragments/header :: details-param"></div>
+    		<div th:replace="fragments/header :: details-header"></div>
 	       	<div class="col-sm-12 card small">
 	            <div class="m-sm-2">
-	            	<div th:include="fragments/header :: details-buttons"></div>
+	            	<div th:replace="fragments/header :: details-buttons"></div>
 	            	<div class="col-sm-12 border fit-height">
 	                    <div class="form-group-sm row mt-sm-2">
 	                    	<div class="col-sm-12" th:with="tt='label',vv='Логин',rr=1"><div th:replace="fragments/component :: c"></div></div>
@@ -51,6 +51,6 @@
 		</form>
 	</div>
 	<div th:replace="fragments/header :: modal"></div>
-	<div th:include="fragments/header :: details-footer"></div>
+	<div th:replace="fragments/header :: details-footer"></div>
 </body>
 </html>
