@@ -13,6 +13,10 @@ body {
     	margin: 1.75rem auto;
 	}
 }
+.form-control:disabled, .form-control[readonly] {
+  background-color: #f9fcff;
+  opacity: 1;
+}
 .form-group-sm .row {
 	margin-top: 2px; 	
 }
