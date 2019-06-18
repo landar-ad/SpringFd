@@ -21,11 +21,12 @@ class CustomExceptionHandler {
 	public static final String DEFAULT_ERROR_VIEW = "exceptionPage";
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+		AutowireHelper.autowire(this);
 		if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) throw e;
 		ModelAndView mav = new ModelAndView();
 		List<String> listMessage = new ArrayList<String>();
 		listMessage.add("Исключение - " + e.getClass().getSimpleName() + ": " + e.getMessage());
-		if (userService.isAdmin(null)) {
+		if (userService!= null && userService.isAdmin(null)) {
 			for (StackTraceElement te : e.getStackTrace()) listMessage.add(te.toString());
 		}
 		mav.addObject("listMessage", listMessage);
