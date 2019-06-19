@@ -57,7 +57,7 @@ public class ISession {
     
     public static String singleTitle() { return "Сессия"; }
 	public static String multipleTitle() { return "Сессии"; }
-	public static List<ColumnInfo> listColumn() {
+	public List<ColumnInfo> onListColumn() {
 		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("login", "Пользователь")); 
@@ -66,8 +66,8 @@ public class ISession {
 		ret.add(new ColumnInfo("end_time", "Окончание"));
 		return ret;
 	}
-	public static boolean listPaginated() { return false; }
-	public static List<AttributeInfo> listAttribute() {
+	public boolean onListPaginated() { return true; }
+	public List<AttributeInfo> onListAttribute() {
 		
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		ret.add(new AttributeInfo("login", "Пользователь", "text", null, false, 4)); 
