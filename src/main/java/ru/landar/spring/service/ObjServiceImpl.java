@@ -144,8 +144,9 @@ public class ObjServiceImpl implements ObjService {
 	@Override
 	public Page<SearchContent> search(String text, int off, int page) {
 		try { 
-			if (hs.isServerConnected(solrURL, 3000)) 
-				return solrRepository.find(text, PageRequest.of(off, page)); 
+			if (hs.isServerConnected(solrURL, 3000)) {
+				return solrRepository.find(text, getServiceContext(), PageRequest.of(off, page));
+			}
 		} 
 		catch (Exception ex) { }
 		return new PageImpl<SearchContent>(new ArrayList<SearchContent>());
