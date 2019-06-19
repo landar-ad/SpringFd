@@ -1,8 +1,5 @@
 package ru.landar.spring.repository;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +12,6 @@ import java.util.stream.StreamSupport;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.ManyToMany;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,6 +24,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -39,12 +36,17 @@ import org.springframework.stereotype.Repository;
 import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.ISession;
+import ru.landar.spring.model.SearchContent;
 import ru.landar.spring.model.SpActionType;
+import ru.landar.spring.repository.solr.ObjSolrRepository;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.UserService;
 
 @Repository
 public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
+	@Value("${spring.data.solr.host}") String solrURL;
+	@Autowired
+    private ObjSolrRepository solrRepository;
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -81,9 +83,18 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	}
 	@Override
 	public Object saveObj(Object obj) {
-		if (obj instanceof IBase) return ((IBase)obj).getRn() != null ? updateObj(obj) : createObj(obj);
-		if (obj instanceof ISession) return ((ISession)obj).getId() != null ? updateObj(obj) : createObj(obj);
-		return updateObj(obj);
+		Object ret = null;
+		if (obj instanceof IBase) ret = ((IBase)obj).getRn() != null ? updateObj(obj) : createObj(obj);
+		if (obj instanceof ISession) ret = ((ISession)obj).getId() != null ? updateObj(obj) : createObj(obj);
+		SearchContent content = null;
+		try { content = (SearchContent)hs.invoke(ret, "onBuildContent"); } catch (Exception ex) { } 
+		if (content != null) 
+			try { 
+				if (hs.isServerConnected(solrURL, 3000)) 
+					solrRepository.save(content); 
+			} 
+			catch (Exception ex) { }
+		return ret;
 	}
 	@Override
 	public void removeObj(Object obj) { em.remove(obj); }
