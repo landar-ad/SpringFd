@@ -51,7 +51,7 @@
 					        <tr th:each="item,iter : ${listItem}">
 					        	<td th:text="${p_off * p_page + iter.index + 1} + ${'.'}"></td>
 					        	<td>
-					        		<label th:utext="${item.content}" class="col-form-label"></label>
+					        		<p th:utext="${item.content}"></p>
 					        		<div class="col-sm-12">
 					        			<a th:href="@{/detailsObj?clazz=} + ${item.clazz} + ${'&rn=' + item.id}" th:text="${item.name}"></a>
 				        			</div>
