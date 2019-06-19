@@ -331,6 +331,11 @@ public class Document extends IBase {
     		if (!hs.isEmpty(content)) content += "; ";
     		content += "Создан: " + v;
     	}
+    	v = hs.getPropertyString(this, "change_agent__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Изменен: " + v;
+    	}
     	v = hs.getPropertyString(this, "depart__name");
     	if (!hs.isEmpty(v)) {
     		if (!hs.isEmpty(content)) content += "; ";
