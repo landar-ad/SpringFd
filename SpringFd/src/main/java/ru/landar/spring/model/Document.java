@@ -326,9 +326,8 @@ public class Document extends IBase {
     	sc.setClazz(getClazz());
     	sc.setName(getName());
     	sc.setContext(ctx);
-    	String content = "";
-    	String v = getName();
-    	v = hs.getPropertyString(this, "create_agent__name");
+    	String content = getName();
+    	String v = hs.getPropertyString(this, "create_agent__name");
     	if (!hs.isEmpty(v)) {
     		if (!hs.isEmpty(content)) content += "; ";
     		content += "Создан: " + v;
