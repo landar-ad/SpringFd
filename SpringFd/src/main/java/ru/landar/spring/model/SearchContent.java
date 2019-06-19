@@ -16,6 +16,8 @@ public class SearchContent {
 	@Field
 	String name;
 	@Field
+	String context;
+	@Field
 	String content;
 
 	public String getId() { return id; }
@@ -27,12 +29,15 @@ public class SearchContent {
 	public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 	
+    public String getContext() { return context; }
+    public void setContext(String context) { this.context = context; }
+    
 	public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
     
     @Override
     public String toString() {
     	
-    	return "id=" + id + ", name=" + name + ", content=" + content;
+    	return "id=" + id + ", name=" + name + ", context=" + context + ", content=" + content;
 	}
 }

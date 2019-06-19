@@ -588,11 +588,14 @@ public class ObjController {
 		Page<SearchContent> p = objService.search(text, off, page);
 		String[] ts = text.split("[,;:.!?\\s]+");
 		for (SearchContent cs : p.getContent()) {
+			String id = cs.getId();
+			int k = id.indexOf("_");
+			if (k >= 0) id = id.substring(k + 1);
 			String content = cs.getContent();
 			for (String t : ts) {
 				int s = 0;
 				for (; ;) {
-					int k = content.indexOf(t, s); 
+					k = content.indexOf(t, s); 
 					if (k < 0) break;
 					content = content.substring(0, k) + "<strong>" + t + "</strong>" + content.substring(k + t.length());
 					s =  k + ("<strong>" + t + "</strong>").length();
