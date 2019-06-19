@@ -26,18 +26,13 @@ import ru.landar.spring.repository.solr.ObjSolrRepository;
 @Service
 @Transactional
 public class ObjServiceImpl implements ObjService {
-
 	@Value("${spring.data.solr.host}") String solrURL;
-	
-	@Autowired
-    private ObjRepositoryCustom objRepository;
-	
 	@Autowired
     private ObjSolrRepository solrRepository;
-	
 	@Autowired
     private HelperService hs;
-	
+	@Autowired
+    private ObjRepositoryCustom objRepository;
 	@Autowired
     private UserService userService;
 	
@@ -51,16 +46,7 @@ public class ObjServiceImpl implements ObjService {
 	}
 	@Override
 	public Object saveObj(Object obj) {
-		Object ret = objRepository.saveObj(obj);
-		SearchContent content = null;
-		try { content = (SearchContent)hs.invoke(ret, "onBuildContent"); } catch (Exception ex) { } 
-		if (content != null) 
-			try { 
-				if (hs.isServerConnected(solrURL, 3000)) 
-					solrRepository.save(content); 
-			} 
-			catch (Exception ex) { }
-		return ret;
+		return objRepository.saveObj(obj);
 	}
 	@Override
     public Object find(Class<?> cl, Object pk) {
