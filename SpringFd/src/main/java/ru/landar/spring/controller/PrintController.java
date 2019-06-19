@@ -215,7 +215,9 @@ public class PrintController {
 		for (Document doc : reestr.getList_doc()) {
 			mapValue.clear();
 			mapValue.put("row", "");
-			mapValue.put("dt", hs.getPropertyString(doc, "doc_type__name"));
+			String dt = hs.getPropertyString(doc, "doc_type__name");
+			if (doc.getChange_doc() != null) dt += " (на замену №" + doc.getChange_doc().getDoc_number() + ")";
+			mapValue.put("dt", dt);
 			mapValue.put("dn", hs.getPropertyString(doc, "doc_number"));
 			mapValue.put("kd", doc.getSheet_count());
 			HSSFRow rowTarget = x.createRow(sheet, crow++);
