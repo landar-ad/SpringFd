@@ -53,7 +53,7 @@ public class ObjServiceImpl implements ObjService {
 	public Object saveObj(Object obj) {
 		Object ret = objRepository.saveObj(obj);
 		SearchContent content = null;
-		try { content = (SearchContent)hs.invoke(ret, "buildContent"); } catch (Exception ex) { } 
+		try { content = (SearchContent)hs.invoke(ret, "onBuildContent"); } catch (Exception ex) { } 
 		if (content != null) 
 			try { 
 				if (hs.isServerConnected(solrURL, 3000)) 
