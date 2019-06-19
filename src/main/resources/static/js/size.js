@@ -11,18 +11,7 @@ size_init = function() {
 			var h = calc_height(this);
 			if (!$(this).hasClass("fixed_header")) $(this).css("overflow-y", "auto");
 			else {
-				var a = $(".fixed_header tbody").first();
-				if (a.length > 0) {
-					var p = $(a).parents(), b = false;
-					if (p.length > 0) for (var i=p.length-1; i>=0; i--) {
-						var e = p[i];
-						if (b) {
-							calc_height(e);
-						}
-						else if ($(e).hasClass("fixed_header")) b = true;
-					}
-					calc_height(a);
-				}
+
 			}
 			return false;
 		});
