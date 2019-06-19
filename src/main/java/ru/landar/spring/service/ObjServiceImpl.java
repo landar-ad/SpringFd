@@ -24,6 +24,7 @@ import ru.landar.spring.repository.solr.ObjSolrRepository;
 @Transactional
 public class ObjServiceImpl implements ObjService {
 	@Value("${spring.data.solr.host}") String solrURL;
+	@Value("${server.servlet.context-path}") String serverContext;
 	@Autowired
     private ObjSolrRepository solrRepository;
 	@Autowired
@@ -156,6 +157,12 @@ public class ObjServiceImpl implements ObjService {
 	@Override
 	public Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception {
 		return objRepository.executeItem(obj, listAttr, cmd, clazzItem, rnItem, bNew);
+	}
+	@Override
+	public String getServiceContext() {
+		if (hs.isEmpty(serverContext)) return "";
+		int k = serverContext.lastIndexOf('/');
+		return k < 0 ? serverContext : serverContext.substring(k + 1);
 	}
 }
 

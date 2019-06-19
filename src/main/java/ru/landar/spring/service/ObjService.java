@@ -29,4 +29,5 @@ public interface ObjService {
     Page<SearchContent> search(String text, int off, int page);
     void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser);
     Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception;
+    String getServiceContext();
 }
