@@ -591,6 +591,7 @@ public class ObjController {
 			String id = cs.getId();
 			int k = id.indexOf("_");
 			if (k >= 0) id = id.substring(k + 1);
+			cs.setId(id);
 			String content = cs.getContent();
 			for (String t : ts) {
 				int s = 0;
