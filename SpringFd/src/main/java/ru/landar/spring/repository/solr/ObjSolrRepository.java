@@ -9,6 +9,6 @@ import ru.landar.spring.model.SearchContent;
 
 public interface ObjSolrRepository extends SolrCrudRepository<SearchContent, String> {
 	
-	@Query("content:*?0*")
+	@Query("context:fd content:*?0*")
 	public Page<SearchContent> find(String searchTerm, Pageable pageable);
 }

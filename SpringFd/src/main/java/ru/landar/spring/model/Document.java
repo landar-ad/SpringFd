@@ -324,6 +324,7 @@ public class Document extends IBase {
     	sc.setId("" + getRn());
     	sc.setClazz(getClazz());
     	sc.setName(getName());
+    	sc.setContext("fd");
     	String content = "";
     	String v;
     	v = hs.getPropertyString(this, "create_agent__name");
