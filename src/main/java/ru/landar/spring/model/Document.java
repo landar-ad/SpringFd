@@ -315,6 +315,75 @@ public class Document extends IBase {
     	if (!(Boolean)onCheckExecute("confirm")) return;
 		setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
 	}
+    @Override
+    public Object onBuildContent() {
+    	Object ret = super.onBuildContent();
+    	if (ret != null) return ret;
+    	ret = new SearchContent();
+    	SearchContent sc = (SearchContent)ret;
+    	sc.setId("" + getRn());
+    	sc.setClazz(getClazz());
+    	sc.setName(getName());
+    	String content = "";
+    	String v;
+    	v = hs.getPropertyString(this, "create_agent__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Создан: " + v;
+    	}
+    	v = hs.getPropertyString(this, "depart__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Структурное подразделение: " + v;
+    	}
+    	v = hs.getPropertyString(this, "agent__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Контрагент: " + v;
+    	}
+    	v = hs.getPropertyString(this, "parent_doc__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Документ-основание: " + v;
+    	}
+    	v = hs.getPropertyString(this, "act__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Акт: " + v;
+    	}
+    	v = hs.getPropertyString(this, "act_exclude_num");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Исключен из акта: " + v;
+    	}
+    	v = hs.getPropertyString(this, "act_exclude_reason");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Причина исключения: " + v;
+    	}
+    	v = hs.getPropertyString(this, "reestr__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Реестр: " + v;
+    	}
+    	v = hs.getPropertyString(this, "change_doc__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Замена в реестре: " + v;
+    	}
+    	v = hs.getPropertyString(this, "doc_status__name");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Статус: " + v;
+    	}
+    	v = hs.getPropertyString(this, "extract_number");
+    	if (!hs.isEmpty(v)) {
+    		if (!hs.isEmpty(content)) content += "; ";
+    		content += "Выписка: " + v;
+    	}
+    	sc.setContent(content);
+    	return ret;
+    }
     private int statusCode() {
     	int ret = 1; 
     	try { ret = Integer.valueOf(getDoc_status().getCode()); } catch (Exception ex) { }
