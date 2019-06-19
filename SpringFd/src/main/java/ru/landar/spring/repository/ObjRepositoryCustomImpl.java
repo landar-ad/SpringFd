@@ -97,7 +97,15 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return ret;
 	}
 	@Override
-	public void removeObj(Object obj) { em.remove(obj); }
+	public void removeObj(Object obj) { 
+		Integer rn = (Integer)hs.getProperty(obj, "rn");
+		em.remove(obj);
+		try { 
+			if (hs.isServerConnected(solrURL, 3000)) 
+				solrRepository.deleteById("fd_" + rn); 
+		} 
+		catch (Exception ex) { }
+	}
 	@Override
 	public Object find(Class<?> cl, Object pk) { return em.find(cl, pk); }
 	@Override

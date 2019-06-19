@@ -321,10 +321,9 @@ public class Document extends IBase {
     	if (ret != null) return ret;
     	ret = new SearchContent();
     	SearchContent sc = (SearchContent)ret;
-    	sc.setId("" + getRn());
+    	sc.setId("fd_" + getRn());
     	sc.setClazz(getClazz());
     	sc.setName(getName());
-    	sc.setContext("fd");
     	String content = "";
     	String v;
     	v = hs.getPropertyString(this, "create_agent__name");
