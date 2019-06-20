@@ -9,21 +9,12 @@ size_init = function() {
 				calc_height(e);
 			}
 			var h = calc_height(this);
-			if (!$(this).hasClass("fixed_header")) $(this).css("overflow-y", "auto");
+			if ($(this).find(".table-fixed").length == 0) $(this).css("overflow-y", "auto");
 			else {
-
+				$(this).find("tbody").outerHeight($("footer").offset().top - $(this).find("tbody").offset().top - 10);
+				var a = $(this).find(".table-fixed");
+				a.find("tbody").width(a.width() + a.scrollLeft());
 			}
-			return false;
-		});
-	};
-	size_fit_old = function() {
-		$('.fit-height').each(function () {
-			var h = 0;
-			$(this).parent().children().filter(':visible').each(function() {
-				if (!$(this).hasClass("fit-height")) h += $(this).outerHeight();
-			});
-			$(this).outerHeight($(this).parent().outerHeight() - h);
-			$('.fit-height').css("overflow-y", "auto");
 			return false;
 		});
 	};

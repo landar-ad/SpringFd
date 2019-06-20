@@ -4,8 +4,8 @@
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			list_init();
 			size_init();
+			list_init();
 		});
 	</script>
 	<div th:with="l_p=${p_paging!=null && p_paging},l_lb=${clazz=='Act' ? 'ev' : (clazz=='Reestr' ? 'ev' : 'eavr')}" id="listTop" class="h-100">

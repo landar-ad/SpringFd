@@ -6,7 +6,7 @@
 		<input type="hidden" name="p_off" th:value="${p_off}" />
 		<input type="hidden" name="p_page" th:value="${p_page}" />
 	</div>
-	<div th:fragment="pager" class="card-header">
+	<div th:fragment="pager" class="card-footer">
 		<div th:if="${p_total!=null && p_totalRows!=null}" class="row col-sm-12 small">
 			<div th:if="${p_total} gt 1" class="col-sm-auto mr-sm-1">
 				<ul class="pagination pagination-sm">
@@ -28,7 +28,7 @@
 			</select>
 		</div>
 	</div>	
-	<div th:fragment="total" class="card-header">
+	<div th:fragment="total" class="card-footer">
 		<div class="row col-sm-12">
 			<div class="small">
 				<label th:text="${'Всего записей: ' + #lists.size(listObj.content) + ' '}"></label>

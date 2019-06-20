@@ -4,14 +4,34 @@ html {
 body {
     height: 100%;
 }
-.fixed_header tbody {
-  display:block;
-  overflow-y:auto;
-  width:100%;
+.table-fixed {
+	table-layout: fixed;
+	border-collapse: collapse;
+	overflow-x: auto;
+	display: block;
+	width: 100%
 }
-.fixed_header thead tr {
-  display:block;
+.table-fixed tbody {
+	display:block;
+	overflow-y: auto; 
+	overflow-x: hidden;
 }
+.table-fixed thead {
+	display:block;
+}
+.table-fixed thead th {
+	overflow: hidden; 
+	text-overflow: ellipsis; 
+}
+.max-width {
+	max-width: 200px;
+}
+.one-line {
+	text-overflow: ellipsis; 
+	overflow: hidden; 
+	white-space: nowrap;
+}
+
 .thead_th {
   position: -webkit-sticky;
   position: sticky;
@@ -35,14 +55,6 @@ body {
 }
 .download {
 	cursor: pointer;
-}
-.max-width {
-	max-width: 200px;
-}
-.one-line {
-	text-overflow: ellipsis; 
-	overflow: hidden; 
-	white-space: nowrap;
 }
 .form-control-th {
     height: calc(1.5rem);
