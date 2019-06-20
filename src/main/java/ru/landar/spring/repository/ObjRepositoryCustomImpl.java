@@ -498,8 +498,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	    		al.setObj_name(obj_name);
 	    		al.setObj_rn(obj_rn);
 	    		al.setObj_attr(attr);
-	    		al.setObj_value_before(o[0] != null ? hs.getObjectString(o[0], attr.indexOf("time") >= 0) : null);
-	    		al.setObj_value_after(o[1] != null ? hs.getObjectString(o[1], attr.indexOf("time") >= 0) : null);
+	    		al.setObj_value_before(o[0] != null ? hs.getObjectString(o[0], attr!= null && attr.indexOf("time") >= 0) : null);
+	    		al.setObj_value_after(o[1] != null ? hs.getObjectString(o[1], attr!= null && attr.indexOf("time") >= 0) : null);
 	    		saveObj(al);
 			});
 		}
