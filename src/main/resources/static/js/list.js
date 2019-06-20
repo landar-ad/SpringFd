@@ -25,11 +25,11 @@ list_init = function() {
 	};
 	click_row = function(a, force) {
 		var b = $(a).hasClass('table-success'), rn = "";
-		$('#objTable tbody tr').removeClass('table-success');
-		$('td .max-width').addClass('one-line');
+		$("#objTable tbody tr").removeClass('table-success');
+		$("#objTable td .max-width").addClass('one-line');
 		if (!b || force) {
 			$(a).addClass('table-success');
-			$(a).find('.max-width').removeClass('one-line');
+			$(a).find(".max-width").removeClass('one-line');
 			rn = $(a).find("td.d-none").first().text();
 		}
 		$('input[name="rn"]').val(rn);
@@ -40,6 +40,7 @@ list_init = function() {
 			var target = $(this), param = $(this).attr("data-param");
 			check_execute(rn, param, function(b) { target.prop('disabled', !b); });
 		});
+		set_header_width();
 	};
 	check_execute = function(rn, param, fun) {
 		var clazz = $('#clazz').val();
@@ -69,8 +70,8 @@ list_init = function() {
 	};
 	filter_focus = function() {
 		var a = null, b = $("#filterRow");
-		$("th input[type='text'],th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
-		if (!a) $("th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
+		$("#objTable th input[type='text'],th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
+		if (!a) $("#objTable th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 		if (!a) b.hide(); else { b.show(); a.focus(); }
 		$("#clear-filter").prop('disabled', filter_class());
 	};
@@ -82,10 +83,25 @@ list_init = function() {
 		c.addClass(b ? 'fa-angle-double-down' : 'fa-angle-double-up');
 		return b;
 	};
+	// Очистка строки фильтра
 	clear_filter = function() {
-		$("th input[type='text']").val("");
-		$("th select option").prop('selected', false);
-		$("th input[type='checkbox']").prop('checked', false);
+		$("#objTable th input[type='text']").val("");
+		$("#objTable th select option").prop('selected', false);
+		$("#objTable th input[type='checkbox']").prop('checked', false);
+	};
+	// Установка размеров колонок заголовка по данным
+	set_header_width = function() {
+		$(".table-fixed tbody tr").first().find("td").each(function(i) {
+			var a = $(".table-fixed thead tr th:eq(" + i + ")");
+			var w = $(this).outerWidth(), wh = a.width();
+			if (wh > w) {
+				$(this).css("max-width", wh);
+				$(this).css("min-width", wh);
+				w = $(this).outerWidth();
+			}
+			a.css("max-width", w);
+			a.css("min-width", w);
+		});
 	};
 	// Выделение строк, редактирование и удаление
 	var rn = $('input[name="rn"]').val();
@@ -102,14 +118,22 @@ list_init = function() {
 	add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).attr("data-param")); });
 	add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
 	add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this, true); exec_obj("edit"); });
-	// Выделение строки по идентификатору выделенного объекта
-	$('td .max-width').addClass('one-line');
-	$('.max-width').css("max-width", "" + (screen.width / 5) + "px");
+	// Установка однострочного содержимого данных
+	$("#objTable td .max-width").addClass('one-line');
+	// Установка максимального размера колонки
+	$("#objTable .max-width").css("max-width", "" + (screen.width / 5) + "px");
+	set_header_width();
+	// Изменение размера области данных после скроллинга
+	add_on($(".table-fixed"), "scroll", function() {
+		$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
+	});
+	// Клик по строке
 	$('#objTable tbody tr').each(function() {
 		$(this).removeClass('table-success');
 		var rn = $('input[name="rn"]').val();
 		if (rn && rn == $(this).find("td.d-none").first().text()) {
-			var a = $(".fit-height");
+			var a = $(".fit-height").find(".table-fixed");
+			if (a.length == 0) a = $(".fit-height");
 			if (a.length > 0) {
 				var off = $(this).offset().top - a.offset().top;
 				a.animate({scrollTop: off});
@@ -130,6 +154,8 @@ list_init = function() {
 			if (a) a.focus(); else $("th input[type='text'],th input[type='checkbox'],th select").first().focus();
 		}
 		$("#clear-filter").prop('disabled', b); 
+		// Размер скроллируемой области
+		$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - 10);
 	});
 	add_on($("#findButton"), "click", function() { form_submit(); });
 	add_on($("th input[type='text'],th input[type='checkbox'],th select"), "keypress", function(e) {
