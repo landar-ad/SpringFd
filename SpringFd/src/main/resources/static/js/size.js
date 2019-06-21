@@ -22,9 +22,9 @@ size_init = function() {
 		var h = 0;
 		var pa = $(a).parent();
 		pa.children().filter(':visible').each(function() {
-			if ($(a)[0] != $(this)[0]) h += $(this).outerHeight();
+			if ($(a)[0] != $(this)[0]) h += $(this).outerHeight(true);
 		});
-		var ph = pa.outerHeight();
+		var ph = pa.outerHeight(true);
 		$(a).outerHeight(ph - h);
 		return ph - h;
 	}

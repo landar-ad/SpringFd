@@ -73,7 +73,7 @@ page_init = function() {
 				div.html(result);
 				$('.modal').html(div.find('.modal').html());
 				$(".modal").modal();
-				$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
+				$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
 				add_on($(".modal").find("#save-button"), "click", function() {
 					$("#columnTable tbody tr").each(function() {
