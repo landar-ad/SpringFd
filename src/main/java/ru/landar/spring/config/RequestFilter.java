@@ -25,8 +25,7 @@ public class RequestFilter implements Filter {
 	@Autowired 
 	HelperService hs;
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		for (; ;) {
 			if (!(request instanceof HttpServletRequest)) break;
 			HttpServletRequest r = (HttpServletRequest)request;
@@ -35,14 +34,12 @@ public class RequestFilter implements Filter {
 			if (k >= 0) key = url.substring(k + 1);
 			if (hs.isEmpty(key)) break;
 			Map<String, String[]> map = r.getParameterMap();
-			if (!map.containsKey("clazz")) break;
-			String clazz = r.getParameter("clazz");
-			if (hs.isEmpty(clazz)) break;
 			if (map.containsKey("p_ret")) break;
 			HttpSession session = r.getSession();
 			Map<String, String[]> mapSave = new LinkedHashMap<String, String[]>();
 			mapSave.putAll(map);
-			session.setAttribute(key + "_" + clazz, mapSave);
+			String clazz = r.getParameter("clazz");
+			session.setAttribute(key + (!hs.isEmpty(clazz) ? "_" + clazz : ""), mapSave);
 			break;
 		}
 		chain.doFilter(request, response);
