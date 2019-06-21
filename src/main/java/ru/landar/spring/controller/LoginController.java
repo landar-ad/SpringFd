@@ -19,10 +19,8 @@ import ru.landar.spring.service.HelperService;
 
 @Controller
 public class LoginController {
-	
 	@Autowired
 	HelperService hs;
-	
 	@GetMapping(value = "/logout")
 	public String logout(HttpServletRequest request, Model model) {
 		try {
@@ -30,20 +28,18 @@ public class LoginController {
 			session.invalidate();
 		}
 		catch (Exception ex) {} 
-		
 		return "redirect:/login";
 	}
 	@GetMapping(value = "/login")
 	public String login(@RequestParam("username") Optional<String> usernameParam, HttpServletRequest request, Model model) {
-		String username = usernameParam.orElse("");
 		String referer = request.getHeader("Referer");
 	    request.getSession().setAttribute("prior_page", referer);
 	    String ip = request.getHeader("X-Forwarded-For");
 	    if (hs.isEmpty(ip)) ip = request.getRemoteAddr();
 	    request.getSession().setAttribute("ip", ip);
 	    request.getSession().setAttribute("browser", request.getHeader("user-agent"));
-	    if (username.isEmpty())
-	    {
+	    String username = usernameParam.orElse("");
+	    if (username.isEmpty()) {
 		    Cookie[] cookies = request.getCookies();
 		    for (Cookie c : cookies) if ("username".equals(c.getName())) username = c.getValue();
 	    }
