@@ -13,7 +13,7 @@ popup_init = function() {
 				p_filter: target.attr("data-filter")
 			};
 		var scrollTo = function() {
-			var a = $(".modal").find(".fixed_header tbody");
+			var a = $(".modal").find("table tbody");
 			$(".modal").find('table tbody tr').each(function() {
 				var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 				if (c) {
@@ -32,7 +32,7 @@ popup_init = function() {
 				$(".modal").html(div.find('.modal').html());
 				$(".modal").modal();
 				var h = $(".modal").outerHeight();
-				var a = $(".modal").find(".fixed_header tbody");
+				var a = $(".modal").find("table tbody");
 				a.outerHeight(h / 2);
 				scrollTo();
 				add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
