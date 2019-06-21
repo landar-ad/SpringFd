@@ -186,7 +186,7 @@ list_init = function() {
 	// Колонки
 	add_on($("#set-visible"), "click", function() {
 		$(".modal").modal();
-		$(".modal-body").outerHeight($(document.body).outerHeight() * 2 / 3);
+		$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 		$(".modal-body").css("overflow-y", "auto");
 	});
 	add_on($(".td-visible"), "click", function() { 

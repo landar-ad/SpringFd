@@ -31,7 +31,7 @@ popup_init = function() {
 				if (div.find('.modal').length == 0) return;
 				$(".modal").html(div.find('.modal').html());
 				$(".modal").modal();
-				var h = $(".modal").outerHeight();
+				var h = $(".modal").outerHeight(true);
 				var a = $(".modal").find("table tbody");
 				a.outerHeight(h / 2);
 				scrollTo();
