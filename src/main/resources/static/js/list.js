@@ -93,11 +93,11 @@ list_init = function() {
 	set_header_width = function() {
 		$(".table-fixed tbody tr").first().find("td").each(function(i) {
 			var a = $(".table-fixed thead tr th:eq(" + i + ")");
-			var w = $(this).outerWidth(), wh = a.width();
+			var w = $(this).outerWidth(true), wh = a.outerWidth(true);
 			if (wh > w) {
 				$(this).css("max-width", wh);
 				$(this).css("min-width", wh);
-				w = $(this).outerWidth();
+				w = $(this).outerWidth(true);
 			}
 			a.css("max-width", w);
 			a.css("min-width", w);
