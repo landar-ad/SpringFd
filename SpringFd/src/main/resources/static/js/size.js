@@ -24,9 +24,9 @@ size_init = function() {
 		pa.children().filter(':visible').each(function() {
 			if ($(a)[0] != $(this)[0]) h += $(this).outerHeight(true);
 		});
-		var ph = pa.outerHeight(true);
-		$(a).outerHeight(ph - h);
-		return ph - h;
+		var ph = pa.outerHeight() - h - 10;
+		$(a).outerHeight(ph);
+		return ph;
 	}
 	$(window).on('resize', size_fit);
 	setTimeout(function() { size_fit(); }, 40);
