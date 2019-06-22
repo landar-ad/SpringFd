@@ -53,7 +53,7 @@
 					        	<td>
 					        		<p th:utext="${item.content}"></p>
 					        		<div class="col-sm-12">
-					        			<a th:href="@{/detailsObj?clazz=} + ${item.clazz} + ${'&rn=' + item.id}" th:text="${item.name}"></a>
+					        			<a th:href="@{/detailsObj?p_ret=search&clazz=} + ${item.clazz} + ${'&rn=' + item.id}" th:text="${item.name}"></a>
 				        			</div>
 				        		</td>
 					        </tr>

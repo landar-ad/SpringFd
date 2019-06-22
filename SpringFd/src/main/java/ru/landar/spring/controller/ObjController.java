@@ -85,9 +85,10 @@ public class ObjController {
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = cl.newInstance();
 		// Последние используемые параметры
-		String ret = retParam.orElse("");
+		String p_ret = retParam.orElse("");
 		HttpSession session = request.getSession();
-		Map<String, String[]> mapParam = "1".equals(ret) ? (Map<String, String[]>)session.getAttribute("listObj_" + clazz) : null;
+		Map<String, String[]> mapParam = null;
+		if ("1".equals(p_ret)) mapParam = (Map<String, String[]>)session.getAttribute("listObj_" + clazz);
 		if (mapParam == null) mapParam = request.getParameterMap();
 		else {
 			if (rn == null) try { rn = Integer.valueOf(mapParam.get("rn")[0]); } catch (Exception ex) { rn = null; }
@@ -233,7 +234,8 @@ public class ObjController {
 							 @RequestParam("clazz") Optional<String> paramClazz,
 							 @RequestParam("prn") Optional<Integer> paramPrn,
 							 @RequestParam("p_tab") Optional<Integer> paramTab, 
-							 @RequestParam("readonly") Optional<Integer> paramReadonly, 
+							 @RequestParam("readonly") Optional<Integer> paramReadonly,
+							 @RequestParam("p_ret") Optional<String> paramRet,
 							 Model model) throws Exception {
 		String clazz = paramClazz.orElse(null);
 		Integer rn = paramRn.orElse(null);
@@ -250,17 +252,20 @@ public class ObjController {
 		model.addAttribute("readonly", ro == 1 ? true : !(Boolean)hs.invoke(obj, "onCheckExecute", "edit"));
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
+		model.addAttribute("p_ret", paramRet.orElse(""));
 		String t = "details" + clazz + "Page";
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.POST)
 	public String detailsObjPost(@RequestParam("clazz") Optional<String> paramClazz, 
 								 @RequestParam("rn") Optional<Integer> paramRn, 
+								 @RequestParam("p_ret") Optional<String> paramRet,
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Integer rn = paramRn.orElse(null);
 		String clazz = paramClazz.orElse(null);
+		String p_ret = paramRet.orElse("");
 		if (hs.isEmpty(clazz) && rn != null) clazz = objService.getClassByKey(rn);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
@@ -424,7 +429,8 @@ public class ObjController {
 			});
 			transactionManager.commit(ts);
 			// Переход на страницу
-			redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate", request);
+			if ("search".equals(p_ret)) redirect = "/search?p_ret=1";
+			else redirect = (String)hs.invoke(obj, "onRedirectAfterUpdate", request);
     	}
     	catch (Exception ex) {
     		transactionManager.rollback(ts);
@@ -581,10 +587,23 @@ public class ObjController {
 						 @RequestParam("p_off") Optional<Integer> offParam,
 						 @RequestParam("p_page") Optional<Integer> pageParam,
 						 @RequestParam("p_block") Optional<Integer> blockParam,
+						 @RequestParam("p_ret") Optional<String> retParam,
+						 HttpServletRequest request,
 						 Model model) throws Exception {
 		String text = textParam.orElse("");
 		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
 		if (off < 0) off = 0;
+		String p_ret = retParam.orElse("");
+		if ("1".equals(p_ret)) {
+			HttpSession session = request.getSession();
+			Map<String, String[]> mapParam = (Map<String, String[]>)session.getAttribute("search");
+			if (mapParam != null) {
+				try { text = mapParam.get("p_text")[0]; } catch (Exception ex) { }
+				try { off = Integer.valueOf(mapParam.get("p_off")[0]); } catch (Exception ex) { off = 0; }
+				try { page = Integer.valueOf(mapParam.get("p_page")[0]); } catch (Exception ex) { page = 15; }
+				try { block = Integer.valueOf(mapParam.get("p_block")[0]); } catch (Exception ex) { block = 10; }
+			}
+		}
 		Page<SearchContent> p = objService.search(text, off, page);
 		String[] ts = text.split("[,;:.!?\\s]+");
 		for (SearchContent cs : p.getContent()) {
@@ -611,13 +630,19 @@ public class ObjController {
 		model.addAttribute("p_block", block);
 		int totalPages = p.getTotalPages();
 		model.addAttribute("p_total", totalPages);
-		model.addAttribute("p_totalRows", p.getTotalElements());
+		// Текущая страница
 		off = Math.min(p.getNumber(), totalPages > 0 ? totalPages - 1 : 0);
 		model.addAttribute("p_off", off);
-		int n = block, start = Math.min((off / n) * n + 1, totalPages - n + 1);
-		List<Integer> pageNumbers = IntStream.rangeClosed(start , Math.min(start + n - 1, totalPages)).boxed().collect(Collectors.toList());
+		int n = block, start = (off / n) * n + 1;
+		start = start - (n / 2);
+		if (start < 1) start = 1;
+		int end = start + n;
+		if (end > totalPages) end = totalPages;
+		// Список номеров страниц
+		List<Integer> pageNumbers = IntStream.rangeClosed(start , end).boxed().collect(Collectors.toList());
 		model.addAttribute("p_pageNumbers", pageNumbers);
-		model.addAttribute("p_countPages", new Integer[]{15, 30, 50, 100});
+		// Список количества записей на странице
+		model.addAttribute("p_countPages", new Integer[]{10, 15, 30, 50, 100, 500, 1000});
 		return "mainPage";
 	}
 	@RequestMapping(value = "/settings", method = RequestMethod.POST, produces = "text/plain")
