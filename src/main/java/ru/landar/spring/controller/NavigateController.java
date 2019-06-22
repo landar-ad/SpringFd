@@ -1,8 +1,10 @@
 package ru.landar.spring.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +33,13 @@ public class NavigateController {
 	}
 	@GetMapping(value = "/return")
 	public String ret(HttpServletRequest request, @RequestParam("redirect") Optional<String> paramRedirect, Model model) {
+		HttpSession session = request.getSession();
 		String redirect = paramRedirect.orElse(null);
-		if (hs.isEmpty(redirect)) redirect = request.getHeader("Referer");
+		if (!hs.isEmpty(redirect)) {
+			if (!redirect.startsWith("/")) redirect = "/" + redirect;
+			redirect += "?p_ret=1"; 
+		}
+		else redirect = request.getHeader("Referer");
 		if (hs.isEmpty(redirect)) redirect = "/main";
 		return "redirect:" + redirect; 
 	}
