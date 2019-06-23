@@ -81,7 +81,7 @@ public class ObjController {
 		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
 		Integer rn = rnParam.orElse(null);
 		String listVisible = listVisibleParam.orElse(null);
-		Class<Object> cl = hs.getClassByName(clazz);
+		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = cl.newInstance();
 		// Последние используемые параметры
@@ -545,11 +545,11 @@ public class ObjController {
 			Object obj = objService.find(paramClazz.orElse(null), rn);
 			if (obj == null) { msg = String.format("Не найден объект с идентификатором '%s'", rn); break; }
 			clazz = hs.getPropertyString(obj, "clazz");
+			name = (String)hs.getProperty(obj, "name");
+			if (!hs.checkRights(obj, Operation.delete)) { msg = String.format("Вы не имеете прав на удаление объекта '%s'", name); break; }
 			TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
 	    	try {
 				obj = objRepository.find(obj.getClass(), rn);
-				name = (String)hs.getProperty(obj, "name");
-				if (!hs.checkRights(obj, Operation.delete)) { msg = String.format("Вы не имеете прав на удаление объекта '%s'", name); break; }
 				Boolean b = (Boolean)hs.invoke(obj, "onRemove");
 				if (b != null && !b) throw new Exception(String.format("Отказано в удалении объекта '%s'", name));
 				objRepository.removeObj(obj);
@@ -572,12 +572,12 @@ public class ObjController {
 	@RequestMapping(value = "/listVoc", method = RequestMethod.GET)
 	public String listVoc(Model model) throws Exception {
 		List<Voc> listVoc = new ArrayList<Voc>();
-		listVoc.add(new Voc("SpActStatus", SpActStatus.singleTitle()));
-		listVoc.add(new Voc("SpAgentType", SpAgentType.singleTitle()));
-		listVoc.add(new Voc("SpDocStatus", SpDocStatus.singleTitle()));
-		listVoc.add(new Voc("SpDocType", SpDocType.singleTitle()));
-		listVoc.add(new Voc("SpFileType", SpFileType.singleTitle()));
-		listVoc.add(new Voc("SpReestrStatus", SpReestrStatus.singleTitle()));
+		Class<?>[] classes = hs.getAllClasses();
+		for (Class<?> cl : classes) {
+			String clazz = cl.getSimpleName();
+			if (!clazz.startsWith("Sp")) continue;
+			listVoc.add(new Voc(clazz, (String)hs.invoke(cl, "singleTitle")));
+		}
 		model.addAttribute("listObj", new PageImpl<Voc>(listVoc));
 		setMainModel(model, "Справочники системы");
 		return "listVocPage";

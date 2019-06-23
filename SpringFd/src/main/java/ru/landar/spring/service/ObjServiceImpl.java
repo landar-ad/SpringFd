@@ -96,7 +96,7 @@ public class ObjServiceImpl implements ObjService {
 	public void removeObj(String clazz, Integer rn) throws Exception {
 		if (clazz == null) clazz = objRepository.getClassByKey(rn);
 		if (clazz == null) throw new Exception("Не найдено имя класса объекта с идентификатором " + rn);
-		Class<Object> cl = hs.getClassByName(clazz);
+		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = find(cl, rn);
 		if (obj == null) throw new Exception("Не найден объект '" + clazz + "' с идентификатором " + rn);

@@ -46,7 +46,7 @@ public class LoadController {
 		for (int n=0; n<wb.getNumberOfSheets(); n++) {
 			HSSFSheet sheet = wb.getSheetAt(n);
 			String clazz = sheet.getSheetName();
-			Class<Object> cl = hs.getClassByName(clazz);
+			Class<?> cl = hs.getClassByName(clazz);
 			if (cl == null) {
 				listAdd.add("Не найден класс по имени '" + clazz + "'");
 				continue;

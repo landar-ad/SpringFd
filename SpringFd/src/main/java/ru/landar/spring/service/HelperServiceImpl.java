@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -21,6 +22,7 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -601,10 +603,29 @@ public class HelperServiceImpl implements HelperService {
 		return person != null && base != null && person.getRn() == base.getRn();
 	}
 	@Override
-	public Class<Object> getClassByName(String clazz) {
-		Class<Object> ret = null;
-		try { ret = (Class<Object>)Class.forName(IBase.class.getName().substring(0, IBase.class.getName().lastIndexOf('.') + 1) + clazz); } catch (Exception ex) { }
+	public Class<?> getClassByName(String clazz) {
+		Class<?> ret = null;
+		try { ret = (Class<?>)Class.forName(IBase.class.getName().substring(0, IBase.class.getName().lastIndexOf('.') + 1) + clazz); } catch (Exception ex) { }
 		return ret;
+	}
+	@Override
+	public Class<?>[] getAllClasses() throws Exception {
+		List<Class<?>> l = new ArrayList<Class<?>>();
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		String packageName = IBase.class.getPackage().getName();
+		Enumeration<URL> en = classLoader.getResources(packageName.replace('.', '/'));
+		while (en.hasMoreElements()) 
+	    {  
+			String f = en.nextElement().getFile();  
+			File[] files = new File(f).listFiles();  
+			for (File file : files) 
+			{ 
+				f = file.getName();
+				if (!f.endsWith(".class")) continue;
+				l.add(Class.forName(packageName + '.' + f.substring(0, f.length() - 6))); 
+			}
+	    } 
+		return l.toArray(new Class<?>[l.size()]);
 	}
 	private String[] months = new String[]{"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
 	@Override
