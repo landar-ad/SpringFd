@@ -51,7 +51,8 @@ public interface HelperService {
 	Integer getDepartmentKey();
 	boolean checkDepartment(IDepartment depart);
 	boolean checkPerson(IBase base);
-	Class<Object> getClassByName(String clazz);
+	Class<?> getClassByName(String clazz);
+	Class<?>[] getAllClasses() throws Exception;
 	String getFullDate(Date date);
 	String getMonthDate(Date date);
 }
