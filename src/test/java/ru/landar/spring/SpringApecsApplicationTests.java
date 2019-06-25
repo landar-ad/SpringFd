@@ -86,4 +86,9 @@ public class SpringApecsApplicationTests {
 		Page<?> p = objService.findAll(Reestr.class, null, new String[] {"list_doc__rn"}, new Object[] {109});
 		
 	}
+	@Test
+	public void testAOP() throws IOException {
+		Document doc = (Document)objService.find(Document.class, 467);
+		doc.setDoc_number("5675");
+	}
 }

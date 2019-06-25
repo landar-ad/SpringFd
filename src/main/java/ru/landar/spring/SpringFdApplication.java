@@ -9,17 +9,15 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import ru.landar.spring.classes.AppClassLoader;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 @EnableAutoConfiguration(exclude = { FreeMarkerAutoConfiguration.class })
-//@EnableTransactionManagement
 public class SpringFdApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringFdApplication.class, args);
@@ -52,13 +50,5 @@ public class SpringFdApplication {
 	public AppClassLoader getAppClassLoader() {
 		return new AppClassLoader();
 	}
-	/*
-	@Bean
-	public PlatformTransactionManager transactionManager() {
-		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
-		transactionManager.setDataSource(dataSource());
-		return transactionManager;
-	}
-	*/
 }
 
