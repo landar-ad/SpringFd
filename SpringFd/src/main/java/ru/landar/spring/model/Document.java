@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Lock;
-import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
