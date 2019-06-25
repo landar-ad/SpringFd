@@ -16,7 +16,6 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import ru.landar.spring.classes.AppClassLoader;
 
 @SpringBootApplication
-@EnableAspectJAutoProxy
 @EnableAutoConfiguration(exclude = { FreeMarkerAutoConfiguration.class })
 public class SpringFdApplication {
 	public static void main(String[] args) {

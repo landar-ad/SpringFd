@@ -6,12 +6,12 @@ import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class AspectAround {
-	@Pointcut(value="execution(public void ru.landar.spring.model.*.set*(..))")
-	void setterObj() {
-		int a = 0;
+	@Pointcut(value="execution(public * ru.landar.spring.service.ObjServiceImpl.find(..))")
+	void findObj() {
+		
 	}
-	@Around("setterObj()")
+	@Around("findObj()")
 	public void doAround() {
-		int b = 1;
+
 	}
 }
