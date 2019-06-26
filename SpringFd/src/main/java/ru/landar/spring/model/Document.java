@@ -9,6 +9,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlList;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Lock;
@@ -140,7 +143,7 @@ public class Document extends IBase {
 	@Temporal(TemporalType.DATE)
     public Date getExtract_date() { return extract_date; }
     public void setExtract_date(Date extract_date) { this.extract_date = extract_date; }
-    
+
     @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
