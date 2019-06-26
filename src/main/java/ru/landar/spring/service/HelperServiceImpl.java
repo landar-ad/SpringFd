@@ -690,7 +690,7 @@ public class HelperServiceImpl implements HelperService {
 				}
 			}
 			ObjectMapper mapper = new ObjectMapper();
-			ret = mapper.writeValueAsString(map);
+			ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
 			break;
 		}
 		return ret;
