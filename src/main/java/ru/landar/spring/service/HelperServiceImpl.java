@@ -231,7 +231,7 @@ public class HelperServiceImpl implements HelperService {
 				for (Field f : fs) {
 					String attr = f.getName();
 					if (persist) {
-						if (getAttrType(cl, attr) == null) continue;
+						if (getAttrType(clT, attr) == null) continue;
 						if (f.isAnnotationPresent(Transient.class)) continue;
 					}
 					map.put(attr, f);
