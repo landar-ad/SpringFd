@@ -29,7 +29,6 @@ public interface HelperService {
 	Map<String, Object[]> getMapChanged(Map<String, Object> mapOld, Map<String, Object> mapNew);
 	boolean propertyExists(Object obj, String attr);
 	String getPropertyString(Object obj, String attr);
-	String getObjectString(Object obj, boolean time);
 	String getObjectString(Object obj);
 	boolean equals(Object o1, Object o2);
 	Object getVariable(Object obj, String attr);
@@ -55,4 +54,5 @@ public interface HelperService {
 	Class<?>[] getAllClasses() throws Exception;
 	String getFullDate(Date date);
 	String getMonthDate(Date date);
+	String getJsonString(Object obj) throws Exception;
 }

@@ -21,6 +21,7 @@ import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -41,6 +42,9 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolution;
 import org.thymeleaf.templateresource.ITemplateResource;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.Operation;
@@ -214,26 +218,29 @@ public class HelperServiceImpl implements HelperService {
 	}
 	@Override
 	public Field[] getFields(Class<?> cl, boolean persist) {
-		List<Field> l = new ArrayList<Field>();
-		List<String> ls = new ArrayList<String>();
-		while (cl != null && (!persist || cl.isAnnotationPresent(Entity.class))) {
+		Map<String, Field> map = new LinkedHashMap<String, Field>();
+		List<Class<?>> lClasses = new ArrayList<Class<?>>();
+		while (cl != null && (!persist || cl.isAnnotationPresent(Entity.class))) { 
+			lClasses.add(0, cl);
+			cl = cl.getSuperclass();
+		}
+		for (Class<?> clT : lClasses) {
 			Field[] fs = null;
-			try { fs = cl.getDeclaredFields(); } catch (Exception e) { }
+			try { fs = clT.getDeclaredFields(); } catch (Exception e) { }
 			if (fs != null) {
-				for (Field f :fs) {
+				for (Field f : fs) {
 					String attr = f.getName();
-					if (ls.contains(f.getName())) continue;
 					if (persist) {
 						if (getAttrType(cl, attr) == null) continue;
 						if (f.isAnnotationPresent(Transient.class)) continue;
 					}
-					l.add(f);
-					ls.add(f.getName());
+					map.put(attr, f);
 				}
 			}
-			cl = cl.getSuperclass(); 
 		}
-		return l.toArray(new Field[l.size()]);
+		List<Field> list = new ArrayList<Field>();
+		map.forEach((attr, f) -> list.add(f));
+		return list.toArray(new Field[list.size()]);
 	}
 	@Override
 	public void setProperty(Object obj, String attr, Object value) {
@@ -296,20 +303,23 @@ public class HelperServiceImpl implements HelperService {
 		catch (Exception e) { } 
 		return ret;
 	}
-	final SimpleDateFormat dMy = new SimpleDateFormat("dd.MM.yyyy"), dMyHms = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+	final SimpleDateFormat dMy = new SimpleDateFormat("dd.MM.yyyy"), dMyHms = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss"), Hms = new SimpleDateFormat("HH:mm:ss");
 	@Override
 	public String getPropertyString(Object obj, String attr) {
-		return getObjectString(getProperty(obj, attr), attr.indexOf("time") >= 0);
+		return getObjectString(getProperty(obj, attr));
 	}
 	@Override
-	public String getObjectString(Object o, boolean time) {
+	public String getObjectString(Object o) {
 		if (o == null || o instanceof String) return (String)o;
 		else if (o instanceof Boolean) return (Boolean)o ? "да" : "нет";
-		else if (o instanceof Date) return !time ? dMy.format((Date)o) : dMyHms.format((Date)o); 
+		else if (o instanceof Date) 
+		{
+			String s1 = dMy.format((Date)o), s2 = Hms.format((Date)o);
+			if (!"00:00:00".equals(s2)) s1 += " " + s2;
+			return s1; 
+		}
 		return o.toString();
 	}
-	@Override
-	public String getObjectString(Object o) { return getObjectString(o, false); }
 	@Override
 	public boolean equals(Object o1, Object o2)
 	{
@@ -638,6 +648,52 @@ public class HelperServiceImpl implements HelperService {
 	public String getMonthDate(Date date) {
 		if (date == null) return "";
 		return months[Integer.valueOf(new SimpleDateFormat("MM").format(date)) - 1];
+	}
+	@Override
+	public String getJsonString(Object obj) throws Exception {
+		String ret = "";
+		for (; ;) {
+			if (obj == null) break;
+			Map<String, Object> map = new LinkedHashMap<String, Object>();
+			Class<?> cl = obj.getClass();
+			Field[] fs = getFields(cl, true);
+			for (Field f: fs) {
+				String attr = f.getName();
+				if (isEmpty(attr)) continue;
+				Class<?> clAttr = getAttrType(cl, attr);
+				if (clAttr == null) continue;
+				if (IBase.class.isAssignableFrom(clAttr)) {
+					Object o = getProperty(obj, attr);
+					if (o != null) {
+						Integer rn = (Integer)getProperty(o, "rn");
+						if (rn != null) map.put(attr, rn);
+					}
+				}
+				else if (List.class.isAssignableFrom(clAttr)) {
+					List<Integer> l = new ArrayList<Integer>();
+					List<?> lo = (List<?>)getProperty(obj, attr);
+					if (lo != null) for (Object o : lo) {
+						Integer rn = (Integer)getProperty(o, "rn");
+						if (rn != null) l.add(rn);
+					}
+					map.put(attr, l);
+				}
+				else {
+					Object o = getProperty(obj, attr);
+					if (o != null && o instanceof Date) {
+						Date d = (Date)o;
+						String s1 = dMy.format(d), s2 = Hms.format(d);
+						if (!"00:00:00".equals(s2)) s1 += " " + s2;
+						o = s1;
+					}
+					map.put(attr, o);
+				}
+			}
+			ObjectMapper mapper = new ObjectMapper();
+			ret = mapper.writeValueAsString(map);
+			break;
+		}
+		return ret;
 	}
 	private static File createTempDirectory(String name) {
 		
