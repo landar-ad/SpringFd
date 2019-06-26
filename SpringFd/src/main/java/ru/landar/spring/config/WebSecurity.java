@@ -30,7 +30,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     	httpSecurity.httpBasic()
     	.and()
     	.authorizeRequests()
-    	.antMatchers("/*")
+    	.antMatchers("/*", "/json/*")
     	.hasAnyRole("USER", "ADMIN")
     	.and()
     	.authorizeRequests()
