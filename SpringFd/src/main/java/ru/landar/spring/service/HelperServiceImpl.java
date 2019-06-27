@@ -273,6 +273,41 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
+	public Object getPropertyJson(Object obj, String attr) {
+		Object ret = null;
+		try { 
+			Class<?> cl = obj.getClass();
+			Class<?> clAttr = getAttrType(cl, attr);
+			if (clAttr != null) {
+				if (IBase.class.isAssignableFrom(clAttr)) {
+					Object o = getProperty(obj, attr);
+					if (o != null) ret = (Integer)getProperty(o, "rn");
+				}
+				else if (List.class.isAssignableFrom(clAttr)) {
+					List<Integer> l = new ArrayList<Integer>();
+					List<?> lo = (List<?>)getProperty(obj, attr);
+					if (lo != null) for (Object o : lo) {
+						Integer rn = (Integer)getProperty(o, "rn");
+						if (rn != null) l.add(rn);
+					}
+					ret = l;
+				}
+				else {
+					Object o = getProperty(obj, attr);
+					if (o != null && o instanceof Date) {
+						Date d = (Date)o;
+						String s1 = dMy.format(d), s2 = Hms.format(d);
+						if (!"00:00:00".equals(s2)) s1 += " " + s2;
+						ret = s1;
+					}
+					else ret = o;
+				}
+			}
+		} 
+		catch (Exception e) { } 
+		return ret;
+	}
+	@Override
 	public void copyProperties(Object src, Object dest, boolean notNull) {
 		if (src == null || dest == null) return;
 		Field[] fs = getFields(src.getClass(), true);
@@ -655,35 +690,8 @@ public class HelperServiceImpl implements HelperService {
 			Field[] fs = getFields(cl, true);
 			for (Field f: fs) {
 				String attr = f.getName();
-				if (isEmpty(attr)) continue;
-				Class<?> clAttr = getAttrType(cl, attr);
-				if (clAttr == null) continue;
-				if (IBase.class.isAssignableFrom(clAttr)) {
-					Object o = getProperty(obj, attr);
-					if (o != null) {
-						Integer rn = (Integer)getProperty(o, "rn");
-						if (rn != null) map.put(attr, rn);
-					}
-				}
-				else if (List.class.isAssignableFrom(clAttr)) {
-					List<Integer> l = new ArrayList<Integer>();
-					List<?> lo = (List<?>)getProperty(obj, attr);
-					if (lo != null) for (Object o : lo) {
-						Integer rn = (Integer)getProperty(o, "rn");
-						if (rn != null) l.add(rn);
-					}
-					map.put(attr, l);
-				}
-				else {
-					Object o = getProperty(obj, attr);
-					if (o != null && o instanceof Date) {
-						Date d = (Date)o;
-						String s1 = dMy.format(d), s2 = Hms.format(d);
-						if (!"00:00:00".equals(s2)) s1 += " " + s2;
-						o = s1;
-					}
-					map.put(attr, o);
-				}
+				Object value = getPropertyJson(obj, attr);
+				if (value != null) map.put(attr, value);
 			}
 			ObjectMapper mapper = new ObjectMapper();
 			ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
