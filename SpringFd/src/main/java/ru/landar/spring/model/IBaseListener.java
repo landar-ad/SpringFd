@@ -3,6 +3,7 @@ package ru.landar.spring.model;
 import java.util.Date;
 
 import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,9 @@ public class IBaseListener {
 		Date d = new Date();
 		obj.setMdate(d);
 		obj.setModifier(userService.getPrincipal());
+	}
+	@PreRemove
+	public void onPreRemove(IBase obj) {
+		AutowireHelper.autowire(this);
 	}
 }
