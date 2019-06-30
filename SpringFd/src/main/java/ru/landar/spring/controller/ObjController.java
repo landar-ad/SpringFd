@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ru.landar.spring.ObjectChanged;
+import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
@@ -61,6 +63,8 @@ public class ObjController {
     private PlatformTransactionManager transactionManager;
 	@Autowired
 	ObjRepositoryCustom objRepository;
+	@Autowired
+    private ObjectChanged objectChanged;
 	
 	@RequestMapping(value = "/listObj")
 	public String listObj(@RequestParam("clazz") String clazz,
@@ -339,9 +343,14 @@ public class ObjController {
 		String redirect = null;
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-			if (rn == null) hs.invoke(obj, "onNew");
+			if (rn == null) {
+				hs.invoke(obj, "onNew");
+				objRepository.createObj(obj);
+				objectChanged.addObject(obj, Operation.create);
+			}
 			if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
 			Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
+			objectChanged.addObject(obj, Operation.update);
 			mapValue.forEach((attr, valueNew) -> {
 				Object valueOld = hs.getProperty(obj, attr);
 				if (!hs.equals(valueOld, valueNew)) {
@@ -352,6 +361,7 @@ public class ObjController {
 			objRepository.saveObj(obj);
 			// Добавление информации об изменении объекта
 			hs.invoke(obj, "onUpdate", mapItems, mapChanged);
+			objectChanged.addObject(obj, Operation.update);
 			// Запись в журнал
 			objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, rn == null ? "create" : "update", ip, browser);
 			// list - атрибут списка
