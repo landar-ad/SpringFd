@@ -9,8 +9,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+
+import org.springframework.web.context.WebApplicationContext;
 
 import ru.landar.spring.classes.AppClassLoader;
 
@@ -47,6 +50,11 @@ public class SpringFdApplication {
 	@Bean
 	public AppClassLoader getAppClassLoader() {
 		return new AppClassLoader();
+	}
+	@Bean
+	@Scope(WebApplicationContext.SCOPE_REQUEST)
+	public ObjectChanged getObjectChanged() {
+		return new ObjectChanged();
 	}
 }
 
