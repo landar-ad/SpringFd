@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
-
-import org.springframework.web.context.WebApplicationContext;
 
 import ru.landar.spring.classes.AppClassLoader;
 
@@ -52,9 +52,9 @@ public class SpringFdApplication {
 		return new AppClassLoader();
 	}
 	@Bean
-	@Scope(WebApplicationContext.SCOPE_REQUEST)
+	@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 	public ObjectChanged getObjectChanged() {
-		return new ObjectChanged();
+	    return new ObjectChanged();
 	}
 }
 
