@@ -29,8 +29,6 @@ public class ChangeInfo {
 	public void buildValueCompared(boolean bNew) {
 		if (mapValue == null) return;
 		mapValueCompared = new LinkedHashMap<String, Object[]>();
-		mapValue.forEach((key, value) -> {
-			mapValueCompared.put(key, new Object[] {bNew ? value : null, !bNew ? null : value});
-		});
+		mapValue.forEach((key, value) -> mapValueCompared.put(key, new Object[] {bNew ? value : null, !bNew ? null : value }));
 	}
 }
