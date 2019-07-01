@@ -677,11 +677,11 @@ public class HelperServiceImpl implements HelperService {
 	public String getJsonString(Object obj) throws Exception {
 		if (obj == null) return "";
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		getObjectMap(obj, map, new ArrayList<Integer>());
+		getObjectMap(obj, map, new ArrayList<Integer>(), 0);
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
 	}
-	private void  getObjectMap(Object obj, Map<String, Object> map, List<Integer> listRn) throws Exception {
+	private void  getObjectMap(Object obj, Map<String, Object> map, List<Integer> listRn, int level) throws Exception {
 		if (obj == null || map == null || listRn == null) return;
 		Integer rn = (Integer)getProperty(obj, "rn");
 		if (rn == null) return;
@@ -696,12 +696,12 @@ public class HelperServiceImpl implements HelperService {
 			if (IBase.class.isAssignableFrom(clAttr)) {
 				rn = (Integer)getProperty(value, "rn");
 				if (rn == null) continue;
-				if (!listRn.contains(rn)) {
+				if (!listRn.contains(rn) || level == 0) {
 					Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
-					getObjectMap(value, mapValue, listRn);
+					getObjectMap(value, mapValue, listRn, level + 1);
 					value = mapValue;
 				}
-				else value = "#" + rn + "#";
+				else value = rn;
 			}
 			else if (List.class.isAssignableFrom(clAttr)) {
 				List<?> l = (List<?>)value;
@@ -709,12 +709,12 @@ public class HelperServiceImpl implements HelperService {
 				for (Object o : l) {
 					rn = (Integer)getProperty(o, "rn");
 					if (rn == null) continue;
-					if (!listRn.contains(rn)) {
+					if (!listRn.contains(rn) || level == 0) {
 						Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
-						getObjectMap(o, mapValue, listRn);
+						getObjectMap(o, mapValue, listRn, level + 1);
 						la.add(mapValue);
 					}
-					else la.add("#" + rn + "#");
+					else la.add(rn);
 				}
 				value = la;
 			}
