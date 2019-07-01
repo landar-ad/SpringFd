@@ -490,11 +490,13 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return item;
 	}
 	@Override
-	public void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser) {
-		Integer obj_rn = (Integer)hs.getProperty(obj, "rn");
-		SpActionType action_type = (SpActionType)findByCode(SpActionType.class, op);
+	public void writeLog(String user_login, Integer rn, String clazz, Map<String, Object[]> mapChanged, Operation op, String ip, String browser) {
+		String opCode = "";
+		if (op == Operation.create) opCode = "create";
+		else if (op == Operation.update) opCode = "update";
+		else if (op == Operation.delete) opCode = "remove";
+		SpActionType action_type = (SpActionType)findByCode(SpActionType.class, opCode);
 		Date dt = new Date();
-		String obj_name = obj.getClass().getSimpleName();
 		if (mapChanged != null) {
 			if (!mapChanged.isEmpty()) mapChanged.forEach((attr, o) -> {
 				ActionLog al = new ActionLog();
@@ -503,8 +505,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	    		al.setAction_time(dt);
 	    		al.setClient_ip(ip);
 	    		al.setClient_browser(browser);
-	    		al.setObj_name(obj_name);
-	    		al.setObj_rn(obj_rn);
+	    		al.setObj_name(clazz);
+	    		al.setObj_rn(rn);
 	    		al.setObj_attr(attr);
 	    		al.setObj_value_before(hs.getObjectString(o[0]));
 	    		al.setObj_value_after(hs.getObjectString(o[1]));
@@ -518,8 +520,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			al.setAction_time(dt);
 			al.setClient_ip(ip);
 			al.setClient_browser(browser);
-			al.setObj_name(obj_name);
-			al.setObj_rn(obj_rn);
+			al.setObj_name(clazz);
+			al.setObj_rn(rn);
 			saveObj(al);
 		}
 	}

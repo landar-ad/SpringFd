@@ -51,8 +51,8 @@ public class IFile extends IBase {
     @Autowired
 	ObjRepositoryCustom objRepository;
     @Override
-    public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
-    	Object ret = super.onUpdate(map, mapChanged);
+    public Object onUpdate() throws Exception { 
+    	Object ret = super.onUpdate();
     	if (ret != null) return ret;
     	for (; ;) {
     		String filename = getFilename();

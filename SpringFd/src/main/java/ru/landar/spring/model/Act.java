@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
@@ -33,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
@@ -115,6 +117,8 @@ public class Act extends IBase {
 	UserService userService;
     @Autowired
 	HelperService hs;
+    @Resource(name = "getObjectChanged")
+    ObjectChanged objectChanged;
     
 	public static String singleTitle() { return "Акт приема-передачи"; }
 	public static String multipleTitle() { return "Акты приема-передачи"; }
@@ -167,15 +171,15 @@ public class Act extends IBase {
      	return true;
     }
 	@Override
-    public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception { 
-    	Object ret = super.onUpdate(map, mapChanged);
+    public Object onUpdate() throws Exception { 
+    	Object ret = super.onUpdate();
     	if (ret != null) return ret;
      	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
     	setChange_agent(user.getPerson());
     	setChange_time(dt);
-    	if (mapChanged.containsKey("act_status")) setTime_status(dt);
+    	if (objectChanged.isAttrChanged(this, "act_status")) setTime_status(dt);
     	return true;
 	}
 	@Override

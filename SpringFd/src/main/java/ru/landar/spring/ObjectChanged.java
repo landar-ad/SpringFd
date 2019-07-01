@@ -1,6 +1,7 @@
 package ru.landar.spring;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,8 @@ public class ObjectChanged {
 		if (obj == null) return;
 		Integer rn = (Integer)hs.getProperty(obj, "rn");
 		if (rn == null) return;
+		String clazz = (String)hs.getProperty(obj, "clazz");
+		if (clazz == null) return;
 		List<ChangeInfo> l = map.get(rn);
 		if (l == null) {
 			l = new ArrayList<ChangeInfo>();
@@ -34,7 +37,7 @@ public class ObjectChanged {
 			}
 		}
 		if (ci == null) {
-			ci = new ChangeInfo(rn, op, new LinkedHashMap<String, Object[]>());
+			ci = new ChangeInfo(rn, clazz, op, new LinkedHashMap<String, Object[]>());
 			l.add(ci);
 		}
 		final Map<String, Object[]> mapValue = ci.getValue() == null ? new LinkedHashMap<String, Object[]>() : ci.getValue();
@@ -58,6 +61,7 @@ public class ObjectChanged {
 		if (obj == null) return;
 		Integer rn = (Integer)hs.getProperty(obj, "rn");
 		if (rn == null) return;
+		String clazz = (String)hs.getProperty(obj, "clazz");
 		List<ChangeInfo> l = map.get(rn);
 		if (l == null) {
 			l = new ArrayList<ChangeInfo>();
@@ -71,7 +75,7 @@ public class ObjectChanged {
 			}
 		}
 		if (ci == null) {
-			ci = new ChangeInfo(rn, Operation.update, new LinkedHashMap<String, Object[]>());
+			ci = new ChangeInfo(rn, clazz, Operation.update, new LinkedHashMap<String, Object[]>());
 			l.add(ci);
 		}
 		Map<String, Object[]> mapValue = ci.getValue();
@@ -95,8 +99,9 @@ public class ObjectChanged {
 		});
 		return ret;
 	}
+	public boolean isAttrChanged(Object obj) { return isAttrChanged(obj, null); }
 	public boolean isAttrChanged(Object obj, String attr) {
-		if (obj == null || hs.isEmpty(attr)) return false;
+		if (obj == null) return false;
 		Integer rn = (Integer)hs.getProperty(obj, "rn");
 		if (rn == null) return false;
 		List<ChangeInfo> l = map.get(rn);
@@ -111,8 +116,38 @@ public class ObjectChanged {
 		if (ci == null ) return false;
 		Map<String, Object[]> mapValue = ci.getValue();
 		if (mapValue == null) return false;
-		Object[] os = mapValue.get(attr); 
-		if (os == null) return false;
-		return !hs.equals(os[0], os[1]);
+		if (!hs.isEmpty(attr)) {
+			Object[] os = mapValue.get(attr); 
+			if (os == null) return false;
+			return !hs.equals(os[0], os[1]);
+		}
+		Iterator<String> it = mapValue.keySet().iterator();
+		while (it.hasNext()) {
+			Object[] os = mapValue.get(it.next());
+			if (!hs.equals(os[0], os[1])) return true;
+		}
+		return false;
+	}
+	public Object getAttrValue(Object obj, String attr, int idx) {
+		if (obj == null) return null;
+		Integer rn = (Integer)hs.getProperty(obj, "rn");
+		if (rn == null) return null;
+		if (hs.isEmpty(attr)) return null;
+		List<ChangeInfo> l = map.get(rn);
+		if (l == null) return null;
+		ChangeInfo ci = null;
+		for (ChangeInfo ciT : l) {
+			if (ciT.getOp() == Operation.update) {
+				ci = ciT;
+				break;
+			}
+		}
+		if (ci == null ) return null;
+		Map<String, Object[]> mapValue = ci.getValue();
+		if (mapValue == null) return null;
+		Object[] os = mapValue.get(attr);
+		if (os == null) return null;
+		if (idx < 0 || idx > 1) return null;
+		return os[idx];
 	}
 }
