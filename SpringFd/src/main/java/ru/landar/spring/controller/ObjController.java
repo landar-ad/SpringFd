@@ -249,7 +249,7 @@ public class ObjController {
 		model.addAttribute("hs", hs);
 		if (prn != null) model.addAttribute("prn", prn);
 		int ro = paramReadonly.orElse(0);
-		model.addAttribute("readonly", ro == 1 ? true : !(Boolean)hs.invoke(obj, "onCheckExecute", "edit"));
+		model.addAttribute("readonly", ro == 1 ? true : !(Boolean)hs.invoke(obj, "onCheckRights", Operation.update));
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		model.addAttribute("p_ret", paramRet.orElse(""));
