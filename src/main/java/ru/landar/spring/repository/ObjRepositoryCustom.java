@@ -2,6 +2,8 @@ package ru.landar.spring.repository;
 
 import org.springframework.stereotype.Repository;
 
+import ru.landar.spring.classes.Operation;
+
 import java.util.List;
 import java.util.Map;
 
@@ -27,5 +29,5 @@ public interface ObjRepositoryCustom {
 	String getClassByKey(Object pk);
 	Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception;
 	Object updateItem(Object obj, String listAttr, String clazzItem, Integer rnItemOld, Integer rnItem) throws Exception;
-	void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser);
+	void writeLog(String user_login, Integer rn, String clazz, Map<String, Object[]> mapChanged, Operation op, String ip, String browser);
 }

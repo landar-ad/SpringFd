@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.landar.spring.model.SearchContent;
+import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.ISettings;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.repository.solr.ObjSolrRepository;
@@ -152,8 +153,8 @@ public class ObjServiceImpl implements ObjService {
 		return new PageImpl<SearchContent>(new ArrayList<SearchContent>());
 	}
 	@Override
-	public void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser) {
-		objRepository.writeLog(user_login, obj, mapChanged, op, ip, browser);
+	public void writeLog(String user_login, Integer rn, String clazz, Map<String, Object[]> mapChanged, Operation op, String ip, String browser) {
+		objRepository.writeLog(user_login, rn, clazz, mapChanged, op, ip, browser);
 	}
 	@Override
 	public Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception {

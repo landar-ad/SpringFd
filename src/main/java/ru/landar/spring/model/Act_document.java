@@ -3,6 +3,7 @@ package ru.landar.spring.model;
 import java.util.Date;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 
 @Entity
@@ -59,23 +61,25 @@ public class Act_document extends IBase {
     }
     @Autowired
 	ObjRepositoryCustom objRepository;
+    @Resource(name = "getObjectChanged")
+    ObjectChanged objectChanged;
     @Override
-    public Object onUpdate(Map<String, Object> map, Map<String, Object[]> mapChanged) throws Exception {
-    	Object ret = super.onUpdate(map, mapChanged);
+    public Object onUpdate() throws Exception {
+    	Object ret = super.onUpdate();
     	if (ret != null) return ret;
     	Act act = (Act)getParent();
 		Document doc = getDoc();
-		if (mapChanged.containsKey("doc")) {
-			Document docOld = (Document)mapChanged.get("doc")[0];
+		if (objectChanged.isAttrChanged(this, "doc")) {
+			Document docOld = (Document)objectChanged.getAttrValue(this, "doc", 0);
 			if (docOld != null) docOld.setAct(null);
 			if (act != null && doc != null) doc.setAct(act);
 		}
-    	if (mapChanged.containsKey("exclude")) {
+    	if (objectChanged.isAttrChanged(this, "exclude")) {
     		if (getExclude() != null && getExclude()) {
     			if (hs.isEmpty(getExclude_reason())) setExclude_reason("Причина не указана");
     			if (getExclude_date() == null) setExclude_date(new Date());
     			if (doc != null) {
-    				doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "5"));
+    				doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5"));
     				doc.setAct_exclude_date(act != null ? act.getAct_date() : null);
     				doc.setAct_exclude_num(act != null ? act.getAct_number() : null);
     				doc.setAct_exclude_reason(getExclude_reason());
@@ -85,7 +89,7 @@ public class Act_document extends IBase {
     			setExclude_date(null);
     			setExclude_reason(null);
     			if (doc != null) {
-    				doc.setDoc_status((SpDocStatus)objService.getObjByCode(SpDocStatus.class, "3"));
+    				doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3"));
     				doc.setAct_exclude_date(null);
     				doc.setAct_exclude_num(null);
     				doc.setAct_exclude_reason(null);

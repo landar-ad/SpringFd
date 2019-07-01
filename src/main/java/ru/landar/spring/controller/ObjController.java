@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
+import ru.landar.spring.classes.ChangeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
@@ -345,22 +346,12 @@ public class ObjController {
     	try {
 			if (rn == null) {
 				hs.invoke(obj, "onNew");
-				objRepository.createObj(obj);
 			}
 			if (!hs.checkRights(obj, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование объекта " + hs.getProperty(obj, "name"));
-			Map<String, Object[]> mapChanged = new LinkedHashMap<String, Object[]>();
-			mapValue.forEach((attr, valueNew) -> {
-				Object valueOld = hs.getProperty(obj, attr);
-				if (!hs.equals(valueOld, valueNew)) {
-					mapChanged.put(attr, new Object[]{valueOld, valueNew});
-					hs.setProperty(obj, attr, valueNew);
-				}
-			});
+			mapValue.forEach((attr, valueNew) -> hs.setProperty(obj, attr, valueNew));
 			objRepository.saveObj(obj);
 			// Добавление информации об изменении объекта
-			hs.invoke(obj, "onUpdate", mapItems, mapChanged);
-			// Запись в журнал
-			objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, rn == null ? "create" : "update", ip, browser);
+			hs.invoke(obj, "onUpdate");
 			// list - атрибут списка
 			mapItems.forEach((list, o) -> {
 				Map<String, Object> map = (Map<String, Object>)o;
@@ -411,23 +402,18 @@ public class ObjController {
 								v = hs.getProperty(v, ap); 
 							}
 							else v = hs.getObjectByString(clItem, ap, (String)v);
-							if (v != null) {
-								Object valueOld = hs.getProperty(item, ap);
-								if (!hs.equals(valueOld, v)) {
-									mapChangedItem.put(ap, new Object[]{valueOld, v});
-									hs.setProperty(item, ap, v);
-								}
-							}
+							if (v != null) hs.setProperty(item, ap, v);
 						}
 						if (f != null) hs.copyProperties(f, item, true);
 						objRepository.saveObj(item);
 						// Добавление информации об изменении объекта
 						hs.invoke(item, "onUpdate", mapItems, mapChangedItem);
-						// Запись в журнал
-						objRepository.writeLog(userService.getPrincipal(), item, mapChangedItem, "add".equals(cmd) ? "create" : "update", ip, browser);
 					}
 				}
 			});
+			// Запись в журнал
+			List<ChangeInfo> lci = objectChanged.getObjectChanges();
+			for (ChangeInfo ci : lci) objRepository.writeLog(userService.getPrincipal(), ci.getRn(), ci.getClazz(), ci.getValue(), ci.getOp(), ip, browser);
 			transactionManager.commit(ts);
 			// Переход на страницу
 			if ("search".equals(p_ret)) redirect = "/search?p_ret=1";
@@ -478,17 +464,16 @@ public class ObjController {
 		// Выполнение операции через транзакцию
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-			Map<String, Object> mapValueOld = hs.getMapProperties(obj);
 			Object rd = hs.invoke(obj, "onExecute", param, request);
 			// Возврат - редирект
 			if (rd != null && rd instanceof String) redirect = (String)rd;
 			if (rn != null) {
 				obj = objRepository.find(obj.getClass(), hs.getProperty(obj, "rn"));
-				Map<String, Object> mapValueNew = hs.getMapProperties(obj);
-				Map<String, Object[]> mapChanged = hs.getMapChanged(mapValueOld, mapValueNew);
-				hs.invoke(obj, "onUpdate", null, mapChanged);
+				hs.invoke(obj, "onUpdate");
 				objRepository.saveObj(obj);
-				objRepository.writeLog(userService.getPrincipal(), obj, mapChanged, "update", ip, browser);
+				// Запись в журнал
+				List<ChangeInfo> lci = objectChanged.getObjectChanges();
+				for (ChangeInfo ci : lci) objRepository.writeLog(userService.getPrincipal(), ci.getRn(), ci.getClazz(), ci.getValue(), ci.getOp(), ip, browser);
 			}
 			transactionManager.commit(ts);
 		}
@@ -555,7 +540,9 @@ public class ObjController {
 				if (b != null && !b) throw new Exception(String.format("Отказано в удалении объекта '%s'", name));
 				objRepository.removeObj(obj);
 				// Запись в журнал
-				objRepository.writeLog(userService.getPrincipal(), obj, null, "remove", ip, browser);
+				List<ChangeInfo> lci = objectChanged.getObjectChanges();
+				for (ChangeInfo ci : lci) objRepository.writeLog(userService.getPrincipal(), ci.getRn(), ci.getClazz(), ci.getValue(), ci.getOp(), ip, browser);
+				// Сообщение
 				msg = String.format("Объект '%s' успешно удален", name);
 				transactionManager.commit(ts);
 			}

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import ru.landar.spring.model.SearchContent;
+import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.ISettings;
 
 public interface ObjService {
@@ -27,7 +28,7 @@ public interface ObjService {
     Object getSettings(String code, String type);
     ISettings loadSettings(String code, String type);
     Page<SearchContent> search(String text, int off, int page);
-    void writeLog(String user_login, Object obj, Map<String, Object[]> mapChanged, String op, String ip, String browser);
+    void writeLog(String user_login, Integer rn, String clazz, Map<String, Object[]> mapChanged, Operation op, String ip, String browser);
     Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception;
     String getServiceContext();
 }
