@@ -88,7 +88,31 @@ public class ObjectChanged {
 	}
 	public List<ChangeInfo> getObjectChanges() {
 		List<ChangeInfo> ret = new ArrayList<ChangeInfo>();
-		map.forEach((rn, l) -> ret.addAll(l));
+		map.forEach((rn, l) -> {
+			for (ChangeInfo ci : l) {
+				if (ci.checkMap()) ret.add(ci);
+			}
+		});
 		return ret;
+	}
+	public boolean isAttrChanged(Object obj, String attr) {
+		if (obj == null || hs.isEmpty(attr)) return false;
+		Integer rn = (Integer)hs.getProperty(obj, "rn");
+		if (rn == null) return false;
+		List<ChangeInfo> l = map.get(rn);
+		if (l == null) return false;
+		ChangeInfo ci = null;
+		for (ChangeInfo ciT : l) {
+			if (ciT.getOp() == Operation.update) {
+				ci = ciT;
+				break;
+			}
+		}
+		if (ci == null ) return false;
+		Map<String, Object[]> mapValue = ci.getValue();
+		if (mapValue == null) return false;
+		Object[] os = mapValue.get(attr); 
+		if (os == null) return false;
+		return !hs.equals(os[0], os[1]);
 	}
 }

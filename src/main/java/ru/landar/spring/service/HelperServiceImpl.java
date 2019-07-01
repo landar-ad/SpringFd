@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.Entity;
+import javax.annotation.Resource;
 import javax.persistence.Transient;
 import javax.servlet.http.Part;
 import javax.tools.JavaCompiler;
@@ -43,6 +43,7 @@ import org.thymeleaf.templateresource.ITemplateResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
@@ -62,6 +63,8 @@ public class HelperServiceImpl implements HelperService {
     private SpringTemplateEngine templateEngine;
 	@Autowired
     private AppClassLoader appClassLoader;
+	@Resource(name = "getObjectChanged")
+    ObjectChanged objectChanged;
 	
 	@Override
 	public boolean isEmpty(String v) { return v == null || v.isEmpty(); }
@@ -248,6 +251,7 @@ public class HelperServiceImpl implements HelperService {
 				String getter = "get" + a.substring(0, 1).toUpperCase() + a.substring(1);
 				Method mGet = obj.getClass().getMethod(getter);
 				if (i == as.length - 1) {
+					objectChanged.addValue(o, a, value);
 					String setter = "set" + a.substring(0, 1).toUpperCase() + a.substring(1);
 					Method mSet = o.getClass().getMethod(setter, mGet.getReturnType());
 					mSet.invoke(o, value);

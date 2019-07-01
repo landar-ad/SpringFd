@@ -279,8 +279,7 @@ public class ObjController {
 			Object ob = hs.invoke(obj, "onCheckUpdateAttribute", p);
 			if (ob != null && !(Boolean)ob) continue;
 			int k = p.indexOf("__");
-			if (k > 0)
-			{
+			if (k > 0) {
 				String a = p.substring(0, k);
 				Class<?> clItem = hs.getAttrType(cl, a);
 				if (clItem == null) continue;
