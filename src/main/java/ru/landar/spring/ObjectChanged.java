@@ -39,12 +39,13 @@ public class ObjectChanged {
 		}
 		final Map<String, Object[]> mapValue = ci.getValue() == null ? new LinkedHashMap<String, Object[]>() : ci.getValue();
 		Map<String, Object> mapObj = hs.getMapProperties(obj, true);
-		final boolean bOld = op == Operation.delete || op == Operation.update;
 		mapObj.forEach((attr, o) -> {
 			Object[] os = mapValue.get(attr);
 			if (os == null) {
-				os = new Object[] {bOld ? o : null, !bOld ? o : null};
-				mapValue.put(attr, os);
+				if (op == Operation.create) os = new Object[] {null, o};
+				else if (op == Operation.update) os = new Object[] {o, o};
+				else if (op == Operation.delete) os = new Object[] {o, null};
+				if (os != null) mapValue.put(attr, os);
 			}
 			else {
 				if (op == Operation.delete) os[0]= o;
