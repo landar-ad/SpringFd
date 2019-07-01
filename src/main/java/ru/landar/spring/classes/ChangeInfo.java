@@ -5,11 +5,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperService;
 
 public class ChangeInfo {
-	@Autowired
-	private HelperService hs;
 	Integer rn;
 	String clazz;
 	Operation op;
@@ -32,7 +31,10 @@ public class ChangeInfo {
 	public void setValue(Map<String, Object[]> map) { mapValue = map; }
 	public Map<String, Object[]> getValue() { return mapValue; }
 	
+	@Autowired
+	private HelperService hs;
 	public boolean checkMap() {
+		AutowireHelper.autowire(this);
 		Map<String, Object[]> map = new LinkedHashMap<String, Object[]>();
 		if (mapValue != null) mapValue.forEach((attr, os) -> {
 			if (os != null && !hs.equals(os[0], os[1])) map.put(attr, os);
