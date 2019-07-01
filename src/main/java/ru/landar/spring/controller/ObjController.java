@@ -64,10 +64,9 @@ public class ObjController {
     private PlatformTransactionManager transactionManager;
 	@Autowired
 	ObjRepositoryCustom objRepository;
-	
 	@Resource(name = "getObjectChanged")
     ObjectChanged objectChanged;
-			
+	// Список объектов		
 	@RequestMapping(value = "/listObj")
 	public String listObj(@RequestParam("clazz") String clazz,
 						  @RequestParam("p_off") Optional<Integer> offParam,
@@ -229,6 +228,7 @@ public class ObjController {
 		String t = "list" + clazz + "Page";
 		return hs.templateExists(t) ? t : "listObjPage";
 	}
+	// Данные объекта
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.GET)
 	public String detailsObj(@RequestParam("rn") Optional<Integer> paramRn, 
 							 @RequestParam("clazz") Optional<String> paramClazz,
@@ -436,12 +436,24 @@ public class ObjController {
 						@RequestParam("rnItem") Optional<Integer> rnItemParam,
 						HttpServletRequest request,
 						Model model) throws Exception {
+		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Object obj = objService.find(paramClazz.orElse(null), rn);
 		if (obj == null) throw new Exception("Не найден объект с идентификатором " + rn);
 		String clazz = obj.getClass().getSimpleName();
 		String cmd = cmdItemParam.orElse("add");
 		Integer rnItem = rnItemParam.orElse(null);
-		objService.executeItem(obj, listAttr, cmd, clazzItem, rnItem, !"exists".equals(paramAdd.orElse("new")));
+		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+    		objRepository.executeItem(obj, listAttr, cmd, clazzItem, rnItem, !"exists".equals(paramAdd.orElse("new")));
+    		// Запись в журнал
+			List<ChangeInfo> lci = objectChanged.getObjectChanges();
+			for (ChangeInfo ci : lci) objRepository.writeLog(userService.getPrincipal(), ci.getRn(), ci.getClazz(), ci.getValue(), ci.getOp(), ip, browser);
+	    	transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+			throw ex;
+		}
 		model.addAttribute("hs", hs);
 		setObjModel(obj, model);
 		String t = "details" + clazz + "Page";
