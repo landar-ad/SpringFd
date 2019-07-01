@@ -26,42 +26,68 @@ public class ObjectChanged {
 			l = new ArrayList<ChangeInfo>();
 			map.put(rn, l);
 		}
-		l.add(new ChangeInfo(rn, op, hs.getMapProperties(obj, true)));
+		ChangeInfo ci = null;
+		for (ChangeInfo ciT : l) {
+			if (ciT.getOp() == op) {
+				ci = ciT;
+				break;
+			}
+		}
+		if (ci == null) {
+			ci = new ChangeInfo(rn, op, new LinkedHashMap<String, Object[]>());
+			l.add(ci);
+		}
+		final Map<String, Object[]> mapValue = ci.getValue() == null ? new LinkedHashMap<String, Object[]>() : ci.getValue();
+		Map<String, Object> mapObj = hs.getMapProperties(obj, true);
+		final boolean bOld = op == Operation.delete || op == Operation.update;
+		mapObj.forEach((attr, o) -> {
+			Object[] os = mapValue.get(attr);
+			if (os == null) {
+				os = new Object[] {bOld ? o : null, !bOld ? o : null};
+				mapValue.put(attr, os);
+			}
+			else {
+				if (op == Operation.delete) os[0]= o;
+				else os[1] = o;
+			}
+		});
+		ci.setValue(mapValue);
+	}
+	public void addValue(Object obj, String attr, Object value) {
+		if (obj == null) return;
+		Integer rn = (Integer)hs.getProperty(obj, "rn");
+		if (rn == null) return;
+		List<ChangeInfo> l = map.get(rn);
+		if (l == null) {
+			l = new ArrayList<ChangeInfo>();
+			map.put(rn, l);
+		}
+		ChangeInfo ci = null;
+		for (ChangeInfo ciT : l) {
+			if (ciT.getOp() == Operation.update) {
+				ci = ciT;
+				break;
+			}
+		}
+		if (ci == null) {
+			ci = new ChangeInfo(rn, Operation.update, new LinkedHashMap<String, Object[]>());
+			l.add(ci);
+		}
+		Map<String, Object[]> mapValue = ci.getValue();
+		if (mapValue == null) {
+			mapValue = new LinkedHashMap<String, Object[]>();
+			ci.setValue(mapValue);
+		}
+		Object[] os = mapValue.get(attr);
+		if (os == null) {
+			os = new Object[] {hs.getProperty(obj, attr), value};
+			mapValue.put(attr, os);
+		}
+		else os[1] = value;
 	}
 	public List<ChangeInfo> getObjectChanges() {
 		List<ChangeInfo> ret = new ArrayList<ChangeInfo>();
-		map.forEach((rn, l) -> {
-			ChangeInfo ciCreate = null, ciUpdateStart = null, ciUpdateEnd = null, ciDelete = null;
-			for (ChangeInfo ci : l) {
-				if (ci.getOp() == Operation.create) {
-					ciCreate = ci;
-					ciUpdateStart = null;
-					ciUpdateEnd = null;
-				}
-				else if (ci.getOp() == Operation.update) {
-					if (ciUpdateStart == null) ciUpdateStart = ci;
-					else ciUpdateEnd = ci;
-				}
-				else if (ci.getOp() == Operation.delete) { ciDelete = ci; break; }
-			}
-			if (ciCreate != null) {
-				ciCreate.buildValueCompared(false);
-				ret.add(ciCreate);
-			}
-			if (ciUpdateStart == null && ciCreate != null) ciUpdateStart = ciCreate;
-			if (ciUpdateEnd == null && ciUpdateStart != null) ciUpdateEnd = ciUpdateStart;
-			if (ciUpdateStart != null && ciUpdateEnd != null) {
-				Map<String, Object[]> mapValueCompared = hs.getMapChanged(ciUpdateStart.getValue(), ciUpdateEnd.getValue());
-				if (mapValueCompared != null && !mapValueCompared.isEmpty()) {
-					ciUpdateEnd.setValueCompared(mapValueCompared);
-					ret.add(ciUpdateEnd);
-				}
-			}
-			if (ciDelete != null) {
-				ciDelete.buildValueCompared(true);
-				ret.add(ciDelete);
-			}
-		});
+		map.forEach((rn, l) -> ret.addAll(l));
 		return ret;
 	}
 }
