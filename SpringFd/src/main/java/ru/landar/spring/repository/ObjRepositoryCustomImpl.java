@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
@@ -33,6 +34,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
+import ru.landar.spring.ObjectChanged;
+import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.ISession;
@@ -51,6 +54,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	UserService userService;
 	@Autowired
 	HelperService hs;
+	@Resource(name = "getObjectChanged")
+    ObjectChanged objectChanged;
 	@PersistenceContext
     private EntityManager em;
 	@Override
@@ -67,7 +72,9 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
 		em.persist(obj);
 		em.flush();
-		return em.find(obj.getClass(), hs.getProperty(obj, "rn"));
+		Object ret = em.find(obj.getClass(), hs.getProperty(obj, "rn"));
+		objectChanged.addObject(ret, Operation.create);
+		return ret;
 	}
 	@Override
 	public Object updateObj(Object obj) {
@@ -98,6 +105,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	}
 	@Override
 	public void removeObj(Object obj) { 
+		objectChanged.addObject(obj, Operation.delete);
 		Integer rn = (Integer)hs.getProperty(obj, "rn");
 		em.remove(obj);
 		try { 

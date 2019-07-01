@@ -1,8 +1,15 @@
 package ru.landar.spring.classes;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ru.landar.spring.service.HelperService;
+
 public class ChangeInfo {
+	@Autowired
+	private HelperService hs;
 	Integer rn;
 	Operation op;
 	Map<String, Object[]> mapValue;
@@ -19,4 +26,13 @@ public class ChangeInfo {
 	
 	public void setValue(Map<String, Object[]> map) { mapValue = map; }
 	public Map<String, Object[]> getValue() { return mapValue; }
+	
+	public boolean checkMap() {
+		Map<String, Object[]> map = new LinkedHashMap<String, Object[]>();
+		mapValue.forEach((attr, os) -> {
+			if (!hs.equals(os[1], os[2])) map.put(attr, os);
+		});
+		mapValue = map;
+		return !mapValue.isEmpty();
+	}
 }
