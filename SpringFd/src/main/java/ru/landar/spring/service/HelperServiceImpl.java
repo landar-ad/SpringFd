@@ -216,7 +216,7 @@ public class HelperServiceImpl implements HelperService {
 	public Field[] getFields(Class<?> cl, boolean persist) {
 		Map<String, Field> map = new LinkedHashMap<String, Field>();
 		List<Class<?>> lClasses = new ArrayList<Class<?>>();
-		while (cl != null && (!persist || cl.isAnnotationPresent(Entity.class))) { 
+		while (cl != null) { 
 			lClasses.add(0, cl);
 			cl = cl.getSuperclass();
 		}
@@ -280,17 +280,10 @@ public class HelperServiceImpl implements HelperService {
 			Class<?> clAttr = getAttrType(cl, attr);
 			if (clAttr != null) {
 				if (IBase.class.isAssignableFrom(clAttr)) {
-					Object o = getProperty(obj, attr);
-					if (o != null) ret = (Integer)getProperty(o, "rn");
+					ret = getProperty(obj, attr);
 				}
 				else if (List.class.isAssignableFrom(clAttr)) {
-					List<Integer> l = new ArrayList<Integer>();
-					List<?> lo = (List<?>)getProperty(obj, attr);
-					if (lo != null) for (Object o : lo) {
-						Integer rn = (Integer)getProperty(o, "rn");
-						if (rn != null) l.add(rn);
-					}
-					ret = l;
+					ret = (List<?>)getProperty(obj, attr);
 				}
 				else {
 					Object o = getProperty(obj, attr);
@@ -682,22 +675,52 @@ public class HelperServiceImpl implements HelperService {
 	}
 	@Override
 	public String getJsonString(Object obj) throws Exception {
-		String ret = "";
-		for (; ;) {
-			if (obj == null) break;
-			Map<String, Object> map = new LinkedHashMap<String, Object>();
-			Class<?> cl = obj.getClass();
-			Field[] fs = getFields(cl, true);
-			for (Field f: fs) {
-				String attr = f.getName();
-				Object value = getPropertyJson(obj, attr);
-				if (value != null) map.put(attr, value);
+		if (obj == null) return "";
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		getObjectMap(obj, map, 0, 2);
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+	}
+	private void  getObjectMap(Object obj, Map<String, Object> map, int level, int maxLevel) throws Exception {
+		if (obj == null || map == null) return;
+		Field[] fs = getFields(obj.getClass(), true);
+		for (Field f: fs) {
+			String attr = f.getName();
+			Object value = getPropertyJson(obj, attr);
+			if (value == null) continue;
+			Class<?> clAttr = this.getAttrType(obj.getClass(), attr);
+			if (clAttr == null) continue;
+			if (IBase.class.isAssignableFrom(clAttr)) {
+				Integer rn = (Integer)getProperty(value, "rn");
+				if (rn == null) continue;
+				value = objService.find((String)getProperty(value, "clazz"), rn);
+				if (value == null) continue;
+				if (level < maxLevel) {
+					Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
+					getObjectMap(value, mapValue, level + 1, maxLevel);
+					value = mapValue;
+				}
+				else value = rn;
 			}
-			ObjectMapper mapper = new ObjectMapper();
-			ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
-			break;
+			else if (List.class.isAssignableFrom(clAttr)) {
+				List<?> l = (List<?>)value;
+				List<Object> la = new ArrayList<Object>();
+				for (Object o : l) {
+					Integer rn = (Integer)getProperty(o, "rn");
+					if (rn == null) continue;
+					o = objService.find((String)getProperty(o, "clazz"), rn);
+					if (o == null) continue;
+					if (level < maxLevel) {
+						Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
+						getObjectMap(o, mapValue, level + 1, maxLevel);
+						la.add(mapValue);
+					}
+					else la.add(rn);
+				}
+				value = la;
+			}
+			map.put(attr, value);
 		}
-		return ret;
 	}
 	private static File createTempDirectory(String name) {
 		
