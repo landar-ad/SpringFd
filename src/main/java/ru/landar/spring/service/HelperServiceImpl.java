@@ -677,12 +677,15 @@ public class HelperServiceImpl implements HelperService {
 	public String getJsonString(Object obj) throws Exception {
 		if (obj == null) return "";
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		getObjectMap(obj, map, 0, 2);
+		getObjectMap(obj, map, new ArrayList<Integer>());
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
 	}
-	private void  getObjectMap(Object obj, Map<String, Object> map, int level, int maxLevel) throws Exception {
-		if (obj == null || map == null) return;
+	private void  getObjectMap(Object obj, Map<String, Object> map, List<Integer> listRn) throws Exception {
+		if (obj == null || map == null || listRn == null) return;
+		Integer rn = (Integer)getProperty(obj, "rn");
+		if (rn == null) return;
+		listRn.add(rn);
 		Field[] fs = getFields(obj.getClass(), true);
 		for (Field f: fs) {
 			String attr = f.getName();
@@ -691,31 +694,27 @@ public class HelperServiceImpl implements HelperService {
 			Class<?> clAttr = this.getAttrType(obj.getClass(), attr);
 			if (clAttr == null) continue;
 			if (IBase.class.isAssignableFrom(clAttr)) {
-				Integer rn = (Integer)getProperty(value, "rn");
+				rn = (Integer)getProperty(value, "rn");
 				if (rn == null) continue;
-				value = objService.find((String)getProperty(value, "clazz"), rn);
-				if (value == null) continue;
-				if (level < maxLevel) {
+				if (!listRn.contains(rn)) {
 					Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
-					getObjectMap(value, mapValue, level + 1, maxLevel);
+					getObjectMap(value, mapValue, listRn);
 					value = mapValue;
 				}
-				else value = rn;
+				else value = "#" + rn + "#";
 			}
 			else if (List.class.isAssignableFrom(clAttr)) {
 				List<?> l = (List<?>)value;
 				List<Object> la = new ArrayList<Object>();
 				for (Object o : l) {
-					Integer rn = (Integer)getProperty(o, "rn");
+					rn = (Integer)getProperty(o, "rn");
 					if (rn == null) continue;
-					o = objService.find((String)getProperty(o, "clazz"), rn);
-					if (o == null) continue;
-					if (level < maxLevel) {
+					if (!listRn.contains(rn)) {
 						Map<String, Object> mapValue = new LinkedHashMap<String, Object>();
-						getObjectMap(o, mapValue, level + 1, maxLevel);
+						getObjectMap(o, mapValue, listRn);
 						la.add(mapValue);
 					}
-					else la.add(rn);
+					else la.add("#" + rn + "#");
 				}
 				value = la;
 			}
