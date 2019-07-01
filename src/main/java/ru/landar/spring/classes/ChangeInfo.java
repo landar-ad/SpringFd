@@ -35,7 +35,7 @@ public class ChangeInfo {
 	public boolean checkMap() {
 		Map<String, Object[]> map = new LinkedHashMap<String, Object[]>();
 		mapValue.forEach((attr, os) -> {
-			if (!hs.equals(os[1], os[2])) map.put(attr, os);
+			if (!hs.equals(os[0], os[1])) map.put(attr, os);
 		});
 		mapValue = map;
 		return !mapValue.isEmpty();

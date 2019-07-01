@@ -421,6 +421,7 @@ public class ObjController {
     	}
     	catch (Exception ex) {
     		transactionManager.rollback(ts);
+    		throw ex;
     	}
 		if (hs.isEmpty(redirect)) redirect = "/main";
 		return "redirect:" + redirect;
