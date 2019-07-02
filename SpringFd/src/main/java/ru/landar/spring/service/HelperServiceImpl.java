@@ -354,8 +354,10 @@ public class HelperServiceImpl implements HelperService {
 		if (o1 == null && o2 == null) return true;
 		if (o1 == null && o2 != null) return false;
 		if (o1 != null && o2 == null) return false;
-		if (o1 instanceof IBase) o1 = ((IBase)o1).getRn();
-		if (o2 instanceof IBase) o2 = ((IBase)o2).getRn();
+		if (o1 instanceof List) o1 = getString((List<?>)o1);
+		else if (o1 instanceof IBase) o1 = ((IBase)o1).getRn();
+		if (o2 instanceof List) o2 = getString((List<?>)o2);
+		else if (o2 instanceof IBase) o2 = ((IBase)o2).getRn();
 		if (o1.equals(o2)) return true;
 		if (o1.toString().equals(o2.toString())) return true;
 		try
@@ -365,6 +367,17 @@ public class HelperServiceImpl implements HelperService {
 		}
 		catch (Exception ex) { }
 		return false;
+	}
+	private String getString(List<?> l) {
+		String ret = "";
+		for (Object o : l) {
+			if (o == null || !(o instanceof IBase)) continue;
+			Integer rn = ((IBase)o).getRn();
+			if (rn == null) continue;
+			if (!ret.isEmpty()) ret += ",";
+			ret += ((IBase)o).getRn();
+		}
+		return ret;
 	}
 	@Override
 	public Object getVariable(Object obj, String attr) {
