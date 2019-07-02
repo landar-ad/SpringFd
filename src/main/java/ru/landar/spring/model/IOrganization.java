@@ -10,6 +10,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.ObjService;
 
 @Entity
@@ -72,6 +73,7 @@ public class IOrganization extends IAgent {
     public void setOkopf(String okopf) { this.okopf = okopf; }
     
     private void updateName() {
+    	AutowireHelper.autowire(this);
     	String name = "";
     	if (shortname != null) name = shortname;
     	if (name.isEmpty() && !fullname.isEmpty()) name = fullname;

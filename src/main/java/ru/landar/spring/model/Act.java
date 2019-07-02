@@ -107,7 +107,7 @@ public class Act extends IBase {
     	String name = "Акт П/П";
     	if (!hs.isEmpty(getAct_number())) name += " № " + getAct_number();
     	if (getAct_date() != null) name += " от " + new SimpleDateFormat("dd.MM.yyyy").format(getAct_date());
-    	hs.setProperty(this, "name", name);
+    	setName(name);
     }
     
     @Autowired
