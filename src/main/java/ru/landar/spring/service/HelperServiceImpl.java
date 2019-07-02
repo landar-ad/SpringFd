@@ -346,6 +346,8 @@ public class HelperServiceImpl implements HelperService {
 			if (!"00:00:00".equals(s2)) s1 += " " + s2;
 			return s1; 
 		}
+		else if (o instanceof IBase) return "" + ((IBase)o).getRn();
+		else if (o instanceof List) return getString((List<?>)o);
 		return o.toString();
 	}
 	@Override
