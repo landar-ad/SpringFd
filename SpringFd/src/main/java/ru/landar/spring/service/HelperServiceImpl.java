@@ -340,8 +340,7 @@ public class HelperServiceImpl implements HelperService {
 	public String getObjectString(Object o) {
 		if (o == null || o instanceof String) return (String)o;
 		else if (o instanceof Boolean) return (Boolean)o ? "да" : "нет";
-		else if (o instanceof Date) 
-		{
+		else if (o instanceof Date) {
 			String s1 = dMy.format((Date)o), s2 = Hms.format((Date)o);
 			if (!"00:00:00".equals(s2)) s1 += " " + s2;
 			return s1; 
@@ -356,19 +355,7 @@ public class HelperServiceImpl implements HelperService {
 		if (o1 == null && o2 == null) return true;
 		if (o1 == null && o2 != null) return false;
 		if (o1 != null && o2 == null) return false;
-		if (o1 instanceof List) o1 = getString((List<?>)o1);
-		else if (o1 instanceof IBase) o1 = ((IBase)o1).getRn();
-		if (o2 instanceof List) o2 = getString((List<?>)o2);
-		else if (o2 instanceof IBase) o2 = ((IBase)o2).getRn();
-		if (o1.equals(o2)) return true;
-		if (o1.toString().equals(o2.toString())) return true;
-		try
-		{
-			Method m = o1.getClass().getMethod("compareTo", o2.getClass());
-			if (m != null && (Integer)m.invoke(o1, o2) == 0) return true;
-		}
-		catch (Exception ex) { }
-		return false;
+		return getObjectString(o1).equals(getObjectString(o2));
 	}
 	private String getString(List<?> l) {
 		String ret = "";
