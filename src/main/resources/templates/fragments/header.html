@@ -182,7 +182,7 @@
 						<td></td>
 						<td></td>
 						<td></td>
-						<td><button class="remove-item btn btn-light btn-sm" type="button" data-item=""><i class="fa fa-sm fa-minus"></i></button></td>
+						<td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
 						<td class="d-none cmd"><input type="hidden" name="list_file__p_cmd" value=""></td>
 			    	</tr>
 			    	<tr th:each="f,iter : ${obj?.list_file}">
@@ -204,13 +204,13 @@
 			        	<td th:text="${f.fileext}"/>
 			        		<td th:text="${f.filetype?.name}"/>
 			        	<td th:text="${f.filelength}"/>
-			        	<td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
-			        	<td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${f.rn}"><i class="fa fa-sm fa-minus"></i></button></td>
+			        	<td><a th:if=${readonly!=true} th:href="@{/detailsObj?clazz=IFile&rn=} + ${f.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm" title="Редактировать/просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
+			        	<td><button th:if=${readonly!=true} class="remove-item btn btn-light btn-sm" type="button" th:data-item="${f.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
 			        	<td class="d-none cmd"><input type="hidden" name="list_file__p_cmd" value=""></td>
 			    	</tr>
 			    	<tr th:if=${readonly!=true} class="last-row">
 			    		<td class="d-none"/>
-			    		<td><button class="add-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-plus"></i></button></td>
+			    		<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
 			    		<td></td>
 			    		<td></td>
 			    		<td></td>

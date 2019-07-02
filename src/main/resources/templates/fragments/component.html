@@ -43,7 +43,7 @@
 	</div>
 	<div th:if="${tt=='pbutton'}">
 		<div th:if="${ro!=1}">
-			<button type="button" class="choose_obj btn btn-light btn-sm" th:data-clazz="${ddcl}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
+			<button type="button" class="choose_obj btn btn-light btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
 			<input th:name="${nn}" type="hidden" th:value="${vv}">
 		</div>
 	</div>
