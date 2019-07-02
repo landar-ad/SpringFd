@@ -67,11 +67,11 @@
 								            <td></td>
 								            <td class="edited">
 								            	<span></span>
-								            	<input name="list_doc__rn" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
+								            	<input name="list_doc__rn" type="hidden" value="" data-type="select" data-clazz="Document" title="Выберите документ" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='4'">
 								            </td>
 								            <td></td>
 								            <td></td>
-								            <td><button class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td><button class="remove-item btn btn-light btn-sm" type="button" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
 								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 								        </tr>
 								        <tr th:each="doc,iter : ${obj?.list_doc}">
@@ -89,13 +89,13 @@
 								            	<span th:text="${doc.name}"></span>
 								            </td>
 								            <td th:text="${doc.change_doc?.name}"></td>
-								            <td><a th:href="@{/detailsObj?clazz=Document&readonly=1&&rn=} + ${doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-file"></i></a></td>
-								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td><a th:href="@{/detailsObj?clazz=Document&readonly=1&&rn=} + ${doc.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm" title="Редактировать/просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
+								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
 								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 								        </tr>
 								        <tr th:if="${rco!=1}" class="last-row">
 								        	<td class="d-none"/>
-								        	<td><button class="add-item btn btn-light btn-sm"><i class="fa fa-sm fa-plus"></i></button></td>
+								        	<td><button class="add-item btn btn-light btn-sm" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
 								        	<td></td>
 								        	<td></td>
 								        	<td></td>
