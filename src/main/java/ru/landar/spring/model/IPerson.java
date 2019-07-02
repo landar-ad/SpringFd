@@ -73,7 +73,7 @@ public class IPerson extends IAgent {
     	if (middlename != null && !middlename.isEmpty()) {
     		name += middlename.substring(0, 1) + ".";
     	}	
-    	setName(name);
+    	hs.setProperty(this, "name", name);
     }
     
     @Autowired
@@ -111,7 +111,7 @@ public class IPerson extends IAgent {
    	public Object onNew() {
     	Object ret = super.onNew();
        	if (ret != null) return ret;
-       	setType((SpAgentType)objService.getObjByCode(SpAgentType.class, "2"));
+       	hs.setProperty(this, "type", (SpAgentType)objService.getObjByCode(SpAgentType.class, "2"));
     	return true;
    	}
    	@Override

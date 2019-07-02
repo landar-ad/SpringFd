@@ -65,7 +65,7 @@ public class IFile extends IBase {
 					int s = fileuri.indexOf('_', k);
 					if (s > 0) k = s;
 					filename = fileuri.substring(k + 1);
-					setFilename(filename);
+					hs.setProperty(this, "filename", filename);
 				}
 			}
     		if (hs.isEmpty(filename)) break;
@@ -73,11 +73,11 @@ public class IFile extends IBase {
 			if (hs.isEmpty(fileext)) {
 				int k = filename.lastIndexOf('.');
 				fileext = k > 0 ? filename.substring(k + 1) : "";
-				setFileext(fileext);
+				hs.setProperty(this, "fileext", fileext);
 			}
 			if (!hs.isEmpty(fileext) && getFiletype() == null) {
 				SpFileType filetype = (SpFileType)objRepository.findByCode(SpFileType.class, fileext.toLowerCase());
-				setFiletype(filetype);
+				hs.setProperty(this, "filetype", filetype);
 			}
 			break;
     	}
