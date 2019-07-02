@@ -32,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.persistence.CascadeType;
@@ -108,7 +107,7 @@ public class Act extends IBase {
     	String name = "Акт П/П";
     	if (!hs.isEmpty(getAct_number())) name += " № " + getAct_number();
     	if (getAct_date() != null) name += " от " + new SimpleDateFormat("dd.MM.yyyy").format(getAct_date());
-    	setName(name);
+    	hs.setProperty(this, "name", name);
     }
     
     @Autowired
@@ -177,9 +176,9 @@ public class Act extends IBase {
      	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-    	setChange_agent(user.getPerson());
-    	setChange_time(dt);
-    	if (objectChanged.isAttrChanged(this, "act_status")) setTime_status(dt);
+    	hs.setProperty(this, "change_agent", user.getPerson());
+    	hs.setProperty(this, "change_time", dt);
+    	if (objectChanged.isAttrChanged(this, "act_status")) hs.setProperty(this, "time_status", dt);
     	return true;
 	}
 	@Override
@@ -190,8 +189,8 @@ public class Act extends IBase {
     	for (Act_document act_doc : l) {
     		Document doc = act_doc.getDoc();
     		if (doc == null) continue;
-    		doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
-    		doc.setAct(null);
+    		hs.setProperty(doc, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+    		hs.setProperty(doc, "act", null);
      	}
     	return true;
     }
@@ -311,23 +310,23 @@ public class Act extends IBase {
 	    	onNew();
 	    	Integer max = (Integer)objRepository.getMaxAttr(Act.class, "act_num");
 	    	if (max == null) max = 0;
-    		setAct_num(max + 1); 
-    		setAct_number("" + getAct_num());
+	    	hs.setProperty(this, "act_num", max + 1); 
+	    	hs.setProperty(this, "act_number", "" + getAct_num());
 	    	Act act = (Act)objRepository.createObj(this);
 	    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3");
 	    	List<Act_document> l = act.getList_doc();
 	    	for (Object o : p.getContent()) {
 	    		Document doc = (Document)o;
-	    		doc.setDoc_status(doc_status);
-	    		doc.setAct(act);
+	    		hs.setProperty(doc, "doc_status", doc_status);
+	    		hs.setProperty(doc, "act", act);
 	    		objRepository.saveObj(doc);
 	    		Act_document act_doc = new Act_document();
-	    		act_doc.setDoc(doc);
+	    		hs.setProperty(act_doc, "doc", doc);
 	    		act_doc.onNew();
 	    		act_doc = (Act_document)objRepository.createObj(act_doc);
 	    		l.add(act_doc);
 	    	}
-	    	act.setList_doc(l);
+	    	hs.setProperty(act, "list_doc", l);
 	    	break;
 		}
     }
@@ -335,13 +334,13 @@ public class Act extends IBase {
     public void sendAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("sendAct")) return;
-    	setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
+    	hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void acceptAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("acceptAct")) return;
-    	setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
+    	hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirmAct(HttpServletRequest request) throws Exception {
@@ -363,10 +362,10 @@ public class Act extends IBase {
 			e = act_doc.getExclude() != null && act_doc.getExclude();
 			Document doc = act_doc.getDoc();
 			if (doc == null) continue;
-			doc.setDoc_status(e ? doc_status5 : doc_status4);
+			hs.setProperty(doc, "doc_status", e ? doc_status5 : doc_status4);
 			objRepository.saveObj(doc);
 		}
-		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
+		hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void refuseAct(HttpServletRequest request) throws Exception {
@@ -376,11 +375,11 @@ public class Act extends IBase {
 		for (Act_document act_doc : getList_doc()) {
 			Document doc = act_doc.getDoc();
 			if (doc == null) continue;
-			doc.setDoc_status(doc_status);
+			hs.setProperty(doc, "doc_status", doc_status);
 			objRepository.saveObj(doc);
 		}
-		setAct_reason("Отклонен пользователем");
-		setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
+		hs.setProperty(this, "act_reason", "Отклонен пользователем");
+		hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
     }
     public String printAct(HttpServletRequest request) throws Exception {
     	return getRn() != null ? "/printAct?rn=" + getRn() : null;

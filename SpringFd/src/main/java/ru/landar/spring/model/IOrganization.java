@@ -75,13 +75,13 @@ public class IOrganization extends IAgent {
     	String name = "";
     	if (shortname != null) name = shortname;
     	if (name.isEmpty() && !fullname.isEmpty()) name = fullname;
-    	setName(name);
+    	hs.setProperty(this, "name", name);
     }
     private void updateCode() {
      	String code = "";
     	if (inn != null && !inn.isEmpty()) code = inn;
     	if (kpp != null && !kpp.isEmpty()) { if (!code.isEmpty()) code += "_"; code += kpp; }
-    	if (!code.isEmpty()) setCode(code);
+    	if (!code.isEmpty()) hs.setProperty(this, "code", code);
     }
     @Autowired
 	ObjService objService;
@@ -105,7 +105,7 @@ public class IOrganization extends IAgent {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	setType((SpAgentType)objService.getObjByCode(SpAgentType.class, "1"));
+    	hs.setProperty(this, "type", (SpAgentType)objService.getObjByCode(SpAgentType.class, "1"));
      	return true;
     }
 }

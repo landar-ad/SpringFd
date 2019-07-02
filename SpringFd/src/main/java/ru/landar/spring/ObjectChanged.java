@@ -23,7 +23,7 @@ public class ObjectChanged {
 		Integer rn = (Integer)hs.getProperty(obj, "rn");
 		if (rn == null) return;
 		String clazz = (String)hs.getProperty(obj, "clazz");
-		if (clazz == null) return;
+		if (clazz == null || clazz.equals("ActionLog") || clazz.equals("ISession")) return;
 		List<ChangeInfo> l = map.get(rn);
 		if (l == null) {
 			l = new ArrayList<ChangeInfo>();

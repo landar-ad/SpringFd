@@ -159,7 +159,7 @@ public class Document extends IBase {
 		if (getDoc_type() != null) name = getDoc_type().getName();
     	if (!hs.isEmpty(getDoc_number())) name += (!name.isEmpty() ? " " : "") + "№ " + getDoc_number();
     	if (getDoc_date() != null) name += (!name.isEmpty() ? " от " : "От ") + new SimpleDateFormat("dd.MM.yyyy").format(getDoc_date());
-    	setName(name);
+    	hs.setProperty(this, "name", name);
     }
     
     @Autowired
@@ -211,15 +211,15 @@ public class Document extends IBase {
     	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-    	setCreate_agent(user.getPerson());
-    	setCreate_time(dt);
-    	setChange_agent(agent);
-    	setChange_time(dt);
-    	setDepart(hs.getDepartment());
-    	setDoc_date(dt);
-    	setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "1"));
-    	setTime_status(dt);
-    	setSheet_count(0);
+    	hs.setProperty(this, "create_agent", user.getPerson());
+      	hs.setProperty(this, "create_time", dt);
+      	hs.setProperty(this, "change_agent", user.getPerson());
+      	hs.setProperty(this, "change_time", dt);
+      	hs.setProperty(this, "depart", hs.getDepartment());
+      	hs.setProperty(this, "doc_date", dt);
+      	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "1"));
+      	hs.setProperty(this, "time_status", dt);
+      	hs.setProperty(this, "sheet_count", 0);
      	return true;
     }
 	@Override
@@ -264,9 +264,9 @@ public class Document extends IBase {
 	    	Date dt = new Date();
 	    	IUser user = userService.getUser((String)null);
 	    	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-	    	setChange_agent(user.getPerson());
-	    	setChange_time(dt);
-	    	if (objectChanged.isAttrChanged(this, "doc_status")) setTime_status(dt);
+	    	hs.setProperty(this, "change_agent", user.getPerson());
+	    	hs.setProperty(this, "change_time", dt);
+	    	if (objectChanged.isAttrChanged(this, "doc_status")) hs.setProperty(this, "time_status", dt);
     	}
 		return true;
     }
@@ -320,7 +320,7 @@ public class Document extends IBase {
     public void confirm(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("confirm")) return;
-		setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+    	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
 	}
     @Override
     public Object onBuildContent() {

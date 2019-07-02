@@ -125,7 +125,7 @@ public class Reestr extends IBase {
     	String name = "Реестр ";
     	if (!hs.isEmpty(getReestr_number())) name += " № "+ getReestr_number();
     	if (getReestr_date() != null) name += " от " + new SimpleDateFormat("dd.MM.yyyy").format(getReestr_date());
-    	setName(name);
+    	hs.setProperty(this, "name", name);
     }
     
     @Autowired
@@ -174,16 +174,16 @@ public class Reestr extends IBase {
     	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-     	setCreate_agent(user.getPerson());
-    	setCreate_time(dt);
-    	setChange_agent(user.getPerson());
-    	setChange_time(dt);
-    	setReestr_date(dt);
-    	setDepart(hs.getDepartment());
-    	setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "1"));
-    	setTime_status(dt);
-    	setDoc_count(0);
-		setSheet_count(0);
+    	hs.setProperty(this, "create_agent", user.getPerson());
+    	hs.setProperty(this, "create_time", dt);
+    	hs.setProperty(this, "change_agent", user.getPerson());
+    	hs.setProperty(this, "change_time", dt);
+    	hs.setProperty(this, "reestr_date", dt);
+    	hs.setProperty(this, "depart", hs.getDepartment());
+    	hs.setProperty(this, "reestr_status", (SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "1"));
+    	hs.setProperty(this, "time_status", dt);
+    	hs.setProperty(this, "doc_count", 0);
+    	hs.setProperty(this, "sheet_count", 0);
      	return true;
     }
     @Override
@@ -193,16 +193,16 @@ public class Reestr extends IBase {
     	Date dt = new Date();
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
-    	setChange_agent(user.getPerson());
-    	setChange_time(dt);
-    	if (objectChanged.isAttrChanged(this, "reestr_status")) setTime_status(dt);
+    	hs.setProperty(this, "change_agent", user.getPerson());
+    	hs.setProperty(this, "change_time", dt);
+    	if (objectChanged.isAttrChanged(this, "reestr_status")) hs.setProperty(this, "time_status", dt);
 		int doccount = 0, sheetcount = 0;
 		for (Document doc : getList_doc()) {
 			doccount++;
 			if (doc.getSheet_count() != null) sheetcount += doc.getSheet_count();
 		}
-		setDoc_count(doccount);
-		setSheet_count(sheetcount);
+		hs.setProperty(this, "doc_count", doccount);
+		hs.setProperty(this, "sheet_count", sheetcount);
 		return true;
 	}
     public void onUpdateItem(Class<?> clItem, Integer rnItemOld, Integer rnItem) {
@@ -211,14 +211,14 @@ public class Reestr extends IBase {
     		Document docOld = (Document)objRepository.find(clItem, rnItemOld);
     		Document doc = (Document)objRepository.find(clItem, rnItem);
     		if (docOld != null) {
-    			docOld.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "8"));
-    			docOld.setChange_doc(doc);
+    			hs.setProperty(docOld, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "8"));
+    			hs.setProperty(docOld, "change_doc", doc);
     		}
     		if (doc != null) {
-    			docOld.setReestr(null);
-    			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
+    			hs.setProperty(docOld, "reestr", null);
+    			hs.setProperty(docOld, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
     		}
-    		setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "4"));
+    		hs.setProperty(this, "reestr_status", (SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "4"));
     	}
     }
     @Override
@@ -227,8 +227,8 @@ public class Reestr extends IBase {
     	if (ret != null) return ret;
     	List<Document> l = getList_doc();
     	for (Document doc : l) {
-   			doc.setReestr(null);
-   			doc.setDoc_status((SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4"));
+    		hs.setProperty(doc, "reestr", null);
+    		hs.setProperty(doc, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4"));
     	}
     	return true;
     }
@@ -316,19 +316,19 @@ public class Reestr extends IBase {
 	    	onNew();
 	    	Integer max = (Integer)objRepository.getMaxAttr(Reestr.class, "reestr_num");
 	    	if (max == null) max = 0;
-    		setReestr_num(max + 1); 
-    		setReestr_number("" + getReestr_num());
+	    	hs.setProperty(this, "reestr_num", max + 1); 
+	    	hs.setProperty(this, "reestr_number", "" + getReestr_num());
 	    	Reestr reestr = (Reestr)objRepository.createObj(this);
 	    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6");
 	    	List<Document> l = reestr.getList_doc();
 	    	for (Object o : p.getContent()) {
 	    		Document doc = (Document)o;
-	    		doc.setDoc_status(doc_status);
-	    		doc.setReestr(reestr);
+	    		hs.setProperty(doc, "doc_status", doc_status);
+	    		hs.setProperty(doc, "reestr", reestr);
 	    		objRepository.saveObj(doc);
 	    		l.add(doc);
 	    	}
-	    	reestr.setList_doc(l);
+	    	hs.setProperty(reestr, "list_doc", l);
 	    	break;
 		}
     }
@@ -338,10 +338,10 @@ public class Reestr extends IBase {
     	if (!(Boolean)onCheckExecute("sendReestr")) return;
 		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
 		for (Document doc : getList_doc()) {
-			doc.setDoc_status(doc_status);
+			hs.setProperty(doc, "doc_status", doc_status);
 			objRepository.saveObj(doc);
 		}
-		setReestr_status((SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
+		hs.setProperty(this, "reestr_status", (SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
     }
     public String printReestr(HttpServletRequest request) throws Exception {
     	return getRn() != null ? "/printReestr?rn=" + getRn() : null;

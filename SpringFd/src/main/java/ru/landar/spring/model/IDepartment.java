@@ -90,7 +90,7 @@ public class IDepartment extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	setLevel(0);
+    	hs.setProperty(this, "level", 0);
      	return true;
     }
 	@Override
