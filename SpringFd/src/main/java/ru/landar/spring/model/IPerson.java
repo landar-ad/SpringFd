@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.ObjService;
 
 @Entity
@@ -64,6 +65,7 @@ public class IPerson extends IAgent {
     public void setDate_fire(Date date_fire) { this.date_fire = date_fire; }
     
     private void updateName() {
+    	AutowireHelper.autowire(this);
     	String name = "";
     	if (surname != null) name = surname;
     	if (firstname != null && !firstname.isEmpty()) {

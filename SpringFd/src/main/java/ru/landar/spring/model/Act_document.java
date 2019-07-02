@@ -50,7 +50,7 @@ public class Act_document extends IBase {
 			if (!name.isEmpty()) name += " <-> ";
 			name += doc.getName();
 		}
-		hs.setProperty(this, "name", name);
+		setName(name);
 	}
     @Override
     public Object onNew() {
