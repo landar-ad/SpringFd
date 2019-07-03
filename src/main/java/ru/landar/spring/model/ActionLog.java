@@ -125,7 +125,7 @@ public class ActionLog extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listActonType", objService.findAll(SpActionType.class));
+			model.addAttribute("listActionType", objService.findAll(SpActionType.class));
 		}
 		catch (Exception ex) { }
 		return true;
