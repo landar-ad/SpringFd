@@ -277,6 +277,18 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
+	public Object copyProperty(Object obj, String attr) {
+		Object ret = getProperty(obj, attr);
+		if (ret != null) {
+			if (ret instanceof List) {
+				List<Object> l = new ArrayList<Object>();
+				l.addAll((List<?>)ret);
+				ret = l;
+			}
+		}
+		return ret;
+	}
+	@Override
 	public Object getPropertyJson(Object obj, String attr) {
 		Object ret = null;
 		try { 
