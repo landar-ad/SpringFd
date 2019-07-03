@@ -34,6 +34,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.ActionLog;
@@ -434,7 +436,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	}
 	@Override
 	public Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception {
-		Object listObj = hs.getProperty(obj, listAttr);
+		Object listObj = hs.copyProperty(obj, listAttr);
 		if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
 		List list = (List<?>)listObj;
 		Class<?> clItem = hs.getClassByName(clazzItem);
@@ -497,32 +499,33 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		else if (op == Operation.delete) opCode = "remove";
 		SpActionType action_type = (SpActionType)findByCode(SpActionType.class, opCode);
 		Date dt = new Date();
-		if (mapChanged != null) {
-			if (!mapChanged.isEmpty()) mapChanged.forEach((attr, o) -> {
-				ActionLog al = new ActionLog();
-	    		al.setUser_login(user_login);
-	    		al.setAction_type(action_type);
-	    		al.setAction_time(dt);
-	    		al.setClient_ip(ip);
-	    		al.setClient_browser(browser);
-	    		al.setObj_name(clazz);
-	    		al.setObj_rn(rn);
-	    		al.setObj_attr(attr);
-	    		al.setObj_value_before(hs.getObjectString(o[0]));
-	    		al.setObj_value_after(hs.getObjectString(o[1]));
-	    		saveObj(al);
-			});
-		}
-		else {
-			ActionLog al = new ActionLog();
-			al.setUser_login(user_login);
-			al.setAction_type(action_type);
-			al.setAction_time(dt);
-			al.setClient_ip(ip);
-			al.setClient_browser(browser);
-			al.setObj_name(clazz);
-			al.setObj_rn(rn);
-			saveObj(al);
-		}
+		String attr = "";
+		if (mapChanged != null && !mapChanged.isEmpty()) {
+			Iterator<String> it = mapChanged.keySet().iterator();
+			while (it.hasNext()) {
+				String a = it.next();
+				if (!attr.isEmpty()) attr += ',';
+				attr += a;
+				Object[] o = mapChanged.get(a);
+				if (o != null && o.length >= 2) {
+					o[0] = hs.getObjectString(o[0]);
+					o[1] = hs.getObjectString(o[1]);
+				}
+			}
+		}	
+		ObjectMapper mapper = new ObjectMapper();
+		String v = null;
+		try { v = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(mapChanged); } catch (Exception ex) { }
+		ActionLog al = new ActionLog();
+		al.setUser_login(user_login);
+		al.setAction_type(action_type);
+		al.setAction_time(dt);
+		al.setClient_ip(ip);
+		al.setClient_browser(browser);
+		al.setObj_name(clazz);
+		al.setObj_rn(rn);
+		al.setObj_attr(attr);
+		al.setObj_value(v);
+		saveObj(al);
 	}
 }
