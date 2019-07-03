@@ -9,6 +9,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.service.HelperService;
@@ -85,13 +86,25 @@ public class ActionLog extends IBase {
 		ret.add(new ColumnInfo("obj_name", "Объект"));
 		ret.add(new ColumnInfo("obj_rn", "Идентификатор"));
 		ret.add(new ColumnInfo("obj_attr", "Атрибут"));
-		ret.add(new ColumnInfo("obj_value_before", "Значение до"));
-		ret.add(new ColumnInfo("obj_value_after", "Значение после"));
+		ret.add(new ColumnInfo("obj_value", "Данные"));
 		ret.add(new ColumnInfo("client_ip", "IP клиента"));
 		ret.add(new ColumnInfo("client_browser", "Браузер клиента"));
 		return ret;
 	}
-	public static boolean listPaginated() { return true; }
+	public Object onListPaginated() { return true; }
+	public List<AttributeInfo> onListAttribute() {
+		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
+		ret.add(new AttributeInfo("action_time", "Время действия", "text", null, false));
+		ret.add(new AttributeInfo("action_type", "Тип действия", "select", "listActionType", false));
+		ret.add(new AttributeInfo("user_login", "Пользователь", "text", null, false));
+		ret.add(new AttributeInfo("obj_name", "Объект", "text", null, false));
+		ret.add(new AttributeInfo("obj_rn", "Идентификатор", "text", null, false));
+		ret.add(new AttributeInfo("obj_attr", "Атрибут", "text", null, false));
+		ret.add(new AttributeInfo("obj_value", "Данные", "textarea", null, false));
+		ret.add(new AttributeInfo("client_ip", "IP клиента", "text", null, false));
+		ret.add(new AttributeInfo("client_browser", "Браузер клиента", "text", null, false));
+		return ret;
+	}
 	
 	@Override
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
