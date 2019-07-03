@@ -177,6 +177,11 @@ public class ObjController {
 		// Пользователь и его роли
 		model.addAttribute("p_login", userService.getPrincipal());
 		model.addAttribute("p_roles", userService.getRoles(null));
+		// Постоянные кнопки списка
+		String lb = "eavr";
+		if ("Act".equals(clazz) || "Reestr".equals(clazz)) lb = "ev";
+		else if ("ActionLog".equals(clazz) || "ISession".equals(clazz)) lb = "v";
+		model.addAttribute("p_listButtons", lb);
 		// Всего записей
 		model.addAttribute("p_totalRows", listObj.getTotalElements());
 		if (p_paging) {

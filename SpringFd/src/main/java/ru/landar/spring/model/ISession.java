@@ -86,9 +86,19 @@ public class ISession {
      	AutowireHelper.autowire(this);
     	Object ret = null;
     	Class<?> cl = hs.getHandlerClass(getClazz() + "_listeners");
-    	if (cl != null) try { ret = hs.invoke(cl.newInstance(), "onCheckRights", this, hs); } catch (Exception ex) { }
+    	if (cl != null) try { ret = hs.invoke(cl.newInstance(), "onCheckRights", this, hs, op); } catch (Exception ex) { }
     	if (ret != null) return ret;
     	
     	return op != Operation.update && op != Operation.delete;
+    }
+    public Object onCheckExecute(String param) { 
+    	AutowireHelper.autowire(this);
+     	Object ret = null;
+     	Class<?> cl = hs.getHandlerClass(getClazz() + "_listeners");
+    	if (cl != null) try { ret = hs.invoke(cl.newInstance(), "onCheckExecute", this, hs, param); } catch (Exception ex) { }
+     	if (ret != null) return ret;
+     	if (getRn() == null) return false;
+		if ("view".equals(param)) return true;
+		return false;
     }
 }

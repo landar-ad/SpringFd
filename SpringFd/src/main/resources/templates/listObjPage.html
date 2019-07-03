@@ -8,7 +8,7 @@
 			list_init();
 		});
 	</script>
-	<div th:with="l_p=${p_paging!=null && p_paging},l_lb=${clazz=='Act' ? 'ev' : (clazz=='Reestr' ? 'ev' : 'eavr')}" id="listTop" class="h-100">
+	<div th:with="l_p=${p_paging!=null && p_paging},l_lb=${p_listButtons}" id="listTop" class="h-100">
 		<header th:replace="fragments/header :: header"></header>
 	   	<div class="col">
 		 	<form id="formSubmit" th:action="${'listObj?clazz=' + clazz}" method="POST" novalidate  autocomplete="off">
