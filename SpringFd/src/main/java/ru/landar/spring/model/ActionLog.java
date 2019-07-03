@@ -30,8 +30,7 @@ public class ActionLog extends IBase {
 	private String obj_name;
 	private Integer obj_rn;
 	private String obj_attr;
-	private String obj_value_before;
-	private String obj_value_after;
+	private String obj_value;
 	private String client_ip;
 	private String client_browser;
 	
@@ -58,12 +57,8 @@ public class ActionLog extends IBase {
     public void setObj_attr(String obj_attr) { this.obj_attr = obj_attr; }
 	
 	@Lob
-    public String getObj_value_before() { return obj_value_before; }
-    public void setObj_value_before(String obj_value_before) { this.obj_value_before = obj_value_before; }
-	
-	@Lob
-    public String getObj_value_after() { return obj_value_after; }
-    public void setObj_value_after(String obj_value_after) { this.obj_value_after = obj_value_after; }
+    public String getObj_value() { return obj_value; }
+    public void setObj_value(String obj_value) { this.obj_value = obj_value; }
 	
 	@Column(length=32)
     public String getClient_ip() { return client_ip; }
