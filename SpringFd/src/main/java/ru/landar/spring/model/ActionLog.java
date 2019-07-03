@@ -134,6 +134,7 @@ public class ActionLog extends IBase {
     public Object onCheckRights(Operation op) { 
     	Object ret = invoke("onCheckRights", op);
      	if (ret != null) return ret;
+     	if (op == Operation.load) return true;
     	return false;
     }
 }
