@@ -96,12 +96,12 @@ public class ActionLog extends IBase {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		ret.add(new AttributeInfo("action_time", "Время действия", "text", null, false, 4));
 		ret.add(new AttributeInfo("action_type", "Тип действия", "select", "listActionType", false, 2));
-		ret.add(new AttributeInfo("user_login", "Пользователь", "text", null, false, 4));
-		ret.add(new AttributeInfo("obj_name", "Объект", "text", null, false, 4));
+		ret.add(new AttributeInfo("user_login", "Пользователь", "text", null, false, 2));
+		ret.add(new AttributeInfo("obj_name", "Объект", "text", null, false, 2));
 		ret.add(new AttributeInfo("obj_rn", "Идентификатор", "text", null, false, 2));
 		ret.add(new AttributeInfo("obj_attr", "Атрибут", "text", null, false));
 		ret.add(new AttributeInfo("obj_value", "Данные", "textarea", null, false));
-		ret.add(new AttributeInfo("client_ip", "IP клиента", "text", null, false, 6));
+		ret.add(new AttributeInfo("client_ip", "IP клиента", "text", null, false, 4));
 		ret.add(new AttributeInfo("client_browser", "Браузер клиента", "text", null, false));
 		return ret;
 	}
