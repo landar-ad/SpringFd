@@ -24,7 +24,7 @@
 	                        <textarea th:if="${attr.type=='textarea'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" th:text="${hs.getPropertyString(obj,attr.name)}" th:required="${attr.required}" rows="10"></textarea>
 	                       	<select th:if="${attr.type=='select'}" th:name="${attr.name}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-control form-control-sm'}" th:required="${attr.required}">
 	                       		<option value=""></option>
-								<option th:each="item : ${hs.getVariable(#vars,attr.nameList)}" th:selected="${hs.getProperty(obj,attr.name)==item.rn}" th:value="${item.rn}" th:text="${item.name}"/>
+								<option th:each="item : ${hs.getVariable(#vars,attr.nameList)}" th:selected="${hs.getProperty(obj,attr.name)?.rn==item.rn}" th:value="${item.rn}" th:text="${item.name}"/>
 							</select>
 							<div th:if="${attr.type=='checkbox'}" th:class="${(attr.length>0 ? 'col-sm-' + attr.length + ' ' : '') + 'form-check'}">
 		                    	<label class="form-check-label">
