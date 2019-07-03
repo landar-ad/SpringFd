@@ -85,7 +85,7 @@ public class ObjectChanged {
 		}
 		Object[] os = mapValue.get(attr);
 		if (os == null) {
-			os = new Object[] {hs.getProperty(obj, attr), value};
+			os = new Object[] {hs.copyProperty(obj, attr), value};
 			mapValue.put(attr, os);
 		}
 		else os[1] = value;

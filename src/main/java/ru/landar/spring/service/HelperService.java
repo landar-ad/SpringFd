@@ -23,6 +23,7 @@ public interface HelperService {
 	String getTitleByAttr(String attr);
 	void setProperty(Object obj, String attr, Object value);
 	Object getProperty(Object obj, String attr);
+	Object copyProperty(Object obj, String attr);
 	Object getPropertyJson(Object obj, String attr);
 	void copyProperties(Object src, Object dest, boolean notNull);
 	Map<String, Object> getMapProperties(Object obj, boolean persist);
