@@ -103,8 +103,26 @@ list_init = function() {
 			a.css("min-width", w);
 		});
 	};
-	// Выделение строк, редактирование и удаление
-	var rn = $('input[name="rn"]').val();
+	// Клик по строке
+	var rn = $('input[name="rn"]').val(), selected = false;
+	$('#objTable tbody tr').each(function() {
+		$(this).removeClass('table-success');
+		if (rn && rn == $(this).find("td.d-none").first().text()) {
+			var a = $(".fit-height").find(".table-fixed");
+			if (a.length == 0) a = $(".fit-height");
+			if (a.length > 0) {
+				var off = $(this).offset().top - a.offset().top;
+				a.animate({scrollTop: off});
+			}
+			click_row($(this)[0]);
+			selected = true;
+		}
+	});
+	if (!selected) {
+		rn = null;
+		$('input[name="rn"]').val(null);
+	}
+	// Кнопки
 	check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled', !b); });
 	check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled', !b); });
 	check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled', !b); });
@@ -126,20 +144,6 @@ list_init = function() {
 	// Изменение размера области данных после скроллинга
 	add_on($(".table-fixed"), "scroll", function() {
 		$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
-	});
-	// Клик по строке
-	$('#objTable tbody tr').each(function() {
-		$(this).removeClass('table-success');
-		var rn = $('input[name="rn"]').val();
-		if (rn && rn == $(this).find("td.d-none").first().text()) {
-			var a = $(".fit-height").find(".table-fixed");
-			if (a.length == 0) a = $(".fit-height");
-			if (a.length > 0) {
-				var off = $(this).offset().top - a.offset().top;
-				a.animate({scrollTop: off});
-			}
-			click_row($(this)[0]);
-		}
 	});
 	// Очистка фильтров
 	add_on($("#clear-filter"), "click", function() { clear_filter(); });
