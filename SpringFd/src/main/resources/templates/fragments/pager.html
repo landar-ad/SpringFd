@@ -9,7 +9,7 @@
 	<div th:fragment="pager" class="c-footer">
 		<div th:if="${p_total!=null && p_totalRows!=null}" class="row col-sm-12 small">
 			<div th:if="${p_total} gt 1" class="col-sm-auto mr-sm-1">
-				<ul class="pagination pagination-sm">
+				<ul class="pagination pagination-sm margin-bottom-0">
 					<li th:if="${p_off gt 0}" class="page-item">
 						<a class="page-link" href="javascript:void(0);" th:data-value="${0}">&lt;&lt;</a>
 					</li>
