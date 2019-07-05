@@ -125,3 +125,9 @@ body {
 .not-visible {
 	display: none;
 }
+.c-footer {
+  padding-top: 0.75rem;
+  padding-left: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
