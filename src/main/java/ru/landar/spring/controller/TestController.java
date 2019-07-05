@@ -62,6 +62,12 @@ public class TestController {
 		return "" + p.getContent().size();
 	}
 	
+	@RequestMapping(value = "/test/exception", method = RequestMethod.GET, produces = "text/plain")
+	@ResponseBody
+	public String exception() throws Exception {
+		throw new Exception("");
+	}
+	
 	@RequestMapping(value = "/test/pagination")
 	public String pagination(
 			@RequestParam("p_off") Optional<Integer> offParam, 

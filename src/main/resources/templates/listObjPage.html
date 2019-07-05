@@ -21,7 +21,7 @@
 			    <div th:replace="fragments/header :: visible"></div>
 		     </form>
 		</div>
-		<footer class="footer">
+		<footer>
 	    	<div th:if="${l_p}"><div th:replace="fragments/pager :: pager"></div></div>
 	    	<div th:if="${!l_p}"><div th:replace="fragments/pager :: total"></div></div>
 	    </footer>
