@@ -191,10 +191,8 @@ list_init = function() {
 		var a = $(".modal").find("table tbody");
 		a.outerHeight(h / 2);
 		$(".modal").find("table tbody").css("overflow-y", "auto");
-		/*
-		$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
-		$(".modal-body").css("overflow-y", "auto");
-		*/
+		$(".modal").outerWidth($(document.body).outerWidth() / 4);
+		$(".modal").css({ "left": ((($(window).width() - a.outerWidth()) / 2) + $(window).scrollLeft() + "px") });
 	});
 	add_on($(".td-visible"), "click", function() { 
 		$(this).text($(this).text() == "да" ? "нет" : "да"); 
