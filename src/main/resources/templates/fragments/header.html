@@ -233,11 +233,9 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<input id="url-visible" type="hidden" th:value="@{/settings?code=} + ${clazz + '_listVisible&type=string'}"></input>
-					<input type="hidden" name="p_listVisible" value=""/>
 				</div>
 				<div class="modal-body">
-					<table id="columnTable" class="table table-sm table-striped table-light table-bordered small">
+					<table id="columnTable" class="table-fixed table table-sm table-striped table-light table-bordered small">
 						<thead>
 							<tr>
 								<th class="d-none"></th>

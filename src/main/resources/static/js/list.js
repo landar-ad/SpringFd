@@ -187,8 +187,14 @@ list_init = function() {
 	// Колонки
 	add_on($("#set-visible"), "click", function() {
 		$(".modal").modal();
+		var h = $(".modal").outerHeight(true);
+		var a = $(".modal").find("table tbody");
+		a.outerHeight(h / 2);
+		$(".modal").find("table tbody").css("overflow-y", "auto");
+		/*
 		$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 		$(".modal-body").css("overflow-y", "auto");
+		*/
 	});
 	add_on($(".td-visible"), "click", function() { 
 		$(this).text($(this).text() == "да" ? "нет" : "да"); 
