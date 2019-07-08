@@ -153,8 +153,8 @@ list_init = function() {
 		var b = filter_class();
 		if (!b)	{
 			var a = null;
-			$("th input[type='text'],th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
-			if (!a) $("th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
+			$("#objTable th input[type='text'],#objTable th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
+			if (!a) $("#objTable th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 			if (a) a.focus(); else $("th input[type='text'],th input[type='checkbox'],th select").first().focus();
 		}
 		$("#clear-filter").prop('disabled', b); 
@@ -162,7 +162,7 @@ list_init = function() {
 		$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - 10);
 	});
 	add_on($("#findButton"), "click", function() { form_submit(); });
-	add_on($("th input[type='text'],th input[type='checkbox'],th select"), "keypress", function(e) {
+	add_on($("#objTable th input[type='text'],#objTable th input[type='checkbox'],#objTable th select"), "keypress", function(e) {
 		if (e.which == 13) form_submit();
 	}); 
 	filter_focus();
