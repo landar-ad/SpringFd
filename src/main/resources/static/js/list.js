@@ -64,7 +64,7 @@ list_init = function() {
 			var i = 3;
 			$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); });			
 		});
-	}
+	};
 	sort_fill = function() {
 		$(".sorting,.sorting_asc,.sorting_desc").each(function() {
 			var v = $(this).find("input[type='hidden']").first().val();
