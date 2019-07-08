@@ -68,9 +68,7 @@ list_init = function() {
 	sort_fill = function() {
 		$(".sorting,.sorting_asc,.sorting_desc").each(function() {
 			var v = $(this).find("input[type='hidden']").first().val();
-			$(this).removeClass('sorting');
-			$(this).removeClass('sorting_asc');
-			$(this).removeClass('sorting_desc');
+			$(this).removeClass("sorting sorting_asc sorting_desc");
 			$(this).addClass(v == "ASC" ? 'sorting_asc' : (v == "DESC" ? 'sorting_desc' : 'sorting'));
 		});
 	};
@@ -84,8 +82,7 @@ list_init = function() {
 	filter_class = function() {
 		var a = $("#filterRow"), c = $("#filterButton > i.fa");
 		var b = a.is(':hidden');
-		c.removeClass('fa-angle-double-down');
-		c.removeClass('fa-angle-double-up');
+		c.removeClass("fa-angle-double-down fa-angle-double-up");
 		c.addClass(b ? 'fa-angle-double-down' : 'fa-angle-double-up');
 		return b;
 	};
