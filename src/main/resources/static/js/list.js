@@ -33,13 +33,7 @@ list_init = function() {
 			rn = $(a).find("td.d-none").first().text();
 		}
 		$('input[name="rn"]').val(rn);
-		check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled', !b); });
-		check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled', !b); });
-		check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled', !b); });
-		$(".execute_obj").each(function() {
-			var target = $(this), param = $(this).attr("data-param");
-			check_execute(rn, param, function(b) { target.prop('disabled', !b); });
-		});
+		set_buttons(rn);
 		set_header_width();
 	};
 	check_execute = function(rn, param, fun) {
@@ -52,13 +46,25 @@ list_init = function() {
 				param: param
 			},
 			success: function(result) {
-				fun(result == "1");
+				fun(result);
 			},
 			error: function() {
-				fun(false);
+				fun("0");
 			}
 		});
 	};
+	set_buttons = function(rn) {
+		var param = "edit,remove,view";
+		$(".execute_obj").each(function() { param += "," + $(this).attr("data-param"); });
+		check_execute(rn, param, function(b) {
+			var a = b.split(","); 
+			$('#edit_obj').prop('disabled', a.length < 1 || a[0] != "1");
+			$('#remove_obj').prop('disabled', a.length < 2 || a[1] != "1");
+			$('#view_obj').prop('disabled', a.length < 3 || a[2] != "1");
+			var i = 3;
+			$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); });			
+		});
+	}
 	sort_fill = function() {
 		$(".sorting,.sorting_asc,.sorting_desc").each(function() {
 			var v = $(this).find("input[type='hidden']").first().val();
@@ -123,13 +129,7 @@ list_init = function() {
 		$('input[name="rn"]').val(null);
 	}
 	// Кнопки
-	check_execute(rn, "edit", function(b) { $('#edit_obj').prop('disabled', !b); });
-	check_execute(rn, "remove", function(b) { $('#remove_obj').prop('disabled', !b); });
-	check_execute(rn, "view", function(b) { $('#view_obj').prop('disabled', !b); });
-	$(".execute_obj").each(function() {
-		var target = $(this), param = $(this).attr("data-param");
-		check_execute(rn, param, function(b) { target.prop('disabled', !b); });
-	});
+	set_buttons(rn);
 	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
 	add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
 	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
