@@ -70,7 +70,7 @@ list_init = function() {
 	};
 	filter_focus = function() {
 		var a = null, b = $("#filterRow");
-		$("#objTable th input[type='text'],th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
+		$("#objTable th input[type='text'],#objTable th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
 		if (!a) $("#objTable th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 		if (!a) b.hide(); else { b.show(); a.focus(); }
 		$("#clear-filter").prop('disabled', filter_class());
