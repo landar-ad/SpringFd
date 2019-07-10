@@ -666,12 +666,10 @@ public class HelperServiceImpl implements HelperService {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		String packageName = IBase.class.getPackage().getName();
 		Enumeration<URL> en = classLoader.getResources(packageName.replace('.', '/'));
-		while (en.hasMoreElements()) 
-	    {  
+		while (en.hasMoreElements()) {  
 			String f = en.nextElement().getFile();  
 			File[] files = new File(f).listFiles();  
-			for (File file : files) 
-			{ 
+			for (File file : files) { 
 				f = file.getName();
 				if (!f.endsWith(".class")) continue;
 				l.add(Class.forName(packageName + '.' + f.substring(0, f.length() - 6))); 
