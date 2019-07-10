@@ -669,7 +669,6 @@ public class HelperServiceImpl implements HelperService {
 		while (en.hasMoreElements()) {  
 			String f = en.nextElement().getFile();
 			if (f == null) continue;
-			System.out.println(f);
 			File fd = new File(f);
 			if (!fd.isDirectory()) continue;
 			File[] files = fd.listFiles();  
