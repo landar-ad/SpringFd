@@ -40,6 +40,7 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -669,24 +670,16 @@ public class HelperServiceImpl implements HelperService {
 	public Class<?>[] getAllClasses() throws Exception {
 		List<Class<?>> l = new ArrayList<Class<?>>();
 		String packageName = IBase.class.getPackage().getName();
-		try {
-			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-			StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-			Location location = StandardLocation.CLASS_PATH;
-			Set<JavaFileObject.Kind> kinds = new HashSet<JavaFileObject.Kind>();
-			kinds.add(JavaFileObject.Kind.CLASS);
-			boolean recurse = false;
-			Iterable<JavaFileObject> list = fileManager.list(location, packageName, kinds, recurse);
-			for (JavaFileObject javaFileObject : list) {
-				String f = javaFileObject.getName();
-				if (!f.endsWith(".class")) continue;
-				int k = f.lastIndexOf("\\");
-				if (k < 0) k = f.lastIndexOf("/");
-				if (k >= 0) f = f.substring(k + 1);
-				l.add(Class.forName(packageName + '.' + f.substring(0, f.length() - 6)));
-			}
+		PathMatchingResourcePatternResolver scanner = new PathMatchingResourcePatternResolver();
+		org.springframework.core.io.Resource[] resources = scanner.getResources("classpath:" + packageName.replace('.', '/') + "/*.class");
+		for (org.springframework.core.io.Resource resource : resources) {
+			String r = resource.getURI().toString().replace(".class", "");
+			int k = r.lastIndexOf('/');
+			if (k < 0) continue;
+			r = packageName + "." + r.substring(k + 1);
+			Class<?> cl = Class.forName(r);
+			if (cl != null) l.add(cl);
 		}
-		catch (Exception ex) { }
 		return l.toArray(new Class<?>[l.size()]);
 	}
 	private String[] months = new String[]{"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
