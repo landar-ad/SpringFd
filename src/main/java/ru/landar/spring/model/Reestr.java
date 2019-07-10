@@ -163,7 +163,6 @@ public class Reestr extends IBase {
 			ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр"));
 			ret.add(new ButtonInfo("sendReestr", "Передать в ФК"));
 		}
-		if (ret.size() > 0) ret.add(new ButtonInfo("", ""));
 		ret.add(new ButtonInfo("printReestr", "Печать"));
 		return ret;
 	}

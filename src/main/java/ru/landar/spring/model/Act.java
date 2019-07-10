@@ -145,7 +145,6 @@ public class Act extends IBase {
 			ret.add(new ButtonInfo("confirmAct", "Утвердить"));
 			ret.add(new ButtonInfo("refuseAct", "Отказать"));
 		}
-		if (ret.size() > 0) ret.add(new ButtonInfo("", ""));
 		ret.add(new ButtonInfo("printAct", "Печать"));
 		ret.add(new ButtonInfo("printActRet", "Печать акта возврата"));
 		return ret;
