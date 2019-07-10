@@ -678,8 +678,12 @@ public class HelperServiceImpl implements HelperService {
 			boolean recurse = false;
 			Iterable<JavaFileObject> list = fileManager.list(location, packageName, kinds, recurse);
 			for (JavaFileObject javaFileObject : list) {
-				Class<?> cl = null;
-				if (cl != null) l.add(cl);
+				String f = javaFileObject.getName();
+				if (!f.endsWith(".class")) continue;
+				int k = f.lastIndexOf("\\");
+				if (k < 0) k = f.lastIndexOf("/");
+				if (k >= 0) f = f.substring(k + 1);
+				l.add(Class.forName(packageName + '.' + f.substring(0, f.length() - 6)));
 			}
 		}
 		catch (Exception ex) { }
