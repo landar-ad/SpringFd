@@ -69,7 +69,7 @@ public class TestController {
 		Class<?>[] classes = hs.getAllClasses();
 		for (Class<?> cl : classes) {
 			if (!hs.isEmpty(ret))  ret += ",";
-			ret += ret + cl.getSimpleName();
+			ret += cl.getSimpleName();
 		}
 		return ret;
 	}
