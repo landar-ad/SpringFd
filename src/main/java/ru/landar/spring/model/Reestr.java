@@ -300,8 +300,7 @@ public class Reestr extends IBase {
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("sendReestr".equals(param)) {
 			if (statusCode() != 1) return false;
-			if (roles.indexOf("DF") < 0) return false;
-			return true;
+			if (roles.indexOf("DF") >= 0) return true;
 		}
 		return false;
     }
