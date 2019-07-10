@@ -62,7 +62,7 @@ list_init = function() {
 			$('#remove_obj').prop('disabled', a.length < 2 || a[1] != "1");
 			$('#view_obj').prop('disabled', a.length < 3 || a[2] != "1");
 			var i = 3;
-			$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); });			
+			$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); i++; });			
 		});
 	};
 	sort_fill = function() {
