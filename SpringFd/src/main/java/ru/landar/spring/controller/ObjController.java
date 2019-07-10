@@ -587,21 +587,23 @@ public class ObjController {
 	@RequestMapping(value = "/listVoc", method = RequestMethod.GET)
 	public String listVoc(Model model) throws Exception {
 		List<Voc> listVoc = new ArrayList<Voc>();
-		listVoc.add(new Voc("SpActionType", (String)hs.invoke(SpActionType.class, "singleTitle")));
-		listVoc.add(new Voc("SpActStatus", (String)hs.invoke(SpActStatus.class, "singleTitle")));
-		listVoc.add(new Voc("SpAgentType", (String)hs.invoke(SpAgentType.class, "singleTitle")));
-		listVoc.add(new Voc("SpDocStatus", (String)hs.invoke(SpDocStatus.class, "singleTitle")));
-		listVoc.add(new Voc("SpDocType", (String)hs.invoke(SpDocType.class, "singleTitle")));
-		listVoc.add(new Voc("SpFileType", (String)hs.invoke(SpFileType.class, "singleTitle")));
-		listVoc.add(new Voc("SpReestrStatus", (String)hs.invoke(SpReestrStatus.class, "singleTitle")));
-		/*
 		Class<?>[] classes = hs.getAllClasses();
-		for (Class<?> cl : classes) {
-			String clazz = cl.getSimpleName();
-			if (!clazz.startsWith("Sp")) continue;
-			listVoc.add(new Voc(clazz, (String)hs.invoke(cl, "singleTitle")));
+		if (classes.length > 0) {
+			for (Class<?> cl : classes) {
+				String clazz = cl.getSimpleName();
+				if (!clazz.startsWith("Sp")) continue;
+				listVoc.add(new Voc(clazz, (String)hs.invoke(cl, "singleTitle")));
+			}
 		}
-		*/
+		else {
+			listVoc.add(new Voc("SpActionType", (String)hs.invoke(SpActionType.class, "singleTitle")));
+			listVoc.add(new Voc("SpActStatus", (String)hs.invoke(SpActStatus.class, "singleTitle")));
+			listVoc.add(new Voc("SpAgentType", (String)hs.invoke(SpAgentType.class, "singleTitle")));
+			listVoc.add(new Voc("SpDocStatus", (String)hs.invoke(SpDocStatus.class, "singleTitle")));
+			listVoc.add(new Voc("SpDocType", (String)hs.invoke(SpDocType.class, "singleTitle")));
+			listVoc.add(new Voc("SpFileType", (String)hs.invoke(SpFileType.class, "singleTitle")));
+			listVoc.add(new Voc("SpReestrStatus", (String)hs.invoke(SpReestrStatus.class, "singleTitle")));
+		}
 		model.addAttribute("listObj", new PageImpl<Voc>(listVoc));
 		setMainModel(model, "Справочники системы");
 		return "listVocPage";
