@@ -57,9 +57,21 @@ public class TestController {
 	
 	@RequestMapping(value = "/test/find", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
-	public String test() throws Exception {
+	public String testFind() throws Exception {
 		Page<?> p = objService.findAll(Act.class, null, new String[] {"list_doc__doc_rn"}, new Object[] {131});
 		return "" + p.getContent().size();
+	}
+	
+	@RequestMapping(value = "/test/classes", method = RequestMethod.GET, produces = "text/plain")
+	@ResponseBody
+	public String testClasses() throws Exception {
+		String ret = "";
+		Class<?>[] classes = hs.getAllClasses();
+		for (Class<?> cl : classes) {
+			if (!hs.isEmpty(ret))  ret += ",";
+			ret += ret + cl.getSimpleName();
+		}
+		return ret;
 	}
 	
 	@RequestMapping(value = "/test/exception", method = RequestMethod.GET, produces = "text/plain")
