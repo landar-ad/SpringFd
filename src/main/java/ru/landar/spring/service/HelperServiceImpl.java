@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +33,10 @@ import javax.annotation.Resource;
 import javax.persistence.Transient;
 import javax.servlet.http.Part;
 import javax.tools.JavaCompiler;
+import javax.tools.JavaFileManager.Location;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -663,22 +668,21 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public Class<?>[] getAllClasses() throws Exception {
 		List<Class<?>> l = new ArrayList<Class<?>>();
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		String packageName = IBase.class.getPackage().getName();
-		Enumeration<URL> en = classLoader.getResources(packageName.replace('.', '/'));
-		while (en.hasMoreElements()) {  
-			String f = en.nextElement().getFile();
-			if (f == null) continue;
-			File fd = new File(f);
-			if (!fd.isDirectory()) continue;
-			File[] files = fd.listFiles();  
-			if (files == null) continue;
-			for (File file : files) { 
-				f = file.getName();
-				if (!f.endsWith(".class")) continue;
-				l.add(Class.forName(packageName + '.' + f.substring(0, f.length() - 6))); 
+		try {
+			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+			StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
+			Location location = StandardLocation.CLASS_PATH;
+			Set<JavaFileObject.Kind> kinds = new HashSet<JavaFileObject.Kind>();
+			kinds.add(JavaFileObject.Kind.CLASS);
+			boolean recurse = false;
+			Iterable<JavaFileObject> list = fileManager.list(location, packageName, kinds, recurse);
+			for (JavaFileObject javaFileObject : list) {
+				Class<?> cl = javaFileObject.getClass();
+				if (cl != null) l.add(cl);
 			}
-	    } 
+		}
+		catch (Exception ex) { }
 		return l.toArray(new Class<?>[l.size()]);
 	}
 	private String[] months = new String[]{"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
