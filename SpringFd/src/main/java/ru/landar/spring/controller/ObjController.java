@@ -45,13 +45,6 @@ import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.SearchContent;
-import ru.landar.spring.model.SpActStatus;
-import ru.landar.spring.model.SpActionType;
-import ru.landar.spring.model.SpAgentType;
-import ru.landar.spring.model.SpDocStatus;
-import ru.landar.spring.model.SpDocType;
-import ru.landar.spring.model.SpFileType;
-import ru.landar.spring.model.SpReestrStatus;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.model.ISettings;
 import ru.landar.spring.service.HelperService;
@@ -588,21 +581,10 @@ public class ObjController {
 	public String listVoc(Model model) throws Exception {
 		List<Voc> listVoc = new ArrayList<Voc>();
 		Class<?>[] classes = hs.getAllClasses();
-		if (classes.length > 0) {
-			for (Class<?> cl : classes) {
-				String clazz = cl.getSimpleName();
-				if (!clazz.startsWith("Sp")) continue;
-				listVoc.add(new Voc(clazz, (String)hs.invoke(cl, "singleTitle")));
-			}
-		}
-		else {
-			listVoc.add(new Voc("SpActionType", (String)hs.invoke(SpActionType.class, "singleTitle")));
-			listVoc.add(new Voc("SpActStatus", (String)hs.invoke(SpActStatus.class, "singleTitle")));
-			listVoc.add(new Voc("SpAgentType", (String)hs.invoke(SpAgentType.class, "singleTitle")));
-			listVoc.add(new Voc("SpDocStatus", (String)hs.invoke(SpDocStatus.class, "singleTitle")));
-			listVoc.add(new Voc("SpDocType", (String)hs.invoke(SpDocType.class, "singleTitle")));
-			listVoc.add(new Voc("SpFileType", (String)hs.invoke(SpFileType.class, "singleTitle")));
-			listVoc.add(new Voc("SpReestrStatus", (String)hs.invoke(SpReestrStatus.class, "singleTitle")));
+		for (Class<?> cl : classes) {
+			String clazz = cl.getSimpleName();
+			if (!clazz.startsWith("Sp")) continue;
+			listVoc.add(new Voc(clazz, (String)hs.invoke(cl, "singleTitle")));
 		}
 		model.addAttribute("listObj", new PageImpl<Voc>(listVoc));
 		setMainModel(model, "Справочники системы");
