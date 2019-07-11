@@ -345,7 +345,7 @@ Amel.list_init = function() {
 	// Поиск и фильтрация
 	Amel.add_on($("#filterButton"), "click", function() {
 		$("#filterRow").toggle();
-		var b = filter_class();
+		var b = Amel.filter_class();
 		if (!b)	{
 			var a = null;
 			$("#objTable th input[type='text'],#objTable th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
