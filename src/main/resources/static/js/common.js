@@ -1,26 +1,27 @@
-add_on = function(s, e, f) {
+Amel = {};
+Amel.add_on = function(s, e, f) {
 	s.unbind(e);
 	s.on(e, f);
 };
-file_on = function() {
-	add_on($('.custom-file-input'), "change", function() { 
+Amel.file_on = function() {
+	this.add_on($('.custom-file-input'), "change", function() { 
 		   var fileName = $(this).val().split('\\').pop(); 
 		   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
 	});
 };
-date_on = function() {
+Amel.date_on = function() {
 	$('.input_date').datepicker({language: "ru"});
 };
-time_on = function() {
+Amel.time_on = function() {
 	$('.input_time').datetimepicker({locale: "ru"});
 };
-upload_file = function(e) {
+Amel.upload_file = function(e) {
 	var file = $(e).prop("files")[0], target = $(e).attr("data-target");
 	var fileReader = new FileReader();
 	fileReader.onload = function(e) { $("#" + target).val(e.target.result); };
 	fileReader.readAsText(file, "UTF-8");
 };
-download_file = function(target, fileName) {
+Amel.download_file = function(target, fileName) {
 	var saveText = $("#" + target).val(); 
 	var textBLOB = new Blob([saveText], {type: "text/" + (fileName.indexOf(".java") > 0 ? "java" : "plain")});
 	var link = document.createElement("a");
@@ -32,19 +33,19 @@ download_file = function(target, fileName) {
 	document.body.appendChild(link);
 	link.click();
 };
-form_submit = function() {
+Amel.form_submit = function() {
 	var form = $('#formSubmit');
 	$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
 		success: function(result) {
 			var div = $('<div></div>');
 			div.html(result);
 			$('#listTop').html(div.find('#listTop').html());
-			list_init();
-			size_init();
+			Amel.list_init();
+			Amel.size_init();
 		}
 	});
 };
-exec_obj = function(op, param) {
+Amel.exec_obj = function(op, param) {
 	var rn = $('input[name="rn"]').val();
 	if (!(rn > 0) && (op=="edit" || op=="remove" || op=="view")) return;
 	var url = "detailsObj";
@@ -56,7 +57,7 @@ exec_obj = function(op, param) {
 	if (op=="execute") url += "&param=" + param;
 	window.location = url;
 };
-click_row = function(a, force) {
+Amel.click_row = function(a, force) {
 	var b = $(a).hasClass('table-success'), rn = "";
 	$("#objTable tbody tr").removeClass('table-success');
 	$("#objTable td .max-width").addClass('one-line');
@@ -66,10 +67,10 @@ click_row = function(a, force) {
 		rn = $(a).find("td.d-none").first().text();
 	}
 	$('input[name="rn"]').val(rn);
-	set_buttons(rn);
-	set_header_width();
+	Amel.set_buttons(rn);
+	Amel.set_header_width();
 };
-check_execute = function(rn, param, fun) {
+Amel.check_execute = function(rn, param, fun) {
 	var clazz = $('#clazz').val();
 	$.ajax({ method: "GET", 
 		url: "checkExecuteObj",
@@ -86,10 +87,10 @@ check_execute = function(rn, param, fun) {
 		}
 	});
 };
-set_buttons = function(rn) {
+Amel.set_buttons = function(rn) {
 	var param = "edit,remove,view";
 	$(".execute_obj").each(function() { param += "," + $(this).attr("data-param"); });
-	check_execute(rn, param, function(b) {
+	this.check_execute(rn, param, function(b) {
 		var a = b.split(","); 
 		$('#edit_obj').prop('disabled', a.length < 1 || a[0] != "1");
 		$('#remove_obj').prop('disabled', a.length < 2 || a[1] != "1");
@@ -98,21 +99,21 @@ set_buttons = function(rn) {
 		$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); i++; });			
 	});
 };
-sort_fill = function() {
+Amel.sort_fill = function() {
 	$(".sorting,.sorting_asc,.sorting_desc").each(function() {
 		var v = $(this).find("input[type='hidden']").first().val();
 		$(this).removeClass("sorting sorting_asc sorting_desc");
 		$(this).addClass(v == "ASC" ? 'sorting_asc' : (v == "DESC" ? 'sorting_desc' : 'sorting'));
 	});
 };
-filter_focus = function() {
+Amel.filter_focus = function() {
 	var a = null, b = $("#filterRow");
 	$("#objTable th input[type='text'],#objTable th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
 	if (!a) $("#objTable th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 	if (!a) b.hide(); else { b.show(); a.focus(); }
 	$("#clear-filter").prop('disabled', filter_class());
 };
-filter_class = function() {
+Amel.filter_class = function() {
 	var a = $("#filterRow"), c = $("#filterButton > i.fa");
 	var b = a.is(':hidden');
 	c.removeClass("fa-angle-double-down fa-angle-double-up");
@@ -120,13 +121,13 @@ filter_class = function() {
 	return b;
 };
 // Очистка строки фильтра
-clear_filter = function() {
+Amel.clear_filter = function() {
 	$("#objTable th input[type='text']").val("");
 	$("#objTable th select option").prop('selected', false);
 	$("#objTable th input[type='checkbox']").prop('checked', false);
 };
 // Установка размеров колонок заголовка по данным
-set_header_width = function() {
+Amel.set_header_width = function() {
 	$(".table-fixed tbody tr").first().find("td").each(function(i) {
 		var a = $(".table-fixed thead tr th:eq(" + i + ")");
 		var w = $(this).outerWidth(true), wh = a.outerWidth(true);
@@ -139,8 +140,8 @@ set_header_width = function() {
 		a.css("min-width", w);
 	});
 };
-start_edit = function(c) {
-	$.each($(".edited"), function() { cancel_edit(this); });
+Amel.start_edit = function(c) {
+	$.each($(".edited"), function() { Amel.cancel_edit(this); });
 	var a = $(c).find(".not-visible").first(), q = a;
 	var s = $(c).find("span").first();
 	var b = $(c).closest("tr"); 
@@ -152,11 +153,11 @@ start_edit = function(c) {
 		a.focus();
 		add_on($(a), "keypress", function(e) {
 			if (e.which == 13) {
-				stop_edit(c);
+				Amel.stop_edit(c);
 				e.preventDefault();
 			}
 			if (e.which == 27) {
-				cancel_edit(c);
+				Amel.cancel_edit(c);
 				e.preventDefault();
 			}
 		});
@@ -176,11 +177,11 @@ start_edit = function(c) {
 			if (cmd != "add") $(b).find(".cmd > input").val("update");
 		}
 		else if (t == "select") {
-			popup_select(a, s);
+			Amel.popup_select(a, s);
 		}
 	}
 };
-stop_edit = function(c) {
+Amel.stop_edit = function(c) {
 	var a = $(c).find(".not-visible").first(), q = a;
 	var s = $(c).find("span").first();
 	var b = $(c).closest("tr"); 
@@ -193,13 +194,13 @@ stop_edit = function(c) {
 	var cmd = $(b).find(".cmd > input").val();
 	if (cmd != "add") $(b).find(".cmd > input").val("update");
 };
-cancel_edit = function(c) {
+Amel.cancel_edit = function(c) {
 	var a = $(c).find("input,div,select,textarea").first(), q = a;
 	var s = $(c).find("span").first();
 	q.hide();
 	s.show();
 };
-popup_select = function(a, s) {
+Amel.popup_select = function(a, s) {
 	var data = {
 		clazz: a.attr("data-clazz"),
 		p_title: a.attr("data-title"),
@@ -235,16 +236,16 @@ popup_select = function(a, s) {
 		}
 	});
 };
-size_fit = function() {
+Amel.size_fit = function() {
 	$('.fit-height').each(function () {
 		var p = $(this).parents();
 		if (p.length > 0) for (var i=p.length-1; i>=0; i--) {
 			var e = p[i];
 			var tag = $(e).prop("tagName").toLowerCase();
 			if (tag == "html" || tag == "body") continue;
-			calc_height(e);
+			Amel.calc_height(e);
 		}
-		var h = calc_height(this);
+		var h = Amel.calc_height(this);
 		if ($(this).find(".table-fixed").length == 0) $(this).css("overflow-y", "auto");
 		else {
 			$(this).find("tbody").outerHeight($("footer").offset().top - $(this).find("tbody").offset().top - 10);
@@ -254,7 +255,7 @@ size_fit = function() {
 		return false;
 	});
 };
-calc_height = function(a) {
+Amel.calc_height = function(a) {
 	var h = 0;
 	var pa = $(a).parent();
 	pa.children().filter(':visible').each(function() {
@@ -264,7 +265,7 @@ calc_height = function(a) {
 	$(a).outerHeight(ph);
 	return ph;
 };
-scrollTo = function() {
+Amel.scrollTo = function() {
 	var a = $(".modal").find("table tbody");
 	$(".modal").find('table tbody tr').each(function() {
 		var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
@@ -275,19 +276,19 @@ scrollTo = function() {
 		}
 	});
 };
-details_init = function() {
-	date_on();
-	time_on();
-	file_on();
-	size_init();
-	page_init();
-	popup_init();
+Amel.details_init = function() {
+	Amel.date_on();
+	Amel.time_on();
+	Amel.file_on();
+	Amel.size_init();
+	Amel.page_init();
+	Amel.popup_init();
 };
-file_init = function() {
+Amel.file_init = function() {
 	$('.custom-file-input').on("change", function() { 
 	   var fileName = $(this).val().split('\\').pop(); 
 	   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
-	   upload_file(this);
+	   Amel.upload_file(this);
 	});
 	$('.download').on("click", function() {
 		var fileName = $('input[name="code"]').val();
@@ -299,10 +300,10 @@ file_init = function() {
 		}
 		fileName += "." + fileExt;
 		var target = $(this).attr("data-target");
-		download_file(target, fileName);
+		Amel.download_file(target, fileName);
 	});
 };
-list_init = function() {
+Amel.list_init = function() {
 	// Клик по строке
 	var rn = $('input[name="rn"]').val(), selected = false;
 	$('#objTable tbody tr').each(function() {
@@ -314,7 +315,7 @@ list_init = function() {
 				var off = $(this).offset().top - a.offset().top;
 				a.animate({scrollTop: off});
 			}
-			click_row($(this)[0]);
+			Amel.click_row($(this)[0]);
 			selected = true;
 		}
 	});
@@ -323,26 +324,26 @@ list_init = function() {
 		$('input[name="rn"]').val(null);
 	}
 	// Кнопки
-	set_buttons(rn);
-	add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
-	add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
-	add_on($('#view_obj'), "click", function() { exec_obj("view"); });
-	add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).attr("data-param")); });
-	add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
-	add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this, true); exec_obj("edit"); });
+	Amel.set_buttons(rn);
+	Amel.add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
+	Amel.add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
+	Amel.add_on($('#view_obj'), "click", function() { exec_obj("view"); });
+	Amel.add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).attr("data-param")); });
+	Amel.add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
+	Amel.add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this, true); exec_obj("edit"); });
 	// Установка однострочного содержимого данных
 	$("#objTable td .max-width").addClass('one-line');
 	// Установка максимального размера колонки
 	$("#objTable .max-width").css("max-width", "" + (screen.width / 5) + "px");
-	set_header_width();
+	Amel.set_header_width();
 	// Изменение размера области данных после скроллинга
-	add_on($(".table-fixed"), "scroll", function() {
+	Amel.add_on($(".table-fixed"), "scroll", function() {
 		$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
 	});
 	// Очистка фильтров
-	add_on($("#clear-filter"), "click", function() { clear_filter(); });
+	Amel.add_on($("#clear-filter"), "click", function() { clear_filter(); });
 	// Поиск и фильтрация
-	add_on($("#filterButton"), "click", function() {
+	Amel.add_on($("#filterButton"), "click", function() {
 		$("#filterRow").toggle();
 		var b = filter_class();
 		if (!b)	{
@@ -355,34 +356,34 @@ list_init = function() {
 		// Размер скроллируемой области
 		$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - 10);
 	});
-	add_on($("#findButton"), "click", function() { form_submit(); });
-	add_on($("#objTable th input[type='text'],#objTable th input[type='checkbox'],#objTable th select"), "keypress", function(e) {
-		if (e.which == 13) form_submit();
+	Amel.add_on($("#findButton"), "click", function() { Amel.form_submit(); });
+	Amel.add_on($("#objTable th input[type='text'],#objTable th input[type='checkbox'],#objTable th select"), "keypress", function(e) {
+		if (e.which == 13) Amel.form_submit();
 	}); 
-	filter_focus();
+	Amel.filter_focus();
 	// Размер страницы
-	add_on($(".p_page"), "change", function() {
+	Amel.add_on($(".p_page"), "change", function() {
 		$("input[name='p_page']").val($(this).val());
-		form_submit();
+		Amel.form_submit();
 	});
 	// Сортировка
-	add_on($(".sorting,.sorting_asc,.sorting_desc"), "click", function() {
+	Amel.add_on($(".sorting,.sorting_asc,.sorting_desc"), "click", function() {
 		var v = $(this).find("input[type='hidden']").first().val();
 		if (v == "ASC") v = "DESC";
 		else if (v == "DESC") v = "NONE";
 		else v = "ASC";
 		$(this).find("input[type='hidden']").first().val(v);
-		sort_fill();
-		form_submit();
+		Amel.sort_fill();
+		Amel.form_submit();
 	});
-	sort_fill();
+	Amel.sort_fill();
 	// Пейджинг
-	add_on($(".page-link"), "click", function() {
+	Amel.add_on($(".page-link"), "click", function() {
 		$('input[name="p_off"]').val($(this).attr("data-value"));
-		form_submit();
+		Amel.form_submit();
 	});
 	// Колонки
-	add_on($("#set-visible"), "click", function() {
+	Amel.add_on($("#set-visible"), "click", function() {
 		$(".modal").modal();
 		var h = $(".modal").outerHeight(true);
 		var a = $(".modal").find("table tbody");
@@ -391,10 +392,10 @@ list_init = function() {
 		$(".modal").outerWidth($(document.body).outerWidth() / 4);
 		$(".modal").css({ "left": ((($(window).width() - a.outerWidth()) / 2) + $(window).scrollLeft() + "px") });
 	});
-	add_on($(".td-visible"), "click", function() { 
+	Amel.add_on($(".td-visible"), "click", function() { 
 		$(this).text($(this).text() == "да" ? "нет" : "да"); 
 	});
-	add_on($("#save-visible"), "click", function() {
+	Amel.add_on($("#save-visible"), "click", function() {
 		var v = "";
 		$("#columnTable tbody tr").each(function() {
 			if ($(this).find(".td-visible").first().text() == "да") {
@@ -403,53 +404,53 @@ list_init = function() {
 			}
 		});
 		$("input[name='p_listVisible']").val(v);
-		form_submit();
+		Amel.form_submit();
 		$("input[name='p_listVisible']").val("");
 	});	
 };
-page_init = function() {
-	add_on($('.edited'), 'click', function(event) {
-		start_edit(this);
+Amel.page_init = function() {
+	Amel.add_on($('.edited'), 'click', function(event) {
+		Amel.start_edit(this);
 	});
-	add_on($('.custom-file-input'), "change", function() { 
+	Amel.add_on($('.custom-file-input'), "change", function() { 
 		var fileName = $(this).val().split('\\').pop(); 
 		$(this).next('.custom-file-label').addClass("selected").html(fileName); 
-		stop_edit($(this).closest(".edited"));   
+		Amel.stop_edit($(this).closest(".edited"));   
 	});
-	add_on($('.add-item'), 'click', function(event) {
+	Amel.add_on($('.add-item'), 'click', function(event) {
 		var table = $(event.delegateTarget).closest("table");
 		var c = $(table).find(".first-row").clone().insertBefore($(table).find(".last-row"));
 		c.removeClass("first-row");
 		$(c).find(".cmd > input").val("add");
 		c.show();
-		add_on(c.find('.remove-item'), 'click', function(event) {
+		Amel.add_on(c.find('.remove-item'), 'click', function(event) {
 			var c = $(event.delegateTarget).closest("tr");
 			$(c).find(".cmd > input").val("remove");
 			c.hide();
 		});
-		add_on(c.find('.custom-file-input'), "change", function() { 
+		Amel.add_on(c.find('.custom-file-input'), "change", function() { 
 			var fileName = $(this).val().split('\\').pop(); 
 			$(this).next('.custom-file-label').addClass("selected").html(fileName); 
-			stop_edit($(this).closest(".edited"));   
+			Amel.stop_edit($(this).closest(".edited"));   
 		});
 		c.find('.input_date').datepicker({language: "ru"});
-		add_on(c.find('.edited'), 'click', function(event) {
-			start_edit(this);
+		Amel.add_on(c.find('.edited'), 'click', function(event) {
+			Amel.start_edit(this);
 		});
-		start_edit(c.find('.edited').first());
+		Amel.start_edit(c.find('.edited').first());
 	});
-	add_on($('.remove-item'), 'click', function(event) {
+	Amel.add_on($('.remove-item'), 'click', function(event) {
 		var c = $(event.delegateTarget).closest("tr");
 		$(c).find(".cmd > input").val("remove");
 		c.hide();
 	});
-	add_on($('.view-item'), 'click', function(event) {
+	Amel.add_on($('.view-item'), 'click', function(event) {
 		var url = $(event.delegateTarget).attr("data-item");
 		window.open(url, '_blank');
 	});
 };
-popup_init = function() {
-	add_on($('.choose_obj'), 'click', function(event) {
+Amel.popup_init = function() {
+	Amel.add_on($('.choose_obj'), 'click', function(event) {
 		var target = $(this), rn = $(target).parent().find("input[type='hidden']").val();
 		var multiple = target.attr("data-multiple")
 		var clazz = target.attr("data-clazz");
@@ -473,13 +474,13 @@ popup_init = function() {
 				var h = $(".modal").outerHeight(true);
 				var a = $(".modal").find("table tbody");
 				a.outerHeight(h / 2);
-				scrollTo();
-				add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
+				Amel.scrollTo();
+				Amel.add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
 					var p = $(this).prop("checked");
 					if (!multiple) $(".check-select > input[type='checkbox']").prop("checked", false);
 					$(this).prop("checked", p);
 				});
-				add_on($(".modal").find("#save-button"), "click", function() {
+				Amel.add_on($(".modal").find("#save-button"), "click", function() {
 					var rn = "", source = null;
 					$('.modal').find("table tbody tr").each(function() {
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
@@ -498,7 +499,7 @@ popup_init = function() {
 						$(p).find("input:eq(" + i + ")").val(t);
 					}
 				});
-				add_on($(".modal").find(".filter-popup"), "input", function() {
+				Amel.add_on($(".modal").find(".filter-popup"), "input", function() {
 					var target = $(this);
 					$(".modal").find("table tbody tr").show();
 					var t = target.val();
@@ -519,7 +520,7 @@ popup_init = function() {
 							if (!b) $(this).hide(); 
 						});
 					}
-					scrollTo();
+					Amel.scrollTo();
 				});
 			},
 			error: function() {
@@ -527,8 +528,8 @@ popup_init = function() {
 		});
 	});
 };
-require_init = function() {
-	add_on($('#submitButton'), "click", function () {
+Amel.require_init = function() {
+	Amel.add_on($('#submitButton'), "click", function () {
 		var b = true;
 		$(':required:invalid').each(function () {
 			var id = $(this).closest('.tab-pane').attr('id');
@@ -552,7 +553,7 @@ require_init = function() {
 		if (b) $('#form').submit();
 	});
 };
-size_init = function() {
-	$(window).on('resize', size_fit);
-	setTimeout(function() { size_fit(); }, 40);
+Amel.size_init = function() {
+	$(window).on('resize', Amel.size_fit);
+	setTimeout(function() { Amel.size_fit(); }, 40);
 };
