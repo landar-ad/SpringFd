@@ -528,7 +528,7 @@ popup_init = function() {
 	});
 };
 require_init = function() {
-	$('#submitButton').on("click", function () {
+	add_on($('#submitButton'), "click", function () {
 		var b = true;
 		$(':required:invalid').each(function () {
 			var id = $(this).closest('.tab-pane').attr('id');
