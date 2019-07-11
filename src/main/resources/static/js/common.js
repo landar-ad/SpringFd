@@ -111,7 +111,7 @@ Amel.filter_focus = function() {
 	$("#objTable th input[type='text'],#objTable th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
 	if (!a) $("#objTable th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 	if (!a) b.hide(); else { b.show(); a.focus(); }
-	$("#clear-filter").prop('disabled', filter_class());
+	$("#clear-filter").prop('disabled', Amel.filter_class());
 };
 Amel.filter_class = function() {
 	var a = $("#filterRow"), c = $("#filterButton > i.fa");
