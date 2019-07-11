@@ -675,9 +675,8 @@ public class HelperServiceImpl implements HelperService {
 		for (org.springframework.core.io.Resource resource : resources) {
 			String r = resource.getURI().toString().replace(".class", "");
 			int k = r.lastIndexOf('/');
-			if (k < 0) continue;
-			r = packageName + "." + r.substring(k + 1);
-			Class<?> cl = Class.forName(r);
+			if (k >= 0) r = r.substring(k + 1);
+			Class<?> cl = Class.forName(packageName + "." + r);
 			if (cl != null) l.add(cl);
 		}
 		return l.toArray(new Class<?>[l.size()]);
