@@ -325,12 +325,12 @@ Amel.list_init = function() {
 	}
 	// Кнопки
 	Amel.set_buttons(rn);
-	Amel.add_on($('#edit_obj'), "click", function() { exec_obj("edit"); });
-	Amel.add_on($('#remove_obj'), "click", function() { exec_obj("remove"); });
-	Amel.add_on($('#view_obj'), "click", function() { exec_obj("view"); });
-	Amel.add_on($('.execute_obj'), "click", function() { exec_obj("execute", $(this).attr("data-param")); });
-	Amel.add_on($('#objTable tbody tr'), "click", function() { click_row(this); });
-	Amel.add_on($('#objTable tbody tr'), "dblclick", function() { click_row(this, true); exec_obj("edit"); });
+	Amel.add_on($('#edit_obj'), "click", function() { Amel.exec_obj("edit"); });
+	Amel.add_on($('#remove_obj'), "click", function() { Amel.exec_obj("remove"); });
+	Amel.add_on($('#view_obj'), "click", function() { Amel.exec_obj("view"); });
+	Amel.add_on($('.execute_obj'), "click", function() { Amel.exec_obj("execute", $(this).attr("data-param")); });
+	Amel.add_on($('#objTable tbody tr'), "click", function() { Amel.click_row(this); });
+	Amel.add_on($('#objTable tbody tr'), "dblclick", function() { Amel.click_row(this, true); Amel.exec_obj("edit"); });
 	// Установка однострочного содержимого данных
 	$("#objTable td .max-width").addClass('one-line');
 	// Установка максимального размера колонки
