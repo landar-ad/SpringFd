@@ -1,6 +1,7 @@
 Amel = {
 	formListId: "formSubmit",
 	listId: "listTop",
+	tableId: "objTable",
 	add_on: function(s, e, f) {
 		s.unbind(e);
 		s.on(e, f);
@@ -61,8 +62,8 @@ Amel = {
 	},
 	click_row: function(a, force) {
 		var b = $(a).hasClass('table-success'), rn = "", target = this;
-		$("#objTable tbody tr").removeClass('table-success');
-		$("#objTable td .max-width").addClass('one-line');
+		$("#" + target.tableId + " tbody tr").removeClass('table-success');
+		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		if (!b || force) {
 			$(a).addClass('table-success');
 			$(a).find(".max-width").removeClass('one-line');
@@ -110,8 +111,8 @@ Amel = {
 	},
 	filter_focus: function() {
 		var a = null, b = $("#filterRow"), target = this;
-		$("#objTable th input[type='text'],#objTable th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
-		if (!a) $("#objTable th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
+		$("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
+		if (!a) $("#" + target.tableId + " th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 		if (!a) b.hide(); else { b.show(); a.focus(); }
 		$("#clear-filter").prop('disabled', target.filter_class());
 	},
@@ -123,9 +124,10 @@ Amel = {
 	},
 	// Очистка строки фильтра
 	clear_filter: function() {
-		$("#objTable th input[type='text']").val("");
-		$("#objTable th select option").prop('selected', false);
-		$("#objTable th input[type='checkbox']").prop('checked', false);
+		var target = this;
+		$("#" + target.tableId + " th input[type='text']").val("");
+		$("#" + target.tableId + " th select option").prop('selected', false);
+		$("#" + target.tableId + " th input[type='checkbox']").prop('checked', false);
 	},
 	// Установка размеров колонок заголовка по данным
 	set_header_width: function() {
@@ -319,7 +321,7 @@ Amel = {
 		var target = this;
 		// Клик по строке
 		var rn = $('input[name="rn"]').val(), selected = false;
-		$('#objTable tbody tr').each(function() {
+		$("#" + target.tableId + " tbody tr").each(function() {
 			$(this).removeClass('table-success');
 			if (rn && rn == $(this).find("td.d-none").first().text()) {
 				var a = $(".fit-height").find(".table-fixed");
@@ -342,12 +344,12 @@ Amel = {
 		target.add_on($('#remove_obj'), "click", function() { target.exec_obj("remove"); });
 		target.add_on($('#view_obj'), "click", function() { target.exec_obj("view"); });
 		target.add_on($('.execute_obj'), "click", function() { target.exec_obj("execute", $(this).attr("data-param")); });
-		target.add_on($('#objTable tbody tr'), "click", function() { target.click_row(this); });
-		target.add_on($('#objTable tbody tr'), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
+		target.add_on($("#" + target.tableId + " tbody tr"), "click", function() { target.click_row(this); });
+		target.add_on($("#" + target.tableId + " tbody tr"), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
 		// Установка однострочного содержимого данных
-		$("#objTable td .max-width").addClass('one-line');
+		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		// Установка максимального размера колонки
-		$("#objTable .max-width").css("max-width", "" + (screen.width / 5) + "px");
+		$("#" + target.tableId + " .max-width").css("max-width", "" + (screen.width / 5) + "px");
 		target.set_header_width();
 		// Изменение размера области данных после скроллинга
 		target.add_on($(".table-fixed"), "scroll", function() {
@@ -361,8 +363,8 @@ Amel = {
 			var b = target.filter_class();
 			if (!b)	{
 				var a = null;
-				$("#objTable th input[type='text'],#objTable th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
-				if (!a) $("#objTable th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
+				$("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
+				if (!a) $("#" + target.tableId + " th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 				if (a) a.focus(); else $("th input[type='text'],th input[type='checkbox'],th select").first().focus();
 			}
 			$("#clear-filter").prop('disabled', b); 
@@ -370,7 +372,7 @@ Amel = {
 			$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - 10);
 		});
 		target.add_on($("#findButton"), "click", function() { target.form_submit(); });
-		target.add_on($("#objTable th input[type='text'],#objTable th input[type='checkbox'],#objTable th select"), "keypress", function(e) {
+		target.add_on($("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th input[type='checkbox'],#" + target.tableId + " th select"), "keypress", function(e) {
 			if (e.which == 13) target.form_submit();
 		}); 
 		target.filter_focus();
