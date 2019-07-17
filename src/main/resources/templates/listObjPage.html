@@ -15,9 +15,7 @@
 		 		<div th:replace="fragments/header :: list-param"></div>
 				<div th:replace="fragments/header :: list-buttons"></div>
 				<div th:if="${l_p}"><div th:replace="fragments/pager :: pager-param"></div></div>
-				<div class="fit-height">
-			    	<table th:replace="fragments/header :: list-table"></table>
-		    	</div>
+				<div class="fit-height"><table th:replace="fragments/header :: list-table"></table></div>
 			    <div th:replace="fragments/header :: visible"></div>
 		     </form>
 		</div>
