@@ -1,4 +1,5 @@
 Amel = {
+	// Идентификаторы управляющих элементов
 	formId: "formSubmit",
 	listId: "listTop",
 	tableId: "objTable",
@@ -9,28 +10,34 @@ Amel = {
 	findButtonId: "findButton",
 	setVisibleId: "set-visible",
 	saveButtonId: "save-button",
+	// Добавление обработчика (отвязать старый и привязать новый)
 	add_on: function(s, e, f) {
 		s.unbind(e);
 		s.on(e, f);
 	},
+	// Добавление обработчика после выбора файла 
 	file_on: function() {
 		this.add_on($('.custom-file-input'), "change", function() { 
 		   var fileName = $(this).val().split('\\').pop(); 
 		   $(this).next('.custom-file-label').addClass("selected").html(fileName); 
 		});
 	},
+	// Инициализация элементов показа даты
 	date_on: function() {
 		$('.input_date').datepicker({language: "ru"});
 	},
+	// Инициализация элементов показа даты и времени
 	time_on: function() {
 		$('.input_time').datetimepicker({locale: "ru"});
 	},
+	// Загрузка данных из файла
 	upload_file: function(e) {
 		var file = $(e).prop("files")[0], t = $(e).attr("data-target");
 		var fileReader = new FileReader();
 		fileReader.onload = function(e) { $("#" + t).val(e.target.result); };
 		fileReader.readAsText(file, "UTF-8");
 	},
+	// Выгрузка данных в файл
 	download_file: function(t, fileName) {
 		var saveText = $("#" + t).val(); 
 		var textBLOB = new Blob([saveText], {type: "text/" + (fileName.indexOf(".java") > 0 ? "java" : "plain")});
@@ -43,6 +50,7 @@ Amel = {
 		document.body.appendChild(link);
 		link.click();
 	},
+	// Изменение списка через отправку формы
 	form_submit: function() {
 		var target = this, form = $('#' + target.formId);
 		$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
@@ -55,6 +63,7 @@ Amel = {
 			}
 		});
 	},
+	// Переход по ссылке
 	exec_obj: function(op, param) {
 		var rn = $('input[name="rn"]').val();
 		if (!(rn > 0) && (op=="edit" || op=="remove" || op=="view")) return;
@@ -67,6 +76,7 @@ Amel = {
 		if (op=="execute") url += "&param=" + param;
 		window.location = url;
 	},
+	// Клик по строке таблицы
 	click_row: function(a, force) {
 		var b = $(a).hasClass('table-success'), rn = "", target = this;
 		$("#" + target.tableId + " tbody tr").removeClass('table-success');
@@ -80,6 +90,7 @@ Amel = {
 		target.set_buttons(rn);
 		target.set_header_width();
 	},
+	// Проверка, доступны ли операции
 	check_execute: function(rn, param, fun) {
 		var clazz = $('#clazz').val();
 		$.ajax({ method: "GET", 
@@ -97,6 +108,7 @@ Amel = {
 			}
 		});
 	},
+	// Обработка доступности кнопок
 	set_buttons: function(rn) {
 		var param = "edit,remove,view", target = this;
 		$(".execute_obj").each(function() { param += "," + $(this).attr("data-param"); });
@@ -109,6 +121,7 @@ Amel = {
 			$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); i++; });			
 		});
 	},
+	// Установка и изменение сортировки
 	sort_fill: function() {
 		$(".sorting,.sorting_asc,.sorting_desc").each(function() {
 			var v = $(this).find("input[type='hidden']").first().val();
@@ -116,6 +129,7 @@ Amel = {
 			$(this).addClass(v == "ASC" ? 'sorting_asc' : (v == "DESC" ? 'sorting_desc' : 'sorting'));
 		});
 	},
+	// Установка фокуса в строке фильтров
 	filter_focus: function() {
 		var target = this, a = null, b = $("#" + target.filterRowId);
 		$("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
@@ -123,6 +137,7 @@ Amel = {
 		if (!a) b.hide(); else { b.show(); a.focus(); }
 		$("#" + target.clearFilterId).prop('disabled', target.filter_class());
 	},
+	// Изменение класса кнопки фильтра
 	filter_class: function() {
 		var target = this, a = $("#" + target.filterRowId), c = $("#" + target.filterButtonId + " > i.fa"), b = a.is(':hidden');
 		c.removeClass("fa-angle-double-down fa-angle-double-up");
@@ -136,7 +151,7 @@ Amel = {
 		$("#" + target.tableId + " th select option").prop('selected', false);
 		$("#" + target.tableId + " th input[type='checkbox']").prop('checked', false);
 	},
-	// Установка размеров колонок заголовка по данным
+	// Установка размеров колонок заголовка таблицы по колонкам данных
 	set_header_width: function() {
 		$(".table-fixed tbody tr").first().find("td").each(function(i) {
 			var a = $(".table-fixed thead tr th:eq(" + i + ")");
@@ -295,6 +310,7 @@ Amel = {
 			}
 		});
 	},
+	// Функция инициализации окна редактирования (просмотра) объекта
 	details_init: function() {
 		var target = this;
 		target.date_on();
@@ -304,6 +320,7 @@ Amel = {
 		target.page_init();
 		target.popup_init();
 	},
+	// Инициализация работы с файлами через окно на форме
 	file_init: function() {
 		var target = this;
 		$('.custom-file-input').on("change", function() { 
@@ -324,6 +341,7 @@ Amel = {
 			target.download_file(t, fileName);
 		});
 	},
+	// Инициализация таблицы
 	list_init: function() {
 		var target = this;
 		// Клик по строке
@@ -430,6 +448,7 @@ Amel = {
 			$("input[name='p_listVisible']").val("");
 		});	
 	},
+	// Инициализация редактирования по месту
 	page_init: function() {
 		var target = this;
 		target.add_on($('.edited'), 'click', function(event) {
@@ -472,6 +491,7 @@ Amel = {
 			window.open(url, '_blank');
 		});
 	},
+	// Инициализация всплывающих окон
 	popup_init: function() {
 		var target = this;
 		target.add_on($('.choose_obj'), 'click', function(event) {
@@ -552,6 +572,7 @@ Amel = {
 			});
 		});
 	},
+	// Инициализация контроля обязательных полей
 	require_init: function() {
 		var target = this;
 		target.add_on($("#" + target.submitButtonId), "click", function () {
@@ -578,6 +599,7 @@ Amel = {
 			if (b) $('#form').submit();
 		});
 	},
+	// Иницициализация размещения окон
 	size_init: function() {
 		var target = this;
 		$(window).on('resize', target.size_fit);
