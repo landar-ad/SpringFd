@@ -31,7 +31,7 @@ Amel = {
 		s.unbind(e);
 		s.on(e, f);
 	},
-	// Добавление обработчика после выбора файла 
+	// Добавление обработчика: после выбора файла показать его имя 
 	file_on: function() {
 		this.add_on($('.custom-file-input'), "change", function() { 
 		   var fileName = $(this).val().split('\\').pop(); 
