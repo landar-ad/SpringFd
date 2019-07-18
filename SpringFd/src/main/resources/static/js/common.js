@@ -104,7 +104,7 @@ Amel = {
 		}
 		$('input[name="rn"]').val(rn);
 		target.set_buttons(rn);
-		target.set_header_width($(".table-fixed"));
+		target.set_header_width($("#" + target.tableId));
 	},
 	// Проверка, доступны ли операции
 	check_execute: function(rn, param, fun) {
@@ -391,9 +391,9 @@ Amel = {
 		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		// Установка максимального размера колонки
 		$("#" + target.tableId + " .max-width").css("max-width", "" + (screen.width / 5) + "px");
-		target.set_header_width($(".table-fixed"));
+		target.set_header_width($("#" + target.tableId));
 		// Изменение размера области данных после скроллинга
-		target.add_on($(".table-fixed"), "scroll", function() {
+		target.add_on($("#" + target.tableId), "scroll", function() {
 			$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
 		});
 		// Очистка фильтров
