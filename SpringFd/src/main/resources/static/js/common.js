@@ -104,7 +104,7 @@ Amel = {
 		}
 		$('input[name="rn"]').val(rn);
 		target.set_buttons(rn);
-		target.set_header_width();
+		target.set_header_width($(".table-fixed"));
 	},
 	// Проверка, доступны ли операции
 	check_execute: function(rn, param, fun) {
@@ -168,9 +168,9 @@ Amel = {
 		$("#" + target.tableId + " th input[type='checkbox']").prop('checked', false);
 	},
 	// Установка размеров колонок заголовка таблицы по колонкам данных
-	set_header_width: function() {
-		$(".table-fixed tbody tr").first().find("td").each(function(i) {
-			var a = $(".table-fixed thead tr th:eq(" + i + ")");
+	set_header_width: function(table) {
+		table.find("tbody tr").first().find("td").each(function(i) {
+			var a = table.find("thead tr th:eq(" + i + ")");
 			var w = $(this).outerWidth(true), wh = a.outerWidth(true);
 			if (wh > w) {
 				$(this).css("max-width", wh);
@@ -391,7 +391,7 @@ Amel = {
 		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		// Установка максимального размера колонки
 		$("#" + target.tableId + " .max-width").css("max-width", "" + (screen.width / 5) + "px");
-		target.set_header_width();
+		target.set_header_width($(".table-fixed"));
 		// Изменение размера области данных после скроллинга
 		target.add_on($(".table-fixed"), "scroll", function() {
 			$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
@@ -447,6 +447,7 @@ Amel = {
 			$(".modal").find("table tbody").css("overflow-y", "auto");
 			$(".modal").outerWidth($(document.body).outerWidth() / 4);
 			$(".modal").css({ "left": ((($(window).width() - a.outerWidth()) / 2) + $(window).scrollLeft() + "px") });
+			target.set_header_width($(".modal").find("table"));
 		});
 		target.add_on($(".modal").find(".td-visible"), "click", function() { 
 			$(this).text($(this).text() == "да" ? "нет" : "да"); 
@@ -534,6 +535,7 @@ Amel = {
 					var h = $(".modal").outerHeight(true);
 					var a = $(".modal").find("table tbody");
 					a.outerHeight(h / 2);
+					target.set_header_width($(".modal").find("table"));
 					target.scrollTo();
 					target.add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
 						var p = $(this).prop("checked");
@@ -618,7 +620,7 @@ Amel = {
 	// Иницициализация размещения окон
 	size_init: function() {
 		var target = this;
-		$(window).on('resize', target.size_fit);
+		target.add_on($(window), "resize", function() { target.size_fit(); });
 		setTimeout(function() { target.size_fit(); }, 40);
 	}
 };
