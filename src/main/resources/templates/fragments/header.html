@@ -3,6 +3,8 @@
 <head th:fragment="head">
   	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)" />
+   	<meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)" />
 	<title th:text="${p_title}"></title>
 	<link rel="icon" th:href="@{/static/images/favicon.ico}" type="image/x-icon">
 
