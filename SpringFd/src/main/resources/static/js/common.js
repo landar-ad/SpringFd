@@ -1,14 +1,24 @@
 Amel = {
 	// Идентификаторы управляющих элементов
+	// Форма таблицы 
 	formId: "formSubmit",
+	// Вся страница таблицы
 	listId: "listTop",
+	// Таблицы
 	tableId: "objTable",
+	// Кнопка submit на форме с контролем обязательных полей
 	submitButtonId: "submitButton",
+	// Строка фильтров 
 	filterRowId: "filterRow",
+	// Кнопка показа фильтров
 	filterButtonId: "filterButton",
+	// Кнопка очистки фильтров
 	clearFilterId: "clear-filter",
+	// Кнопка поиска
 	findButtonId: "findButton",
+	// Кнопка изменения видимости колонок
 	setVisibleId: "set-visible",
+	// Кнопка сохранения всплывающего окна
 	saveButtonId: "save-button",
 	// Добавление обработчика (отвязать старый и привязать новый)
 	add_on: function(s, e, f) {
