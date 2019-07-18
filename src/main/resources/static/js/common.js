@@ -20,6 +20,12 @@ Amel = {
 	setVisibleId: "set-visible",
 	// Кнопка сохранения всплывающего окна
 	saveButtonId: "save-button",
+	// Кнопка "Редактировать"
+	editObjId: "edit_obj",
+	// Кнопка "Удалить"
+	removeObjId: "remove_obj",
+	// Кнопка "Показать"
+	viewObjId: "view_obj",
 	// Добавление обработчика (отвязать старый и привязать новый)
 	add_on: function(s, e, f) {
 		s.unbind(e);
@@ -124,9 +130,9 @@ Amel = {
 		$(".execute_obj").each(function() { param += "," + $(this).attr("data-param"); });
 		target.check_execute(rn, param, function(b) {
 			var a = b.split(","); 
-			$('#edit_obj').prop('disabled', a.length < 1 || a[0] != "1");
-			$('#remove_obj').prop('disabled', a.length < 2 || a[1] != "1");
-			$('#view_obj').prop('disabled', a.length < 3 || a[2] != "1");
+			$("#" + target.editObjId).prop('disabled', a.length < 1 || a[0] != "1");
+			$("#" + target.removeObjId).prop('disabled', a.length < 2 || a[1] != "1");
+			$("#" + target.viewObjId).prop('disabled', a.length < 3 || a[2] != "1");
 			var i = 3;
 			$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); i++; });			
 		});
@@ -375,9 +381,9 @@ Amel = {
 		}
 		// Кнопки
 		target.set_buttons(rn);
-		target.add_on($('#edit_obj'), "click", function() { target.exec_obj("edit"); });
-		target.add_on($('#remove_obj'), "click", function() { target.exec_obj("remove"); });
-		target.add_on($('#view_obj'), "click", function() { target.exec_obj("view"); });
+		target.add_on($("#" + target.editObjId), "click", function() { target.exec_obj("edit"); });
+		target.add_on($("#" + target.removeObjId), "click", function() { target.exec_obj("remove"); });
+		target.add_on($("#" + target.viewObjId), "click", function() { target.exec_obj("view"); });
 		target.add_on($('.execute_obj'), "click", function() { target.exec_obj("execute", $(this).attr("data-param")); });
 		target.add_on($("#" + target.tableId + " tbody tr"), "click", function() { target.click_row(this); });
 		target.add_on($("#" + target.tableId + " tbody tr"), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
