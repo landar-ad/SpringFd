@@ -1,7 +1,14 @@
 Amel = {
-	formListId: "formSubmit",
+	formId: "formSubmit",
 	listId: "listTop",
 	tableId: "objTable",
+	submitButtonId: "submitButton",
+	filterRowId: "filterRow",
+	filterButtonId: "filterButton",
+	clearFilterId: "clear-filter",
+	findButtonId: "findButton",
+	setVisibleId: "set-visible",
+	saveButtonId: "save-button",
 	add_on: function(s, e, f) {
 		s.unbind(e);
 		s.on(e, f);
@@ -37,7 +44,7 @@ Amel = {
 		link.click();
 	},
 	form_submit: function() {
-		var target = this, form = $('#' + target.formListId);
+		var target = this, form = $('#' + target.formId);
 		$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
 			success: function(result) {
 				var div = $('<div></div>');
@@ -110,14 +117,14 @@ Amel = {
 		});
 	},
 	filter_focus: function() {
-		var a = null, b = $("#filterRow"), target = this;
+		var target = this, a = null, b = $("#" + target.filterRowId);
 		$("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th select").each(function() { if ($(this).val()) { a = $(this); return false; } });
 		if (!a) $("#" + target.tableId + " th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 		if (!a) b.hide(); else { b.show(); a.focus(); }
-		$("#clear-filter").prop('disabled', target.filter_class());
+		$("#" + target.clearFilterId).prop('disabled', target.filter_class());
 	},
 	filter_class: function() {
-		var a = $("#filterRow"), c = $("#filterButton > i.fa"), b = a.is(':hidden');
+		var target = this, a = $("#" + target.filterRowId), c = $("#" + target.filterButtonId + " > i.fa"), b = a.is(':hidden');
 		c.removeClass("fa-angle-double-down fa-angle-double-up");
 		c.addClass(b ? 'fa-angle-double-down' : 'fa-angle-double-up');
 		return b;
@@ -224,8 +231,8 @@ Amel = {
 				$(".modal").modal();
 				$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
-				add_on($(".modal").find("#save-button"), "click", function() {
-					$("#columnTable tbody tr").each(function() {
+				add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
+					$(".modal").find("table tbody tr").each(function() {
 						var rn = $(this).find(".d-none").first().text();
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						var t = $(this).find(".text-select").text();
@@ -356,10 +363,10 @@ Amel = {
 			$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
 		});
 		// Очистка фильтров
-		target.add_on($("#clear-filter"), "click", function() { clear_filter(); });
+		target.add_on($("#" + target.clearFilterId), "click", function() { target.clear_filter(); });
 		// Поиск и фильтрация
-		target.add_on($("#filterButton"), "click", function() {
-			$("#filterRow").toggle();
+		target.add_on($("#" + target.filterButtonId), "click", function() {
+			$("#" + target.filterRowId).toggle();
 			var b = target.filter_class();
 			if (!b)	{
 				var a = null;
@@ -367,11 +374,11 @@ Amel = {
 				if (!a) $("#" + target.tableId + " th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 				if (a) a.focus(); else $("th input[type='text'],th input[type='checkbox'],th select").first().focus();
 			}
-			$("#clear-filter").prop('disabled', b); 
+			$("#" + target.clearFilterId).prop('disabled', b); 
 			// Размер скроллируемой области
 			$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - 10);
 		});
-		target.add_on($("#findButton"), "click", function() { target.form_submit(); });
+		target.add_on($("#" + target.findButtonId), "click", function() { target.form_submit(); });
 		target.add_on($("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th input[type='checkbox'],#" + target.tableId + " th select"), "keypress", function(e) {
 			if (e.which == 13) target.form_submit();
 		}); 
@@ -398,7 +405,7 @@ Amel = {
 			target.form_submit();
 		});
 		// Колонки
-		target.add_on($("#set-visible"), "click", function() {
+		target.add_on($("#" + target.setVisibleId), "click", function() {
 			$(".modal").modal();
 			var h = $(".modal").outerHeight(true);
 			var a = $(".modal").find("table tbody");
@@ -407,12 +414,12 @@ Amel = {
 			$(".modal").outerWidth($(document.body).outerWidth() / 4);
 			$(".modal").css({ "left": ((($(window).width() - a.outerWidth()) / 2) + $(window).scrollLeft() + "px") });
 		});
-		target.add_on($(".td-visible"), "click", function() { 
+		target.add_on($(".modal").find(".td-visible"), "click", function() { 
 			$(this).text($(this).text() == "да" ? "нет" : "да"); 
 		});
-		target.add_on($("#save-visible"), "click", function() {
+		target.add_on($("#" + target.saveButtonId), "click", function() {
 			var v = "";
-			$("#columnTable tbody tr").each(function() {
+			$(".modal").find("table tbody tr").each(function() {
 				if ($(this).find(".td-visible").first().text() == "да") {
 					if (v) v += ",";
 					v += $(this).find(".d-none").first().text();
@@ -497,7 +504,7 @@ Amel = {
 						if (!multiple) $(".check-select > input[type='checkbox']").prop("checked", false);
 						$(this).prop("checked", p);
 					});
-					target.add_on($(".modal").find("#save-button"), "click", function() {
+					target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
 						var rn = "", source = null;
 						$('.modal').find("table tbody tr").each(function() {
 							var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
@@ -547,7 +554,7 @@ Amel = {
 	},
 	require_init: function() {
 		var target = this;
-		target.add_on($('#submitButton'), "click", function () {
+		target.add_on($("#" + target.submitButtonId), "click", function () {
 			var b = true;
 			$(':required:invalid').each(function () {
 				var id = $(this).closest('.tab-pane').attr('id');
