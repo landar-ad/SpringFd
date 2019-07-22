@@ -291,9 +291,11 @@ Amel = {
 			var h = target.calc_height(this);
 			if ($(this).find(".table-fixed").length == 0) $(this).css("overflow-y", "auto");
 			else {
-				$(this).find("tbody").outerHeight($("footer").offset().top - $(this).find("tbody").offset().top - target.fitHeight);
+				var tb = $(this).find("tbody");
+				tb.outerHeight($("footer").offset().top - tb.offset().top);
 				var a = $(this).find(".table-fixed");
 				a.find("tbody").width(a.width() + a.scrollLeft());
+				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.fitHeight);
 			}
 			return false;
 		});
@@ -404,7 +406,11 @@ Amel = {
 			}
 			$("#" + target.clearFilterId).prop('disabled', b); 
 			// Размер скроллируемой области
-			$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - target.fitHeight);
+			var tb = $(".table-fixed tbody");
+			if (tb.length > 0) {
+				tb.outerHeight($("footer").offset().top - tb.offset().top);
+				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.fitHeight); 
+			}
 		});
 		target.add_on($("#" + target.findButtonId), "click", function() { target.form_submit(); });
 		target.add_on($("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th input[type='checkbox'],#" + target.tableId + " th select"), "keypress", function(e) {
