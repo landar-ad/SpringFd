@@ -29,10 +29,7 @@ Amel = {
 	// Добавка к высоте элемента
 	fitHeight: 16,
 	// Добавление обработчика (отвязать старый и привязать новый)
-	add_on: function(s, e, f) {
-		s.unbind(e);
-		s.on(e, f);
-	},
+	add_on: function(s, e, f) { s.unbind(e); s.on(e, f); },
 	// Добавление обработчика: после выбора файла показать его имя 
 	file_on: function() {
 		this.add_on($('.custom-file-input'), "change", function() { 
@@ -41,13 +38,9 @@ Amel = {
 		});
 	},
 	// Инициализация элементов показа даты
-	date_on: function() {
-		$('.input_date').datepicker({language: "ru"});
-	},
+	date_on: function() { $('.input_date').datepicker({language: "ru"}); },
 	// Инициализация элементов показа даты и времени
-	time_on: function() {
-		$('.input_time').datetimepicker({locale: "ru"});
-	},
+	time_on: function() { $('.input_time').datetimepicker({locale: "ru"}); },
 	// Загрузка данных из файла
 	upload_file: function(e) {
 		var file = $(e).prop("files")[0], t = $(e).attr("data-target");
@@ -426,9 +419,7 @@ Amel = {
 		// Сортировка
 		target.add_on($(".sorting,.sorting_asc,.sorting_desc"), "click", function() {
 			var v = $(this).find("input[type='hidden']").first().val();
-			if (v == "ASC") v = "DESC";
-			else if (v == "DESC") v = "NONE";
-			else v = "ASC";
+			if (v == "ASC") v = "DESC"; else if (v == "DESC") v = "NONE"; else v = "ASC";
 			$(this).find("input[type='hidden']").first().val(v);
 			target.sort_fill();
 			target.form_submit();
