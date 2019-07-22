@@ -26,6 +26,8 @@ Amel = {
 	removeObjId: "remove_obj",
 	// Кнопка "Показать"
 	viewObjId: "view_obj",
+	// Добавка к высоте элемента
+	fitHeight: 16,
 	// Добавление обработчика (отвязать старый и привязать новый)
 	add_on: function(s, e, f) {
 		s.unbind(e);
@@ -296,7 +298,7 @@ Amel = {
 			var h = target.calc_height(this);
 			if ($(this).find(".table-fixed").length == 0) $(this).css("overflow-y", "auto");
 			else {
-				$(this).find("tbody").outerHeight($("footer").offset().top - $(this).find("tbody").offset().top - 10);
+				$(this).find("tbody").outerHeight($("footer").offset().top - $(this).find("tbody").offset().top - target.fitHeight);
 				var a = $(this).find(".table-fixed");
 				a.find("tbody").width(a.width() + a.scrollLeft());
 			}
@@ -305,12 +307,11 @@ Amel = {
 	},
 	// Установка высоты окна
 	calc_height: function(a) {
-		var h = 0;
-		var pa = $(a).parent();
+		var h = 0, pa = $(a).parent(), target = this;
 		pa.children().filter(':visible').each(function() {
 			if ($(a)[0] != $(this)[0]) h += $(this).outerHeight(true);
 		});
-		var ph = pa.outerHeight() - h - 10;
+		var ph = pa.outerHeight() - h - target.fitHeight;
 		$(a).outerHeight(ph);
 		return ph;
 	},
@@ -410,7 +411,7 @@ Amel = {
 			}
 			$("#" + target.clearFilterId).prop('disabled', b); 
 			// Размер скроллируемой области
-			$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - 10);
+			$(".table-fixed tbody").outerHeight($("footer").offset().top - $(".table-fixed tbody").offset().top - target.fitHeight);
 		});
 		target.add_on($("#" + target.findButtonId), "click", function() { target.form_submit(); });
 		target.add_on($("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th input[type='checkbox'],#" + target.tableId + " th select"), "keypress", function(e) {
