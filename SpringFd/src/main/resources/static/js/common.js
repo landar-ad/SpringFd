@@ -299,6 +299,7 @@ Amel = {
 			}
 			else {
 				var tb = $(this).find("tbody");
+				tb.css("overflow-y", "auto");
 				tb.outerHeight($("footer").offset().top - tb.offset().top);
 				var a = $(this).find(".table-fixed");
 				a.find("tbody").width(a.width() + a.scrollLeft());
