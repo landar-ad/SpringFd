@@ -294,7 +294,9 @@ Amel = {
 				target.calc_height(e, true);
 			}
 			var h = target.calc_height(this, false);
-			if ($(this).find(".table-fixed").length == 0) $(this).css("overflow-y", "auto");
+			if ($(this).find(".table-fixed").length == 0) {
+				$(this).css("overflow-y", "auto");
+			}
 			else {
 				var tb = $(this).find("tbody");
 				tb.outerHeight($("footer").offset().top - tb.offset().top);
@@ -415,7 +417,7 @@ Amel = {
 			var tb = $(".table-fixed tbody");
 			if (tb.length > 0) {
 				tb.outerHeight($("footer").offset().top - tb.offset().top);
-				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.scroll_bar_size().height); 
+				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.scroll_bar_size().height);
 			}
 		});
 		target.add_on($("#" + target.findButtonId), "click", function() { target.form_submit(); });
