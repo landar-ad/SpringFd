@@ -291,9 +291,9 @@ Amel = {
 				var e = p[i];
 				var tag = $(e).prop("tagName").toLowerCase();
 				if (tag == "html" || tag == "body") continue;
-				target.calc_height(e);
+				target.calc_height(e, true);
 			}
-			var h = target.calc_height(this);
+			var h = target.calc_height(this, false);
 			if ($(this).find(".table-fixed").length == 0) $(this).css("overflow-y", "auto");
 			else {
 				var tb = $(this).find("tbody");
@@ -306,12 +306,13 @@ Amel = {
 		});
 	},
 	// Установка высоты окна
-	calc_height: function(a) {
+	calc_height: function(a, m) {
 		var h = 0, pa = $(a).parent(), target = this;
 		pa.children().filter(':visible').each(function() {
 			if ($(a)[0] != $(this)[0]) h += $(this).outerHeight(true);
 		});
-		var ph = pa.outerHeight() - h - target.scroll_bar_size().height;
+		var ph = pa.outerHeight() - h;
+		if (m) ph -= target.scroll_bar_size().height;
 		$(a).outerHeight(ph);
 		return ph;
 	},
