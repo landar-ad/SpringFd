@@ -26,8 +26,6 @@ Amel = {
 	removeObjId: "remove_obj",
 	// Кнопка "Показать"
 	viewObjId: "view_obj",
-	// Добавка к высоте элемента
-	fitHeight: 16,
 	// Добавление обработчика (отвязать старый и привязать новый)
 	add_on: function(s, e, f) { s.unbind(e); s.on(e, f); },
 	// Добавление обработчика: после выбора файла показать его имя 
@@ -60,6 +58,13 @@ Amel = {
 		link.style.display = "none";
 		document.body.appendChild(link);
 		link.click();
+	},
+	scroll_bar_size: function() {
+		var div = $('<div>').css({visibility: 'hidden', width: 100, height: 100, overflow: 'scroll', position: 'absolute'}).appendTo('body');
+		var inner = $('<div>').css({width: '100%', height: '100%'}).appendTo(div);
+		var ret = { width: 100 - inner.outerWidth(), height: 100 - inner.outerHeight() };
+		div.remove();
+		return ret;
 	},
 	// Изменение списка через отправку формы
 	form_submit: function() {
@@ -295,7 +300,7 @@ Amel = {
 				tb.outerHeight($("footer").offset().top - tb.offset().top);
 				var a = $(this).find(".table-fixed");
 				a.find("tbody").width(a.width() + a.scrollLeft());
-				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.fitHeight);
+				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.scroll_bar_size().height);
 			}
 			return false;
 		});
@@ -306,7 +311,7 @@ Amel = {
 		pa.children().filter(':visible').each(function() {
 			if ($(a)[0] != $(this)[0]) h += $(this).outerHeight(true);
 		});
-		var ph = pa.outerHeight() - h - target.fitHeight;
+		var ph = pa.outerHeight() - h - target.scroll_bar_size().height;
 		$(a).outerHeight(ph);
 		return ph;
 	},
@@ -409,7 +414,7 @@ Amel = {
 			var tb = $(".table-fixed tbody");
 			if (tb.length > 0) {
 				tb.outerHeight($("footer").offset().top - tb.offset().top);
-				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.fitHeight); 
+				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.scroll_bar_size().height); 
 			}
 		});
 		target.add_on($("#" + target.findButtonId), "click", function() { target.form_submit(); });

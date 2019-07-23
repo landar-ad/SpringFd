@@ -203,8 +203,8 @@ public class ObjController {
 			// Список номеров страниц
 			List<Integer> pageNumbers = IntStream.rangeClosed(start , end).boxed().collect(Collectors.toList());
 			model.addAttribute("p_pageNumbers", pageNumbers);
-			model.addAttribute("p_min", pageNumbers.get(0));
-			model.addAttribute("p_max", pageNumbers.get(pageNumbers.size() - 1));
+			model.addAttribute("p_min", pageNumbers.size() > 0 ? pageNumbers.get(0) : 0);
+			model.addAttribute("p_max", pageNumbers.size() > 0 ? pageNumbers.get(pageNumbers.size() - 1) : 0);
 			// Список количества записей на странице
 			model.addAttribute("p_countPages", new Integer[]{10, 15, 30, 50, 100, 500, 1000});
 		}
@@ -649,8 +649,8 @@ public class ObjController {
 		// Список номеров страниц
 		List<Integer> pageNumbers = IntStream.rangeClosed(start , end).boxed().collect(Collectors.toList());
 		model.addAttribute("p_pageNumbers", pageNumbers);
-		model.addAttribute("p_min", pageNumbers.get(0));
-		model.addAttribute("p_max", pageNumbers.get(pageNumbers.size() - 1));
+		model.addAttribute("p_min", pageNumbers.size() > 0 ? pageNumbers.get(0) : 0);
+		model.addAttribute("p_max", pageNumbers.size() > 0 ? pageNumbers.get(pageNumbers.size() - 1) : 0);
 		// Список количества записей на странице
 		model.addAttribute("p_countPages", new Integer[]{10, 15, 30, 50, 100, 500, 1000});
 		return "mainPage";
