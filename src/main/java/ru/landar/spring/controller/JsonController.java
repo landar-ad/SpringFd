@@ -138,4 +138,95 @@ public class JsonController {
 		}
 		return ret;
 	}
+	@RequestMapping(value = "/json/listObjVue", produces = "application/json")
+	@ResponseBody
+	public String listObjVue(@RequestParam("clazz") String clazz,
+						  @RequestParam("page") Optional<Integer> pageParam,
+						  @RequestParam("limit") Optional<Integer> limitParam,
+						  HttpServletRequest request) throws Exception {
+		String ret = "";
+		try {
+			int off = pageParam.orElse(0), page = limitParam.orElse(15);
+			Class<?> cl = hs.getClassByName(clazz);
+			if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
+			Object obj = cl.newInstance();
+			Map<String, String[]> mapParam = request.getParameterMap();
+			// Поисковые атрибуты
+			List<String> listAttr = new ArrayList<String>();
+			List<Object> listValue = new ArrayList<Object>();
+			// Данные для сортировки
+			Map<String, String> mapSort = new HashMap<String, String>();
+			Sort sort = null;
+			for (String p : mapParam.keySet()) {
+				String v = "";
+				String[] vs = mapParam.get(p);
+				if (vs != null && vs.length > 0) for (String t : vs) { 
+					if (hs.isEmpty(t)) continue;
+					v = t; 
+					break; 
+				}
+				if (p.startsWith("sort__")) {
+					String n = p.substring(6), d = v;
+					if (hs.isEmpty(d)) d = "NONE";
+					mapSort.put(n, d);
+					if ("ASC".equalsIgnoreCase(d) || "DESC".equalsIgnoreCase(d)) {
+						Sort sortAdd = Sort.by(n);
+						sortAdd = "DESC".equalsIgnoreCase(d) ? sortAdd.descending() : sortAdd.ascending();
+						if (sort == null) sort = sortAdd;
+						else sort.and(sortAdd);
+					}
+					continue;
+				}
+				if (hs.isEmpty(v) || "clazz".equals(p) || "page".equals(p) || "limit".equals(p)) continue;
+				Class<?> attrType = hs.getAttrType(cl, p);
+				if (attrType == null) continue;
+				listAttr.add(p);
+				listValue.add(v);
+			}
+			// Добавить фильтр, если есть
+			hs.invoke(obj, "onListAddFilter", listAttr, listValue);
+			// Поисковые атрибуты
+			String[] attr = listAttr.size() > 0 ? listAttr.toArray(new String[listAttr.size()]) : null;
+			Object[] value = listValue.size() > 0 ? listValue.toArray(new Object[listValue.size()]) : null;
+			// Список колонок
+			List<ColumnInfo> listColumn = (List<ColumnInfo>)hs.invoke(obj, "onListColumn");
+			// Получить страницу данных
+			Page<Object> listObj = objService.findAll(cl, PageRequest.of(off, page, sort), attr, value);
+			int totalPages = listObj.getTotalPages();
+			off = Math.min(listObj.getNumber(), totalPages > 0 ? totalPages - 1 : 0);
+			// Сформировать JSON
+			Map<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put("totalCount", listObj.getTotalElements());
+			map.put("page", off);
+			map.put("limit", page);
+			List<Map<String, Object>> arr = new ArrayList<Map<String, Object>>();
+			map.put("headers", arr);
+			for (ColumnInfo ci : listColumn) {
+				if (!ci.getVisible()) continue;
+				Map<String, Object> mapData = new LinkedHashMap<String, Object>();
+				mapData.put("name", ci.getTitle());
+				mapData.put("sortable", ci.getSortable());
+				mapData.put("value", ci.getName());
+				arr.add(mapData);
+			}
+			arr = new ArrayList<Map<String, Object>>();
+			map.put("items", arr);
+			for (Object o : listObj.getContent()) {
+				Map<String, Object> mapData = new LinkedHashMap<String, Object>();
+				mapData.put("rn", hs.getProperty(o, "rn"));
+				mapData.put("clazz", hs.getProperty(o, "clazz"));
+				for (ColumnInfo ci : listColumn) {
+					if (!ci.getVisible()) continue;
+					mapData.put(ci.getName(), hs.getPropertyJson(o, ci.getName()));
+				}
+				arr.add(mapData);
+			}
+			ObjectMapper mapper = new ObjectMapper();
+			ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+		}
+		catch (Throwable ex) {
+			throw ex;
+		}
+		return ret;
+	}
 }
