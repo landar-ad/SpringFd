@@ -46,7 +46,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     	.usernameParameter("username")
     	.passwordParameter("password")
     	.successHandler(successHandler())
-    	.and().exceptionHandling().accessDeniedPage("/accessDenied").and().csrf().disable();
+    	.and().exceptionHandling().accessDeniedPage("/accessDenied").and().csrf().disable().cors();
     	
     	httpSecurity.httpBasic()
     	.and()
