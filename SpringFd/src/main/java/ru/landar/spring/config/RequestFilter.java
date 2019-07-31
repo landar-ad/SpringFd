@@ -1,7 +1,6 @@
 package ru.landar.spring.config;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,13 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import ru.landar.spring.service.HelperService;
 
 @Component
-@Order(1)
 public class RequestFilter implements Filter {
 	@Autowired 
 	HelperService hs;
