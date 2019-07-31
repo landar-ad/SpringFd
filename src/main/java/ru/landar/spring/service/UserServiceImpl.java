@@ -45,14 +45,16 @@ public class UserServiceImpl implements UserService {
 	public String getRoles(String username) {
 		String roles = "";
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (username != null && !username.isEmpty() && !username.equals(authentication.getName())) roles = userRepositoryCustom.getRoles(username);
-		else {
-			if (authentication.getAuthorities() != null) {
-				for (GrantedAuthority ga : authentication.getAuthorities()) {
-					String role = ga.getAuthority();
-					if (role != null && !role.isEmpty()) {
-						if (!roles.isEmpty()) roles += ",";
-						roles += role;
+		if (authentication != null) {
+			if (username != null && !username.isEmpty() && !username.equals(authentication.getName())) roles = userRepositoryCustom.getRoles(username);
+			else {
+				if (authentication.getAuthorities() != null) {
+					for (GrantedAuthority ga : authentication.getAuthorities()) {
+						String role = ga.getAuthority();
+						if (role != null && !role.isEmpty()) {
+							if (!roles.isEmpty()) roles += ",";
+							roles += role;
+						}
 					}
 				}
 			}
