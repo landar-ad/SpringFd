@@ -62,11 +62,10 @@ public class JsonController {
 	public String listObj(@RequestParam("clazz") String clazz,
 						  @RequestParam("p_off") Optional<Integer> offParam,
 						  @RequestParam("p_page") Optional<Integer> pageParam,
-						  @RequestParam("p_block") Optional<Integer> blockParam,
 						  HttpServletRequest request) throws Exception {
 		String ret = "";
 		try {
-			int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
+			int off = offParam.orElse(0), page = pageParam.orElse(15);
 			Class<?> cl = hs.getClassByName(clazz);
 			if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 			Object obj = cl.newInstance();
