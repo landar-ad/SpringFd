@@ -203,21 +203,18 @@ public class JsonController {
 			List<Map<String, Object>> arr = new ArrayList<Map<String, Object>>();
 			map.put("headers", arr);
 			for (ColumnInfo ci : listColumn) {
-				if (!ci.getVisible()) continue;
 				Map<String, Object> mapData = new LinkedHashMap<String, Object>();
-				mapData.put("name", ci.getTitle());
+				mapData.put("name", ci.getName());
+				mapData.put("visible", ci.getVisible());
 				mapData.put("sortable", ci.getSortable());
-				mapData.put("value", ci.getName());
+				mapData.put("title", ci.getTitle());
 				arr.add(mapData);
 			}
 			arr = new ArrayList<Map<String, Object>>();
 			map.put("items", arr);
 			for (Object o : listObj.getContent()) {
 				Map<String, Object> mapData = new LinkedHashMap<String, Object>();
-				mapData.put("rn", hs.getProperty(o, "rn"));
-				mapData.put("clazz", hs.getProperty(o, "clazz"));
 				for (ColumnInfo ci : listColumn) {
-					if (!ci.getVisible()) continue;
 					mapData.put(ci.getName(), hs.getPropertyJson(o, ci.getName()));
 				}
 				arr.add(mapData);
