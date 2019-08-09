@@ -122,7 +122,7 @@ Amel = {
 	// Обработка доступности кнопок
 	set_buttons: function(rn) {
 		var param = "", target = this;
-		$(".execute_obj").each(function() { param += "," + $(this).attr("data-param"); });
+		$(".execute_obj").each(function() { if (param) param += ","; param += $(this).attr("data-param"); });
 		target.check_execute(rn, param, function(b) {
 			var a = b.split(","), i = 0;
 			$(".execute_obj").each(function() { $(this).prop('disabled', a.length < (i + 1) || a[i] != "1"); i++; });			
