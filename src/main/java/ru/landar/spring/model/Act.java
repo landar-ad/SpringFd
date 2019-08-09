@@ -135,11 +135,14 @@ public class Act extends IBase {
 		ret.add(new ColumnInfo("change_time", "Дата изменения"));
 		return ret;
 	}
+	@Override
 	public List<ButtonInfo> listButton() {
-		String roles = userService.getRoles(null);
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
 		ret.add(new ButtonInfo("newAct", "Сформировать новый акт"));
 		ret.add(new ButtonInfo("sendAct", "Отправить"));
+		String roles = userService.getRoles(null);
 		if (roles.indexOf("ADMIN") >= 0 || roles.indexOf("DF") >= 0) {
 			ret.add(new ButtonInfo("acceptAct", "Принять"));
 			ret.add(new ButtonInfo("confirmAct", "Утвердить"));

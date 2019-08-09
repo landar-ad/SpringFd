@@ -3,7 +3,6 @@ package ru.landar.spring.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -201,7 +200,12 @@ public abstract class IBase {
 		return ret;
 	}
 	public List<ButtonInfo> listButton() {
-		return null;
+		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
+		ret.add(new ButtonInfo("addObj", "Добавить", "clone"));
+		ret.add(new ButtonInfo("removeObj", "Удалить", "trash"));
+		return ret;
 	}
 	public static boolean listPaginated() { return false; }
 	public static List<AttributeInfo> listAttribute() {

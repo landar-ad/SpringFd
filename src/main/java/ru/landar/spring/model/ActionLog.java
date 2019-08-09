@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.AttributeInfo;
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.service.HelperService;
@@ -105,7 +106,12 @@ public class ActionLog extends IBase {
 		ret.add(new AttributeInfo("client_browser", "Браузер клиента", "text", null, false));
 		return ret;
 	}
-	
+	@Override
+	public List<ButtonInfo> listButton() {
+		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
+		return ret;
+	}
 	@Override
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
  		Object ret = super.onListAddFilter(listAttr, listValue);

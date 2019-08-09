@@ -31,7 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.persistence.CascadeType;
@@ -156,8 +155,11 @@ public class Reestr extends IBase {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
+	@Override
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
 		String roles = userService.getRoles(null);
 		if (roles != null && (roles.indexOf("ADMIN") >= 0 || roles.indexOf("DF") >= 0)) {
 			ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр"));

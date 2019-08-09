@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ru.landar.spring.classes.AttributeInfo;
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
@@ -74,6 +75,11 @@ public class ISession {
 		ret.add(new AttributeInfo("ip", "Адрес", "text", null, false, 4));
 		ret.add(new AttributeInfo("start_time", "Начало", "time", null, false));
 		ret.add(new AttributeInfo("end_time", "Окончание", "time", null, false));
+		return ret;
+	}
+	public List<ButtonInfo> onListButton() {
+		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme'"));
 		return ret;
 	}
 	@Transient public String getName() { return id; }
