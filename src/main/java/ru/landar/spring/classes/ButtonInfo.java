@@ -4,27 +4,21 @@ public class ButtonInfo {
 	String name;
 	String title;
 	String icon;
-	boolean visible;
-	boolean active;
-	
-	public ButtonInfo(String name, String title, String url, String icon) {
-		this(name, title, icon, true, true);
-	}
+	String color;
 	
 	public ButtonInfo(String name, String title) {
-		this(name, title, null, true, true);
+		this(name, title, null, "light");
 	}
 	
 	public ButtonInfo(String name, String title, String icon) {
-		this(name, title, icon, true, true);
+		this(name, title, icon, "light");
 	}
 	
-	public ButtonInfo(String name, String title, String icon, boolean visible, boolean active) {
+	public ButtonInfo(String name, String title, String icon, String color) {
 		setName(name);
 		setTitle(title);
 		setIcon(icon);
-		setVisible(visible);
-		setActive(active);
+		setColor(color);
 	}
 	
 	public String getName() { return name; }
@@ -36,9 +30,6 @@ public class ButtonInfo {
 	public String getIcon() { return icon; }
 	public void setIcon(String icon) { this.icon = icon; }
 
-	public void setVisible(boolean visible) { this.visible = visible; }
-	public boolean getVisible() { return visible; }
-	
-	public void setActive(boolean active) { this.active = active; }
-	public boolean getActive() { return active; }
+	public String getColor() { return color; }
+	public void setColor(String color) { this.color = color; }
 }
