@@ -377,7 +377,11 @@ Amel = {
 		}
 		// Кнопки
 		target.set_buttons(rn);
-		target.add_on($('.execute_obj'), "click", function() { target.exec_obj("execute", $(this).attr("data-param")); });
+		target.add_on($('.execute_obj'), "click", function() { 
+			var param = $(this).attr("data-param"), op = "execute";
+			if (param == "edit" || param == "view" || param == "add" || param == "remove") op = param;
+			target.exec_obj(op, param); 
+		});
 		target.add_on($("#" + target.tableId + " tbody tr"), "click", function() { target.click_row(this); });
 		target.add_on($("#" + target.tableId + " tbody tr"), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
 		// Установка однострочного содержимого данных
