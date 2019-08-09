@@ -65,7 +65,7 @@
   	</div>
   	<div th:fragment="list-buttons" class="row small col-sm-12">
 		<div th:if="${listButton!=null}" class="btn-group">
-			<button th:each="btn : ${listButton}" th:data-param="${btn.name}" th:class="${'execute_obj btn btn-sm btn-' + btn.color}" type="button" th:text="${' ' + btn.title}"><i th:if=${btn.icon!=null} class="${'fa fa-sm fa-' + btn.icon}"></i></button>
+			<button th:each="btn : ${listButton}" th:data-param="${btn.name}" th:class="${'execute_obj btn btn-sm btn-' + btn.color}" type="button" th:text="${' ' + btn.title}"><i th:if="${btn.icon!=null}" th:class="${'fa fa-sm fa-' + btn.icon}"></i></button>
 		</div>
 		<div class="col grow">
 			<div class="text-align-right">

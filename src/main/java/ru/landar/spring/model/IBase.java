@@ -132,7 +132,7 @@ public abstract class IBase {
      	if (ret != null) return ret;
     	if (getRn() == null) return true;
     	if (op == Operation.load) return true;
-    	if (op == Operation.update || op == Operation.delete) return userService.isAdmin(null);
+    	if (op == Operation.update || op == Operation.delete || op == Operation.create) return userService.isAdmin(null);
     	return false;
     }
     public Object onCheckUpdateAttribute(String attr) { 
@@ -149,6 +149,7 @@ public abstract class IBase {
 		if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
+		else if ("add".equals(param)) return onCheckRights(Operation.create);
 		return userService.isAdmin(null);
     }
     public Object onBuildContent() { 
