@@ -140,16 +140,16 @@ public class Act extends IBase {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
 		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
-		ret.add(new ButtonInfo("newAct", "Сформировать новый акт"));
-		ret.add(new ButtonInfo("sendAct", "Отправить"));
+		ret.add(new ButtonInfo("newAct", "Сформировать новый акт", null, "success"));
+		ret.add(new ButtonInfo("sendAct", "Отправить", null, "success"));
 		String roles = userService.getRoles(null);
 		if (roles.indexOf("ADMIN") >= 0 || roles.indexOf("DF") >= 0) {
-			ret.add(new ButtonInfo("acceptAct", "Принять"));
-			ret.add(new ButtonInfo("confirmAct", "Утвердить"));
-			ret.add(new ButtonInfo("refuseAct", "Отказать"));
+			ret.add(new ButtonInfo("acceptAct", "Принять", null, "success"));
+			ret.add(new ButtonInfo("confirmAct", "Утвердить", null, "success"));
+			ret.add(new ButtonInfo("refuseAct", "Отказать", null, "success"));
 		}
-		ret.add(new ButtonInfo("printAct", "Печать"));
-		ret.add(new ButtonInfo("printActRet", "Печать акта возврата"));
+		ret.add(new ButtonInfo("printAct", "Печать", null, "success"));
+		ret.add(new ButtonInfo("printActRet", "Печать акта возврата", null, "success"));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
