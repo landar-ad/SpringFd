@@ -198,8 +198,10 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		return ret;
 	}
+	@Override
 	public List<ButtonInfo> listButton() {
-		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		List<ButtonInfo> ret = super.listButton();
+		if (ret == null) ret = new ArrayList<ButtonInfo>();
 		ret.add(new ButtonInfo("confirm", "Завершить подготовку документа"));
 		return ret;
 	}

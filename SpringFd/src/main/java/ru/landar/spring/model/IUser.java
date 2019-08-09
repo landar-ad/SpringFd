@@ -12,6 +12,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -80,6 +81,14 @@ public class IUser extends IBase {
 		}
 		catch (Exception ex) { }
 		return true;
+	}
+	public List<ButtonInfo> listButton() {
+		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
+		if (userService.isAdmin(null)) ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
+		if (userService.isAdmin(null)) ret.add(new ButtonInfo("addObj", "Добавить", "clone"));
+		if (userService.isAdmin(null)) ret.add(new ButtonInfo("removeObj", "Удалить", "trash"));
+		return ret;
 	}
     // Статические функции
 	public static String singleTitle() { return "Пользователь"; }

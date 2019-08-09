@@ -15,6 +15,10 @@ public class ButtonInfo {
 		this(name, title, null, true, true);
 	}
 	
+	public ButtonInfo(String name, String title, String icon) {
+		this(name, title, icon, true, true);
+	}
+	
 	public ButtonInfo(String name, String title, String icon, boolean visible, boolean active) {
 		setName(name);
 		setTitle(title);
