@@ -158,8 +158,8 @@ public class Reestr extends IBase {
 	@Override
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
-		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
+		ret.add(new ButtonInfo("edit", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
 		String roles = userService.getRoles(null);
 		if (roles != null && (roles.indexOf("ADMIN") >= 0 || roles.indexOf("DF") >= 0)) {
 			ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр", null, "success"));
@@ -269,6 +269,7 @@ public class Reestr extends IBase {
     	Object ret = invoke("onCheckRights", op);
      	if (ret != null) return ret;
      	Integer rn = getRn();
+     	if (op == Operation.create) return userService.isAdmin(null);
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
     		if (userService.isAdmin(null)) return true;
@@ -293,6 +294,7 @@ public class Reestr extends IBase {
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
      	if ("newReestr".equals(param)) return true;
+     	else if ("add".equals(param)) return onCheckRights(Operation.create);
      	if (getRn() == null) return false;
      	if ("printReestr".equals(param)) return true;
      	String roles = userService.getRoles(null);

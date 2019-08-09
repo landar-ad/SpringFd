@@ -277,6 +277,7 @@ public class Document extends IBase {
     	Object ret = invoke("onCheckRights", op);
      	if (ret != null) return ret;
     	Integer rn = getRn();
+    	if (op == Operation.create) return hs.getDepartment() != null;
     	if (rn == null) return true;
     	if (op == Operation.update || op == Operation.delete) {
     		if (getAct() != null || getReestr() != null) return false;
@@ -304,7 +305,10 @@ public class Document extends IBase {
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
-    	if (getRn() == null) return false;
+    	if (getRn() == null) {
+    		if ("add".equals(param)) return onCheckRights(Operation.create);
+    		return false;
+    	}
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);

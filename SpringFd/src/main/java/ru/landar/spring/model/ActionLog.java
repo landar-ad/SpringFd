@@ -109,7 +109,7 @@ public class ActionLog extends IBase {
 	@Override
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
+		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
 		return ret;
 	}
 	@Override

@@ -79,7 +79,7 @@ public class ISession {
 	}
 	public List<ButtonInfo> onListButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme'"));
+		ret.add(new ButtonInfo("view", "Просмотреть", "readme'"));
 		return ret;
 	}
 	@Transient public String getName() { return id; }

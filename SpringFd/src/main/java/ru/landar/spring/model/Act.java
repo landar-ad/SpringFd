@@ -138,8 +138,8 @@ public class Act extends IBase {
 	@Override
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
-		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
+		ret.add(new ButtonInfo("edit", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
 		ret.add(new ButtonInfo("newAct", "Сформировать новый акт", null, "success"));
 		ret.add(new ButtonInfo("sendAct", "Отправить", null, "success"));
 		String roles = userService.getRoles(null);
@@ -231,6 +231,7 @@ public class Act extends IBase {
     	Object ret = invoke("onCheckRights", op);
      	if (ret != null) return ret;
      	Integer rn = getRn();
+     	if (op == Operation.create) return getDepart() != null;
     	if (rn == null) return true;
     	String roles = userService.getRoles(null);
     	int st = statusCode();
@@ -260,6 +261,7 @@ public class Act extends IBase {
      	if (ret != null) return ret;
      	IDepartment dep = hs.getDepartment(), depart = getDepart();
     	if ("newAct".equals(param)) return dep != null;
+    	if ("add".equals(param)) return onCheckRights(Operation.create);
     	if (getRn() == null) return false;
     	if ("printAct".equals(param)) return true;
     	if ("printActRet".equals(param)) {

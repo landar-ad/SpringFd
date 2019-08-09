@@ -84,10 +84,10 @@ public class IUser extends IBase {
 	}
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		if (userService.isAdmin(null)) ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
-		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
-		if (userService.isAdmin(null)) ret.add(new ButtonInfo("addObj", "Добавить", "clone"));
-		if (userService.isAdmin(null)) ret.add(new ButtonInfo("removeObj", "Удалить", "trash"));
+		if (userService.isAdmin(null)) ret.add(new ButtonInfo("edit", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
+		if (userService.isAdmin(null)) ret.add(new ButtonInfo("add", "Добавить", "clone"));
+		if (userService.isAdmin(null)) ret.add(new ButtonInfo("remove", "Удалить", "trash"));
 		return ret;
 	}
     // Статические функции
