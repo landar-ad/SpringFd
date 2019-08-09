@@ -202,10 +202,10 @@ public abstract class IBase {
 	}
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("editObj", "Редактировать", "edit"));
-		ret.add(new ButtonInfo("viewObj", "Просмотреть", "readme"));
-		ret.add(new ButtonInfo("addObj", "Добавить", "clone"));
-		ret.add(new ButtonInfo("removeObj", "Удалить", "trash"));
+		ret.add(new ButtonInfo("edit", "Редактировать", "edit"));
+		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
+		ret.add(new ButtonInfo("add", "Добавить", "clone"));
+		ret.add(new ButtonInfo("remove", "Удалить", "trash"));
 		return ret;
 	}
 	public static boolean listPaginated() { return false; }
