@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -155,6 +156,8 @@ public class JsonController {
 			// Поисковые атрибуты
 			List<String> listAttr = new ArrayList<String>();
 			List<Object> listValue = new ArrayList<Object>();
+			// Данные для фильтрации
+			Map<String, Object> mapFilter = new HashMap<String, Object>();
 			// Данные для сортировки
 			Map<String, String> mapSort = new HashMap<String, String>();
 			Sort sort = null;
@@ -189,6 +192,7 @@ public class JsonController {
 			// Поисковые атрибуты
 			String[] attr = listAttr.size() > 0 ? listAttr.toArray(new String[listAttr.size()]) : null;
 			Object[] value = listValue.size() > 0 ? listValue.toArray(new Object[listValue.size()]) : null;
+			if (attr != null && value != null) for (int i=0; i<attr.length; i++) mapFilter.put(attr[i], value[i]);
 			// Список колонок
 			List<ColumnInfo> listColumn = (List<ColumnInfo>)hs.invoke(obj, "onListColumn");
 			// Получить страницу данных
@@ -201,13 +205,45 @@ public class JsonController {
 			map.put("page", off);
 			map.put("limit", page);
 			List<Map<String, Object>> arr = new ArrayList<Map<String, Object>>();
+			// Кнопки
+			map.put("buttons", arr);
+			List<ButtonInfo> listButton = (List<ButtonInfo>)hs.invoke(obj, "onListButton");
+			for (ButtonInfo bi : listButton) {
+				Map<String, Object> mapData = new LinkedHashMap<String, Object>();
+				mapData.put("name", bi.getName());
+				mapData.put("title", bi.getTitle());
+				if (bi.getIcon() != null) mapData.put("icon", bi.getIcon());
+				mapData.put("color", bi.getColor());
+				arr.add(mapData);
+			}
+			// Заголовок таблицы
+			arr = new ArrayList<Map<String, Object>>();
 			map.put("headers", arr);
 			for (ColumnInfo ci : listColumn) {
 				Map<String, Object> mapData = new LinkedHashMap<String, Object>();
-				mapData.put("name", ci.getName());
-				mapData.put("visible", ci.getVisible());
-				mapData.put("sortable", ci.getSortable());
+				String key = ci.getName();
+				mapData.put("name", key);
 				mapData.put("title", ci.getTitle());
+				mapData.put("visible", ci.getVisible());
+				String sortData = null;
+				if (ci.getSortable()) {
+					sortData = "NONE";
+					if (mapSort.containsKey(key)) sortData = mapSort.get(key);
+				}
+				mapData.put("sort", sortData);
+				Map<String, Object> filterData = null;
+				if (ci.getFilter() != null) {
+					filterData = new LinkedHashMap<String, Object>();
+					key = ci.getFilter();
+					filterData.put("name", key);
+					filterData.put("type", ci.getFilterType());
+					if (ci.getFilterList() != null) {
+						
+						filterData.put("list", ci.getFilterList());
+					}
+					if (mapFilter.containsKey(key)) filterData.put("value", mapFilter.get(key));
+				}
+				mapData.put("filter", filterData);
 				arr.add(mapData);
 			}
 			arr = new ArrayList<Map<String, Object>>();
