@@ -483,7 +483,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		if (clItem == null || rnItem == null) return null;
 		Object item = find(clItem, rnItem);
 		if (item == null) return null;
-		if (rnItemOld != null) {
+		if (rnItemOld != null && rnItemOld.compareTo(rnItem) != 0) {
 			for (int i=0; i<list.size(); i++) {
 				Object o = list.get(i);
 				if (!(o instanceof IBase) || rnItemOld.compareTo(((IBase)o).getRn()) != 0) continue;
