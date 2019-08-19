@@ -64,6 +64,9 @@ public class Document extends IBase {
 	private Date extract_date;
 	private List<IFile> list_file;
 	private Integer sheet_count;
+	private String sp_year;
+	private String sp_num;
+	private String sp_subnum;
 	
 	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
     public SpDocType getDoc_type() { return doc_type; }
@@ -152,6 +155,18 @@ public class Document extends IBase {
     
 	public Integer getSheet_count() { return sheet_count; }
     public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
+    
+    @Column(length=4)
+    public String getSp_year() { return sp_year; }
+    public void setSp_year(String sp_year) { this.sp_year = sp_year; }
+    
+    @Column(length=1000)
+    public String getSp_num() { return sp_num; }
+    public void setSp_num(String sp_num) { this.sp_num = sp_num; }
+    
+    @Column(length=1000)
+    public String getSp_subnum() { return sp_subnum; }
+    public void setSp_subnum(String sp_subnum) { this.sp_subnum = sp_subnum; }
 	
     private void updateName() {
     	AutowireHelper.autowire(this);
@@ -192,10 +207,14 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта", false));
 		ret.add(new ColumnInfo("change_doc__name", "Заменен документом", false));
 		ret.add(new ColumnInfo("buh_date", "Дата бухучета"));
+		ret.add(new ColumnInfo("sp_year", "Год проверки"));
+		ret.add(new ColumnInfo("sp_num", "№ пункта запроса"));
+		ret.add(new ColumnInfo("sp_subnum", "№ подпункта запроса"));
 		ret.add(new ColumnInfo("extract_number", "Выписка: №", false));
 		ret.add(new ColumnInfo("extract_date", "Выписка: дата", false));
 		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
+		ret.add(new ColumnInfo("version", "Версия"));
 		return ret;
 	}
 	@Override

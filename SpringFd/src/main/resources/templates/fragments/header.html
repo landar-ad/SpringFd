@@ -41,9 +41,19 @@
 			       	<nav th:if="${#strings.contains(#httpServletRequest.requestURI,'listObj') && (clazz=='Document' || clazz=='Act' || clazz=='Reestr')}" class="navbar navbar-expand-lg navbar-light bg-light">
 					  	<div class="collapse navbar-collapse">
 					    	<ul class="navbar-nav mr-auto">
-							    <li th:if="${clazz!='Document'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Document}">Документы</a></li>
-							    <li th:if="${clazz!='Act'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Act}">Акты приема-передачи</a></li>
-							    <li th:if="${clazz!='Reestr'}" class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Reestr}">Реестры сдачи документов</a></li>
+					    		<li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/}"><i class="fa fa-sm fa-home"></i></a></li>
+							    <li class="nav-item text-uppercase">
+							    	<a th:if="${clazz!='Document'}" class="nav-link" th:href="@{/listObj?clazz=Document}">Документы</a>
+							    	<span th:if="${clazz=='Document'}" class="nav-link nav-active">Документы</span>
+						    	</li>
+							    <li class="nav-item text-uppercase">
+							    	<a th:if="${clazz!='Act'}" class="nav-link" th:href="@{/listObj?clazz=Act}">Акты приема-передачи</a>
+							    	<span th:if="${clazz=='Act'}" class="nav-link nav-active">Акты приема-передачи</span>
+						    	</li>
+							    <li class="nav-item text-uppercase">
+							    	<a th:if="${clazz!='Reestr'}" class="nav-link" th:href="@{/listObj?clazz=Reestr}">Реестры сдачи документов</a>
+							    	<span th:if="${clazz=='Reestr'}" class="nav-link nav-active">Реестры сдачи документов</span> 
+						    	</li>
 						    </ul>
 						</div>
 					</nav>	    
@@ -143,6 +153,7 @@
 						<th>#</th>
 						<th>Файл документа</th>
 						<th>Прикрепить или заменить файл</th>
+						<th>Комментарий</th>
 						<th>Расширение</th>
 						<th>Тип</th>
 						<th>Длина</th>
@@ -168,6 +179,10 @@
 								<label class="custom-file-label" data-browse="Прикрепить файл"></label>
 							</div>
 			        	</td>
+			        	<td class="edited">
+			        		<span></span>
+							<input name="list_file__comment" class="not-visible form-control form-control-sm" type="text" th:value="${list_file__comment}">
+			        	</td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -191,6 +206,10 @@
 								<label class="custom-file-label" data-browse="Прикрепить файл"></label>
 							</div>							            
 			        	</td>
+			        	<td class="edited">
+			        		<span th:utext="${f.comment}"></span>
+							<input name="list_file__comment" class="not-visible form-control form-control-sm" type="text" th:value="${f.comment}">
+			        	</td>
 			        	<td th:text="${f.fileext}"/>
 			        		<td th:text="${f.filetype?.name}"/>
 			        	<td th:text="${f.filelength}"/>
@@ -201,6 +220,7 @@
 			    	<tr th:if=${readonly!=true} class="last-row">
 			    		<td class="d-none"/>
 			    		<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
+			    		<td></td>
 			    		<td></td>
 			    		<td></td>
 			    		<td></td>
