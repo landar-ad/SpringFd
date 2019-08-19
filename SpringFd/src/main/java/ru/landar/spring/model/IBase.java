@@ -145,12 +145,12 @@ public abstract class IBase {
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
+     	if ("add".equals(param)) return onCheckRights(Operation.create);
      	if (getRn() == null) return false;
 		if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		else if ("add".equals(param)) return onCheckRights(Operation.create);
-		return userService.isAdmin(null);
+		return false;
     }
     public Object onBuildContent() { 
     	return invoke("onBuildContent"); 
