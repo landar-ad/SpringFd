@@ -62,9 +62,15 @@
 								            	<span></span>
 								            	<input name="list_doc__doc" type="hidden" value="" data-type="select" data-clazz="Document" data-title="Выберите документ" data-column="name=Документ" data-filter="doc_status__code ='2';depart__rn =#d#">
 								            </td>
-							            	<td></td>
+							            	<td class="edited">
+								            	<button class="btn btn-light btn-sm" type="button"><i class="fa fa-sm fa-times"></i></button>
+								            	<input name="list_doc__exclude" type="hidden" value="0" data-type="checkbox">
+							            	</td>
 								            <td></td>
-								            <td></td>
+								            <td class="edited">
+								            	<span></span>
+								            	<input name="list_doc__exclude_reason" class="not-visible form-control form-control-sm" type="text" value="">
+								            </td>
 								            <td></td>
 								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
 								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
