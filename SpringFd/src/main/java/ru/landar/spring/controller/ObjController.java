@@ -405,7 +405,7 @@ public class ObjController {
 								v = hs.getProperty(v, ap); 
 							}
 							else v = hs.getObjectByString(clItem, ap, (String)v);
-							if (v != null) hs.setProperty(item, ap, v);
+							/*if (v != null) */hs.setProperty(item, ap, v);
 						}
 						if (f != null) hs.copyProperties(f, item, true);
 						objRepository.saveObj(item);
