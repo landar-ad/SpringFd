@@ -91,6 +91,7 @@ public class UserController {
     		// Запись в журнал
 			List<ChangeInfo> lci = objectChanged.getObjectChanges();
 			for (ChangeInfo ci : lci) objRepository.writeLog(userService.getPrincipal(), ci.getRn(), ci.getClazz(), ci.getValue(), ci.getOp(), ip, browser);
+			transactionManager.commit(ts);
     	}
     	catch (Exception ex) {
     		transactionManager.rollback(ts);
