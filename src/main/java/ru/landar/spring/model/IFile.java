@@ -1,7 +1,5 @@
 package ru.landar.spring.model;
 
-import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,6 +26,7 @@ public class IFile extends IBase {
 	private SpFileType filetype;
 	private String fileuri;
 	private Long filelength;
+	private String comment;
 	
 	@Column(length=1024)
     public String getFilename() { return filename; }
@@ -47,6 +46,10 @@ public class IFile extends IBase {
     
     public Long getFilelength() { return filelength; }
     public void setFilelength(Long filelength) { this.filelength = filelength; }
+    
+    @Column(length=2048)
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
     
     @Autowired
 	ObjRepositoryCustom objRepository;
