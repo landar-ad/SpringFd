@@ -338,6 +338,7 @@ public class ObjController {
 							if (f.getFileext() != null) mapValue.put("fileext", f.getFileext());
 							if (f.getFiletype() != null) mapValue.put("filetype", "" + f.getFiletype().getRn());
 							if (f.getFilelength() != null) mapValue.put("filelength", "" + f.getFilelength());
+							if (f.getComment() != null) mapValue.put("comment", "" + f.getComment());
 						}
 					}
 				}
