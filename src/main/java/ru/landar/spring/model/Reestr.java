@@ -214,6 +214,7 @@ public class Reestr extends IBase {
     		if (docOld != null) {
     			hs.setProperty(docOld, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "8"));
     			hs.setProperty(docOld, "change_doc", doc);
+    			hs.setProperty(doc, "version", docOld.getVersion() + 1);
     		}
     		if (doc != null) {
     			hs.setProperty(docOld, "reestr", null);

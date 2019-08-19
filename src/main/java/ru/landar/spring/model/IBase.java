@@ -51,6 +51,7 @@ public abstract class IBase {
 		Date d = new Date();
 		setCdate(d);
 		setMdate(d);
+		setVersion(1);
 	}
 	
 	@Id
