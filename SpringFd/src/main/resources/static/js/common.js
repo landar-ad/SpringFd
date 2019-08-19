@@ -185,7 +185,7 @@ Amel = {
 			if (q.prop("tagName").toLowerCase() == "div") a = q.find("input,select,textarea").first();
 			a.val(s.text());
 			a.focus();
-			add_on($(a), "keypress", function(e) {
+			target.add_on($(a), "keypress", function(e) {
 				if (e.which == 13) {
 					target.stop_edit(c);
 					e.preventDefault();
@@ -238,6 +238,7 @@ Amel = {
 	},
 	// Вызов всплывающего окна для выбора объекта
 	popup_select: function(a, s) {
+		var target = this;
 		var data = {
 			clazz: a.attr("data-clazz"),
 			p_title: a.attr("data-title"),
@@ -253,7 +254,7 @@ Amel = {
 				$(".modal").modal();
 				$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
-				add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
+				target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
 					$(".modal").find("table tbody tr").each(function() {
 						var rn = $(this).find(".d-none").first().text();
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
