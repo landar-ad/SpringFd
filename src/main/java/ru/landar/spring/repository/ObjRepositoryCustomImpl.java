@@ -480,14 +480,16 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		if (listObj == null || !(listObj instanceof List)) throw new Exception("Не найден список '" + listAttr + "'");
 		List list = (List<?>)listObj;
 		Class<?> clItem = hs.getClassByName(clazzItem);
-		if (clItem == null || rnItemOld == null || rnItem == null) return null;
+		if (clItem == null || rnItem == null) return null;
 		Object item = find(clItem, rnItem);
 		if (item == null) return null;
-		for (int i=0; i<list.size(); i++) {
-			Object o = list.get(i);
-			if (!(o instanceof IBase) || rnItemOld.compareTo(((IBase)o).getRn()) != 0) continue;
-			list.set(i, item);
-			break;
+		if (rnItemOld != null) {
+			for (int i=0; i<list.size(); i++) {
+				Object o = list.get(i);
+				if (!(o instanceof IBase) || rnItemOld.compareTo(((IBase)o).getRn()) != 0) continue;
+				list.set(i, item);
+				break;
+			}
 		}
 		return item;
 	}
