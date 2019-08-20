@@ -126,11 +126,17 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return ret;
 	}
 	@Override
-	public Object getMaxAttr(Class<?> cl, String attr) {
+	public Object getMaxAttr(Class<?> cl, String attr) { return getMaxAttr(cl, attr, null, null); }
+	@Override 
+	public Object getMaxAttr(Class<?> cl, String attr, String[] attrFilter, Object[] valueFilter) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<?> query = cb.createQuery(hs.getAttrType(cl, attr));
-		Root<?> root = query.from(cl);
-		query.select(cb.max(root.get(attr)));
+		Root<?> f = query.from(cl);
+		if (attrFilter != null && attrFilter.length > 0) {
+			Predicate prTotal = getFilter(cb, cl, f, attrFilter, valueFilter);
+			if (prTotal != null) query.where(cb.and(prTotal));
+		}
+		query.select(cb.max(f.get(attr)));
 		return em.createQuery(query).getSingleResult();
 	}
 	@Override
@@ -207,6 +213,28 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
 		else query.select((Path)f).distinct(true);
 		
+		Predicate prTotal = getFilter(cb, cl, f, attr, value);
+		if (prTotal != null) query.where(cb.and(prTotal));
+		
+		if (sort != null && !count) {
+			List<Order> lo = new ArrayList<Order>();
+    		Stream<Sort.Order> stream = StreamSupport.stream(sort.spliterator(), false);
+    		Iterator<Sort.Order> it = stream.iterator();
+			while (it.hasNext()) {
+				Sort.Order order = it.next();
+				String a = order.getProperty();
+				String[] joinList = a.split("__");
+				Path p = f;
+				if (joinList.length > 1) for (int j=0; j<joinList.length-1; j++) f.join(joinList[j], JoinType.LEFT);
+				for (String join : joinList) p = p.get(join);
+				Order o = order.getDirection() == Direction.ASC ? cb.asc(p) : cb.desc(p);
+				lo.add(o);
+			}
+			if (lo.size() > 0) query.orderBy(lo);
+    	}
+		return query;
+	}
+	private Predicate getFilter(CriteriaBuilder cb, Class<?> cl, Root<?> f, String[] attr, Object[] value) {
 		Predicate prTotal = null;
 		if (attr != null && attr.length > 0) {
 			for (int i=0; i<attr.length; i++) {
@@ -307,25 +335,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	        	}
 			}
 		}
-		if (prTotal != null) query.where(cb.and(prTotal));
-		
-		if (sort != null && !count) {
-			List<Order> lo = new ArrayList<Order>();
-    		Stream<Sort.Order> stream = StreamSupport.stream(sort.spliterator(), false);
-    		Iterator<Sort.Order> it = stream.iterator();
-			while (it.hasNext()) {
-				Sort.Order order = it.next();
-				String a = order.getProperty();
-				String[] joinList = a.split("__");
-				Path p = f;
-				if (joinList.length > 1) for (int j=0; j<joinList.length-1; j++) f.join(joinList[j], JoinType.LEFT);
-				for (String join : joinList) p = p.get(join);
-				Order o = order.getDirection() == Direction.ASC ? cb.asc(p) : cb.desc(p);
-				lo.add(o);
-			}
-			if (lo.size() > 0) query.orderBy(lo);
-    	}
-		return query;
+		return prTotal;
 	}
 	private boolean isExpression(String v) {
 		if (v == null || v.trim().isEmpty()) return false;

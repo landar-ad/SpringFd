@@ -43,6 +43,7 @@ import javax.persistence.Column;
 public class Document extends IBase {
 	private SpDocType doc_type;
 	private String doc_number;
+	private Integer number;
 	private Date doc_date;
 	private Document parent_doc;
 	private IAgent agent;
@@ -75,6 +76,9 @@ public class Document extends IBase {
     @Column(length=40)
     public String getDoc_number() { return doc_number; }
     public void setDoc_number(String doc_number) { this.doc_number = doc_number; updateName(); }
+    
+    public Integer getNumber() { return number; }
+    public void setNumber(Integer number) { this.number = number; }
     
     @Temporal(TemporalType.DATE)
     public Date getDoc_date() { return doc_date; }
@@ -241,7 +245,13 @@ public class Document extends IBase {
       	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "1"));
       	hs.setProperty(this, "time_status", dt);
       	hs.setProperty(this, "sheet_count", 0);
-     	return true;
+      	String dep_code = hs.getPropertyString(this, "depart__code");
+      	if (!hs.isEmpty(dep_code)) {
+      		Integer max = (Integer)objRepository.getMaxAttr(Document.class, "number", new String[] {"depart__code"}, new Object[] {dep_code});
+      		if (max == null) max = 0;
+      		hs.setProperty(this, "doc_number", String.format("%s-%04d", dep_code, max + 1));
+      	}
+      	return true;
     }
 	@Override
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {

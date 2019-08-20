@@ -20,6 +20,7 @@ public interface ObjRepositoryCustom {
 	Object saveObj(Object obj);
 	void removeObj(Object obj);
 	Object getMaxAttr(Class<?> cl, String attr);
+	Object getMaxAttr(Class<?> cl, String attr, String[] attrFilter, Object[] valueFilter);
 	Object find(Class<?> cl, Object pk);
 	Object find(Class<?> cl, String attr, Object value);
 	Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value);
