@@ -159,8 +159,10 @@ Amel = {
 		$("#" + target.tableId + " th input[type='checkbox']").prop('checked', false);
 	},
 	// Установка размеров колонок заголовка таблицы по колонкам данных
-	set_header_width: function(table) {
-		table.find("tbody tr").first().find("td").each(function(i) {
+	set_header_width: function(table, nolast) {
+		var c = table.find("tbody tr").first().find("td");
+		c.each(function(i) {
+			if (nolast && i == c.length - 1) return false;
 			var a = table.find("thead tr th:eq(" + i + ")");
 			var w = $(this).outerWidth(true), wh = a.outerWidth(true);
 			if (wh != w) {
@@ -254,7 +256,7 @@ Amel = {
 				$(".modal").modal();
 				$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
-				target.set_header_width($('.modal').find("table"));
+				target.set_header_width($('.modal').find("table"), true);
 				target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
 					$(".modal").find("table tbody tr").each(function() {
 						var rn = $(this).find(".d-none").first().text();
@@ -536,7 +538,7 @@ Amel = {
 					var h = $(".modal").outerHeight(true);
 					var a = $(".modal").find("table tbody");
 					a.outerHeight(h / 2);
-					target.set_header_width($(".modal").find("table"));
+					target.set_header_width($(".modal").find("table"), true);
 					target.scrollTo();
 					target.add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
 						var p = $(this).prop("checked");
