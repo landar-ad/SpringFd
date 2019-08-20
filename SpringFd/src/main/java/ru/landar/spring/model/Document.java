@@ -65,6 +65,7 @@ public class Document extends IBase {
 	private String sp_num;
 	private String sp_subnum;
 	private String sedkp_num;
+	private Date sedkp_date;
 	
 	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
     public SpDocType getDoc_type() { return doc_type; }
@@ -172,6 +173,10 @@ public class Document extends IBase {
     @Column(length=20)
     public String getSedkp_num() { return sedkp_num; }
     public void setSedkp_num(String sedkp_num) { this.sedkp_num = sedkp_num; }
+    
+    @Temporal(TemporalType.DATE)
+    public Date getSedkp_date() { return sedkp_date; }
+    public void setSedkp_date(Date sedkp_date) { this.sedkp_date = sedkp_date; }
 	
     private void updateName() {
     	AutowireHelper.autowire(this);
@@ -220,7 +225,9 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		ret.add(new ColumnInfo("version", "Версия"));
-		ret.add(new ColumnInfo("sedkp_num", "Номер СЭДКП", false));
+		ret.add(new ColumnInfo("sedkp_num", "Номер документа СЭДКП", false));
+		ret.add(new ColumnInfo("sedkp_date", "Дата документа СЭДКП", false));
+		
 		return ret;
 	}
 	@Override
@@ -228,6 +235,7 @@ public class Document extends IBase {
 		List<ButtonInfo> ret = super.listButton();
 		if (ret == null) ret = new ArrayList<ButtonInfo>();
 		ret.add(new ButtonInfo("confirm", "Завершить подготовку документа", null, "success"));
+		ret.add(new ButtonInfo("copyDoc", "Создать версию документа", null, "success"));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
@@ -348,6 +356,7 @@ public class Document extends IBase {
 			if (hs.checkPerson(getCreate_agent())) return true;
  			if (hs.checkDepartment(getDepart())) return true;
 		}
+		else if ("copyDoc".equals(param)) return true;
 		return false;
     }
     @Autowired
@@ -357,6 +366,52 @@ public class Document extends IBase {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("confirm")) return;
     	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+	}
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void copyDoc(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("copyDoc")) return;
+    	Document doc = new Document();
+    	doc.onNew();
+    	hs.setProperty(doc, "doc_type", getDoc_type());
+    	hs.setProperty(doc, "doc_number", getDoc_number());
+ 		hs.setProperty(doc, "number", getNumber());
+ 		hs.setProperty(doc, "doc_date", getDoc_date());
+ 		hs.setProperty(doc, "parent_doc", getParent_doc());
+ 		hs.setProperty(doc, "agent", getAgent());
+ 		hs.setProperty(doc, "depart", getDepart());
+ 		hs.setProperty(doc, "change_doc", this);
+ 		hs.setProperty(doc, "buh_date", getBuh_date());
+ 		hs.setProperty(doc, "extract_number", getExtract_number());
+ 		hs.setProperty(doc, "extract_date", getExtract_date());
+    	hs.setProperty(doc, "sheet_count", getSheet_count());
+    	hs.setProperty(doc, "sp_year", getSp_year());
+    	hs.setProperty(doc, "sp_num", getSp_num());
+    	hs.setProperty(doc, "sp_subnum", getSp_subnum());
+    	hs.setProperty(doc, "sedkp_num", getSedkp_num());
+    	hs.setProperty(doc, "sedkp_date", getSedkp_date());
+    	Integer version = getVersion();
+    	if (version == null) version = 0;
+    	hs.setProperty(doc, "version", ++version);
+    	doc = (Document)objRepository.createObj(doc);
+    	if (getList_file() != null) {
+ 			List<IFile> list_file = new ArrayList<IFile>();
+ 			for (IFile file : getList_file()) {
+ 				IFile fileCopy = new IFile();
+ 				hs.setProperty(fileCopy, "filename", file.getFilename());
+ 				hs.setProperty(fileCopy, "fileext", file.getFileext());
+ 				hs.setProperty(fileCopy, "filelength", file.getFilelength());
+ 				hs.setProperty(fileCopy, "name", file.getName());
+ 				hs.setProperty(fileCopy, "fileuri", file.getFileuri());
+ 				hs.setProperty(fileCopy, "filetype", file.getFiletype());
+ 				hs.setProperty(fileCopy, "comment", file.getComment());
+ 				hs.setProperty(fileCopy, "parent", doc);
+ 				fileCopy = (IFile)objRepository.createObj(fileCopy);
+ 				list_file.add(fileCopy);
+ 			}
+ 			hs.setProperty(doc, "list_file", list_file);
+ 		}
+    	objRepository.saveObj(doc);
 	}
     @Override
     public Object onBuildContent() {
