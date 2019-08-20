@@ -163,7 +163,7 @@ Amel = {
 		table.find("tbody tr").first().find("td").each(function(i) {
 			var a = table.find("thead tr th:eq(" + i + ")");
 			var w = $(this).outerWidth(true), wh = a.outerWidth(true);
-			if (wh > w) {
+			if (wh != w) {
 				$(this).css("max-width", wh);
 				$(this).css("min-width", wh);
 				w = $(this).outerWidth(true);
@@ -254,6 +254,7 @@ Amel = {
 				$(".modal").modal();
 				$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 				$(".modal-body").css("overflow-y", "auto");
+				target.set_header_width($('.modal').find("table"));
 				target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
 					$(".modal").find("table tbody tr").each(function() {
 						var rn = $(this).find(".d-none").first().text();
