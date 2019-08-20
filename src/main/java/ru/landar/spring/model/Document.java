@@ -249,7 +249,8 @@ public class Document extends IBase {
       	if (!hs.isEmpty(dep_code)) {
       		Integer max = (Integer)objRepository.getMaxAttr(Document.class, "number", new String[] {"depart__code"}, new Object[] {dep_code});
       		if (max == null) max = 0;
-      		hs.setProperty(this, "doc_number", String.format("%s-%04d", dep_code, max + 1));
+      		hs.setProperty(this, "number", ++max);
+      		hs.setProperty(this, "doc_number", String.format("%s-%04d", dep_code, max));
       	}
       	return true;
     }
