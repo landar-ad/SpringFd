@@ -23,6 +23,7 @@
 								<th>#</th>
 								<th></th>
 								<th th:each="col : ${listColumn}"><div><span th:text="${col.title}"></span></div></th>
+								<th>Ссылка</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -31,6 +32,7 @@
 					            <td th:text="${iter.index + 1}"/>
 					            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && obj.rn==rn}"></input></td>
 					            <td class="text-select" th:each="col : ${listColumn}" th:text="${hs.getPropertyString(obj,col.name)}"></td>
+					            <td><a target="_blank" th:href="@{/detailsObj?clazz=} + ${obj.clazz} + '&readonly=1&rn=' + ${obj.rn}" class="btn btn-light btn-sm" title="Просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
 					        </tr>
 				        </tbody>
 					</table>
