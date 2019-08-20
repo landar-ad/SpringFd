@@ -21,6 +21,8 @@
 	                        <div class="col-sm-2" th:with="tt='time',vv=${obj.create_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                        <div class="col-sm-2" th:with="tt='label',vv='Создан пользователем'"><div th:replace="fragments/component :: c"></div></div>
 	                        <div class="col-sm-4" th:with="tt='text',vv=${obj.create_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='label',vv='Версия'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-1" th:with="tt='text',vv=${obj.version},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
 	                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
@@ -106,8 +108,8 @@
 							<div class="col-sm-2" th:with="tt='text',nn='sp_subnum',vv=${obj.sp_subnum},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-1" th:with="tt='label',vv='Версия'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-1" th:with="tt='text',vv=${obj.version},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Номер СЭДКП'"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-3" th:with="tt='text',nn='sedkp_num',vv=${obj.sedkp_num},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
                     </div>
  				</div>

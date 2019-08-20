@@ -9,9 +9,6 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.XmlList;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Lock;
@@ -32,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.persistence.CascadeType;
@@ -68,6 +64,7 @@ public class Document extends IBase {
 	private String sp_year;
 	private String sp_num;
 	private String sp_subnum;
+	private String sedkp_num;
 	
 	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
     public SpDocType getDoc_type() { return doc_type; }
@@ -171,6 +168,10 @@ public class Document extends IBase {
     @Column(length=1000)
     public String getSp_subnum() { return sp_subnum; }
     public void setSp_subnum(String sp_subnum) { this.sp_subnum = sp_subnum; }
+    
+    @Column(length=20)
+    public String getSedkp_num() { return sedkp_num; }
+    public void setSedkp_num(String sedkp_num) { this.sedkp_num = sedkp_num; }
 	
     private void updateName() {
     	AutowireHelper.autowire(this);
@@ -219,6 +220,7 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		ret.add(new ColumnInfo("version", "Версия"));
+		ret.add(new ColumnInfo("sedkp_num", "Номер СЭДКП", false));
 		return ret;
 	}
 	@Override
