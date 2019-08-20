@@ -334,10 +334,8 @@ public class Document extends IBase {
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
-    	if (getRn() == null) {
-    		if ("add".equals(param)) return onCheckRights(Operation.create);
-    		return false;
-    	}
+     	if ("add".equals(param)) return onCheckRights(Operation.create);
+    	if (getRn() == null) return false;
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);

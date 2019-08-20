@@ -261,10 +261,10 @@ public class Act extends IBase {
      	if (ret != null) return ret;
      	IDepartment dep = hs.getDepartment(), depart = getDepart();
     	if ("newAct".equals(param)) return dep != null;
-    	if ("add".equals(param)) return onCheckRights(Operation.create);
+    	else if ("add".equals(param)) return onCheckRights(Operation.create);
     	if (getRn() == null) return false;
     	if ("printAct".equals(param)) return true;
-    	if ("printActRet".equals(param)) {
+    	else if ("printActRet".equals(param)) {
     		if (statusCode() == 6) return true;
     		if (statusCode() == 5) {
 	    		for (Act_document act_doc : getList_doc()) {
