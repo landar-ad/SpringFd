@@ -79,8 +79,11 @@
 		</div>
 		<div class="col grow">
 			<div class="text-align-right">
+				<label th:if="${clazz=='Document'}" class="form-check-label">
+					<input name="p_all" type="checkbox" class="form-check-input" th:checked="${p_all}==true" th:text="${'Все версии'}">
+				</label>
 	 			<button id="set-visible"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-list" title="Задать колонки"></i></button>
-	 			<button id="clear-filter"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-filter" title="Сбросить фильтры"></i></button>
+	 			<button id="clear-filter"class="btn btn-sm btn-light" type="button"><i class="fa fa-sm fa-stop-circle" title="Сбросить фильтры"></i></button>
 			</div>
 		</div>
 	</div>
