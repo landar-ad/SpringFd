@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.persistence.CascadeType;
@@ -268,8 +269,8 @@ public class Document extends IBase {
       	return true;
     }
 	@Override
-	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
- 		Object ret = super.onListAddFilter(listAttr, listValue);
+	public Object onListAddFilter(List<String> listAttr, List<Object> listValue, Map<String, String[]> mapParam) {
+ 		Object ret = super.onListAddFilter(listAttr, listValue, mapParam);
 		if (ret != null) return ret;
 		IUser user = userService.getUser((String)null);
 		if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
@@ -280,6 +281,20 @@ public class Document extends IBase {
 				listAttr.add("depart__rn");
 				listValue.add("= " + rnDep);
 			}
+		}
+		boolean p_all = false;
+		if (mapParam != null) {
+			String[] vs = mapParam.get("p_all");
+			for (String v : vs) {
+				if ((Boolean)hs.getObjectByString(v, Boolean.class)) {
+					p_all = true;
+					break;
+				}
+			}
+		}
+		if (!p_all) {
+			listAttr.add("change_doc__rn");
+			listValue.add(null);
 		}
 		return true;
 	}

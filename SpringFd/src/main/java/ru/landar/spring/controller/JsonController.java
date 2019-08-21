@@ -104,7 +104,7 @@ public class JsonController {
 				listValue.add(v);
 			}
 			// Добавить фильтр, если есть
-			hs.invoke(obj, "onListAddFilter", listAttr, listValue);
+			hs.invoke(obj, "onListAddFilter", listAttr, listValue, mapParam);
 			// Поисковые атрибуты
 			String[] attr = listAttr.size() > 0 ? listAttr.toArray(new String[listAttr.size()]) : null;
 			Object[] value = listValue.size() > 0 ? listValue.toArray(new Object[listValue.size()]) : null;
@@ -188,7 +188,7 @@ public class JsonController {
 				listValue.add(v);
 			}
 			// Добавить фильтр, если есть
-			hs.invoke(obj, "onListAddFilter", listAttr, listValue);
+			hs.invoke(obj, "onListAddFilter", listAttr, listValue, mapParam);
 			// Поисковые атрибуты
 			String[] attr = listAttr.size() > 0 ? listAttr.toArray(new String[listAttr.size()]) : null;
 			Object[] value = listValue.size() > 0 ? listValue.toArray(new Object[listValue.size()]) : null;

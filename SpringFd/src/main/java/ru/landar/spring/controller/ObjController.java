@@ -135,11 +135,7 @@ public class ObjController {
 		// Сохранить список видимых колонок
 		if (!hs.isEmpty(listVisible)) setSettings(clazz + "_listVisible", "string", listVisible);
 		// Добавить фильтр, если есть
-		hs.invoke(obj, "onListAddFilter", listAttr, listValue);
-		if ("Document".equals(clazz) && !p_all) {
-			listAttr.add("change_doc__rn");
-			listValue.add(null);
-		}
+		hs.invoke(obj, "onListAddFilter", listAttr, listValue, mapParam);
 		// Поисковые атрибуты
 		String[] attr = listAttr.size() > 0 ? listAttr.toArray(new String[listAttr.size()]) : null;
 		Object[] value = listValue.size() > 0 ? listValue.toArray(new Object[listValue.size()]) : null;

@@ -3,6 +3,7 @@ package ru.landar.spring.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -156,8 +157,8 @@ public abstract class IBase {
     public Object onBuildContent() { 
     	return invoke("onBuildContent"); 
     }
-    public Object onListAddFilter(List<String> listAttr, List<Object> listValue) { 
-    	return invoke("onListAddFilter", listAttr, listValue); 
+    public Object onListAddFilter(List<String> listAttr, List<Object> listValue, Map<String, String[]> mapParam) { 
+    	return invoke("onListAddFilter", listAttr, listValue, mapParam); 
     }
 	public Object onAddAttributes(Model model, boolean list) {
 		return invoke("onAddAttributes", model, list); 

@@ -20,6 +20,7 @@ import ru.landar.spring.service.UserService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 
@@ -113,8 +114,8 @@ public class ActionLog extends IBase {
 		return ret;
 	}
 	@Override
-	public Object onListAddFilter(List<String> listAttr, List<Object> listValue) {
- 		Object ret = super.onListAddFilter(listAttr, listValue);
+	public Object onListAddFilter(List<String> listAttr, List<Object> listValue, Map<String, String[]> mapParam) {
+ 		Object ret = super.onListAddFilter(listAttr, listValue, mapParam);
 		if (ret != null) return ret;
 		
 		IUser user = userService.getUser((String)null);
