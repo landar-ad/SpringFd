@@ -222,9 +222,9 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта", false));
 		ret.add(new ColumnInfo("change_doc__name", "Заменен документом", false));
 		ret.add(new ColumnInfo("buh_date", "Дата бухучета"));
-		ret.add(new ColumnInfo("sp_year", "Год проверки"));
-		ret.add(new ColumnInfo("sp_num", "№ пункта запроса"));
-		ret.add(new ColumnInfo("sp_subnum", "№ подпункта запроса"));
+		ret.add(new ColumnInfo("sp_year", "Год проверки", false));
+		ret.add(new ColumnInfo("sp_num", "№ пункта запроса", false));
+		ret.add(new ColumnInfo("sp_subnum", "№ подпункта запроса", false));
 		ret.add(new ColumnInfo("extract_number", "Выписка: №", false));
 		ret.add(new ColumnInfo("extract_date", "Выписка: дата", false));
 		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
