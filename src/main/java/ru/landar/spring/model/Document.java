@@ -319,13 +319,15 @@ public class Document extends IBase {
     public Object onRemove() {
     	Object ret = super.onRemove();
     	if (ret != null) return ret;
-    	Page<?> p = objRepository.findAll(Document.class, null, new String[] {"change_doc__rn"}, new Object[] {getRn()});
-    	if (p != null && p.getContent() != null) {
-    		for (Object o : p.getContent()) hs.setProperty(o, "change_doc", null);
-    	}
-    	p = objRepository.findAll(Document.class, null, new String[] {"parent_doc__rn"}, new Object[] {getRn()});
-    	if (p != null && p.getContent() != null) {
-    		for (Object o : p.getContent()) hs.setProperty(o, "parent_doc", null);
+    	if (userService.isAdmin(null)) {
+	    	Page<?> p = objRepository.findAll(Document.class, null, new String[] {"change_doc__rn"}, new Object[] {getRn()});
+	    	if (p != null && p.getContent() != null) {
+	    		for (Object o : p.getContent()) hs.setProperty(o, "change_doc", null);
+	    	}
+	    	p = objRepository.findAll(Document.class, null, new String[] {"parent_doc__rn"}, new Object[] {getRn()});
+	    	if (p != null && p.getContent() != null) {
+	    		for (Object o : p.getContent()) hs.setProperty(o, "parent_doc", null);
+	    	}
     	}
     	return true;
     }
