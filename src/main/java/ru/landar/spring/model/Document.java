@@ -11,6 +11,7 @@ import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.ui.Model;
 
@@ -313,6 +314,20 @@ public class Document extends IBase {
 	    	if (objectChanged.isAttrChanged(this, "doc_status")) hs.setProperty(this, "time_status", dt);
     	}
 		return true;
+    }
+    @Override
+    public Object onRemove() {
+    	Object ret = super.onRemove();
+    	if (ret != null) return ret;
+    	Page<?> p = objRepository.findAll(Document.class, null, new String[] {"change_doc__rn"}, new Object[] {getRn()});
+    	if (p != null && p.getContent() != null) {
+    		for (Object o : p.getContent()) hs.setProperty(o, "change_doc", null);
+    	}
+    	p = objRepository.findAll(Document.class, null, new String[] {"parent_doc__rn"}, new Object[] {getRn()});
+    	if (p != null && p.getContent() != null) {
+    		for (Object o : p.getContent()) hs.setProperty(o, "parent_doc", null);
+    	}
+    	return true;
     }
     @Override
     public Object onCheckRights(Operation op) { 
