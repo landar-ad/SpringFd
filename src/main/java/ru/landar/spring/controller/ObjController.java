@@ -42,8 +42,10 @@ import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ChangeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.ISession;
 import ru.landar.spring.model.SearchContent;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.model.ISettings;
@@ -572,6 +574,22 @@ public class ObjController {
 		model.addAttribute("clazz", clazz);
 		model.addAttribute("p_message", msg);
 		return "removeObjPage";
+	}
+	@RequestMapping(value = "/removeLog", method = RequestMethod.GET)
+	public String removeLog(Model model) throws Exception {
+		if (!userService.isAdmin(null)) throw new Exception("Вам запрещено выполнять эту операцию");
+		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+			List<?> l = objRepository.findAll(ISession.class);
+			if (l != null) for (Object o : l) objRepository.removeObj(o);
+			l = objRepository.findAll(ActionLog.class);
+			if (l != null) for (Object o : l) objRepository.removeObj(o);
+			transactionManager.commit(ts);
+		}
+		catch (Exception ex) {
+			transactionManager.rollback(ts);
+		}
+		return "mainPage";
 	}
 	@RequestMapping(value = "/listVoc", method = RequestMethod.GET)
 	public String listVoc(Model model) throws Exception {
