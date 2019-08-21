@@ -589,7 +589,7 @@ public class ObjController {
 		catch (Exception ex) {
 			transactionManager.rollback(ts);
 		}
-		return "mainPage";
+		return "redirect:/main";
 	}
 	@RequestMapping(value = "/listVoc", method = RequestMethod.GET)
 	public String listVoc(Model model) throws Exception {
