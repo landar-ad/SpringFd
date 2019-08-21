@@ -417,6 +417,7 @@ Amel = {
 				if (tb.get(0).scrollWidth > tb.innerWidth()) tb.outerHeight(tb.outerHeight() - target.scroll_bar_size().height);
 			}
 		});
+		target.add_on($("input[name='p_all']"), "click", function() { target.form_submit(); });
 		target.add_on($("#" + target.findButtonId), "click", function() { target.form_submit(); });
 		target.add_on($("#" + target.tableId + " th input[type='text'],#" + target.tableId + " th input[type='checkbox'],#" + target.tableId + " th select"), "keypress", function(e) {
 			if (e.which == 13) target.form_submit();

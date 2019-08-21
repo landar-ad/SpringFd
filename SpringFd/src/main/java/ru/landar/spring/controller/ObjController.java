@@ -77,11 +77,13 @@ public class ObjController {
 						  @RequestParam("rn") Optional<Integer> rnParam,
 						  @RequestParam("p_listVisible") Optional<String> listVisibleParam,
 						  @RequestParam("p_ret") Optional<String> retParam,
+						  @RequestParam("p_all") Optional<String> allParam,
 						  HttpServletRequest request, 
 						  Model model) throws Exception {
 		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
 		Integer rn = rnParam.orElse(null);
 		String listVisible = listVisibleParam.orElse(null);
+		boolean p_all = (Boolean)hs.getObjectByString(allParam.orElse(""), Boolean.class);  
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = cl.newInstance();
@@ -124,7 +126,7 @@ public class ObjController {
 				}
 				continue;
 			}
-			if (hs.isEmpty(v) || "clazz".equals(p) || "rn".equals(p) || "p_ret".equals(p) || "p_listVisible".equals(p) || "p_off".equals(p) || "p_page".equals(p) || "p_block".equals(p)) continue;
+			if (hs.isEmpty(v) || "clazz".equals(p) || "rn".equals(p) || "p_ret".equals(p) || "p_listVisible".equals(p) || "p_off".equals(p) || "p_page".equals(p) || "p_block".equals(p) || "p_all".equals(p)) continue;
 			Class<?> attrType = hs.getAttrType(cl, p);
 			if (attrType == null) continue;
 			listAttr.add(p);
@@ -134,6 +136,10 @@ public class ObjController {
 		if (!hs.isEmpty(listVisible)) setSettings(clazz + "_listVisible", "string", listVisible);
 		// Добавить фильтр, если есть
 		hs.invoke(obj, "onListAddFilter", listAttr, listValue);
+		if ("Document".equals(clazz) && !p_all) {
+			listAttr.add("change_doc__rn");
+			listValue.add(null);
+		}
 		// Поисковые атрибуты
 		String[] attr = listAttr.size() > 0 ? listAttr.toArray(new String[listAttr.size()]) : null;
 		Object[] value = listValue.size() > 0 ? listValue.toArray(new Object[listValue.size()]) : null;
@@ -209,6 +215,8 @@ public class ObjController {
 		if (rn != null) model.addAttribute("rn", rn);
 		// Класс объектов в списке
 		model.addAttribute("clazz", clazz);
+		// Показывать все версии документов (или в другой интерпретации)
+		model.addAttribute("p_all", p_all);
 		// Атрибуты фильтрации
 		if (attr != null && attr.length > 0) {
 			for (int i=0; i<attr.length; i++) {

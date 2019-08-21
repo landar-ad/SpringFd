@@ -208,6 +208,7 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("doc_type__name", "Тип документа")); 
 		ret.add(new ColumnInfo("doc_number", "№ документа"));
 		ret.add(new ColumnInfo("doc_date", "Дата документа"));
+		ret.add(new ColumnInfo("version", "Версия"));
 		ret.add(new ColumnInfo("agent__name", "Контрагент"));
 		ret.add(new ColumnInfo("parent_doc__name", "Основной документ", false));
 		ret.add(new ColumnInfo("doc_status__name", "Статус документа", true, true, "doc_status__rn", "select", "listDocStatus"));
@@ -227,7 +228,6 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("extract_date", "Выписка: дата", false));
 		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
-		ret.add(new ColumnInfo("version", "Версия"));
 		ret.add(new ColumnInfo("sedkp_num", "Номер документа СЭДКП", false));
 		ret.add(new ColumnInfo("sedkp_date", "Дата документа СЭДКП", false));
 		
@@ -387,9 +387,9 @@ public class Document extends IBase {
     	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
 	}
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    public void copyDoc(HttpServletRequest request) throws Exception {
+    public String copyDoc(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	if (!(Boolean)onCheckExecute("copyDoc")) return;
+    	if (!(Boolean)onCheckExecute("copyDoc")) return null;
     	Document docChanged = this;
     	while (docChanged.getChange_doc() != null) docChanged = docChanged.getChange_doc();
     	Document doc = new Document();
@@ -449,6 +449,7 @@ public class Document extends IBase {
     	objRepository.saveObj(doc);
     	hs.setProperty(this, "change_doc", doc);
     	objRepository.saveObj(this);
+    	return "/detailsObj?clazz=Document&rn=" + doc.getRn();
 	}
     @Override
     public Object onBuildContent() {
