@@ -24,7 +24,9 @@ import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -371,37 +373,54 @@ public class Document extends IBase {
     public void copyDoc(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("copyDoc")) return;
+    	Document docChanged = this;
+    	while (docChanged.getChange_doc() != null) docChanged = docChanged.getChange_doc();
     	Document doc = new Document();
     	doc.onNew();
-    	hs.setProperty(doc, "doc_type", getDoc_type());
-    	hs.setProperty(doc, "doc_number", getDoc_number());
- 		hs.setProperty(doc, "number", getNumber());
- 		hs.setProperty(doc, "doc_date", getDoc_date());
- 		hs.setProperty(doc, "parent_doc", getParent_doc());
- 		hs.setProperty(doc, "agent", getAgent());
- 		hs.setProperty(doc, "depart", getDepart());
-  		hs.setProperty(doc, "buh_date", getBuh_date());
- 		hs.setProperty(doc, "extract_number", getExtract_number());
- 		hs.setProperty(doc, "extract_date", getExtract_date());
-    	hs.setProperty(doc, "sheet_count", getSheet_count());
-    	hs.setProperty(doc, "sp_year", getSp_year());
-    	hs.setProperty(doc, "sp_num", getSp_num());
-    	hs.setProperty(doc, "sp_subnum", getSp_subnum());
-    	hs.setProperty(doc, "sedkp_num", getSedkp_num());
-    	hs.setProperty(doc, "sedkp_date", getSedkp_date());
-    	Integer version = getVersion();
+    	hs.setProperty(doc, "doc_type", docChanged.getDoc_type());
+    	hs.setProperty(doc, "doc_number", docChanged.getDoc_number());
+ 		hs.setProperty(doc, "number", docChanged.getNumber());
+ 		hs.setProperty(doc, "doc_date", docChanged.getDoc_date());
+ 		hs.setProperty(doc, "parent_doc", docChanged.getParent_doc());
+ 		hs.setProperty(doc, "agent", docChanged.getAgent());
+ 		hs.setProperty(doc, "depart", docChanged.getDepart());
+  		hs.setProperty(doc, "buh_date", docChanged.getBuh_date());
+ 		hs.setProperty(doc, "extract_number", docChanged.getExtract_number());
+ 		hs.setProperty(doc, "extract_date", docChanged.getExtract_date());
+    	hs.setProperty(doc, "sheet_count", docChanged.getSheet_count());
+    	hs.setProperty(doc, "sp_year", docChanged.getSp_year());
+    	hs.setProperty(doc, "sp_num", docChanged.getSp_num());
+    	hs.setProperty(doc, "sp_subnum", docChanged.getSp_subnum());
+    	hs.setProperty(doc, "sedkp_num", docChanged.getSedkp_num());
+    	hs.setProperty(doc, "sedkp_date", docChanged.getSedkp_date());
+    	Integer version = docChanged.getVersion();
     	if (version == null) version = 1;
     	hs.setProperty(doc, "version", ++version);
     	doc = (Document)objRepository.createObj(doc);
-    	if (getList_file() != null) {
+    	if (docChanged.getList_file() != null) {
  			List<IFile> list_file = new ArrayList<IFile>();
- 			for (IFile file : getList_file()) {
+ 			for (IFile file : docChanged.getList_file()) {
  				IFile fileCopy = new IFile();
- 				hs.setProperty(fileCopy, "filename", file.getFilename());
- 				hs.setProperty(fileCopy, "fileext", file.getFileext());
+ 				String filename = file.getFilename(), name = filename;
+ 				hs.setProperty(fileCopy, "filename", filename);
+ 				int k = filename.lastIndexOf('.');
+ 				name = k > 0 ? filename.substring(0, k) : filename;
+ 				String fileext = file.getFileext();
+ 				hs.setProperty(fileCopy, "fileext", fileext);
  				hs.setProperty(fileCopy, "filelength", file.getFilelength());
  				hs.setProperty(fileCopy, "name", file.getName());
- 				hs.setProperty(fileCopy, "fileuri", file.getFileuri());
+ 				String fileuri = file.getFileuri();
+ 				File fs = new File(fileuri);
+ 				if (fs.exists()) {
+ 					String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
+ 					if (hs.isEmpty(filesDirectory)) filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
+ 					File fd = new File(filesDirectory + new SimpleDateFormat(".yyyy.MM.dd").format(new Date()).replace('.', File.separatorChar));
+ 					fd.mkdirs();
+ 					File ff = new File(fd, new SimpleDateFormat("HHmmss").format(new Date()) + "_" + name + (!fileext.isEmpty() ? "." + fileext : ""));
+ 					hs.copyStream(new FileInputStream(fs), new FileOutputStream(ff), true, true);
+ 					fileuri = ff.getAbsolutePath();
+ 				}
+ 				hs.setProperty(fileCopy, "fileuri", fileuri);
  				hs.setProperty(fileCopy, "filetype", file.getFiletype());
  				hs.setProperty(fileCopy, "comment", file.getComment());
  				hs.setProperty(fileCopy, "parent", doc);
