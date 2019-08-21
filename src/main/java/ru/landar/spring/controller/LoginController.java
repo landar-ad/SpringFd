@@ -59,8 +59,11 @@ public class LoginController {
 		return "changePasswordPage";
 	}
 	@PostMapping(value = "/changePassword")
-	public String changePasswordPost(@RequestParam("old_password") String old_passwotrd, @RequestParam("password") String passwotrd, @RequestParam("confirm_password") String confirm_passwotrd, HttpServletRequest request, HttpServletResponse response, Model model) {
-		
+	public String changePasswordPost(@RequestParam("old_password") String old_password, @RequestParam("password") String password, @RequestParam("confirm_password") String confirm_password, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		if (hs.isEmpty(old_password)) throw new Exception("Не указан старый пароль");
+		if (hs.isEmpty(old_password)) throw new Exception("Старый пароль некорректен");
+		if (hs.isEmpty(password)) throw new Exception("Не указан новый пароль");
+		if (!password.equals(confirm_password)) throw new Exception("Новый пароль не совпадает с подтверждением");
 		return "redirect:/main";
 	}
 	@RequestMapping(value = "/accessDenied")
