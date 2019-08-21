@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.UserService;
 
 @Controller
 public class LoginController {
 	@Autowired
 	HelperService hs;
+	@Autowired
+	UserService userService;
 	@GetMapping(value = "/logout")
 	public String logout(HttpServletRequest request, Model model) {
 		try {
@@ -49,6 +52,16 @@ public class LoginController {
 	@PostMapping(value = "/login")
 	public String loginPost(@RequestParam("username") String login, HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "loginPage";
+	}
+	@GetMapping(value = "/changePassword")
+	public String changePassword(HttpServletRequest request, Model model) {
+		model.addAttribute("p_login", userService.getPrincipal());
+		return "changePasswordPage";
+	}
+	@PostMapping(value = "/changePassword")
+	public String changePasswordPost(@RequestParam("old_password") String old_passwotrd, @RequestParam("password") String passwotrd, @RequestParam("confirm_password") String confirm_passwotrd, HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		return "redirect:/main";
 	}
 	@RequestMapping(value = "/accessDenied")
 	public String accessDenied(HttpServletRequest request, Model model) {
