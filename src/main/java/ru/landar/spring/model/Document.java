@@ -285,10 +285,12 @@ public class Document extends IBase {
 		boolean p_all = false;
 		if (mapParam != null) {
 			String[] vs = mapParam.get("p_all");
-			for (String v : vs) {
-				if ((Boolean)hs.getObjectByString(v, Boolean.class)) {
-					p_all = true;
-					break;
+			if (vs != null) {
+				for (String v : vs) {
+					if ((Boolean)hs.getObjectByString(v, Boolean.class)) {
+						p_all = true;
+						break;
+					}
 				}
 			}
 		}
