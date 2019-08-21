@@ -380,8 +380,7 @@ public class Document extends IBase {
  		hs.setProperty(doc, "parent_doc", getParent_doc());
  		hs.setProperty(doc, "agent", getAgent());
  		hs.setProperty(doc, "depart", getDepart());
- 		hs.setProperty(doc, "change_doc", this);
- 		hs.setProperty(doc, "buh_date", getBuh_date());
+  		hs.setProperty(doc, "buh_date", getBuh_date());
  		hs.setProperty(doc, "extract_number", getExtract_number());
  		hs.setProperty(doc, "extract_date", getExtract_date());
     	hs.setProperty(doc, "sheet_count", getSheet_count());
@@ -391,7 +390,7 @@ public class Document extends IBase {
     	hs.setProperty(doc, "sedkp_num", getSedkp_num());
     	hs.setProperty(doc, "sedkp_date", getSedkp_date());
     	Integer version = getVersion();
-    	if (version == null) version = 0;
+    	if (version == null) version = 1;
     	hs.setProperty(doc, "version", ++version);
     	doc = (Document)objRepository.createObj(doc);
     	if (getList_file() != null) {
@@ -412,6 +411,8 @@ public class Document extends IBase {
  			hs.setProperty(doc, "list_file", list_file);
  		}
     	objRepository.saveObj(doc);
+    	hs.setProperty(this, "change_doc", doc);
+    	objRepository.saveObj(this);
 	}
     @Override
     public Object onBuildContent() {
