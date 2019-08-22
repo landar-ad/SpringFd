@@ -409,7 +409,8 @@ Amel = {
 				if (!a) $("#" + target.tableId + " th input[type='checkbox']").each(function() { if ($(this).is(':checked')) { a = $(this); return false; } });
 				if (a) a.focus(); else $("th input[type='text'],th input[type='checkbox'],th select").first().focus();
 			}
-			$("#" + target.clearFilterId).prop('disabled', b); 
+			$("#" + target.clearFilterId).prop('disabled', b);
+			target.set_header_width($("#" + target.tableId));
 			// Размер скроллируемой области
 			var tb = $(".table-fixed tbody");
 			if (tb.length > 0) {
