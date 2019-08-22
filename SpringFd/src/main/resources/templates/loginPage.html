@@ -6,7 +6,8 @@
 		$(document).ready(function() {
             var c = $('input[name="username"]');
 			$('input[name="' + (c.val() ? 'password' : 'username') + '"]').focus();
-			Amel.add_on($("#change_password"), "click", function() {
+			Amel.add_on($("#change_password"), "click", function(e) {
+				e.preventDefault();
 				var a = $("#new_password"), b = $("#confirm_password");
 				if (a.is(':hidden')) {
 					a.show();
@@ -24,6 +25,11 @@
 					b.find("input").attr("required", null);
 					$('input[name="' + (c.val() ? 'password' : 'username') + '"]').focus();
 				}
+			});
+			Amel.add_on($(".input-group-addon a"), "click", function(e) {
+				e.preventDefault();
+				var a = $(this).closest(".input-group").find("input"), type = a.attr("type");
+				a.attr("type", type == "text" ? "password" : "text");
 			});
 		});
 	</script>
@@ -44,8 +50,11 @@
 			                    </div>
 			                    <div class="form-group">
 			                        <label>Пароль:</label>
-			                        <input type="password" class="form-control" name="password" required="required">
-			                        <small id="change_password"><a href="#">Изменение пароля</a></small>
+			                        <div class="input-group">
+				                        <input type="password" class="form-control" name="password" required="required">
+				                        <div class="input-group-addon"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+			                        </div>
+			                        <small id="change_password"><a href="">Изменение пароля</a></small>
 			                    </div>
 			                    <div id="new_password" class="form-group not-visible">
 			                        <label class="required">Новый пароль:</label>
