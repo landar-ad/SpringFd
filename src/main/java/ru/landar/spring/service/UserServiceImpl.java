@@ -74,4 +74,9 @@ public class UserServiceImpl implements UserService {
 	public IUser addUser(IUser user) {
 		return userRepositoryCustom.addUser(user);
 	}
+	@Override
+	@Transactional
+	public IUser changePassword(IUser user, String password) {
+		return userRepositoryCustom.changePassword(user, password);
+	}
 }

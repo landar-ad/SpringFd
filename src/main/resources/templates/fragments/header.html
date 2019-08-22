@@ -62,7 +62,9 @@
 		       		<div th:if="${p_l}" class="mr-sm-2 text-align-right">
 				       	<small th:utext="${'Пользователь: ' + p_login}" ></small>
 						<a href="logout" class="btn btn-sm btn-light"><i class="fa fa-sm fa-sign-out-alt"></i> Выход</a>
-						<a href="changePassword">Изменение пароля</a>
+					</div>
+					<div th:if="${p_l}" class="mr-sm-2 text-align-right">
+						<small><a href="changePassword">Изменение пароля</a></small>
 					</div>
 				</div>
 			</div>

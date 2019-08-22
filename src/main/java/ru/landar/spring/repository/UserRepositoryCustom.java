@@ -9,4 +9,5 @@ public interface UserRepositoryCustom {
 
 	IUser addUser(IUser user);
 	String getRoles(String username);
+	IUser changePassword(IUser user, String password);
 }

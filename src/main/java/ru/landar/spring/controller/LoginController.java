@@ -64,6 +64,7 @@ public class LoginController {
 		if (hs.isEmpty(old_password)) throw new Exception("Старый пароль некорректен");
 		if (hs.isEmpty(password)) throw new Exception("Не указан новый пароль");
 		if (!password.equals(confirm_password)) throw new Exception("Новый пароль не совпадает с подтверждением");
+		userService.changePassword(userService.getUser(userService.getPrincipal()), password);
 		return "redirect:/main";
 	}
 	@RequestMapping(value = "/accessDenied")

@@ -9,6 +9,7 @@ public interface UserService {
 	String getPrincipal();
 	List<IUser> getUsers();
 	IUser addUser(IUser user);
+	IUser changePassword(IUser user, String password);
 	String getRoles(String username);
 	IUser getUser(Integer rn);
 	IUser getUser(String username);

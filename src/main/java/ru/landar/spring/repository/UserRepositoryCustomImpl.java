@@ -25,8 +25,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 		if (hs.isEmpty(login)) return null; 
 		String password = user.getPassword();
 		IUser userOld = userRepository.find(login);
-		if (userOld != null) 
-		{
+		if (userOld != null) {
 			userOld.setRoles(user.getRoles());
 			userOld.setDisabled(user.getDisabled());
 			userOld.setOrg(user.getOrg());
@@ -37,9 +36,16 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 		return userRepository.saveAndFlush(user);
 	}
 	@Override
-	public String getRoles(String username)
-	{
+	public String getRoles(String username) {
 		IUser user = userRepository.find(username);
 		return user != null ? user.getRoles() : "";
+	}
+	@Override
+	public IUser changePassword(IUser user, String password) {
+		if (!hs.isEmpty(password)) {
+			user.setPassword(encoder.encode(password));
+			user = userRepository.saveAndFlush(user);
+		}
+		return user;
 	}
 }
