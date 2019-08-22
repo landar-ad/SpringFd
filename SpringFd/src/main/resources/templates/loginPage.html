@@ -30,6 +30,7 @@
 				e.preventDefault();
 				var a = $(this).closest(".input-group").find("input"), type = a.attr("type");
 				a.attr("type", type == "text" ? "password" : "text");
+				a.focus();
 			});
 		});
 	</script>
@@ -52,17 +53,23 @@
 			                        <label>Пароль:</label>
 			                        <div class="input-group">
 				                        <input type="password" class="form-control" name="password" required="required">
-				                        <div class="input-group-addon"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
 			                        </div>
 			                        <small id="change_password"><a href="">Изменение пароля</a></small>
 			                    </div>
 			                    <div id="new_password" class="form-group not-visible">
 			                        <label class="required">Новый пароль:</label>
-			                        <input type="password" class="form-control" name="new_password">
+			                        <div class="input-group">
+				                        <input type="password" class="form-control" name="new_password">
+				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+			                        </div>
 			                    </div>
 			                    <div id="confirm_password" class="form-group  not-visible">
 			                        <label class="required">Подтверждение пароля:</label>
-			                        <input type="password" class="form-control" name="confirm_password">
+			                        <div class="input-group">
+				                        <input type="password" class="form-control" name="confirm_password">
+				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+			                        </div>
 			                    </div>
 			                    <button th:if="${readonly!=true}" class="btn btn-light float-right" type="submit">
 			                    <i class="fa fa-sign-in-alt"></i> Вход</button>
