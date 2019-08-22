@@ -4,13 +4,32 @@
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-            var a = $('input[name="username"]');
-			$('input[name="' + (a.val() ? 'password' : 'username') + '"]').focus();
+            var c = $('input[name="username"]');
+			$('input[name="' + (c.val() ? 'password' : 'username') + '"]').focus();
+			Amel.add_on($("#change_password"), "click", function() {
+				var a = $("#new_password"), b = $("#confirm_password");
+				if (a.is(':hidden')) {
+					a.show();
+					b.show();
+					a.find("input").attr("required", "required");
+					b.find("input").attr("required", "required");
+					a.find("input").focus();
+				}
+				else {
+					a.hide();
+					b.hide();
+					a.find("input").val("");
+					b.find("input").val("");
+					a.find("input").attr("required", null);
+					b.find("input").attr("required", null);
+					$('input[name="' + (c.val() ? 'password' : 'username') + '"]').focus();
+				}
+			});
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
 	<section>
-		<div class="container py-5">
+		<div class="container">
     		<div class="row">
             	<div class="col-md-6 mx-auto">
 	            	<div class="card rounded-0">
@@ -26,6 +45,15 @@
 			                    <div class="form-group">
 			                        <label>Пароль:</label>
 			                        <input type="password" class="form-control" name="password" required="required">
+			                        <small id="change_password"><a href="#">Изменение пароля</a></small>
+			                    </div>
+			                    <div id="new_password" class="form-group not-visible">
+			                        <label class="required">Новый пароль:</label>
+			                        <input type="password" class="form-control" name="new_password">
+			                    </div>
+			                    <div id="confirm_password" class="form-group  not-visible">
+			                        <label class="required">Подтверждение пароля:</label>
+			                        <input type="password" class="form-control" name="confirm_password">
 			                    </div>
 			                    <button th:if="${readonly!=true}" class="btn btn-light float-right" type="submit">
 			                    <i class="fa fa-sign-in-alt"></i> Вход</button>
