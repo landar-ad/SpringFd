@@ -165,7 +165,7 @@ Amel = {
 			if (nolast && i == c.length - 1) return false;
 			var a = table.find("thead tr th:eq(" + i + ")");
 			var w = $(this).outerWidth(true), wh = a.outerWidth(true);
-			if (wh != w) {
+			if (wh > w) {
 				$(this).css("max-width", wh);
 				$(this).css("min-width", wh);
 				w = $(this).outerWidth(true);
