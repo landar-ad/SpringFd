@@ -44,7 +44,7 @@
 		                    <h3 class="mb-0">Введите логин и пароль</h3>
 		                </div>
 		                <div class="card-body">
-			                <form th:action="@{/login}" method="post" class="form" role="form" autocomplete="off">
+			                <form action="login" method="post" class="form" autocomplete="off">
 			                    <div class="form-group">
 			                        <label for="username">Пользователь:</label>
 			                        <input type="text" class="form-control" name="username" required="required" th:value=${username}>
@@ -53,7 +53,7 @@
 			                        <label>Пароль:</label>
 			                        <div class="input-group">
 				                        <input type="password" class="form-control" name="password" required="required">
-				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye"></i></a></div>
 			                        </div>
 			                        <small id="change_password"><a href="">Изменение пароля</a></small>
 			                    </div>
@@ -61,18 +61,17 @@
 			                        <label class="required">Новый пароль:</label>
 			                        <div class="input-group">
 				                        <input type="password" class="form-control" name="new_password">
-				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye"></i></a></div>
 			                        </div>
 			                    </div>
-			                    <div id="confirm_password" class="form-group  not-visible">
+			                    <div id="confirm_password" class="form-group not-visible">
 			                        <label class="required">Подтверждение пароля:</label>
 			                        <div class="input-group">
 				                        <input type="password" class="form-control" name="confirm_password">
-				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+				                        <div class="input-group-addon d-flex align-items-center ml-2"><a href=""><i class="fa fa-eye"></i></a></div>
 			                        </div>
 			                    </div>
-			                    <button th:if="${readonly!=true}" class="btn btn-light float-right" type="submit">
-			                    <i class="fa fa-sign-in-alt"></i> Вход</button>
+			                    <button class="btn btn-light float-right" type="submit"><i class="fa fa-sign-in-alt"></i> Вход</button>
 			                </form>
 						</div>
 					</div>
