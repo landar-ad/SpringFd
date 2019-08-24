@@ -160,7 +160,7 @@ Amel = {
 	},
 	// Установка размеров колонок заголовка таблицы по колонкам данных
 	set_header_width: function(table, nolast) {
-		var c = table.find("tbody tr").first().find("td");
+		var c = table.find("tbody tr").first().find("td"), target = this;
 		c.each(function(i) {
 			if (nolast && i == c.length - 1) return false;
 			var a = table.find("thead tr th:eq(" + i + ")");
@@ -392,7 +392,6 @@ Amel = {
 		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		// Установка максимального размера колонки
 		$("#" + target.tableId + " .max-width").css("max-width", "" + (screen.width / 5) + "px");
-		target.set_header_width($("#" + target.tableId));
 		// Изменение размера области данных после скроллинга
 		target.add_on($("#" + target.tableId), "scroll", function() {
 			$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
@@ -469,6 +468,13 @@ Amel = {
 			target.form_submit();
 			$("input[name='p_listVisible']").val("");
 		});	
+		// Установка размера колонок - предварительно последнюю увеличиваем для скроллинга
+		$("#" + target.tableId).find("tbody td:last-child").first().each(function() {
+			var w = $(this).outerWidth(true) + target.scroll_bar_size().width;
+			$(this).css("max-width", w);
+			$(this).css("min-width", w);
+		});
+		target.set_header_width($("#" + target.tableId));
 	},
 	// Инициализация редактирования по месту
 	page_init: function() {
