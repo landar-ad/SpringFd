@@ -115,7 +115,6 @@
 		            	<input th:if="${col.sortable}" type="hidden" th:name="${'sort__' + col.name}" th:value="${p_sort.get(col.name) != null ? p_sort.get(col.name) : 'NONE'}">
 	            	</div>
 	            </th>
-	            <th/><th/>
 	        </tr>
 	        <tr th:if="${l_f}" id="filterRow" class="not-visible">
 	        	<th class="d-none"></th>
@@ -134,7 +133,6 @@
 	        			</div>
         			</div>
 	        	</th>
-	        	<th/><th/>
         	</tr>
         </thead>
         <tbody>
@@ -144,7 +142,6 @@
 	            <td th:each="col : ${listColumn}">
 	            	 <div th:text="${hs.getPropertyString(obj,col.name)}" class="max-width"></div>
             	</td>
-            	<td/><td/>
 	        </tr>
         </tbody>
     </table>
