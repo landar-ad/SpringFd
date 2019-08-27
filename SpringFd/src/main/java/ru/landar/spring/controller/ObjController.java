@@ -365,58 +365,86 @@ public class ObjController {
 			mapItems.forEach((list, o) -> {
 				Map<String, Object> map = (Map<String, Object>)o;
 				List<Object> lcmd = (List<Object>)map.get("p_cmd");
-				if (lcmd == null) return;
-				List<Object> lrn = (List<Object>)map.get("rn");
-				List<Object> lclazz = (List<Object>)map.get("clazz");
-				List<Object> ladd = (List<Object>)map.get("p_add");
-				List<Object> lrnOld = (List<Object>)map.get("rnOld");
-				for (int i=0; i<lcmd.size(); i++) {
-					String cmd = (String)lcmd.get(i);
-					if (hs.isEmpty(cmd)) continue;
-					String add = (String)ladd.get(i);
-					boolean bNew = !"exists".equals(add);
-					Integer rnItem = null;
-					try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
-					Integer rnItemOld = null;
-					try { rnItemOld = Integer.valueOf((String)lrnOld.get(i)); } catch (Exception ex) { }
-					String clazzItem = (String)lclazz.get(i); 
-					Class<?> clItem = hs.getClassByName(clazzItem);
-					if (clItem == null) continue;
-					Object item = null;
-					if ("remove".equals(cmd) && rnItem != null) {
-						try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
-					}
-					else if ("add".equals(cmd) && rnItem == null) {
-						try { item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); } catch (Exception ex) { }
-					}
-					else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
-						cmd = "update";
-						try {
-							item = objRepository.updateItem(obj, list, clazzItem, rnItemOld, rnItem);
-							if (item != null && rnItemOld != rnItem) hs.invoke(obj, "onUpdateItem", clItem, rnItemOld, rnItem);
+				if (lcmd == null) {
+					Class<?> clAttr = hs.getAttrType(cl, list);
+					if (clAttr != null) {
+						Object objAttr = hs.getProperty(obj, list);
+						if (objAttr == null) {
+							try { objAttr = clAttr.newInstance(); } catch (Exception e) { }
 						}
-						catch (Exception ex) { }
-					}
-					if (item != null) {
-						Map<String, Object[]> mapChangedItem = new LinkedHashMap<String, Object[]>();
-						Object f = null;
-						Iterator<String> it = map.keySet().iterator();
-						while (it.hasNext()) {
-							String ap = it.next();
-							if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap) || "rnOld".equals(ap) || "p_add".equals(ap)) continue;
-							List<Object> lvalue = (List<Object>)map.get(ap);
-							Object v = lvalue.get(i);
-							if (v != null && v instanceof IBase) {
-								f = v;
-								v = hs.getProperty(v, ap); 
+						if (objAttr != null) {
+							Object f = null;
+							Iterator<String> it = map.keySet().iterator();
+							while (it.hasNext()) {
+								String ap = it.next();
+								List<Object> lvalue = (List<Object>)map.get(ap);
+								Object v = lvalue.get(0);
+								if (v != null && v instanceof IBase) {
+									f = v;
+									v = hs.getProperty(v, ap); 
+								}
+								else v = hs.getObjectByString(clAttr, ap, (String)v);
+								hs.setProperty(objAttr, ap, v);
 							}
-							else v = hs.getObjectByString(clItem, ap, (String)v);
-							/*if (v != null) */hs.setProperty(item, ap, v);
+							if (f != null) hs.copyProperties(f, objAttr, true);
+							objRepository.saveObj(objAttr);
+							hs.invoke(objAttr, "onUpdate");
+							hs.setProperty(obj, list, objAttr);
 						}
-						if (f != null) hs.copyProperties(f, item, true);
-						objRepository.saveObj(item);
-						// Добавление информации об изменении объекта
-						hs.invoke(item, "onUpdate", mapItems, mapChangedItem);
+					}
+				}
+				else {
+					List<Object> lrn = (List<Object>)map.get("rn");
+					List<Object> lclazz = (List<Object>)map.get("clazz");
+					List<Object> ladd = (List<Object>)map.get("p_add");
+					List<Object> lrnOld = (List<Object>)map.get("rnOld");
+					for (int i=0; i<lcmd.size(); i++) {
+						String cmd = (String)lcmd.get(i);
+						if (hs.isEmpty(cmd)) continue;
+						String add = (String)ladd.get(i);
+						boolean bNew = !"exists".equals(add);
+						Integer rnItem = null;
+						try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
+						Integer rnItemOld = null;
+						try { rnItemOld = Integer.valueOf((String)lrnOld.get(i)); } catch (Exception ex) { }
+						String clazzItem = (String)lclazz.get(i); 
+						Class<?> clItem = hs.getClassByName(clazzItem);
+						if (clItem == null) continue;
+						Object item = null;
+						if ("remove".equals(cmd) && rnItem != null) {
+							try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
+						}
+						else if ("add".equals(cmd) && rnItem == null) {
+							try { item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); } catch (Exception ex) { }
+						}
+						else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
+							cmd = "update";
+							try {
+								item = objRepository.updateItem(obj, list, clazzItem, rnItemOld, rnItem);
+								if (item != null && rnItemOld != rnItem) hs.invoke(obj, "onUpdateItem", clItem, rnItemOld, rnItem);
+							}
+							catch (Exception ex) { }
+						}
+						if (item != null) {
+							Object f = null;
+							Iterator<String> it = map.keySet().iterator();
+							while (it.hasNext()) {
+								String ap = it.next();
+								if ("p_cmd".equals(ap) || "clazz".equals(ap) || "rn".equals(ap) || "rnOld".equals(ap) || "p_add".equals(ap)) continue;
+								List<Object> lvalue = (List<Object>)map.get(ap);
+								Object v = lvalue.get(i);
+								if (v != null && v instanceof IBase) {
+									f = v;
+									v = hs.getProperty(v, ap); 
+								}
+								else v = hs.getObjectByString(clItem, ap, (String)v);
+								/*if (v != null) */hs.setProperty(item, ap, v);
+							}
+							if (f != null) hs.copyProperties(f, item, true);
+							objRepository.saveObj(item);
+							// Добавление информации об изменении объекта
+							hs.invoke(item, "onUpdate");
+						}
 					}
 				}
 			});
