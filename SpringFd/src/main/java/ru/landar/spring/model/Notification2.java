@@ -26,12 +26,15 @@ public class Notification2 extends Document {
     public String getKbk() { return kbk; }
     public void setKbk(String kbk) { this.kbk = kbk; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum1() { return sum1; }
     public void setSum1(BigDecimal sum1) { this.sum1 = sum1; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum2() { return sum2; }
     public void setSum2(BigDecimal sum2) { this.sum2 = sum2; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum3() { return sum3; }
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
 	
