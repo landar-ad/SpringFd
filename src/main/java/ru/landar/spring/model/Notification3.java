@@ -14,11 +14,11 @@ import ru.landar.spring.classes.ColumnInfo;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class Notification3 extends Document {
-	private List<Specification1> list_spec;
+	private List<Specification3> list_spec;
 		
-	@ManyToMany(targetEntity=Specification1.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<Specification1> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification1>(); }
-    public void setList_spec(List<Specification1> list_spec) { this.list_spec = list_spec; }
+	@ManyToMany(targetEntity=Specification3.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Specification3> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification3>(); }
+    public void setList_spec(List<Specification3> list_spec) { this.list_spec = list_spec; }
     
     public static String singleTitle() { return "Уведомление о показателях проекта бюджетной сметы"; }
 	public static String multipleTitle() { return "Уведомления о показателях проекта бюджетной сметы"; }
