@@ -22,12 +22,15 @@ public class Notification5 extends Document {
     public String getKbk() { return kbk; }
     public void setKbk(String kbk) { this.kbk = kbk; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum1() { return sum1; }
     public void setSum1(BigDecimal sum1) { this.sum1 = sum1; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum2() { return sum2; }
     public void setSum2(BigDecimal sum2) { this.sum2 = sum2; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum3() { return sum3; }
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
 	
@@ -42,7 +45,7 @@ public class Notification5 extends Document {
 		ret.add(new ColumnInfo("doc_number", "Номер документа"));
 		ret.add(new ColumnInfo("doc_date", "Дата документа"));
 		ret.add(new ColumnInfo("kbk", "КБК"));
-		ret.add(new ColumnInfo("sum1", "Сумма ЛБО (следующий год)"));
+		ret.add(new ColumnInfo("sum1", "Сумма ЛБО (текущий год)"));
 		ret.add(new ColumnInfo("sum2", "Сумма ЛБО (первый год планового периода)"));
 		ret.add(new ColumnInfo("sum3", "Сумма ЛБО (второй год планового периода)"));
 		ret.add(new ColumnInfo("parent_doc__name", "Основание изменения предложений на закупку"));

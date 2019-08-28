@@ -25,21 +25,27 @@ public class Specification4 extends IBase {
     public String getKbk() { return kbk; }
     public void setKbk(String kbk) { this.kbk = kbk; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum1() { return sum1; }
     public void setSum1(BigDecimal sum1) { this.sum1 = sum1; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum2() { return sum2; }
     public void setSum2(BigDecimal sum2) { this.sum2 = sum2; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum3() { return sum3; }
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum4() { return sum4; }
     public void setSum4(BigDecimal sum4) { this.sum4 = sum4; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum5() { return sum5; }
     public void setSum5(BigDecimal sum5) { this.sum5 = sum5; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum6() { return sum6; }
     public void setSum6(BigDecimal sum6) { this.sum6 = sum6; }
     

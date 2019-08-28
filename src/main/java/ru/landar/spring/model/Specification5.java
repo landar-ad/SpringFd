@@ -28,12 +28,15 @@ public class Specification5 extends IBase {
     public String getKosgu() { return kosgu; }
     public void setKosgu(String kosgu) { this.kosgu = kosgu; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum1() { return sum1; }
     public void setSum1(BigDecimal sum1) { this.sum1 = sum1; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum2() { return sum2; }
     public void setSum2(BigDecimal sum2) { this.sum2 = sum2; }
     
+    @Column(precision = 18, scale = 2)
     public BigDecimal getSum3() { return sum3; }
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
     
