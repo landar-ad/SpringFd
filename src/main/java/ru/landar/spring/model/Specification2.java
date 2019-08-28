@@ -18,7 +18,7 @@ public class Specification2 extends IBase {
 	private BigDecimal sum1;
 	private BigDecimal sum2;
 	private BigDecimal sum3;
-	private String desc;
+	private String description;
 	
 	@Column(length=18)
     public String getNum() { return num; }
@@ -41,8 +41,8 @@ public class Specification2 extends IBase {
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
     
     @Column(length=1000)
-    public String getDesc() { return desc; }
-    public void setDesc(String desc) { this.desc = desc; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
     
     public static String singleTitle() { return "Спецификация"; }
 	public static String multipleTitle() { return "Спецификации"; }
@@ -53,7 +53,7 @@ public class Specification2 extends IBase {
 		ret.add(new ColumnInfo("sum1", "Сумма (следующий год)"));
 		ret.add(new ColumnInfo("sum2", "Сумма (первый год планового периода)"));
 		ret.add(new ColumnInfo("sum3", "Сумма (второй год планового периода)"));
-		ret.add(new ColumnInfo("desc", "Описание изменения"));
+		ret.add(new ColumnInfo("description", "Описание изменения"));
 		return ret;
 	}
 }
