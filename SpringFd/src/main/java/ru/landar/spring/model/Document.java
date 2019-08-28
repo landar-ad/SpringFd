@@ -70,6 +70,8 @@ public class Document extends IBase {
 	private String sp_subnum;
 	private String sedkp_num;
 	private Date sedkp_date;
+	private String comment;
+	private List<IMailing> mailing_list;
 	
 	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
     public SpDocType getDoc_type() { return doc_type; }
@@ -181,6 +183,14 @@ public class Document extends IBase {
     @Temporal(TemporalType.DATE)
     public Date getSedkp_date() { return sedkp_date; }
     public void setSedkp_date(Date sedkp_date) { this.sedkp_date = sedkp_date; }
+    
+    @Column(length=1000)
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
+    
+    @ManyToMany(targetEntity=IMailing.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<IMailing> getMailing_list() { return mailing_list != null ? mailing_list : new ArrayList<IMailing>(); }
+    public void setMailing_list(List<IMailing> mailing_list) { this.mailing_list = mailing_list; }
 	
     private void updateName() {
     	AutowireHelper.autowire(this);
@@ -231,7 +241,7 @@ public class Document extends IBase {
 		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
 		ret.add(new ColumnInfo("sedkp_num", "Номер документа СЭДКП", false));
 		ret.add(new ColumnInfo("sedkp_date", "Дата документа СЭДКП", false));
-		
+		ret.add(new ColumnInfo("comment", "Комментарий", false));
 		return ret;
 	}
 	@Override
