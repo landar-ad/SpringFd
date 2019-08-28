@@ -12,19 +12,18 @@ import ru.landar.spring.classes.ColumnInfo;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
-public class Specification5 extends IBase {
-	private String num;
+public class Specification6 extends IBase {
+	private String kbk;
 	private String kosgu;
 	private BigDecimal sum1;
 	private BigDecimal sum2;
 	private BigDecimal sum3;
-	private String desc;
 	
-	@Column(length=18)
-    public String getNum() { return num; }
-    public void setNum(String num) { this.num = num; }
-	
-	@Column(length=3)
+	@Column(length=20)
+    public String getKbk() { return kbk; }
+    public void setKbk(String kbk) { this.kbk = kbk; }
+    
+    @Column(length=3)
     public String getKosgu() { return kosgu; }
     public void setKosgu(String kosgu) { this.kosgu = kosgu; }
     
@@ -37,20 +36,15 @@ public class Specification5 extends IBase {
     public BigDecimal getSum3() { return sum3; }
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
     
-    @Column(length=1000)
-    public String getDesc() { return desc; }
-    public void setDesc(String desc) { this.desc = desc; }
-    
     public static String singleTitle() { return "Спецификация"; }
 	public static String multipleTitle() { return "Спецификации"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("num", "№ предложения на закупку"));
+		ret.add(new ColumnInfo("kbk", "КБК"));
 		ret.add(new ColumnInfo("kosgu", "КОСГУ"));
-		ret.add(new ColumnInfo("sum1", "Сумма (текущий год)"));
-		ret.add(new ColumnInfo("sum2", "Сумма (первый год планового периода)"));
-		ret.add(new ColumnInfo("sum3", "Сумма (второй год планового периода)"));
-		ret.add(new ColumnInfo("desc", "Описание изменения"));
+		ret.add(new ColumnInfo("sum1", "Сумма ЛБО (текущий год)"));
+		ret.add(new ColumnInfo("sum2", "Сумма ЛБО (первый год планового периода)"));
+		ret.add(new ColumnInfo("sum3", "Сумма ЛБО (второй год планового периода)"));
 		return ret;
 	}
 }
