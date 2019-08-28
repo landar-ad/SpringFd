@@ -128,7 +128,67 @@
 						    </div>
 					    </div>
 						<div th:replace="fragments/header :: list_file"></div>
-						
+						<div id="mailing_list" class="form-group-sm mt-sm-1">
+	                        <label class="col-sm-4">Список рассылки</label>
+	                        <div class="col-sm-12">
+		                        <table class="table table-sm table-striped table-light table-bordered">
+							    	<thead>
+								        <tr>
+								            <th class="d-none">Идентификатор</th>
+								            <th>#</th>
+								            <th>ФИО</th>
+								            <th>Структурное подразделение</th>
+								            <th></th>
+								            <th class="d-none">Команда</th>
+								        </tr>
+							        </thead>
+							        <tbody>
+							        	<tr th:if="${rco!=1}" class="first-row not-visible">
+								            <td class="d-none">
+								            	<input type="hidden" name="mailing_list__rn" value="">
+								            	<input type="hidden" name="mailing_list__rnOld" value="">
+								            	<input type="hidden" name="mailing_list__clazz"value="IMailing">
+								            	<input type="hidden" name="mailing_list__p_add" value="new">
+								            </td>
+								            <td></td>
+								            <td class="edited">
+								            	<span></span>
+								            	<input name="mailing_list__person" type="hidden" value="" data-type="select" data-clazz="IPerson" data-title="Выберите контактное лицо" data-column="name=Персона" data-filter="">
+								            </td>
+								            <td></td>
+								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:each="d,iter : ${obj?.mailing_list}">
+								            <td class="d-none">
+								            	<input type="hidden" name="mailing_list__rn" value="">
+								            	<input type="hidden" name="mailing_list__rnOld" value="">
+								            	<input type="hidden" name="mailing_list__clazz"value="IMailing">
+								            	<input type="hidden" name="mailing_list__p_add" value="new">
+								            </td>
+								            <td th:text="${iter.index + 1}"/>
+								            <td th:if="${rco!=1}" class="edited">
+								            	<span th:text="${d.doc?.name}"></span>
+								            	<input name="mailing_list__person" type="hidden" th:value="${d.mailing_list?.rn}" data-type="select" data-clazz="IPerson" data-title="Выберите контактное лицо" data-column="name=Персона" data-filter="">
+								            </td>
+								            <td>
+								            	<span th:text="${d.person?.depart?.name}"></span>
+								            </td>
+								            <td th:if="${rco==1}" th:text="${d.person?.name}"></td>
+								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:if="${rco!=1}" class="last-row">
+								        	<td class="d-none"/>
+								        	<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td class="d-none"/>
+							        	</tr>
+							        </tbody>
+							    </table>
+						    </div>
+					    </div>
 						<div class="form-group-sm row mt-sm-1">
 							<div class="col-sm-5" th:with="tt='label',vv='Срок представления предложений на закупку'"><div th:replace="fragments/component :: c"></div></div>
 							<div class="col-sm-2" th:with="tt='date',nn='date_repr',vv=${obj.date_repr}"><div th:replace="fragments/component :: c"></div></div>
