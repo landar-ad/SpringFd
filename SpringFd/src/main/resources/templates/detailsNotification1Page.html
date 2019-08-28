@@ -60,7 +60,7 @@
 								            	<input type="hidden" name="list_spec__rn" value="">
 								            	<input type="hidden" name="list_spec__rnOld" value="">
 								            	<input type="hidden" name="list_spec__clazz"value="Specification1">
-								            	<input type="hidden" name="list_doc__p_add" value="new">
+								            	<input type="hidden" name="list_spec__p_add" value="new">
 								            </td>
 								            <td></td>
 								            <td class="edited">
@@ -80,14 +80,14 @@
 								            	<input name="list_spec__sum3" class="not-visible form-control form-control-sm" type="text" value="">
 							            	</td>
 								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
-								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_spec__p_cmd" value=""></td>
 								        </tr>
 								        <tr th:each="d,iter : ${obj?.list_spec}">
 								            <td class="d-none">
 								            	<input type="hidden" name="list_spec__rn" value="">
 								            	<input type="hidden" name="list_spec__rnOld" value="">
 								            	<input type="hidden" name="list_spec__clazz"value="Specification1">
-								            	<input type="hidden" name="list_doc__p_add" value="new">
+								            	<input type="hidden" name="list_spec__p_add" value="new">
 								            </td>
 								            <td th:text="${iter.index + 1}"/>
 								            <td th:if="${rco!=1}" class="edited">
@@ -111,7 +111,7 @@
 							            	</td>
 							            	<td th:if="${rco==1}" th:text="${d.sum3}"></td>
 								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
-								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_spec__p_cmd" value=""></td>
 								        </tr>
 								        <tr th:if="${rco!=1}" class="last-row">
 								        	<td class="d-none"/>
@@ -157,7 +157,7 @@
 								            </td>
 								            <td></td>
 								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
-								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								            <td class="d-none cmd"><input type="hidden" name="mailing_list__p_cmd" value=""></td>
 								        </tr>
 								        <tr th:each="d,iter : ${obj?.mailing_list}">
 								            <td class="d-none">
@@ -176,7 +176,7 @@
 								            </td>
 								            <td th:if="${rco==1}" th:text="${d.person?.name}"></td>
 								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
-								            <td class="d-none cmd"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+								            <td class="d-none cmd"><input type="hidden" name="mailing_list__p_cmd" value=""></td>
 								        </tr>
 								        <tr th:if="${rco!=1}" class="last-row">
 								        	<td class="d-none"/>
