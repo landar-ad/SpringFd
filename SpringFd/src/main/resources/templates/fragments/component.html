@@ -41,6 +41,11 @@
 			<option selected="selected" th:value="${vv!=null ? vv.rn : ''}" th:utext="${vv!=null ? vv.name : ''}"/>
 		</select>
 	</div>
+	<div th:if="${tt=='button'}">
+		<div th:if="${ro!=1}">
+			<button id="${ii}" type="button" class="btn btn-light btn-sm" th:utext="${vv}"></button>
+		</div>
+	</div>
 	<div th:if="${tt=='pbutton'}">
 		<div th:if="${ro!=1}">
 			<button type="button" class="choose_obj btn btn-light btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
