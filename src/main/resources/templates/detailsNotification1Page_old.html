@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="container">
+		<form action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+    		<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+            	<div class="m-sm-2">
+            		<div th:replace="fragments/header :: details-buttons"></div>
+	                <div class="col-sm-12 border fit-height">
+	                    <div class="form-group-sm row mt-sm-1">
+	                        <div class="col-sm-2" th:with="tt='label',vv='Номер',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Дата',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='date',nn='doc_date',vv=${obj.doc_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
+	                    <div class="form-group-sm row mt-sm-1 parent-popup">
+	                    	<div class="col-sm-12"><h6>Основание доведения</h6></div>
+	                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.parent_doc?.doc_type?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='label',vv='Номер документа'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                       	<div class="col-sm-1" th:with="tt='label',vv='Дата документа'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-2" th:with="tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
+	                    <div class="form-group-sm row mt-sm-1 parent-popup">
+	                    	<div class="col-sm-4" th:with="tt='label',vv='Ответственное структурное подразделение',rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-1" th:with="tt='text',vv=${obj.depart?.code},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    	<div class="col-sm-6" th:with="tt='text',vv=${obj.depart?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='pbutton',nn='depart',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='code=Код;name=Наименование',ddfi=''"><div th:replace="fragments/component :: c"></div></div>                    	
+	                    </div>
+	                    <div id="list_spec" class="form-group-sm mt-sm-1">
+	                        <label class="col-sm-4">Спецификация</label>
+	                        <div class="col-sm-12">
+		                        <table class="table table-sm table-striped table-light table-bordered">
+							    	<thead>
+								        <tr>
+								            <th class="d-none">Идентификатор</th>
+								            <th>#</th>
+								            <th>КБК</th>
+								            <th>Сумма ББА (следующий год)</th>
+								            <th>Сумма ББА (первый год планового периода)</th>
+								            <th>Сумма ББА (второй год планового периода)</th>
+								            <th></th>
+								            <th class="d-none">Команда</th>
+								        </tr>
+							        </thead>
+							        <tbody>
+							        	<tr th:if="${rco!=1}" class="first-row not-visible">
+								            <td class="d-none">
+								            	<input type="hidden" name="list_spec__rn" value="">
+								            	<input type="hidden" name="list_spec__rnOld" value="">
+								            	<input type="hidden" name="list_spec__clazz"value="Specification1">
+								            	<input type="hidden" name="list_spec__p_add" value="new">
+								            </td>
+								            <td></td>
+								            <td class="edited">
+								            	<span></span>
+								            	<input name="list_spec__kbk" class="not-visible form-control form-control-sm" type="text" value="">
+								            </td>
+							            	<td class="edited">
+								            	<span></span>
+								            	<input name="list_spec__sum1" class="not-visible form-control form-control-sm" type="text" value="">
+							            	</td>
+								            <td class="edited">
+								            	<span></span>
+								            	<input name="list_spec__sum2" class="not-visible form-control form-control-sm" type="text" value="">
+							            	</td>
+								            <td class="edited">
+								            	<span></span>
+								            	<input name="list_spec__sum3" class="not-visible form-control form-control-sm" type="text" value="">
+							            	</td>
+								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_spec__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:each="d,iter : ${obj?.list_spec}">
+								            <td class="d-none">
+								            	<input type="hidden" name="list_spec__rn" value="">
+								            	<input type="hidden" name="list_spec__rnOld" value="">
+								            	<input type="hidden" name="list_spec__clazz"value="Specification1">
+								            	<input type="hidden" name="list_spec__p_add" value="new">
+								            </td>
+								            <td th:text="${iter.index + 1}"/>
+								            <td th:if="${rco!=1}" class="edited">
+								            	<span></span>
+								            	<input name="list_spec__kbk" class="not-visible form-control form-control-sm" type="text" th:value="${d.kbk}">
+								            </td>
+								            <td th:if="${rco==1}" th:text="${d.kbk}"></td>
+								            <td th:if="${rco!=1}" class="edited">
+								            	<span></span>
+								            	<input name="list_spec__sum1" class="not-visible form-control form-control-sm" type="text" th:value="${d.sum1}">
+							            	</td>
+							            	<td th:if="${rco==1}" th:text="${d.sum1}"></td>
+								            <td th:if="${rco!=1}" class="edited">
+								            	<span></span>
+								            	<input name="list_spec__sum2" class="not-visible form-control form-control-sm" type="text" th:value="${d.sum2}">
+							            	</td>
+							            	<td th:if="${rco==1}" th:text="${d.sum2}"></td>
+								            <td th:if="${rco!=1}" class="edited">
+								            	<span></span>
+								            	<input name="list_spec__sum3" class="not-visible form-control form-control-sm" type="text" th:value="${d.sum3}">
+							            	</td>
+							            	<td th:if="${rco==1}" th:text="${d.sum3}"></td>
+								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="list_spec__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:if="${rco!=1}" class="last-row">
+								        	<td class="d-none"/>
+								        	<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td class="d-none"/>
+							        	</tr>
+							        </tbody>
+							    </table>
+						    </div>
+					    </div>
+						<div th:replace="fragments/header :: list_file"></div>
+						<div id="mailing_list" class="form-group-sm mt-sm-1">
+	                        <label class="col-sm-4">Список рассылки</label>
+	                        <div class="col-sm-12">
+		                        <table class="table table-sm table-striped table-light table-bordered">
+							    	<thead>
+								        <tr>
+								            <th class="d-none">Идентификатор</th>
+								            <th>#</th>
+								            <th>ФИО</th>
+								            <th>Структурное подразделение</th>
+								            <th></th>
+								            <th class="d-none">Команда</th>
+								        </tr>
+							        </thead>
+							        <tbody>
+							        	<tr th:if="${rco!=1}" class="first-row not-visible">
+								            <td class="d-none">
+								            	<input type="hidden" name="mailing_list__rn" value="">
+								            	<input type="hidden" name="mailing_list__rnOld" value="">
+								            	<input type="hidden" name="mailing_list__clazz"value="IMailing">
+								            	<input type="hidden" name="mailing_list__p_add" value="new">
+								            </td>
+								            <td></td>
+								            <td class="edited">
+								            	<span></span>
+								            	<input name="mailing_list__person" type="hidden" value="" data-type="select" data-clazz="IPerson" data-title="Выберите контактное лицо" data-column="name=Персона" data-filter="">
+								            </td>
+								            <td></td>
+								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="mailing_list__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:each="d,iter : ${obj?.mailing_list}">
+								            <td class="d-none">
+								            	<input type="hidden" name="mailing_list__rn" value="">
+								            	<input type="hidden" name="mailing_list__rnOld" value="">
+								            	<input type="hidden" name="mailing_list__clazz"value="IMailing">
+								            	<input type="hidden" name="mailing_list__p_add" value="new">
+								            </td>
+								            <td th:text="${iter.index + 1}"/>
+								            <td th:if="${rco!=1}" class="edited">
+								            	<span th:text="${d.doc?.name}"></span>
+								            	<input name="mailing_list__person" type="hidden" th:value="${d.mailing_list?.rn}" data-type="select" data-clazz="IPerson" data-title="Выберите контактное лицо" data-column="name=Персона" data-filter="">
+								            </td>
+								            <td>
+								            	<span th:text="${d.person?.depart?.name}"></span>
+								            </td>
+								            <td th:if="${rco==1}" th:text="${d.person?.name}"></td>
+								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+								            <td class="d-none cmd"><input type="hidden" name="mailing_list__p_cmd" value=""></td>
+								        </tr>
+								        <tr th:if="${rco!=1}" class="last-row">
+								        	<td class="d-none"/>
+								        	<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
+								        	<td></td>
+								        	<td></td>
+								        	<td class="d-none"/>
+							        	</tr>
+							        </tbody>
+							    </table>
+						    </div>
+					    </div>
+						<div class="form-group-sm row mt-sm-1">
+							<div class="col-sm-5" th:with="tt='label',vv='Срок представления предложений на закупку'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='date',nn='date_repr',vv=${obj.date_repr}"><div th:replace="fragments/component :: c"></div></div>
+						</div>
+						<div class="form-group-sm row mt-sm-1">
+							<div class="col-sm-2" th:with="tt='label',vv='Резолюция'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='text',nn='comment',vv=${obj.comment}"><div th:replace="fragments/component :: c"></div></div>
+						</div>
+						<div class="form-group-sm row mt-sm-1">
+							<div class="col-sm-2" th:with="tt='label',vv='Документ создал'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-4" th:with="tt='text',vv=${obj.create_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+                        </div>
+						<div class="form-group-sm row mt-sm-1">
+							<div class="col-sm-2" th:with="tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-2" th:with="tt='select',nn='doc_status',ll=${listDocStatus},vv=${obj.doc_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    </div>
+                    </div>
+ 				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: modal"></div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>

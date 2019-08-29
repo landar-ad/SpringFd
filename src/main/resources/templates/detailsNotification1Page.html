@@ -16,117 +16,56 @@
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
-	                    <div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-2" th:with="tt='label',vv='Номер',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='label',vv='Дата',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='date',nn='doc_date',vv=${obj.doc_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1 parent-popup">
-	                    	<div class="col-sm-12"><h6>Основание доведения</h6></div>
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.parent_doc?.doc_type?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='label',vv='Номер документа'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                       	<div class="col-sm-1" th:with="tt='label',vv='Дата документа'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-1" th:with="tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1 parent-popup">
-	                    	<div class="col-sm-4" th:with="tt='label',vv='Ответственное структурное подразделение',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-1" th:with="tt='text',vv=${obj.depart?.code},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-6" th:with="tt='text',vv=${obj.depart?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-1" th:with="tt='pbutton',nn='depart',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='code=Код;name=Наименование',ddfi=''"><div th:replace="fragments/component :: c"></div></div>                    	
-	                    </div>
-	                    <div id="list_spec" class="form-group-sm mt-sm-1">
-	                        <label class="col-sm-4">Спецификация</label>
-	                        <div class="col-sm-12">
-		                        <table class="table table-sm table-striped table-light table-bordered">
-							    	<thead>
-								        <tr>
-								            <th class="d-none">Идентификатор</th>
-								            <th>#</th>
-								            <th>КБК</th>
-								            <th>Сумма ББА (следующий год)</th>
-								            <th>Сумма ББА (первый год планового периода)</th>
-								            <th>Сумма ББА (второй год планового периода)</th>
-								            <th></th>
-								            <th class="d-none">Команда</th>
-								        </tr>
-							        </thead>
-							        <tbody>
-							        	<tr th:if="${rco!=1}" class="first-row not-visible">
-								            <td class="d-none">
-								            	<input type="hidden" name="list_spec__rn" value="">
-								            	<input type="hidden" name="list_spec__rnOld" value="">
-								            	<input type="hidden" name="list_spec__clazz"value="Specification1">
-								            	<input type="hidden" name="list_spec__p_add" value="new">
-								            </td>
-								            <td></td>
-								            <td class="edited">
-								            	<span></span>
-								            	<input name="list_spec__kbk" class="not-visible form-control form-control-sm" type="text" value="">
-								            </td>
-							            	<td class="edited">
-								            	<span></span>
-								            	<input name="list_spec__sum1" class="not-visible form-control form-control-sm" type="text" value="">
-							            	</td>
-								            <td class="edited">
-								            	<span></span>
-								            	<input name="list_spec__sum2" class="not-visible form-control form-control-sm" type="text" value="">
-							            	</td>
-								            <td class="edited">
-								            	<span></span>
-								            	<input name="list_spec__sum3" class="not-visible form-control form-control-sm" type="text" value="">
-							            	</td>
-								            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
-								            <td class="d-none cmd"><input type="hidden" name="list_spec__p_cmd" value=""></td>
-								        </tr>
-								        <tr th:each="d,iter : ${obj?.list_spec}">
-								            <td class="d-none">
-								            	<input type="hidden" name="list_spec__rn" value="">
-								            	<input type="hidden" name="list_spec__rnOld" value="">
-								            	<input type="hidden" name="list_spec__clazz"value="Specification1">
-								            	<input type="hidden" name="list_spec__p_add" value="new">
-								            </td>
-								            <td th:text="${iter.index + 1}"/>
-								            <td th:if="${rco!=1}" class="edited">
-								            	<span></span>
-								            	<input name="list_spec__kbk" class="not-visible form-control form-control-sm" type="text" th:value="${d.kbk}">
-								            </td>
-								            <td th:if="${rco==1}" th:text="${d.kbk}"></td>
-								            <td th:if="${rco!=1}" class="edited">
-								            	<span></span>
-								            	<input name="list_spec__sum1" class="not-visible form-control form-control-sm" type="text" th:value="${d.sum1}">
-							            	</td>
-							            	<td th:if="${rco==1}" th:text="${d.sum1}"></td>
-								            <td th:if="${rco!=1}" class="edited">
-								            	<span></span>
-								            	<input name="list_spec__sum2" class="not-visible form-control form-control-sm" type="text" th:value="${d.sum2}">
-							            	</td>
-							            	<td th:if="${rco==1}" th:text="${d.sum2}"></td>
-								            <td th:if="${rco!=1}" class="edited">
-								            	<span></span>
-								            	<input name="list_spec__sum3" class="not-visible form-control form-control-sm" type="text" th:value="${d.sum3}">
-							            	</td>
-							            	<td th:if="${rco==1}" th:text="${d.sum3}"></td>
-								            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
-								            <td class="d-none cmd"><input type="hidden" name="list_spec__p_cmd" value=""></td>
-								        </tr>
-								        <tr th:if="${rco!=1}" class="last-row">
-								        	<td class="d-none"/>
-								        	<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
-								        	<td></td>
-								        	<td></td>
-								        	<td></td>
-								        	<td></td>
-								        	<td></td>
-								        	<td class="d-none"/>
-							        	</tr>
-							        </tbody>
-							    </table>
-						    </div>
-					    </div>
+	                	<table><tbody><tr>
+	                		<td width="7%"><div class="col-sm" th:with="tt='label',vv='Номер',rr=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                        <td width="13%"><div class="col-sm" th:with="tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                       	<td width="7%"><div class="col-sm" th:with="tt='label',vv='Дата',rr=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                        <td width="13%"><div class="col-sm" th:with="tt='date',nn='doc_date',vv=${obj.doc_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div></td>
+		                    <td width="60%"></td>
+		                </tr></tbody></table>
+		                <table><tbody><tr>
+		                	<td width="100%"><div class="col-sm"><h6>Основание доведения</h6></div></td>
+		                </tr></tbody></table>
+                        <table><tbody><tr class="popup-parent">
+	                    	<td width="16%"><div class="col-sm" th:with="tt='label',vv='Тип документа'"><div th:replace="fragments/component :: c"></div></div></td>
+	                        <td width="16%"><div class="col-sm" th:with="tt='text',vv=${obj.parent_doc?.doc_type?.name},ro=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                        <td width="16%"><div class="col-sm" th:with="tt='label',vv='Номер документа'"><div th:replace="fragments/component :: c"></div></div></td>
+	                        <td width="16%"><div class="col-sm" th:with="tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                       	<td width="16%"><div class="col-sm" th:with="tt='label',vv='Дата документа'"><div th:replace="fragments/component :: c"></div></div></td>
+	                        <td width="16%"><div class="col-sm" th:with="tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                        <td width="4%"><div class="col-sm" th:with="tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><div th:replace="fragments/component :: c"></div></div></td>
+                        </tr></tbody></table>
+	                    <table><tbody><tr class="popup-parent">
+	                    	<td width="16%"><div class="col-sm" th:with="tt='label',vv='Ответственное структурное подразделение',rr=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                    	<td width="10%"><div class="col-sm" th:with="tt='text',vv=${obj.depart?.code},ro=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                    	<td width="70%"><div class="col-sm" th:with="tt='text',vv=${obj.depart?.name},ro=1"><div th:replace="fragments/component :: c"></div></div></td>
+							<td width="4%"><div class="col-sm" th:with="tt='pbutton',nn='depart',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='code=Код;name=Наименование',ddfi=''"><div th:replace="fragments/component :: c"></div></div></td>                    	
+	                    </tr></tbody></table>
+	                    <table><tbody><tr>
+	                    	<td width="16%"><div class="col-sm" th:with="tt='label',vv='Спецификация'"><div th:replace="fragments/component :: c"></div></div></td>
+	                    	<td width="16%"><div class="col-sm" th:with="tt='button',vv='Добавить'"><div th:replace="fragments/component :: c"></div></div></td>
+	                    	<td width="16%"><div class="col-sm" th:with="tt='button',vv='Исправить'"><div th:replace="fragments/component :: c"></div></div></td>
+	                    	<td width="16%"><div class="col-sm" th:with="tt='button',vv='Удалить'"><div th:replace="fragments/component :: c"></div></div></td>
+	                    	<td width="36%"></td>
+	                    </tr></tbody></table>
+	                    <table><tbody><tr>
+	                   		<td width="0%" class="d-none">Идентификатор</td>
+				            <td width="20%"><div class="col-sm" th:with="tt='label',vv='КБК'"><div th:replace="fragments/component :: c"></div></div></td>
+				            <td width="10%"><div class="col-sm" th:with="tt='label',vv='Сумма ББА (следующий год)'"><div th:replace="fragments/component :: c"></div></div></td>
+				            <td width="10%"><div class="col-sm" th:with="tt='label',vv='Сумма ББА (первый год планового периода)'"><div th:replace="fragments/component :: c"></div></div></td>
+				            <td width="10%"><div class="col-sm" th:with="tt='label',vv='Сумма ББА (второй год планового периода)'"><div th:replace="fragments/component :: c"></div></div></td>
+				            <td width="50%"></td>
+                    	</tr></tbody></table>
+	                    <table>
+		                    <tbody><tr th:each="d : ${obj?.list_spec}">
+		                    	<td width="0%" class="d-none" th:text="${d.rn}"></td>
+		                    	<td width="20%"><div class="col-sm" th:with="nn='list_spec__kbk',tt='label',vv='${d.kbk}'"><div th:replace="fragments/component :: c"></div></div></td>
+		                    	<td width="10%"><div class="col-sm" th:with="nn='list_spec__sum1',tt='label',vv='${d.sum1}'"><div th:replace="fragments/component :: c"></div></div></td>
+		                    	<td width="10%"><div class="col-sm" th:with="nn='list_spec__sum2',tt='label',vv='${d.sum2}'"><div th:replace="fragments/component :: c"></div></div></td>
+		                    	<td width="10%"><div class="col-sm" th:with="nn='list_spec__sum3',tt='label',vv='${d.sum3}'"><div th:replace="fragments/component :: c"></div></div></td>
+		                    	<td width="50%"></td>
+		                    </tr></tbody>
+	                    </table>
 						<div th:replace="fragments/header :: list_file"></div>
 						<div id="mailing_list" class="form-group-sm mt-sm-1">
 	                        <label class="col-sm-4">Список рассылки</label>
