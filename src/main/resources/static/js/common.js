@@ -327,7 +327,7 @@ Amel = {
 			var tr = table.find(".last-row");
 			var c = tr.clone().insertBefore(tr);
 			c.removeClass("not-visible last-row");
-			$(c).find("input[name='p_cmd']").val("add");
+			$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
 			c.show();
 			target.add_on(c.find(".td-edited"), "click", function() {
 				target.table_edit($(this));
