@@ -238,6 +238,64 @@ Amel = {
 		q.hide();
 		s.show();
 	},
+	// Редактирование в ячейках таблицы
+	table_edit: function(c) {
+		if (!c) return;
+		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,button"), b = c.find(">label,>span").first(), q = a;
+		if (a.length < 1) return;
+		a.show();
+		if (a.prop("tagName").toLowerCase() == "div") q = a.find("input,select,textarea").first();
+		q.focus();
+		q.first().on("keydown blur", function(e) {
+			var k = e.keyCode ? e.keyCode : 13;
+			if (k != 9 && k != 13 && k != 27) return;
+			if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !e.ctrlKey) return;
+			if (a.prop("tagName").toLowerCase() == "div" && !e.keyCode) return;
+			var t = t = q.attr("type");
+			if (k != 27) {
+				var v = q.val();
+				if (t == "date" && v && v.length >= 10) {
+					v = v.substring(8,10) + "." + v.substring(5,7) + "." + v.substring(0,4);
+				}
+				if (t == "file") {
+					if (v) v = v.split('\\').pop();
+					else v = b.text();
+				}
+				if (t == "password") {
+					v = "";
+					for (var i=0; v && i<v.length; i++) v += "*";
+				}
+				b.text(v);
+			}
+			else {
+				var v = b.text();
+				if (t == "date" && v && v.length >= 10) {
+					v = v.substring(6,10) + "-" + v.substring(3,5) + "-" + v.substring(0,2);
+				}
+				if (t == "file" || t == "password") v = "";
+				q.val(v);
+			}
+			if (b.length > 0) {
+				b.show();
+				a.hide();
+			}
+			if (k == 9) {
+				var p = $(".td-edited");
+				for (var j=0; j<p.length; j++) {
+					var s = p[j];
+					if (s == c[0]) {
+						if (e.shiftKey) j = j == 0 ? p.length - 1 : j - 1;
+						else j = j == p.length - 1 ? 0 : j + 1;
+						c = $(p[j]);
+						break;
+					}
+				}
+				fun(c); 
+			}
+			return false;
+		});
+		b.hide();
+	},
 	// Вызов всплывающего окна для выбора объекта
 	popup_select: function(a, s) {
 		var target = this;
