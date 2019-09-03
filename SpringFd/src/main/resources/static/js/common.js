@@ -261,6 +261,10 @@ Amel = {
 			if (a.prop("tagName").toLowerCase() == "select") t = "select";
 			if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !e.ctrlKey) return;
 			if (t == "file" && !e.keyCode) return;
+			if (b.length > 0) {
+				b.show();
+				a.hide();
+			}
 			if (k != 27) {
 				var v = q.val();
 				if (t == "date" && v && v.length >= 10) {
@@ -291,15 +295,11 @@ Amel = {
 				if (t == "file" || t == "password") v = "";
 				q.val(v);
 			}
-			if (b.length > 0) {
-				b.show();
-				a.hide();
-			}
 			if (k == 9) {
 				var p = $(".td-edited"), pa = [];
 				for (var j=0; j<p.length; j++) {
-					a = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea");
-					if (a.length > 0) pa[pa.length] = p[j]; 
+					var zz = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea");
+					if (zz.length > 0) pa[pa.length] = p[j]; 
 				}
 				for (var j=0; j<pa.length; j++) {
 					var s = pa[j];
