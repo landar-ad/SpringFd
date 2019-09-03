@@ -139,3 +139,22 @@ body {
 .anchor {
 	color: #23e
 }
+.table-edited {
+	margin-bottom: -1px;
+	border-collapse: collapse;
+}
+.table-edited td, .table-edited th {
+	padding: 0px;
+}
+.table-edited td label, .table-edited th label {
+	padding: 0.25rem;
+	margin-bottom: 0rem;
+}
+.table-edited .td-center {
+	text-align:center;
+	vertical-align:middle;
+}
+.td-button {
+	width: 100%; 
+	display: block;
+}
