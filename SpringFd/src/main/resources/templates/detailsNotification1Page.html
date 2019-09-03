@@ -16,15 +16,15 @@
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
-	                	<table><tbody><tr>
-	                		<td width="7%"><div class="col-sm" th:with="tt='label',vv='Номер',rr=1"><div th:replace="fragments/component :: c"></div></div></td>
-	                        <td width="13%"><div class="col-sm" th:with="tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div></td>
-	                       	<td width="7%"><div class="col-sm" th:with="tt='label',vv='Дата',rr=1"><div th:replace="fragments/component :: c"></div></div></td>
-	                        <td width="13%"><div class="col-sm" th:with="tt='date',nn='doc_date',vv=${obj.doc_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div></td>
+	                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th th:with="w='7%',tt='label',vv='Номер',rr=1" th:replace="fragments/tc :: ch">
+	                		<td th:with="w='13%',tt='text',nn='doc_number',vv='${obj.doc_number}',rr=1" th:replace="fragments/tc :: cd">
+	                		<th th:with="w='7%',tt='label',vv='Дата',rr=1" th:replace="fragments/tc :: ch">
+	          				<td th:with="w='13%',tt='text',nn='doc_date',vv='${#dates.format(vv,'dd.MM.yyyy')}',rr=1" th:replace="fragments/tc :: cd"> 
 		                    <td width="60%"></td>
 		                </tr></tbody></table>
-		                <table><tbody><tr>
-		                	<td width="100%"><div class="col-sm"><h6>Основание доведения</h6></div></td>
+		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                	<td width="100%"><h6>Основание доведения</h6></td>
 		                </tr></tbody></table>
                         <table><tbody><tr class="popup-parent">
 	                    	<td width="16%"><div class="col-sm" th:with="tt='label',vv='Тип документа'"><div th:replace="fragments/component :: c"></div></div></td>
