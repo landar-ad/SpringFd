@@ -16,11 +16,11 @@
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
-	                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	                		<th th:with="w='7%',tt='label',vv='Номер',rr=1" th:replace="fragments/tc :: ch">
-	                		<td th:with="w='13%',tt='text',nn='doc_number',vv='${obj.doc_number}',rr=1" th:replace="fragments/tc :: cd">
-	                		<th th:with="w='7%',tt='label',vv='Дата',rr=1" th:replace="fragments/tc :: ch">
-	          				<td th:with="w='13%',tt='text',nn='doc_date',vv='${#dates.format(vv,'dd.MM.yyyy')}',rr=1" th:replace="fragments/tc :: cd"> 
+	                	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                		<th:block th:with="w='7%',tt='label',vv='Номер',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='13%',tt='text',nn='doc_number',vv='${obj.doc_number}',rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                		<th:block th:with="w='7%',tt='label',vv='Дата',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+	          				<th:block th:with="w='13%',tt='text',nn='doc_date',vv='${obj.doc_date}',rr=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
 		                    <td width="60%"></td>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
@@ -73,9 +73,9 @@
 	                    	<td width="36%"></td>
 	                    </tr></tbody></table>
 	                    <table>
-		                    <tbody><tr th:each="d : ${obj?.mailing_list_file}">
+		                    <tbody><tr th:each="d : ${obj?.mailing_list}">
 		                    	<td width="0%" class="d-none" th:text="${d.rn}"></td>
-		                    	<td width="50%"><div class="col-sm" th:with="nn='list_file__filename',tt='label',vv='${d.filename}'"><div th:replace="fragments/component :: c"></div></div></td>
+		                    	<td width="50%"><div class="col-sm" th:with="nn='mailing_list__filename',tt='label',vv='${d.filename}'"><div th:replace="fragments/component :: c"></div></div></td>
 		                    	<td width="50%"></td>
 		                    </tr></tbody>
 	                    </table>
