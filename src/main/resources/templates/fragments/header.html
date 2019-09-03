@@ -96,7 +96,7 @@
   	</div>
 	<div th:fragment="details-buttons" class="row small col-sm-12">
 		<div class="btn-group">
-            <button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+            <button id="submitButton" th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
             <a th:if="${p_ret=='search'}" th:href="${'search?p_ret=1}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
             <a th:if="${p_ret!='search' && prn==null}" th:href="${'listObj?p_ret=1&clazz=' + obj.clazz + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
             <a th:if="${p_ret!='search' && prn!=null}" th:href="${'detailsObj?rn=' + prn}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>

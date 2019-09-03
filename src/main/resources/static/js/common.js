@@ -240,18 +240,27 @@ Amel = {
 	},
 	// Редактирование в ячейках таблицы
 	table_edit: function(c) {
+		var target = this;
 		if (!c) return;
-		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,button"), b = c.find(">label,>span").first(), q = a;
-		if (a.length < 1) return;
+		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,button"), b = c.find(">label,>span").first();
+		if (a.length < 1) return; 
+		a = a.first();
+		if (!a.is(':hidden')) return;
+		var q = a, h = c.find("input[type='hidden']").first();
 		a.show();
 		if (a.prop("tagName").toLowerCase() == "div") q = a.find("input,select,textarea").first();
 		q.focus();
-		q.first().on("keydown blur", function(e) {
+		if (h.length > 0) {
+			h.val(q.val());
+			h.text(b.text());
+		}
+		target.add_on(q.first(), "keydown blur", function(e) {
 			var k = e.keyCode ? e.keyCode : 13;
 			if (k != 9 && k != 13 && k != 27) return;
+			var t = q.attr("type");
+			if (a.prop("tagName").toLowerCase() == "select") t = "select";
 			if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !e.ctrlKey) return;
-			if (a.prop("tagName").toLowerCase() == "div" && !e.keyCode) return;
-			var t = t = q.attr("type");
+			if (t == "file" && !e.keyCode) return;
 			if (k != 27) {
 				var v = q.val();
 				if (t == "date" && v && v.length >= 10) {
@@ -260,6 +269,9 @@ Amel = {
 				if (t == "file") {
 					if (v) v = v.split('\\').pop();
 					else v = b.text();
+				}
+				if (t == "select") {
+					v = q.find("option:selected").text();
 				}
 				if (t == "password") {
 					v = "";
@@ -272,6 +284,10 @@ Amel = {
 				if (t == "date" && v && v.length >= 10) {
 					v = v.substring(6,10) + "-" + v.substring(3,5) + "-" + v.substring(0,2);
 				}
+				if (t == "select") {
+					v = h.val();
+					b.text(h.text());
+				}
 				if (t == "file" || t == "password") v = "";
 				q.val(v);
 			}
@@ -280,17 +296,21 @@ Amel = {
 				a.hide();
 			}
 			if (k == 9) {
-				var p = $(".td-edited");
+				var p = $(".td-edited"), pa = [];
 				for (var j=0; j<p.length; j++) {
-					var s = p[j];
+					a = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea");
+					if (a.length > 0) pa[pa.length] = p[j]; 
+				}
+				for (var j=0; j<pa.length; j++) {
+					var s = pa[j];
 					if (s == c[0]) {
-						if (e.shiftKey) j = j == 0 ? p.length - 1 : j - 1;
-						else j = j == p.length - 1 ? 0 : j + 1;
-						c = $(p[j]);
+						if (e.shiftKey) j = j == 0 ? pa.length - 1 : j - 1;
+						else j = j == pa.length - 1 ? 0 : j + 1;
+						c = $(pa[j]);
 						break;
 					}
 				}
-				fun(c); 
+				setTimeout(function() { target.table_edit(c); }, 10); 
 			}
 			return false;
 		});
@@ -393,6 +413,7 @@ Amel = {
 		target.size_init();
 		target.page_init();
 		target.popup_init();
+		target.table_edit_init();
 	},
 	// Инициализация работы с файлами через окно на форме
 	file_init: function() {
@@ -627,7 +648,9 @@ Amel = {
 						var arr = data.p_column.split(";");
 						for (i=0; i<arr.length; i++) {
 							var tt = rn > 0 ?  $(source).find(".text-select:eq("+ i + ")").text() : "";
-							$(p).find("input:eq(" + i + ")").val(tt);
+							var oo = $(p).find(".td-label:eq(" + i + ")");
+							oo.text(tt);
+							if (oo.length == 0) $(p).find("input:eq(" + i + ")").val(tt);
 						}
 					});
 					target.add_on($(".modal").find(".filter-popup"), "input", function() {
@@ -669,6 +692,11 @@ Amel = {
 				if (b) {
 					var a = $(this), c = $('.nav a[href="#' + id + '"]'); 
 					if (c) c.tab('show');
+					var h = a.is(':hidden');
+					if (h) {
+						c = a.closest(".td-edited");
+						target.table_edit(c);
+					}
 					a.tooltip({
 						'trigger': 'focus', 
 						'placement': 'bottom', 
@@ -676,7 +704,7 @@ Amel = {
 						'offset': 10,
 						'delay' : 100
 					});
-					setTimeout(function() { 
+					setTimeout(function() {
 						a.focus();
 						setTimeout(function() { a.tooltip('dispose'); }, 3000);
 					}, 500);
@@ -691,5 +719,12 @@ Amel = {
 		var target = this;
 		target.add_on($(window), "resize", function() { target.size_fit(); });
 		setTimeout(function() { target.size_fit(); }, 40);
+	},
+	// Инициализация редактирования в таблице
+	table_edit_init: function() {
+		var target = this;
+		target.add_on($(".td-edited"), "click", function() {
+			target.table_edit($(this));
+		});
 	}
 };
