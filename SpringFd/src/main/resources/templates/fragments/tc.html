@@ -47,7 +47,10 @@
 			</select>  
 		</th:block>
 		<th:block th:if="${tt=='button'}">
-			<button id="${ii}" type="button" class="td-button btn btn-light btn-sm" th:utext="${vv}"></button>
+			<button th:id="${ii}" type="button" class="td-button btn btn-light btn-sm" th:utext="${vv}"></button>
+		</th:block>
+		<th:block th:if="${tt=='xbutton'}">
+			<button th:id="${ii}" type="button" class="xbutton td-button btn btn-light btn-sm" th:utext="${vv}" th:data-command="${ddco}" th:data-target="${ddta}"></button>
 		</th:block>
 		<th:block th:if="${tt=='pbutton'}">
 			<div th:if="${ro!=1}">

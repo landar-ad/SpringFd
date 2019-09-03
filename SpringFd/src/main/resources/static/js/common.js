@@ -316,6 +316,13 @@ Amel = {
 		});
 		b.hide();
 	},
+	button_command: function(b) {
+		var target = this;
+		if (!b) return;
+		var command = b.attr("data-command"), targetId = b.attr("data-target");
+		var table = $("#" + targetId);
+		if (!table) return;
+	},
 	// Вызов всплывающего окна для выбора объекта
 	popup_select: function(a, s) {
 		var target = this;
@@ -725,6 +732,9 @@ Amel = {
 		var target = this;
 		target.add_on($(".td-edited"), "click", function() {
 			target.table_edit($(this));
+		});
+		target.add_on($(".xbutton"), "click", function() {
+			target.button_command($(this));
 		});
 	}
 };
