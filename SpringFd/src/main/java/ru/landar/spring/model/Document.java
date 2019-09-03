@@ -92,7 +92,7 @@ public class Document extends IBase {
     public Document getParent_doc() { return parent_doc; }
     public void setParent_doc(Document parent_doc) { this.parent_doc = parent_doc; }
 
-	@ManyToOne(targetEntity=IAgent.class)
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getAgent() { return agent; }
     public void setAgent(IAgent agent) { this.agent = agent; }
 	
@@ -103,7 +103,7 @@ public class Document extends IBase {
     public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
-	@ManyToOne(targetEntity=IAgent.class)
+	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
 	

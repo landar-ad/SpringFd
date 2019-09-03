@@ -2,74 +2,70 @@
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <table class="table table-sm table-edited table-bordered small"><tbody><tr>
 	<th th:fragment="ch" th:width="${w}">
-		<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:utext="${vv}"></label>
+		<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
 	</th>
+	<td th:fragment="check" class="td-edited td-center" th:width="${w}">
+		<th:block th:if="${ro!=1}">
+			<input th:name="${nn}" type="checkbox" class="form-check-input" th:checked="${vv}==true">
+			<input type="hidden" th:name="${nn}" value="0">
+		</th:block>
+		<th:block th:if="${ro==1}" class="form-check-label">
+			<input type="checkbox" class="form-check-input" th:checked="${vv}==true" disabled>
+		</th:block>		
+	</td>
 	<td th:fragment="cd" class="td-edited" th:width="${w}">
-		<div th:if="${tt=='time'}">
-			<label th:utext="${#dates.format(vv,'dd.MM.yyyy HH:mm.ss')}"></label>
+		<th:block th:if="${tt=='label'}">
+			<label th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
+		</th:block>
+		<th:block th:if="${tt=='time'}">
+			<label th:utext="${#dates.format(vv,'dd.MM.yyyy HH:mm.ss')}" class="td-label"></label>
 			<div th:if="${ro!=1}" class="input-group date input_time" data-target-input="nearest">
 				<input th:name="${nn}" class="form-control form-control-sm datetimepicker-input" th:data-target="${'div:has(>input[name='''+nn+'''])'}" type="text" th:value="${#dates.format(vv,'dd.MM.yyyy HH:mm.ss')}" th:required="${rr==1 ? 'required' : null}"></input>
 				<div class="input-group-append" th:data-target="${'div:has(>input[name='''+nn+'''])'}" data-toggle="datetimepicker">
 					<div class="input-group-text"><i class="fa fa-calendar"></i></div>
 				</div>
 			</div>
-		</div>
-		<div th:th:if="${tt=='date'}">
-			<label th:utext="${#dates.format(vv,'dd.MM.yyyy')}"></label>
-			<input th:if="${ro!=1}" class="form-control form-control-sm" type="date" th:name="${nn}" th:value="${#dates.format(vv,'yyyy-MM-dd')}" th:required="${rr==1 ? 'required' : null}"></input>
-		</div>
-		<div th:if="${tt=='text'}">
-			<label th:utext="${vv}"></label>
-			<div th:if="${ro!=1}">
-				<input class="form-control form-control-sm" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
-			</div>
-		</div>
-		<div th:if="${tt=='password'}">
+		</th:block>
+		<th:block th:if="${tt=='date'}">
+			<label th:text="${#dates.format(vv,'dd.MM.yyyy')}" class="td-label"></label>
+			<input th:if="${ro!=1}" class="not-visible form-control form-control-sm" type="date" th:name="${nn}" th:value="${#dates.format(vv,'yyyy-MM-dd')}" th:required="${rr==1 ? 'required' : null}"></input>
+		</th:block>
+		<th:block th:if="${tt=='text'}">
+			<label th:text="${vv}" class="td-label"></label>
+			<input th:if="${ro!=1}" class="not-visible form-control form-control-sm" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
+		</th:block>
+		<th:block th:if="${tt=='password'}">
 			<label></label>
-			<input class="form-control form-control-sm" type="password" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
-		</div>
-		<div th:if="${tt=='select'}">
-			<label th:utext="${vv!=null ? vv.name : ''}"></label>
-			<select th:if="${ro!=1}" th:name="${nn}" class="form-control form-control-sm" th:required="${rr==1 ? 'required' : null}">
+			<input th:if="${ro!=1}" class="form-control form-control-sm" type="password" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
+		</th:block>
+		<th:block th:if="${tt=='select'}">
+			<label th:text="${vv!=null ? vv.name : ''}" class="td-label"></label>
+			<input type="hidden" value="">
+			<select th:if="${ro!=1}" th:name="${nn}" class="not-visible form-control form-control-sm" th:required="${rr==1 ? 'required' : null}">
 				<option value=""></option>
-				<option th:each="d : ${ll}" th:selected="${vv!=null && vv.rn==d.rn}" th:value="${d.rn}" th:utext="${d.name}"/>
+				<option th:each="d : ${ll}" th:selected="${vv!=null && vv.rn==d.rn}" th:value="${d.rn}" th:text="${d.name}"/>
 			</select>  
-		</div>
-		<div th:if="${tt=='button'}">
+		</th:block>
+		<th:block th:if="${tt=='button'}">
+			<button id="${ii}" type="button" class="td-button btn btn-light btn-sm" th:utext="${vv}"></button>
+		</th:block>
+		<th:block th:if="${tt=='pbutton'}">
 			<div th:if="${ro!=1}">
-				<button id="${ii}" type="button" class="btn btn-light btn-sm" th:utext="${vv}"></button>
-			</div>
-		</div>
-		<div th:if="${tt=='pbutton'}">
-			<div th:if="${ro!=1}">
-				<button type="button" class="choose_obj btn btn-light btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
+				<button type="button" class="td-button choose_obj btn btn-light btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
 				<input th:name="${nn}" type="hidden" th:value="${vv}">
 			</div>
-		</div>
-		<div th:if="${tt=='check'}" class="form-check">
-			<label th:if="${ro!=1}" class="form-check-label">
-				<input th:name="${nn}" type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${xx}">
-				<input type="hidden" th:name="${nn}" value="0">
-			</label>
-			<label th:if="${ro==1}" class="form-check-label">
-				<input type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${xx}" disabled>
-			</label>
-		</div>
-		<div th:if="${tt=='file'}" class="custom-file">
-			<div th:if="${ro!=1}">
+		</th:block>
+		<th:block th:if="${tt=='file'}">
+			<div th:if="${ro!=1}" class="custom-file">
 				<input th:name="${nn}" type="file" class="custom-file-input">
 				<label class="custom-file-label" th:data-browse="${vv}"></label>
 			</div>
-		</div>
-		<div th:if="${tt=='mtext'}">
-			<div th:if="${ro!=1}">
-				<textarea class="form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : null}" th:rows="${rows==null ? 3 : rows}"></textarea>
-			</div>
-			<div th:if="${ro==1}">
-				<textarea class="form-control form-control-sm" th:text="${vv}" readonly="readonly" th:rows="${rows==null ? 3 : rows}"></textarea>
-			</div>
-		</div>
-		<div th:if="${tt=='feditor'}">
+		</th:block>
+		<th:block th:if="${tt=='mtext'}">
+			<label th:utext="${vv}"></label>
+			<textarea th:if="${ro!=1}" class="not-visible form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : null}" th:rows="${rows==null ? 3 : rows}"></textarea>
+		</th:block>
+		<th:block th:if="${tt=='feditor'}">
 			<div class="col-sm-6 custom-file">
 				<input type="file" class="custom-file-input" th:data-target="${ii}">
 				<label class="custom-file-label text-truncate" data-browse="Загрузить из файла"></label>
@@ -77,6 +73,6 @@
 			<div class="col-sm-2">
 				<button type="button" class="download btn btn-sm btn-light" th:data-target="${ii}">Выгрузить в файл</button>
 			</div>
-		</div>
+		</th:block>
 	</td>
 </tr></tbody></table>
