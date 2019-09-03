@@ -67,14 +67,14 @@
 					            	<input type="hidden" name="list_spec__p_add" value="new">
 					            	<input type="hidden" name="list_spec__p_cmd" value="">
 		                    	</td>
-		                    	<th:block th:with="w='5%',tt='check',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='5%',tt='check',vv=''"><td th:replace="fragments/tc :: check"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='list_spec__kbk',vv=${d.kbk},ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='list_spec__sum1',vv=${d.sum1},ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='list_spec__sum2',vv=${d.sum2},ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='list_spec__sum3',vv=${d.sum3},ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<td width="15%"></td>
 	                    	</tr>
-	                    	<tr class="not-visible">
+	                    	<tr th:if="${rco!=1}" class="not-visible last-row">
 		                    	<td class="d-none">
 		                    		<input type="hidden" name="list_spec__rn" value="">
 					            	<input type="hidden" name="list_spec__rnOld" value="">
@@ -82,7 +82,7 @@
 					            	<input type="hidden" name="list_spec__p_add" value="new">
 					            	<input type="hidden" name="list_spec__p_cmd" value="">
 		                    	</td>
-		                    	<th:block th:with="w='5%',tt='check',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='5%',tt='check',vv=''"><td th:replace="fragments/tc :: check"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='list_spec__kbk',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='list_spec__sum1',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='list_spec__sum2',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -104,7 +104,7 @@
                     	</tr></tbody></table>
 	                    <table class="table table-sm table-edited table-bordered small"><tbody><tr th:each="d : ${obj?.list_file}">
 	                    	<td class="d-none" th:text="${d.rn}"></td>
-	                    	<th:block th:with="w='5%',tt='check',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    	<th:block th:with="w='5%',tt='check',vv=''"><td th:replace="fragments/tc :: check"></td></th:block>
 	                    	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=${d.filename},ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    	<th:block th:with="w='50%',tt='file',nn='list_file__fileuri',ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>

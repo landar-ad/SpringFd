@@ -320,8 +320,19 @@ Amel = {
 		var target = this;
 		if (!b) return;
 		var command = b.attr("data-command"), targetId = b.attr("data-target");
+		if (!command) return;
 		var table = $("#" + targetId);
 		if (!table) return;
+		if ("add" == command) {
+			var tr = table.find(".last-row");
+			var c = tr.clone().insertBefore(tr);
+			c.removeClass("not-visible last-row");
+			$(c).find("input[name='p_cmd']").val("add");
+			c.show();
+			target.add_on(c.find(".td-edited"), "click", function() {
+				target.table_edit($(this));
+			});
+		}
 	},
 	// Вызов всплывающего окна для выбора объекта
 	popup_select: function(a, s) {
