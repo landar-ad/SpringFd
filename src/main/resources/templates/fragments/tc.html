@@ -13,6 +13,11 @@
 			<input type="checkbox" th:checked="${vv}==true" disabled>
 		</th:block>		
 	</td>
+	<td th:fragment="cr" th:width="${w}">
+		<th:block th:if="${tt=='anchor'}">
+			<a th:href="${vv}"><i class="fa fa-file"></i></a>
+		</th:block>
+	</td>
 	<td th:fragment="cd" class="td-edited" th:width="${w}">
 		<th:block th:if="${tt=='label'}">
 			<label th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
