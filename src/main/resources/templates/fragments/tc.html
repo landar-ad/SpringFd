@@ -6,7 +6,7 @@
 	</th>
 	<td th:fragment="check" class="td-edited td-center" th:width="${w}">
 		<th:block th:if="${ro!=1}">
-			<input th:name="${nn}" type="checkbox" th:checked="${vv}==true">
+			<input th:name="${nn}" type="checkbox" th:checked="${vv}==true" th:class="${cc!=null?cc:''}">
 			<input type="hidden" th:name="${nn}" value="0">
 		</th:block>
 		<th:block th:if="${ro==1}">
