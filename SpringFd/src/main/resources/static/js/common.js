@@ -327,6 +327,7 @@ Amel = {
 		if (!table) return;
 		if ("add" == command) {
 			var tr = table.find(".last-row");
+			if (tr.length == 0) return;
 			var c = tr.clone().insertBefore(tr);
 			c.removeClass("not-visible last-row");
 			$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
@@ -343,7 +344,7 @@ Amel = {
 		else if ("remove" == command) {
 			table.find("tr").each(function() {
 				var tr = $(this);
-				var c = tr.find(".td-edited > input[type='checkbox']").prop("checked");
+				var c = tr.find(".td-edited .td-check").prop("checked");
 				if (!c) return;
 				tr.find("input[name='" + targetId + "__p_cmd']").val("remove");
 				tr.addClass("not-visible");
@@ -352,7 +353,7 @@ Amel = {
 		else if ("update" == command) {
 			table.find("tr").each(function() {
 				var tr = $(this);
-				var c = tr.find(".td-edited > input[type='checkbox']").prop("checked");
+				var c = tr.find(".td-edited .td-check").prop("checked");
 				if (!c) return;
 				var rn = tr.find("input[name='" + targetId + "__rn']").val();
 				var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
@@ -374,8 +375,32 @@ Amel = {
 								success: function(result) {
 									var div = $('<div></div>');
 									div.html(result);
-									$("#" + targetId).html(div.find("#" + targetId).html());
+									var src = null, dest = null;
+									var tableDest = $("#" + targetId);
+									tableDest.find("tr").each(function() {
+										var tr = $(this);
+										if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+											dest = tr;
+											return false;
+										}
+									});
+									var tableSrc = div.find("#" + targetId);
+									tableSrc.find("tr").each(function() {
+										var tr = $(this);
+										if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+											src = tr;
+											return false;
+										}
+									});
+									if (dest && src) dest.html(src.html());
 									target.edit_init();
+									var table = $("#" + targetId);
+									table.find("tr").each(function() {
+										var tr = $(this);
+										if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+											tr.find(".td-edited .td-check]").prop("checked", true);
+										}
+									});
 								},
 								error: function(result) {
 								}
@@ -391,6 +416,40 @@ Amel = {
 				return false;
 			});
 		}
+	},
+	button_enabled: function() {
+		$(".xbutton").each(function() {
+			var e = false, b = $(this);
+			for (; ;) {
+				var command = b.attr("data-command"), targetId = b.attr("data-target");
+				if (!command || !targetId) break;
+				var table = $("#" + targetId);
+				if (!table) break;
+				if ("add" == command) {
+					var tr = table.find(".last-row");
+					e = tr.length > 0;
+				}				
+				else if ("update" == command) {
+					var c = table.find("tr .td-edited .td-check :checked");
+					if (c.length == 0) break;
+					c.each(function() {
+						var tr = c.closest("tr");
+						var rn = tr.find("input[name='" + targetId + "__rn']").val();
+						var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
+						if (rn && clazz) {
+							e = true;
+							return false;
+						}						
+					});
+				}
+				else if ("remove" == command) {
+					var c = table.find("tr .td-edited .td-check :checked");
+					e = c.length > 0;
+				}
+				break;
+			}
+			b.prop("disabled", !e);
+		});
 	},
 	// Вызов всплывающего окна для выбора объекта
 	popup_select: function(a, s) {
@@ -816,5 +875,9 @@ Amel = {
 		target.add_on($(".xbutton"), "click", function() {
 			target.button_command($(this));
 		});
+		target.add_on($(".td-edited .td-check"), "change", function() {
+			target.button_enabled();
+		});
+		target.button_enabled();
 	}
 };
