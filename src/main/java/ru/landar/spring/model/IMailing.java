@@ -10,7 +10,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 public class IMailing extends IBase {
 	private IPerson person;
 	
-	@ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=IPerson.class, fetch=FetchType.LAZY)
     public IPerson getPerson() { return person; }
     public void setPerson(IPerson person) { this.person = person; }
 }
