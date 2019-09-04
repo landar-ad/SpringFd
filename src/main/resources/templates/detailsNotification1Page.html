@@ -60,7 +60,7 @@
                     	</tr></tbody></table>
 	                    <table id="list_spec" class="table table-sm table-edited table-bordered small"><tbody>
 	                    	<tr th:each="d : ${obj?.list_spec}">
-		                    	<td class="d-none" th:text="${d.rn}">
+		                    	<td class="d-none">
 		                    		<input type="hidden" name="list_spec__rn" th:value="${d.rn}">
 					            	<input type="hidden" name="list_spec__rnOld" th:value="${d.rn}">
 					            	<input type="hidden" name="list_spec__clazz"value="Specification1">
