@@ -12,29 +12,25 @@
 		<form action="detailsObj" method="POST" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-6 card">
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 fit-height">
 	                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	                		<th:block th:with="w='15%',tt='label',vv='КБК'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                		<th:block th:with="w='20%',tt='text',nn='kbk',vv=${obj.kbk}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                		<td width="65%"></td>
+	                		<th:block th:with="w='50%',tt='label',vv='КБК'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='kbk',vv=${obj.kbk}"><td th:replace="fragments/tc :: cd"></td></th:block>
                 		</tr></tbody></table>
                 		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	                		<th:block th:with="w='15%',tt='label',vv='Сумма ББА (следующий год)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                		<th:block th:with="w='20%',tt='text',nn='sum1',vv=${obj.sum1}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                		<td width="65%"></td>
+	                		<th:block th:with="w='50%',tt='label',vv='Сумма ББА (следующий год)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='sum1',vv=${obj.sum1}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	                		<th:block th:with="w='15%',tt='label',vv='Сумма ББА (первый год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                		<th:block th:with="w='20%',tt='text',nn='sum2',vv=${obj.sum2}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                		<td width="65%"></td>
+	                		<th:block th:with="w='50%',tt='label',vv='Сумма ББА (первый год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='sum2',vv=${obj.sum2}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	                		<th:block th:with="w='15%',tt='label',vv='Сумма ББА (второй год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                		<th:block th:with="w='20%',tt='text',nn='sum3',vv=${obj.sum3}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                		<td width="65%"></td>
+	                		<th:block th:with="w='50%',tt='label',vv='Сумма ББА (второй год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='sum3',vv=${obj.sum3}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>
                     </div>
  				</div>

@@ -362,7 +362,35 @@ Amel = {
 						var div = $('<div></div>');
 						div.html(result);
 						$('.modal').html(div.find('.modal').html());
+						{
+							target.date_on();
+							target.time_on();
+							target.file_on();
+							target.page_init();
+							target.popup_init();
+							target.table_edit_init();
+							target.require_init();
+						}
 						$(".modal").modal();
+						target.add_on($(".modal #cancelButton"), "click", function() {
+							$(".modal").modal('hide');
+							return false;
+						});
+						target.add_on($(".modal #submitButton"), "click", function() {
+							var form = $(".modal").find("form");
+							$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+								success: function(result) {
+									var div = $('<div></div>');
+									div.html(result);
+									$("#" + targetId).html(div.find("#" + targetId).html());
+								},
+								error: function(result) {
+								}
+							});
+							$(".modal").modal('hide');
+							return false;
+						});
+						target.table_edit($(".modal").find(".td-edited").first());
 					},
 					error: function() {
 					} 
@@ -469,6 +497,7 @@ Amel = {
 		target.page_init();
 		target.popup_init();
 		target.table_edit_init();
+		target.require_init();
 	},
 	// Инициализация работы с файлами через окно на форме
 	file_init: function() {
@@ -766,8 +795,7 @@ Amel = {
 					b = false;
 				}
 			});
-			if (b) $('#form').submit();
-			return false;
+			return b;
 		});
 	},
 	// Иницициализация размещения окон

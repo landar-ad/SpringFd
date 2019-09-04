@@ -5,12 +5,11 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			Amel.details_init();
-			Amel.require_init();
 		});
 	</script>
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
-		<form action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
+		<form id="form" action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
            	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
