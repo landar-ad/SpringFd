@@ -33,13 +33,13 @@
 	                        <th:block th:with="w='16%',tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                        <th:block th:with="w='16%',tt='label',vv='Дата документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                        <th:block th:with="w='16%',tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                        <th:block th:with="w='4%',tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                        <th:block th:with="w='4%',tt='pbutton',nn1='parent_doc',nn2='',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
                         </tr></tbody></table>
 	                    <table class="parent-popup table table-sm table-edited table-bordered small"><tbody><tr>
 	                    	<th:block th:with="w='24%',tt='label',vv='Ответственное структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                    	<th:block th:with="w='10%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    	<th:block th:with="w='62%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-							<th:block th:with="w='4%',tt='pbutton',nn='depart',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='code=Код;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
+							<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='code=Код;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
 	                    </tr></tbody></table>
 	                    <table class="table table-sm table-edited table-bordered small"><tbody><tr>
 	                    	<th:block th:with="w='32%',tt='label',vv='Спецификация'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -156,7 +156,7 @@
 		                    	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='45%',tt='text',vv=${d.person?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='45%',tt='text',vv=${d.person?.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='5%',tt='pbutton',nn='mailing_list__person',vv=${d.person?.rn},ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='5%',tt='pbutton',nn1='mailing_list',nn2='person',vv=${d.person?.rn},ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                	</tr>
 		                	<tr th:if="${rco!=1}" class="parent-popup not-visible last-row">
 		                    	<td class="d-none">
@@ -169,7 +169,7 @@
 		                    	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='45%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='45%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='5%',nn='mailing_list__person',tt='pbutton',vv='',ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='5%',tt='pbutton',nn1='mailing_list', nn2='person',vv='',ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                	</tr>
 	                	</tbody></table>
 						<table class="table table-sm table-edited table-bordered small"><tbody><tr>
