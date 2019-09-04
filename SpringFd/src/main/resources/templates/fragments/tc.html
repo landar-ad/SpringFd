@@ -13,9 +13,12 @@
 			<input type="checkbox" th:checked="${vv}==true" disabled>
 		</th:block>		
 	</td>
-	<td th:fragment="cr" th:width="${w}">
+	<td class="td-center" th:fragment="cr" th:width="${w}">
 		<th:block th:if="${tt=='anchor'}">
 			<a th:href="${vv}"><i class="fa fa-file"></i></a>
+		</th:block>
+		<th:block th:if="${tt=='label'}">
+			<label th:text="${vv}"></label>
 		</th:block>
 	</td>
 	<td th:fragment="cd" class="td-edited" th:width="${w}">
@@ -64,7 +67,8 @@
 			</div>
 		</th:block>
 		<th:block th:if="${tt=='file'}">
-			<div th:if="${ro!=1}" class="custom-file">
+			<label class="td-label"></label>
+			<div th:if="${ro!=1}" class="custom-file not-visible">
 				<input th:name="${nn}" type="file" class="custom-file-input">
 				<label class="custom-file-label" th:data-browse="${vv}"></label>
 			</div>
