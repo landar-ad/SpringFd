@@ -282,6 +282,8 @@ Amel = {
 					for (var i=0; v && i<v.length; i++) v += "*";
 				}
 				b.text(v);
+				var zz = $(c).closest("tr").find(".d-none > input[name$='p_cmd']");
+				if (!zz.val()) zz.val("update");
 			}
 			else {
 				var v = b.text();
@@ -332,6 +334,11 @@ Amel = {
 			target.add_on(c.find(".td-edited"), "click", function() {
 				target.table_edit($(this));
 			});
+			setTimeout(function() 
+			{ 
+				var zz = c.find(".td-edited:eq(1)");
+				target.table_edit(zz); 
+			}, 10);
 		}
 	},
 	// Вызов всплывающего окна для выбора объекта
