@@ -333,6 +333,7 @@ Amel = {
 			$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
 			c.show();
 			target.file_on();
+			target.popup_init();
 			target.table_edit_init();
 			setTimeout(function() 
 			{ 
