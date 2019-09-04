@@ -340,6 +340,36 @@ Amel = {
 				target.table_edit(zz); 
 			}, 10);
 		}
+		else if ("remove" == command) {
+			table.find("tr").each(function() {
+				var tr = $(this);
+				var c = tr.find(".td-edited > input[type='checkbox']").prop("checked");
+				if (!c) continue;
+				tr.find("input[name='" + targetId + "__p_cmd']").val("remove");
+				tr.addClass("not-visible");
+			});
+		}
+		else if ("update" == command) {
+			table.find("tr").each(function() {
+				var tr = $(this);
+				var c = tr.find(".td-edited > input[type='checkbox']").prop("checked");
+				if (!c) continue;
+				var rn = tr.find("input[name='" + targetId + "__rn']").val();
+				var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
+				if (!rn || !clazz) continue;
+				$.ajax({ method: "GET", url: "detailsObj?clazz=" + clazz + "&rn=" + rn, 
+					success: function(result) {
+						var div = $('<div></div>');
+						div.html(result);
+						$('.modal').html(div.find('.modal').html());
+						$(".modal").modal();
+					},
+					error: function() {
+					} 
+				}
+				return false;
+			});
+		}
 	},
 	// Вызов всплывающего окна для выбора объекта
 	popup_select: function(a, s) {
