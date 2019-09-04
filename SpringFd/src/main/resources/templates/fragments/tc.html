@@ -15,7 +15,7 @@
 	</td>
 	<td class="td-center" th:fragment="cr" th:width="${w}">
 		<th:block th:if="${tt=='anchor'}">
-			<a th:href="${vv}"><i class="fa fa-file"></i></a>
+			<a class="td-button btn btn-sm btn-light" th:href="${vv}"><i class="fa fa-file"></i></a>
 		</th:block>
 		<th:block th:if="${tt=='label'}">
 			<label th:text="${vv}"></label>
