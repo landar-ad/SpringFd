@@ -332,9 +332,7 @@ Amel = {
 			c.removeClass("not-visible last-row");
 			$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
 			c.show();
-			target.add_on(c.find(".td-edited"), "click", function() {
-				target.table_edit($(this));
-			});
+			target.table_edit_init();
 			setTimeout(function() 
 			{ 
 				var zz = c.find(".td-edited:eq(1)");
@@ -430,7 +428,7 @@ Amel = {
 					e = tr.length > 0;
 				}				
 				else if ("update" == command) {
-					var c = table.find("tr .td-edited .td-check :checked");
+					var c = table.find(".td-edited .td-check:checked");
 					if (c.length == 0) break;
 					c.each(function() {
 						var tr = c.closest("tr");
@@ -443,7 +441,7 @@ Amel = {
 					});
 				}
 				else if ("remove" == command) {
-					var c = table.find("tr .td-edited .td-check :checked");
+					var c = table.find(".td-edited .td-check:checked");
 					e = c.length > 0;
 				}
 				break;
