@@ -144,7 +144,7 @@
 	                   		<th:block th:with="w='45%',tt='label',vv='Структурное подразделение'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                   		<th:block th:with="w='5%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
                     	</tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered small"><tbody>
+	                    <table id="mailing_list" class="table table-sm table-edited table-bordered small"><tbody>
 	                    	<tr class="parent-popup" th:each="d : ${obj?.mailing_list}">
 		                    	<td class="d-none">
 		                    		<input type="hidden" name="mailing_list__rn" th:value="${d.rn}">
@@ -169,7 +169,7 @@
 		                    	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='45%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='45%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='5%',tt='pbutton',vv='',ddcl='IPerson',nn='mailing_list__person',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='5%',nn='mailing_list__person',tt='pbutton',vv='',ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                	</tr>
 	                	</tbody></table>
 						<table class="table table-sm table-edited table-bordered small"><tbody><tr>
