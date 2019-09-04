@@ -118,11 +118,11 @@
 		                	</tr>
 		                	<tr th:if="${rco!=1}" class="not-visible last-row">
 		                    	<td class="d-none">
-		                    		<input type="hidden" name="list_spec__rn" value="">
-					            	<input type="hidden" name="list_spec__rnOld" value="">
-					            	<input type="hidden" name="list_spec__clazz" value="IFile">
-					            	<input type="hidden" name="list_spec__p_add" value="new">
-					            	<input type="hidden" name="list_spec__p_cmd" value="">
+		                    		<input type="hidden" name="list_file__rn" value="">
+					            	<input type="hidden" name="list_file__rnOld" value="">
+					            	<input type="hidden" name="list_file__clazz" value="IFile">
+					            	<input type="hidden" name="list_file__p_add" value="new">
+					            	<input type="hidden" name="list_file__p_cmd" value="">
 		                    	</td>
 		                    	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 		                    	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
