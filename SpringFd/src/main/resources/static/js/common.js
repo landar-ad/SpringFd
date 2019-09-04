@@ -362,15 +362,7 @@ Amel = {
 						var div = $('<div></div>');
 						div.html(result);
 						$('.modal').html(div.find('.modal').html());
-						{
-							target.date_on();
-							target.time_on();
-							target.file_on();
-							target.page_init();
-							target.popup_init();
-							target.table_edit_init();
-							target.require_init();
-						}
+						target.edit_init();
 						$(".modal").modal();
 						target.add_on($(".modal #cancelButton"), "click", function() {
 							$(".modal").modal('hide');
@@ -383,6 +375,7 @@ Amel = {
 									var div = $('<div></div>');
 									div.html(result);
 									$("#" + targetId).html(div.find("#" + targetId).html());
+									target.edit_init();
 								},
 								error: function(result) {
 								}
@@ -494,6 +487,16 @@ Amel = {
 		target.time_on();
 		target.file_on();
 		target.size_init();
+		target.page_init();
+		target.popup_init();
+		target.table_edit_init();
+		target.require_init();
+	},
+	edit_init: function() {
+		var target = this;
+		target.date_on();
+		target.time_on();
+		target.file_on();
 		target.page_init();
 		target.popup_init();
 		target.table_edit_init();
