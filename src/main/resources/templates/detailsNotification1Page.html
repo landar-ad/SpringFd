@@ -112,8 +112,8 @@
 					            	<input type="hidden" name="list_file__p_cmd" value="">	
 		                    	</td>
 		                    	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-		                    	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=${d.filename},ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='45%',tt='file',nn='list_file__fileuri',vv='Заменить файл',ro=$(rco)"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=${d.filename}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='45%',tt='file',nn='list_file__fileuri',vv='Заменить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='5%',tt='anchor',vv=${'fileView?rn=' + d.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
 		                	</tr>
 		                	<tr th:if="${rco!=1}" class="not-visible last-row">
