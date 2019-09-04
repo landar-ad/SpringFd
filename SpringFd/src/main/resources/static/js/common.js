@@ -335,8 +335,7 @@ Amel = {
 			target.file_on();
 			target.popup_init();
 			target.table_edit_init();
-			setTimeout(function() 
-			{ 
+			setTimeout(function() { 
 				var zz = c.find(".td-edited:eq(1)");
 				target.table_edit(zz); 
 			}, 10);
