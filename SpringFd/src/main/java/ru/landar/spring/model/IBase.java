@@ -194,6 +194,7 @@ public abstract class IBase {
 		return hs.invoke(getClass(), "listAttribute");
 	}
 	// Статические методы
+	public static boolean isVoc() { return false; }
 	public static String singleTitle() { return "Базовый объект"; }
 	public static String multipleTitle() { return "Базовые объекты"; }
 	public static List<ColumnInfo> listColumn() {

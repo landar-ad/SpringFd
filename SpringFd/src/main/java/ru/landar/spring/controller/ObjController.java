@@ -394,8 +394,9 @@ public class ObjController {
 					}
 				}
 				else {
+					Class<?> clItem = hs.getItemType(cl, list);
+					String clazzItem = clItem.getSimpleName();
 					List<Object> lrn = (List<Object>)map.get("rn");
-					List<Object> lclazz = (List<Object>)map.get("clazz");
 					List<Object> ladd = (List<Object>)map.get("p_add");
 					List<Object> lrnOld = (List<Object>)map.get("rnOld");
 					for (int i=0; i<lcmd.size(); i++) {
@@ -407,9 +408,6 @@ public class ObjController {
 						try { rnItem = Integer.valueOf((String)lrn.get(i)); } catch (Exception ex) { }
 						Integer rnItemOld = null;
 						try { rnItemOld = Integer.valueOf((String)lrnOld.get(i)); } catch (Exception ex) { }
-						String clazzItem = (String)lclazz.get(i); 
-						Class<?> clItem = hs.getClassByName(clazzItem);
-						if (clItem == null) continue;
 						Object item = null;
 						if ("remove".equals(cmd) && rnItem != null) {
 							try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }

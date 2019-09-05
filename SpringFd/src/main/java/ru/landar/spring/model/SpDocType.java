@@ -23,6 +23,7 @@ public class SpDocType extends IBase {
 	public Boolean getPay() { return pay; }
     public void setPay(Boolean pay) { this.pay = pay; }
 	
+    public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Тип документа"; }
 	public static String multipleTitle() { return "Типы документа"; }
 	public static List<ColumnInfo> listColumn() {

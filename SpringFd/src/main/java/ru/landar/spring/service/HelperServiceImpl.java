@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 import javax.servlet.http.Part;
 import javax.tools.JavaCompiler;
@@ -178,6 +179,19 @@ public class HelperServiceImpl implements HelperService {
      		cl = ret;
     	}
 		return ret;
+	}
+	@Override
+	public Class<?> getItemType(Class<?> cl, String attr) {
+		Class<?> clItem = null, clAttr = getAttrType(cl, attr);
+		if (List.class.isAssignableFrom(clAttr)) {
+			try {
+				String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
+				Method mGet = cl.getMethod(getter);
+				clItem = mGet.getAnnotation(ManyToMany.class).targetEntity();
+			}
+			catch (Exception ex) {}
+		}
+		return clItem;
 	}
 	@Override
 	public Map<String, Object> getMapProperties(Object obj, boolean persist) {
