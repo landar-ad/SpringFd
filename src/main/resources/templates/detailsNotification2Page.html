@@ -24,8 +24,8 @@
 		                    <td width="60%"></td>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	                		<th:block th:with="w='15%',tt='label',vv='КБК',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                		<th:block th:with="w='20%',tt='text',nn='kbk',vv=${obj.doc_number},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                		<th:block th:with="w='15%',tt='label',vv='КБК'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='20%',tt='text',nn='kbk',vv=${obj.doc_number}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    <td width="80%"></td>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
@@ -35,9 +35,9 @@
 		                    <td width="10%"></td>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	                		<th:block th:with="w='30%',tt='text',nn='sum1',vv=$(obj.sum1)"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                		<th:block th:with="w='30%',tt='text',nn='sum2',vv=$(obj.sum2)"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                		<th:block th:with="w='30%',tt='text',nn='sum2',vv=$(obj.sum3)"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='30%',tt='text',nn='sum1',vv=${obj.sum1}"><th th:replace="fragments/tc :: cd"></th></th:block>
+	                		<th:block th:with="w='30%',tt='text',nn='sum2',vv=${obj.sum2}"><th th:replace="fragments/tc :: cd"></th></th:block>
+	                		<th:block th:with="w='30%',tt='text',nn='sum2',vv=${obj.sum3}"><th th:replace="fragments/tc :: cd"></th></th:block>
 		                    <td width="10%"></td>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
