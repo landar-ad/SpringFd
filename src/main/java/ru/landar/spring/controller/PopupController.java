@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.Voc;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -89,5 +90,23 @@ public class PopupController {
 		model.addAttribute("p_title", pTitleParam.orElse("Выбор"));
 		model.addAttribute("hs", hs);
 		return "popupSelect";
+	}
+	@RequestMapping(value = "/popupClasses")
+	public String popupClasses(@RequestParam("clazz") String clazz,
+							HttpServletRequest request,
+							Model model) throws Exception {
+		Class<?> cl = hs.getClassByName(clazz);
+		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
+		Class<?>[] classes = hs.getAllClasses();
+		List<Voc> listVoc = new ArrayList<Voc>();
+		listVoc.add(new Voc(cl.getSimpleName(), (String)hs.invoke(cl, "singleTitle")));
+		for (Class<?> cls : classes) {
+			if (cls.getSimpleName().equals(cl.getSimpleName()) || !cl.isAssignableFrom(cls)) continue;
+			listVoc.add(new Voc(cls.getSimpleName(), (String)hs.invoke(cls, "singleTitle")));
+		}
+		model.addAttribute("listClasses", listVoc);
+		model.addAttribute("p_title", "Выберите объект, который Вы хотите добавить");
+		model.addAttribute("hs", hs);
+		return "popupClasses";
 	}
 }

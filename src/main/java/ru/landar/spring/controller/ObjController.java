@@ -42,6 +42,7 @@ import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ChangeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.classes.Voc;
 import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
@@ -748,18 +749,5 @@ public class ObjController {
 		model.addAttribute("p_login", userService.getPrincipal());
 		model.addAttribute("p_roles", userService.getRoles(null));
 		model.addAttribute("p_title", title);
-	}
-	public class Voc {
-		private String name;
-		private String title;
-		
-		public Voc(String name, String title) { 
-			setName(name); 
-			setTitle(title);
-		}
-		public String getName() { return name; }
-		public void setName(String name) { this.name = name; }
-		public String getTitle() { return title; }
-		public void setTitle(String title) { this.title = title; }
 	}
 }
