@@ -76,12 +76,27 @@ Amel = {
 	// Переход по ссылке
 	exec_obj: function(op, param) {
 		var rn = $('input[name="rn"]').val();
+		var clazz = $('#clazz').val();
 		if (!(rn > 0) && (op=="edit" || op=="remove" || op=="view")) return;
 		else if (op=="add") rn = null;
+		if (op=="add") {
+			$.ajax({ method: "GET", 
+				url: "popupClasses",
+				data: {
+					clazz: clazz
+				},
+				success: function(result) {
+					
+				},
+				error: function() {
+				}
+			});
+			return;
+		}
 		var url = "detailsObj";
 		if (op=="remove") url = "removeObj";
 		if (op=="execute") url = "executeObj";
-		url += "?clazz=" + $('#clazz').val();
+		url += "?clazz=" + clazz;
 		if (rn > 0) url += "&rn=" + rn;
 		if (op=="view") url += "&readonly=1";
 		if (op=="execute") url += "&param=" + param;
