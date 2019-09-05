@@ -109,7 +109,7 @@ Amel = {
 							}
 						});
 					}
-					window.location = "detailsObj?clazz=" + clazz;
+					else window.location = "detailsObj?clazz=" + clazz;
 				},
 				error: function() {
 				}
