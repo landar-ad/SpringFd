@@ -42,6 +42,14 @@ public class Notification2 extends Document {
     public List<Specification2> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification2>(); }
     public void setList_spec(List<Specification2> list_spec) { this.list_spec = list_spec; }
     
+    @Override
+    public Object onNew() {
+     	Object ret = super.onNew();
+    	if (ret != null) return ret;
+    	setDoc_type((SpDocType)objService.getObjByCode(SpDocType.class, "72"));
+      	return true;
+    }
+    
     public static String singleTitle() { return "Уведомление о проектах предложений на закупку"; }
 	public static String multipleTitle() { return "Уведомления о проектах предложений на закупку"; }
 	public static List<ColumnInfo> listColumn() {

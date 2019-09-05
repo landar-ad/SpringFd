@@ -28,6 +28,14 @@ public class Notification4 extends Document {
     public List<Specification4> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification4>(); }
     public void setList_spec(List<Specification4> list_spec) { this.list_spec = list_spec; }
     
+    @Override
+    public Object onNew() {
+     	Object ret = super.onNew();
+    	if (ret != null) return ret;
+    	setDoc_type((SpDocType)objService.getObjByCode(SpDocType.class, "74"));
+      	return true;
+    }
+    
     public static String singleTitle() { return "Уведомление о БР и ЛБО (200 и 400 группы ВР)"; }
 	public static String multipleTitle() { return "Уведомления о БР и ЛБО (200 и 400 группы ВР)"; }
 	public static List<ColumnInfo> listColumn() {

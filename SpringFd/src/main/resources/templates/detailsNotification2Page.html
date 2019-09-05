@@ -24,7 +24,24 @@
 		                    <td width="60%"></td>
 		                </tr></tbody></table>
 		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
-		                	<th:block th:with="w='100%',tt='label',vv='Основание доведения'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='15%',tt='label',vv='КБК',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='20%',tt='text',nn='kbk',vv=${obj.doc_number},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    <td width="80%"></td>
+		                </tr></tbody></table>
+		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='30%',tt='label',vv='Сумма ББА (следующий год)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='30%',tt='label',vv='Сумма ББА (первый год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='30%',tt='label',vv='Сумма ББА (второй год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    <td width="10%"></td>
+		                </tr></tbody></table>
+		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='30%',tt='text',nn='sum1',vv=$(obj.sum1)"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='30%',tt='text',nn='sum2',vv=$(obj.sum2)"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='30%',tt='text',nn='sum2',vv=$(obj.sum3)"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    <td width="10%"></td>
+		                </tr></tbody></table>
+		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                	<th:block th:with="w='100%',tt='label',vv='Основание изменения Предложений на закупку'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                </tr></tbody></table>
                         <table class="parent-popup table table-sm table-edited table-bordered small"><tbody><tr>
                         	<th:block th:with="w='16%',tt='label',vv='Тип документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -41,14 +58,9 @@
 	                    	<th:block th:with="w='62%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='code=Код;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
 	                    </tr></tbody></table>
-	                    <th:block th:replace="fragments/header :: spec1_list"/>
+	                    <th:block th:replace="fragments/header :: spec2_list"/>
 	                    <th:block th:replace="fragments/header :: file_list"/>
 	                	<th:block th:replace="fragments/header :: mailing_list"/>
-						<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-							<th:block th:with="w='20%',tt='label',vv='Срок представления предложений на закупку'"><th th:replace="fragments/tc :: ch"></th></th:block>
-							<th:block th:with="w='10%',tt='date',nn='date_repr',vv=${obj.date_repr}"><td th:replace="fragments/tc :: cd"></td></th:block>
-							<td width="70%"></td>
-						</tr></tbody></table>
 						<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 							<th:block th:with="w='20%',tt='label',vv='Резолюция'"><th th:replace="fragments/tc :: ch"></th></th:block>
 							<th:block th:with="w='80%',tt='mtext',nn='comment',vv=${obj.comment}"><td th:replace="fragments/tc :: cd"></td></th:block>

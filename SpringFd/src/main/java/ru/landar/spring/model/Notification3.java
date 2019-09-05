@@ -20,6 +20,14 @@ public class Notification3 extends Document {
     public List<Specification3> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification3>(); }
     public void setList_spec(List<Specification3> list_spec) { this.list_spec = list_spec; }
     
+    @Override
+    public Object onNew() {
+     	Object ret = super.onNew();
+    	if (ret != null) return ret;
+    	setDoc_type((SpDocType)objService.getObjByCode(SpDocType.class, "73"));
+      	return true;
+    }
+    
     public static String singleTitle() { return "Уведомление о показателях проекта бюджетной сметы"; }
 	public static String multipleTitle() { return "Уведомления о показателях проекта бюджетной сметы"; }
 	public static List<ColumnInfo> listColumn() {
