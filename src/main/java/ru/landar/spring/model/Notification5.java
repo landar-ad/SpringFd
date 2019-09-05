@@ -38,6 +38,14 @@ public class Notification5 extends Document {
     public List<Specification5> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification5>(); }
     public void setList_spec(List<Specification5> list_spec) { this.list_spec = list_spec; }
     
+    @Override
+    public Object onNew() {
+     	Object ret = super.onNew();
+    	if (ret != null) return ret;
+    	setDoc_type((SpDocType)objService.getObjByCode(SpDocType.class, "75"));
+      	return true;
+    }
+    
     public static String singleTitle() { return "Уведомление о предложениях на закупку"; }
 	public static String multipleTitle() { return "Уведомления о предложениях на закупку"; }
 	public static List<ColumnInfo> listColumn() {

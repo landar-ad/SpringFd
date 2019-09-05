@@ -276,7 +276,7 @@ public class Document extends IBase {
       		hs.setProperty(this, "number", ++max);
       		hs.setProperty(this, "doc_number", String.format("%s-%04d", dep_code, max));
       	}
-      	return true;
+      	return null;
     }
 	@Override
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue, Map<String, String[]> mapParam) {

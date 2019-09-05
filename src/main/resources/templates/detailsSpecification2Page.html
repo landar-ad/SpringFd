@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="container table-modal">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+    		<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-6 card">
+            	<div class="m-sm-2">
+            		<div th:replace="fragments/header :: details-buttons"></div>
+	                <div class="col-sm-12 fit-height">
+	                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='50%',tt='label',vv='№ предложения на закупку'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='num',vv=${obj.num}"><td th:replace="fragments/tc :: cd"></td></th:block>
+                		</tr></tbody></table>
+                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='50%',tt='label',vv='КОСГУ'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='kosgu',vv=${obj.kosgu}"><td th:replace="fragments/tc :: cd"></td></th:block>
+                		</tr></tbody></table>
+                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='50%',tt='label',vv='Сумма (следующий год)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='sum1',vv=${obj.sum1}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                </tr></tbody></table>
+		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='50%',tt='label',vv='Сумма (первый год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='sum2',vv=${obj.sum2}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                </tr></tbody></table>
+		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='50%',tt='label',vv='Сумма (второй год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='sum3',vv=${obj.sum3}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                </tr></tbody></table>
+		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='50%',tt='label',vv='Описание изменения'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='50%',tt='text',nn='description',vv=${obj.description}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                </tr></tbody></table>
+                    </div>
+ 				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>

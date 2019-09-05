@@ -12,7 +12,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.ObjService;
+import ru.landar.spring.service.UserService;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -27,6 +32,14 @@ public class Notification1 extends Document {
 	@ManyToMany(targetEntity=Specification1.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Specification1> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification1>(); }
     public void setList_spec(List<Specification1> list_spec) { this.list_spec = list_spec; }
+    
+    @Override
+    public Object onNew() {
+     	Object ret = super.onNew();
+    	if (ret != null) return ret;
+    	setDoc_type((SpDocType)objService.getObjByCode(SpDocType.class, "71"));
+      	return true;
+    }
     
     public static String singleTitle() { return "Уведомление о базовых БА (200 и 400 группы ВР)"; }
 	public static String multipleTitle() { return "Уведомления о базовых БА (200 и 400 группы ВР)"; }
