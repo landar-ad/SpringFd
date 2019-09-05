@@ -340,6 +340,23 @@ Amel = {
 				target.table_edit(zz); 
 			}, 10);
 		}
+		if ("copy" == command) {
+			var tr = table.find(".td-edited .td-check").prop("checked").closest("tr");
+			if (tr.length == 0) return;
+			var c = tr.clone().insertBefore(tr);
+			c.removeClass("not-visible last-row");
+			$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
+			$(c).find("input[name='" + targetId + "__rn']").val("");
+			$(c).find("input[name='" + targetId + "__rnOld']").val("");
+			c.show();
+			target.file_on();
+			target.popup_init();
+			target.table_edit_init();
+			setTimeout(function() { 
+				var zz = c.find(".td-edited:eq(1)");
+				target.table_edit(zz); 
+			}, 10);
+		}
 		else if ("remove" == command) {
 			table.find("tr").each(function() {
 				var tr = $(this);
@@ -427,6 +444,12 @@ Amel = {
 					var tr = table.find(".last-row");
 					e = tr.length > 0;
 				}				
+				else if ("copy" == command) {
+					var tr = table.find(".last-row");
+					if (tr.length == 0) break;
+					var c = table.find(".td-edited .td-check:checked");
+					e = c.length > 0;
+				}
 				else if ("update" == command) {
 					var c = table.find(".td-edited .td-check:checked");
 					if (c.length == 0) break;
