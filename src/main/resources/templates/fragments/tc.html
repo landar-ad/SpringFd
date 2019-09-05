@@ -77,7 +77,7 @@
 			</div>
 		</th:block>
 		<th:block th:if="${tt=='mtext'}">
-			<label th:utext="${vv}"></label>
+			<label class="td-label" th:utext="${vv}"></label>
 			<textarea th:if="${ro!=1}" class="not-visible form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : null}" th:rows="${rows==null ? 3 : rows}"></textarea>
 		</th:block>
 		<th:block th:if="${tt=='feditor'}">
