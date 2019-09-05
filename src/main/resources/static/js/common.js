@@ -788,8 +788,10 @@ Amel = {
 							}
 						});
 						var p = $(t).parent();
-						p.find("input[type='hidden']").val(rn > 0 ? rn : "");	
+						p.find("input[type='hidden']").val(rn > 0 ? rn : "");
 						p = $(p).closest(".parent-popup");
+						var zz = $(p).find(".d-none > input[name$='p_cmd']");
+						if (!zz.val()) zz.val("update");
 						var arr = data.p_column.split(";");
 						for (i=0; i<arr.length; i++) {
 							var tt = rn > 0 ?  $(source).find(".text-select:eq("+ i + ")").text() : "";
