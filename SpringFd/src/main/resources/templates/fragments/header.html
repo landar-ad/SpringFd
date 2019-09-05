@@ -345,13 +345,6 @@
         	<th:block th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_file'"><td th:replace="fragments/tc :: cd"></td></th:block>
         	<td width="36%"></td>
         </tr></tbody></table>
-     	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-    		<td class="d-none"></td>
-    		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-    		<th:block th:with="w='45%',tt='label',vv='Имя файла'"><td th:replace="fragments/tc :: cd"></td></th:block>
-    		<th:block th:with="w='45%',tt='label',vv='Добавить/заменить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
-    		<th:block th:with="w='5%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
-    	</tr></tbody></table>
         <table id="list_file" class="table table-sm table-edited table-bordered small"><tbody>
         	<tr th:each="d : ${obj?.list_file}">
 	         	<td class="d-none">
@@ -377,22 +370,15 @@
 	           	<th:block th:with="w='45%',tt='file',nn='list_file__fileuri',vv='Добавить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	           	<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
 	           	<td width="15%"></td>
-	       		</tr>
-	        </tbody></table>
-        </th:block>
-		<th:block th:fragment="mailing_list">
+	    	</tr>
+        </tbody></table>
+    </th:block>
+	<th:block th:fragment="mailing_list">
 		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 			<th:block th:with="w='32%',tt='label',vv='Список рассылки'"><th th:replace="fragments/tc :: ch"></th></th:block>
 			<th:block th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='mailing_list'"><td th:replace="fragments/tc :: cd"></td></th:block>
 			<th:block th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='mailing_list'"><td th:replace="fragments/tc :: cd"></td></th:block>
 			<td width="36%"></td>
-		</tr></tbody></table>
-		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-			<td class="d-none"></td>
-			<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-			<th:block th:with="w='45%',tt='label',vv='Кому'"><td th:replace="fragments/tc :: cd"></td></th:block>
-			<th:block th:with="w='45%',tt='label',vv='Структурное подразделение'"><td th:replace="fragments/tc :: cd"></td></th:block>
-			<th:block th:with="w='5%',tt='label',vv='Выбрать'"><td th:replace="fragments/tc :: cd"></td></th:block>
 		</tr></tbody></table>
 		<table id="mailing_list" class="table table-sm table-edited table-bordered small"><tbody>
 			<tr class="parent-popup" th:each="d : ${obj?.mailing_list}">
