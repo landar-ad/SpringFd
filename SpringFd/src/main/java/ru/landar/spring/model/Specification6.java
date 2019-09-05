@@ -39,8 +39,8 @@ public class Specification6 extends IBase {
     public BigDecimal getSum3() { return sum3; }
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
     
-    public static String singleTitle() { return "Спецификация"; }
-	public static String multipleTitle() { return "Спецификации"; }
+    public static String singleTitle() { return "Спецификация уведомления об утвержденных показателях бюджетной сметы"; }
+	public static String multipleTitle() { return "Спецификации уведомлений об утвержденных показателях бюджетной сметы"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("kbk", "КБК"));

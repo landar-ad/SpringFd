@@ -49,8 +49,8 @@ public class Specification4 extends IBase {
     public BigDecimal getSum6() { return sum6; }
     public void setSum6(BigDecimal sum6) { this.sum6 = sum6; }
     
-    public static String singleTitle() { return "Спецификация"; }
-	public static String multipleTitle() { return "Спецификации"; }
+    public static String singleTitle() { return "Спецификация уведомления о БР и ЛБО (200 и 400 группы ВР)"; }
+	public static String multipleTitle() { return "Спецификации уведомлений о БР и ЛБО (200 и 400 группы ВР)"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("kbk", "КБК"));

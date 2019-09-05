@@ -45,7 +45,7 @@ public class Specification2 extends IBase {
     public void setDescription(String description) { this.description = description; }
     
     public static String singleTitle() { return "Спецификация уведомления о показателях проекта бюджетной сметы"; }
-	public static String multipleTitle() { return "Спецификации уведомления о показателях проекта бюджетной сметы"; }
+	public static String multipleTitle() { return "Спецификации уведомлений о показателях проекта бюджетной сметы"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("num", "№ предложения на закупку"));
