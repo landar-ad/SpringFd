@@ -75,8 +75,7 @@ Amel = {
 	},
 	// Переход по ссылке
 	exec_obj: function(op, param) {
-		var rn = $('input[name="rn"]').val();
-		var clazz = $('#clazz').val();
+		var target = this, rn = $('input[name="rn"]').val(), clazz = $('#clazz').val();
 		if (!(rn > 0) && (op=="edit" || op=="remove" || op=="view")) return;
 		else if (op=="add") rn = null;
 		if (op=="add") {
