@@ -24,6 +24,7 @@ public class SpFileType extends IBase {
     public String getExt() { return ext; }
     public void setExt(String ext) { this.ext = ext; }
     
+    public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Тип файла"; }
 	public static String multipleTitle() { return "Типы файла"; }
     public static List<ColumnInfo> listColumn() {
