@@ -154,6 +154,14 @@ body {
 	text-align:center;
 	vertical-align:middle;
 }
+.table-edited .td-right {
+	text-align:right;
+	vertical-align:middle;
+}
+.table-edited .td-left {
+	text-align:left;
+	vertical-align:middle;
+}
 .td-button {
 	width: 100%; 
 	display: block;

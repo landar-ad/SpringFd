@@ -284,6 +284,7 @@ Amel = {
 				b.text(v);
 				var zz = $(c).closest("tr").find(".d-none > input[name$='p_cmd']");
 				if (!zz.val()) zz.val("update");
+				target.calculate();
 			}
 			else {
 				var v = b.text();
@@ -432,6 +433,24 @@ Amel = {
 			});
 		}
 	},
+	calculate: function() {
+		$(".td-calc").each(function() {
+			var sum = 0.;
+			var op = $(this).attr("data-op");
+			if (!op) op = "sum";
+			var nn = $(this).attr("data-name");
+			if (nn) {
+				$("input[name='" + nn + "']").each(function() {
+					var s = $(this).val();
+					if (s) {
+						s = parseFloat(s);
+						if (s && op == "sum") sum += s;
+					}
+				});
+			}
+			$(this).text("" + sum);
+		});
+	},
 	button_enabled: function() {
 		$(".xbutton").each(function() {
 			var e = false, b = $(this);
@@ -501,6 +520,7 @@ Amel = {
 							var b = a.closest("tr"); 
 							var cmd = $(b).find(".cmd > input").val();
 							if (cmd != "add") $(b).find(".cmd > input").val("update");
+							target.calculate();
 							return false;
 						}
 					});
@@ -813,6 +833,7 @@ Amel = {
 						p = $(p).closest(".parent-popup");
 						var zz = $(p).find(".d-none > input[name$='p_cmd']");
 						if (!zz.val()) zz.val("update");
+						target.calculate();
 						var arr = data.p_column.split(";");
 						for (i=0; i<arr.length; i++) {
 							var tt = rn > 0 ?  $(source).find(".text-select:eq("+ i + ")").text() : "";
@@ -901,5 +922,6 @@ Amel = {
 			target.button_enabled();
 		});
 		target.button_enabled();
+		target.calculate();
 	}
 };
