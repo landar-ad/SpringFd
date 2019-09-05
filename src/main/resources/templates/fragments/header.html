@@ -236,6 +236,143 @@
 		   	</table>
 	 	</div>
 	</div>
+	<th:block th:fragment="spec_list">
+		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+           	<th:block th:with="w='32%',tt='label',vv='Спецификация'"><th th:replace="fragments/tc :: ch"></th></th:block>
+           	<th:block th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_spec'"><td th:replace="fragments/tc :: cd"></td></th:block>
+           	<th:block th:with="w='16%',tt='xbutton',vv='Исправить',ddco='update',ddta='list_spec'"><td th:replace="fragments/tc :: cd"></td></th:block>
+           	<th:block th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_spec'"><td th:replace="fragments/tc :: cd"></td></th:block>
+           	<td width="20%"></td>
+        </tr></tbody></table>
+        <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+       		<td class="d-none"></td>
+       		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+       		<th:block th:with="w='20%',tt='label',vv='КБК'"><td th:replace="fragments/tc :: cd"></td></th:block>
+       		<th:block th:with="w='20%',tt='label',vv='Сумма ББА (следующий год)'"><td th:replace="fragments/tc :: cd"></td></th:block>
+       		<th:block th:with="w='20%',tt='label',vv='Сумма ББА (первый год планового периода)'"><td th:replace="fragments/tc :: cd"></td></th:block>
+       		<th:block th:with="w='20%',tt='label',vv='Сумма ББА (второй год планового периода)'"><td th:replace="fragments/tc :: cd"></td></th:block>
+      		<td width="15%"></td>
+       	</tr></tbody></table>
+        <table id="list_spec" class="table table-sm table-edited table-bordered small"><tbody>
+           	<tr th:each="d : ${obj?.list_spec}">
+            	<td class="d-none">
+            		<input type="hidden" name="list_spec__rn" th:value="${d.rn}">
+       				<input type="hidden" name="list_spec__rnOld" th:value="${d.rn}">
+       				<input type="hidden" name="list_spec__clazz"value="Specification1">
+       				<input type="hidden" name="list_spec__p_add" value="new">
+       				<input type="hidden" name="list_spec__p_cmd" value="">
+            	</td>
+            	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__kbk',vv=${d.kbk},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__sum1',vv=${d.sum1},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__sum2',vv=${d.sum2},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__sum3',vv=${d.sum3},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<td width="15%"></td>
+           	</tr>
+           	<tr th:if="${rco!=1}" class="not-visible last-row">
+            	<td class="d-none">
+            		<input type="hidden" name="list_spec__rn" value="">
+			       	<input type="hidden" name="list_spec__rnOld" value="">
+			       	<input type="hidden" name="list_spec__clazz" value="Specification1">
+			       	<input type="hidden" name="list_spec__p_add" value="new">
+			       	<input type="hidden" name="list_spec__p_cmd" value="">
+            	</td>
+            	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__kbk',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__sum1',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__sum2',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<th:block th:with="w='20%',tt='text',nn='list_spec__sum3',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+            	<td width="15%"></td>
+           	</tr>
+       	</tbody></table>
+   	</th:block>
+	<th:block th:fragment="file_list">
+		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+        	<th:block th:with="w='32%',tt='label',vv='Прикрепленные файлы'"><th th:replace="fragments/tc :: ch"></th></th:block>
+        	<th:block th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_file'"><td th:replace="fragments/tc :: cd"></td></th:block>
+        	<th:block th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_file'"><td th:replace="fragments/tc :: cd"></td></th:block>
+        	<td width="36%"></td>
+        </tr></tbody></table>
+     	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+    		<td class="d-none"></td>
+    		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+    		<th:block th:with="w='45%',tt='label',vv='Имя файла'"><td th:replace="fragments/tc :: cd"></td></th:block>
+    		<th:block th:with="w='45%',tt='label',vv='Добавить/заменить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
+    		<th:block th:with="w='5%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
+    	</tr></tbody></table>
+        <table id="list_file" class="table table-sm table-edited table-bordered small"><tbody>
+        	<tr th:each="d : ${obj?.list_file}">
+	         	<td class="d-none">
+	         		<input type="hidden" name="list_file__rn" th:value="${d.rn}">
+	            	<input type="hidden" name="list_file__rnOld" th:value="${d.rn}">
+	            	<input type="hidden" name="list_file__clazz"value="IFile">
+	            	<input type="hidden" name="list_file__p_add" value="new">
+	            	<input type="hidden" name="list_file__p_cmd" value="">	
+	           	</td>
+	           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+	           	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=${d.filename}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='45%',tt='file',nn='list_file__fileuri',vv='Заменить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='5%',tt='anchor',vv=${'fileView?rn=' + d.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
+	       	</tr>
+	       	<tr th:if="${rco!=1}" class="not-visible last-row">
+	           	<td class="d-none">
+	           		<input type="hidden" name="list_file__rn" value="">
+	            	<input type="hidden" name="list_file__rnOld" value="">
+	            	<input type="hidden" name="list_file__clazz" value="IFile">
+	            	<input type="hidden" name="list_file__p_add" value="new">
+	            	<input type="hidden" name="list_file__p_cmd" value="">
+	           	</td>
+	           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+	           	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='45%',tt='file',nn='list_file__fileuri',vv='Добавить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
+	           	<td width="15%"></td>
+	       		</tr>
+	        </tbody></table>
+        </th:block>
+		<th:block th:fragment="mailing_list">
+		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+			<th:block th:with="w='32%',tt='label',vv='Список рассылки'"><th th:replace="fragments/tc :: ch"></th></th:block>
+			<th:block th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='mailing_list'"><td th:replace="fragments/tc :: cd"></td></th:block>
+			<th:block th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='mailing_list'"><td th:replace="fragments/tc :: cd"></td></th:block>
+			<td width="36%"></td>
+		</tr></tbody></table>
+		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+			<td class="d-none"></td>
+			<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+			<th:block th:with="w='45%',tt='label',vv='Кому'"><td th:replace="fragments/tc :: cd"></td></th:block>
+			<th:block th:with="w='45%',tt='label',vv='Структурное подразделение'"><td th:replace="fragments/tc :: cd"></td></th:block>
+			<th:block th:with="w='5%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
+		</tr></tbody></table>
+		<table id="mailing_list" class="table table-sm table-edited table-bordered small"><tbody>
+			<tr class="parent-popup" th:each="d : ${obj?.mailing_list}">
+				<td class="d-none">
+					<input type="hidden" name="mailing_list__rn" th:value="${d.rn}">
+					<input type="hidden" name="mailing_list__rnOld" th:value="${d.rn}">
+					<input type="hidden" name="mailing_list__clazz"value="IMailing">
+					<input type="hidden" name="mailing_list__p_add" value="new">
+					<input type="hidden" name="mailing_list__p_cmd" value="">
+				</td>
+	 			<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+				<th:block th:with="w='15%',tt='text',vv=${d.person?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	 			<th:block th:with="w='75%',tt='text',vv=${d.person?.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+				<th:block th:with="w='5%',tt='pbutton',nn1='mailing_list',nn2='person',vv=${d.person?.rn},ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+			</tr>
+			<tr th:if="${rco!=1}" class="parent-popup not-visible last-row">
+				<td class="d-none">
+					<input type="hidden" name="mailing_list__rn" value="">
+					<input type="hidden" name="mailing_list__rnOld" value="">
+					<input type="hidden" name="mailing_list__clazz"value="IMailing">
+					<input type="hidden" name="mailing_list__p_add" value="new">
+					<input type="hidden" name="mailing_list__p_cmd" value="">
+				</td>
+				<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+				<th:block th:with="w='15%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+				<th:block th:with="w='75%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+				<th:block th:with="w='5%',tt='pbutton',nn1='mailing_list', nn2='person',vv='',ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+			</tr>
+		</tbody></table>
+	</th:block>
 	<div th:fragment="modal" class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
     <div th:fragment="visible" class="modal" tabindex="-1" role="dialog" style="height: 90%;">
 		<div class="modal-dialog" role="document">
