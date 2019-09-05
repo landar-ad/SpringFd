@@ -35,7 +35,7 @@ public class Specification1 extends IBase {
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
     
     public static String singleTitle() { return "Спецификация уведомления о базовых БА (200 и 400 группы ВР)"; }
-	public static String multipleTitle() { return "Спецификации уведомления о базовых БА (200 и 400 группы ВР)"; }
+	public static String multipleTitle() { return "Спецификации уведомлений о базовых БА (200 и 400 группы ВР)"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("kbk", "КБК"));
