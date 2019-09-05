@@ -86,7 +86,31 @@ Amel = {
 					clazz: clazz
 				},
 				success: function(result) {
-					
+					var div = $('<div></div>');
+					div.html(result);
+					var zz = $(div).find(".text-select");
+					if (zz.length > 1) {
+						$('.modal').html(div.find('.modal').html());
+						$(".modal").modal();
+						$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
+						$(".modal-body").css("overflow-y", "auto");
+						target.set_header_width($('.modal').find("table"), true);
+						target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
+							clazz = "";
+							$(".modal").find("table tbody tr").each(function() {
+								var cl = $(this).find(".d-none").first().text();
+								var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
+								if (c) {
+									clazz = cl; 
+									return false;
+								}
+							});
+							if (clazz) {
+								window.location = "detailsObj?clazz=" + clazz;
+							}
+						});
+					}
+					window.location = "detailsObj?clazz=" + clazz;
 				},
 				error: function() {
 				}
