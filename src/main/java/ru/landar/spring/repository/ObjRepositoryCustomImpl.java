@@ -435,14 +435,11 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	public String getClassByKey(Object pk) {
 		if (!(pk instanceof Integer)) return null;
 		Integer rn = (Integer)pk;
-		Class<IBase> cl = IBase.class;
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<IBase> query = (CriteriaQuery<IBase>)cb.createQuery(cl);
-		Root<IBase> f = (Root<IBase>)query.from(cl);
-		query.select(f).where(cb.equal(f.get("rn"), rn));
-		IBase obj = null;
-		try { obj = em.createQuery(query).getSingleResult(); } catch (Exception ex) { }
-		return obj != null ? obj.getClazz() : null;
+		CriteriaQuery<String> query = (CriteriaQuery<String>)cb.createQuery(String.class);
+		Root<IBase> f = (Root<IBase>)query.from(IBase.class);
+		query.select(f.get("clazz")).where(cb.equal(f.get("rn"), rn));
+		return em.createQuery(query).getSingleResult();
 	}
 	@Override
 	public Object executeItem(Object obj, String listAttr, String cmd, String clazzItem, Integer rnItem, boolean bNew) throws Exception {
