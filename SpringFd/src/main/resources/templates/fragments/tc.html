@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	<th th:fragment="ch" th:width="${w}" th:class="$(aa=='c' ? 'td-center' : (aa=='r' ? 'td-right' : 'td-left'))">
+	<th th:fragment="ch" th:width="${w}" th:class="${#strings.equals(aa,'c') ? 'td-center' : (#strings.equals(aa,'r') ? 'td-right' : 'td-left')}">
 		<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
 	</th>
 	<td th:fragment="check" class="td-edited td-center" th:width="${w}">
@@ -13,18 +13,18 @@
 			<input type="checkbox" th:checked="${vv}==true" disabled>
 		</th:block>		
 	</td>
-	<td th:fragment="cr" th:width="${w}" th:class="$(aa=='c' ? 'td-center' : (aa=='r' ? 'td-right' : 'td-left'))">
+	<td th:fragment="cr" th:width="${w}" th:class="${#strings.equals(aa,'c') ? 'td-center' : (#strings.equals(aa,'r') ? 'td-right' : 'td-left')}">
 		<th:block th:if="${tt=='anchor'}">
-			<a class="td-button btn btn-sm btn-light" th:href="${vv}"><i class="fa fa-file"></i></a>
+			<a class="td-button btn btn-sm btn-light" th:href="${vv}"><i class="fa fa-sm fa-file"></i></a>
 		</th:block>
 		<th:block th:if="${tt=='label'}">
-			<label th:text="${vv}"></label>
+			<label class="td-label"th:text="${vv}"></label>
 		</th:block>
 		<th:block th:if="${tt=='calc'}">
-			<label class="td-calc" th:text="${vv}" th:data-name="${ddnn}" th:data-op="${ddoo}"></label>
+			<label class="td-calc td-label" th:text="${vv}" th:data-name="${ddnn}" th:data-op="${ddoo}"></label>
 		</th:block>
 	</td>
-	<td th:fragment="cd" class="td-edited" th:width="${w}" th:class="$(aa=='c' ? 'td-center' : (aa=='r' ? 'td-right' : 'td-left'))">
+	<td th:fragment="cd" th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : ' td-left'))}">
 		<th:block th:if="${tt=='label'}">
 			<label th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
 		</th:block>

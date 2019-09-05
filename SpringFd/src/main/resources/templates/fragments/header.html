@@ -284,7 +284,7 @@
            	</tr>
        	</tbody></table>
        	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-       		<th:block th:with="w='25%',tt='label',vv='ИТОГО',aa='l'"><td th:replace="fragments/tc :: cr"></td></th:block>
+       		<th:block th:with="w='25%',tt='label',vv='ИТОГО',aa='l'"><th th:replace="fragments/tc :: ch"></th></th:block>
        		<th:block th:with="w='20%',tt='calc',ddoo='sum',ddnn='list_spec__sum1',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
        		<th:block th:with="w='20%',tt='calc',ddoo='sum',ddnn='list_spec__sum2',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
        		<th:block th:with="w='20%',tt='calc',ddoo='sum',ddnn='list_spec__sum3',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
@@ -346,7 +346,7 @@
            	</tr>
        	</tbody></table>
        	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-       		<th:block th:with="w='35%',tt='label',vv='ИТОГО',aa='l'"><td th:replace="fragments/tc :: cr"></td></th:block>
+       		<th:block th:with="w='35%',tt='label',vv='ИТОГО',aa='l'"><th th:replace="fragments/tc :: ch"></th></th:block>
        		<th:block th:with="w='15%',tt='calc',ddoo='sum',ddnn='list_spec__sum1',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
        		<th:block th:with="w='15%',tt='calc',ddoo='sum',ddnn='list_spec__sum2',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
        		<th:block th:with="w='15%',tt='calc',ddoo='sum',ddnn='list_spec__sum3',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
@@ -405,7 +405,7 @@
            	</tr>
        	</tbody></table>
        	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
-       		<th:block th:with="w='35%',tt='label',vv='ИТОГО',aa='l'"><td th:replace="fragments/tc :: cr"></td></th:block>
+       		<th:block th:with="w='35%',tt='label',vv='ИТОГО',aa='l'"><th th:replace="fragments/tc :: ch"></th></th:block>
        		<th:block th:with="w='15%',tt='calc',ddoo='sum',ddnn='list_spec__sum1',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
        		<th:block th:with="w='15%',tt='calc',ddoo='sum',ddnn='list_spec__sum2',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
        		<th:block th:with="w='15%',tt='calc',ddoo='sum',ddnn='list_spec__sum3',aa='c'"><td th:replace="fragments/tc :: cr"></td></th:block>
@@ -429,8 +429,8 @@
 	           	</td>
 	           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 	           	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=${d.filename}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	           	<th:block th:with="w='45%',tt='file',nn='list_file__fileuri',vv='Заменить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
-	           	<th:block th:with="w='5%',tt='anchor',vv=${'fileView?rn=' + d.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
+	           	<th:block th:with="w='46%',tt='file',nn='list_file__fileuri',vv='Заменить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='4%',tt='anchor',vv=${'fileView?rn=' + d.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
 	       	</tr>
 	       	<tr th:if="${rco!=1}" class="not-visible last-row">
 	           	<td class="d-none">
@@ -441,9 +441,8 @@
 	           	</td>
 	           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 	           	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-	           	<th:block th:with="w='45%',tt='file',nn='list_file__fileuri',vv='Добавить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
-	           	<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
-	           	<td width="15%"></td>
+	           	<th:block th:with="w='46%',tt='file',nn='list_file__fileuri',vv='Добавить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
 	    	</tr>
         </tbody></table>
     </th:block>
@@ -464,8 +463,8 @@
 				</td>
 	 			<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 				<th:block th:with="w='15%',tt='text',vv=${d.person?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	 			<th:block th:with="w='75%',tt='text',vv=${d.person?.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-				<th:block th:with="w='5%',tt='pbutton',nn1='mailing_list',nn2='person',vv=${d.person?.rn},ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+	 			<th:block th:with="w='76%',tt='text',vv=${d.person?.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+				<th:block th:with="w='4%',tt='pbutton',nn1='mailing_list',nn2='person',vv=${d.person?.rn},ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 			</tr>
 			<tr th:if="${rco!=1}" class="parent-popup not-visible last-row">
 				<td class="d-none">
@@ -476,8 +475,8 @@
 				</td>
 				<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 				<th:block th:with="w='15%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-				<th:block th:with="w='75%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-				<th:block th:with="w='5%',tt='pbutton',nn1='mailing_list', nn2='person',vv='',ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+				<th:block th:with="w='76%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+				<th:block th:with="w='4%',tt='pbutton',nn1='mailing_list', nn2='person',vv='',ddcl='IPerson',ddti='Выберите сотрудника',ddco='name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 			</tr>
 		</tbody></table>
 	</th:block>
