@@ -94,6 +94,13 @@ Amel = {
 						$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 						$(".modal-body").css("overflow-y", "auto");
 						target.set_header_width($('.modal').find("table"), true);
+						$(".modal").find("#" + target.saveButtonId).prop("disabled", true);
+						target.add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
+							var p = $(this).prop("checked");
+							$(".check-select > input[type='checkbox']").prop("checked", false);
+							$(this).prop("checked", p);
+							$(".modal").find("#" + target.saveButtonId).prop("disabled", !p);
+						});
 						target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
 							clazz = "";
 							$(".modal").find("table tbody tr").each(function() {
