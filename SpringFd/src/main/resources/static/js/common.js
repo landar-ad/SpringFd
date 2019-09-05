@@ -355,16 +355,14 @@ Amel = {
 				var c = tr.find(".td-edited .td-check").prop("checked");
 				if (!c) return;
 				var rn = tr.find("input[name='" + targetId + "__rn']").val();
-				var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
-				if (!rn || !clazz) return;
-				$.ajax({ method: "GET", url: "detailsObj?clazz=" + clazz + "&rn=" + rn, 
+				if (!rn) return;
+				$.ajax({ method: "GET", url: "detailsObj?rn=" + rn, 
 					success: function(result) {
 						var div = $('<div></div>');
 						div.html(result);
-						$('.modal').html(div.find('.modal').html());
+						$('.modal').html(div.find('.table-modal').html());
 						target.edit_init();
 						$(".modal").modal();
-						$(".modal").css({ "left": ((($(window).width() - $(".modal").outerWidth()) / 2) + $(window).scrollLeft() + "px") });
 						target.add_on($(".modal #cancelButton"), "click", function() {
 							$(".modal").modal('hide');
 							return false;
@@ -435,8 +433,7 @@ Amel = {
 					c.each(function() {
 						var tr = c.closest("tr");
 						var rn = tr.find("input[name='" + targetId + "__rn']").val();
-						var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
-						if (rn && clazz) {
+						if (rn) {
 							e = true;
 							return false;
 						}						
