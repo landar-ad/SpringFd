@@ -364,6 +364,7 @@ Amel = {
 						$('.modal').html(div.find('.modal').html());
 						target.edit_init();
 						$(".modal").modal();
+						$(".modal").css({ "left": ((($(window).width() - $(".modal").outerWidth()) / 2) + $(window).scrollLeft() + "px") });
 						target.add_on($(".modal #cancelButton"), "click", function() {
 							$(".modal").modal('hide');
 							return false;
