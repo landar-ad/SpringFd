@@ -626,9 +626,8 @@ public class ObjController {
 		List<Voc> listVoc = new ArrayList<Voc>();
 		Class<?>[] classes = hs.getAllClasses();
 		for (Class<?> cl : classes) {
-			String clazz = cl.getSimpleName();
-			if (!clazz.startsWith("Sp")) continue;
-			listVoc.add(new Voc(clazz, (String)hs.invoke(cl, "singleTitle")));
+			if (!(Boolean)hs.invoke(cl, "isVoc")) continue;
+			listVoc.add(new Voc(cl.getSimpleName(), (String)hs.invoke(cl, "singleTitle")));
 		}
 		model.addAttribute("listObj", new PageImpl<Voc>(listVoc));
 		setMainModel(model, "Справочники системы");
