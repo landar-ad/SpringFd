@@ -126,7 +126,6 @@ Amel = {
 		var url = "detailsObj";
 		if (op=="remove") url = "removeObj";
 		if (op=="execute") url = "executeObj";
-		url += "?clazz=" + clazz;
 		if (rn > 0) url += "&rn=" + rn;
 		if (op=="view") url += "&readonly=1";
 		if (op=="execute") url += "&param=" + param;
@@ -419,57 +418,66 @@ Amel = {
 				if (!c) return;
 				var rn = tr.find("input[name='" + targetId + "__rn']").val();
 				if (!rn) return;
-				$.ajax({ method: "GET", url: "detailsObj?rn=" + rn, 
+				$.ajax({ method: "GET", url: "popupEdit", 
 					success: function(result) {
 						var div = $('<div></div>');
 						div.html(result);
-						$('.modal').html(div.find('.table-modal').html());
-						target.edit_init();
-						$(".modal").modal();
-						target.add_on($(".modal #cancelButton"), "click", function() {
-							$(".modal").modal('hide');
-							return false;
+						$('.modal').html(div.find('.modal').html());
+						$.ajax({ method: "GET", url: "detailsObj?rn=" + rn, 
+							success: function(result) {
+								var div = $('<div></div>');
+								div.html(result);
+								$('.modal-body').html(div.find('.table-modal').html());
+								target.edit_init();
+								$(".modal").modal();
+								target.add_on($(".modal #cancelButton"), "click", function() {
+									$(".modal").modal('hide');
+									return false;
+								});
+								target.add_on($(".modal #submitButton"), "click", function() {
+									var form = $(".modal").find("form");
+									$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+										success: function(result) {
+											var div = $('<div></div>');
+											div.html(result);
+											var src = null, dest = null;
+											var tableDest = $("#" + targetId);
+											tableDest.find("tr").each(function() {
+												var tr = $(this);
+												if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+													dest = tr;
+													return false;
+												}
+											});
+											var tableSrc = div.find("#" + targetId);
+											tableSrc.find("tr").each(function() {
+												var tr = $(this);
+												if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+													src = tr;
+													return false;
+												}
+											});
+											if (dest && src) dest.html(src.html());
+											target.edit_init();
+											var table = $("#" + targetId);
+											table.find("tr").each(function() {
+												var tr = $(this);
+												if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+													tr.find(".td-edited .td-check]").prop("checked", true);
+												}
+											});
+										},
+										error: function(result) {
+										}
+									});
+									$(".modal").modal('hide');
+									return false;
+								});
+								target.table_edit($(".modal").find(".td-edited").first());
+							},
+							error: function() {
+							} 
 						});
-						target.add_on($(".modal #submitButton"), "click", function() {
-							var form = $(".modal").find("form");
-							$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
-								success: function(result) {
-									var div = $('<div></div>');
-									div.html(result);
-									var src = null, dest = null;
-									var tableDest = $("#" + targetId);
-									tableDest.find("tr").each(function() {
-										var tr = $(this);
-										if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-											dest = tr;
-											return false;
-										}
-									});
-									var tableSrc = div.find("#" + targetId);
-									tableSrc.find("tr").each(function() {
-										var tr = $(this);
-										if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-											src = tr;
-											return false;
-										}
-									});
-									if (dest && src) dest.html(src.html());
-									target.edit_init();
-									var table = $("#" + targetId);
-									table.find("tr").each(function() {
-										var tr = $(this);
-										if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-											tr.find(".td-edited .td-check]").prop("checked", true);
-										}
-									});
-								},
-								error: function(result) {
-								}
-							});
-							$(".modal").modal('hide');
-							return false;
-						});
-						target.table_edit($(".modal").find(".td-edited").first());
 					},
 					error: function() {
 					} 

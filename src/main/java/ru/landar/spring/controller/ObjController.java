@@ -497,14 +497,16 @@ public class ObjController {
 	}
 	@RequestMapping(value = "/executeObj", method = RequestMethod.GET)
 	public String executeObj(@RequestParam("rn") Optional<Integer> rnParam, 
-							 @RequestParam("clazz") String clazz,
+							 @RequestParam("clazz") Optional<String> clazzParam,
 							 @RequestParam("param") String param,
 							 HttpServletRequest request,
 							 Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
+		Integer rn = rnParam.orElse(null);
+		String clazz = clazzParam.orElse(null);
+		if (hs.isEmpty(clazz) && rn != null) clazz = objService.getClassByKey(rn);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
-		Integer rn = rnParam.orElse(null);
 		Object obj = rn != null ? objService.find(cl, rn) : null;
 		if (rn != null && obj == null) throw new Exception("Не найден объект по имени класса '" + clazz + "' с идентификатором " + rn);
 		if (obj == null) obj = cl.newInstance();
