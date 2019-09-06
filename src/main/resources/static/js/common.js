@@ -126,7 +126,7 @@ Amel = {
 		var url = "detailsObj";
 		if (op=="remove") url = "removeObj";
 		if (op=="execute") url = "executeObj";
-		if (rn > 0) url += "&rn=" + rn;
+		if (rn > 0) url += "?rn=" + rn;
 		if (op=="view") url += "&readonly=1";
 		if (op=="execute") url += "&param=" + param;
 		window.location = url;
