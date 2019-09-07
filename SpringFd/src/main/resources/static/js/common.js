@@ -435,18 +435,26 @@ Amel = {
 				var c = tr.find(".td-edited .td-check").prop("checked");
 				if (!c) return;
 				var rn = tr.find("input[name='" + targetId + "__rn']").val();
-				if (!rn) return;
+				var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
+				if (!rn && !clazz) return;
+				var div = null;
 				$.ajax({ method: "GET", url: "popupEdit", 
 					success: function(result) {
-						var div = $('<div></div>');
+						div = $('<div></div>');
 						div.html(result);
 						$.ajax({ method: "GET", url: "detailsObj?rn=" + rn, 
 							success: function(result) {
 								var modal = target.get_modal();
 								modal.html(div.find('.modal').html());
-								var div = $('<div></div>');
+								div = $('<div></div>');
 								div.html(result);
 								modal.find(".modal-body").html(div.find('.table-modal').html());
+								tr.find("input[name^='" + targetId + "__']").each(function() {
+									var name = $(this).attr("name");
+									var k = name.indexOf("__");
+									if (k > 0) name = name.substring(k + 2);
+									modal.find("input[name='" + name + "']").val($(this).val());
+								});
 								target.edit_init();
 								modal.modal();
 								target.add_on(modal.find("cancel-button"), "click", function() {
@@ -454,41 +462,45 @@ Amel = {
 									return false;
 								});
 								target.add_on(modal.find(".submit-button"), "click", function() {
-									var form = modal.find("form");
-									$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
-										success: function(result) {
-											var div = $('<div></div>');
-											div.html(result);
-											var src = null, dest = null;
-											var tableDest = $("#" + targetId);
-											tableDest.find("tr").each(function() {
-												var tr = $(this);
-												if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-													dest = tr;
-													return false;
-												}
-											});
-											var tableSrc = div.find("#" + targetId);
-											tableSrc.find("tr").each(function() {
-												var tr = $(this);
-												if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-													src = tr;
-													return false;
-												}
-											});
-											if (dest && src) dest.html(src.html());
-											target.edit_init();
-											var table = $("#" + targetId);
-											table.find("tr").each(function() {
-												var tr = $(this);
-												if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-													tr.find(".td-edited .td-check]").prop("checked", true);
-												}
-											});
-										},
-										error: function(result) {
-										}
-									});
+									if (rn) {
+										var form = modal.find("form");
+										$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+											success: function(result) {
+												var div = $('<div></div>');
+												div.html(result);
+												var src = null, dest = null;
+												var tableDest = $("#" + targetId);
+												tableDest.find("tr").each(function() {
+													var tr = $(this);
+													if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+														dest = tr;
+														return false;
+													}
+												});
+												var tableSrc = div.find("#" + targetId);
+												tableSrc.find("tr").each(function() {
+													var tr = $(this);
+													if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
+														src = tr;
+														return false;
+													}
+												});
+												if (dest && src) dest.html(src.html());
+												target.edit_init();
+												if (dest) dest.find(".td-edited .td-check]").prop("checked", true);
+											},
+											error: function(result) {
+											}
+										});
+									}
+									else {
+										tr.find("input[name^='" + targetId + "__']").each(function() {
+											var name = $(this).attr("name");
+											var k = name.indexOf("__");
+											if (k > 0) name = name.substring(k + 2);
+											$(this).val(div.find("input[name='" + name + "']").val());
+										});
+									}
 									modal.modal('hide');
 									return false;
 								});
@@ -550,7 +562,8 @@ Amel = {
 					c.each(function() {
 						var tr = c.closest("tr");
 						var rn = tr.find("input[name='" + targetId + "__rn']").val();
-						if (rn) {
+						var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
+						if (rn || clazz) {
 							e = true;
 							return false;
 						}						
