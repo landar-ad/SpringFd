@@ -440,13 +440,12 @@ Amel = {
 					success: function(result) {
 						var div = $('<div></div>');
 						div.html(result);
-						var modal = target.get_modal();
-						modal.html(div.find('.modal').html());
 						$.ajax({ method: "GET", url: "detailsObj?rn=" + rn, 
 							success: function(result) {
+								var modal = target.get_modal();
+								modal.html(div.find('.modal').html());
 								var div = $('<div></div>');
 								div.html(result);
-								var modal = target.get_modal();
 								modal.find(".modal-body").html(div.find('.table-modal').html());
 								target.edit_init();
 								modal.modal();
