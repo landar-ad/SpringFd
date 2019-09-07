@@ -18,10 +18,24 @@ Amel = {
 	findButtonId: "findButton",
 	// Кнопка изменения видимости колонок
 	setVisibleId: "set-visible",
-	// Кнопка сохранения всплывающего окна
-	saveButtonId: "save-button",
+	// Стек элементов для модального диалога
+	modalStack: [],
 	// Добавление обработчика (отвязать старый и привязать новый)
 	add_on: function(s, e, f) { s.unbind(e); s.on(e, f); },
+	get_modal: function() {
+		var ret = this.modalStack.length > 0 ? modalStack.pop() : null;
+		if (!ret) {
+			ret = document.createElement("div");
+			$(ret).addClass("modal");
+			document.body.appendChild(ret);
+			ret = $(ret);
+		}
+		return ret;
+	},
+	put_modal: function(modal) {
+		if (!modal) return;
+		this.modalStack.push(modal);
+	},
 	// Добавление обработчика: после выбора файла показать его имя 
 	file_on: function() {
 		this.add_on($('.custom-file-input'), "change", function() { 
@@ -89,21 +103,22 @@ Amel = {
 					div.html(result);
 					var zz = $(div).find(".text-select");
 					if (zz.length > 1) {
-						$('.modal').html(div.find('.modal').html());
-						$(".modal").modal();
-						$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
-						$(".modal-body").css("overflow-y", "auto");
-						target.set_header_width($('.modal').find("table"), true);
-						$(".modal").find("#" + target.saveButtonId).prop("disabled", true);
-						target.add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
+						var modal = target.get_modal();
+						modal.html(div.find('.modal').html());
+						modal.modal();
+						modal.find(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
+						modal.find(".modal-body").css("overflow-y", "auto");
+						target.set_header_width(modal.find("table"), true);
+						modal.find(".save-button").prop("disabled", true);
+						target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {
 							var p = $(this).prop("checked");
-							$(".check-select > input[type='checkbox']").prop("checked", false);
+							modal.find(".check-select > input[type='checkbox']").prop("checked", false);
 							$(this).prop("checked", p);
-							$(".modal").find("#" + target.saveButtonId).prop("disabled", !p);
+							modal.find(".save-button").prop("disabled", !p);
 						});
-						target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
+						target.add_on(modal.find(".save-button"), "click", function() {
 							clazz = "";
-							$(".modal").find("table tbody tr").each(function() {
+							modal.find("table tbody tr").each(function() {
 								var cl = $(this).find(".d-none").first().text();
 								var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 								if (c) {
@@ -114,6 +129,9 @@ Amel = {
 							if (clazz) {
 								window.location = "detailsObj?clazz=" + clazz;
 							}
+						});
+						target.add_on(modal, "hidden.bs.modal", function (e) {
+							  target.put_modal(modal);
 						});
 					}
 					else window.location = "detailsObj?clazz=" + clazz;
@@ -422,20 +440,22 @@ Amel = {
 					success: function(result) {
 						var div = $('<div></div>');
 						div.html(result);
-						$('.modal').html(div.find('.modal').html());
+						var modal = target.get_modal();
+						modal.html(div.find('.modal').html());
 						$.ajax({ method: "GET", url: "detailsObj?rn=" + rn, 
 							success: function(result) {
 								var div = $('<div></div>');
 								div.html(result);
-								$('.modal-body').html(div.find('.table-modal').html());
+								var modal = target.get_modal();
+								modal.find(".modal-body").html(div.find('.table-modal').html());
 								target.edit_init();
-								$(".modal").modal();
-								target.add_on($(".modal #cancelButton"), "click", function() {
-									$(".modal").modal('hide');
+								modal.modal();
+								target.add_on(modal.find("cancel-button"), "click", function() {
+									modal.modal('hide');
 									return false;
 								});
-								target.add_on($(".modal #submitButton"), "click", function() {
-									var form = $(".modal").find("form");
+								target.add_on(modal.find(".submit-button"), "click", function() {
+									var form = modal.find("form");
 									$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
 										success: function(result) {
 											var div = $('<div></div>');
@@ -470,10 +490,13 @@ Amel = {
 										error: function(result) {
 										}
 									});
-									$(".modal").modal('hide');
+									modal.modal('hide');
 									return false;
 								});
-								target.table_edit($(".modal").find(".td-edited").first());
+								target.add_on(modal, "hidden.bs.modal", function (e) {
+									  target.put_modal(modal);
+								});
+								target.table_edit(modal.find(".td-edited").first());
 							},
 							error: function() {
 							} 
@@ -557,13 +580,14 @@ Amel = {
 			success: function(result) {
 				var div = $('<div></div>');
 				div.html(result);
-				$('.modal').html(div.find('.modal').html());
-				$(".modal").modal();
-				$(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
-				$(".modal-body").css("overflow-y", "auto");
-				target.set_header_width($('.modal').find("table"), true);
-				target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
-					$(".modal").find("table tbody tr").each(function() {
+				var modal = target.get_modal();
+				modal.html(div.find(".modal").html());
+				modal.modal();
+				modal.find(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
+				modal.find(".modal-body").css("overflow-y", "auto");
+				target.set_header_width(modal.find("table"), true);
+				target.add_on(modal.find(".save-button"), "click", function() {
+					modal.find("table tbody tr").each(function() {
 						var rn = $(this).find(".d-none").first().text();
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						var t = $(this).find(".text-select").text();
@@ -577,6 +601,9 @@ Amel = {
 							return false;
 						}
 					});
+				});
+				target.add_on(modal, "hidden.bs.modal", function (e) {
+					  target.put_modal(modal);
 				});
 			},
 			error: function() {
@@ -621,9 +648,9 @@ Amel = {
 		return ph;
 	},
 	// Скроллинг к выбранному элементу
-	scrollTo: function() {
-		var a = $(".modal").find("table tbody");
-		$(".modal").find('table tbody tr').each(function() {
+	scrollTo: function(e) {
+		var a = e.find("table tbody");
+		e.find('table tbody tr').each(function() {
 			var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 			if (c) {
 				var off = $(this).offset().top - a.offset().top;
@@ -762,30 +789,43 @@ Amel = {
 		});
 		// Колонки
 		target.add_on($("#" + target.setVisibleId), "click", function() {
-			$(".modal").modal();
-			var h = $(".modal").outerHeight(true);
-			var a = $(".modal").find("table tbody");
-			a.outerHeight(h / 2);
-			$(".modal").find("table tbody").css("overflow-y", "auto");
-			$(".modal").outerWidth($(document.body).outerWidth() / 4);
-			$(".modal").css({ "left": ((($(window).width() - a.outerWidth()) / 2) + $(window).scrollLeft() + "px") });
-			target.set_header_width($(".modal").find("table"));
-		});
-		target.add_on($(".modal").find(".td-visible"), "click", function() { 
-			$(this).text($(this).text() == "да" ? "нет" : "да"); 
-		});
-		target.add_on($("#" + target.saveButtonId), "click", function() {
-			var v = "";
-			$(".modal").find("table tbody tr").each(function() {
-				if ($(this).find(".td-visible").first().text() == "да") {
-					if (v) v += ",";
-					v += $(this).find(".d-none").first().text();
+			$.ajax({ method: "GET", url: "popupVisible", 
+				success: function(result) {
+					var div = $('<div></div>');
+					div.html(result);
+					var modal = target.get_modal();
+					modal.html(div.find('.modal').html());
+					modal.modal();
+					var h = modal.outerHeight(true);
+					var a = modal.find("table tbody");
+					a.outerHeight(h / 2);
+					modal.find("table tbody").css("overflow-y", "auto");
+					modal.outerWidth($(document.body).outerWidth() / 4);
+					modal.css({ "left": ((($(window).width() - a.outerWidth()) / 2) + $(window).scrollLeft() + "px") });
+					target.set_header_width($(".modal").find("table"));
+					target.add_on(modal.find(".td-visible"), "click", function() { 
+						$(this).text($(this).text() == "да" ? "нет" : "да"); 
+					});
+					target.add_on(modal.find(".save-button"), "click", function() {
+						var v = "";
+						modal.find("table tbody tr").each(function() {
+							if ($(this).find(".td-visible").first().text() == "да") {
+								if (v) v += ",";
+								v += $(this).find(".d-none").first().text();
+							}
+						});
+						$("input[name='p_listVisible']").val(v);
+						target.form_submit();
+						$("input[name='p_listVisible']").val("");
+					});	
+					target.add_on(modal, "hidden.bs.modal", function() {
+						target.put_modal(modal);
+					});
+				},
+				error: function() {
 				}
 			});
-			$("input[name='p_listVisible']").val(v);
-			target.form_submit();
-			$("input[name='p_listVisible']").val("");
-		});	
+		});
 		// Установка размера колонок - предварительно последнюю увеличиваем для скроллинга
 		$("#" + target.tableId).find("tbody td:last-child").first().each(function() {
 			var w = $(this).outerWidth(true) + target.scroll_bar_size().width;
@@ -859,21 +899,22 @@ Amel = {
 					var div = $('<div></div>');
 					div.html(result);
 					if (div.find('.modal').length == 0) return;
-					$(".modal").html(div.find('.modal').html());
-					$(".modal").modal();
-					var h = $(".modal").outerHeight(true);
-					var a = $(".modal").find("table tbody");
+					var modal = target.get_modal();
+					modal.html(div.find('.modal').html());
+					modal.modal();
+					var h = modal.outerHeight(true);
+					var a = modal.find("table tbody");
 					a.outerHeight(h / 2);
-					target.set_header_width($(".modal").find("table"), true);
-					target.scrollTo();
-					target.add_on($(".modal").find(".check-select > input[type='checkbox']"), "change", function() {
+					target.set_header_width(modal.find("table"), true);
+					target.scrollTo(modal);
+					target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {
 						var p = $(this).prop("checked");
-						if (!multiple) $(".check-select > input[type='checkbox']").prop("checked", false);
+						if (!multiple) modal.find(".check-select > input[type='checkbox']").prop("checked", false);
 						$(this).prop("checked", p);
 					});
-					target.add_on($(".modal").find("#" + target.saveButtonId), "click", function() {
+					target.add_on(modal.find(".save-button"), "click", function() {
 						var rn = "", source = null;
-						$('.modal').find("table tbody tr").each(function() {
+						modal.find("table tbody tr").each(function() {
 							var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 							if (c) {
 								rn = $(this).find(".d-none").first().text();
@@ -895,13 +936,13 @@ Amel = {
 							if (oo.length == 0) $(p).find("input:eq(" + i + ")").val(tt);
 						}
 					});
-					target.add_on($(".modal").find(".filter-popup"), "input", function() {
+					target.add_on(modal.find(".filter-popup"), "input", function() {
 						var t = $(this);
-						$(".modal").find("table tbody tr").show();
+						modal.find("table tbody tr").show();
 						var tt = t.val();
 						if (tt) {
 							tt = tt.toLowerCase();
-							$(".modal").find("table tbody tr").each(function() {
+							modal.find("table tbody tr").each(function() {
 								var b = false;
 								$(this).find("td").each(function() {
 									var ttt = $(this).text();
@@ -916,7 +957,10 @@ Amel = {
 								if (!b) $(this).hide(); 
 							});
 						}
-						target.scrollTo();
+						target.scrollTo(modal);
+					});
+					target.add_on(modal, "hidden.bs.modal", function() {
+						target.put_modal(modal);
 					});
 				},
 				error: function() {

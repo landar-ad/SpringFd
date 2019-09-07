@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<div class="modal" tabindex="-1" role="dialog" style="height: 90%;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Определение колонок таблицы</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table-fixed table table-sm table-striped table-light table-bordered small">
+						<thead>
+							<tr>
+								<th class="d-none"></th>
+								<th>Наименование</th>
+								<th>Видимость</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="col : ${listColumnAll}">
+								<td class="d-none" th:text="${col.name}"></td>
+								<td th:text="${col.title}"></td>
+								<td class="td-visible pointer" th:text="${col.visible ? 'да' : 'нет'}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="save-button btn btn-sm btn-light" data-dismiss="modal">Сохранить</button>
+					<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</div>

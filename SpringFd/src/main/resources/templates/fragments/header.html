@@ -96,10 +96,10 @@
   	</div>
 	<div th:fragment="details-buttons" class="row small col-sm-12">
 		<div class="btn-group">
-            <button id="submitButton" th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
-            <a id="cancelButton" th:if="${p_ret=='search'}" th:href="${'search?p_ret=1}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
-            <a id="cancelButton" th:if="${p_ret!='search' && prn==null}" th:href="${'listObj?p_ret=1&clazz=' + obj.clazz + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
-            <a id="cancelButton" th:if="${p_ret!='search' && prn!=null}" th:href="${'detailsObj?rn=' + prn}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+            <button id="submitButton" th:if="${readonly!=true}" class="submit-button btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+            <a id="cancelButton" th:if="${p_ret=='search'}" th:href="${'search?p_ret=1}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+            <a id="cancelButton" th:if="${p_ret!='search' && prn==null}" th:href="${'listObj?p_ret=1&clazz=' + obj.clazz + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+            <a id="cancelButton" th:if="${p_ret!='search' && prn!=null}" th:href="${'detailsObj?rn=' + prn}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		</div>
 	</div>
 	<div th:fragment="details-header" class="col-sm-12 card-header"><h5 th:text="${p_title}"></h5></div>
@@ -669,40 +669,6 @@
 		</tbody></table>
 	</th:block>
 	<div th:fragment="modal" class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
-    <div th:fragment="visible" class="modal" tabindex="-1" role="dialog" style="height: 90%;">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Определение колонок таблицы</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<table class="table-fixed table table-sm table-striped table-light table-bordered small">
-						<thead>
-							<tr>
-								<th class="d-none"></th>
-								<th>Наименование</th>
-								<th>Видимость</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="col : ${listColumnAll}">
-								<td class="d-none" th:text="${col.name}"></td>
-								<td th:text="${col.title}"></td>
-								<td class="td-visible pointer" th:text="${col.visible ? 'да' : 'нет'}"></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button id="save-button" type="button" class="btn btn-sm btn-light" data-dismiss="modal">Сохранить</button>
-					<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	<footer th:fragment="details-footer">
 		<div class="c-footer">		
     		<small th:if="${hs!=null && hs.propertyExists(obj,'modifier')}" th:text="${'Изменен: ' + obj.modifier + ', дата/время: ' + #dates.format(obj.mdate,'dd.MM.yyyy HH:mm:ss')}"></small>
