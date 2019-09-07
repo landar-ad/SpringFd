@@ -36,6 +36,16 @@ public class PopupController {
 		model.addAttribute("p_title", pTitleParam.orElse("Редактирование"));
 		return "popupEdit";
 	}
+	@RequestMapping(value = "/popupVisible")
+	public String popupVisible(@RequestParam("clazz") String clazz,
+							HttpServletRequest request, 
+							Model model) throws Exception {
+		Class<?> cl = hs.getClassByName(clazz);
+		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
+		Object obj = cl.newInstance();
+		model.addAttribute("listColumnAll", (List<ColumnInfo>)hs.invoke(obj, "onListColumn"));
+		return "popupVisible";
+	}
 	@RequestMapping(value = "/popupSelect")
 	public String popupSelect(@RequestParam("clazz") String clazz,
 							@RequestParam("rn") Optional<Integer> rnParam,
