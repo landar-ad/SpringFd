@@ -23,7 +23,7 @@ Amel = {
 	// Добавление обработчика (отвязать старый и привязать новый)
 	add_on: function(s, e, f) { s.unbind(e); s.on(e, f); },
 	get_modal: function() {
-		var ret = this.modalStack.length > 0 ? modalStack.pop() : null;
+		var ret = this.modalStack.length > 0 ? this.modalStack.pop() : null;
 		if (!ret) {
 			ret = document.createElement("div");
 			$(ret).addClass("modal");
@@ -381,6 +381,28 @@ Amel = {
 		});
 		b.hide();
 	},
+	table_edit_end: function(c, q, b) {
+		var target = this, v = q.val(), t = q.attr("type");
+		if (q.prop("tagName").toLowerCase() == "select") t = "select";
+		if (t == "date" && v && v.length >= 10) {
+			v = v.substring(8,10) + "." + v.substring(5,7) + "." + v.substring(0,4);
+		}
+		if (t == "file") {
+			if (v) v = v.split('\\').pop();
+			else v = b.text();
+		}
+		if (t == "select") {
+			v = q.find("option:selected").text();
+		}
+		if (t == "password") {
+			v = "";
+			for (var i=0; v && i<v.length; i++) v += "*";
+		}
+		b.text(v);
+		var zz = $(c).closest("tr").find(".d-none > input[name$='p_cmd']");
+		if (!zz.val()) zz.val("update");
+		target.calculate();
+	},
 	button_command: function(b) {
 		var target = this;
 		if (!b) return;
@@ -399,6 +421,8 @@ Amel = {
 			target.popup_init();
 			target.table_edit_init();
 			setTimeout(function() { 
+				c.find(".td-edited .td-check").prop("checked", true);
+				target.button_enabled();
 				var zz = c.find(".td-edited:eq(1)");
 				target.table_edit(zz); 
 			}, 10);
@@ -442,7 +466,10 @@ Amel = {
 					success: function(result) {
 						div = $('<div></div>');
 						div.html(result);
-						$.ajax({ method: "GET", url: "detailsObj?rn=" + rn, 
+						var p = "";
+						if (rn) p += "rn=" + rn;
+						if (clazz) { if (p) p += "&"; p += "clazz=" + clazz; }
+						$.ajax({ method: "GET", url: "detailsObj?" + p, 
 							success: function(result) {
 								var modal = target.get_modal();
 								modal.html(div.find('.modal').html());
@@ -453,15 +480,22 @@ Amel = {
 									var name = $(this).attr("name");
 									var k = name.indexOf("__");
 									if (k > 0) name = name.substring(k + 2);
-									modal.find("input[name='" + name + "']").val($(this).val());
+									var el = modal.find("input[name='" + name + "']");
+									el.val($(this).val());
+									var c = el.closest(".td-edited"), q = el, b = c.find(">label,>span").first();
+									if (c.length > 0) target.table_edit_end(c, q, b);
 								});
 								target.edit_init();
 								modal.modal();
-								target.add_on(modal.find("cancel-button"), "click", function() {
+								target.add_on(modal.find("#cancelButton"), "click", function(e) {
 									modal.modal('hide');
 									return false;
 								});
-								target.add_on(modal.find(".submit-button"), "click", function() {
+								target.add_on(modal.find("form"), "submit", function(e) {
+									e.preventDefault();
+									return false;
+								});
+								target.add_on(modal.find("#submitButton"), "click", function(e) {
 									if (rn) {
 										var form = modal.find("form");
 										$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
@@ -487,7 +521,7 @@ Amel = {
 												});
 												if (dest && src) dest.html(src.html());
 												target.edit_init();
-												if (dest) dest.find(".td-edited .td-check]").prop("checked", true);
+												if (dest) dest.find(".td-edited .td-check").prop("checked", true);
 											},
 											error: function(result) {
 											}
@@ -498,7 +532,10 @@ Amel = {
 											var name = $(this).attr("name");
 											var k = name.indexOf("__");
 											if (k > 0) name = name.substring(k + 2);
-											$(this).val(div.find("input[name='" + name + "']").val());
+											var el = $(this);
+											el.val(modal.find("input[name='" + name + "']").val());
+											var c = el.closest(".td-edited"), q = el, b = c.find(">label,>span").first();
+											if (c.length > 0) target.table_edit_end(c, q, b);
 										});
 									}
 									modal.modal('hide');

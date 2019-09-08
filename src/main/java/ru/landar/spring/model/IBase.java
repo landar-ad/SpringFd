@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -93,7 +94,7 @@ public abstract class IBase {
     public Date getMdate() { return mdate; }
     public void setMdate(Date mdate) { this.mdate = mdate; }
     
-    @ManyToOne(targetEntity=IBase.class)
+    @ManyToOne(targetEntity=IBase.class, fetch=FetchType.LAZY)
     public IBase getParent() { return parent; }
     public void setParent(IBase parent) { this.parent = parent; }
 
