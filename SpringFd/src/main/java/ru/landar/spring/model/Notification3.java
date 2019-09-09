@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
 
 import ru.landar.spring.classes.ColumnInfo;
 
@@ -19,6 +20,9 @@ public class Notification3 extends Document {
 	@ManyToMany(targetEntity=Specification3.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Specification3> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification3>(); }
     public void setList_spec(List<Specification3> list_spec) { this.list_spec = list_spec; }
+    
+    @Transient
+    public String getBaseClazz() { return "Document"; }
     
     @Override
     public Object onNew() {
