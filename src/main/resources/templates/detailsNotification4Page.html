@@ -67,7 +67,7 @@
 								<th:block th:with="w='20%',tt='text',vv=${obj.create_agent?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <td width="60%"></td>
 	                        </tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered small mb-0"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='20%',tt='select',nn='doc_status',ll=${listDocStatus},vv=${obj.doc_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<td width="60%"></td>
