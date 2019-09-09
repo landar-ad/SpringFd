@@ -319,12 +319,14 @@ Amel = {
 		target.add_on(q.first(), "keydown blur", function(e) {
 			var k = e.keyCode ? e.keyCode : 13;
 			if (k != 9 && k != 13 && k != 27) return;
-			if (target.table_edit_end($(this), k, e.ctrlKey, e.shiftKey) !== false) return;
+			if (target.table_edit_end($(this), e) !== false) return;
 			return false;
 		});
 		b.hide();
 	},
-	table_edit_end: function(q, k, ctrl, shift) {
+	table_edit_end: function(q, e) {
+		var k = e.keyCode ? e.keyCode : 13;
+		if (k != 9 && k != 13 && k != 27) return true;
 		var target = this;
 		var c = q.closest(".td-edited"), b = c.find(">label,>span").first();
 		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,button");
@@ -332,7 +334,7 @@ Amel = {
 		var h = c.find("input[type='hidden']").first()
 		var t = q.attr("type");
 		if (a.prop("tagName").toLowerCase() == "select") t = "select";
-		if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !ctrl) return true;
+		if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !e.ctrlKey) return true;
 		if (t == "file" && !e.keyCode) return true;
 		if (b.length > 0) {
 			b.show();
@@ -380,7 +382,7 @@ Amel = {
 			for (var j=0; j<pa.length; j++) {
 				var s = pa[j];
 				if (s == c[0]) {
-					if (shift) j = j == 0 ? pa.length - 1 : j - 1;
+					if (e.shiftKey) j = j == 0 ? pa.length - 1 : j - 1;
 					else j = j == pa.length - 1 ? 0 : j + 1;
 					c = $(pa[j]);
 					break;
@@ -1104,7 +1106,7 @@ Amel = {
 		target.add_on($('.td-edited .custom-file-input'), "change", function() { 
 			var fileName = $(this).val().split('\\').pop(); 
 			$(this).next('.custom-file-label').addClass("selected").html(fileName);
-			if (c.length > 0) target.table_edit_end($(this), 13, false, false);
+			target.table_edit_end($(this), { keyCode: 13, shiftKey: false, ctrlKey: false });
 		});
 		target.button_enabled();
 		target.calculate();
