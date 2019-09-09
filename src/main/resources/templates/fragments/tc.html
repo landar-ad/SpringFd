@@ -15,7 +15,7 @@
 	</td>
 	<td th:fragment="cr" th:width="${w}" th:class="${#strings.equals(aa,'c') ? 'td-center' : (#strings.equals(aa,'r') ? 'td-right' : 'td-left')}">
 		<th:block th:if="${tt=='anchor'}">
-			<a class="td-button btn btn-sm btn-light" th:href="${vv}"><i class="fa fa-sm fa-file"></i></a>
+			<a class="td-button btn btn-sm btn-link" th:href="${vv}"><i class="fa fa-sm fa-link"></i></a>
 		</th:block>
 		<th:block th:if="${tt=='label'}">
 			<label class="td-label"th:text="${vv}"></label>
@@ -61,11 +61,11 @@
 			<button th:id="${ii}" type="button" class="td-button btn btn-light btn-sm" th:utext="${vv}"></button>
 		</th:block>
 		<th:block th:if="${tt=='xbutton'}">
-			<button th:id="${ii}" type="button" class="xbutton td-button btn btn-light btn-sm" th:utext="${vv}" th:data-command="${ddco}" th:data-target="${ddta}"></button>
+			<button th:id="${ii}" type="button" class="xbutton td-button btn btn-primary btn-sm" th:utext="${vv}" th:data-command="${ddco}" th:data-target="${ddta}"></button>
 		</th:block>
 		<th:block th:if="${tt=='pbutton'}">
 			<div th:if="${ro!=1}">
-				<button type="button" class="td-button choose_obj btn btn-light btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
+				<button type="button" class="td-button choose_obj btn btn-link btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
 				<input th:name="${nn1 + (!#strings.isEmpty(nn2) ? '__' + nn2 : '')}" type="hidden" th:value="${vv}">
 			</div>
 		</th:block>
