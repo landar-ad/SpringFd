@@ -454,7 +454,7 @@ Amel = {
 			}, 10);
 		}
 		if ("copy" == command) {
-			var tr = table.find(".td-edited .td-check").prop("checked").closest("tr");
+			var tr = table.find(".td-edited .td-check:checked").closest("tr");
 			if (tr.length == 0) return;
 			var c = tr.clone().insertBefore(tr);
 			c.removeClass("not-visible last-row");
