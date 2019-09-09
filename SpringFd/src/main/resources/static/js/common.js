@@ -456,7 +456,7 @@ Amel = {
 		if ("copy" == command) {
 			var tr = table.find(".td-edited .td-check:checked").closest("tr");
 			if (tr.length == 0) return;
-			var c = tr.clone().insertBefore(tr);
+			var c = tr.clone().insertAfter(tr);
 			c.removeClass("not-visible last-row");
 			$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
 			$(c).find("input[name='" + targetId + "__rn']").val("");
@@ -466,6 +466,7 @@ Amel = {
 			target.popup_init();
 			target.table_edit_init();
 			setTimeout(function() { 
+				tr.find(".td-edited .td-check").prop("checked", false);
 				c.find(".td-edited .td-check").prop("checked", true);
 				target.button_enabled();
 				var zz = c.find(".td-edited:eq(1)");
