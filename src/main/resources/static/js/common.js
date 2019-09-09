@@ -405,6 +405,7 @@ Amel = {
 	},
 	row_to_modal: function(tr, modal, targetId) {
 		if (!tr || !modal || !targetId) return;
+		var target = this;
 		tr.find("input[name^='" + targetId + "__']").each(function() {
 			var name = $(this).attr("name");
 			var k = name.indexOf("__");
@@ -417,6 +418,7 @@ Amel = {
 	},
 	modal_to_row: function(modal, tr, targetId) {
 		if (!tr || !modal || !targetId) return;
+		var target = this;
 		tr.find("input[name^='" + targetId + "__']").each(function() {
 			var name = $(this).attr("name");
 			var k = name.indexOf("__");
