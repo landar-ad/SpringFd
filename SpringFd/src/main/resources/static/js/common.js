@@ -466,6 +466,8 @@ Amel = {
 			target.popup_init();
 			target.table_edit_init();
 			setTimeout(function() { 
+				c.find(".td-edited .td-check").prop("checked", true);
+				target.button_enabled();
 				var zz = c.find(".td-edited:eq(1)");
 				target.table_edit(zz); 
 			}, 10);
