@@ -498,7 +498,7 @@ Amel = {
 							var k = name.indexOf("__");
 							if (k > 0) name = name.substring(k + 2);
 							p[name] = $(this).val();
-						}
+						});
 						/*processData: false,
   						contentType: false,*/
 						$.ajax({ method: "GET", url: "detailsObj", data: p,
@@ -522,7 +522,11 @@ Amel = {
 								target.add_on(modal.find("#submitButton"), "click", function(e) {
 									if (rn) {
 										var form = modal.find("form");
-										$.ajax({ method: form.attr('method'), url: form.attr('action'), data: form.serialize(),
+										$.ajax({ method: form.attr('method'), 
+											url: form.attr('action'), 
+											data: new FormData(form[0]),
+											processData: false,
+											contentType: false,
 											success: function(result) {
 												var div = $('<div></div>');
 												div.html(result);
@@ -544,8 +548,8 @@ Amel = {
 													}
 												});
 												if (dest && src) dest.html(src.html());
-												target.edit_init();
 												if (dest) dest.find(".td-edited .td-check").prop("checked", true);
+												target.edit_init();
 											},
 											error: function(result) {
 											}
