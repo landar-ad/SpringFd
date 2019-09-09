@@ -323,6 +323,7 @@ Amel = {
 			return false;
 		});
 		b.hide();
+		if ("file" == q.attr("type")) q.click();
 	},
 	table_edit_end: function(q, e) {
 		var k = e.keyCode ? e.keyCode : 13;
