@@ -319,69 +319,78 @@ Amel = {
 		target.add_on(q.first(), "keydown blur", function(e) {
 			var k = e.keyCode ? e.keyCode : 13;
 			if (k != 9 && k != 13 && k != 27) return;
-			var t = q.attr("type");
-			if (a.prop("tagName").toLowerCase() == "select") t = "select";
-			if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !e.ctrlKey) return;
-			if (t == "file" && !e.keyCode) return;
-			if (b.length > 0) {
-				b.show();
-				a.hide();
-			}
-			if (k != 27) {
-				var v = q.val();
-				if (t == "date" && v && v.length >= 10) {
-					v = v.substring(8,10) + "." + v.substring(5,7) + "." + v.substring(0,4);
-				}
-				if (t == "file") {
-					if (v) v = v.split('\\').pop();
-					else v = b.text();
-				}
-				if (t == "select") {
-					v = q.find("option:selected").text();
-				}
-				if (t == "password") {
-					v = "";
-					for (var i=0; v && i<v.length; i++) v += "*";
-				}
-				b.text(v);
-				var zz = $(c).closest("tr").find(".d-none > input[name$='p_cmd']");
-				if (!zz.val()) zz.val("update");
-				target.calculate();
-			}
-			else {
-				var v = b.text();
-				if (t == "date" && v && v.length >= 10) {
-					v = v.substring(6,10) + "-" + v.substring(3,5) + "-" + v.substring(0,2);
-				}
-				if (t == "select") {
-					v = h.val();
-					b.text(h.text());
-				}
-				if (t == "file" || t == "password") v = "";
-				q.val(v);
-			}
-			if (k == 9) {
-				var p = $(".td-edited"), pa = [];
-				for (var j=0; j<p.length; j++) {
-					var zz = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea");
-					if (zz.length > 0) pa[pa.length] = p[j]; 
-				}
-				for (var j=0; j<pa.length; j++) {
-					var s = pa[j];
-					if (s == c[0]) {
-						if (e.shiftKey) j = j == 0 ? pa.length - 1 : j - 1;
-						else j = j == pa.length - 1 ? 0 : j + 1;
-						c = $(pa[j]);
-						break;
-					}
-				}
-				setTimeout(function() { target.table_edit(c); }, 10); 
-			}
+			if (target.table_edit_end($(this), k, e.ctrlKey), e.shiftKey !== false) return;
 			return false;
 		});
 		b.hide();
 	},
-	table_edit_end: function(c, q, b) {
+	table_edit_end: function(q, k, ctrl, shift) {
+		var target = this;
+		var c = q.closest(".td-edited"), b = c.find(">label,>span").first();
+		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,button");
+		if (a.length < 1) return false;
+		var h = c.find("input[type='hidden']").first()
+		var t = q.attr("type");
+		if (a.prop("tagName").toLowerCase() == "select") t = "select";
+		if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !ctrl) return true;
+		if (t == "file" && !e.keyCode) return true;
+		if (b.length > 0) {
+			b.show();
+			a.hide();
+		}
+		if (k != 27) {
+			var v = q.val();
+			if (t == "date" && v && v.length >= 10) {
+				v = v.substring(8,10) + "." + v.substring(5,7) + "." + v.substring(0,4);
+			}
+			if (t == "file") {
+				if (v) v = v.split('\\').pop();
+				else v = b.text();
+			}
+			if (t == "select") {
+				v = q.find("option:selected").text();
+			}
+			if (t == "password") {
+				v = "";
+				for (var i=0; v && i<v.length; i++) v += "*";
+			}
+			b.text(v);
+			var zz = $(c).closest("tr").find(".d-none > input[name$='p_cmd']");
+			if (!zz.val()) zz.val("update");
+			target.calculate();
+		}
+		else {
+			var v = b.text();
+			if (t == "date" && v && v.length >= 10) {
+				v = v.substring(6,10) + "-" + v.substring(3,5) + "-" + v.substring(0,2);
+			}
+			if (t == "select") {
+				v = h.val();
+				b.text(h.text());
+			}
+			if (t == "file" || t == "password") v = "";
+			q.val(v);
+		}
+		if (k == 9) {
+			var p = $(".td-edited"), pa = [];
+			for (var j=0; j<p.length; j++) {
+				var zz = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea");
+				if (zz.length > 0) pa[pa.length] = p[j]; 
+			}
+			for (var j=0; j<pa.length; j++) {
+				var s = pa[j];
+				if (s == c[0]) {
+					if (shift) j = j == 0 ? pa.length - 1 : j - 1;
+					else j = j == pa.length - 1 ? 0 : j + 1;
+					c = $(pa[j]);
+					break;
+				}
+			}
+			setTimeout(function() { target.table_edit(c); }, 10); 
+		}
+		return false;
+	},
+	table_ret: function(c, q, b) {
 		var target = this, v = q.val(), t = q.attr("type");
 		if (q.prop("tagName").toLowerCase() == "select") t = "select";
 		if (t == "date" && v && v.length >= 10) {
@@ -413,7 +422,7 @@ Amel = {
 			var el = modal.find("input[name='" + name + "']");
 			el.val($(this).val());
 			var c = el.closest(".td-edited"), q = el, b = c.find(">label,>span").first();
-			if (c.length > 0) target.table_edit_end(c, q, b);
+			if (c.length > 0) target.table_ret(c, q, b);
 		});
 	},
 	modal_to_row: function(modal, tr, targetId) {
@@ -426,7 +435,7 @@ Amel = {
 			var el = $(this);
 			el.val(modal.find("input[name='" + name + "']").val());
 			var c = el.closest(".td-edited"), q = el, b = c.find(">label,>span").first();
-			if (c.length > 0) target.table_edit_end(c, q, b);
+			if (c.length > 0) target.table_ret(c, q, b);
 		});
 	},
 	button_command: function(b) {
@@ -914,7 +923,7 @@ Amel = {
 		target.add_on($('.edited'), 'click', function(event) {
 			target.start_edit(this);
 		});
-		target.add_on($('.custom-file-input'), "change", function() { 
+		target.add_on($('.edited .custom-file-input'), "change", function() { 
 			var fileName = $(this).val().split('\\').pop(); 
 			$(this).next('.custom-file-label').addClass("selected").html(fileName); 
 			target.stop_edit($(this).closest(".edited"));   
@@ -1091,6 +1100,11 @@ Amel = {
 		});
 		target.add_on($(".td-edited .td-check"), "change", function() {
 			target.button_enabled();
+		});
+		target.add_on($('.td-edited .custom-file-input'), "change", function() { 
+			var fileName = $(this).val().split('\\').pop(); 
+			$(this).next('.custom-file-label').addClass("selected").html(fileName);
+			if (c.length > 0) target.table_edit_end($(this), 13, false, false);
 		});
 		target.button_enabled();
 		target.calculate();
