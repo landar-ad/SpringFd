@@ -12,7 +12,7 @@
 		<form action="detailsObj" method="POST" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-6 card">
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 fit-height">
