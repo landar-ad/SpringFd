@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,9 @@ public abstract class IBase {
     @ManyToOne(targetEntity=IBase.class, fetch=FetchType.LAZY)
     public IBase getParent() { return parent; }
     public void setParent(IBase parent) { this.parent = parent; }
+    
+    @Transient
+    public String getBaseClazz() { return clazz; }
 
     // *********************** Обработчики *************************
     @Autowired
