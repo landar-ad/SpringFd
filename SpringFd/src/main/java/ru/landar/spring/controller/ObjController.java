@@ -245,6 +245,7 @@ public class ObjController {
 							 @RequestParam("p_tab") Optional<Integer> paramTab, 
 							 @RequestParam("readonly") Optional<Integer> paramReadonly,
 							 @RequestParam("p_ret") Optional<String> paramRet,
+							 HttpServletRequest request,
 							 Model model) throws Exception {
 		String clazz = paramClazz.orElse(null);
 		Integer rn = paramRn.orElse(null);
@@ -259,6 +260,14 @@ public class ObjController {
 		if (prn != null) model.addAttribute("prn", prn);
 		int ro = paramReadonly.orElse(0);
 		model.addAttribute("readonly", ro == 1 ? true : !(Boolean)hs.invoke(obj, "onCheckRights", Operation.update));
+		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
+		for (String p : listNames) {
+			String v = request.getParameter(p);
+			if ("rn".equals(p) || "clazz".equals(p)) continue;
+			Class<?> clType =  hs.getAttrType(cl, p);
+			if (clType == null) continue;
+			hs.setProperty(obj, p, hs.getObjectByString(v, clType));
+		}
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		model.addAttribute("p_ret", paramRet.orElse(""));
