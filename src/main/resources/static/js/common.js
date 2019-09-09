@@ -490,17 +490,23 @@ Amel = {
 					success: function(result) {
 						div = $('<div></div>');
 						div.html(result);
-						var p = "";
-						if (rn) p += "rn=" + rn;
-						if (clazz) { if (p) p += "&"; p += "clazz=" + clazz; }
-						$.ajax({ method: "GET", url: "detailsObj?" + p, 
+						var p = {};
+						if (rn) p["rn"] = rn;
+						if (clazz) p["clazz"] = clazz;
+						tr.find("input[name^='" + targetId + "__']").each(function() {
+							var name = $(this).attr("name");
+							var k = name.indexOf("__");
+							if (k > 0) name = name.substring(k + 2);
+							p[name] = $(this).val();
+						}
+						$.ajax({ method: "GET", url: "detailsObj?" + p, data: p,
 							success: function(result) {
 								var modal = target.get_modal();
 								modal.html(div.find('.modal').html());
 								div = $('<div></div>');
 								div.html(result);
 								modal.find(".modal-body").html(div.find('.table-modal').html());
-								target.row_to_modal(tr, modal, targetId);
+								//target.row_to_modal(tr, modal, targetId);
 								target.edit_init();
 								modal.modal();
 								target.add_on(modal.find("#cancelButton"), "click", function(e) {
