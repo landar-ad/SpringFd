@@ -132,7 +132,7 @@ public abstract class IBase {
     	Object ret = invoke("onRedirectAfterUpdate", request);
     	if (ret != null) return ret;
     	if (getParent() != null) return "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn();
-    	return "/listObj?clazz=" + getClazz() + "&p_ret=1" + (getRn() != null ? "&rn=" + getRn() : "");
+    	return "/listObj?clazz=" + getBaseClazz() + "&p_ret=1" + (getRn() != null ? "&rn=" + getRn() : "");
     }
     public Object onCheckRights(Operation op) { 
      	Object ret = invoke("onCheckRights", op);
