@@ -499,7 +499,7 @@ Amel = {
 							if (k > 0) name = name.substring(k + 2);
 							p[name] = $(this).val();
 						}
-						$.ajax({ method: "GET", url: "detailsObj?" + p, data: p,
+						$.ajax({ method: "GET", url: "detailsObj", data: p,
 							success: function(result) {
 								var modal = target.get_modal();
 								modal.html(div.find('.modal').html());
@@ -527,17 +527,17 @@ Amel = {
 												var src = null, dest = null;
 												var tableDest = $("#" + targetId);
 												tableDest.find("tr").each(function() {
-													var tr = $(this);
-													if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-														dest = tr;
+													var zz = $(this);
+													if (rn == zz.find("input[name='" + targetId + "__rn']").val()) {
+														dest = zz;
 														return false;
 													}
 												});
 												var tableSrc = div.find("#" + targetId);
 												tableSrc.find("tr").each(function() {
-													var tr = $(this);
-													if (rn == tr.find("input[name='" + targetId + "__rn']").val()) {
-														src = tr;
+													var zz = $(this);
+													if (rn == zz.find("input[name='" + targetId + "__rn']").val()) {
+														src = zz;
 														return false;
 													}
 												});
