@@ -499,6 +499,8 @@ Amel = {
 							if (k > 0) name = name.substring(k + 2);
 							p[name] = $(this).val();
 						}
+						/*processData: false,
+  						contentType: false,*/
 						$.ajax({ method: "GET", url: "detailsObj", data: p,
 							success: function(result) {
 								var modal = target.get_modal();
