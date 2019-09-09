@@ -143,6 +143,9 @@ body {
 	margin-bottom: -1px;
 	border-collapse: collapse;
 }
+.mb-0 {
+	margin-bottom: 0px;
+}
 .table-edited td, .table-edited th {
 	padding: 0px;
 }
@@ -165,6 +168,7 @@ body {
 .td-button {
 	width: 100%; 
 	display: block;
+	margin-bottom: 1px;
 }
 .td-label {
 	color: #a86800; 
