@@ -86,7 +86,7 @@ public class IUser extends IBase {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		if (userService.isAdmin(null)) ret.add(new ButtonInfo("edit", "Редактировать", "edit"));
 		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
-		if (userService.isAdmin(null)) ret.add(new ButtonInfo("add", "Добавить", "clone"));
+		if (userService.isAdmin(null)) ret.add(new ButtonInfo("add", "Добавить", "plus-circle"));
 		if (userService.isAdmin(null)) ret.add(new ButtonInfo("remove", "Удалить", "trash"));
 		return ret;
 	}

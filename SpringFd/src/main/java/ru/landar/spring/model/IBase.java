@@ -208,7 +208,7 @@ public abstract class IBase {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		ret.add(new ButtonInfo("edit", "Редактировать", "edit"));
 		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
-		ret.add(new ButtonInfo("add", "Добавить", "clone"));
+		ret.add(new ButtonInfo("add", "Добавить", "plus-circle"));
 		ret.add(new ButtonInfo("remove", "Удалить", "trash"));
 		return ret;
 	}
