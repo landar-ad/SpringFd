@@ -253,7 +253,7 @@
 	            	<input type="hidden" name="list_file__p_cmd" value="">	
 	           	</td>
 	           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-	           	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=${d.filename}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='45%',tt='text',nn='list_file__comment',vv=${d.comment}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	           	<th:block th:with="w='46%',tt='file',nn='list_file__fileuri',vv='Заменить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	           	<th:block th:with="w='4%',tt='anchor',vv=${'fileView?rn=' + d.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
 	       	</tr>
@@ -266,7 +266,7 @@
 	            	<input type="hidden" name="list_file__p_cmd" value="">
 	           	</td>
 	           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-	           	<th:block th:with="w='45%',tt='text',nn='list_file__filename',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           	<th:block th:with="w='45%',tt='text',nn='list_file__comment',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 	           	<th:block th:with="w='46%',tt='file',nn='list_file__fileuri',vv='Добавить файл'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	           	<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
 	    	</tr>
