@@ -319,7 +319,7 @@ Amel = {
 		target.add_on(q.first(), "keydown blur", function(e) {
 			var k = e.keyCode ? e.keyCode : 13;
 			if (k != 9 && k != 13 && k != 27) return;
-			if (target.table_edit_end($(this), k, e.ctrlKey), e.shiftKey !== false) return;
+			if (target.table_edit_end($(this), k, e.ctrlKey, e.shiftKey) !== false) return;
 			return false;
 		});
 		b.hide();
