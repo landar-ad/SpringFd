@@ -321,10 +321,9 @@ public class ObjController {
 				String p = part.getName();
 				if ("clazz".equals(p) || "rn".equals(p)) continue;
 				// Берем только файлы
-				if (part.getSubmittedFileName() == null) {
-					
-					continue;
-				}
+				if (part.getSubmittedFileName() == null) continue;
+				Object op = hs.getObjectByPart(part);
+				if (op == null)  continue;
 				int k = p.indexOf("__");
 				if (k > 0) {
 					String a = p.substring(0, k);
@@ -342,20 +341,17 @@ public class ObjController {
 						l = new ArrayList<Object>();
 						m.put(attr, l);
 					}
-					l.add(hs.getObjectByPart(part));
+					l.add(op);
 				}
 				else if (hs.getAttrType(cl, p) != null) {
-					Object o = hs.getObjectByPart(part);
-					if (o != null) { 
-						mapValue.put(p, hs.getProperty(o, p));
-						if (o instanceof IFile && "fileuri".equals(p)) {
-							IFile f = (IFile)o;
-							if (f.getFilename() != null) mapValue.put("filename", f.getFilename());
-							if (f.getFileext() != null) mapValue.put("fileext", f.getFileext());
-							if (f.getFiletype() != null) mapValue.put("filetype", "" + f.getFiletype().getRn());
-							if (f.getFilelength() != null) mapValue.put("filelength", "" + f.getFilelength());
-							if (f.getComment() != null) mapValue.put("comment", "" + f.getComment());
-						}
+					mapValue.put(p, hs.getProperty(op, p));
+					if (op instanceof IFile && "fileuri".equals(p)) {
+						IFile f = (IFile)op;
+						if (f.getFilename() != null) mapValue.put("filename", f.getFilename());
+						if (f.getFileext() != null) mapValue.put("fileext", f.getFileext());
+						if (f.getFiletype() != null) mapValue.put("filetype", "" + f.getFiletype().getRn());
+						if (f.getFilelength() != null) mapValue.put("filelength", "" + f.getFilelength());
+						if (f.getComment() != null) mapValue.put("comment", "" + f.getComment());
 					}
 				}
 			}
