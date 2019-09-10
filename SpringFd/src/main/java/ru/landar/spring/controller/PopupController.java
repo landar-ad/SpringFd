@@ -55,14 +55,18 @@ public class PopupController {
 							HttpServletRequest request,
 							Model model) throws Exception {
 		Integer rn = rnParam.orElse(null);
-		String column = pColumnParam.orElse("name=Наименование");
+		String column = pColumnParam.orElse("rn=Идентификатор;name=Наименование=1");
 		String[] ss = column.split(";");
 		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();
-		for (String s : ss) {
-			int k = s.indexOf('=');
-			if (k < 0) continue;
-			String name = s.substring(0, k), title = s.substring(k + 1);
-			listColumn.add(new ColumnInfo(name, title));
+		for (int i=0; i<ss.length; i++) {
+			String[] cs = ss[i].split("=");
+			if (i == 0) {
+				model.addAttribute("columnId", cs[0]);
+			}
+			else {
+				ColumnInfo ci = new ColumnInfo(cs[0], cs.length > 1 ? cs[1] : "", cs.length > 2 && "1".equals(cs[2]));
+				listColumn.add(ci);
+			}
 		}
 		model.addAttribute("listColumn", listColumn);
 		Class<?> cl = hs.getClassByName(clazz);
