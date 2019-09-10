@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,13 +40,19 @@ public class LoadController {
 		return "loadPage";
 	}
 	@PostMapping(value = "/load")
-	public String loadPost(@RequestParam("file") MultipartFile file, Model model) throws Exception {
+	public String loadPost(@RequestParam("file") MultipartFile file, 
+						@RequestParam("filter") Optional<String> paramFilter, 
+						Model model) throws Exception {
+		List<String> listFilter = new ArrayList<String>();
+		String[] filters = paramFilter.orElse("").split(",");
+		for (String filter : filters) if (!filter.trim().isEmpty()) listFilter.add(filter.trim());
 		List<String> listAdd = new ArrayList<String>();
 		InputStream is = file.getInputStream();
 		HSSFWorkbook wb = (HSSFWorkbook)WorkbookFactory.create(is);
 		for (int n=0; n<wb.getNumberOfSheets(); n++) {
 			HSSFSheet sheet = wb.getSheetAt(n);
 			String clazz = sheet.getSheetName();
+			if (listFilter.size() > 0 && !listFilter.contains(clazz)) continue;
 			Class<?> cl = hs.getClassByName(clazz);
 			if (cl == null) {
 				listAdd.add("Не найден класс по имени '" + clazz + "'");
