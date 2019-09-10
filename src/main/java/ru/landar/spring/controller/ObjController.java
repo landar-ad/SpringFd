@@ -634,7 +634,9 @@ public class ObjController {
 		List<Voc> listVoc = new ArrayList<Voc>();
 		Class<?>[] classes = hs.getAllClasses();
 		for (Class<?> cl : classes) {
-			if (!(Boolean)hs.invoke(cl, "isVoc")) continue;
+			Object o = null;
+			try { o = hs.invoke(cl, "isVoc"); } catch (Exception ex) { }
+			if (o == null || !(o instanceof Boolean) || !((Boolean)o)) continue;
 			listVoc.add(new Voc(cl.getSimpleName(), (String)hs.invoke(cl, "singleTitle")));
 		}
 		model.addAttribute("listObj", new PageImpl<Voc>(listVoc));
