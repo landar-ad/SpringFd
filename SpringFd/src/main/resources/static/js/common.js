@@ -875,7 +875,7 @@ Amel = {
 		});
 		// Колонки
 		target.add_on($("#" + target.setVisibleId), "click", function() {
-			$.ajax({ method: "GET", url: "popupVisible", 
+			$.ajax({ method: "GET", url: "popupVisible?clazz=" + $('#clazz').val(), 
 				success: function(result) {
 					var div = $('<div></div>');
 					div.html(result);

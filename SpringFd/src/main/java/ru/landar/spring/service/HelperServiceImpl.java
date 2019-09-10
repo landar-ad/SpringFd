@@ -337,16 +337,17 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
-	public void copyProperties(Object src, Object dest, boolean notNull) {
+	public void copyProperties(Object src, Object dest, boolean notNullSrc, boolean notNullDest) {
 		if (src == null || dest == null) return;
 		Field[] fs = getFields(src.getClass(), true);
 		for (Field f : fs) {
-			Object o1 = getProperty(src, f.getName());
-			if (notNull && o1 == null) continue;
-			if (!propertyExists(dest, f.getName())) continue;
-			Object o2 = getProperty(dest, f.getName());
-			if (notNull && o2 != null) continue;
-			setProperty(dest, f.getName(), o1);
+			String n = f.getName();
+			Object o1 = getProperty(src, n);
+			if (notNullSrc && o1 == null) continue;
+			if (!propertyExists(dest, n)) continue;
+			Object o2 = getProperty(dest, n);
+			if (notNullDest && o2 != null) continue;
+			setProperty(dest, n, o1);
 		}
 	}
 	@Override

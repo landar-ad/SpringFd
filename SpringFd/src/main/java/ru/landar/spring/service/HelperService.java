@@ -26,7 +26,7 @@ public interface HelperService {
 	Object getProperty(Object obj, String attr);
 	Object copyProperty(Object obj, String attr);
 	Object getPropertyJson(Object obj, String attr);
-	void copyProperties(Object src, Object dest, boolean notNull);
+	void copyProperties(Object src, Object dest, boolean notNullSrc, boolean noNullDest);
 	Map<String, Object> getMapProperties(Object obj, boolean persist);
 	Map<String, Object> getMapProperties(Object obj);
 	Map<String, Object[]> getMapChanged(Map<String, Object> mapOld, Map<String, Object> mapNew);

@@ -347,7 +347,7 @@ public class ObjController {
 					mapValue.put(p, hs.getProperty(op, p));
 					if (op instanceof IFile && "fileuri".equals(p)) {
 						IFile f = (IFile)op;
-						if (f.getFilename() != null) mapValue.put("filename", f.getFilename());
+						mapValue.put("filename", f.getFilename());
 						if (f.getFileext() != null) mapValue.put("fileext", f.getFileext());
 						if (f.getFiletype() != null) mapValue.put("filetype", "" + f.getFiletype().getRn());
 						if (f.getFilelength() != null) mapValue.put("filelength", "" + f.getFilelength());
@@ -392,7 +392,7 @@ public class ObjController {
 								else v = hs.getObjectByString(clAttr, ap, (String)v);
 								hs.setProperty(objAttr, ap, v);
 							}
-							if (f != null) hs.copyProperties(f, objAttr, true);
+							if (f != null) hs.copyProperties(f, objAttr, true, false);
 							objRepository.saveObj(objAttr);
 							hs.invoke(objAttr, "onUpdate");
 							hs.setProperty(obj, list, objAttr);
@@ -444,7 +444,7 @@ public class ObjController {
 								else v = hs.getObjectByString(clItem, ap, (String)v);
 								/*if (v != null) */hs.setProperty(item, ap, v);
 							}
-							if (f != null) hs.copyProperties(f, item, true);
+							if (f != null) hs.copyProperties(f, item, true, false);
 							objRepository.saveObj(item);
 							// Добавление информации об изменении объекта
 							hs.invoke(item, "onUpdate");
