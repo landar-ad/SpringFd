@@ -28,7 +28,7 @@
 		                    	<th:block th:with="w='24%',tt='label',vv='Ответственное структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='10%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='62%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-								<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='code=Код;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
+								<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn=Идентификатор;code=Код;name=Наименование=1',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
 		                    </tr></tbody></table>
 	                    </div>
 	                    <div class="w-100 border border-primary">
