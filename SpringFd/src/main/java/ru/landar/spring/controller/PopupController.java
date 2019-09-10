@@ -1,14 +1,18 @@
 package ru.landar.spring.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,17 +61,25 @@ public class PopupController {
 		String rn = rnParam.orElse(null);
 		String column = pColumnParam.orElse("rn=Идентификатор;name=Наименование=1");
 		String[] ss = column.split(";");
+		String columnId = null, sortId = null;
 		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();
 		for (int i=0; i<ss.length; i++) {
 			String[] cs = ss[i].split("=");
 			if (i == 0) {
-				model.addAttribute("columnId", cs[0]);
+				columnId = cs[0];
+				model.addAttribute("columnId", columnId);
 			}
 			else {
-				ColumnInfo ci = new ColumnInfo(cs[0], cs.length > 1 ? cs[1] : "", cs.length > 2 && "1".equals(cs[2]));
+				String cv = cs.length > 2 ? cs[2] : "";
+				if (cv.length() > 1) {
+					cv = cv.substring(0, 1);
+					sortId = cs[0];
+				}
+				ColumnInfo ci = new ColumnInfo(cs[0], cs.length > 1 ? cs[1] : "", "1".equals(cv));
 				listColumn.add(ci);
 			}
 		}
+		if (sortId == null) sortId = "rn";
 		model.addAttribute("listColumn", listColumn);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
@@ -98,7 +110,18 @@ public class PopupController {
 			if (listAttr.size() > 0) attr = listAttr.toArray(new String[listAttr.size()]);
 			if (listValue.size() > 0) value = listValue.toArray(new String[listValue.size()]);
 		}
-		Page<Object> listObj = objService.findAll(cl, PageRequest.of(0, Integer.MAX_VALUE, Sort.by("name").ascending()), attr, value);
+		Page<Object> listObj = objService.findAll(cl, PageRequest.of(0, Integer.MAX_VALUE, Sort.by(sortId).ascending()), attr, value);
+		if (columnId != null && !"rn".equals(columnId)) {
+			Set<String> setId = new HashSet<String>();
+			List<Object> l = new ArrayList<Object>();
+			for (Object o : listObj.getContent()) {
+				String id = hs.getPropertyString(o, columnId);
+				if (setId.contains(id)) continue;
+				setId.add(id);
+				l.add(o);
+			}
+			listObj = new PageImpl<Object>(l, Pageable.unpaged(), l.size());
+		}
 		model.addAttribute("rn", rn);
 		model.addAttribute("listObj", listObj);
 		model.addAttribute("p_title", pTitleParam.orElse("Выбор"));
