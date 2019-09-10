@@ -48,13 +48,13 @@ public class PopupController {
 	}
 	@RequestMapping(value = "/popupSelect")
 	public String popupSelect(@RequestParam("clazz") String clazz,
-							@RequestParam("rn") Optional<Integer> rnParam,
+							@RequestParam("rn") Optional<String> rnParam,
 							@RequestParam("p_title") Optional<String> pTitleParam,
 							@RequestParam("p_column") Optional<String> pColumnParam,
 							@RequestParam("p_filter") Optional<String> pFilterParam,
 							HttpServletRequest request,
 							Model model) throws Exception {
-		Integer rn = rnParam.orElse(null);
+		String rn = rnParam.orElse(null);
 		String column = pColumnParam.orElse("rn=Идентификатор;name=Наименование=1");
 		String[] ss = column.split(";");
 		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();

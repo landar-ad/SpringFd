@@ -30,7 +30,7 @@
 					        <tr th:each="obj,iter : ${listObj}">
 					            <td class="d-none" th:text="${hs.getPropertyString(obj,columnId)}"/>
 					            <td th:text="${iter.index + 1}"/>
-					            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && hs.getPropertyString(obj,columnId)==rn}"></input></td>
+					            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && #strings.equals(hs.getPropertyString(obj,columnId),rn)}"></input></td>
 					            <td th:each="col : ${listColumn}" th:text="${hs.getPropertyString(obj,col.name)}" th:class="${col.visible ? 'text-select' : ''}" ></td>
 					            <td><a target="_blank" th:href="@{/detailsObj?clazz=} + ${obj.clazz} + '&readonly=1&rn=' + ${obj.rn}" class="btn btn-light btn-sm" title="Просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
 					        </tr>

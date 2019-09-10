@@ -43,12 +43,12 @@
 	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                       	<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
 	                        <div class="col-sm-2" th:with="tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-1" th:with="tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='pbutton',nn='parent_doc',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn=Идентификатор;doc_type__name=Тип документа=1;doc_number=№ документа=1;doc_date=Дата документа=1',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1 parent-popup">
 	                    	<div class="col-sm-2" th:with="tt='label',vv='Контрагент'"><div th:replace="fragments/component :: c"></div></div>
 	                        <div class="col-sm-9" th:with="tt='text',vv=${obj.agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-1" th:with="tt='pbutton',nn='agent',vv=${obj.agent?.rn},ro=${rco},ddcl='IOrganization',ddti='Выберите организацию',ddco='name=Наименование организации',ddfi=''"><div th:replace="fragments/component :: c"></div></div>	                        
+							<div class="col-sm-1" th:with="tt='pbutton',nn='agent',vv=${obj.agent?.rn},ro=${rco},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn=Идентификатор;name=Наименование организации=1',ddfi=''"><div th:replace="fragments/component :: c"></div></div>	                        
 						</div>
 						<div th:replace="fragments/header :: list_file"></div>
 					    <div class="form-group-sm row mt-sm-1">
