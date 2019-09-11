@@ -239,10 +239,28 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		Predicate prTotal = null;
 		if (attr != null && attr.length > 0) {
 			for (int i=0; i<attr.length; i++) {
-				String a = attr[i];
+				String a = attr[i], fun = null;
+				if (a.indexOf(',') > 0) {
+					int k = a.indexOf(',');
+					fun = a.substring(k + 1);
+					a = a.substring(0, k);
+				}
 				String[] joinList = a.split("__");
 				Path p = f;
-				for (String join : joinList) p = p.get(join); 
+				for (String join : joinList) p = p.get(join);
+				Expression<?> expr = null;
+				if (fun != null) {
+					String[] params = null;
+					int k = fun.indexOf(',');
+					if (k > 0) {
+						params = fun.substring(k + 1).split(",");
+						fun = fun.substring(0, k);
+					}
+					if ("substring".equals(fun)) {
+						if (params.length == 1) expr = cb.substring(p, Integer.valueOf(params[0]));
+						if (params.length == 2) expr = cb.substring(p, Integer.valueOf(params[0]), Integer.valueOf(params[1]));
+					}
+				}
 				/*
 				Class<?> clType = cl;
 				for (String join : joinList) {
@@ -280,33 +298,36 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		        			Object o = hs.getObjectByString(va, clAttr);
 		        			if (o instanceof BigDecimal) o = ((BigDecimal)o).doubleValue();
 		        			if (o instanceof Date) {
+		        				Expression<Date> exprDate = expr != null ? (Expression<Date>)expr : p; 
 		        				Date d = (Date)o;
-		        				if (">".equals(op)) prT = cb.greaterThan(p, d);
-		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(p, d);
-			        			else if ("<".equals(op)) prT = cb.lessThan(p, d);
-			        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(p, d);
-			        			else if ("=".equals(op)) prT = cb.equal(p, d);
-			        			else if ("<>".equals(op)) prT = cb.notEqual(p, d);
+		        				if (">".equals(op)) prT = cb.greaterThan(exprDate, d);
+		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(exprDate, d);
+			        			else if ("<".equals(op)) prT = cb.lessThan(exprDate, d);
+			        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(exprDate, d);
+			        			else if ("=".equals(op)) prT = cb.equal(exprDate, d);
+			        			else if ("<>".equals(op)) prT = cb.notEqual(exprDate, d);
 		        			}
 		        			else if (o instanceof Number) {
-			        			if (">".equals(op)) prT = cb.gt(p, (Number)o);
-			        			else if (">=".equals(op)) prT = cb.ge(p, (Number)o);
-			        			else if ("<".equals(op)) prT = cb.lt(p, (Number)o);
-			        			else if ("<=".equals(op)) prT = cb.le(p, (Number)o);
-			        			else if ("=".equals(op)) prT = cb.equal(p, (Number)o);
-			        			else if ("<>".equals(op)) prT = cb.notEqual(p, (Number)o);
+		        				Expression<Number> exprNumber = expr != null ? (Expression<Number>)expr : p;
+			        			if (">".equals(op)) prT = cb.gt(exprNumber, (Number)o);
+			        			else if (">=".equals(op)) prT = cb.ge(exprNumber, (Number)o);
+			        			else if ("<".equals(op)) prT = cb.lt(exprNumber, (Number)o);
+			        			else if ("<=".equals(op)) prT = cb.le(exprNumber, (Number)o);
+			        			else if ("=".equals(op)) prT = cb.equal(exprNumber, (Number)o);
+			        			else if ("<>".equals(op)) prT = cb.notEqual(exprNumber, (Number)o);
 		        			}
 		        			else if (o instanceof String) {
 		        				String s = (String)o;
-		        				if (">".equals(op)) prT = cb.greaterThan(p, s);
-		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(p, s);
-			        			else if ("<".equals(op)) prT = cb.lessThan(p, s);
-			        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(p, s);
-			        			else if ("=".equals(op)) prT = s.indexOf("%") >= 0 ? cb.like(p, s) : cb.equal(p, s);
-			        			else if ("<>".equals(op)) prT = s.indexOf("%") >= 0 ? cb.notLike(p, s) : cb.notEqual(p, s);
+		        				Expression<String> exprString = expr != null ? (Expression<String>)expr : p;
+		        				if (">".equals(op)) prT = cb.greaterThan(exprString, s);
+		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(exprString, s);
+			        			else if ("<".equals(op)) prT = cb.lessThan(exprString, s);
+			        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(exprString, s);
+			        			else if ("=".equals(op)) prT = s.indexOf("%") >= 0 ? cb.like(exprString, s) : cb.equal(exprString, s);
+			        			else if ("<>".equals(op)) prT = s.indexOf("%") >= 0 ? cb.notLike(exprString, s) : cb.notEqual(exprString, s);
 			        			else if ("like".equals(op)) {
 			        				if (s.indexOf("%") < 0) s = "%" + s + "%";
-			        				prT = cb.like(p, s);
+			        				prT = cb.like(exprString, s);
 			        			}
 		        			}
 	        			}
@@ -319,16 +340,21 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	        	else
 	        	{
 	        		Object val = value[i];
-	        		if (value[i] instanceof String)
-	        		{
+	        		if (value[i] instanceof String) {
 	        			String v = ((String)val).trim();
 	        			if (v.startsWith("'")) v = v.substring(1);
 	        			if (v.endsWith("'")) v = v.substring(0, v.length() - 1);
 	        			val = hs.getObjectByString(v, clAttr);
 	        		}
-		        	pr = val instanceof String && ((String)val).indexOf('%') >= 0 
-		        			? cb.like(p, (String)val) 
-		        			: cb.equal(p, val);
+	        		
+	        		if (expr == null)
+			        	pr = val instanceof String && ((String)val).indexOf('%') >= 0 
+			        			? cb.like(p, (String)val) 
+			        			: cb.equal(p, val);
+			        else
+			        	pr = val instanceof String && ((String)val).indexOf('%') >= 0 
+	        			? cb.like((Expression<String>)expr, (String)val) 
+	        			: cb.equal(expr, val);
 	        	}
 	        	if (pr != null) {
 	        		if (prTotal == null && !and) prTotal = cb.and();

@@ -19,7 +19,7 @@
 	                	<table class="table table-sm table-edited table-bordered small"><tbody><tr class="parent-popup">
 	                		<th:block th:with="w='50%',tt='label',vv='КБК'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                		<th:block th:with="w='46%',tt='text',vv=${obj.kbk},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                		<th:block th:with="w='4%',tt='pbutton',nn1='kbk',nn2='',vv=${obj.kbk},ro=${rco},ddcl='SpKBK',ddti='Выберите КБК',ddco='kbk;kbk=КБК=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                		<th:block th:with="w='4%',tt='pbutton',nn1='kbk',nn2='',vv=${obj.kbk},ro=${rco},ddcl='SpKBK',ddti='Выберите КБК',ddco='kbk;kbk=КБК=YYA',ddfi='kbk,substring,18,1 =4 OR =2'"><td th:replace="fragments/tc :: cd"></td></th:block>
                 		</tr></tbody></table>
                 		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 	                		<th:block th:with="w='50%',tt='label',vv='Сумма БА (текущий год)'"><th th:replace="fragments/tc :: ch"></th></th:block>
