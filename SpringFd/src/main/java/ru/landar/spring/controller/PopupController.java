@@ -127,7 +127,7 @@ public class PopupController {
 					if (e > 0) { 
 						String r = request.getParameter(v.substring(k + 1, e));
 						if (hs.isEmpty(r)) continue;
-						v = v.replaceAll(v.substring(k, e + 1), r);
+						v = v.substring(0, k) + r + v.substring(e + 1);
 					}
 				}
 				listAttr.add(a);
