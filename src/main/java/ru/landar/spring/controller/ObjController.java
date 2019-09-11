@@ -265,7 +265,10 @@ public class ObjController {
 			String v = request.getParameter(p);
 			if ("rn".equals(p) || "clazz".equals(p)) continue;
 			Class<?> clType =  hs.getAttrType(cl, p);
-			if (clType == null) continue;
+			if (clType == null) {
+				if (!p.startsWith("p_")) model.addAttribute(p, v);
+				continue;
+			}
 			hs.setProperty(obj, p, hs.getObjectByString(v, clType));
 		}
 		setObjModel(obj, model);

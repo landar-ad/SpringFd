@@ -89,8 +89,8 @@ public class PopupController {
 				if (cv.length() < 1) cv += "Y";
 				if (cv.length() < 2) cv += "Y";
 				if (cv.length() < 3) cv += "N";
-				sortType = cv.substring(2, 1);
-				String visible = cv.substring(0, 1), target = cv.substring(1, 1);
+				sortType = cv.substring(2, 3);
+				String visible = cv.substring(0, 1), target = cv.substring(1, 2);
 				if ("A".equals(sortType) || "D".equals(sortType)) sortId = name;
 				if (!"Y".equals(visible)) continue;
 				ColumnInfo ci = new ColumnInfo(name, title);
