@@ -1,8 +1,10 @@
 package ru.landar.spring.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -58,10 +60,12 @@ public class PopupController {
 							@RequestParam("p_filter") Optional<String> pFilterParam,
 							HttpServletRequest request,
 							Model model) throws Exception {
+		Class<?> cl = hs.getClassByName(clazz);
+		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
 		String rn = rnParam.orElse(null);
-		String column = pColumnParam.orElse("rn=Идентификатор;name=Наименование=1");
+		String column = pColumnParam.orElse("rn;name=Наименование");
 		String[] ss = column.split(";");
-		String columnId = null, sortId = null;
+		String columnId = null, sortId = null, sortType = "A";;
 		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();
 		for (int i=0; i<ss.length; i++) {
 			String[] cs = ss[i].split("=");
@@ -70,19 +74,32 @@ public class PopupController {
 				model.addAttribute("columnId", columnId);
 			}
 			else {
-				String cv = cs.length > 2 ? cs[2] : "";
-				if (cv.length() > 1) {
-					cv = cv.substring(0, 1);
-					sortId = cs[0];
+				String name = cs[0], title = cs.length > 1 ? cs[1] : "", cv = cs.length > 2 ? cs[2] : "";
+				if (title.isEmpty()) {
+					List<ColumnInfo> listC = (List<ColumnInfo>)hs.invoke(cl, "listColumn");
+					if (listC != null) {
+						for (ColumnInfo ci : listC) {
+							if (name.equals(ci.getName())) {
+								title = ci.getTitle();
+								break;
+							}
+						}
+					}
 				}
-				ColumnInfo ci = new ColumnInfo(cs[0], cs.length > 1 ? cs[1] : "", "1".equals(cv));
+				if (cv.length() < 1) cv += "Y";
+				if (cv.length() < 2) cv += "Y";
+				if (cv.length() < 3) cv += "N";
+				sortType = cv.substring(2, 1);
+				String visible = cv.substring(0, 1), target = cv.substring(1, 1);
+				if ("A".equals(sortType) || "D".equals(sortType)) sortId = name;
+				if (!"Y".equals(visible)) continue;
+				ColumnInfo ci = new ColumnInfo(name, title);
+				ci.setFilter(target);
 				listColumn.add(ci);
 			}
 		}
-		if (sortId == null) sortId = "rn";
+		if (sortId == null) { sortId = "rn"; sortType = "A"; }
 		model.addAttribute("listColumn", listColumn);
-		Class<?> cl = hs.getClassByName(clazz);
-		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
 		String[] attr = null;
 		Object[] value = null; 
 		String filter = pFilterParam.orElse(null);
@@ -104,13 +121,22 @@ public class PopupController {
 					if (roles.indexOf("DF") > 0) continue;
 					v = v.replaceAll("#d#", "" + rnDep);
 				}
+				else if (v.indexOf("$") >= 0) {
+					k = v.indexOf("$");
+					int e = v.indexOf("$", k + 1);
+					if (e > 0) { 
+						String r = request.getParameter(v.substring(k + 1, e));
+						if (hs.isEmpty(r)) continue;
+						v = v.replaceAll(v.substring(k, e + 1), r);
+					}
+				}
 				listAttr.add(a);
 				listValue.add(v);
 			}
 			if (listAttr.size() > 0) attr = listAttr.toArray(new String[listAttr.size()]);
 			if (listValue.size() > 0) value = listValue.toArray(new String[listValue.size()]);
 		}
-		Page<Object> listObj = objService.findAll(cl, PageRequest.of(0, Integer.MAX_VALUE, Sort.by(sortId).ascending()), attr, value);
+		Page<Object> listObj = objService.findAll(cl, PageRequest.of(0, Integer.MAX_VALUE, "A".equals(sortType) ? Sort.by(sortId).ascending() : ("D".equals(sortType) ? Sort.by(sortId).descending() : Sort.unsorted())), attr, value);
 		if (columnId != null && !"rn".equals(columnId)) {
 			Set<String> setId = new HashSet<String>();
 			List<Object> l = new ArrayList<Object>();

@@ -23,7 +23,7 @@
 	                        <div class="col-sm-2" th:with="tt='text',vv=${obj.doc?.doc_number},ro=1"><div th:replace="fragments/component :: c"></div></div>
 	                       	<div class="col-sm-2" th:with="tt='label',vv='Дата документа'"><div th:replace="fragments/component :: c"></div></div>
 	                        <div class="col-sm-2" th:with="tt='date',vv=${obj.doc?.doc_date},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-1" th:with="tt='pbutton',nn='doc',vv=${obj.doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn=Идентификатор;doc_number=№ документа=1;doc_date=Дата документа=1',ddfi='doc_status__code =2'"><div th:replace="fragments/component :: c"></div></div>
+	                        <div class="col-sm-1" th:with="tt='pbutton',nn='doc',vv=${obj.doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;doc_number=№ документа;doc_date=Дата документа',ddfi='doc_status__code =2'"><div th:replace="fragments/component :: c"></div></div>
 	                    </div>
 	                    <div class="form-group-sm row mt-sm-1">
 	                    	<div class="col-sm-2" th:with="tt='check',nn='exclude',vv=${obj.exclude},xx='Исключен из акта'"><div th:replace="fragments/component :: c"></div></div>

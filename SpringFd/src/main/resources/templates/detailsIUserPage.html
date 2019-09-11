@@ -39,7 +39,7 @@
 	                    <div class="form-group-sm row mt-sm-2 parent-popup">
 	                    	<div class="col-sm-6" th:with="tt='label',vv='Контрагент (юридическое лицо)'"><div th:replace="fragments/component :: c"></div></div>
 	                        <div class="col-sm-11" th:with="tt='text',vv=${obj.org?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-1" th:with="tt='pbutton',nn='org',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn=Идентификатор;name=Наименование организации=1',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
+							<div class="col-sm-1" th:with="tt='pbutton',nn='org',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование организации',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
 						</div>	                        
 	                    <div class="form-group-sm row mt-sm-2">
 	                    	<div class="col-sm-6" th:with="tt='label',vv='Контрагент (физическое лицо)'"><div th:replace="fragments/component :: c"></div></div>
