@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ru.landar.spring.model.Act;
 import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.SpKBK;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.repository.UserRepositoryCustomImpl;
 import ru.landar.spring.service.HelperService;
@@ -58,8 +59,13 @@ public class TestController {
 	@RequestMapping(value = "/test/find", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String testFind() throws Exception {
-		Page<?> p = objService.findAll(Act.class, null, new String[] {"list_doc__doc_rn"}, new Object[] {131});
-		return "" + p.getContent().size();
+		Page<?> p = objService.findAll(SpKBK.class, null, new String[] {"kbk,substring,18,1"}, new Object[] {"=4 OR =2"});
+		String ret = "";
+		for (Object o : p.getContent()) {
+			if (!ret.isEmpty()) ret += "\r\n";
+			ret += ((SpKBK)o).getKbk();
+		}
+		return ret;
 	}
 	
 	@RequestMapping(value = "/test/classes", method = RequestMethod.GET, produces = "text/plain")
