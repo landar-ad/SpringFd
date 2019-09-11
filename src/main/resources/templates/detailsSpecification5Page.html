@@ -11,6 +11,7 @@
 	<div class="container table-modal">
 		<form action="detailsObj" method="POST" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
+			<input type="hidden" name="kbk" th:value=${kbk}>
     		<div th:replace="fragments/header :: details-header"></div>
            	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
             	<div class="m-sm-2">
