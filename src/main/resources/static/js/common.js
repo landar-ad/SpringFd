@@ -655,12 +655,13 @@ Amel = {
 	// Вызов всплывающего окна для выбора объекта
 	popup_select: function(a, s) {
 		var target = this;
+		var filter = a.attr("data-filter");
 		var data = {
-			clazz: a.attr("data-clazz"),
-			p_title: a.attr("data-title"),
-			p_column: a.attr("data-column"),
-			p_filter: a.attr("data-filter")
-		};
+				clazz: a.attr("data-clazz"),
+				p_title: a.attr("data-title"),
+				p_column: a.attr("data-column"),
+				p_filter: filter
+			};
 		$.ajax({ method: "POST", url: "popupSelect", 
 			data: data,
 			success: function(result) {
@@ -970,15 +971,32 @@ Amel = {
 			var t = $(this), rn = $(t).parent().find("input[type='hidden']").val();
 			var multiple = t.attr("data-multiple")
 			var clazz = t.attr("data-clazz");
-			if (!clazz) clazz = $("input[name='value'],textarea[name='value']").val();
+			if (!clazz) clazz = $("input[name='clazz']").val();
 			if (!clazz) return;
+			var filter = t.attr("data-filter");
 			var data = {
 					clazz: clazz,
 					rn: rn,
 					p_title: t.attr("data-title"),
 					p_column: t.attr("data-column"),
-					p_filter: t.attr("data-filter")
+					p_filter: filter
 				};
+			if (filter && filter.indexOf("$") >= 0) {
+				var k = filter.indexOf("$"), e = filter.indexOf("$", k + 1);
+				if (e > 0) {
+					var r = filter.substring(k + 1, e);
+					if (r) {
+						var v = null;
+						var zz = $(t).closest("tr").find("input[name$='" + r + "']");
+						if (zz.length > 0) v = zz.val();
+						if (!v) {
+							zz = $(t).closest("form").find("input[name='" + r + "']");
+							if (zz.length > 0) v = zz.val();
+						}
+						if (v) data[r] = v;
+					}
+				}
+			}
 			$.ajax({ method: "POST", url: "popupSelect", 
 				data: data,
 				success: function(result) {
@@ -1014,12 +1032,15 @@ Amel = {
 						var zz = $(p).find(".d-none > input[name$='p_cmd']");
 						if (!zz.val()) zz.val("update");
 						target.calculate();
-						var arr = data.p_column.split(";");
-						for (i=0; i<arr.length; i++) {
-							var tt = rn > 0 ?  $(source).find(".text-select:eq("+ i + ")").text() : "";
-							var oo = $(p).find(".td-label:eq(" + i + ")");
+						var arr = $(source).find(".text-select");
+						for (var i=0; i<arr.length; i++) {
+							var tt = rn > 0 ?  $(arr[i]).text() : "";
+							var idx = null;
+							try {idx = parseInt(tt.attr("data-target")); } catch(e) { }
+							if (!(idx >= 0)) idx = i;
+							var oo = $(p).find(".td-label:eq(" + idx + ")");
 							oo.text(tt);
-							if (oo.length == 0) $(p).find("input:eq(" + i + ")").val(tt);
+							if (oo.length == 0) $(p).find("input:eq(" + idx + ")").val(tt);
 						}
 					});
 					target.add_on(modal.find(".filter-popup"), "input", function() {

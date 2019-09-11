@@ -27,7 +27,7 @@
 			                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
 		                		<th:block th:with="w='15%',tt='label',vv='КБК'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='20%',tt='text',vv=${obj.kbk},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                		<th:block th:with="w='4%',tt='pbutton',nn1='kbk',nn2='',vv=${obj.kbk},ro=${rco},ddcl='SpKBK',ddti='Выберите КБК',ddco='kbk=Идентификатор;kbk=КБК=11',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                		<th:block th:with="w='4%',tt='pbutton',nn1='kbk',nn2='',vv=${obj.kbk},ro=${rco},ddcl='SpKBK',ddti='Выберите КБК',ddco='kbk;kbk=КБК=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 			                    <td width="76%"></td>
 			                </tr></tbody></table>
 			                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
@@ -52,13 +52,13 @@
 		                        <th:block th:with="w='16%',tt='text',vv=${obj.parent_doc?.doc_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <th:block th:with="w='16%',tt='label',vv='Дата документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                        <th:block th:with="w='16%',tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                        <th:block th:with="w='4%',tt='pbutton',nn1='parent_doc',nn2='',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn=Идентификатор;doc_type__name=Тип документа=1;doc_number=№ документа=1;doc_date=Дата документа=1',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='4%',tt='pbutton',nn1='parent_doc',nn2='',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                        </tr></tbody></table>
 		                    <table class="parent-popup table table-sm table-edited table-bordered small"><tbody><tr>
 		                    	<th:block th:with="w='24%',tt='label',vv='Ответственное структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='10%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='62%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-								<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn=Идентификатор;code=Код=11;name=Наименование=1',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
+								<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Код=YYA;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
 		                    </tr></tbody></table>
 	                    </div>
 	                    <div class="w-100 border border-primary">
