@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="container">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+    		<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
+            	<div class="m-sm-2">
+            		<div th:replace="fragments/header :: details-buttons"></div>
+	                <div class="col-sm-12 fit-height">
+	                	<table class="table table-sm table-edited table-bordered small"><tbody><tr class="parent-popup">
+	                		<th:block th:with="w='20%',tt='label',vv='КБК'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='80%',tt='text',nn='kbk',vv=${obj.kbk},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	               		</tr></tbody></table>
+	               		<table class="table table-sm table-edited table-bordered small"><tbody><tr class="parent-popup">
+	                		<th:block th:with="w='20%',tt='label',vv='КОСГУ'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='80%',tt='text',nn='kosgu',vv=${obj.kbk},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	               		</tr></tbody></table>
+                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<th:block th:with="w='20%',tt='label',vv='Наименование'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                		<th:block th:with="w='80%',tt='mtext',nn='name',vv=${obj.name}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                </tr></tbody></table>
+		                <table class="parent-popup table table-sm table-edited table-bordered small"><tbody><tr>
+	                    	<th:block th:with="w='20%',tt='label',vv='Структурное подразделение'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    	<th:block th:with="w='4%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    	<th:block th:with="w='72%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+							<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Код=YYA;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
+	                    </tr></tbody></table>
+                    </div>
+ 				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>
