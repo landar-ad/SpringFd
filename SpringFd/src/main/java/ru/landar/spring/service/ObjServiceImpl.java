@@ -68,6 +68,10 @@ public class ObjServiceImpl implements ObjService {
 		return objRepository.findAll(cl, p, attr, value);
 	}
 	@Override
+	public Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value, Integer rn) {
+		return objRepository.findAll(cl, p, attr, value, rn);
+	}
+	@Override
 	public Page<Map<String, Object>> findAllResult(Class<?> cl, String[] result, Pageable p, String[] attr, Object[] value) {
 		return objRepository.findAllResult(cl, result, p, attr, value);
 	}

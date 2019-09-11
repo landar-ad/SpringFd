@@ -141,12 +141,43 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return em.createQuery(query).getSingleResult();
 	}
 	@Override
+	public Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value, Integer rn) {
+		boolean paged = p != null && p.isPaged() && p.getPageSize() != Integer.MAX_VALUE;
+		if (rn == null || !paged) return findAll(cl, p, attr, value);
+		List<Object> l = new ArrayList<Object>();
+		List<Integer> lRn = findAllRn(cl, p != null ? p.getSort() : null, attr, value);
+		long count = lRn.size();
+		if (count > 0) {
+			CriteriaQuery<Object> query = (CriteriaQuery<Object>)createAllQuery(cl, null, attr, value, p != null ? p.getSort() : null, 0);
+	        TypedQuery<Object> q = em.createQuery(query);
+	        if (paged) {
+	        	int off = p.getPageNumber(), ps = p.getPageSize();
+	        	if (off * ps > count) off = 0;
+	        	for (int i=0; i<count; i+=ps) {
+	        		for (int j=0; j<ps; j++) {
+	        			int idx = i + j;
+	        			if (idx >= count) break;
+	        			if (lRn.get(idx).compareTo(rn) == 0) {
+	        				off = idx / ps;
+	        				break;
+	        			}
+	        		}
+	        	}
+	        	if (off != p.getPageNumber()) p = PageRequest.of(off, ps, p.getSort());
+	        	q = q.setFirstResult(off * ps);
+	        	q = q.setMaxResults(ps);
+	        }
+	        l = q.getResultList();
+		}
+        return new PageImpl<Object>(l, paged ? p : Pageable.unpaged(), count);
+	}
+	@Override
 	public Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value) {
 		boolean paged = p != null && p.isPaged() && p.getPageSize() != Integer.MAX_VALUE;
 		List<Object> l = new ArrayList<Object>();
 		long count = findAllCount(cl, attr, value);
 		if (count > 0) {
-			CriteriaQuery<Object> query = (CriteriaQuery<Object>)createAllQuery(cl, null, attr, value, p != null ? p.getSort() : null, false);
+			CriteriaQuery<Object> query = (CriteriaQuery<Object>)createAllQuery(cl, null, attr, value, p != null ? p.getSort() : null, 0);
 	        TypedQuery<Object> q = em.createQuery(query);
 	        if (paged) {
 	        	int off = p.getPageNumber() * p.getPageSize();
@@ -167,7 +198,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		List<Map<String, Object>> listResult = new ArrayList<Map<String, Object>>();
 		long count = findAllCount(cl, attr, value);
 		if (count > 0) {
-			CriteriaQuery<Object[]> query = (CriteriaQuery<Object[]>)createAllQuery(cl, result, attr, value, p != null ? p.getSort() : null, false);
+			CriteriaQuery<Object[]> query = (CriteriaQuery<Object[]>)createAllQuery(cl, result, attr, value, p != null ? p.getSort() : null, 0);
 	        TypedQuery<Object[]> q = em.createQuery(query);
 	        if (paged) {
 	        	int off = p.getPageNumber() * p.getPageSize();
@@ -191,17 +222,23 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
         return new PageImpl<Map<String, Object>>(listResult, paged ? p : Pageable.unpaged(), count);
 	}
 	private Long findAllCount(Class<?> cl, String[] attr, Object[] value) {
-		CriteriaQuery<Long> query = (CriteriaQuery<Long>)createAllQuery(cl, null, attr, value, null, true);
+		CriteriaQuery<Long> query = (CriteriaQuery<Long>)createAllQuery(cl, null, attr, value, null, 1);
         return em.createQuery(query).getSingleResult();
 	}
-	private CriteriaQuery<?> createAllQuery(Class<?> cl, String[] result, String[] attr, Object[] value, Sort sort, boolean count) {
+	private List<Integer> findAllRn(Class<?> cl, Sort sort, String[] attr, Object[] value) {
+		CriteriaQuery<Integer> query = (CriteriaQuery<Integer>)createAllQuery(cl, null, attr, value, sort, 2);
+        return em.createQuery(query).getResultList();
+	}
+	private CriteriaQuery<?> createAllQuery(Class<?> cl, String[] result, String[] attr, Object[] value, Sort sort, int flag) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<?> query = null;
-		if (count) query = cb.createQuery(Long.class);
+		if (flag == 1) query = cb.createQuery(Long.class);
+		else if (flag == 2) query = cb.createQuery(Integer.class);
 		else if (result != null) query = cb.createQuery(Object[].class);
 		else query = cb.createQuery(cl);
 		Root<?> f = query.from(cl);
-		if (count) ((CriteriaQuery<Long>)query).select(cb.count(f)).distinct(true);
+		if (flag == 1) ((CriteriaQuery<Long>)query).select(cb.count(f)).distinct(true);
+		else if (flag == 2) ((CriteriaQuery<Integer>)query).select(f.get("rn")).distinct(true);
 		else if (result != null) {
 			List<Selection<?>> list = new ArrayList<Selection<?>>();
 			for (String r : result) {
@@ -217,7 +254,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		Predicate prTotal = getFilter(cb, cl, f, attr, value);
 		if (prTotal != null) query.where(cb.and(prTotal));
 		
-		if (sort != null && !count) {
+		if (sort != null && flag != 1) {
 			List<Order> lo = new ArrayList<Order>();
     		Stream<Sort.Order> stream = StreamSupport.stream(sort.spliterator(), false);
     		Iterator<Sort.Order> it = stream.iterator();
