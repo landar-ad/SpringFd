@@ -17,6 +17,7 @@ public interface ObjService {
     void removeObj(Object obj);
     void removeObj(String clazz, Integer rn) throws Exception;
     Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value);
+    Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value, Integer rn);
     Page<Map<String, Object>> findAllResult(Class<?> cl, String[] result, Pageable p, String[] attr, Object[] value);
     List<Object> findAll(Class<?> cl) throws Exception;
     List<Object> findAll(Class<?> cl, boolean empty) throws Exception;

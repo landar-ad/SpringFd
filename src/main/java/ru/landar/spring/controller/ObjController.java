@@ -174,8 +174,8 @@ public class ObjController {
 		// Пейджинг
 		boolean p_paging = (Boolean)hs.invoke(cl.newInstance(), "onListPaginated");
 		model.addAttribute("p_paging", p_paging);
-		// Получить страницу данных
-		Page<Object> listObj = objService.findAll(cl, PageRequest.of(off, p_paging ? page : Integer.MAX_VALUE, sort), attr, value);
+		// Получить страницу данных (если страница указана явно, переходим на нее, если нет, то ищем страницу с указанным объектом) 
+		Page<Object> listObj = objService.findAll(cl, PageRequest.of(off, p_paging ? page : Integer.MAX_VALUE, sort), attr, value, !offParam.isPresent() ? rn : null);
 		model.addAttribute("listObj", listObj);
 		// Добавить атрибуты в модель (списки, заголовки, параметры)
 		hs.invoke(obj, "onAddAttributes", model, true);
