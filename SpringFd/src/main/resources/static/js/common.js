@@ -1041,8 +1041,8 @@ Amel = {
 						for (var i=0; i<arr.length; i++) {
 							var tt = rn > 0 ?  $(arr[i]).text() : "";
 							var idx = null;
-							try {idx = parseInt(tt.attr("data-target")); } catch(e) { }
-							if (!(idx >= 0)) idx = i;
+							try {idx = parseInt($(arr[i]).attr("data-target")); } catch(e) { }
+							if (idx == null || isNaN(idx)) idx = i;
 							var oo = $(p).find(".td-label:eq(" + idx + ")");
 							oo.text(tt);
 							if (oo.length == 0) $(p).find("input:eq(" + idx + ")").val(tt);
