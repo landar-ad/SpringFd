@@ -23,6 +23,9 @@
 		<th:block th:if="${tt=='calc'}">
 			<label class="td-calc td-label" th:text="${vv}" th:data-name="${ddnn}" th:data-op="${ddoo}"></label>
 		</th:block>
+		<th:block th:if="${tt=='expand'}">
+			<button class="expand td-button btn btn-sm btn-link small" type="button" th:data-target="${ddta}"><i th:class="${'fa fa-sm fa-' + (e==true ? 'minus' : 'plus')}"></i></button>
+		</th:block>
 	</td>
 	<td th:fragment="cd" th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : ' td-left'))}">
 		<th:block th:if="${tt=='label'}">

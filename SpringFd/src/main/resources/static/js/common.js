@@ -1135,6 +1135,17 @@ Amel = {
 			$(this).next('.custom-file-label').addClass("selected").html(fileName);
 			target.table_edit_end($(this), { keyCode: 13, shiftKey: false, ctrlKey: false });
 		});
+		target.add_on($(".expand"), "click", function(e) {
+			var dt = $(this).attr("data-target");
+			if (!dt) return false;
+			var a = $("#" + dt);
+			if (!a) return false;
+			var b = a.is(':hidden');
+			if (b) a.show(); else a.hide();
+			$(this).find("i").removeClass("fa-plus fa-minus");
+			$(this).find("i").addClass(b ? "fa-minus" : "fa-plus");
+			return false;
+		});
 		target.button_enabled();
 		target.calculate();
 	}
