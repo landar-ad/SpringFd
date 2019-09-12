@@ -80,6 +80,8 @@
 	                    		<th:block th:with="w='20%',tt='text',vv=${obj.change_agent?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    		<td width="34%"></td>
 	                    	</tr></tbody></table>
+                    	</div>
+						<div class="w-100 border border-primary">
 	                    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Включен в акт: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='13%',tt='text',vv=${obj.act?.act_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -105,6 +107,8 @@
 								<th:block th:with="w='13%',tt='date',vv=${obj.change_doc?.doc_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<td width="54%"></td>	
 							</tr></tbody></table>
+						</div>
+						<div class="w-100 border border-primary">
 							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Дата отражения в бухгалтерском учете'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='13%',tt='date',vv=${obj.buh_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
