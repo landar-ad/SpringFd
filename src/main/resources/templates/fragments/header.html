@@ -291,7 +291,7 @@
 	 			<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 				<th:block th:with="w='15%',tt='text',vv=${d.person?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	 			<th:block th:with="w='76%',tt='text',vv=${d.person?.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-				<th:block th:with="w='4%',tt='pbutton',nn1='mailing_list',nn2='person',vv=${d.person?.rn},ddmu='true',ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+				<th:block th:with="w='4%',tt='pbutton',nn1='mailing_list',nn2='person',vv=${d.person?.rn},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=Кому;depart__name=Структурное подразделение',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 			</tr>
 			<tr th:if="${rco!=1}" class="parent-popup not-visible last-row">
 				<td class="d-none">
