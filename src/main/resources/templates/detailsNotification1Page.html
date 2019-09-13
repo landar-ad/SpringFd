@@ -22,8 +22,10 @@
 		                		<th:block th:with="w='7%',tt='label',vv='Номер',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='13%',tt='text',nn='doc_number',vv=${obj.doc_number},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                		<th:block th:with="w='7%',tt='label',vv='Дата',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-		          				<th:block th:with="w='13%',tt='date',nn='doc_date',vv=${obj.doc_date},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
-			                    <td width="58%"></td>
+		          				<th:block th:with="w='13%',tt='date',nn='doc_date',vv=${obj.doc_date},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		          				<th:block th:with="w='7%',tt='label',vv='Тип документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='30%',tt='text',vv=${obj.doc_type?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
+			                    <td width="21%"></td>
 			                </tr></tbody></table>
 			                <div id="id1">
 				                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
