@@ -441,6 +441,11 @@ Amel = {
 			if (c.length > 0) target.table_ret(c, q, b);
 		});
 	},
+	in_array: function(rn, arr_rn) {
+		if (!rn || !arr_rn || arr_rn.length < 0) return false;
+		for (var i=0; i<arr_rn.length; i++) if (arr_rn[i] == rn) return true;
+		return false;
+	},
 	button_command: function(b) {
 		var target = this;
 		if (!b) return;
@@ -981,9 +986,11 @@ Amel = {
 	// Инициализация всплывающих окон
 	popup_init: function() {
 		var target = this;
-		target.add_on($('.choose_obj'), 'click', function(event) {
+		target.add_on($(".choose_obj"), "click", function(event) {
 			var t = $(this), rn = $(t).parent().find("input[type='hidden']").val();
-			var multiple = t.attr("data-multiple")
+			var multiple = t.attr("data-multiple");
+			var unique = t.attr("data-unique");
+			unique = unique != "false" && unique != "no" ? true : false;
 			var clazz = t.attr("data-clazz");
 			if (!clazz) clazz = $("input[name='clazz']").val();
 			if (!clazz) return;
@@ -1011,6 +1018,11 @@ Amel = {
 					}
 				}
 			}
+			var arrRn = [];
+			$(t).closest("table").find(".choose_obj").each(function() {
+				var z_rn = $(this).parent().find("input[type='hidden']").val();
+				if (z_rn > 0) arrRn[length] = z_rn;
+			});
 			$.ajax({ method: "POST", url: "popupSelect", 
 				data: data,
 				success: function(result) {
@@ -1035,7 +1047,9 @@ Amel = {
 						modal.find("table tbody tr").each(function() {
 							var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 							if (c) {
-								prn[prn.length] = $(this).find(".d-none").first().text();
+								var rn = $(this).find(".d-none").first().text();
+								if (unique && target.in_array(rn, arrRn)) return;
+								prn[prn.length] = rn;
 								psource[psource.length] = this;
 							}
 						});
