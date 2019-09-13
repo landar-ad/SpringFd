@@ -463,7 +463,14 @@ Amel = {
 				target.button_enabled();
 				var zz = c.find(".td-edited .custom-file");
 				if (zz.length > 0) zz = zz.closest(".td-edited");
-				else zz = c.find(".td-edited:eq(1)");
+				else {
+					zz = c.find(".td-edited .choose_obj").first();
+					if (zz.length > 0) {
+						$(zz).click();
+						return;
+					}
+					else zz = c.find(".td-edited:eq(1)");
+				}
 				target.table_edit(zz); 
 			}, 10);
 		}
@@ -1032,15 +1039,17 @@ Amel = {
 								psource[psource.length] = this;
 							}
 						});
-						for (var i=0; i<prn.length; i++) {
-							var rn = prn[i], source = psource[i];
+						for (var j=0; j<prn.length; j++) {
+							var rn = prn[j], source = psource[j];
 							if (i > 0) {
 								var tr = $(t).closest("table").find(".last-row");
 								if (tr.length == 0) break;
 								var c = tr.clone().insertBefore(tr);
 								c.removeClass("not-visible last-row");
-								$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
+								$(c).find("input[name$='p_cmd']").val("add");
 								t = $(c).find(".choose_obj");
+								c.find(".td-edited .td-check").prop("checked", true);
+								target.edit_init();
 							}
 							
 							var p = $(t).parent();
