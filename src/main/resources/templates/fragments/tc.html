@@ -70,7 +70,7 @@
 		</th:block>
 		<th:block th:if="${tt=='pbutton'}">
 			<div th:if="${ro!=1}">
-				<button type="button" class="td-button choose_obj btn btn-link btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}"><i class="fa fa-sm fa-file"></i></button>
+				<button type="button" class="td-button choose_obj btn btn-link btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file"></i></button>
 				<input th:name="${nn1 + (!#strings.isEmpty(nn2) ? '__' + nn2 : '')}" type="hidden" th:value="${vv}">
 			</div>
 		</th:block>

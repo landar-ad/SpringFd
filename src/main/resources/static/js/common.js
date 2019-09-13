@@ -1024,30 +1024,43 @@ Amel = {
 						$(this).prop("checked", p);
 					});
 					target.add_on(modal.find(".save-button"), "click", function() {
-						var rn = "", source = null;
+						var prn = [], psource = [];
 						modal.find("table tbody tr").each(function() {
 							var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 							if (c) {
-								rn = $(this).find(".d-none").first().text();
-								source = this;
-								return false;
+								prn[prn.length] = $(this).find(".d-none").first().text();
+								psource[psource.length] = this;
 							}
 						});
-						var p = $(t).parent();
-						p.find("input[type='hidden']").val(rn > 0 ? rn : "");
-						p = $(p).closest(".parent-popup");
-						var zz = $(p).find(".d-none > input[name$='p_cmd']");
-						if (!zz.val()) zz.val("update");
-						target.calculate();
-						var arr = $(source).find(".text-select");
-						for (var i=0; i<arr.length; i++) {
-							var tt = rn > 0 ?  $(arr[i]).text() : "";
-							var idx = null;
-							try {idx = parseInt($(arr[i]).attr("data-target")); } catch(e) { }
-							if (idx == null || isNaN(idx)) idx = i;
-							var oo = $(p).find(".td-label:eq(" + idx + ")");
-							oo.text(tt);
-							if (oo.length == 0) $(p).find("input:eq(" + idx + ")").val(tt);
+						for (var i=0; i<prn.length; i++) {
+							var rn = prn[i], source = psource[i];
+							if (i > 0) {
+								var tr = $(t).closest("table").find(".last-row");
+								if (tr.length == 0) break;
+								var c = tr.clone().insertBefore(tr);
+								c.removeClass("not-visible last-row");
+								$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
+								t = $(c).find(".choose_obj");
+							}
+							
+							var p = $(t).parent();
+							p.find("input[type='hidden']").val(rn > 0 ? rn : "");
+							p = $(p).closest(".parent-popup");
+							var zz = $(p).find(".d-none > input[name$='p_cmd']");
+							if (!zz.val()) zz.val("update");
+							target.calculate();
+							
+							var arr = $(source).find(".text-select");
+							for (var i=0; i<arr.length; i++) {
+								var tt = rn > 0 ?  $(arr[i]).text() : "";
+								var idx = null;
+								try {idx = parseInt($(arr[i]).attr("data-target")); } catch(e) { }
+								if (idx == null || isNaN(idx)) idx = i;
+								var oo = $(p).find(".td-label:eq(" + idx + ")");
+								oo.text(tt);
+								if (oo.length == 0) $(p).find("input:eq(" + idx + ")").val(tt);
+							}
+							if (!multiple) break;
 						}
 					});
 					target.add_on(modal.find(".filter-popup"), "input", function() {
