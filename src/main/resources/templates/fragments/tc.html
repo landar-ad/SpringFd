@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <table class="table table-sm table-edited table-bordered small"><tbody><tr>
-	<th th:fragment="ch" th:width="${w}" th:class="${#strings.equals(aa,'c') ? 'td-center' : (#strings.equals(aa,'r') ? 'td-right' : 'td-left')}">
+	<th th:fragment="ch" th:width="${w}" th:class="${#strings.equals(aa,'c') ? 'td-center' : (#strings.equals(aa,'r') ? 'td-right' : 'td-left')}" th:colspan="${cs}">
 		<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
 	</th>
 	<td th:fragment="check" class="td-edited td-center" th:width="${w}">
@@ -27,7 +27,7 @@
 			<button class="expand td-button btn btn-sm btn-link small" type="button" th:data-target="${ddta}"><i th:class="${'fa fa-sm fa-' + (e==true ? 'minus' : 'plus')}"></i></button>
 		</th:block>
 	</td>
-	<td th:fragment="cd" th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : ' td-left'))}">
+	<td th:fragment="cd" th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : ' td-left'))}" th:colspan="${cs}">
 		<th:block th:if="${tt=='label'}">
 			<label th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
 		</th:block>
