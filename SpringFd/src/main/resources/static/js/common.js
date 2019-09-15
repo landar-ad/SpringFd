@@ -1184,6 +1184,12 @@ Amel = {
 			$(this).find("i").addClass(b ? "fa-minus" : "fa-plus");
 			return false;
 		});
+		$(".table-edited").colResizable({
+            liveDrag:true, 
+            gripInnerHtml:"<div class='grip'></div>", 
+            draggingClass:"dragging", 
+            resizeMode:'flex'
+        });
 		target.button_enabled();
 		target.calculate();
 	}
