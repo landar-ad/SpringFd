@@ -140,6 +140,7 @@ body {
 }
 .table-edited {
 	margin-bottom: -1px;
+	margin-right: -1px;
 	border-collapse: collapse;
 }
 .mb-0 {
@@ -171,4 +172,8 @@ body {
 }
 .td-label {
 	color: #ff8000; 
+}
+.w-in {
+	display: inline-block;
+	margin-bottom: -6px;
 }
