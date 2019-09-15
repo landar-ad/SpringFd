@@ -1188,7 +1188,7 @@ Amel = {
             liveDrag:true, 
             gripInnerHtml:"<div class='grip'></div>", 
             draggingClass:"dragging", 
-            resizeMode:'overflow'
+            resizeMode:'flex'
         });
 		target.button_enabled();
 		target.calculate();
