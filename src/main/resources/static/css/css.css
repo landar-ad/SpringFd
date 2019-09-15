@@ -140,7 +140,7 @@ body {
 }
 .table-edited {
 	margin-bottom: -1px;
-	margin-right: -1px;
+	margin-right: 1px;
 	border-collapse: collapse;
 }
 .mb-0 {
