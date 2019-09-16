@@ -44,7 +44,9 @@ Amel = {
 		});
 	},
 	// Инициализация элементов показа даты
-	date_on: function() { $('.input_date').datepicker({language: "ru"}); },
+	date_on: function() { 
+		$('.input_date').datepicker({language: "ru"});
+	},
 	// Инициализация элементов показа даты и времени
 	time_on: function() { $('.input_time').datetimepicker({locale: "ru"}); },
 	// Загрузка данных из файла
