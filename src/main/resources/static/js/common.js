@@ -44,9 +44,7 @@ Amel = {
 		});
 	},
 	// Инициализация элементов показа даты
-	date_on: function() { 
-		$('.input_date').datepicker({language: "ru"});
-	},
+	date_on: function() { $('.input_date').datetimepicker({locale: "ru", format: 'L'}); },
 	// Инициализация элементов показа даты и времени
 	time_on: function() { $('.input_time').datetimepicker({locale: "ru"}); },
 	// Загрузка данных из файла
@@ -306,7 +304,7 @@ Amel = {
 	table_edit: function(c) {
 		var target = this;
 		if (!c) return;
-		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,button"), b = c.find(">label,>span").first();
+		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date"), b = c.find(">label,>span").first();
 		if (a.length < 1) return; 
 		a = a.first();
 		if (!a.is(':hidden')) return;
@@ -332,13 +330,16 @@ Amel = {
 		if (k != 9 && k != 13 && k != 27) return true;
 		var target = this;
 		var c = q.closest(".td-edited"), b = c.find(">label,>span").first();
-		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,button");
+		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date");
 		if (a.length < 1) return false;
+		a = a.first();
 		var h = c.find("input[type='hidden']").first()
 		var t = q.attr("type");
+		if (a.hasClass("custom-date")) t = "cdate";
 		if (a.prop("tagName").toLowerCase() == "select") t = "select";
 		if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !e.ctrlKey) return true;
-		if (t == "file" && !e.keyCode) return true;
+		if ((t == "file" || t == "cdate") && !e.keyCode) { if (t == "cdate") q.focus(); return true; }
+		
 		if (b.length > 0) {
 			b.show();
 			a.hide();
@@ -379,7 +380,7 @@ Amel = {
 		if (k == 9) {
 			var p = $(".td-edited"), pa = [];
 			for (var j=0; j<p.length; j++) {
-				var zz = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea");
+				var zz = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date");
 				if (zz.length > 0) pa[pa.length] = p[j]; 
 			}
 			for (var j=0; j<pa.length; j++) {
