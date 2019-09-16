@@ -84,28 +84,29 @@
 						<div class="w-100 border border-primary">
 	                    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Включен в акт: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='13%',tt='text',vv=${obj.act?.act_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='13%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='7%',tt='text',vv=${obj.act?.act_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='7%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='13%',tt='date',vv=${obj.act?.act_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='13%',tt='label',vv='Включен в реестр: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
-								<th:block th:with="w='13%',tt='text',vv=${obj.reestr?.reestr_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-								<th:block th:with="w='13%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
-								<th:block th:with="w='9%',tt='date',vv=${obj.reestr?.reestr_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+								<th:block th:with="w='7%',tt='text',vv=${obj.reestr?.reestr_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+								<th:block th:with="w='7%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
+								<th:block th:with="w='13%',tt='date',vv=${obj.reestr?.reestr_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+								<td width="20%"></td>
 							</tr></tbody></table>
 							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 								<th:block th:with="w='13%',tt='label',vv='Исключен из акта: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='13%',tt='text',vv=${obj.act_exclude_num},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='13%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                        <th:block th:with="w='7%',tt='date',vv=${obj.act_exclude_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='7%',tt='text',vv=${obj.act_exclude_num},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='7%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='13%',tt='date',vv=${obj.act_exclude_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <th:block th:with="w='13%',tt='label',vv='Причина'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                        <th:block th:with="w='41%',tt='text',vv=${obj.act_exclude_reason},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='47%',tt='text',vv=${obj.act_exclude_reason},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							</tr></tbody></table>
 							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 								<th:block th:with="w='13%',tt='label',vv='Заменен документом: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
-								<th:block th:with="w='13%',tt='text',vv=${obj.change_doc?.doc_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+								<th:block th:with="w='7%',tt='text',vv=${obj.change_doc?.doc_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<th:block th:with="w='7%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='13%',tt='date',vv=${obj.change_doc?.doc_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-								<td width="54%"></td>	
+								<td width="60%"></td>	
 							</tr></tbody></table>
 						</div>
 						<div class="w-100 border border-primary">
