@@ -1190,6 +1190,7 @@ Amel = {
 			$(this).find("i").addClass(b ? "fa-minus" : "fa-plus");
 			return false;
 		});
+		$(".table-edited td,.table-edited th").resizable({handles: "e"});
 		target.button_enabled();
 		target.calculate();
 	}
