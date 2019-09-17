@@ -86,7 +86,7 @@
 							           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status.code =2;depart.rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='20%',tt='check',nn='list_doc__exclude',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							           	<th:block th:with="w='20%',tt='date',nn='list_doc__exclude_date',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+							           	<th:block th:with="w='20%',tt='date',nn='list_doc__exclude_date',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',nn='list_doc__exclude_reason',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<td width="11%"></td>
 							    	</tr>
@@ -96,7 +96,7 @@
 						<div class="w-100 border border-primary">
 							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 		                   		<th:block th:with="w='7%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                		<th:block th:with="w='13%',tt='select',nn='act_status',ll=${listDocStatus},vv=${obj.doc_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
+		                		<th:block th:with="w='13%',tt='select',nn='act_status',ll=${listActStatus},vv=${obj.act_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
 	                    		<th:block th:with="w='20%',tt='label',vv='Дата присвоения статуса'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                    		<th:block th:with="w='13%',tt='time',vv=${obj.time_status},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    		<th:block th:with="w='13%',tt='label',vv='Причина отказа'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -111,7 +111,7 @@
 	                    		<td width="34%"></td>
 	                    	</tr></tbody></table>
 						</div>
-	                    <div class="w-100 border border-primary">
+	                    <div class="w-100 border border-primary" style="padding-bottom: 2px;">
 	                    	<th:block th:replace="fragments/header :: file_list"/>
 	                    </div>
                     </div>
