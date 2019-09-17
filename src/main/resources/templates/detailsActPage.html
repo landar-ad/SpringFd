@@ -12,7 +12,7 @@
 		<form action="detailsObj" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="st=${obj.act_status==null ? '1' : obj.act_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card small">
+           	<div th:with="st=${obj.act_status==null ? '1' : obj.act_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card">
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
@@ -68,7 +68,7 @@
 							           	</td>
 							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',vv=${d.doc?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv=${d.doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status__code =''2'';depart__rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv=${d.doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status.code =2;depart.rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='20%',tt='check',nn='list_doc__exclude',vv=${d.exclude},ro=${adm!=1 && st!='3'}"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<th:block th:with="w='20%',tt='date',nn='list_doc__exclude_date',vv=${d.exclude_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',nn='list_doc__exclude_reason',vv=${d.exclude_reason},ro=${adm!=1 && st!='3'}"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -84,7 +84,7 @@
 							           	</td>
 							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status__code =''2'';depart__rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status.code =2;depart.rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='20%',tt='check',nn='list_doc__exclude',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<th:block th:with="w='20%',tt='date',nn='list_doc__exclude_date',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',nn='list_doc__exclude_reason',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
