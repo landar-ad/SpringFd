@@ -54,7 +54,7 @@
 			</div>
 		</th:block>
 		<th:block th:if="${tt=='text'}">
-			<label th:text="${vv}" class="td-label"></label>
+			<label th:text="${vv}" class="td-label" th:data-name="${nn}"></label>
 			<input th:if="${ro!=1}" class="not-visible form-control form-control-sm" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
 		</th:block>
 		<th:block th:if="${tt=='password'}">
