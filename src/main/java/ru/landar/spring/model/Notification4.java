@@ -53,7 +53,7 @@ public class Notification4 extends Document {
     public List<ButtonInfo> detailsButton() {
     	List<ButtonInfo> ret = super.detailsButton();
 		if (ret == null) ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("createNotification5", "Сформировать предложения на закупку", null, "success"));
+		ret.add(new ButtonInfo("createNotification5", "Сформировать предложения на закупку", null, "primary"));
 		return ret;
     }
     
@@ -81,14 +81,14 @@ public class Notification4 extends Document {
      	if ("save".equals(param)) return onCheckRights(Operation.update);
      	if ("cancel".equals(param)) return true;
 		else if ("createNotification5".equals(param)) {
-			if (statusCode() != 3) return false;
+			if (statusCode() != 4) return false;
 			if (userService.isAdmin(null)) return true;
 			return false;
 		}
 		return super.onCheckExecute(param);
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    public String createNotification2(HttpServletRequest request) throws Exception {
+    public String createNotification5(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("createNotification5")) return null;
     	List<Integer> newRn = new ArrayList<Integer>();

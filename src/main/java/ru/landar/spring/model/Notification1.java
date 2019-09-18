@@ -53,7 +53,7 @@ public class Notification1 extends Document {
     public List<ButtonInfo> detailsButton() {
     	List<ButtonInfo> ret = super.detailsButton();
 		if (ret == null) ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("createNotification2", "Сформировать проекты предложений на закупку", null, "success"));
+		ret.add(new ButtonInfo("createNotification2", "Сформировать проекты предложений на закупку", null, "primary"));
 		return ret;
     }
     
@@ -80,7 +80,7 @@ public class Notification1 extends Document {
      	if ("save".equals(param)) return onCheckRights(Operation.update);
      	if ("cancel".equals(param)) return true;
 		else if ("createNotification2".equals(param)) {
-			if (statusCode() != 3) return false;
+			if (statusCode() != 4) return false;
 			if (userService.isAdmin(null)) return true;
 			return false;
 		}
