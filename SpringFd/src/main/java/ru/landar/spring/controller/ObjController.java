@@ -263,7 +263,7 @@ public class ObjController {
 		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
 		for (String p : listNames) {
 			String v = request.getParameter(p);
-			if ("rn".equals(p) || "clazz".equals(p)) continue;
+			if ("rn".equals(p) || "clazz".equals(p) || "readonly".equals(p) || "prn".equals(p)) continue;
 			Class<?> clType =  hs.getAttrType(cl, p);
 			if (clType == null) {
 				if (!p.startsWith("p_")) model.addAttribute(p, v);

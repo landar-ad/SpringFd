@@ -93,7 +93,7 @@
   	</div>
 	<div th:fragment="details-buttons" class="row small col-sm-12">
 		<div class="btn-group">
-            <button th:if="${readonly!=true}" id="submitButton" class="submit-button btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+            <button th:if=${readonly!=true} id="submitButton" class="submit-button btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
             <a id="cancelButton" th:if="${p_ret=='search'}" th:href="${'search?p_ret=1}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
             <a id="cancelButton" th:if="${p_ret!='search' && prn==null}" th:href="${'listObj?p_ret=1&clazz=' + obj.baseClazz + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
             <a id="cancelButton" th:if="${p_ret!='search' && prn!=null}" th:href="${'detailsObj?rn=' + prn}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
