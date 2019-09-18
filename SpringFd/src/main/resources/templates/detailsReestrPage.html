@@ -64,26 +64,28 @@
 					        		<tr>
 							       		<td class="d-none"></td>
 							       		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='24%',tt='label',vv='Документ',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='20%',tt='label',vv='Заменен'"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='20%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
-							      		<td width="31%"></td>
+							       		<th:block th:with="w='34%',tt='label',vv='Документ',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
+							       		<th:block th:with="w='30%',tt='label',vv='Заменен'"><td th:replace="fragments/tc :: cd"></td></th:block>
+							       		<th:block th:with="w='4%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
+							      		<td width="27%"></td>
 					       			</tr>
 					     		</tbody>
 				     		   	<tbody>
 						        	<tr th:each="d : ${obj?.list_doc}" class="parent-popup">
 							         	<td class="d-none"><input type="hidden" name="list_doc__rn" th:value="${d.rn}"><input type="hidden" name="list_doc__rnOld" th:value="${d.rn}"><input type="hidden" name="list_doc__clazz" value="Document"><input type="hidden" name="list_doc__p_add" value="exists"><input type="hidden" name="list_doce__p_cmd" value=""></td>
 							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-							           	<th:block th:with="w='60%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+							           	<th:block th:with="w='30%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='rn',vv=${d.rn},ro=${adm==1 || st=='2' || st=='3' ? 0 : 1},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status.code =4'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='30%',tt='text',vv=${d.change_doc?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='4%',tt='anchor',vv=${'detailsObj?readonly=1&rn=' + d.rn + '&prn=' + obj.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
 							           	<td width="27%"></td>
 							       	</tr>
 							       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
 							           	<td class="d-none"><input type="hidden" name="list_doc__rn" value=""><input type="hidden" name="list_doc__rnOld" value=""><input type="hidden" name="list_doc__clazz" value="Document"><input type="hidden" name="list_doc__p_add" value="exists"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-							           	<th:block th:with="w='60%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+							           	<th:block th:with="w='30%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${adm==1 || st=='2' || st=='3' ? 0 : 1},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status__code =4'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='30%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
 							           	<td width="27%"></td>
 							    	</tr>
