@@ -247,9 +247,9 @@ public class ObjController {
 							 @RequestParam("p_ret") Optional<String> paramRet,
 							 HttpServletRequest request,
 							 Model model) throws Exception {
-		String clazz = paramClazz.orElse(null);
 		Integer rn = paramRn.orElse(null);
-		if (hs.isEmpty(clazz) && rn != null) clazz = objService.getClassByKey(rn);
+		String clazz = rn != null ? objService.getClassByKey(rn) : null;
+		if (hs.isEmpty(clazz)) clazz = paramClazz.orElse(null);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Integer prn = paramPrn.orElse(null);
@@ -266,7 +266,7 @@ public class ObjController {
 			if ("rn".equals(p) || "clazz".equals(p) || "readonly".equals(p) || "prn".equals(p)) continue;
 			Class<?> clType =  hs.getAttrType(cl, p);
 			if (clType == null) {
-				if (!p.startsWith("p_")) model.addAttribute(p, v);
+				if (!p.startsWith("p_") && !model.containsAttribute(p)) model.addAttribute(p, v);
 				continue;
 			}
 			hs.setProperty(obj, p, hs.getObjectByString(v, clType));
@@ -587,11 +587,12 @@ public class ObjController {
 								HttpServletRequest request,
 								Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
-		String msg = "", name = "", clazz = "";
+		String msg = "", name = "", clazz = "", baseClazz = "";
 		for (; ;) {
 			Object obj = objService.find(paramClazz.orElse(null), rn);
 			if (obj == null) { msg = String.format("Не найден объект с идентификатором '%s'", rn); break; }
 			clazz = hs.getPropertyString(obj, "clazz");
+			baseClazz = hs.getPropertyString(obj, "baseClazz");
 			name = (String)hs.getProperty(obj, "name");
 			if (!hs.checkRights(obj, Operation.delete)) { msg = String.format("Вы не имеете прав на удаление объекта '%s'", name); break; }
 			TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
@@ -614,7 +615,7 @@ public class ObjController {
 			break;
 		}
 		setMainModel(model, "Удаление объекта");
-		model.addAttribute("clazz", clazz);
+		model.addAttribute("clazz", baseClazz);
 		model.addAttribute("p_message", msg);
 		return "removeObjPage";
 	}
