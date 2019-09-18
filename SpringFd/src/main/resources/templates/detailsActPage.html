@@ -59,33 +59,21 @@
 					     		</tbody>
 					        	<tbody>
 						        	<tr th:each="d : ${obj?.list_doc}" class="parent-popup">
-							         	<td class="d-none">
-							         		<input type="hidden" name="list_doc__rn" th:value="${d.rn}">
-							            	<input type="hidden" name="list_doc__rnOld" th:value="${d.rn}">
-							            	<input type="hidden" name="list_doc__clazz" value="Act_document">
-							            	<input type="hidden" name="list_doc__p_add" value="new">
-							            	<input type="hidden" name="list_doce__p_cmd" value="">	
-							           	</td>
+							         	<td class="d-none"><input type="hidden" name="list_doc__rn" th:value="${d.rn}"><input type="hidden" name="list_doc__rnOld" th:value="${d.rn}"><input type="hidden" name="list_doc__clazz" value="Act_document"><input type="hidden" name="list_doc__p_add" value="new"><input type="hidden" name="list_doce__p_cmd" value=""></td>
 							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',vv=${d.doc?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv=${d.doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status.code =2;depart.rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='20%',tt='check',nn='list_doc__exclude',vv=${d.exclude},ro=${adm!=1 && st!='3'}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='20%',tt='check',nn='list_doc__exclude',vv=${d.exclude},ro=${adm!=1 && st!='3'}"><td th:replace="fragments/tc :: check"></td></th:block>
 							           	<th:block th:with="w='20%',tt='date',nn='list_doc__exclude_date',vv=${d.exclude_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',nn='list_doc__exclude_reason',vv=${d.exclude_reason},ro=${adm!=1 && st!='3'}"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<td width="11%"></td>
 							       	</tr>
 							       	<tr th:if="${rco!=1}" class="not-visible last-row">
-							           	<td class="d-none">
-							           		<input type="hidden" name="list_doc__rn" value="">
-							            	<input type="hidden" name="list_doc__rnOld" value="">
-							            	<input type="hidden" name="list_doc__clazz" value="IFile">
-							            	<input type="hidden" name="list_doc__p_add" value="new">
-							            	<input type="hidden" name="list_doc__p_cmd" value="">
-							           	</td>
+							           	<td class="d-none"><input type="hidden" name="list_doc__rn" value=""><input type="hidden" name="list_doc__rnOld" value=""><input type="hidden" name="list_doc__clazz" value="Act_document"><input type="hidden" name="list_doc__p_add" value="new"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status.code =2;depart.rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='20%',tt='check',nn='list_doc__exclude',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status__code =2;depart.rn =#d#'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='20%',tt='check',nn='list_doc__exclude',vv=''"><td th:replace="fragments/tc :: check"></td></th:block>
 							           	<th:block th:with="w='20%',tt='date',nn='list_doc__exclude_date',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',nn='list_doc__exclude_reason',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<td width="11%"></td>
@@ -111,7 +99,7 @@
 	                    		<td width="34%"></td>
 	                    	</tr></tbody></table>
 						</div>
-	                    <div class="w-100 border border-primary" style="padding-bottom: 2px;">
+	                    <div class="w-100 border border-primary pb-1">
 	                    	<th:block th:replace="fragments/header :: file_list"/>
 	                    </div>
                     </div>

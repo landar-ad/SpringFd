@@ -130,7 +130,7 @@ public class PopupController {
 						v = v.substring(0, k) + r + v.substring(e + 1);
 					}
 				}
-				a = a.replaceAll(".", "__");
+				a = a.replaceAll("[.]", "__");
 				listAttr.add(a);
 				listValue.add(v);
 			}
