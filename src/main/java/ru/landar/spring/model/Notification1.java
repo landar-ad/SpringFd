@@ -90,7 +90,7 @@ public class Notification1 extends Document {
     public String createNotification2(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("createNotification2")) return null;
-    	Integer newRn = null;
+    	List<Integer> newRn = new ArrayList<Integer>();
     	List<Specification1> l = getList_spec();
     	for (Specification1 spec : l) {
     		if (hs.isEmpty(spec.getKbk())) continue;
@@ -102,8 +102,8 @@ public class Notification1 extends Document {
     		hs.setProperty(n2, "depart", objRepository.findByCode(IDepartment.class, "09"));
     		n2.onNew();
     		objRepository.createObj(n2);
-    		newRn = n2.getRn();
+    		if (n2.getRn() != null) newRn.add(n2.getRn());
     	}
-    	return newRn != null ? "/detailsObj?clazz=Document&rn=" + newRn : null;
+    	return newRn.size() == 1 ? "/detailsObj?clazz=Document&rn=" + newRn.get(0) : (newRn.size() > 1 ? "/listObj?clazz=Document&rn=" + newRn.get(0) : null);
 	} 
 }
