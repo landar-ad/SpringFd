@@ -80,7 +80,7 @@ public class Notification1 extends Document {
      	if ("save".equals(param)) return onCheckRights(Operation.update);
      	if ("cancel".equals(param)) return true;
 		else if ("createNotification2".equals(param)) {
-			if (statusCode() <= 1) return false;
+			if (statusCode() != 3) return false;
 			if (userService.isAdmin(null)) return true;
 			return false;
 		}
