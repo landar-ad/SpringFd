@@ -455,7 +455,7 @@ Amel = {
 	button_command: function(b) {
 		var target = this;
 		if (!b) return;
-		var command = b.attr("data-command"), targetId = b.attr("data-target");
+		var command = b.attr("data-command"), targetId = b.attr("data-target"), names = b.attr("data-name");
 		if (!command) return;
 		var table = $("#" + targetId);
 		if (!table) return;
@@ -539,7 +539,7 @@ Amel = {
 						});
 						tr.closest("form").find("input").each(function() {
 							var name = $(this).attr("name");
-							if (!name || name=="rn" || name=="clazz" || p[name]) return;
+							if (!name || name=="rn" || name=="clazz" || p[name] || (names && names.indexOf(name) < 0)) return;
 							p[name] = $(this).val();
 						});
 						/*processData: false,
