@@ -68,7 +68,7 @@
 							           	<th:block th:with="w='20%',tt='text',nn='list_doc__exclude_reason',vv=${d.exclude_reason},ro=${adm!=1 && st!='3'}"><td th:replace="fragments/tc :: cd"></td></th:block>
 							           	<td width="11%"></td>
 							       	</tr>
-							       	<tr th:if="${rco!=1}" class="not-visible last-row">
+							       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
 							           	<td class="d-none"><input type="hidden" name="list_doc__rn" value=""><input type="hidden" name="list_doc__rnOld" value=""><input type="hidden" name="list_doc__clazz" value="Act_document"><input type="hidden" name="list_doc__p_add" value="new"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 							           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
