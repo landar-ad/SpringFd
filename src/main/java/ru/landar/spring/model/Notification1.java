@@ -78,7 +78,7 @@ public class Notification1 extends Document {
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
      	if ("save".equals(param)) return onCheckRights(Operation.update);
-     	if ("cancel".equals(param)) return true;
+     	else if ("cancel".equals(param)) return true;
 		else if ("createNotification2".equals(param)) {
 			if (statusCode() != 4) return false;
 			if (userService.isAdmin(null)) return true;
