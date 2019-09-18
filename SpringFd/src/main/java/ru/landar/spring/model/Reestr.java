@@ -163,10 +163,10 @@ public class Reestr extends IBase {
 		ret.add(new ButtonInfo("view", "Просмотреть", "readme"));
 		String roles = userService.getRoles(null);
 		if (roles != null && (roles.indexOf("ADMIN") >= 0 || roles.indexOf("DF") >= 0)) {
-			ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр", null, "success"));
-			ret.add(new ButtonInfo("sendReestr", "Передать в ФК", null, "success"));
+			ret.add(new ButtonInfo("newReestr", "Сформировать новый реестр", "plus-square", "primary"));
+			ret.add(new ButtonInfo("sendReestr", "Передать в ФК", null, "primary"));
 		}
-		ret.add(new ButtonInfo("printReestr", "Печать", null, "success"));
+		ret.add(new ButtonInfo("printReestr", "Печать", "print", "primary"));
 		return ret;
 	}
 	@Override

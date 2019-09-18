@@ -53,7 +53,7 @@ public class Notification4 extends Document {
     public List<ButtonInfo> detailsButton() {
     	List<ButtonInfo> ret = super.detailsButton();
 		if (ret == null) ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("createNotification5", "Сформировать предложения на закупку", null, "primary"));
+		ret.add(new ButtonInfo("createNotification5", "Сформировать предложения на закупку", "plus-square", "primary"));
 		return ret;
     }
     
