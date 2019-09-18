@@ -548,14 +548,16 @@ public class ObjController {
 	@RequestMapping(value = "/checkExecuteObj", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String checkExecuteObj(@RequestParam("rn") Optional<Integer> rnParam, 
-							 @RequestParam("clazz") String clazz,
+							 @RequestParam("clazz") Optional<String> clazzParam,
 							 @RequestParam("param") String param,
 							 Model model) throws Exception {
 		String ret = "";
 		for (; ;) {
+			Integer rn = rnParam.orElse(null);
+			String clazz = rn != null ? objService.getClassByKey(rn) : null;
+			if (hs.isEmpty(clazz)) clazz = clazzParam.orElse(null);
 			Class<?> cl = hs.getClassByName(clazz);
 			if (cl == null) break;
-			Integer rn = rnParam.orElse(null);
 			Object obj = rn != null ? objService.find(cl, rn) : cl.newInstance();
 			if (obj == null) break;
 			String[] ps = param.split(",");
