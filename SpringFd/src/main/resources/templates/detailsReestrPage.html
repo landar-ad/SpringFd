@@ -12,36 +12,85 @@
 		<form action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
 			<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="st=${obj.reestr_status==null ? '1' : obj.reestr_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card small">
+           	<div th:with="st=${obj.reestr_status==null ? '1' : obj.reestr_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card">
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
-		                <div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-2" th:with="tt='label',vv='Дата создания'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='time',vv=${obj.create_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='label',vv='Создан пользователем'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-4" th:with="tt='text',vv=${obj.create_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+		                <div class="w-100 border border-primary">
+	                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                		<th:block th:with="w='13%',tt='label',vv='Дата создания'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                		<th:block th:with="w='20%',tt='time',vv=${obj.create_time},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                		<th:block th:with="w='13%',tt='label',vv='Создан пользователем'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		          				<th:block th:with="w='20%',tt='text',vv=${obj.create_agent?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                    <td width="34%"></td>
+			                </tr></tbody></table>
+		                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                		<th:block th:with="w='13%',tt='label',vv='№ реестра',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		          				<th:block th:with="w='20%',tt='text',nn='reestr_number',vv=${obj.reestr_number},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		          				<th:block th:with="w='13%',tt='label',vv='Дата реестра',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		          				<th:block th:with="w='20%',tt='date',nn='reestr_date',vv=${obj.reestr_date},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
+			                    <td width="34%"></td>
+			                </tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered small parent-popup"><tbody><tr>
+		                    	<th:block th:with="w='33%',tt='label',vv='Структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='4%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='59%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+								<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Код=YYA;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
+		                    </tr></tbody></table>
 	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-2" th:with="tt='label',vv='№ реестра',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='text',nn='reestr_number',vv=${obj.reestr_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='label',vv='Дата реестра',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='date',nn='reestr_date',vv=${obj.reestr_date},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                   </div>
-	                   <div class="form-group-sm row mt-sm-1">
-	                       	<div class="col-sm-2" th:with="tt='label',vv='Структурное подразделение'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                    <div class="w-100 border border-primary">
+	                    	<table class="table table-sm table-edited table-bordered small"><tbody>
+	                    		<tr>
+	                    			<th:block th:with="w='33%',tt='label',vv='Документы сдал'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    			<th:block th:with="w='33%',tt='label',vv='Документы принял'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    			<th:block th:with="w='34%',tt='label',vv='Материально-ответственное лицо'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    		</tr>
+	                    		<tr>
+	                    			<th:block th:with="w='33%',tt='select',nn='agent_from',ll=${listPerson},vv=${obj.agent_from},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    			<th:block th:with="w='33%',tt='select',nn='agent_to',ll=${listPerson},vv=${obj.agent_to},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    			<th:block th:with="w='34%',tt='select',nn='mol',ll=${listPerson},vv=${obj.mol},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    		</tr>
+	                    	</tbody></table>
 	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-4" th:with="tt='label',vv='Документы сдал'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='label',vv='Документы принял'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='label',vv='Материально-ответственное лицо'"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-4" th:with="tt='select',nn='agent_from',ll=${listPerson},vv=${obj.agent_from},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='select',nn='agent_to',ll=${listPerson},vv=${obj.agent_to},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='select',nn='mol',ll=${listPerson},vv=${obj.mol},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-						</div>
+	                    <div class="w-100 border border-primary">
+ 							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+					        	<th:block th:with="w='16%',tt='label',vv='Документы, включенные в реестр'"><th th:replace="fragments/tc :: ch"></th></th:block>
+					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
+					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
+					        	<td width="52%"></td>
+					        </tr></tbody></table>
+					        <table id="list_doc" class="table table-sm table-edited table-bordered small">
+					        	<tbody>
+					        		<tr>
+							       		<td class="d-none"></td>
+							       		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+							       		<th:block th:with="w='24%',tt='label',vv='Документ',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
+							       		<th:block th:with="w='20%',tt='label',vv='Заменен'"><td th:replace="fragments/tc :: cd"></td></th:block>
+							       		<th:block th:with="w='20%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
+							      		<td width="31%"></td>
+					       			</tr>
+					     		</tbody>
+					        	<tbody>
+						        	<tr th:each="d : ${obj?.list_doc}" class="parent-popup">
+							         	<td class="d-none"><input type="hidden" name="list_doc__rn" th:value="${d.rn}"><input type="hidden" name="list_doc__rnOld" th:value="${d.rn}"><input type="hidden" name="list_doc__clazz" value="Document"><input type="hidden" name="list_doc__p_add" value="exists"><input type="hidden" name="list_doce__p_cmd" value=""></td>
+							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+							           	<th:block th:with="w='20%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='rn',vv=${d.rn},ro=${adm==1 || st=='2' || st=='3' ? 0 : 1},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status.code =4'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='4%',tt='anchor',vv=${'detailsObj?readonly=1&rn=' + d.rn + '&prn=' + obj.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
+							           	<td width="31%"></td>
+							       	</tr>
+							       	<tr th:if="${rco!=1}" class="not-visible last-row">
+							           	<td class="d-none"><input type="hidden" name="list_doc__rn" value=""><input type="hidden" name="list_doc__rnOld" value=""><input type="hidden" name="list_doc__clazz" value="Document"><input type="hidden" name="list_doc__p_add" value="exists"><input type="hidden" name="list_doc__p_cmd" value=""></td>
+							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+							           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${adm==1 || st=='2' || st=='3' ? 0 : 1},ddcl='Document',ddti='Выберите документ',ddco='rn;name=Документ=YYA',ddfi='doc_status__code =4'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	            						<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
+							           	<td width="31%"></td>
+							    	</tr>
+					        	</tbody>
+				        	</table>                       	
+                       	</div>
+                       	
 						<div id="list_doc" class="form-group-sm mt-sm-1">
 	                        <label class="col-sm-4">Документы, включенные в реестр</label>
 	                        <div class="col-sm-12">
@@ -106,25 +155,31 @@
 							    </table>
 						    </div>
 					    </div>
-					    <div class="form-group-sm row mt-sm-1">
-					    	<div class="col-sm-2" th:with="tt='label',vv='Количество документов'"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-1" th:with="tt='text',vv=${obj.doc_count},ro=1"><div th:replace="fragments/component :: c"></div></div>
-	                       	<div class="col-sm-2" th:with="tt='label',vv='Количество страниц'"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-1" th:with="tt='text',vv=${obj.sheet_count},ro=1"><div th:replace="fragments/component :: c"></div></div>
-					    </div>
-						<div class="form-group-sm row mt-sm-1">
-							<div class="col-sm-2" th:with="tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-2" th:with="tt='select',nn='reestr_status',ll=${listReestrStatus},vv=${obj.reestr_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-1" th:with="tt='label',vv='Дата присвоения статуса'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='time',vv=${obj.time_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
+					    <div class="w-100 border border-primary">
+					    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+					    		<th:block th:with="w='13%',tt='label',vv='Количество документов'"><th th:replace="fragments/tc :: ch"></th></th:block>
+					    		<th:block th:with="w='20%',tt='text',vv=${obj.doc_count},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+					    		<th:block th:with="w='13%',tt='label',vv='Количество страниц'"><th th:replace="fragments/tc :: ch"></th></th:block>
+					    		<th:block th:with="w='20%',tt='text',vv=${obj.sheet_count},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+					    	</tr></tbody></table>
+						    <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                   		<th:block th:with="w='7%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                		<th:block th:with="w='13%',tt='select',nn='reestr_status',ll=${listReestrStatus},vv=${obj.reestr_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
+	                    		<th:block th:with="w='20%',tt='label',vv='Дата присвоения статуса'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    		<th:block th:with="w='13%',tt='time',vv=${obj.time_status},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    		<td width="47%"></td>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                   		<th:block th:with="w='13%',tt='label',vv='Дата изменения'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                		<th:block th:with="w='20%',tt='time',vv=${obj.change_time},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block> 	
+	                    		<th:block th:with="w='13%',tt='label',vv='Изменен пользователем'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    		<th:block th:with="w='20%',tt='text',vv=${obj.change_agent?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    		<td width="34%"></td>
+	                    	</tr></tbody></table>
 	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Дата изменения'"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-2" th:with="tt='time',vv=${obj.change_time},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-2" th:with="tt='label',vv='Изменен пользователем'"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-4" th:with="tt='text',vv=${obj.change_agent?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+	                    <div class="w-100 border border-primary pb-1">
+	                    	<div th:replace="fragments/header :: file_list"></div>
 	                    </div>
-	                    <div th:replace="fragments/header :: list_file"></div>
                     </div>
 				</div>
 			</div>
