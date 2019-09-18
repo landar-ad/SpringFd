@@ -553,7 +553,7 @@ public class Document extends IBase {
     	sc.setContent(content);
     	return ret;
     }
-    private int statusCode() {
+    protected int statusCode() {
     	int ret = 1; 
     	try { ret = Integer.valueOf(getDoc_status().getCode()); } catch (Exception ex) { }
     	return ret;

@@ -756,6 +756,8 @@ public class ObjController {
 			if (hs.isEmpty(title)) try { title = (String)hs.invoke(obj, "onSingleTitle"); } catch (Exception ex) { }
 			model.addAttribute("p_title", title);
 		}
+		List<ButtonInfo> lb = (List<ButtonInfo>)hs.invoke(obj, "onDetailsButton");
+		if (lb != null && lb.size() > 0) model.addAttribute("listButton", lb);
 	}
 	private void setMainModel(Model model, String title) {
 		model.addAttribute("p_login", userService.getPrincipal());

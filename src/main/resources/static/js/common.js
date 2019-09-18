@@ -90,6 +90,7 @@ Amel = {
 	// Переход по ссылке
 	exec_obj: function(op, param) {
 		var target = this, rn = $('input[name="rn"]').val(), clazz = $('#clazz').val();
+		if (!clazz) clazz = $('input[name="clazz"]').val();
 		if (!(rn > 0) && (op=="edit" || op=="remove" || op=="view")) return;
 		else if (op=="add") rn = null;
 		if (op=="add") {
@@ -781,7 +782,10 @@ Amel = {
 		target.popup_init();
 		target.table_edit_init();
 		target.require_init();
+		var rn = $('input[name="rn"]').val();
+		target.set_buttons(rn);
 	},
+	// Повторная инициализация окна редактирования (просмотра) объекта (при изменении)
 	edit_init: function() {
 		var target = this;
 		target.date_on();
