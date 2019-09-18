@@ -147,7 +147,7 @@ Amel = {
 		if (op=="execute") url = "executeObj";
 		var z = "?";
 		if (rn > 0) { url += z + "rn=" + rn; z = "&"; }
-		if (clazz) { url += z + "clazz=" + clazz; z = "&"; }
+		else if (clazz) { url += z + "clazz=" + clazz; z = "&"; }
 		if (op=="view") url += z + "readonly=1";
 		if (op=="execute") url += z + "param=" + param;
 		window.location = url;
