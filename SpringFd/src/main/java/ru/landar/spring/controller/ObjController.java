@@ -284,10 +284,10 @@ public class ObjController {
 								 HttpServletRequest request,
 								 Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
-		Integer rn = paramRn.orElse(null);
-		String clazz = paramClazz.orElse(null);
 		String p_ret = paramRet.orElse("");
-		if (hs.isEmpty(clazz) && rn != null) clazz = objService.getClassByKey(rn);
+		Integer rn = paramRn.orElse(null);
+		String clazz = rn != null ? objService.getClassByKey(rn) : null;
+		if (hs.isEmpty(clazz)) clazz = paramClazz.orElse(null);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new ClassNotFoundException("Не найден класс по имени '" + clazz + "'");
 		Object obj = rn == null ? cl.newInstance() : objRepository.find(cl, rn);
@@ -511,8 +511,8 @@ public class ObjController {
 							 Model model) throws Exception {
 		String ip = (String)request.getSession().getAttribute("ip"), browser = (String)request.getSession().getAttribute("browser");
 		Integer rn = rnParam.orElse(null);
-		String clazz = clazzParam.orElse(null);
-		if (hs.isEmpty(clazz) && rn != null) clazz = objService.getClassByKey(rn);
+		String clazz = rn != null ? objService.getClassByKey(rn) : null;
+		if (hs.isEmpty(clazz)) clazz = clazzParam.orElse(null);
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = rn != null ? objService.find(cl, rn) : null;
