@@ -82,9 +82,9 @@ public class Notification1 extends Document {
 		else if ("createNotification2".equals(param)) {
 			if (statusCode() <= 1) return false;
 			if (userService.isAdmin(null)) return true;
-			
+			return false;
 		}
-		return false;
+		return super.onCheckExecute(param);
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public String createNotification2(HttpServletRequest request) throws Exception {
