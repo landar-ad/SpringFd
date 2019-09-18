@@ -627,7 +627,7 @@ Amel = {
 			var nn = $(this).attr("data-name");
 			if (nn) {
 				$("label[data-name='" + nn + "']").each(function() {
-					var s = $(this).val();
+					var s = $(this).text();
 					if (s) {
 						s = parseFloat(s);
 						if (s && op == "sum") sum += s;
