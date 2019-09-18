@@ -784,6 +784,11 @@ Amel = {
 		target.require_init();
 		var rn = $('input[name="rn"]').val();
 		target.set_buttons(rn);
+		target.add_on($('.execute_obj'), "click", function() { 
+			var param = $(this).attr("data-param"), op = "execute";
+			if (param == "save" || param == "refresh" || param == "cancel") op = param;
+			target.exec_obj(op, param); 
+		});
 	},
 	// Повторная инициализация окна редактирования (просмотра) объекта (при изменении)
 	edit_init: function() {
