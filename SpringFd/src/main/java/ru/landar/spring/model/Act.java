@@ -167,7 +167,7 @@ public class Act extends IBase {
     	setChange_time(dt);
     	setAct_date(dt);
     	setAct_num(0);
-    	setDepart(hs.getDepartment());
+    	if (getDepart() == null) setDepart(hs.getDepartment());
     	setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "1"));
     	setTime_status(dt);
      	return true;

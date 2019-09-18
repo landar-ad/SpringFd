@@ -264,7 +264,7 @@ public class Document extends IBase {
       	hs.setProperty(this, "create_time", dt);
       	hs.setProperty(this, "change_agent", user.getPerson());
       	hs.setProperty(this, "change_time", dt);
-      	hs.setProperty(this, "depart", hs.getDepartment());
+      	if (getDepart() == null) hs.setProperty(this, "depart", hs.getDepartment());
       	hs.setProperty(this, "doc_date", dt);
       	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "1"));
       	hs.setProperty(this, "time_status", dt);

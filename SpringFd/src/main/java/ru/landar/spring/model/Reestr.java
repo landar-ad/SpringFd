@@ -181,7 +181,7 @@ public class Reestr extends IBase {
     	hs.setProperty(this, "change_agent", user.getPerson());
     	hs.setProperty(this, "change_time", dt);
     	hs.setProperty(this, "reestr_date", dt);
-    	hs.setProperty(this, "depart", hs.getDepartment());
+    	if (getDepart() == null) hs.setProperty(this, "depart", hs.getDepartment());
     	hs.setProperty(this, "reestr_status", (SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "1"));
     	hs.setProperty(this, "time_status", dt);
     	hs.setProperty(this, "doc_count", 0);
