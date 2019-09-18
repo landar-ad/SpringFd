@@ -144,9 +144,11 @@ Amel = {
 		var url = "detailsObj";
 		if (op=="remove") url = "removeObj";
 		if (op=="execute") url = "executeObj";
-		if (rn > 0) url += "?rn=" + rn;
-		if (op=="view") url += "&readonly=1";
-		if (op=="execute") url += "&param=" + param;
+		var z = "?";
+		if (rn > 0) { url += z + "rn=" + rn; z = "&"; }
+		if (clazz) { url += z + "clazz=" + clazz; z = "&"; }
+		if (op=="view") url += z + "readonly=1";
+		if (op=="execute") url += z + "param=" + param;
 		window.location = url;
 	},
 	// Клик по строке таблицы
