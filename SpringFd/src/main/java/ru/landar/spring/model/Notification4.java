@@ -7,13 +7,22 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.LockModeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
+
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.Operation;
+import ru.landar.spring.config.AutowireHelper;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -40,6 +49,14 @@ public class Notification4 extends Document {
       	return true;
     }
     
+    @Override
+    public List<ButtonInfo> detailsButton() {
+    	List<ButtonInfo> ret = super.detailsButton();
+		if (ret == null) ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("createNotification5", "Сформировать предложения на закупку", null, "success"));
+		return ret;
+    }
+    
     public static String singleTitle() { return "Уведомление о БР и ЛБО (200 и 400 группы ВР)"; }
 	public static String multipleTitle() { return "Уведомления о БР и ЛБО (200 и 400 группы ВР)"; }
 	public static List<ColumnInfo> listColumn() {
@@ -54,4 +71,41 @@ public class Notification4 extends Document {
 		ret.add(new ColumnInfo("doc_status__name", "Статус", true, true, "doc_status__rn", "select", "listDocStatus"));
 		return ret;
 	}
+	
+	@Autowired
+	ObjRepositoryCustom objRepository;
+	@Override
+    public Object onCheckExecute(String param) { 
+     	Object ret = invoke("onCheckExecute", param);
+     	if (ret != null) return ret;
+     	if ("save".equals(param)) return onCheckRights(Operation.update);
+     	if ("cancel".equals(param)) return true;
+		else if ("createNotification5".equals(param)) {
+			if (statusCode() != 3) return false;
+			if (userService.isAdmin(null)) return true;
+			return false;
+		}
+		return super.onCheckExecute(param);
+    }
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public String createNotification2(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("createNotification5")) return null;
+    	List<Integer> newRn = new ArrayList<Integer>();
+    	List<Specification4> l = getList_spec();
+    	for (Specification4 spec : l) {
+    		if (hs.isEmpty(spec.getKbk())) continue;
+    		Notification5 n5 = new Notification5();
+    		hs.setProperty(n5, "kbk", spec.getKbk());
+    		hs.setProperty(n5, "sum1", spec.getSum4());
+    		hs.setProperty(n5, "sum2", spec.getSum5());
+    		hs.setProperty(n5, "sum3", spec.getSum6());
+    		hs.setProperty(n5, "depart", objRepository.findByCode(IDepartment.class, "09"));
+    		n5.onNew();
+    		objRepository.createObj(n5);
+    		if (n5.getRn() != null) newRn.add(n5.getRn());
+    	}
+    	return newRn.size() == 1 ? "/detailsObj?clazz=Document&rn=" + newRn.get(0) : (newRn.size() > 1 ? "/listObj?clazz=Document&rn=" + newRn.get(0) : null);
+	} 
+	
 }
