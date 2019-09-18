@@ -534,11 +534,12 @@ Amel = {
 							var name = $(this).attr("name");
 							var k = name.indexOf("__");
 							if (k > 0) name = name.substring(k + 2);
+							if (!name || name=="rn" || name=="clazz" || p[name]) return;
 							p[name] = $(this).val();
 						});
 						tr.closest("form").find("input").each(function() {
 							var name = $(this).attr("name");
-							if (!name || p[name]) return;
+							if (!name || name=="rn" || name=="clazz" || p[name]) return;
 							p[name] = $(this).val();
 						});
 						/*processData: false,
@@ -621,19 +622,24 @@ Amel = {
 	},
 	calculate: function() {
 		$(".td-calc").each(function() {
-			var sum = 0.;
+			var sum = 0., cnt = 0;
 			var op = $(this).attr("data-op");
 			if (!op) op = "sum";
+			if (op == "min" || op == "max") sum = null; 
 			var nn = $(this).attr("data-name");
 			if (nn) {
 				$("label[data-name='" + nn + "']").each(function() {
 					var s = $(this).text();
-					if (s) {
-						s = parseFloat(s);
-						if (s && op == "sum") sum += s;
+					if (s) s = parseFloat(s);
+					if (typeof s == "number") {
+						if (op == "sum" || op == "avg") sum += s;
+						if (op == "max") if (sum == null || sum < s) sum = s;
+						if (op == "min") if (sum == null || sum > s) sum = s;
+						cnt++;
 					}
 				});
 			}
+			if (op == "avg" && cnt > 0) sum = sum / cnt;
 			$(this).text("" + sum);
 		});
 	},
