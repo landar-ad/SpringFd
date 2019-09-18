@@ -626,7 +626,7 @@ Amel = {
 			if (!op) op = "sum";
 			var nn = $(this).attr("data-name");
 			if (nn) {
-				$("input[name='" + nn + "']").each(function() {
+				$("label[data-name='" + nn + "']").each(function() {
 					var s = $(this).val();
 					if (s) {
 						s = parseFloat(s);
