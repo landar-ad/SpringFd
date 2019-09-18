@@ -29,7 +29,7 @@
 		          				<th:block th:with="w='20%',tt='text',nn='act_number',vv=${obj.act_number},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		          				<th:block th:with="w='13%',tt='label',vv='Дата акта',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		          				<th:block th:with="w='20%',tt='date',nn='act_date',vv=${obj.act_date},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
-			                    <td width="1%"></td>
+			                    <td width="34%"></td>
 			                </tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered small parent-popup"><tbody><tr>
 		                    	<th:block th:with="w='33%',tt='label',vv='Структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -41,8 +41,8 @@
                        	<div class="w-100 border border-primary">
  							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
 					        	<th:block th:with="w='16%',tt='label',vv='Документы, включенные в акт'"><th th:replace="fragments/tc :: ch"></th></th:block>
-					        	<th:block th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
-					        	<th:block th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
+					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
+					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
 					        	<td width="52%"></td>
 					        </tr></tbody></table>
 					        <table id="list_doc" class="table table-sm table-edited table-bordered small">
