@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" th:with="p_title='Загрузка справочников'" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" th:with="p_title='Импорт объектов'" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/header :: head"></head>
 <body>
 	<script type="text/javascript">
@@ -15,10 +15,10 @@
 	<div th:replace="fragments/header :: header"></div>
 	<section>
 	    <div class="col-sm-8 m-sm-2">
-			<form action="load" method="post" enctype="multipart/form-data" autocomplete="off">
+			<form action="import" method="post" enctype="multipart/form-data" autocomplete="off">
  				<div class="custom-file col-sm-12 m-sm-2">
 				   <input type="file" class="custom-file-input" name="file">
-				   <label class="custom-file-label text-truncate" data-browse="Выберите EXCEL файл"></label>
+				   <label class="custom-file-label text-truncate" data-browse="Выберите XML файл"></label>
 				</div>
 				<div class="form-group-sm row">
 					<label class="col-sm-4 col-form-label">Фильтр загружаемых объектов (через запятую): </label>
