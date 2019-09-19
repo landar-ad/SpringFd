@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -24,6 +26,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.service.HelperService;
@@ -35,6 +41,79 @@ public class LoadController {
 	private ObjService objService;
 	@Autowired
 	private HelperService hs;
+	
+	@GetMapping(value = "/import")
+	public String importGet(HttpServletRequest request, Model model) throws Exception {
+		return "importPage";
+	}
+	@PostMapping(value = "/import")
+	public String importPost(@RequestParam("file") MultipartFile file, 
+						@RequestParam("filter") Optional<String> paramFilter, 
+						Model model) throws Exception {
+		List<String> listFilter = new ArrayList<String>();
+		String[] filters = paramFilter.orElse("").split(",");
+		for (String filter : filters) if (!filter.trim().isEmpty()) listFilter.add(filter.trim());
+		List<String> listAdd = new ArrayList<String>();
+		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file.getInputStream());
+		for (Node n=doc.getDocumentElement().getFirstChild(); n!=null; n=n.getNextSibling()) {
+			if (n.getNodeType() != Node.ELEMENT_NODE) continue;
+			IBase obj = (IBase)createObject((Element)n, listAdd);
+			if (obj != null) listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
+		}
+		model.addAttribute("datetime", new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(new Date()));
+    	model.addAttribute("listResult", listAdd);
+		return "loadResultPage";
+	}
+	private Object createObject(Element el, List<String> listAdd) throws Exception {
+		String clazz = el.getLocalName();
+		Class<?> cl = hs.getClassByName(clazz);
+		if (cl == null) {
+			listAdd.add(String.format("Не найден класс объекта %s", clazz));
+			return null;
+		}
+		Object obj = cl.newInstance();
+		// Атрибуты
+		NamedNodeMap nm = el.getAttributes();
+		for (int i=0; nm!=null && i<nm.getLength(); i++)
+		{
+			Node attr = nm.item(i);
+			String value = attr.getNodeValue(), name = attr.getNodeName();
+			Class<?> clAttr = hs.getAttrType(cl, name);
+			if (clAttr == null) {
+				listAdd.add(String.format("Не найден атрибут %s объекта %s", name, clazz));
+				continue;
+			}
+			hs.setProperty(obj, name, hs.getObjectByString(cl, name, value));
+		}
+		// Элементы
+		for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling()) {
+			if (nChild.getNodeType() != Node.ELEMENT_NODE) continue;
+			Element elChild = (Element)nChild;
+			String name = elChild.getLocalName();
+			Class<?> clAttr = hs.getAttrType(cl, name);
+			if (clAttr == null) {
+				listAdd.add(String.format("Не найден атрибут %s объекта %s", name, clazz));
+				continue;
+			}
+			if (IBase.class.isAssignableFrom(clAttr)) {
+				Object child = createObject(elChild, listAdd);
+				if (child != null) hs.setProperty(obj, name, child);
+			}
+			else if (List.class.isAssignableFrom(clAttr)) {
+				List<Object> l = new ArrayList<Object>();
+				for (Node nC=el.getFirstChild(); nC!=null; nC=nC.getNextSibling()) {
+					if (nC.getNodeType() != Node.ELEMENT_NODE) continue;
+					Object child = createObject((Element)nC, listAdd);
+					if (child != null) l.add(child);
+				}
+				hs.setProperty(obj, name, l);
+			}
+			else hs.setProperty(obj, name, hs.getObjectByString(cl, name, elChild.getTextContent()));
+		}
+		hs.invoke(obj, "onNew");
+		obj = objService.createObj(obj);
+		return obj;
+	}
 	@GetMapping(value = "/load")
 	public String load(HttpServletRequest request, Model model) throws Exception {
 		return "loadPage";
