@@ -58,7 +58,7 @@ public class IPerson extends IAgent {
     
     @Column(length=40)
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) { this.email = email; setCode(email); }
     
     @Temporal(TemporalType.DATE)
     public Date getDate_fire() { return date_fire; }
