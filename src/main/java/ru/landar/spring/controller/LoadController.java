@@ -103,7 +103,14 @@ public class LoadController {
 				listAdd.add(String.format("Не найден атрибут %s объекта %s", name, clazz));
 				continue;
 			}
-			hs.setProperty(obj, name, hs.getObjectByString(cl, name, value));
+			if (IBase.class.isAssignableFrom(clAttr)) {
+				if (!hs.isEmpty(value)) {
+					Object o = objService.getObjByCode(clAttr, value);
+					if (o != null) hs.setProperty(obj, name, o);
+					else listAdd.add(String.format("Не найден объект %s по коду %s", clAttr.getSimpleName(), value));
+				}
+			}
+			else hs.setProperty(obj, name, hs.getObjectByString(cl, name, value));
 		}
 		// Элементы
 		for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling()) {
@@ -129,7 +136,17 @@ public class LoadController {
 				}
 				hs.setProperty(obj, name, l);
 			}
-			else hs.setProperty(obj, name, hs.getObjectByString(cl, name, elChild.getTextContent()));
+			else {
+				String value = elChild.getTextContent();
+				if (IBase.class.isAssignableFrom(clAttr)) {
+					if (!hs.isEmpty(value)) {
+						Object o = objService.getObjByCode(clAttr, value);
+						if (o != null) hs.setProperty(obj, name, o);
+						else listAdd.add(String.format("Не найден объект %s по коду %s", clAttr.getSimpleName(), value));
+					}
+				}
+				else hs.setProperty(obj, name, hs.getObjectByString(cl, name, value));
+			}
 		}
 		if (listFilter != null && listFilter.size() > 0 && !listFilter.contains(hs.getProperty(obj, "code"))) return null;
 		if (obj instanceof IFile) {
