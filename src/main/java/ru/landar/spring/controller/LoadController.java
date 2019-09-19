@@ -130,7 +130,7 @@ public class LoadController {
 			}
 			else if (List.class.isAssignableFrom(clAttr)) {
 				List<Object> l = new ArrayList<Object>();
-				for (Node nC=el.getFirstChild(); nC!=null; nC=nC.getNextSibling()) {
+				for (Node nC=elChild.getFirstChild(); nC!=null; nC=nC.getNextSibling()) {
 					if (nC.getNodeType() != Node.ELEMENT_NODE) continue;
 					Object child = createObject((Element)nC, listAdd, null);
 					if (child != null) l.add(child);
@@ -178,10 +178,8 @@ public class LoadController {
 			f.setFilelength(hs.copyStream(bais, new FileOutputStream(ff), true, true));
 			f.setFileuri(ff.getAbsolutePath());
 		}
-		if (bNew) hs.invoke(obj, "onNew");
-		else hs.invoke(obj, "onUpdate");
-		obj = objService.saveObj(obj);
-		return obj;
+		hs.invoke(obj, bNew ? "onNew" : "onUpdate");
+		return objService.saveObj(obj);
 	}
 	private List<String> listIgnore = null;
 	private boolean isIgnoreAttr(String attr) {
