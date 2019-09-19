@@ -57,14 +57,14 @@ public class LoadController {
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file.getInputStream());
 		for (Node n=doc.getDocumentElement().getFirstChild(); n!=null; n=n.getNextSibling()) {
 			if (n.getNodeType() != Node.ELEMENT_NODE) continue;
-			IBase obj = (IBase)createObject((Element)n, listAdd);
+			IBase obj = (IBase)createObject((Element)n, listAdd, listFilter);
 			if (obj != null) listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
 		}
 		model.addAttribute("datetime", new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(new Date()));
     	model.addAttribute("listResult", listAdd);
 		return "loadResultPage";
 	}
-	private Object createObject(Element el, List<String> listAdd) throws Exception {
+	private Object createObject(Element el, List<String> listAdd, List<String> listFilter) throws Exception {
 		String clazz = el.getLocalName();
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) {
@@ -96,20 +96,21 @@ public class LoadController {
 				continue;
 			}
 			if (IBase.class.isAssignableFrom(clAttr)) {
-				Object child = createObject(elChild, listAdd);
+				Object child = createObject(elChild, listAdd, null);
 				if (child != null) hs.setProperty(obj, name, child);
 			}
 			else if (List.class.isAssignableFrom(clAttr)) {
 				List<Object> l = new ArrayList<Object>();
 				for (Node nC=el.getFirstChild(); nC!=null; nC=nC.getNextSibling()) {
 					if (nC.getNodeType() != Node.ELEMENT_NODE) continue;
-					Object child = createObject((Element)nC, listAdd);
+					Object child = createObject((Element)nC, listAdd, null);
 					if (child != null) l.add(child);
 				}
 				hs.setProperty(obj, name, l);
 			}
 			else hs.setProperty(obj, name, hs.getObjectByString(cl, name, elChild.getTextContent()));
 		}
+		if (listFilter != null && listFilter.size() > 0 && !listFilter.contains(hs.getProperty(obj, "code"))) return null;
 		hs.invoke(obj, "onNew");
 		obj = objService.createObj(obj);
 		return obj;
