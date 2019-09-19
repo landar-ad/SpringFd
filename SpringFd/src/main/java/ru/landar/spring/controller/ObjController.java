@@ -274,7 +274,8 @@ public class ObjController {
 		setObjModel(obj, model);
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		model.addAttribute("p_ret", paramRet.orElse(""));
-		String t = "details" + clazz + "Page";
+		String pClazz = paramClazz.orElse(null);
+		String t = "details" + (hs.isEmpty(pClazz) ? pClazz : clazz) + "Page";
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.POST)
