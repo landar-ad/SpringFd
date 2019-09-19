@@ -179,6 +179,7 @@ public class LoadController {
 			f.setFileuri(ff.getAbsolutePath());
 		}
 		if (bNew) hs.invoke(obj, "onNew");
+		else hs.invoke(obj, "onUpdate");
 		obj = objService.saveObj(obj);
 		return obj;
 	}
