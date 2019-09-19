@@ -97,7 +97,7 @@ public class LoadController {
 		for (int i=0; nm!=null && i<nm.getLength(); i++) {
 			Node attr = nm.item(i);
 			String value = attr.getNodeValue(), name = attr.getNodeName();
-			if ("rn".equals(name) || "clazz".equals(name)) continue;
+			if (isIgnoreAttr(name)) continue;
 			Class<?> clAttr = hs.getAttrType(cl, name);
 			if (clAttr == null) {
 				listAdd.add(String.format("Не найден атрибут %s объекта %s", name, clazz));
@@ -117,7 +117,7 @@ public class LoadController {
 			if (nChild.getNodeType() != Node.ELEMENT_NODE) continue;
 			Element elChild = (Element)nChild;
 			String name = elChild.getLocalName();
-			if ("rn".equals(name) || "clazz".equals(name)) continue;
+			if (isIgnoreAttr(name)) continue;
 			Class<?> clAttr = hs.getAttrType(cl, name);
 			if (clAttr == null) {
 				listAdd.add(String.format("Не найден атрибут %s объекта %s", name, clazz));
@@ -180,6 +180,19 @@ public class LoadController {
 		if (bNew) hs.invoke(obj, "onNew");
 		obj = objService.saveObj(obj);
 		return obj;
+	}
+	private List<String> listIgnore = null;
+	private boolean isIgnoreAttr(String attr) {
+		if (listIgnore == null) {
+			listIgnore.add("rn");
+			listIgnore.add("clazz");
+			listIgnore.add("name");
+			listIgnore.add("creator");
+			listIgnore.add("modifier");
+			listIgnore.add("mdate");
+			listIgnore.add("cdate");
+		}
+		return attr != null && listIgnore.contains(attr);
 	}
 	@GetMapping(value = "/load")
 	public String load(HttpServletRequest request, Model model) throws Exception {
