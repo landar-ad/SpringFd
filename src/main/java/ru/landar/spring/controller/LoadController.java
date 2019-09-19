@@ -1,5 +1,9 @@
 package ru.landar.spring.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -32,6 +36,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import ru.landar.spring.model.IBase;
+import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 
@@ -111,6 +117,33 @@ public class LoadController {
 			else hs.setProperty(obj, name, hs.getObjectByString(cl, name, elChild.getTextContent()));
 		}
 		if (listFilter != null && listFilter.size() > 0 && !listFilter.contains(hs.getProperty(obj, "code"))) return null;
+		if (obj instanceof IFile) {
+			IFile f = (IFile)obj;
+			String fileext = hs.getPropertyString(obj, "fileext"), filename = hs.getPropertyString(obj, "filename"), name = filename;
+			if (!hs.isEmpty(fileext) && !hs.isEmpty(filename)) {
+				int k = filename.lastIndexOf('.');
+				fileext = k > 0 ? filename.substring(k + 1) : "";
+				name = k > 0 ? filename.substring(0, k) : filename;
+				f.setFileext(fileext);
+			}
+			if (!hs.isEmpty(fileext)) {
+				SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, fileext.toLowerCase());
+				f.setFiletype(filetype);
+			}
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			String fileuri = hs.getPropertyString(obj, "fileuri");
+			if (!hs.isEmpty(fileuri)) {
+				
+			}
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
+			if (hs.isEmpty(filesDirectory)) filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
+			File fd = new File(filesDirectory + new SimpleDateFormat(".yyyy.MM.dd").format(new Date()).replace('.', File.separatorChar));
+			fd.mkdirs();
+			File ff = new File(fd, new SimpleDateFormat("HHmmss").format(new Date()) + "_" + name + (!fileext.isEmpty() ? "." + fileext : ""));
+			f.setFilelength(hs.copyStream(bais, new FileOutputStream(ff), true, true));
+			f.setFileuri(ff.getAbsolutePath());
+		}
 		hs.invoke(obj, "onNew");
 		obj = objService.createObj(obj);
 		return obj;
