@@ -19,15 +19,16 @@
 					    <li th:if="${#strings.contains(p_roles,'ADMIN')}" class="nav-item text-uppercase dropdown">
 					    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Администрирование</a>
 		      				<div class="dropdown-menu">
-						        <a class="dropdown-item" th:href="@{/listObj?clazz=IUser}"><i class="fa fa-sm fa-users"></i> Пользователи</a>
-							    <a class="dropdown-item" th:href="@{/listObj?clazz=IOrganization}"><i class="fa fa-sm fa-industry"></i> Контрагенты (юридические лица)</a>
-							    <a class="dropdown-item" th:href="@{/listObj?clazz=IPerson}"><i class="fa fa-sm fa-user"></i> Контрагенты (физические лица)</a>
-							    <a class="dropdown-item" th:href="@{/listObj?clazz=IDepartment}"><i class="fa fa-sm fa-building"></i> Подразделения</a>
-							    <a class="dropdown-item" th:href="@{/listVoc}"><i class="fa fa-sm fa-list"></i> Справочники</a>
-							    <a class="dropdown-item" th:href="@{/listObj?clazz=ISettings}"><i class="fa fa-sm fa-tools"></i> Настройки</a>
-							    <a class="dropdown-item" th:href="@{/listObj?clazz=ISession}"><i class="fa fa-sm fa-sign-in-alt"></i> Сессии</a>
-							    <a class="dropdown-item" th:href="@{/listObj?clazz=ActionLog}"><i class="fa fa-sm fa-comment"></i> Журнал действий</a>
-							    <a class="dropdown-item" th:href="@{/load}"><i class="fa fa-sm fa-upload"></i> Загрузка данных</a>
+						        <a class="dropdown-item" href="listObj?clazz=IUser"><i class="fa fa-sm fa-users"></i> Пользователи</a>
+							    <a class="dropdown-item" href="listObj?clazz=IOrganization"><i class="fa fa-sm fa-industry"></i> Контрагенты (юридические лица)</a>
+							    <a class="dropdown-item" href="listObj?clazz=IPerson"><i class="fa fa-sm fa-user"></i> Контрагенты (физические лица)</a>
+							    <a class="dropdown-item" href="listObj?clazz=IDepartment"><i class="fa fa-sm fa-building"></i> Подразделения</a>
+							    <a class="dropdown-item" href="listVoc"><i class="fa fa-sm fa-list"></i> Справочники</a>
+							    <a class="dropdown-item" href="listObj?clazz=ISettings"><i class="fa fa-sm fa-tools"></i> Настройки</a>
+							    <a class="dropdown-item" href="listObj?clazz=ISession"><i class="fa fa-sm fa-sign-in-alt"></i> Сессии</a>
+							    <a class="dropdown-item" href="listObj?clazz=ActionLog"><i class="fa fa-sm fa-comment"></i> Журнал действий</a>
+							    <a class="dropdown-item" href="load"><i class="fa fa-sm fa-upload"></i> Загрузка справочников</a>
+							    <a class="dropdown-item" href="import"><i class="fa fa-sm fa-upload"></i> Импорт данных</a>
 						 	</div>
 					    </li>
 				    </ul>
@@ -54,7 +55,7 @@
 					        	<td>
 					        		<p th:utext="${item.content}"></p>
 					        		<div class="col-sm-12">
-					        			<a th:href="@{/detailsObj?p_ret=search&clazz=} + ${item.clazz} + ${'&rn=' + item.id}" th:text="${item.name}"></a>
+					        			<a th:href="${'detailsObj?p_ret=search&clazz=' + item.clazz + '&rn=' + item.id}" th:text="${item.name}"></a>
 				        			</div>
 				        		</td>
 					        </tr>
