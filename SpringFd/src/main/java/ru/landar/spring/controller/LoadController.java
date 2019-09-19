@@ -1,19 +1,18 @@
 package ru.landar.spring.controller;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -34,6 +33,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
@@ -77,13 +77,27 @@ public class LoadController {
 			listAdd.add(String.format("Не найден класс объекта %s", clazz));
 			return null;
 		}
-		Object obj = cl.newInstance();
+		String code = el.getAttribute("code");
+		if (hs.isEmpty(code)) {
+			NodeList nl = el.getElementsByTagName("code");
+			if (nl != null && nl.getLength() > 0) {
+				code = ((Element)nl.item(0)).getTextContent();
+			}
+		}
+		boolean bNew = true;
+		Object obj = null;
+		if (!hs.isEmpty(code)) obj = objService.getObjByCode(cl, code);
+		if (obj != null) { 
+			bNew = false; 
+			return obj; 
+		}
+		else obj = cl.newInstance();
 		// Атрибуты
 		NamedNodeMap nm = el.getAttributes();
-		for (int i=0; nm!=null && i<nm.getLength(); i++)
-		{
+		for (int i=0; nm!=null && i<nm.getLength(); i++) {
 			Node attr = nm.item(i);
 			String value = attr.getNodeValue(), name = attr.getNodeName();
+			if ("rn".equals(name) || "clazz".equals(name)) continue;
 			Class<?> clAttr = hs.getAttrType(cl, name);
 			if (clAttr == null) {
 				listAdd.add(String.format("Не найден атрибут %s объекта %s", name, clazz));
@@ -96,6 +110,7 @@ public class LoadController {
 			if (nChild.getNodeType() != Node.ELEMENT_NODE) continue;
 			Element elChild = (Element)nChild;
 			String name = elChild.getLocalName();
+			if ("rn".equals(name) || "clazz".equals(name)) continue;
 			Class<?> clAttr = hs.getAttrType(cl, name);
 			if (clAttr == null) {
 				listAdd.add(String.format("Не найден атрибут %s объекта %s", name, clazz));
@@ -130,12 +145,13 @@ public class LoadController {
 				SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, fileext.toLowerCase());
 				f.setFiletype(filetype);
 			}
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			String fileuri = hs.getPropertyString(obj, "fileuri");
-			if (!hs.isEmpty(fileuri)) {
-				
+			byte[] b = null;
+			if (!hs.isEmpty(fileuri)) try { b = Base64.getDecoder().decode(fileuri); } catch (Exception ex) { 
+				listAdd.add("Исключение при получении содержимого файла");	
 			}
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			if (b == null) b = new byte[0];
+			ByteArrayInputStream bais = new ByteArrayInputStream(b);
 			String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
 			if (hs.isEmpty(filesDirectory)) filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
 			File fd = new File(filesDirectory + new SimpleDateFormat(".yyyy.MM.dd").format(new Date()).replace('.', File.separatorChar));
@@ -144,8 +160,8 @@ public class LoadController {
 			f.setFilelength(hs.copyStream(bais, new FileOutputStream(ff), true, true));
 			f.setFileuri(ff.getAbsolutePath());
 		}
-		hs.invoke(obj, "onNew");
-		obj = objService.createObj(obj);
+		if (bNew) hs.invoke(obj, "onNew");
+		obj = objService.saveObj(obj);
 		return obj;
 	}
 	@GetMapping(value = "/load")
