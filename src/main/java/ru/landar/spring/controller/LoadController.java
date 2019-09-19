@@ -191,8 +191,9 @@ public class LoadController {
 			listIgnore.add("modifier");
 			listIgnore.add("mdate");
 			listIgnore.add("cdate");
+			listIgnore.add("parent");
 		}
-		return attr != null && listIgnore.contains(attr);
+		return attr == null || listIgnore.contains(attr);
 	}
 	@GetMapping(value = "/load")
 	public String load(HttpServletRequest request, Model model) throws Exception {
