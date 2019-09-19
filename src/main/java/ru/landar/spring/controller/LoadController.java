@@ -91,7 +91,8 @@ public class LoadController {
 			bNew = false; 
 			return obj; 
 		}
-		else obj = cl.newInstance();
+		if (listFilter != null && listFilter.size() > 0 && !hs.isEmpty(code) && listFilter.contains(code)) return null;
+		obj = cl.newInstance();
 		// Атрибуты
 		NamedNodeMap nm = el.getAttributes();
 		for (int i=0; nm!=null && i<nm.getLength(); i++) {
