@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -24,6 +25,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,11 +37,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
+import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.SpFileType;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 
@@ -47,6 +52,12 @@ public class LoadController {
 	private ObjService objService;
 	@Autowired
 	private HelperService hs;
+	@Autowired
+    private PlatformTransactionManager transactionManager;
+	@Autowired
+	ObjRepositoryCustom objRepository;
+	@Resource(name = "getObjectChanged")
+    ObjectChanged objectChanged;
 	
 	@GetMapping(value = "/import")
 	public String importGet(HttpServletRequest request, Model model) throws Exception {
@@ -60,12 +71,20 @@ public class LoadController {
 		String[] filters = paramFilter.orElse("").split(",");
 		for (String filter : filters) if (!filter.trim().isEmpty()) listFilter.add(filter.trim());
 		List<String> listAdd = new ArrayList<String>();
-		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file.getInputStream());
-		for (Node n=doc.getDocumentElement().getFirstChild(); n!=null; n=n.getNextSibling()) {
-			if (n.getNodeType() != Node.ELEMENT_NODE) continue;
-			IBase obj = (IBase)createObject((Element)n, listAdd, listFilter);
-			if (obj != null) listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
-		}
+		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
+    	try {
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file.getInputStream());
+			for (Node n=doc.getDocumentElement().getFirstChild(); n!=null; n=n.getNextSibling()) {
+				if (n.getNodeType() != Node.ELEMENT_NODE) continue;
+				IBase obj = (IBase)createObject((Element)n, listAdd, listFilter);
+				if (obj != null) listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
+			}
+			transactionManager.commit(ts);
+    	}
+    	catch (Exception ex) {
+    		transactionManager.rollback(ts);
+    		throw ex;
+    	}
 		model.addAttribute("datetime", new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(new Date()));
     	model.addAttribute("listResult", listAdd);
 		return "loadResultPage";
@@ -88,7 +107,7 @@ public class LoadController {
 		}
 		boolean bNew = true;
 		Object obj = null;
-		if (!hs.isEmpty(code)) obj = objService.getObjByCode(cl, code);
+		if (!hs.isEmpty(code)) obj = objRepository.findByCode(cl, code);
 		if (obj != null) { 
 			bNew = false; 
 			return obj; 
@@ -108,7 +127,7 @@ public class LoadController {
 			}
 			if (IBase.class.isAssignableFrom(clAttr)) {
 				if (!hs.isEmpty(value)) {
-					Object o = objService.getObjByCode(clAttr, value);
+					Object o = objRepository.findByCode(clAttr, value);
 					if (o != null) hs.setProperty(obj, name, o);
 					else listAdd.add(String.format("Не найден объект %s по коду %s", clAttr.getSimpleName(), value));
 				}
@@ -144,7 +163,7 @@ public class LoadController {
 				String value = elChild.getTextContent();
 				if (IBase.class.isAssignableFrom(clAttr)) {
 					if (!hs.isEmpty(value)) {
-						Object o = objService.getObjByCode(clAttr, value);
+						Object o = objRepository.findByCode(clAttr, value);
 						if (o != null) hs.setProperty(obj, name, o);
 						else listAdd.add(String.format("Не найден объект %s по коду %s", clAttr.getSimpleName(), value));
 					}
@@ -156,14 +175,14 @@ public class LoadController {
 		if (obj instanceof IFile) {
 			IFile f = (IFile)obj;
 			String fileext = hs.getPropertyString(obj, "fileext"), filename = hs.getPropertyString(obj, "filename"), name = filename;
-			if (!hs.isEmpty(fileext) && !hs.isEmpty(filename)) {
+			if (hs.isEmpty(fileext) && !hs.isEmpty(filename)) {
 				int k = filename.lastIndexOf('.');
 				fileext = k > 0 ? filename.substring(k + 1) : "";
 				name = k > 0 ? filename.substring(0, k) : filename;
 				f.setFileext(fileext);
 			}
 			if (!hs.isEmpty(fileext)) {
-				SpFileType filetype = (SpFileType)objService.getObjByCode(SpFileType.class, fileext.toLowerCase());
+				SpFileType filetype = (SpFileType)objRepository.findByCode(SpFileType.class, fileext.toLowerCase());
 				f.setFiletype(filetype);
 			}
 			String fileuri = hs.getPropertyString(obj, "fileuri");
@@ -177,12 +196,12 @@ public class LoadController {
 			if (hs.isEmpty(filesDirectory)) filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
 			File fd = new File(filesDirectory + new SimpleDateFormat(".yyyy.MM.dd").format(new Date()).replace('.', File.separatorChar));
 			fd.mkdirs();
-			File ff = new File(fd, new SimpleDateFormat("HHmmss").format(new Date()) + "_" + name + (!fileext.isEmpty() ? "." + fileext : ""));
+			File ff = new File(fd, new SimpleDateFormat("HHmmss").format(new Date()) + "_" + name + (!hs.isEmpty(fileext) ? "." + fileext : ""));
 			f.setFilelength(hs.copyStream(bais, new FileOutputStream(ff), true, true));
 			f.setFileuri(ff.getAbsolutePath());
 		}
 		hs.invoke(obj, bNew ? "onNew" : "onUpdate");
-		return objService.saveObj(obj);
+		return objRepository.saveObj(obj);
 	}
 	private List<String> listIgnore = null;
 	private boolean isIgnoreAttr(String attr) {
