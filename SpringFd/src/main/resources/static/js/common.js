@@ -868,11 +868,11 @@ Amel = {
 		$("#" + target.tableId + " thead tr").each(function() {
 			wt = 0;
 			$(this).find("th").each(function() {
-				wt += $(this).outerWidth(true);
+				wt += $(this).outerWidth();
 			});
 			if (wt > 0) {
 				$(this).find("th").each(function() {
-					var m = $(this).outerWidth(true) * sc / wt;
+					var m = $(this).outerWidth() * sc / wt;
 					if (m > max) max = m;
 				});
 			}
@@ -880,11 +880,11 @@ Amel = {
 		$("#" + target.tableId + " tbody tr").each(function() {
 			wt = 0;
 			$(this).find("td").each(function() {
-				wt += $(this).outerWidth(true);
+				wt += $(this).outerWidth();
 			});
 			if (wt > 0) {
 				$(this).find("td").each(function() {
-					var m = $(this).outerWidth(true) * sc / wt;
+					var m = $(this).outerWidth() * sc / wt;
 					if (m > max) max = m;
 				});
 			}
