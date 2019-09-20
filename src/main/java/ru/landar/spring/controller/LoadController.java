@@ -72,6 +72,7 @@ public class LoadController {
 	}
 	private Object createObject(Element el, List<String> listAdd, List<String> listFilter) throws Exception {
 		String clazz = el.getLocalName();
+		if (hs.isEmpty(clazz)) clazz = el.getNodeName();
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) {
 			listAdd.add(String.format("Не найден класс объекта %s", clazz));
@@ -79,10 +80,11 @@ public class LoadController {
 		}
 		String code = el.getAttribute("code");
 		if (hs.isEmpty(code)) {
-			NodeList nl = el.getElementsByTagName("code");
-			if (nl != null && nl.getLength() > 0) {
-				code = ((Element)nl.item(0)).getTextContent();
-			}
+			for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling())
+				if (nChild.getNodeType() == Node.ELEMENT_NODE && "code".equals(nChild.getNodeName())) { 
+					code = nChild.getTextContent(); 
+					break; 
+				}
 		}
 		boolean bNew = true;
 		Object obj = null;
@@ -118,6 +120,7 @@ public class LoadController {
 			if (nChild.getNodeType() != Node.ELEMENT_NODE) continue;
 			Element elChild = (Element)nChild;
 			String name = elChild.getLocalName();
+			if (hs.isEmpty(name)) name = elChild.getNodeName();
 			if (isIgnoreAttr(name)) continue;
 			Class<?> clAttr = hs.getAttrType(cl, name);
 			if (clAttr == null) {
