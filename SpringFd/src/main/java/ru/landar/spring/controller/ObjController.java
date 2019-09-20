@@ -74,14 +74,13 @@ public class ObjController {
 	public String listObj(@RequestParam("clazz") String clazz,
 						  @RequestParam("p_off") Optional<Integer> offParam,
 						  @RequestParam("p_page") Optional<Integer> pageParam,
-						  @RequestParam("p_block") Optional<Integer> blockParam,
 						  @RequestParam("rn") Optional<Integer> rnParam,
 						  @RequestParam("p_listVisible") Optional<String> listVisibleParam,
 						  @RequestParam("p_ret") Optional<String> retParam,
 						  @RequestParam("p_all") Optional<String> allParam,
 						  HttpServletRequest request, 
 						  Model model) throws Exception {
-		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
+		int off = offParam.orElse(0), page = pageParam.orElse(15);
 		Integer rn = rnParam.orElse(null);
 		String listVisible = listVisibleParam.orElse(null);
 		boolean p_all = (Boolean)hs.getObjectByString(allParam.orElse(""), Boolean.class);  
@@ -98,7 +97,6 @@ public class ObjController {
 			if (rn == null) try { rn = Integer.valueOf(mapParam.get("rn")[0]); } catch (Exception ex) { rn = null; }
 			try { off = Integer.valueOf(mapParam.get("p_off")[0]); } catch (Exception ex) { off = 0; }
 			try { page = Integer.valueOf(mapParam.get("p_page")[0]); } catch (Exception ex) { page = 15; }
-			try { block = Integer.valueOf(mapParam.get("p_block")[0]); } catch (Exception ex) { block = 10; }
 			try { listVisible = mapParam.get("p_listVisible")[0]; } catch (Exception ex) { listVisible = null; }
 		}
 		// Поисковые атрибуты
@@ -127,7 +125,7 @@ public class ObjController {
 				}
 				continue;
 			}
-			if (hs.isEmpty(v) || "clazz".equals(p) || "rn".equals(p) || "p_ret".equals(p) || "p_listVisible".equals(p) || "p_off".equals(p) || "p_page".equals(p) || "p_block".equals(p) || "p_all".equals(p)) continue;
+			if (hs.isEmpty(v) || "clazz".equals(p) || "rn".equals(p) || "p_ret".equals(p) || "p_listVisible".equals(p) || "p_off".equals(p) || "p_page".equals(p) || "p_all".equals(p)) continue;
 			Class<?> attrType = hs.getAttrType(cl, p);
 			if (attrType == null) continue;
 			listAttr.add(p);
@@ -187,8 +185,6 @@ public class ObjController {
 		if (p_paging) {
 			// Число записей на странице
 			model.addAttribute("p_page", page);
-			// Количество страниц в блоке переходов на страницы (в паджинаторе)
-			model.addAttribute("p_block", block);
 			// Всего страниц
 			int totalPages = listObj.getTotalPages();
 			model.addAttribute("p_total", totalPages);
@@ -664,12 +660,11 @@ public class ObjController {
 	public String search(@RequestParam("p_text") Optional<String> textParam,
 						 @RequestParam("p_off") Optional<Integer> offParam,
 						 @RequestParam("p_page") Optional<Integer> pageParam,
-						 @RequestParam("p_block") Optional<Integer> blockParam,
 						 @RequestParam("p_ret") Optional<String> retParam,
 						 HttpServletRequest request,
 						 Model model) throws Exception {
 		String text = textParam.orElse("");
-		int off = offParam.orElse(0), page = pageParam.orElse(15), block = blockParam.orElse(10);
+		int off = offParam.orElse(0), page = pageParam.orElse(15);
 		if (off < 0) off = 0;
 		String p_ret = retParam.orElse("");
 		if ("1".equals(p_ret)) {
@@ -679,7 +674,6 @@ public class ObjController {
 				try { text = mapParam.get("p_text")[0]; } catch (Exception ex) { }
 				try { off = Integer.valueOf(mapParam.get("p_off")[0]); } catch (Exception ex) { off = 0; }
 				try { page = Integer.valueOf(mapParam.get("p_page")[0]); } catch (Exception ex) { page = 15; }
-				try { block = Integer.valueOf(mapParam.get("p_block")[0]); } catch (Exception ex) { block = 10; }
 			}
 		}
 		Page<SearchContent> p = objService.search(text, off, page);
@@ -705,19 +699,28 @@ public class ObjController {
 		model.addAttribute("p_text", text);
 		model.addAttribute("listItem", p);
 		model.addAttribute("p_page", page);
-		model.addAttribute("p_block", block);
 		int totalPages = p.getTotalPages();
 		model.addAttribute("p_total", totalPages);
 		// Текущая страница
 		off = Math.min(p.getNumber(), totalPages > 0 ? totalPages - 1 : 0);
 		model.addAttribute("p_off", off);
-		int n = block, start = (off / n) * n + 1;
-		start = start - (n / 2);
-		if (start < 1) start = 1;
-		int end = start + n;
-		if (end > totalPages) end = totalPages;
 		// Список номеров страниц
-		List<Integer> pageNumbers = IntStream.rangeClosed(start , end).boxed().collect(Collectors.toList());
+		List<Integer> pageNumbers = new ArrayList<Integer>();
+		if (totalPages > 1) {
+			pageNumbers.add(1);
+			for (int i=2; i<totalPages; i++) {
+				if (Math.abs(i - off - 1) <= 2) pageNumbers.add(i);
+				else if (pageNumbers.get(pageNumbers.size() - 1) > 0) pageNumbers.add(0);
+			}
+			pageNumbers.add(totalPages);
+			for (int i=0; i<pageNumbers.size(); i++) {
+				if (pageNumbers.get(i) == 0 && 
+					i - 1 >= 0 &&
+					i + 1 < pageNumbers.size() &&
+					pageNumbers.get(i + 1) - pageNumbers.get(i - i) == 2)
+					pageNumbers.set(i, pageNumbers.get(i - i) + 1);
+			}
+		}
 		model.addAttribute("p_pageNumbers", pageNumbers);
 		model.addAttribute("p_min", pageNumbers.size() > 0 ? pageNumbers.get(0) : 0);
 		model.addAttribute("p_max", pageNumbers.size() > 0 ? pageNumbers.get(pageNumbers.size() - 1) : 0);
