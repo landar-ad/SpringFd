@@ -7,7 +7,7 @@ Amel = {
 	// Таблицы
 	tableId: "objTable",
 	// Цвет выделенной строки
-	rowSelection: "table-success",
+	rowSelection: "table-primary",
 	// Кнопка submit на форме с контролем обязательных полей
 	submitButtonId: "submitButton",
 	// Строка фильтров 
