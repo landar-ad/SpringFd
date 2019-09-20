@@ -866,7 +866,7 @@ Amel = {
 		$("#" + target.tableId + " thead th").each(function() {
 			wt += $(this).outerWidth(true);
 		});
-		if (wt > 0 && wt < screen.width) {
+		if (wt > 0) {
 			$("#" + target.tableId + " thead th").each(function() {
 				var m = $(this).outerWidth(true) * screen.width / wt;
 				if (m > max) max = m;
