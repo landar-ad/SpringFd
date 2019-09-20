@@ -187,6 +187,7 @@ public class LoadController {
 	private List<String> listIgnore = null;
 	private boolean isIgnoreAttr(String attr) {
 		if (listIgnore == null) {
+			listIgnore = new ArrayList<String>();
 			listIgnore.add("rn");
 			listIgnore.add("clazz");
 			listIgnore.add("name");
