@@ -99,11 +99,13 @@ public class LoadController {
 	}
 	private Object createObject(Element el, String paramClazz, List<String> listAdd, List<String> listFilter, File fd) throws Exception {
 		Map<String, String> mapValue = new LinkedHashMap<String, String>();
+		boolean empty = true;
 		NamedNodeMap nm = el.getAttributes();
 		for (int i=0; nm!=null && i<nm.getLength(); i++) {
 			Node attr = nm.item(i);
 			String value = attr.getNodeValue(), name = attr.getNodeName();
 			if (isIgnoreAttr(name)) continue;
+			if (!"clazz".equals(name) && !!"code".equals(name)) empty = false;
 			mapValue.put(name, value);
 		}
 		for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling()) {
@@ -113,6 +115,7 @@ public class LoadController {
 			if (hs.isEmpty(name)) name = elChild.getNodeName();
 			if (isIgnoreAttr(name)) continue;
 			if (elChild.getElementsByTagName("*").getLength() > 0) continue;
+			if (!"clazz".equals(name) && !!"code".equals(name)) empty = false;
 			mapValue.put(name, elChild.getTextContent());
 		}
 		
@@ -134,7 +137,7 @@ public class LoadController {
 			return obj; 
 		}
 		if (listFilter != null && listFilter.size() > 0 && !hs.isEmpty(code) && listFilter.contains(code)) return null;
-		
+		if (empty) return null;
 		obj = cl.newInstance();
 		// Атрибуты
 		nm = el.getAttributes();
