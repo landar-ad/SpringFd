@@ -9,16 +9,16 @@
 	</script>
 	<header th:replace="fragments/header :: header"></header>
 	<div class="col-sm-12 fit-height">
-		<form th:action="@{/search}" method="POST">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			  	<div class="collapse navbar-collapse" id="navbar1">
+		<form action="search" method="POST">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+			  	<div class="collapse navbar-collapse">
 			    	<ul class="navbar-nav mr-auto">
-					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Document}">Документы</a></li>
-					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Act}">Акты приема-передачи</a></li>
-					    <li class="nav-item text-uppercase"><a class="nav-link" th:href="@{/listObj?clazz=Reestr}">Реестры сдачи документов</a></li>
+					    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=Document">Документы</a></li>
+					    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=Act">Акты приема-передачи</a></li>
+					    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=Reestr">Реестры сдачи документов</a></li>
 					    <li th:if="${#strings.contains(p_roles,'ADMIN')}" class="nav-item text-uppercase dropdown">
 					    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Администрирование</a>
-		      				<div class="dropdown-menu">
+		      				<div class="dropdown-menu bg-primary">
 						        <a class="dropdown-item" href="listObj?clazz=IUser"><i class="fa fa-sm fa-users"></i> Пользователи</a>
 							    <a class="dropdown-item" href="listObj?clazz=IOrganization"><i class="fa fa-sm fa-industry"></i> Контрагенты (юридические лица)</a>
 							    <a class="dropdown-item" href="listObj?clazz=IPerson"><i class="fa fa-sm fa-user"></i> Контрагенты (физические лица)</a>
@@ -36,7 +36,7 @@
 			      		<div class="input-group"> 
 							<input name="p_text" th:value=${p_text} type="text" class="form-control form-control-sm"> 
 							<span class="input-group-btn">
-								<button class="btn btn-sm btn-outline-info" type="submit">
+								<button class="btn btn-sm btn-primary" type="submit">
 									<i class="fa fa-search"></i>
 								</button>
 							</span>
