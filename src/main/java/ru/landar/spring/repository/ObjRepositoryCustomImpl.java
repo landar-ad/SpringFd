@@ -305,7 +305,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 					if (List.class.isAssignableFrom(clAttr)) {
 						p = ((Root<?>)p).join(join);
 						try {
-							String getter = "get" + a.substring(0, 1).toUpperCase() + join.substring(1);
+							String getter = "get" + join.substring(0, 1).toUpperCase() + join.substring(1);
 							Method mGet = clType.getMethod(getter);
 							clType = mGet.getAnnotation(ManyToMany.class).targetEntity();
 						}

@@ -181,6 +181,18 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
+	public Class<?> getListAttrType(Class<?> cl, String attr) {
+		Class<?> ret = null;
+		if (cl == null || isEmpty(attr)) return ret;
+		try {
+			String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
+			Method mGet = cl.getMethod(getter);
+			ret = mGet.getAnnotation(ManyToMany.class).targetEntity();
+		}
+		catch (Exception ex) {}
+		return ret;
+	}
+	@Override
 	public Class<?> getItemType(Class<?> cl, String attr) {
 		Class<?> clItem = null, clAttr = getAttrType(cl, attr);
 		if (List.class.isAssignableFrom(clAttr)) {

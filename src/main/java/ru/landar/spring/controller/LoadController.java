@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.persistence.ManyToMany;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -169,7 +170,8 @@ public class LoadController {
 				List<Object> l = new ArrayList<Object>();
 				for (Node nC=elChild.getFirstChild(); nC!=null; nC=nC.getNextSibling()) {
 					if (nC.getNodeType() != Node.ELEMENT_NODE) continue;
-					Object child = createObject((Element)nC, null, listAdd, null, fd);
+					Class<?> clType = hs.getListAttrType(cl, name);
+					Object child = createObject((Element)nC, clType != null ? clType.getSimpleName() : null, listAdd, null, fd);
 					if (child != null) l.add(child);
 				}
 				hs.setProperty(obj, name, l);
