@@ -100,7 +100,7 @@ public class LoadController {
 		String clazz = el.getAttribute("clazz");
 		if (hs.isEmpty(clazz)) {
 			for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling())
-				if (nChild.getNodeType() == Node.ELEMENT_NODE && "code".equals(nChild.getNodeName())) { 
+				if (nChild.getNodeType() == Node.ELEMENT_NODE && "clazz".equals(nChild.getNodeName())) { 
 					clazz = nChild.getTextContent(); 
 					break; 
 				}
