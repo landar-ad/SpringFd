@@ -195,13 +195,23 @@ public class ObjController {
 			// Текущая страница
 			off = Math.min(listObj.getNumber(), totalPages > 0 ? totalPages - 1 : 0);
 			model.addAttribute("p_off", off);
-			int n = block, start = (off / n) * n + 1;
-			start = start - (n / 2);
-			if (start < 1) start = 1;
-			int end = start + n;
-			if (end > totalPages) end = totalPages;
 			// Список номеров страниц
-			List<Integer> pageNumbers = IntStream.rangeClosed(start , end).boxed().collect(Collectors.toList());
+			List<Integer> pageNumbers = new ArrayList<Integer>();
+			if (totalPages > 1) {
+				pageNumbers.add(1);
+				for (int i=2; i<totalPages; i++) {
+					if (Math.abs(i - off - 1) <= 2) pageNumbers.add(i);
+					else if (pageNumbers.get(pageNumbers.size() - 1) > 0) pageNumbers.add(0);
+				}
+				pageNumbers.add(totalPages);
+				for (int i=0; i<pageNumbers.size(); i++) {
+					if (pageNumbers.get(i) == 0 && 
+						i - 1 >= 0 &&
+						i + 1 < pageNumbers.size() &&
+						pageNumbers.get(i + 1) - pageNumbers.get(i - i) == 2)
+						pageNumbers.set(i, pageNumbers.get(i - i) + 1);
+				}
+			}
 			model.addAttribute("p_pageNumbers", pageNumbers);
 			model.addAttribute("p_min", pageNumbers.size() > 0 ? pageNumbers.get(0) : 0);
 			model.addAttribute("p_max", pageNumbers.size() > 0 ? pageNumbers.get(pageNumbers.size() - 1) : 0);

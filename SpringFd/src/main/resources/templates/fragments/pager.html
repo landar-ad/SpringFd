@@ -10,6 +10,23 @@
 		<div th:if="${p_total!=null && p_totalRows!=null}" class="row col-sm-12 small">
 			<div th:if="${p_total} gt 1" class="col-sm-auto mr-sm-1">
 				<ul class="pagination pagination-sm margin-bottom-0">
+					<li th:each="pn : ${p_pageNumbers}" th:class="${'page-item' + (((p_off + 1) == pn) ? ' active' : '')}">
+						<button th:if=${pn!=0} class="page-link" th:text="${pn}" th:data-value="${pn - 1}"></button>
+						<button th:if=${pn==0} class="page-link">...</button>
+					</li>
+				</ul> 
+			</div>
+			<label th:utext="${'Всего записей: ' + p_totalRows + ' '}" class="col-form-label mr-sm-4"></label>
+			<label th:if="${p_countPages!=null}" class="col-form-label mr-sm-2">На странице</label>
+			<select th:if="${p_countPages!=null}" class="p_page custom-select">
+				<option th:each="pn : ${p_countPages}" th:value="${pn}" th:selected="${pn==p_page}" th:text="${pn}"/>
+			</select>
+		</div>
+	</div>	
+	<div th:fragment="pager-old" class="c-footer">
+		<div th:if="${p_total!=null && p_totalRows!=null}" class="row col-sm-12 small">
+			<div th:if="${p_total} gt 1" class="col-sm-auto mr-sm-1">
+				<ul class="pagination pagination-sm margin-bottom-0">
 					<li class="page-item">
 						<button class="page-link" th:data-value="${0}" th:disabled="${p_min > 1 ? null : 'disabled'}">&lt;&lt;</button>
 					</li>
