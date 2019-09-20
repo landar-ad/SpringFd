@@ -43,6 +43,7 @@ public class SpKBK extends IBase {
 	public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "КБК"; }
 	public static String multipleTitle() { return "КБК"; }
+	public static boolean listPaginated() { return true; }
 	public static List<ColumnInfo> listColumn() {
     	List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("kbk", "КБК")); 
