@@ -861,10 +861,20 @@ Amel = {
 		});
 		target.add_on($("#" + target.tableId + " tbody tr"), "click", function() { target.click_row(this); });
 		target.add_on($("#" + target.tableId + " tbody tr"), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
+		// Установка максимального размера колонки
+		var wt = 0, max = screen.width / 5;
+		$("#" + target.tableId + " thead th").each(function() {
+			wt += $(this).outerWidth(true);
+		});
+		if (wt > 0 && wt < screen.width) {
+			$("#" + target.tableId + " thead th").each(function() {
+				var m = $(this).outerWidth(true) * screen.width / wt;
+				if (m > max) max = m;
+			});
+		}
+		$("#" + target.tableId + " .max-width").css("max-width", "" + max + "px");
 		// Установка однострочного содержимого данных
 		$("#" + target.tableId + " td .max-width").addClass('one-line');
-		// Установка максимального размера колонки
-		$("#" + target.tableId + " .max-width").css("max-width", "" + (screen.width / 5) + "px");
 		// Изменение размера области данных после скроллинга
 		target.add_on($("#" + target.tableId), "scroll", function() {
 			$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
