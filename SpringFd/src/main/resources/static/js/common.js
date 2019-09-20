@@ -6,6 +6,8 @@ Amel = {
 	listId: "listTop",
 	// Таблицы
 	tableId: "objTable",
+	// Цвет выделенной строки
+	rowSelection: "table-success",
 	// Кнопка submit на форме с контролем обязательных полей
 	submitButtonId: "submitButton",
 	// Строка фильтров 
@@ -154,11 +156,11 @@ Amel = {
 	},
 	// Клик по строке таблицы
 	click_row: function(a, force) {
-		var b = $(a).hasClass('table-success'), rn = "", target = this;
-		$("#" + target.tableId + " tbody tr").removeClass('table-success');
+		var target = this, b = $(a).hasClass(target.rowSelection), rn = "";
+		$("#" + target.tableId + " tbody tr").removeClass(target.rowSelection);
 		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		if (!b || force) {
-			$(a).addClass('table-success');
+			$(a).addClass(target.rowSelection);
 			$(a).find(".max-width").removeClass('one-line');
 			rn = $(a).find("td.d-none").first().text();
 		}
@@ -834,7 +836,7 @@ Amel = {
 		// Клик по строке
 		var rn = $('input[name="rn"]').val(), selected = false;
 		$("#" + target.tableId + " tbody tr").each(function() {
-			$(this).removeClass('table-success');
+			$(this).removeClass(target.rowSelection);
 			if (rn && rn == $(this).find("td.d-none").first().text()) {
 				var a = $(".fit-height").find(".table-fixed");
 				if (a.length == 0) a = $(".fit-height");
