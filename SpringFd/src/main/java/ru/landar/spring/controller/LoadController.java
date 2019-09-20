@@ -9,7 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
@@ -96,14 +98,25 @@ public class LoadController {
 		return "loadResultPage";
 	}
 	private Object createObject(Element el, String paramClazz, List<String> listAdd, List<String> listFilter, File fd) throws Exception {
-		String clazz = el.getAttribute("clazz");
-		if (hs.isEmpty(clazz)) {
-			for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling())
-				if (nChild.getNodeType() == Node.ELEMENT_NODE && "clazz".equals(nChild.getNodeName())) { 
-					clazz = nChild.getTextContent(); 
-					break; 
-				}
+		Map<String, String> mapValue = new LinkedHashMap<String, String>();
+		NamedNodeMap nm = el.getAttributes();
+		for (int i=0; nm!=null && i<nm.getLength(); i++) {
+			Node attr = nm.item(i);
+			String value = attr.getNodeValue(), name = attr.getNodeName();
+			if (isIgnoreAttr(name)) continue;
+			mapValue.put(name, value);
 		}
+		for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling()) {
+			if (nChild.getNodeType() != Node.ELEMENT_NODE) continue;
+			Element elChild = (Element)nChild;
+			String name = elChild.getLocalName();
+			if (hs.isEmpty(name)) name = elChild.getNodeName();
+			if (isIgnoreAttr(name)) continue;
+			if (elChild.getElementsByTagName("*").getLength() > 0) continue;
+			mapValue.put(name, elChild.getTextContent());
+		}
+		
+		String clazz = mapValue.get("clazz");
 		if (hs.isEmpty(clazz)) clazz = paramClazz;
 		if (hs.isEmpty(clazz)) clazz = el.getLocalName();
 		if (hs.isEmpty(clazz)) clazz = el.getNodeName();
@@ -112,14 +125,7 @@ public class LoadController {
 			listAdd.add(String.format("Не найден класс объекта %s", clazz));
 			return null;
 		}
-		String code = el.getAttribute("code");
-		if (hs.isEmpty(code)) {
-			for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling())
-				if (nChild.getNodeType() == Node.ELEMENT_NODE && "code".equals(nChild.getNodeName())) { 
-					code = nChild.getTextContent(); 
-					break; 
-				}
-		}
+		String code = mapValue.get("code");
 		boolean bNew = true;
 		Object obj = null;
 		if (!hs.isEmpty(code)) obj = objRepository.findByCode(cl, code);
@@ -128,9 +134,10 @@ public class LoadController {
 			return obj; 
 		}
 		if (listFilter != null && listFilter.size() > 0 && !hs.isEmpty(code) && listFilter.contains(code)) return null;
+		
 		obj = cl.newInstance();
 		// Атрибуты
-		NamedNodeMap nm = el.getAttributes();
+		nm = el.getAttributes();
 		for (int i=0; nm!=null && i<nm.getLength(); i++) {
 			Node attr = nm.item(i);
 			String value = attr.getNodeValue(), name = attr.getNodeName();
