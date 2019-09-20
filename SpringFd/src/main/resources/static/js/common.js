@@ -628,12 +628,17 @@ Amel = {
 			var op = $(this).attr("data-op");
 			if (!op) op = "sum";
 			if (op == "min" || op == "max") sum = null; 
-			var nn = $(this).attr("data-name");
+			var nn = $(this).attr("data-name"), d = 0;
 			if (nn) {
 				$("label[data-name='" + nn + "']").each(function() {
-					var s = $(this).text();
-					if (s) s = parseFloat(s);
+					var qq = $(this).text(), s = '';
+					if (qq) s = parseFloat(qq);
 					if (typeof s == "number") {
+						var zz = qq.indexOf(".");
+						if (zz > 0) {
+							zz = qq.length - zz - 1;
+							if (zz > d) d = zz;
+						}
 						if (op == "sum" || op == "avg") sum += s;
 						if (op == "max") if (sum == null || sum < s) sum = s;
 						if (op == "min") if (sum == null || sum > s) sum = s;
@@ -642,7 +647,7 @@ Amel = {
 				});
 			}
 			if (op == "avg" && cnt > 0) sum = sum / cnt;
-			$(this).text("" + sum);
+			$(this).text("" + sum.toFixed(d));
 		});
 	},
 	button_enabled: function() {
