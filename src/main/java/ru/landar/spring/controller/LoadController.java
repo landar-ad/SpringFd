@@ -105,7 +105,7 @@ public class LoadController {
 			Node attr = nm.item(i);
 			String value = attr.getNodeValue(), name = attr.getNodeName();
 			if (isIgnoreAttr(name)) continue;
-			if (!"clazz".equals(name) && !!"code".equals(name)) empty = false;
+			if (!"clazz".equals(name) && !"code".equals(name)) empty = false;
 			mapValue.put(name, value);
 		}
 		for (Node nChild=el.getFirstChild(); nChild!=null; nChild=nChild.getNextSibling()) {
@@ -115,7 +115,7 @@ public class LoadController {
 			if (hs.isEmpty(name)) name = elChild.getNodeName();
 			if (isIgnoreAttr(name)) continue;
 			if (elChild.getElementsByTagName("*").getLength() > 0) continue;
-			if (!"clazz".equals(name) && !!"code".equals(name)) empty = false;
+			if (!"clazz".equals(name) && !"code".equals(name)) empty = false;
 			mapValue.put(name, elChild.getTextContent());
 		}
 		
@@ -137,7 +137,7 @@ public class LoadController {
 			return obj; 
 		}
 		if (listFilter != null && listFilter.size() > 0 && !hs.isEmpty(code) && listFilter.contains(code)) return null;
-		if (empty) return null;
+		if (!hs.isEmpty(code) && empty) return null;
 		obj = cl.newInstance();
 		// Атрибуты
 		nm = el.getAttributes();
