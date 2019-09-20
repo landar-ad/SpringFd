@@ -71,12 +71,18 @@ public class LoadController {
 		String[] filters = paramFilter.orElse("").split(",");
 		for (String filter : filters) if (!filter.trim().isEmpty()) listFilter.add(filter.trim());
 		List<String> listAdd = new ArrayList<String>();
+		
+		String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
+		if (hs.isEmpty(filesDirectory)) filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
+		File fd = new File(filesDirectory + new SimpleDateFormat(".yyyy.MM.dd").format(new Date()).replace('.', File.separatorChar));
+		fd.mkdirs();
+		
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file.getInputStream());
 			for (Node n=doc.getDocumentElement().getFirstChild(); n!=null; n=n.getNextSibling()) {
 				if (n.getNodeType() != Node.ELEMENT_NODE) continue;
-				IBase obj = (IBase)createObject((Element)n, listAdd, listFilter);
+				IBase obj = (IBase)createObject((Element)n, listAdd, listFilter, fd);
 				if (obj != null) listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
 			}
 			transactionManager.commit(ts);
@@ -89,7 +95,7 @@ public class LoadController {
     	model.addAttribute("listResult", listAdd);
 		return "loadResultPage";
 	}
-	private Object createObject(Element el, List<String> listAdd, List<String> listFilter) throws Exception {
+	private Object createObject(Element el, List<String> listAdd, List<String> listFilter, File fd) throws Exception {
 		String clazz = el.getLocalName();
 		if (hs.isEmpty(clazz)) clazz = el.getNodeName();
 		Class<?> cl = hs.getClassByName(clazz);
@@ -147,14 +153,14 @@ public class LoadController {
 				continue;
 			}
 			if (IBase.class.isAssignableFrom(clAttr)) {
-				Object child = createObject(elChild, listAdd, null);
+				Object child = createObject(elChild, listAdd, null, fd);
 				if (child != null) hs.setProperty(obj, name, child);
 			}
 			else if (List.class.isAssignableFrom(clAttr)) {
 				List<Object> l = new ArrayList<Object>();
 				for (Node nC=elChild.getFirstChild(); nC!=null; nC=nC.getNextSibling()) {
 					if (nC.getNodeType() != Node.ELEMENT_NODE) continue;
-					Object child = createObject((Element)nC, listAdd, null);
+					Object child = createObject((Element)nC, listAdd, null, fd);
 					if (child != null) l.add(child);
 				}
 				hs.setProperty(obj, name, l);
@@ -192,10 +198,6 @@ public class LoadController {
 			}
 			if (b == null) b = new byte[0];
 			ByteArrayInputStream bais = new ByteArrayInputStream(b);
-			String filesDirectory = (String)objService.getSettings("filesDirectory", "string");
-			if (hs.isEmpty(filesDirectory)) filesDirectory = System.getProperty("user.dir") + File.separator + "FILES";
-			File fd = new File(filesDirectory + new SimpleDateFormat(".yyyy.MM.dd").format(new Date()).replace('.', File.separatorChar));
-			fd.mkdirs();
 			File ff = new File(fd, new SimpleDateFormat("HHmmss").format(new Date()) + "_" + name + (!hs.isEmpty(fileext) ? "." + fileext : ""));
 			f.setFilelength(hs.copyStream(bais, new FileOutputStream(ff), true, true));
 			f.setFileuri(ff.getAbsolutePath());
