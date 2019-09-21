@@ -42,6 +42,7 @@ public class Act_document extends IBase {
     
     public static String singleTitle() { return "Сведения о включенном в акт документе"; }
 	public static String multipleTitle() { return "Сведения о включенных в акты документах"; }
+	public static String menuTitle() { return multipleTitle(); }
 	
 	private void updateName() {
 		String name = "";

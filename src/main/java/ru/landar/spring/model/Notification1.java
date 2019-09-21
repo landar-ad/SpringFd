@@ -58,6 +58,7 @@ public class Notification1 extends Document {
     
     public static String singleTitle() { return "Уведомление о базовых БА (200 и 400 группы ВР)"; }
 	public static String multipleTitle() { return "Уведомления о базовых БА (200 и 400 группы ВР)"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("doc_number", "Номер документа"));

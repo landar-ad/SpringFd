@@ -89,6 +89,7 @@ public class IOrganization extends IAgent {
 	ObjService objService;
     public static String singleTitle() { return "Организация"; }
 	public static String multipleTitle() { return "Организации"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("mkod", "Машкод")); 

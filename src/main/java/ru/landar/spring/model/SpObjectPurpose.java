@@ -9,4 +9,5 @@ public class SpObjectPurpose extends IBase {
 	public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Назначение объекта"; }
 	public static String multipleTitle() { return "Назначения объекта"; }
+	public static String menuTitle() { return multipleTitle(); }
 }

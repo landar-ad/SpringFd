@@ -68,6 +68,7 @@ public class ISettings extends IBase {
     
 	public static String singleTitle() { return "Параметр настройки"; }
 	public static String multipleTitle() { return "Параметры настройки"; }
+	public static String menuTitle() { return "Настройки"; }
 	public static List<ColumnInfo> listColumn()
 	{
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

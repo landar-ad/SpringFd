@@ -212,6 +212,7 @@ public class Document extends IBase {
     
 	public static String singleTitle() { return "Документ"; }
 	public static String multipleTitle() { return "Документы"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("create_time", "Дата создания"));

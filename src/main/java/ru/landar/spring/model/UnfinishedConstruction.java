@@ -370,8 +370,9 @@ public class UnfinishedConstruction extends IBase {
     @Autowired
 	ObjRepositoryCustom objRepository;
 	
-	public static String singleTitle() { return "Объект незавершенного капстроительства"; }
+ 	public static String singleTitle() { return "Объект незавершенного капстроительства"; }
 	public static String multipleTitle() { return "Объекты незавершенного капстроительства"; }
+	public static String menuTitle() { return "Незавершенное капстроительство"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("customer__name", "Учреждение")); 

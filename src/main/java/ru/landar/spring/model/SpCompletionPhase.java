@@ -52,6 +52,7 @@ public class SpCompletionPhase extends IBase {
     public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Стадия строительства"; }
 	public static String multipleTitle() { return "Стадии строительства"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

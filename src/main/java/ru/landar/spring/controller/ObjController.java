@@ -253,7 +253,7 @@ public class ObjController {
 			for (String ct : cs) {
 				if (!ct.equals(clazz)) continue;
 				for (String c : cs) 
-					listMenu.add(new MenuInfo((String)hs.invoke(hs.getClassByName(c), "multipleTitle"), 
+					listMenu.add(new MenuInfo((String)hs.invoke(hs.getClassByName(c), "menuTitle"), 
 								"listObj?clazz=" + c, 
 								c.equals(clazz)));
 				break;
