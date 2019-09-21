@@ -29,10 +29,10 @@
 </head>
 <body>
 	<header th:fragment="header">
-		<div class="container col-12">
-			<div th:with="p_l=${!#strings.isEmpty(p_login)}" class="row align-items-center">
-				<div class="col-sm-auto mr-sm-1 m-sm-1"><a href="main"><img style="width: 6em;" th:src="@{/static/images/logo.png}"></a></div>
-				<div class="col-sm-auto mr-sm-1">
+		<div class="container col-sm-12">
+			<div th:with="p_l=${!#strings.isEmpty(p_login)}" class="row">
+				<div class="col-sm-1 mt-1"><a href="main"><img style="width: 6em;" th:src="@{/static/images/logo.png}"></a></div>
+				<div class="col-sm-9 mt-1">
 					<h4>Минпросвещения России</h4>
 			       	<small>Финансовый документооборот (тестовая версия)</small>
 			       	<nav th:if="${quickMenu != null}" class="navbar navbar-expand-sm">
@@ -45,11 +45,11 @@
 						    	</li>
 						    </ul>
 						</div>
-					</nav>	    
+					</nav>	
 		       	</div>
-		       	<div class="col grow">
-		       		<div th:if="${p_l}" class="mr-sm-2 text-align-right">
-				       	<small th:utext="${'Пользователь: ' + p_login}" ></small>
+		       	<div class="col-sm-2 mt-1">
+		       		<div th:if="${p_l}" class="row align-items-center text-align-right">
+				       	<small th:utext="${'Пользователь: ' + p_login} + '&nbsp;'" ></small>
 						<a href="logout" class="btn btn-sm btn-light"><i class="fa fa-sm fa-sign-out-alt"></i> Выход</a>
 					</div>
 					<div th:if="${p_l}" class="mr-sm-2 text-align-right">
@@ -80,14 +80,15 @@
 	</div>
 	<div th:fragment="details-param">
  		<input type="hidden" name="clazz" th:value="${obj.clazz}" />
- 		<input type="hidden" name="rn" th:value="${obj.rn}" />
+  		<input type="hidden" name="rn" th:value="${obj.rn}" />
  		<input type="hidden" name="p_ret" th:value="${p_ret}" />
+ 		<input type="hidden" name="p_clazz" th:value="${p_clazz}" />
   	</div>
 	<div th:fragment="details-buttons" class="row small col-sm-12">
 		<div class="btn-group">
             <button th:if=${readonly!=true} id="submitButton" class="submit-button btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
             <a id="cancelButton" th:if="${p_ret=='search'}" th:href="${'search?p_ret=1}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
-            <a id="cancelButton" th:if="${p_ret!='search' && prn==null}" th:href="${'listObj?p_ret=1&clazz=' + obj.baseClazz + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+            <a id="cancelButton" th:if="${p_ret!='search' && prn==null}" th:href="${'listObj?p_ret=1&clazz=' + (p_clazz!=null ? p_clazz : obj.baseClazz) + (obj.rn!=null ? '&rn=' + obj.rn : '')}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
             <a id="cancelButton" th:if="${p_ret!='search' && prn!=null}" th:href="${'detailsObj?rn=' + prn}" class="cancel-button btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
             <button th:each="btn : ${listButton}" th:data-param="${btn.name}" th:class="${'execute_obj btn btn-sm btn-' + btn.color}" type="button" th:utext="${(btn.icon!=null ? '<i class=''fa fa-sm fa-' + btn.icon + '''></i>' : '') + ' ' + btn.title}"></button>
 		</div>
