@@ -31,25 +31,17 @@
 	<header th:fragment="header">
 		<div class="container col-12">
 			<div th:with="p_l=${!#strings.isEmpty(p_login)}" class="row align-items-center">
-				<div class="col-sm-auto mr-sm-1 m-sm-1"><a th:href="@{/}"><img style="width: 6em;" th:src="@{/static/images/logo.png}"></a></div>
+				<div class="col-sm-auto mr-sm-1 m-sm-1"><a href="main"><img style="width: 6em;" th:src="@{/static/images/logo.png}"></a></div>
 				<div class="col-sm-auto mr-sm-1">
 					<h4>Минпросвещения России</h4>
 			       	<small>Финансовый документооборот (тестовая версия)</small>
-			       	<nav th:if="${#strings.contains(#httpServletRequest.requestURI,'listObj') && (clazz=='Document' || clazz=='Act' || clazz=='Reestr')}" class="navbar navbar-expand-lg navbar-light bg-light">
+			       	<nav th:if="${quickMenu != null}" class="navbar navbar-expand-sm">
 					  	<div class="collapse navbar-collapse">
 					    	<ul class="navbar-nav mr-auto">
 					    		<li class="nav-item text-uppercase"><a class="nav-link" href="main"><i class="fa fa-sm fa-home"></i></a></li>
-							    <li class="nav-item text-uppercase">
-							    	<a th:if="${clazz!='Document'}" class="nav-link" href="listObj?clazz=Document">Документы</a>
-							    	<span th:if="${clazz=='Document'}" class="nav-link nav-active">Документы</span>
-						    	</li>
-							    <li class="nav-item text-uppercase">
-							    	<a th:if="${clazz!='Act'}" class="nav-link" href="listObj?clazz=Act">Акты приема-передачи</a>
-							    	<span th:if="${clazz=='Act'}" class="nav-link nav-active">Акты приема-передачи</span>
-						    	</li>
-							    <li class="nav-item text-uppercase">
-							    	<a th:if="${clazz!='Reestr'}" class="nav-link" href="listObj?clazz=Reestr">Реестры сдачи документов</a>
-							    	<span th:if="${clazz=='Reestr'}" class="nav-link nav-active">Реестры сдачи документов</span> 
+							    <li th:each="m : ${quickMenu}" class="nav-item text-uppercase">
+							    	<a th:if="${!m.active}" class="nav-link" th:href="${m.href}" th:utext="${m.title}"></a>
+							    	<span th:if="${m.active}" class="nav-link nav-active" th:utext="${m.title}"></span>
 						    	</li>
 						    </ul>
 						</div>
