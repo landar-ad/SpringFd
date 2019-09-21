@@ -26,6 +26,7 @@ public class SpRDocType extends IBase {
     public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Тип документа управления имуществом"; }
 	public static String multipleTitle() { return "Типы документа управления имуществом"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
     	List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("code", "Код")); 

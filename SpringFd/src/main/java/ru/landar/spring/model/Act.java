@@ -122,6 +122,7 @@ public class Act extends IBase {
     
 	public static String singleTitle() { return "Акт приема-передачи"; }
 	public static String multipleTitle() { return "Акты приема-передачи"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("act_number", "Номер акта"));

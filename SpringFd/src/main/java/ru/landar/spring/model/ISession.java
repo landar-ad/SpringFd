@@ -58,6 +58,7 @@ public class ISession {
     
     public static String singleTitle() { return "Сессия"; }
 	public static String multipleTitle() { return "Сессии"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public List<ColumnInfo> onListColumn() {
 		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

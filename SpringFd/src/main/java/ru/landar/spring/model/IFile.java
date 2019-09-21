@@ -17,9 +17,9 @@ import ru.landar.spring.service.UserService;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class IFile extends IBase {
-	
 	public static String singleTitle() { return "Файл"; }
 	public static String multipleTitle() { return "Файлы"; }
+	public static String menuTitle() { return multipleTitle(); }
 	
 	private String filename;
 	private String fileext;

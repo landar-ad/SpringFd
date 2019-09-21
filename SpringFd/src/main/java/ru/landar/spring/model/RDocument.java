@@ -110,6 +110,7 @@ public class RDocument extends IBase {
     
 	public static String singleTitle() { return "Документ управления имуществом"; }
 	public static String multipleTitle() { return "Документы управления имуществом"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

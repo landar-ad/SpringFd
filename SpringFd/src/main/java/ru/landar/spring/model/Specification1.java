@@ -36,6 +36,7 @@ public class Specification1 extends IBase {
     
     public static String singleTitle() { return "Спецификация уведомления о базовых БА (200 и 400 группы ВР)"; }
 	public static String multipleTitle() { return "Спецификации уведомлений о базовых БА (200 и 400 группы ВР)"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("kbk", "КБК"));

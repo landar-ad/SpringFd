@@ -82,6 +82,7 @@ public class IPerson extends IAgent {
    	ObjService objService;
     public static String singleTitle() { return "Физическое лицо"; }
    	public static String multipleTitle() { return "Физические лица"; }
+   	public static String menuTitle() { return "Персоналии"; }
    	public static List<ColumnInfo> listColumn() {
    		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
    		ret.add(new ColumnInfo("mkod", "Машкод")); 

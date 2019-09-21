@@ -34,6 +34,7 @@ public class Notification6 extends Document {
     
     public static String singleTitle() { return "Уведомление об утвержденных показателях бюджетной сметы"; }
 	public static String multipleTitle() { return "Уведомления об утвержденных показателях бюджетной сметы"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("doc_number", "Номер документа"));

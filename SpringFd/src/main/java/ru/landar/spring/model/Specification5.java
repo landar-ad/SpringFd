@@ -46,6 +46,7 @@ public class Specification5 extends IBase {
     
     public static String singleTitle() { return "Спецификация уведомления о предложениях на закупку"; }
 	public static String multipleTitle() { return "Спецификации уведомлений о предложениях на закупку"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("num", "№ предложения на закупку"));

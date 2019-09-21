@@ -41,6 +41,7 @@ public class Specification6 extends IBase {
     
     public static String singleTitle() { return "Спецификация уведомления об утвержденных показателях бюджетной сметы"; }
 	public static String multipleTitle() { return "Спецификации уведомлений об утвержденных показателях бюджетной сметы"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("kbk", "КБК"));

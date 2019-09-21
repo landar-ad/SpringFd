@@ -198,6 +198,11 @@ public abstract class IBase {
 		if (ret != null) return ret;
 		return hs.invoke(getClass(), "multipleTitle");
 	}
+	public Object onMenuTitle() {
+		Object ret = invoke("onMenuTitle");
+		if (ret != null) return ret;
+		return hs.invoke(getClass(), "menuTitle");
+	}
 	public Object onListAttribute() {
 		Object ret = invoke("onListAttribute");
 		if (ret != null) return ret;
@@ -207,6 +212,7 @@ public abstract class IBase {
 	public static boolean isVoc() { return false; }
 	public static String singleTitle() { return "Базовый объект"; }
 	public static String multipleTitle() { return "Базовые объекты"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("code", "Код")); 

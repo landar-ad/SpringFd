@@ -80,6 +80,7 @@ public class ActionLog extends IBase {
     
 	public static String singleTitle() { return "Зарегистрированное действие"; }
 	public static String multipleTitle() { return "Журнал регистрации действий"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("action_time", "Время действия"));

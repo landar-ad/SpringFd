@@ -13,4 +13,8 @@ public class IMailing extends IBase {
 	@ManyToOne(targetEntity=IPerson.class, fetch=FetchType.LAZY)
     public IPerson getPerson() { return person; }
     public void setPerson(IPerson person) { this.person = person; }
+    
+    public static String singleTitle() { return "Рассылка"; }
+	public static String multipleTitle() { return "Рассылки"; }
+	public static String menuTitle() { return multipleTitle(); }
 }

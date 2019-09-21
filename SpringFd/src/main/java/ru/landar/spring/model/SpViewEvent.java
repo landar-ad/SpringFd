@@ -28,6 +28,7 @@ public class SpViewEvent extends IBase {
     public static boolean isVoc() { return true; }
     public static String singleTitle() { return "Вид мероприятия"; }
 	public static String multipleTitle() { return "Виды мероприятия"; }
+	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
