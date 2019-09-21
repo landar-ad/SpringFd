@@ -37,7 +37,7 @@ import javax.persistence.Column;
 @PrimaryKeyJoinColumn(name="rn")
 public class RDocument extends IBase {
 	
-	private SpDocType doctype;
+	private SpRDocType doctype;
 	private String docname;
 	private String docnum;
 	private Date docdate;
@@ -47,9 +47,9 @@ public class RDocument extends IBase {
 	private Boolean apsend;
 	private String prim_apsend;
 	
-	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
-    public SpDocType getDoctype() { return doctype; }
-    public void setDoctype(SpDocType doctype) { this.doctype = doctype; }
+	@ManyToOne(targetEntity=SpRDocType.class, fetch=FetchType.LAZY)
+    public SpRDocType getDoctype() { return doctype; }
+    public void setDoctype(SpRDocType doctype) { this.doctype = doctype; }
     
     @Column(length=1024)
     public String getDocname() { return docname; }

@@ -515,7 +515,7 @@ public class UnfinishedConstruction extends IBase {
 				}
 			}
 			if (b) continue;
-			SpDocType spDoctype = (SpDocType)objService.getObjByCode(SpDocType.class, doctype);
+			SpRDocType spDoctype = (SpRDocType)objService.getObjByCode(SpDocType.class, doctype);
 			if (spDoctype == null) continue;
 			RDocument doc = new RDocument();
 			doc.setDoctype(spDoctype);
