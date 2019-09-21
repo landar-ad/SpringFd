@@ -947,6 +947,15 @@ Amel = {
 			$('input[name="p_off"]').val($(this).attr("data-value"));
 			target.form_submit();
 		});
+		// Переход на список - подстановка выделенного объекта
+		target.add_on($(".select_obj"), "click", function() {
+			var rn = $('input[name="rn"]').val();
+			if (rn > 0) {
+				var href = $(this).attr("href") + "&rn=" + rn;
+				window.location = href;
+				return false;
+			}
+		});
 		// Колонки
 		target.add_on($("#" + target.setVisibleId), "click", function() {
 			$.ajax({ method: "GET", url: "popupVisible?clazz=" + $('#clazz').val(), 
