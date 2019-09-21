@@ -242,17 +242,22 @@ public class ObjController {
 			model.addAttribute("p_title", title);
 		}
 		// Строка быстрого меню
-		Class<?>[] cs = new Class<?>[] {Document.class, Act.class, Reestr.class};
+		List<String[]> listMenus = new ArrayList<String[]>();
+		listMenus.add(new String[] {"Document","Act", "Reestr"});
+		listMenus.add(new String[] {"Notification1", "Notification2", "Notification3", "Document"});
+		listMenus.add(new String[] {"Notification4", "Notification5", "Notification6", "Document"});
+		listMenus.add(new String[] {"IUser", "IPerson", "IDepartment", "IOrganization"});
 		List<MenuInfo> listMenu = new ArrayList<MenuInfo>();
-		for (Class<?> ct : cs) {
-			if (ct.getSimpleName().equals(clazz))
-			{
-				for (Class<?> c : cs) 
-					listMenu.add(new MenuInfo((String)hs.invoke(c, "multipleTitle"), 
-							"listObj?clazz=" + c.getSimpleName(), 
-							c.getSimpleName().equals(clazz)));
+		for (String[] cs : listMenus) {
+			for (String ct : cs) {
+				if (!ct.equals(clazz)) continue;
+				for (String c : cs) 
+					listMenu.add(new MenuInfo((String)hs.invoke(hs.getClassByName(c), "multipleTitle"), 
+								"listObj?clazz=" + c, 
+								c.equals(clazz)));
 				break;
 			}
+			if (listMenu.size() > 0) break;
 		}
 		if (listMenu.size() > 0) model.addAttribute("quickMenu", listMenu);
 		// Объект вспомогательных сервисов
