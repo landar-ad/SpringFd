@@ -40,7 +40,7 @@
 					    	<ul class="navbar-nav mr-auto">
 					    		<li class="nav-item text-uppercase"><a class="nav-link" href="main"><i class="fa fa-sm fa-home"></i></a></li>
 							    <li th:each="m : ${quickMenu}" class="nav-item text-uppercase">
-							    	<a th:if="${!m.active}" class="nav-link" th:href="${m.href}" th:utext="${m.title}"></a>
+							    	<a th:if="${!m.active}" class="nav-link select_obj" th:href="${m.href}" th:utext="${m.title}"></a>
 							    	<span th:if="${m.active}" class="nav-link nav-active" th:utext="${m.title}"></span>
 						    	</li>
 						    </ul>
