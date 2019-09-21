@@ -108,8 +108,8 @@ public class RDocument extends IBase {
     @Autowired
 	HelperService hs;
     
-	public static String singleTitle() { return "Документ"; }
-	public static String multipleTitle() { return "Документы"; }
+	public static String singleTitle() { return "Документ управления имуществом"; }
+	public static String multipleTitle() { return "Документы управления имуществом"; }
 	public static List<ColumnInfo> listColumn() {
 		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
