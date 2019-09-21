@@ -1227,8 +1227,9 @@ Amel = {
 			$(this).next('.custom-file-label').addClass("selected").html(fileName);
 			target.table_edit_end($(this), { keyCode: 13, shiftKey: false, ctrlKey: false });
 		});
-		target.add_on($('.td-edited .custom-date .date'), "change.datetimepicker", function() { 
-			target.table_edit_end($(this).find("input"), { keyCode: 13, shiftKey: false, ctrlKey: false });
+		target.add_on($('.td-edited .custom-date .date'), "change.datetimepicker", function(e) { 
+			var t = $(this).closest(".td-edited").find(">label,>span").first().text();
+			if (t || e.oldDate) target.table_edit_end($(this).find("input"), { keyCode: 13, shiftKey: false, ctrlKey: false });
 		});
 		target.add_on($(".expand"), "click", function(e) {
 			var dt = $(this).attr("data-target");
