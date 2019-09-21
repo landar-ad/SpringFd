@@ -41,15 +41,19 @@ import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ChangeInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.MenuInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.classes.Voc;
+import ru.landar.spring.model.Act;
 import ru.landar.spring.model.ActionLog;
+import ru.landar.spring.model.Document;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.ISession;
 import ru.landar.spring.model.SearchContent;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.model.ISettings;
+import ru.landar.spring.model.Reestr;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -237,6 +241,20 @@ public class ObjController {
 			try { title = (String)hs.invoke(obj, "onMultipleTitle"); } catch (Exception ex) { }
 			model.addAttribute("p_title", title);
 		}
+		// Строка быстрого меню
+		Class<?>[] cs = new Class<?>[] {Document.class, Act.class, Reestr.class};
+		List<MenuInfo> listMenu = new ArrayList<MenuInfo>();
+		for (Class<?> ct : cs) {
+			if (ct.getSimpleName().equals(clazz))
+			{
+				for (Class<?> c : cs) 
+					listMenu.add(new MenuInfo((String)hs.invoke(c, "multipleTitle"), 
+							"listObj?clazz=" + c.getSimpleName(), 
+							c.getSimpleName().equals(clazz)));
+				break;
+			}
+		}
+		if (listMenu.size() > 0) model.addAttribute("quickMenu", listMenu);
 		// Объект вспомогательных сервисов
 		model.addAttribute("hs", hs);
 		// Страница по имени класса или страница по умолчанию
