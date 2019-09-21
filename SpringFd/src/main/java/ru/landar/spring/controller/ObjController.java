@@ -304,6 +304,7 @@ public class ObjController {
 		model.addAttribute("p_tab", paramTab.orElse(1));
 		model.addAttribute("p_ret", paramRet.orElse(""));
 		String pClazz = paramClazz.orElse(null);
+		if (!hs.isEmpty(pClazz)) model.addAttribute("p_clazz", pClazz);
 		String t = "details" + (!hs.isEmpty(pClazz) ? pClazz : clazz) + "Page";
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
