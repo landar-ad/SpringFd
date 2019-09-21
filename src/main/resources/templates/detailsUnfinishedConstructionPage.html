@@ -1,0 +1,260 @@
+ <!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+			Amel.require_init();
+			var faipChecked = function() { if ($('input[name="faip"]').is(':checked')) $('#faip').show(); else $('#faip').hide(); };
+			$('input[name="faip"]').on("change", function() { faipChecked(); });
+			faipChecked();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+   	<div class="container">
+		<form id="form" th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
+	 		<input type="hidden" name="clazz" value="UnfinishedConstruction" />
+	 		<input type="hidden" name="rn" th:value="${obj.rn}" />
+	 		<input type="hidden" name="p_tab" th:value="${p_tab}" />
+        	<div th:replace="fragments/header :: details-header"></div>
+        	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-md-12 form-group-sm row small">
+        		<div class="col-sm-1" th:with="tt='label',vv='Статус данных',rr=1"><div th:replace="fragments/component :: c"></div></div>
+                <div class="col-sm-3" th:with="tt='select',nn='status',ll=${listObjectStatus},vv=${obj.status},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+				<div class="form-group-sm">
+					<button id="submitButton" th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
+					<a th:href="@{/listObj?clazz=UnfinishedConstruction} + ${obj.rn!=null ? '&rn=' + obj.rn : ''}" class="btn btn-sm btn-light"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+				</div>
+	        </div>
+	        <div class="col-sm-12 border fit-height">
+	            <div th:with="p_tab=${p_tab!=null?p_tab:1}" class="col-md-12">
+	                <ul class="nav nav-tabs">
+	                    <li class="nav-item"><a href="#item1" data-target="#item1" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==null||p_tab==1?' active':'')}">Характеристика объекта</a></li>
+	                    <li class="nav-item"><a href="#item2" data-target="#item2" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==2?' active':'')}">Финансы</a></li>
+	                    <li class="nav-item"><a href="#item3" data-target="#item3" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==3?' active':'')}">Контактное лицо</a></li>
+	                    <li class="nav-item"><a href="#item4" data-target="#item4" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==4?' active':'')}">Дополнительная информация</a></li>
+	                    <li class="nav-item"><a href="#item5" data-target="#item5" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==5?' active':'')}">Документы</a></li>
+	                </ul>
+	                <div class="tab-content small">
+	                    <div id="item1" th:class="${'m-sm-2 tab-pane' + (p_tab==null || p_tab==1?' active':' fade')}">
+	                    	<div class="form-group-sm row mt-sm-1">
+	                    		<div class="col-sm-2" th:with="tt='label',vv='Застройщик, заказчик',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-10" th:with="tt='select',nn='customer',ll=${listOrg},vv=${obj.customer},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Наименование объекта'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-5" th:with="tt='text',nn='obj_name',vv=${obj.obj_name},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',vv='Идентификатор объекта',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='text',nn='ident_obj',vv=${obj.ident_obj},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Адрес местонахождения'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-6" th:with="tt='text',nn='obj_address',vv=${obj.obj_address},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='label',vv='Широта'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='latitude',vv=${obj.latitude},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='label',vv='Долгота'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='longtitude',vv=${obj.longtitude},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',vv='Департамент'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+	                    	<div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',vv='Вид мероприятия',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-5" th:with="tt='select',nn='view_event',ll=${listViewEvent},vv=${obj.view_event},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>                    	
+			                    <div class="col-sm-2" th:with="tt='label',vv='Состояние вида мероприятия',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='select',nn='state_view_event',ll=${listStateViewEvent},vv=${obj.state_view_event},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+			                </div>
+			                <div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',vv='Назначение объекта',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-4" th:with="tt='select',nn='purpose',ll=${listPurpose},vv=${obj.purpose},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>		                
+			                    <div class="col-sm-2" th:with="tt='label',vv='Мощность объекта'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='obj_capacity',vv=${obj.obj_capacity},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',vv='Единица измерения'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='select',nn='obj_capacity_ei',ll=${listMeasureUnit},vv=${obj.obj_capacity_ei},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>		                   
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Сметная стоимость',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-4" th:with="tt='text',nn='estimated_cost',vv=${obj.estimated_cost},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',vv='Год начала'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='year_start',vv=${obj.year_start},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-2" th:with="tt='label',vv='Год окончания'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='year_stop',vv=${obj.year_stop},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Стадия строительства',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-4" th:with="tt='select',nn='complet_build_phs',ll=${listCompletionPhase},vv=${obj.complet_build_phs},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',vv='% завершения'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='complet_build_val',vv=${obj.complet_build_val},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>									                    
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-3" th:with="tt='label',vv='Реестровый номер федерального имущества'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='text',nn='regnum_fedprop',vv=${obj.regnum_fedprop},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='label',vv='Реестровый номер земельного участка'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='text',nn='regnum_zu',vv=${obj.regnum_zu},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-3" th:with="tt='label',vv='Кадастровый номер объекта'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='text',nn='kadnum_obj',vv=${obj.kadnum_obj},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='label',vv='Кадастровый номер земельного участка'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-3" th:with="tt='text',nn='kadnum_zu',vv=${obj.kadnum_zu},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+			                </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Документ-основание'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-2" th:with="tt='text',nn='doc_basis_fbfund',vv=${obj.doc_basis_fbfund},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Фактические расходы',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='act_cost_real',vv=${obj.act_cost_real},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-4" th:with="tt='label',vv='Фактические расходы в том числе из федерального бюджета',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='act_cost_real_iefb',vv=${obj.act_cost_real_iefb},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',vv='Остаток сметной стоимости',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-2" th:with="tt='text',nn='remain_est_cost',vv=${obj.remain_est_cost},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',vv='Срок реализации мероприятия',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-6" th:with="tt='text',nn='imp_period_event',vv=${obj.imp_period_event},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+	                        </div>
+	                        <div class="form-group-sm row mt-sm-1">
+	                        	<div class="col-sm-2" th:with="tt='label',vv='Предлагаемый получатель объекта'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-10" th:with="tt='text',nn='prop_rec_object',vv=${obj.prop_rec_object},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+	                    </div>
+	                    <div id="item2" th:class="${'m-sm-2 tab-pane' + (p_tab==2?' active':' fade')}">
+	                    	<h6>Объем и источники финансирования работ</h6>
+	                        <div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',vv='Для завершения строительства',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='safund_comcon',vv=${obj.safund_comcon},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-2" th:with="tt='label',vv='Для завершения строительства из федерального бюджета',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='safund_comcon_iefb',vv=${obj.safund_comcon_iefb},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',vv='Для завершения строительства из внебюджетных источников',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='safund_comcon_ievs',vv=${obj.safund_comcon_ievs},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='На консервацию объекта',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='safund_pres_obj',vv=${obj.safund_pres_obj},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-3" th:with="tt='label',vv='Источник финансирования консервации объекта',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-4" th:with="tt='select',nn='safund_pres_obj_source',ll=${listFundsSource},vv=${obj.safund_pres_obj_source},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='На снос объекта',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='safund_destr',vv=${obj.safund_destr},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-3" th:with="tt='label',vv='Источник финансирования сноса объекта',rr=1"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-4" th:with="tt='select',nn='safund_destr_source',ll=${listFundsSource},vv=${obj.safund_destr_source},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <h6>Источники финансирования завершения строительства</h6>
+		                    <div class="form-group-sm row margin-left-0 mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='check',nn='bs_source',vv=${obj.bs_source},xx='Бюджетные средства'"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='label',vv='Письмо №'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='bs_num',vv=${obj.bs_num},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-2" th:with="tt='date',nn='bs_date',vv=${obj.bs_date},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row margin-left-0 mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='check',nn='vs_source',vv=${obj.vs_source},xx='Внебюджетные источники'"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='label',vv='Письмо №'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='vs_num',vv=${obj.vs_num},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-2" th:with="tt='date',nn='vs_date',vv=${obj.vs_date},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                    	</div>
+	                    	<div class="form-group-sm row margin-left-0 mt-sm-1">
+								<div class="col-sm-2" th:with="tt='check',nn='ii_source',vv=${obj.ii_source},xx='Иные источники'"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='label',vv='Письмо №'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-1" th:with="tt='text',nn='ii_num',vv=${obj.ii_num},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='label',vv='Дата'"><div th:replace="fragments/component :: c"></div></div>
+				                <div class="col-sm-2" th:with="tt='date',nn='ii_date',vv=${obj.ii_date},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>                    		
+		                    </div>
+		                    <div class="form-group-sm row margin-left-0 mt-sm-1">
+								<div class="col-sm-2" th:with="tt='check',nn='faip',vv=${obj.faip},xx='Включен в ФАИП'"><div th:replace="fragments/component :: c"></div></div>	                    	
+		                    </div>
+		                    <div class="m-sm-2"></div>
+		                    <div id="faip">
+			                    <h6>ФАИП</h6>
+			                    <div class="form-group-sm row mt-sm-1">
+			                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа ФАИП'"><div th:replace="fragments/component :: c"></div></div>
+				                	<div class="col-sm-3" th:with="tt='select',nn='type_faip',ll=${listTypeFaip},vv=${obj.type_faip},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								</div>
+								<div class="form-group-sm row mt-sm-1">
+									<div class="col-sm-2" th:with="tt='label',vv='Номер документа ФАИП'"><div th:replace="fragments/component :: c"></div></div>
+					                <div class="col-sm-2" th:with="tt='text',nn='num_faip',vv=${obj.num_faip},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+									<div class="col-sm-2" th:with="tt='label',vv='Дата документа ФАИП'"><div th:replace="fragments/component :: c"></div></div>
+					                <div class="col-sm-2" th:with="tt='date',nn='date_faip',vv=${obj.date_faip},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+			                    </div>
+		                    </div>
+	                    </div>
+	                    <div id="item3" th:class="${'m-sm-2 tab-pane' + (p_tab==3?' active':' fade')}">
+	                    	<h6>Контактное лицо 1</h6>
+	                    	<div class="form-group-sm row mt-sm-1">
+	                    		<div class="col-sm-1" th:with="tt='label',vv='ФИО',rr=1"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-3" th:with="tt='text',nn='agnname1',vv=${obj.agnname1},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-1" th:with="tt='label',vv='Должность',rr=1"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-3" th:with="tt='text',nn='emppost1',vv=${obj.emppost1},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-1" th:with="tt='label',vv='Телефон гор.',rr=1"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-2" th:with="tt='text',nn='phone_s1',vv=${obj.phone_s1},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-1" th:with="tt='label',vv='Телефон моб.',rr=1"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-2" th:with="tt='text',nn='phone_m1',vv=${obj.phone_m1},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-1" th:with="tt='label',vv='Электронная почта',rr=1"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-2" th:with="tt='text',nn='email1',vv=${obj.email1},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <h6>Контактное лицо 2</h6>
+	                    	<div class="form-group-sm row mt-sm-1">
+		                        <div class="col-sm-1" th:with="tt='label',vv='ФИО'"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-3" th:with="tt='text',nn='agnname2',vv=${obj.agnname2},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-1" th:with="tt='label',vv='Должность'"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-3" th:with="tt='text',nn='emppost2',vv=${obj.emppost2},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                        <div class="col-sm-1" th:with="tt='label',vv='Телефон гор.'"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-2" th:with="tt='text',nn='phone_s2',vv=${obj.phone_s2},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-1" th:with="tt='label',vv='Телефон моб.'"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-2" th:with="tt='text',nn='phone_m2',vv=${obj.phone_m2},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-1" th:with="tt='label',vv='Электронная почта'"><div th:replace="fragments/component :: c"></div></div>
+					            <div class="col-sm-2" th:with="tt='text',nn='email2',vv=${obj.email2},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+	                    </div>
+	                    <div id="item4" th:class="${'m-sm-2 tab-pane' + (p_tab==4?' active':' fade')}">
+	                    	<div class="form-group-sm row mt-sm-1">
+	                    		<div class="col-sm-2" th:with="tt='label',vv='Расположение объекта'"><div th:replace="fragments/component :: c"></div></div>
+			                	<div class="col-sm-10" th:with="tt='select',nn='locobj',ll=${listObjectLocation},vv=${obj.locobj},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+							</div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Обоснование необходимости списания'"><div th:replace="fragments/component :: c"></div></div>
+			                	<div class="col-sm-10" th:with="tt='text',nn='rat_writing_obj',vv=${obj.rat_writing_obj},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Наличие проектной документации'"><div th:replace="fragments/component :: c"></div></div>
+			                	<div class="col-sm-10" th:with="tt='text',nn='presence_dpd',vv=${obj.presence_dpd},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                        </div>
+	                        <div class="form-group-sm row mt-sm-1">
+	                        	<div class="col-sm-2" th:with="tt='label',vv='Предлагаемые решения организации'"><div th:replace="fragments/component :: c"></div></div>
+			                	<div class="col-sm-10" th:with="tt='text',nn='prop_sol_dpd',vv=${obj.prop_sol_dpd},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                        </div>
+		                    <div class="form-group-sm row mt-sm-1">
+	    						<div class="col-sm-2" th:with="tt='label',vv='Предлагаемые решения по результатам проверки'"><div th:replace="fragments/component :: c"></div></div>
+			                	<div class="col-sm-10" th:with="tt='text',nn='prop_sol_prov',vv=${obj.prop_sol_prov},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row margin-left-0 mt-sm-1">
+								<div class="col-sm-2" th:with="tt='check',nn='req_trip',vv=${obj.req_trip},xx='Требуется выезд'"><div th:replace="fragments/component :: c"></div></div>	                    	
+								<div class="col-sm-2" th:with="tt='check',nn='vvod_expl',vv=${obj.req_trip},xx='Введен в эксплуатацию'"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+	                    </div>
+	                    <div id="item5" th:class="${'m-sm-2 tab-pane' + (p_tab==5?' active':' fade')}">
+	                    	<div th:each="doc : ${obj.documents}" class="form-group-sm row">
+		                        <div class="col-sm-10 one-line">
+		                        	<span th:text="${doc.doctype.name}"></span>
+	                        	</div>
+	                        	<div class="col-sm-2">
+	                        		<a th:href="@{/detailsObj?clazz=Document&rn=} + ${doc.rn + '&prn=' + obj.rn}" class="btn btn-sm btn-light w-100">
+	                        		<i th:class="${'fa fa-sm fa-' + (!doc.apsend ? 'check' : 'times')}"></i> Документ</a>
+	                        	</div>
+	                    	</div>
+	                    </div>
+	                </div>
+                </div>
+            </div>
+	    </form>
+    </div>
+  	<div th:replace="fragments/header :: modal"></div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>
