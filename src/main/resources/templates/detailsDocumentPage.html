@@ -13,7 +13,7 @@
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
            	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
-            	<div class="m-sm-2">
+            	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
 	                	<div class="w-100 border border-primary">
@@ -139,8 +139,8 @@
                     </div>
  				</div>
 			</div>
-			<div th:replace="fragments/header :: details-footer"></div>
 		</form>
 	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
 </body>
 </html>

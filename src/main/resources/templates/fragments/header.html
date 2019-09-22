@@ -300,7 +300,7 @@
 		</tbody></table>
 	</th:block>
 	<div th:fragment="modal" class="modal" tabindex="-1" role="dialog" style="height: 90%"></div>
-	<footer th:fragment="details-footer">
+	<footer th:fragment="details-footer" class="container">
 		<div class="card-footer bg-primary text-white">		
     		<small th:if="${hs!=null && hs.propertyExists(obj,'modifier')}" th:text="${'Изменен: ' + obj.modifier + ', дата/время: ' + #dates.format(obj.mdate,'dd.MM.yyyy HH:mm:ss')}"></small>
    		</div>

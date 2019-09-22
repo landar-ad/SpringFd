@@ -744,7 +744,7 @@ Amel = {
 				var e = p[i];
 				var tag = $(e).prop("tagName").toLowerCase();
 				if (tag == "html" || tag == "body") continue;
-				target.calc_height(e, true);
+				target.calc_height(e, false);
 			}
 			var h = target.calc_height(this, false);
 			if ($(this).find(".table-fixed").length == 0) {
@@ -767,7 +767,7 @@ Amel = {
 		pa.children().filter(':visible').each(function() {
 			if ($(a)[0] != $(this)[0]) h += $(this).outerHeight(true);
 		});
-		var ph = pa.outerHeight() - h;
+		var ph = pa[0].clientHeight - (pa.outerHeight(true) - pa.outerHeight()) - h;
 		if (m) ph -= target.scroll_bar_size().height;
 		$(a).outerHeight(ph);
 		return ph;
