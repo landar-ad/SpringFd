@@ -866,37 +866,35 @@ Amel = {
 		});
 		target.add_on($("#" + target.tableId + " tbody tr"), "click", function() { target.click_row(this); });
 		target.add_on($("#" + target.tableId + " tbody tr"), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
+		// Установка однострочного содержимого данных
+		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		// Установка максимального размера колонки
 		var wt = 0, sc = $("#" + target.tableId).outerWidth() - 3 * target.scroll_bar_size().width, max = sc / 4;
 		// Установка размера колонок - предварительно последнюю увеличиваем для скроллинга
 		target.set_header_width($("#" + target.tableId));
 		$("#" + target.tableId + " thead tr").each(function() {
 			wt = 0;
-			$(this).find("th").each(function() {
-				wt += $(this).outerWidth();
-			});
+			$(this).find("th").each(function() { wt += $(this).outerWidth(true); });
 			if (wt > 0) {
 				$(this).find("th").each(function() {
-					var m = $(this).outerWidth() * sc / wt;
+					var m = $(this).outerWidth(true) * sc / wt;
 					if (m > max) max = m;
+					$(this).css("min-width", m);
+					$(this).css("max-width", m);
 				});
 			}
 		});
 		$("#" + target.tableId + " tbody tr").each(function() {
 			wt = 0;
-			$(this).find("td").each(function() {
-				wt += $(this).outerWidth();
-			});
+			$(this).find("td").each(function() { wt += $(this).outerWidth(true); });
 			if (wt > 0) {
 				$(this).find("td").each(function() {
-					var m = $(this).outerWidth() * sc / wt;
+					var m = $(this).outerWidth(true) * sc / wt;
 					if (m > max) max = m;
 				});
 			}
 		});
 		$("#" + target.tableId + " .max-width").css("max-width", "" + max + "px");
-		// Установка однострочного содержимого данных
-		$("#" + target.tableId + " td .max-width").addClass('one-line');
 		// Изменение размера области данных после скроллинга
 		target.add_on($("#" + target.tableId), "scroll", function() {
 			$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
