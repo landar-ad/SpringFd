@@ -6,12 +6,16 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
 
 import ru.landar.spring.classes.ColumnInfo;
 
+@Entity
+@PrimaryKeyJoinColumn(name="rn")
 public class Notification5 extends Document {
 	private String kbk;
 	private BigDecimal sum1;
