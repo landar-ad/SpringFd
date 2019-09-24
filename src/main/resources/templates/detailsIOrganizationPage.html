@@ -16,38 +16,72 @@
             	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
             		<div class="col-sm-12 border fit-height">
-	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-	                    	<th:block th:with="w='13%',tt='label',vv='Машинный код'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    	<th:block th:with="w='13%',tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                        <th:block th:with="w='21%',tt='label',vv='Короткое наименование'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    	<th:block th:with="w='53%',tt='text',nn='shortname',vv=${obj.shortname},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-	                    	<th:block th:with="w='13%',tt='label',vv='Полное наименование',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    	<th:block th:with="w='87%',tt='mtext',nn='fullname',vv=${obj.fullname},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-	                    	<th:block th:with="w='7%',tt='label',vv='ИНН',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                        <th:block th:with="w='21%',tt='text',nn='inn',vv=${obj.inn},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                        <th:block th:with="w='7%',tt='label',vv='КПП'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                        <th:block th:with="w='21%',tt='text',nn='kpp',vv=${obj.kpp},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                      	<th:block th:with="w='21%',tt='label',vv='Код сводного реестра'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                        <th:block th:with="w='13%',tt='text',nn='srcode',vv=${obj.srcode},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                        <td width="10%"></td>
-	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-	                    	<th:block th:with="w='13%',tt='label',vv='Адрес'"><th th:replace="fragments/tc :: ch"></th></th:block>
-							<th:block th:with="w='87%',tt='mtext',nn='address',vv=${obj.address},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-	                    	<th:block th:with="w='7%',tt='label',vv='ОГРН'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                        <th:block th:with="w='13%',tt='text',nn='ogrn',vv=${obj.ogrn},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                        <th:block th:with="w='7%',tt='label',vv='ОКПО'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                        <th:block th:with="w='13%',tt='text',nn='okpo',vv=${obj.okpo},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                      	<th:block th:with="w='7%',tt='label',vv='ОКОПФ'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                        <th:block th:with="w='13%',tt='text',nn='okopf',vv=${obj.okopf},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                        <td width="40%"></td>
-	                    </tr></tbody></table>
+            			<th:block th:if="bs!=true">
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Машинный код'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='13%',tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='21%',tt='label',vv='Короткое наименование'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='53%',tt='text',nn='shortname',vv=${obj.shortname},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Полное наименование',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='87%',tt='mtext',nn='fullname',vv=${obj.fullname},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='7%',tt='label',vv='ИНН',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='21%',tt='text',nn='inn',vv=${obj.inn},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='7%',tt='label',vv='КПП'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='21%',tt='text',nn='kpp',vv=${obj.kpp},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                      	<th:block th:with="w='21%',tt='label',vv='Код сводного реестра'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='13%',tt='text',nn='srcode',vv=${obj.srcode},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <td width="10%"></td>
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Адрес'"><th th:replace="fragments/tc :: ch"></th></th:block>
+								<th:block th:with="w='87%',tt='mtext',nn='address',vv=${obj.address},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='7%',tt='label',vv='ОГРН'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='13%',tt='text',nn='ogrn',vv=${obj.ogrn},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='7%',tt='label',vv='ОКПО'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='13%',tt='text',nn='okpo',vv=${obj.okpo},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                      	<th:block th:with="w='7%',tt='label',vv='ОКОПФ'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='13%',tt='text',nn='okopf',vv=${obj.okopf},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <td width="40%"></td>
+		                    </tr></tbody></table>
+	                    </th:block>
+	                    <th:block th:if="bs==true">
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Машинный код'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',vv='Короткое наименование'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-6" th:with="tt='text',nn='shortname',vv=${obj.shortname},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Полное наименование',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-12" th:with="tt='mtext',nn='fullname',vv=${obj.fullname},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-1" th:with="tt='label',vv='ИНН',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='text',nn='inn',vv=${obj.inn},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-1" th:with="tt='label',vv='КПП'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='text',nn='kpp',vv=${obj.kpp},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                      	<div class="col-sm-2" th:with="tt='label',vv='Код сводного реестра'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='text',nn='srcode',vv=${obj.srcode},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Адрес'"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-12" th:with="tt='mtext',nn='address',vv=${obj.address},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-1" th:with="tt='label',vv='ОГРН'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='text',nn='ogrn',vv=${obj.ogrn},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-1" th:with="tt='label',vv='ОКПО'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='text',nn='okpo',vv=${obj.okpo},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                      	<div class="col-sm-1" th:with="tt='label',vv='ОКОПФ'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='text',nn='okopf',vv=${obj.okopf},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+	                    </th:block>
                     </div>
 				</div>
 			</div>
