@@ -14,37 +14,71 @@
 			<div th:replace="fragments/header :: details-param"></div>
 			<div th:replace="fragments/header :: details-header"></div>
            	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-md-12 card small">
-            	<div class="m-sm-2">
+            	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
             		<div class="col-sm-12 border fit-height">
-	                    <div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-2" th:with="tt='label',vv='Машинный код'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Должность'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-6" th:with="tt='text',nn='position',vv=${obj.position},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-                    	</div>
-                    	<div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Фамилия'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='text',nn='surname',vv=${obj.surname},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='label',vv='Имя'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='text',nn='firstname',vv=${obj.firstname},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='label',vv='Отчество'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='text',nn='middlename',vv=${obj.middlename},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-2" th:with="tt='label',vv='Структурное подразделение'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Телефон'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='text',nn='phone',vv=${obj.phone},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Электронная почта'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='text',nn='email',vv=${obj.email},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-2" th:with="tt='label',vv='Дата увольнения'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='date',nn='date_fire',vv=${obj.date_fire},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
+            			<th:block th:if="bs!=true">
+           					<table class="table table-sm table-edited table-bordered"><tbody><tr>
+            					<th:block th:with="w='13%',tt='label',vv='Машинный код'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='13%',tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='21%',tt='label',vv='Должность'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='53%',tt='text',nn='position',vv=${obj.position},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='16%',tt='label',vv='Фамилия',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='17%',tt='text',nn='surname',vv=${obj.surname},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='16%',tt='label',vv='Имя'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='17%',tt='text',nn='firstname',vv=${obj.firstname},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                      	<th:block th:with="w='16%',tt='label',vv='Отчество'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                        <th:block th:with="w='18%',tt='text',nn='middlename',vv=${obj.middlename},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                        </tr></tbody></table>
+	                        <table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
+		                    	<th:block th:with="w='33%',tt='label',vv='Структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='4%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='59%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+								<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Код=YYA;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+            					<th:block th:with="w='17%',tt='label',vv='Телефон'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='33%',tt='text',nn='phone',vv=${obj.phone},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='17%',tt='label',vv='Электронная почта'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='33%',tt='text',nn='email',vv=${obj.email},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+            					<th:block th:with="w='17%',tt='label',vv='Дата увольнения'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='17%',tt='text',nn='date_fire',vv=${obj.date_fire},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	                    	</tr></tbody></table>
+            			</th:block>
+            			<th:block th:if="bs==true">
+		                    <div class="form-group-sm row mt-sm-1">
+		                        <div class="col-sm-2" th:with="tt='label',vv='Машинный код'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Должность'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-6" th:with="tt='text',nn='position',vv=${obj.position},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Фамилия'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='surname',vv=${obj.surname},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',vv='Имя'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='firstname',vv=${obj.firstname},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',vv='Отчество'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='middlename',vv=${obj.middlename},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                        <div class="col-sm-2" th:with="tt='label',vv='Структурное подразделение'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Телефон'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='text',nn='phone',vv=${obj.phone},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Электронная почта'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='text',nn='email',vv=${obj.email},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                        <div class="col-sm-2" th:with="tt='label',vv='Дата увольнения'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='date',nn='date_fire',vv=${obj.date_fire},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+	                    </th:block>
                     </div>
 				</div>
 			</div>
