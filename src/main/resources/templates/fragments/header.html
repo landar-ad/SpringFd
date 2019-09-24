@@ -228,13 +228,13 @@
 	 	</div>
 	</div>
 	<th:block th:fragment="file_list">
-		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		<table class="table table-sm table-edited table-bordered"><tbody><tr>
         	<th:block th:with="w='16%',tt='label',vv='Прикрепленные файлы'"><th th:replace="fragments/tc :: ch"></th></th:block>
         	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_file'"><td th:replace="fragments/tc :: cd"></td></th:block>
         	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_file'"><td th:replace="fragments/tc :: cd"></td></th:block>
         	<td width="52%"></td>
         </tr></tbody></table>
-        <table id="list_file" class="table table-sm table-edited table-bordered small"><tbody>
+        <table id="list_file" class="table table-sm table-edited table-bordered"><tbody>
         	<tr th:each="d : ${obj?.list_file}">
 	         	<td class="d-none">
 	         		<input type="hidden" name="list_file__rn" th:value="${d.rn}">
@@ -264,13 +264,13 @@
         </tbody></table>
     </th:block>
 	<th:block th:fragment="mailing_list">
-		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			<th:block th:with="w='16%',tt='label',vv='Список рассылки'"><th th:replace="fragments/tc :: ch"></th></th:block>
 			<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='mailing_list'"><td th:replace="fragments/tc :: cd"></td></th:block>
 			<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='mailing_list'"><td th:replace="fragments/tc :: cd"></td></th:block>
 			<td width="52%"></td>
 		</tr></tbody></table>
-		<table id="mailing_list" class="table table-sm table-edited table-bordered small"><tbody>
+		<table id="mailing_list" class="table table-sm table-edited table-bordered"><tbody>
 			<tr class="parent-popup" th:each="d : ${obj?.mailing_list}">
 				<td class="d-none">
 					<input type="hidden" name="mailing_list__rn" th:value="${d.rn}">

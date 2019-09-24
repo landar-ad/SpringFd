@@ -9,15 +9,15 @@
 	</script>
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
-		<form action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
+		<form id="form" action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
+           	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
             	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
 	                	<div class="w-100 border border-primary">
-	                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                		<th:block th:with="w='13%',tt='label',vv='Дата создания'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='20%',tt='time',vv=${obj.create_time},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                		<th:block th:with="w='13%',tt='label',vv='Создан пользователем'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -26,7 +26,7 @@
 		          				<th:block th:with="w='4%',tt='text',vv=${obj.version},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
 			                    <td width="23%"></td>
 			                </tr></tbody></table>
-	                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                		<th:block th:with="w='13%',tt='label',vv='Тип документа',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='20%',tt='select',nn='doc_type',ll=${listDocType},vv=${obj.doc_type},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                		<th:block th:with="w='13%',tt='label',vv='№ документа',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -35,13 +35,13 @@
 		          				<th:block th:with="w='20%',tt='date',nn='doc_date',vv=${obj.doc_date},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
 			                    <td width="1%"></td>
 			                </tr></tbody></table>
-			                <table class="table table-sm table-edited table-bordered small parent-popup"><tbody><tr>
+			                <table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
 		                    	<th:block th:with="w='33%',tt='label',vv='Структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='4%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='59%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<th:block th:with="w='4%',tt='pbutton',nn1='depart',nn2='',vv=${obj.depart?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Код=YYA;name=Наименование',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
 		                    </tr></tbody></table>
-		                    <table class="table table-sm table-edited table-bordered small parent-popup"><tbody><tr>
+		                    <table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
 	                        	<th:block th:with="w='13%',tt='label',vv='Тип основного документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                        	<th:block th:with="w='20%',tt='text',vv=${obj.parent_doc?.doc_type?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <th:block th:with="w='13%',tt='label',vv='№ основного документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -51,7 +51,7 @@
 		                        <th:block th:with="w='4%',tt='pbutton',nn1='parent_doc',nn2='',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <td width="10%"></td>
 	                        </tr></tbody></table>
-	                        <table class="table table-sm table-edited table-bordered small parent-popup"><tbody><tr>
+	                        <table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Контрагент'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='81%',tt='text',vv=${obj.agent?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<th:block th:with="w='4%',tt='pbutton',nn1='agent',nn2='',vv=${obj.agent?.rn},ro=${rco},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование организации',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>                    	
@@ -61,19 +61,19 @@
 	                    	<th:block th:replace="fragments/header :: file_list"/>
 	                    </div>
 	                    <div class="w-100 border border-primary">
-	                    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='20%',tt='label',vv='Количество страниц'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='7%',tt='text',nn='sheet_count',vv=${obj.sheet_count},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 			                    <td width="73%"></td>
 	                    	</tr></tbody></table>
-	                    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                   		<th:block th:with="w='7%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='13%',tt='select',nn='doc_status',ll=${listDocStatus},vv=${obj.doc_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
 	                    		<th:block th:with="w='20%',tt='label',vv='Дата присвоения статуса'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                    		<th:block th:with="w='13%',tt='time',vv=${obj.time_status},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    		<td width="47%"></td>
 	                    	</tr></tbody></table>
-	                    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                   		<th:block th:with="w='13%',tt='label',vv='Дата изменения'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='20%',tt='time',vv=${obj.change_time},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block> 	
 	                    		<th:block th:with="w='13%',tt='label',vv='Изменен пользователем'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -82,7 +82,7 @@
 	                    	</tr></tbody></table>
                     	</div>
 						<div class="w-100 border border-primary">
-	                    	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Включен в акт: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='7%',tt='text',vv=${obj.act?.act_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='7%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -93,7 +93,7 @@
 								<th:block th:with="w='13%',tt='date',vv=${obj.reestr?.reestr_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<td width="20%"></td>
 							</tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 								<th:block th:with="w='13%',tt='label',vv='Исключен из акта: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='7%',tt='text',vv=${obj.act_exclude_num},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='7%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -101,7 +101,7 @@
 		                        <th:block th:with="w='13%',tt='label',vv='Причина'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                        <th:block th:with="w='47%',tt='text',vv=${obj.act_exclude_reason},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 							</tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 								<th:block th:with="w='13%',tt='label',vv='Заменен документом: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='7%',tt='text',vv=${obj.change_doc?.doc_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<th:block th:with="w='7%',tt='label',vv='Дата'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -110,7 +110,7 @@
 							</tr></tbody></table>
 						</div>
 						<div class="w-100 border border-primary">
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Дата отражения в бухгалтерском учете'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='13%',tt='date',vv=${obj.buh_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	    		               	<th:block th:with="w='13%',tt='label',vv='Отражен в выписке: №'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -119,7 +119,7 @@
 								<th:block th:with="w='13%',tt='date',vv=${obj.extract_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<td width="21%"></td>
 							</tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Счетная палата: год проверки'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='7%',tt='text',nn='sp_year',vv=${obj.sp_year},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='20%',tt='label',vv='Номер пункта запроса'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -128,7 +128,7 @@
 								<th:block th:with="w='7%',tt='text',nn='sp_subnum',vv=${obj.sp_subnum},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<td width="19%"></td>
 							</tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small mb-0"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered mb-0"><tbody><tr>
 		                    	<th:block th:with="w='20%',tt='label',vv='№ документа в СЭДКП'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='20%',tt='text',nn='sedkp_num',vv=${obj.sedkp_num},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	    	                	<th:block th:with="w='20%',tt='label',vv='Дата документа в СЭДКП'"><th th:replace="fragments/tc :: ch"></th></th:block>

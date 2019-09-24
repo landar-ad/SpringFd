@@ -739,6 +739,7 @@ Amel = {
 	size_fit: function() {
 		var target = this;
 		$('.fit-height').each(function () {
+			$(this).hide();
 			var p = $(this).parents();
 			if (p.length > 0) for (var i=p.length-1; i>=0; i--) {
 				var e = p[i];
@@ -749,8 +750,10 @@ Amel = {
 			var h = target.calc_height(this, false);
 			if ($(this).find(".table-fixed").length == 0) {
 				$(this).css("overflow-y", "auto");
+				$(this).show();
 			}
 			else {
+				$(this).show();
 				var tb = $(this).find("tbody");
 				tb.css("overflow-y", "auto");
 				tb.outerHeight($("footer").offset().top - tb.offset().top);

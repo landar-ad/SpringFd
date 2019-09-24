@@ -13,32 +13,32 @@
 			<div th:replace="fragments/header :: details-param"></div>
 			<input type="hidden" name="kbk" th:value=${kbk}>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
-            	<div class="m-sm-2">
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+            	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 fit-height">
-	                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                		<th:block th:with="w='50%',tt='label',vv='№ предложения на закупку'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                		<th:block th:with="w='50%',tt='text',nn='num',vv=${obj.num}"><td th:replace="fragments/tc :: cd"></td></th:block>
                 		</tr></tbody></table>
-                		<table class="table table-sm table-edited table-bordered small"><tbody><tr class="parent-popup">
+                		<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
 	                		<th:block th:with="w='50%',tt='label',vv='КОСГУ'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                		<th:block th:with="w='46%',tt='text',vv=${obj.kosgu},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                		<th:block th:with="w='4%',tt='pbutton',nn1='kosgu',nn2='',vv=${obj.kosgu},ro=${rco},ddcl='SpKBK',ddti='Выберите КОСГУ',ddco='kosgu;kosgu=КОСГУ=YYA',ddfi='kbk $kbk$'"><td th:replace="fragments/tc :: cd"></td></th:block>
                 		</tr></tbody></table>
-                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                		<th:block th:with="w='50%',tt='label',vv='Сумма (следующий год)'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                		<th:block th:with="w='50%',tt='text',nn='sum1',vv=${obj.sum1}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>
-		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                		<th:block th:with="w='50%',tt='label',vv='Сумма (первый год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                		<th:block th:with="w='50%',tt='text',nn='sum2',vv=${obj.sum2}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>
-		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                		<th:block th:with="w='50%',tt='label',vv='Сумма (второй год планового периода)'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                		<th:block th:with="w='50%',tt='text',nn='sum3',vv=${obj.sum3}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>
-		                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                		<th:block th:with="w='50%',tt='label',vv='Описание изменения'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                		<th:block th:with="w='50%',tt='text',nn='description',vv=${obj.description}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                </tr></tbody></table>

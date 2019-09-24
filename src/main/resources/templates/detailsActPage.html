@@ -12,26 +12,26 @@
 		<form action="detailsObj" method="POST" enctype="multipart/form-data" class="form" role="form" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="st=${obj.act_status==null ? '1' : obj.act_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card">
+           	<div th:with="st=${obj.act_status==null ? '1' : obj.act_status?.code},adm=${#strings.contains(p_roles,'ADMIN') ? 1 : 0},rco=${adm==1 || st=='1' ? 0 : 1}" class="col-sm-12 card small">
             	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
 	                	<div class="w-100 border border-primary">
-	                		<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                		<th:block th:with="w='13%',tt='label',vv='Дата создания'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='20%',tt='time',vv=${obj.create_time},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                		<th:block th:with="w='13%',tt='label',vv='Создан пользователем'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		          				<th:block th:with="w='20%',tt='text',vv=${obj.create_agent?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			                    <td width="34%"></td>
 			                </tr></tbody></table>
-		                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                		<th:block th:with="w='13%',tt='label',vv='№ акта',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		          				<th:block th:with="w='20%',tt='text',nn='act_number',vv=${obj.act_number},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		          				<th:block th:with="w='13%',tt='label',vv='Дата акта',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		          				<th:block th:with="w='20%',tt='date',nn='act_date',vv=${obj.act_date},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
 			                    <td width="34%"></td>
 			                </tr></tbody></table>
-	                    	<table class="table table-sm table-edited table-bordered small parent-popup"><tbody><tr>
+	                    	<table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
 		                    	<th:block th:with="w='33%',tt='label',vv='Структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='4%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='59%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -39,13 +39,13 @@
 		                    </tr></tbody></table>
 	                    </div>
                        	<div class="w-100 border border-primary">
- 							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+ 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 					        	<th:block th:with="w='16%',tt='label',vv='Документы, включенные в акт'"><th th:replace="fragments/tc :: ch"></th></th:block>
 					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
 					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
 					        	<td width="52%"></td>
 					        </tr></tbody></table>
-					        <table id="list_doc" class="table table-sm table-edited table-bordered small">
+					        <table id="list_doc" class="table table-sm table-edited table-bordered">
 					        	<tbody>
 					        		<tr>
 							       		<td class="d-none"></td>
@@ -82,7 +82,7 @@
 				        	</table>                       	
                        	</div>
 						<div class="w-100 border border-primary">
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                   		<th:block th:with="w='7%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='13%',tt='select',nn='act_status',ll=${listActStatus},vv=${obj.act_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
 	                    		<th:block th:with="w='20%',tt='label',vv='Дата присвоения статуса'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -91,7 +91,7 @@
 	                    		<th:block th:with="w='20%',tt='text',nn='act_reason',vv=${obj.act_reason},ro=${adm==1 || st=='6' ? 0 : 1}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    		<td width="14%"></td>
 	                    	</tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                   		<th:block th:with="w='13%',tt='label',vv='Дата изменения'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='20%',tt='time',vv=${obj.change_time},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block> 	
 	                    		<th:block th:with="w='13%',tt='label',vv='Изменен пользователем'"><th th:replace="fragments/tc :: ch"></th></th:block>
