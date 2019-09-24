@@ -714,6 +714,7 @@ Amel = {
 				modal.modal();
 				modal.find(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 				modal.find(".modal-body").css("overflow-y", "auto");
+				modal.find("table").css("overflow-x", "hidden");
 				target.set_header_width(modal.find("table"), true);
 				target.add_on(modal.find(".save-button"), "click", function() {
 					modal.find("table tbody tr").each(function() {
@@ -1103,6 +1104,7 @@ Amel = {
 					var h = modal.outerHeight(true);
 					var a = modal.find("table tbody");
 					a.outerHeight(h / 2);
+					modal.find("table").css("overflow-x", "hidden");
 					target.set_header_width(modal.find("table"), true);
 					target.scrollTo(modal);
 					target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {

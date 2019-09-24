@@ -16,7 +16,7 @@
             	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
             		<div class="col-sm-12 border fit-height">
-            			<th:block th:if="bs!=true">
+            			<th:block th:if="${bs!=true}">
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Машинный код'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    	<th:block th:with="w='13%',tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -50,7 +50,7 @@
 		                        <td width="40%"></td>
 		                    </tr></tbody></table>
 	                    </th:block>
-	                    <th:block th:if="bs==true">
+	                    <th:block th:if="${bs==true}">
 	                    	<div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Машинный код'"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-2" th:with="tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>

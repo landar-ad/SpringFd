@@ -16,7 +16,7 @@
             	<div class="m-sm-2">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 border fit-height">
-	                	<th:block th:if="bs!=true">
+	                	<th:block th:if="${bs!=true}">
 	                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                			<th:block th:with="w='100%',tt='file',nn='fileuri',vv='Прикрепить файл',ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                		<tr></tbody></table>
@@ -42,7 +42,7 @@
 	                			<td><a th:href="${'fileView?rn=' + obj.rn}">Скачать файл</a></td>
 	                		<tr></tbody></table>
 	                	</th:block>
-	                    <th:block th:if="bs==true">
+	                    <th:block th:if="${bs==true}">
 		                	<div class="form-group-sm row mt-sm-1">
 		                      	<div class="col-sm-12" th:with="tt='file',nn='fileuri',vv='Прикрепить файл',ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
