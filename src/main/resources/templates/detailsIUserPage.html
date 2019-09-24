@@ -4,8 +4,7 @@
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			Amel.size_init();
-			Amel.popup_init();
+			Amel.details_init();
             $('input[name="username"]').focus();
             if (!($('input[name="rn"]').val() > 0)) $('input[name="password"]').attr("required") = "required";
 		});
@@ -16,35 +15,74 @@
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
 	       	<div class="col-sm-12 card small">
-	            <div class="m-sm-2">
+	            <div class="m-sm-0">
 	            	<div th:replace="fragments/header :: details-buttons"></div>
 	            	<div class="col-sm-12 border fit-height">
-	                    <div class="form-group-sm row mt-sm-2">
-	                    	<div class="col-sm-12" th:with="tt='label',vv='Логин',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='text',nn='login',vv=${obj.login},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-2">
-	                    	<div class="col-sm-12" th:with="tt='label',vv='Пароль'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='password',nn='password',vv=''"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <h6>Роли</h6>
-	                    <div class="form-group-sm row mt-sm-2">
-	                    	<div class="col-sm-4" th:with="tt='check',nn='role_user',vv=${role_user},xx='Пользователь'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='check',nn='role_admin',vv=${role_admin},xx='Администратор'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-4" th:with="tt='check',nn='role_df',vv=${role_df},xx='Сотрудник Департамента финансов'"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-2">
-	                    	<div class="col-sm-6" th:with="tt='check',nn='disabled',vv=${obj.disabled},xx='Заблокирован'"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-2 parent-popup">
-	                    	<div class="col-sm-6" th:with="tt='label',vv='Контрагент (юридическое лицо)'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-11" th:with="tt='text',vv=${obj.org?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-1" th:with="tt='pbutton',nn='org',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование организации',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
-						</div>	                        
-	                    <div class="form-group-sm row mt-sm-2">
-	                    	<div class="col-sm-6" th:with="tt='label',vv='Контрагент (физическое лицо)'"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-11" th:with="tt='select',nn='person',ll=${listPerson},vv=${obj.person}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
+	            		<th:block th:if="bs!=true">
+	            			<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Логин',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='87%',tt='text',nn='login',vv=${obj.login},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Пароль',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='87%',tt='password',nn='password',vv='',rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<td width="100%"><h6>Роли</h6></td>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='26%',tt='label',vv='Пользователь'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='role_user',vv='${role_user}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<th:block th:with="w='26%',tt='label',vv='Администратор'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='role_admin',vv='${role_admin}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<th:block th:with="w='26%',tt='label',vv='Сотрудник Департамента финансов'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='role_df',vv='${role_df}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<td width="10%"></td>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='10%',tt='label',vv='Заблокирован'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='disabled',vv='${obj.disabled}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    	</tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (юридическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='70%',tt='text',vv=${obj.org?.name},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='4%',tt='pbutton',nn1='org',nn2='',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    </tr></tbody></table>
+                       		<table class="table table-sm table-edited table-bordered mb-0"><tbody><tr class="parent-popup">
+		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (физическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='70%',tt='text',vv=${obj.person?.name},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='4%',tt='pbutton',nn1='person',nn2='',vv=${obj.person?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    </tr></tbody></table>
+	                    </th:block>
+	                    <th:block th:if="bs==true">
+	                    	<div class="form-group-sm row mt-sm-2">
+		                    	<div class="col-sm-12" th:with="tt='label',vv='Логин',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='text',nn='login',vv=${obj.login},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-2">
+		                    	<div class="col-sm-12" th:with="tt='label',vv='Пароль'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='password',nn='password',vv=''"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <h6>Роли</h6>
+		                    <div class="form-group-sm row mt-sm-2">
+		                    	<div class="col-sm-4" th:with="tt='check',nn='role_user',vv=${role_user},xx='Пользователь'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='check',nn='role_admin',vv=${role_admin},xx='Администратор'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='check',nn='role_df',vv=${role_df},xx='Сотрудник Департамента финансов'"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-2">
+		                    	<div class="col-sm-6" th:with="tt='check',nn='disabled',vv=${obj.disabled},xx='Заблокирован'"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-2 parent-popup">
+		                    	<div class="col-sm-6" th:with="tt='label',vv='Контрагент (юридическое лицо)'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-11" th:with="tt='text',vv=${obj.org?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='pbutton',nn='org',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование организации',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
+							</div>	                        
+		                    <div class="form-group-sm row mt-sm-2 parent-popup">
+		                    	<div class="col-sm-6" th:with="tt='label',vv='Контрагент (физическое лицо)'"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-11" th:with="tt='text',vv=${obj.person?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-1" th:with="tt='pbutton',nn='person',vv=${obj.person?.rn},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+	                    </th:block>
                     </div>
 				</div>
 			</div>
