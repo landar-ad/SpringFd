@@ -28,20 +28,21 @@
 		                    	<th:block th:with="w='87%',tt='password',nn='password',vv='',rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    </tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    	<td width="100%"><h6>Роли</h6></td>
+		                    	<th:block th:with="w='100%',tt='label',vv='<h6>Роли</h6>'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    		<th:block th:with="w='26%',tt='label',vv='Пользователь'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<th:block th:with="w='4%',tt='check',nn='role_user',vv='${role_user}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='role_user',vv=${role_user}"><th th:replace="fragments/tc :: check"></th></th:block>
 	                    		<th:block th:with="w='26%',tt='label',vv='Администратор'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<th:block th:with="w='4%',tt='check',nn='role_admin',vv='${role_admin}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='role_admin',vv=${role_admin}"><th th:replace="fragments/tc :: check"></th></th:block>
 	                    		<th:block th:with="w='26%',tt='label',vv='Сотрудник Департамента финансов'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<th:block th:with="w='4%',tt='check',nn='role_df',vv='${role_df}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='role_df',vv=${role_df}"><th th:replace="fragments/tc :: check"></th></th:block>
 	                    		<td width="10%"></td>
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    		<th:block th:with="w='10%',tt='label',vv='Заблокирован'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<th:block th:with="w='4%',tt='check',nn='disabled',vv='${obj.disabled}'"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<th:block th:with="w='4%',tt='check',nn='disabled',vv=${obj.disabled}"><th th:replace="fragments/tc :: check"></th></th:block>
+	                    		<td width="86%"></td>
 	                    	</tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
 		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (юридическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -50,8 +51,8 @@
 		                    </tr></tbody></table>
                        		<table class="table table-sm table-edited table-bordered mb-0"><tbody><tr class="parent-popup">
 		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (физическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='70%',tt='text',vv=${obj.person?.name},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='4%',tt='pbutton',nn1='person',nn2='',vv=${obj.person?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='70%',tt='text',vv=${obj.person?.name},ro=1,rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='4%',tt='pbutton',nn1='person',nn2='',vv=${obj.person?.rn},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    </tr></tbody></table>
 	                    </th:block>
 	                    <th:block th:if="bs==true">
