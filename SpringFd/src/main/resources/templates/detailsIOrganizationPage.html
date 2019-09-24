@@ -12,21 +12,21 @@
 		<form action="detailsObj" method="POST" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-md-12 card">
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-md-12 card small">
             	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
             		<div class="col-sm-12 border fit-height">
-	                    <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    	<th:block th:with="w='13%',tt='label',vv='Машинный код'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                    	<th:block th:with="w='13%',tt='text',nn='mkod',vv=${obj.mkod},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                        <th:block th:with="w='21%',tt='label',vv='Короткое наименование'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                    	<th:block th:with="w='53%',tt='text',nn='shortname',vv=${obj.shortname},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    	<th:block th:with="w='13%',tt='label',vv='Полное наименование',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                    	<th:block th:with="w='87%',tt='mtext',nn='fullname',vv=${obj.fullname},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    	<th:block th:with="w='7%',tt='label',vv='ИНН',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                        <th:block th:with="w='21%',tt='text',nn='inn',vv=${obj.inn},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                        <th:block th:with="w='7%',tt='label',vv='КПП'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -35,11 +35,11 @@
 	                        <th:block th:with="w='13%',tt='text',nn='srcode',vv=${obj.srcode},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                        <td width="10%"></td>
 	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    	<th:block th:with="w='13%',tt='label',vv='Адрес'"><th th:replace="fragments/tc :: ch"></th></th:block>
 							<th:block th:with="w='87%',tt='mtext',nn='address',vv=${obj.address},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                    </tr></tbody></table>
-	                    <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+	                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    	<th:block th:with="w='7%',tt='label',vv='ОГРН'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	                        <th:block th:with="w='13%',tt='text',nn='ogrn',vv=${obj.ogrn},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                        <th:block th:with="w='7%',tt='label',vv='ОКПО'"><th th:replace="fragments/tc :: ch"></th></th:block>

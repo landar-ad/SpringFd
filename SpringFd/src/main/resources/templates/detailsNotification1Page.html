@@ -12,12 +12,12 @@
 		<form id="form" action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
     		<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card">
-            	<div class="m-sm-2">
+           	<div th:with="st=${obj.doc_status?.code},rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+            	<div class="m-sm-0">
             		<div th:replace="fragments/header :: details-buttons"></div>
 	                <div class="col-sm-12 fit-height">
 	                	<div class="w-100 border border-primary">
-		                	<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+		                	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                		<th:block th:with="w='2%',tt='expand',ddta='id1',e=true"><th th:replace="fragments/tc :: cr"></th></th:block>
 		                		<th:block th:with="w='7%',tt='label',vv='Номер',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                		<th:block th:with="w='13%',tt='text',nn='doc_number',vv=${obj.doc_number},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -27,10 +27,10 @@
 		                        <th:block th:with="w='45%',tt='text',vv=${obj.doc_type?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block> 
 			                </tr></tbody></table>
 			                <div id="id1">
-				                <table class="table table-sm table-edited table-bordered small"><tbody><tr>
+				                <table class="table table-sm table-edited table-bordered"><tbody><tr>
 				                	<th:block th:with="w='100%',tt='label',vv='Основание доведения'"><th th:replace="fragments/tc :: ch"></th></th:block>
 				                </tr></tbody></table>
-		                        <table class="parent-popup table table-sm table-edited table-bordered small"><tbody><tr>
+		                        <table class="parent-popup table table-sm table-edited table-bordered"><tbody><tr>
 		                        	<th:block th:with="w='16%',tt='label',vv='Тип документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                        	<th:block th:with="w='16%',tt='text',vv=${obj.parent_doc?.doc_type?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			                        <th:block th:with="w='16%',tt='label',vv='Номер документа'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -39,7 +39,7 @@
 			                        <th:block th:with="w='16%',tt='date',vv=${obj.parent_doc?.doc_date},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			                        <th:block th:with="w='4%',tt='pbutton',nn1='parent_doc',nn2='',vv=${obj.parent_doc?.rn},ro=${rco},ddcl='Document',ddti='Выберите документ',ddco='rn;doc_type__name=Тип документа;doc_number=№ документа;doc_date=Дата документа',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        </tr></tbody></table>
-			                    <table class="parent-popup table table-sm table-edited table-bordered small"><tbody><tr>
+			                    <table class="parent-popup table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='30%',tt='label',vv='Ответственное структурное подразделение',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 			                    	<th:block th:with="w='4%',tt='text',vv=${obj.depart?.code},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			                    	<th:block th:with="w='62%',tt='text',vv=${obj.depart?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -57,21 +57,21 @@
 	                		<th:block th:replace="fragments/header :: mailing_list"/>
                 		</div>
                 		<div class="w-100 border border-primary">
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Срок представления предложений на закупку'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='10%',tt='date',nn='date_repr',vv=${obj.date_repr}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<td width="70%"></td>
 							</tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Резолюция'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='80%',tt='mtext',nn='comment',vv=${obj.comment}"><td th:replace="fragments/tc :: cd"></td></th:block>
 							</tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Документ создал'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='20%',tt='text',vv=${obj.create_agent?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <td width="60%"></td>
 	                        </tr></tbody></table>
-							<table class="table table-sm table-edited table-bordered small mb-0"><tbody><tr>
+							<table class="table table-sm table-edited table-bordered mb-0"><tbody><tr>
 								<th:block th:with="w='20%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
 								<th:block th:with="w='20%',tt='select',nn='doc_status',ll=${listDocStatus},vv=${obj.doc_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								<td width="60%"></td>
