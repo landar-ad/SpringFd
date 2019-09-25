@@ -27,9 +27,18 @@
 			<button class="expand td-button btn btn-sm btn-link small" type="button" th:data-target="${ddta}"><i th:class="${'fa fa-sm fa-' + (e==true ? 'minus' : 'plus')}"></i></button>
 		</th:block>
 	</td>
-	<td th:fragment="cd" th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : ' td-left'))}" th:colspan="${cs}">
+	<td th:fragment="cd" th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : (#strings.equals(aa,'l') ? ' td-left' : ((tt=='checkbox' || tt=='check') ? ' td-center' : ' td-left'))))}" th:colspan="${cs}">
 		<th:block th:if="${tt=='label'}">
 			<label th:class="${rr==1 ? 'required' : ''}" th:utext="${vv}"></label>
+		</th:block>
+		<th:block th:if="${tt=='checkbox' || tt=='check'}">
+			<th:block th:if="${ro!=1}">
+				<input th:name="${nn}" type="checkbox" th:checked="${vv}==true" th:class="${cc!=null?cc:''}">
+				<input type="hidden" th:name="${nn}" value="0">
+			</th:block>
+			<th:block th:if="${ro==1}">
+				<input type="checkbox" th:checked="${vv}==true" disabled>
+			</th:block>
 		</th:block>
 		<th:block th:if="${tt=='time'}">
 			<label th:utext="${#dates.format(vv,'dd.MM.yyyy HH:mm.ss')}" class="td-label"></label>
@@ -90,7 +99,7 @@
 				<label class="custom-file-label" th:data-browse="${ll}"></label>
 			</div>
 		</th:block>
-		<th:block th:if="${tt=='mtext'}">
+		<th:block th:if="${tt=='mtext' || tt=='textarea'}">
 			<label class="td-label" th:utext="${vv}"></label>
 			<textarea th:if="${ro!=1}" class="not-visible form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : null}" th:rows="${rows==null ? 3 : rows}"></textarea>
 		</th:block>
