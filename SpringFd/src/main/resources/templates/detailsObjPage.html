@@ -12,7 +12,7 @@
 		<form action="detailsObj" method="POST" autocomplete="off">
 			<div th:replace="fragments/header :: details-param"></div>
 			<div th:replace="fragments/header :: details-header"></div>
-           	<div th:with="bs=true,rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
            		<div class="m-sm-0">
            			<div th:replace="fragments/header :: details-buttons"></div>
            			<div class="col-sm-12 border fit-height">
@@ -26,7 +26,7 @@
            				<th:block th:if="${bs==true}">
 			            	<div th:each="attr : ${listAttribute}" class="form-group-sm mt-sm-1">
 			            		<th:block th:if="${attr.type!='checkbox'}" th:with="tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><div class="col-sm-12"><th:block th:replace="fragments/component :: c"></th:block></div></th:block>
-		                        <div th:class="${attr.length>0 ? 'col-sm-' + attr.length : ''}"><th:block th:with="tt=${attr.type},nn=${attr.name},vv=${hs.getPropertyString(obj,attr.name)},ll=${hs.getVariable(#vars,attr.nameList)},rr=${attr.required ? 1 : 0},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></th:block></div>
+		                        <div th:class="${'col-sm-' + (attr.length>0 ? attr.length : 12)}"><th:block th:with="tt=${attr.type},nn=${attr.name},vv=${hs.getPropertyString(obj,attr.name)},ll=${hs.getVariable(#vars,attr.nameList)},rr=${attr.required ? 1 : 0},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></th:block></div>
 		                    </div>
 	                    </th:block>
                     </div>
