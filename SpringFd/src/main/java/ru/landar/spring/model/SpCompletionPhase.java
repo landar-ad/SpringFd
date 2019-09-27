@@ -54,7 +54,6 @@ public class SpCompletionPhase extends IBase {
 	public static String multipleTitle() { return "Стадии строительства"; }
 	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
-		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("code", "Код")); 
 		ret.add(new ColumnInfo("phasename", "Наименование стадии строительства"));
@@ -63,7 +62,6 @@ public class SpCompletionPhase extends IBase {
 		return ret;
 	}
 	public static List<AttributeInfo> listAttribute() {
-		
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		ret.add(new AttributeInfo("code", "Код", "text", null, false, 2)); 
 		ret.add(new AttributeInfo("phasename", "Наименование стадии строительства", "text", null, false));
