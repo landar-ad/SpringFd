@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.landar.spring.model.Act;
 import ru.landar.spring.model.IFile;
-import ru.landar.spring.model.SpKBK;
+import ru.landar.spring.model.fd.Act;
+import ru.landar.spring.model.purchase.SpKBK;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.repository.UserRepositoryCustomImpl;
 import ru.landar.spring.service.HelperService;
