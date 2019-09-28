@@ -687,25 +687,34 @@ public class HelperServiceImpl implements HelperService {
 		IPerson person = user.getPerson();
 		return person != null && base != null && person.getRn() == base.getRn();
 	}
-	@Override
-	public Class<?> getClassByName(String clazz) {
-		Class<?> ret = null;
-		try { ret = (Class<?>)Class.forName(IBase.class.getName().substring(0, IBase.class.getName().lastIndexOf('.') + 1) + clazz); } catch (Exception ex) { }
-		return ret;
+	private Map<String, Class<?>> mapClasses = null;
+	private Map<String, Class<?>> getMapClasses() {
+		if (mapClasses == null) {
+			mapClasses = new LinkedHashMap<String, Class<?>>();
+			PathMatchingResourcePatternResolver scanner = new PathMatchingResourcePatternResolver();
+			String packageName = IBase.class.getPackage().getName();
+			try {
+				org.springframework.core.io.Resource[] resources = scanner.getResources("classpath:" + packageName.replace('.', '/') + "/**/*.class");
+				for (org.springframework.core.io.Resource resource : resources) {
+					String r = resource.getURI().toString().replace(".class", "");
+					r = r.replace('/', '.');
+					int k = r.lastIndexOf(packageName);
+					if (k >= 0) r = r.substring(k);
+					Class<?> cl = null;
+					try { cl = Class.forName(r); } catch (Throwable ex) { }
+					if (cl != null) mapClasses.put(cl.getSimpleName(), cl);
+				}
+			}
+			catch (Throwable ex) { }
+		}
+		return mapClasses;
 	}
 	@Override
-	public Class<?>[] getAllClasses() throws Exception {
+	public Class<?> getClassByName(String clazz) { return getMapClasses().get(clazz); }
+	@Override
+	public Class<?>[] getAllClasses() {
 		List<Class<?>> l = new ArrayList<Class<?>>();
-		String packageName = IBase.class.getPackage().getName();
-		PathMatchingResourcePatternResolver scanner = new PathMatchingResourcePatternResolver();
-		org.springframework.core.io.Resource[] resources = scanner.getResources("classpath:" + packageName.replace('.', '/') + "/*.class");
-		for (org.springframework.core.io.Resource resource : resources) {
-			String r = resource.getURI().toString().replace(".class", "");
-			int k = r.lastIndexOf('/');
-			if (k >= 0) r = r.substring(k + 1);
-			Class<?> cl = Class.forName(packageName + "." + r);
-			if (cl != null) l.add(cl);
-		}
+		getMapClasses().forEach((clazz, cl) -> l.add(cl));
 		return l.toArray(new Class<?>[l.size()]);
 	}
 	private String[] months = new String[]{"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};

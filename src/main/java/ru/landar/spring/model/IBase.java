@@ -104,11 +104,11 @@ public abstract class IBase {
 
     // *********************** Обработчики *************************
     @Autowired
-    UserService userService;
+    protected UserService userService;
     @Autowired
-    ObjService objService;
+    protected ObjService objService;
     @Autowired
-    HelperService hs;
+	protected HelperService hs;
     public Object onNew() { 
     	Object ret = invoke("onNew");
     	String principal = userService.getPrincipal();

@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ru.landar.spring.model.Act;
-import ru.landar.spring.model.Act_document;
-import ru.landar.spring.model.Document;
 import ru.landar.spring.model.IFile;
-import ru.landar.spring.model.Reestr;
+import ru.landar.spring.model.fd.Act;
+import ru.landar.spring.model.fd.Act_document;
+import ru.landar.spring.model.fd.Document;
+import ru.landar.spring.model.fd.Reestr;
 import ru.landar.spring.service.DocxService;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;

@@ -24,8 +24,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import ru.landar.spring.model.Document;
-import ru.landar.spring.model.Reestr;
+import ru.landar.spring.model.fd.Document;
+import ru.landar.spring.model.fd.Reestr;
 import ru.landar.spring.service.DocxServiceImpl;
 import ru.landar.spring.service.ObjService;
 
