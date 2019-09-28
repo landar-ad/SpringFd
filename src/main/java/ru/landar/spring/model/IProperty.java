@@ -15,6 +15,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.ui.Model;
+
 import ru.landar.spring.classes.ColumnInfo;
 
 @Entity
@@ -22,10 +24,12 @@ import ru.landar.spring.classes.ColumnInfo;
 public class IProperty extends IBase {
 	private IOrganization org;
 	private String inv_number;
+	private SpPropertyDivision div;
 	private SpPropertyType type;
 	private BigDecimal book_value;
 	private BigDecimal residual_value;
 	private Date in_date;
+	private Boolean ocdi;
 	private List<IProperty> list_prop;
 	private List<RDocument> list_doc;
 	
@@ -36,6 +40,10 @@ public class IProperty extends IBase {
     @Column(length=50)
     public String getInv_number() { return inv_number; }
     public void setInv_number(String inv_number) { this.inv_number = inv_number; }
+    
+    @ManyToOne(targetEntity=SpPropertyDivision.class, fetch=FetchType.LAZY)
+    public SpPropertyDivision getDiv() { return div; }
+    public void setDiv(SpPropertyDivision div) { this.div = div; }
     
     @ManyToOne(targetEntity=SpPropertyType.class, fetch=FetchType.LAZY)
     public SpPropertyType getType() { return type; }
@@ -61,6 +69,9 @@ public class IProperty extends IBase {
     public List<RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RDocument>(); }
     public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
     
+    public Boolean getOcdi() { return ocdi; }
+    public void setOcdi(Boolean ocdi) { this.ocdi = ocdi; }
+    
     public static String singleTitle() { return "Объект имущества"; }
 	public static String multipleTitle() { return "Объекты имущества"; }
 	public static String menuTitle() { return "Единый реестр имущества"; }
@@ -68,11 +79,13 @@ public class IProperty extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
-		ret.add(new ColumnInfo("type__name", "Раздел учета"));
-		ret.add(new ColumnInfo("name", "Наименование объекта имущества", true, true, "type__rn", "select", "listPropertyType"));
+		ret.add(new ColumnInfo("div__name", "Раздел учета", true, true, "div__rn", "select", "listPropertyDivision"));
+		ret.add(new ColumnInfo("type__name", "Тип имущества", true, true, "type__rn", "select", "listPropertyType"));
+		ret.add(new ColumnInfo("name", "Наименование объекта имущества"));
 		ret.add(new ColumnInfo("book_value", "Балансовая стоимость"));
 		ret.add(new ColumnInfo("residual_value", "Остаточная стоимость"));
 		ret.add(new ColumnInfo("in_date", "Дата ввода в эксплуатацию"));
+		ret.add(new ColumnInfo("ocdi", "Отнесен к ОЦДИ"));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
@@ -82,5 +95,16 @@ public class IProperty extends IBase {
     	if (ret != null) return ret;
     	
     	return ret;
+	}
+	@Override
+	public Object onAddAttributes(Model model, boolean list) {
+		Object ret = super.onAddAttributes(model, list);
+		if (ret != null) return ret;
+		try {
+			model.addAttribute("listPropertyDivision", objService.findAll(SpPropertyDivision.class));
+			model.addAttribute("listPropertyType", objService.findAll(SpPropertyType.class));
+		}
+		catch (Exception ex) { }
+		return true;
 	}
 }

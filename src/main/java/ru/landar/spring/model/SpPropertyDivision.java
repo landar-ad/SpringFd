@@ -5,7 +5,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
-public class SpPropertyType extends IBase{
+public class SpPropertyDivision extends IBase{
 	public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Тип имущества"; }
 	public static String multipleTitle() { return "Типы имущества"; }
