@@ -29,6 +29,7 @@ public class RLand extends RProperty {
 	private Integer dist_ns;
 	private SpLandCategory category;
 	private String usage;
+	private SpLandFeature feature;
 	
 	@Column(length=18)
     public String getCad_num() { return сad_num; }
@@ -64,6 +65,10 @@ public class RLand extends RProperty {
     public SpLandCategory getCategory() { return category; }
     public void setCategory(SpLandCategory category) { this.category = category; }
     
+    @ManyToOne(targetEntity=SpLandFeature.class, fetch=FetchType.LAZY)
+    public SpLandFeature getFeature() { return feature; }
+    public void setFeature(SpLandFeature feature) { this.feature = feature; }
+    
     @Column(length=1024)
     public String getUsage() { return usage; }
     public void setUsage(String usage) { this.usage = usage; }
@@ -85,6 +90,7 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("dist_ns", "Расстояние до ближайшего населенного пункта, м"));
 		ret.add(new ColumnInfo("category__name", "Категория земель", true, true, "category__rn", "select", "listLandCategory"));
 		ret.add(new ColumnInfo("usage", "Разрешенное использование (назначение)"));
+		ret.add(new ColumnInfo("feature__name", "Особенности оборота", true, true, "feature__rn", "select", "listLandFeature"));
 		
 		return ret;
 	}
