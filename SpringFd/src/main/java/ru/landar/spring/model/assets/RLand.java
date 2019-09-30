@@ -126,7 +126,7 @@ public class RLand extends RProperty {
     
     @Temporal(TemporalType.DATE)
     public Date getPr_prognoz_date() { return pr_prognoz_date; }
-    public void setPpr_prognoz_date(Date pr_prognoz_date) { this.pr_prognoz_date = pr_prognoz_date; }
+    public void setPr_prognoz_date(Date pr_prognoz_date) { this.pr_prognoz_date = pr_prognoz_date; }
     
     @ManyToOne(targetEntity=SpRightType.class, fetch=FetchType.LAZY)
     public SpRightType getPr_r_type() { return pr_r_type; }
