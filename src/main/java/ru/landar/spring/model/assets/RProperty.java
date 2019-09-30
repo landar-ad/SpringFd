@@ -34,6 +34,7 @@ public class RProperty extends IBase {
 	private Boolean ocdi;
 	private List<RProperty> list_prop;
 	private List<RDocument> list_doc;
+	private String comment;
 	
 	@ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
     public IOrganization getOrg() { return org; }
@@ -63,16 +64,20 @@ public class RProperty extends IBase {
     public Date getIn_date() { return in_date; }
     public void setIn_date(Date in_date) { this.in_date = in_date; }
     
-    @ManyToMany(targetEntity=RProperty.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @ManyToMany(targetEntity=RProperty.class, fetch=FetchType.LAZY)
     public List<RProperty> getList_prop() { return list_prop != null ? list_prop : new ArrayList<RProperty>(); }
     public void setList_prop(List<RProperty> list_prop) { this.list_prop = list_prop; }
     
-    @ManyToMany(targetEntity=RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @ManyToMany(targetEntity=RDocument.class, fetch=FetchType.LAZY)
     public List<RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RDocument>(); }
     public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
     
     public Boolean getOcdi() { return ocdi; }
     public void setOcdi(Boolean ocdi) { this.ocdi = ocdi; }
+    
+    @Column(length=2048)
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
     
     public static String singleTitle() { return "Объект имущества"; }
 	public static String multipleTitle() { return "Объекты имущества"; }
@@ -88,6 +93,7 @@ public class RProperty extends IBase {
 		ret.add(new ColumnInfo("residual_value", "Остаточная стоимость"));
 		ret.add(new ColumnInfo("in_date", "Дата ввода в эксплуатацию"));
 		ret.add(new ColumnInfo("ocdi", "Отнесен к ОЦДИ"));
+		ret.add(new ColumnInfo("comment", "Примечание"));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }

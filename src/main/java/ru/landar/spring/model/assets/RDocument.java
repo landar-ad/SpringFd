@@ -81,18 +81,15 @@ public class RDocument extends IBase {
     public String getPrim_apsend() { return prim_apsend; }
     public void setPrim_apsend(String prim_apsend) { this.prim_apsend = prim_apsend; }
     
-    private void updateName()
-    {
+    private void updateName() {
     	String name = "";
     	if (getDocname() != null) name = getDocname();
-    	if (getDocnum() != null && !getDocnum().isEmpty()) 
-    	{
+    	if (getDocnum() != null && !getDocnum().isEmpty()) {
     		if (!name.isEmpty()) name += " ";
     		name += "№ ";
     		name += getDocnum();
     	}
-    	if (getDocdate() != null)
-		{
+    	if (getDocdate() != null) {
     		if (!name.isEmpty()) name += " от ";
     		else name += "От ";
     		name += new SimpleDateFormat("dd.MM.yyyy").format(getDocdate());

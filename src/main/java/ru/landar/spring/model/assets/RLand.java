@@ -1,5 +1,6 @@
 package ru.landar.spring.model.assets;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
@@ -21,12 +23,12 @@ import ru.landar.spring.classes.ColumnInfo;
 public class RLand extends RProperty {
 	private String сad_num;
 	private Date cad_date;
-	private Integer area;
+	private BigDecimal area;
 	private String fp_reg_num;
 	private Date fp_in_date;
 	private Date fp_out_date;
 	private String address;
-	private Integer dist_ns;
+	private BigDecimal dist_ns;
 	private SpLandCategory category;
 	private String usage;
 	private SpLandFeature feature;
@@ -36,6 +38,26 @@ public class RLand extends RProperty {
 	private Boolean ki_ppz;
 	private Boolean ki_inoe;
 	private Boolean ki_neisp;
+	private Boolean pr_formed;
+	private Date pr_prognoz_date;
+	private SpRightType pr_r_type;
+	private String pr_owner;
+	private SpRightTerm pr_term;
+	private SpOwnershipType pr_o_type;
+	private Date pr_reg_rf_plan_date;
+	private Date pr_reg_rf_fact_date;
+	private Date pr_reg_other_plan_date;
+	private Date pr_reg_other_fact_date;
+	private SpSquareSufficiency square_suf;
+	private BigDecimal area_suf;
+	private Boolean inv_attr;
+	private String eff_use_fut;
+	private String chrs;
+	private BigDecimal market_value;
+	private BigDecimal cadastre_value;
+	private BigDecimal standard_cost;
+	private BigDecimal rent;
+	private List<RBuilding> list_build;
 	
 	@Column(length=18)
     public String getCad_num() { return сad_num; }
@@ -45,8 +67,9 @@ public class RLand extends RProperty {
     public Date getCad_date() { return cad_date; }
     public void setCad_date(Date cad_date) { this.cad_date = cad_date; }
     
-    public Integer getArea() { return area; }
-    public void setArea(Integer area) { this.area = area; }
+    @Column(precision=17, scale=3)
+    public BigDecimal getArea() { return area; }
+    public void setArea(BigDecimal area) { this.area = area; }
     
     @Column(length=12)
     public String getFp_reg_num() { return fp_reg_num; }
@@ -64,8 +87,9 @@ public class RLand extends RProperty {
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
     
-    public Integer getDist_ns() { return dist_ns; }
-    public void setDist_ns(Integer dist_ns) { this.dist_ns = dist_ns; }
+    @Column(precision=17, scale=3)
+    public BigDecimal getDist_ns() { return dist_ns; }
+    public void setDist_ns(BigDecimal dist_ns) { this.dist_ns = dist_ns; }
     
     @ManyToOne(targetEntity=SpLandCategory.class, fetch=FetchType.LAZY)
     public SpLandCategory getCategory() { return category; }
@@ -96,7 +120,85 @@ public class RLand extends RProperty {
     
     public Boolean getKi_neisp() { return ki_neisp; }
     public void setKi_neisp(Boolean ki_neisp) { this.ki_neisp = ki_neisp; }
-
+    
+    public Boolean getPr_formed() { return pr_formed; }
+    public void setPr_formed(Boolean pr_formed) { this.pr_formed = pr_formed; }
+    
+    @Temporal(TemporalType.DATE)
+    public Date getPr_prognoz_date() { return pr_prognoz_date; }
+    public void setPpr_prognoz_date(Date pr_prognoz_date) { this.pr_prognoz_date = pr_prognoz_date; }
+    
+    @ManyToOne(targetEntity=SpRightType.class, fetch=FetchType.LAZY)
+    public SpRightType getPr_r_type() { return pr_r_type; }
+    public void setPr_r_type(SpRightType pr_r_type) { this.pr_r_type = pr_r_type; }
+    
+    @Column(length=1024)
+    public String getPr_owner() { return pr_owner; }
+    public void setPr_owner(String pr_owner) { this.pr_owner = pr_owner; }
+    
+    @ManyToOne(targetEntity=SpRightTerm.class, fetch=FetchType.LAZY)
+    public SpRightTerm getPr_term() { return pr_term; }
+    public void setPr_term(SpRightTerm pr_term) { this.pr_term = pr_term; }
+    
+    @ManyToOne(targetEntity=SpOwnershipType.class, fetch=FetchType.LAZY)
+    public SpOwnershipType getPr_o_type() { return pr_o_type; }
+    public void setPr_o_type(SpOwnershipType pr_o_type) { this.pr_o_type = pr_o_type; }
+    
+    @Temporal(TemporalType.DATE)
+    public Date getPr_reg_rf_plan_date() { return pr_reg_rf_plan_date; }
+    public void setPr_reg_rf_plan_date(Date pr_reg_rf_plan_date) { this.pr_reg_rf_plan_date = pr_reg_rf_plan_date; }
+    
+    @Temporal(TemporalType.DATE)
+    public Date getPr_reg_rf_fact_date() { return pr_reg_rf_fact_date; }
+    public void setPr_reg_rf_fact_date(Date pr_reg_rf_fact_date) { this.pr_reg_rf_fact_date = pr_reg_rf_fact_date; }
+    
+    @Temporal(TemporalType.DATE)
+    public Date getPr_reg_other_plan_date() { return pr_reg_other_plan_date; }
+    public void setPr_reg_other_plan_date(Date pr_reg_other_plan_date) { this.pr_reg_other_plan_date = pr_reg_other_plan_date; }
+    
+    @Temporal(TemporalType.DATE)
+    public Date getPr_reg_other_fact_date() { return pr_reg_other_fact_date; }
+    public void setPr_reg_other_fact_date(Date pr_reg_other_fact_date) { this.pr_reg_other_fact_date = pr_reg_other_fact_date; }
+    
+    @ManyToOne(targetEntity=SpSquareSufficiency.class, fetch=FetchType.LAZY)
+    public SpSquareSufficiency getSquare_suf() { return square_suf; }
+    public void setSquare_suf(SpSquareSufficiency square_suf) { this.square_suf = square_suf; }
+    
+    @Column(precision=17, scale=3)
+    public BigDecimal getArea_suf() { return area_suf; }
+    public void setArea_suf(BigDecimal area_suf) { this.area_suf = area_suf; }
+    
+    public Boolean getInv_attr() { return inv_attr; }
+    public void setInv_attr(Boolean inv_attr) { this.inv_attr = inv_attr; }
+    
+    @Column(length=512)
+    public String getEff_use_fut() { return eff_use_fut; }
+    public void setEff_use_fut(String eff_use_fut) { this.eff_use_fut = eff_use_fut; }
+    
+    @Column(length=2048)
+    public String getChrs() { return chrs; }
+    public void setChrs(String chrs) { this.chrs = chrs; }
+    
+    @Column(precision=17, scale=2)
+    public BigDecimal getMarket_value() { return market_value; }
+    public void setMarket_value(BigDecimal market_value) { this.market_value = market_value; }
+    
+    @Column(precision=17, scale=2)
+    public BigDecimal getCadastre_value() { return cadastre_value; }
+    public void setCadastre_value(BigDecimal cadastre_value) { this.cadastre_value = cadastre_value; }
+    
+    @Column(precision=17, scale=2)
+    public BigDecimal getStandard_cost() { return standard_cost; }
+    public void setStandard_cost(BigDecimal standard_cost) { this.standard_cost = standard_cost; }
+   
+    @Column(precision=17, scale=2)
+    public BigDecimal getRent() { return rent; }
+    public void setRent(BigDecimal rent) { this.rent = rent; }
+    
+    @ManyToMany(targetEntity=RBuilding.class, fetch=FetchType.LAZY)
+    public List<RBuilding> getList_build() { return list_build != null ? list_build : new ArrayList<RBuilding>(); }
+    public void setList_build(List<RBuilding> list_build) { this.list_build = list_build; }
+    
 	public static String singleTitle() { return "Земельный участок"; }
 	public static String multipleTitle() { return "Земельные участки"; }
 	public static String menuTitle() { return multipleTitle(); }
@@ -112,17 +214,35 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("fp_out_date", "Дата выбытия"));
 		ret.add(new ColumnInfo("address", "Полный адрес"));
 		ret.add(new ColumnInfo("dist_ns", "Расстояние до ближайшего населенного пункта, м"));
-		ret.add(new ColumnInfo("category__name", "Категория земель", true, true, "category__rn", "select", "listLandCategory"));
+		ret.add(new ColumnInfo("category__name", "Категория земель", false, true, "category__rn", "select", "listLandCategory"));
 		ret.add(new ColumnInfo("usage", "Разрешенное использование (назначение)"));
-		ret.add(new ColumnInfo("feature__name", "Особенности оборота", true, true, "feature__rn", "select", "listLandFeature"));
+		ret.add(new ColumnInfo("feature__name", "Особенности оборота", false, true, "feature__rn", "select", "listLandFeature"));
 		ret.add(new ColumnInfo("ki_gkh", "ЖКХ", false));
 		ret.add(new ColumnInfo("ki_az", "Административное здание", false));
 		ret.add(new ColumnInfo("ki_omr", "Объект мобилизационного резерва", false));
 		ret.add(new ColumnInfo("ki_ppz", "Прочие для производственных целей", false));
 		ret.add(new ColumnInfo("ki_inoe", "Иное", false));
 		ret.add(new ColumnInfo("ki_neisp", "Не используется", false));
-		
-		
+		ret.add(new ColumnInfo("pr_formed", "Оформлен"));
+		ret.add(new ColumnInfo("pr_prognoz_date", "Прогноз завершения оформления"));
+		ret.add(new ColumnInfo("pr_r_type__name", "Вид права", false, true, "pr_r_type__rn", "select", "listRightType"));
+		ret.add(new ColumnInfo("pr_owner", "Правообладатель"));
+		ret.add(new ColumnInfo("pr_term__name", "Срок действия права", false, true, "pr_term__rn", "select", "listRightTerm"));
+		ret.add(new ColumnInfo("pr_o_type__name", "Вид собственности", false, true, "pr_o_type__rn", "select", "listOwnershipType"));
+		ret.add(new ColumnInfo("pr_reg_rf_plan_date", "Дата регистрации прав собственности РФ - планируемая", false));
+		ret.add(new ColumnInfo("pr_reg_rf_fact_date", "Дата регистрации прав собственности РФ - фактическая", false));
+		ret.add(new ColumnInfo("pr_reg_other_plan_date", "Дата регистрации иных вещных прав - планируемая", false));
+		ret.add(new ColumnInfo("pr_reg_other_fact_date", "Дата регистрации иных вещных прав - фактическая", false));
+		ret.add(new ColumnInfo("square_suf", "Достаточность по площади", false, true, "square_suf__rn", "select", "listSquareSufficiency"));
+		ret.add(new ColumnInfo("area_suf", "Избыточная/недостающая площадь, кв.м", false));
+		ret.add(new ColumnInfo("inv_attr", "Инвестиционная привлекательность", false));
+		ret.add(new ColumnInfo("eff_use_fut", "Наиболее эффективное использование на перспективу", false));
+		ret.add(new ColumnInfo("chrs", "Характеристика", false));
+		ret.add(new ColumnInfo("market_value", "Рыночная стоимость"));
+		ret.add(new ColumnInfo("cadastre_value", "Кадастровая стоимость"));
+		ret.add(new ColumnInfo("standard_cost", "Нормативная стоимость"));
+		ret.add(new ColumnInfo("rent", "Арендная плата (в месяц)"));
+		ret.add(new ColumnInfo("comment", "Примечание", false));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
@@ -139,7 +259,11 @@ public class RLand extends RProperty {
 		if (ret != null) return ret;
 		try {
 			model.addAttribute("listLandCategory", objService.findAll(SpLandCategory.class));
-			
+			model.addAttribute("listLandFeature", objService.findAll(SpLandFeature.class));
+			model.addAttribute("listRightType", objService.findAll(SpRightType.class));
+			model.addAttribute("listRightTerm", objService.findAll(SpRightTerm.class));
+			model.addAttribute("listOwnershipType", objService.findAll(SpOwnershipType.class));
+			model.addAttribute("listSquareSufficiency", objService.findAll(SpSquareSufficiency.class));
 		}
 		catch (Exception ex) { }
 		return true;
