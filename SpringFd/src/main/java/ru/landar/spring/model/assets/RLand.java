@@ -30,6 +30,12 @@ public class RLand extends RProperty {
 	private SpLandCategory category;
 	private String usage;
 	private SpLandFeature feature;
+	private Boolean ki_gkh;
+	private Boolean ki_az;
+	private Boolean ki_omr;
+	private Boolean ki_ppz;
+	private Boolean ki_inoe;
+	private Boolean ki_neisp;
 	
 	@Column(length=18)
     public String getCad_num() { return сad_num; }
@@ -72,7 +78,25 @@ public class RLand extends RProperty {
     @Column(length=1024)
     public String getUsage() { return usage; }
     public void setUsage(String usage) { this.usage = usage; }
-	
+    
+    public Boolean getKi_gkh() { return ki_gkh; }
+    public void setKi_gkh(Boolean ki_gkh) { this.ki_gkh = ki_gkh; }
+    
+    public Boolean getKi_az() { return ki_az; }
+    public void setKi_az(Boolean ki_az) { this.ki_az = ki_az; }
+    
+    public Boolean getKi_omr() { return ki_omr; }
+    public void setKi_omr(Boolean ki_omr) { this.ki_omr = ki_omr; }
+    
+    public Boolean getKi_ppz() { return ki_ppz; }
+    public void setKi_ppz(Boolean ki_ppz) { this.ki_ppz = ki_ppz; }
+    
+    public Boolean getKi_inoe() { return ki_inoe; }
+    public void setKi_inoe(Boolean ki_inoe) { this.ki_inoe = ki_inoe; }
+    
+    public Boolean getKi_neisp() { return ki_neisp; }
+    public void setKi_neisp(Boolean ki_neisp) { this.ki_neisp = ki_neisp; }
+
 	public static String singleTitle() { return "Земельный участок"; }
 	public static String multipleTitle() { return "Земельные участки"; }
 	public static String menuTitle() { return multipleTitle(); }
@@ -91,6 +115,13 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("category__name", "Категория земель", true, true, "category__rn", "select", "listLandCategory"));
 		ret.add(new ColumnInfo("usage", "Разрешенное использование (назначение)"));
 		ret.add(new ColumnInfo("feature__name", "Особенности оборота", true, true, "feature__rn", "select", "listLandFeature"));
+		ret.add(new ColumnInfo("ki_gkh", "ЖКХ", false));
+		ret.add(new ColumnInfo("ki_az", "Административное здание", false));
+		ret.add(new ColumnInfo("ki_omr", "Объект мобилизационного резерва", false));
+		ret.add(new ColumnInfo("ki_ppz", "Прочие для производственных целей", false));
+		ret.add(new ColumnInfo("ki_inoe", "Иное", false));
+		ret.add(new ColumnInfo("ki_neisp", "Не используется", false));
+		
 		
 		return ret;
 	}
