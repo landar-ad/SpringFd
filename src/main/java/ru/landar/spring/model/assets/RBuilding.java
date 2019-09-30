@@ -11,6 +11,8 @@ import ru.landar.spring.classes.ColumnInfo;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RBuilding extends RProperty {
+	private String address;
+	
 	
 	public static String singleTitle() { return "Здание/сооружение"; }
 	public static String multipleTitle() { return "Здания/сооружения"; }
