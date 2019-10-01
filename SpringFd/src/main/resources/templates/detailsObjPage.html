@@ -19,14 +19,14 @@
            				<th:block th:if="${bs!=true}">
            					<table th:each="attr : ${listAttribute}" class="table table-sm table-edited table-bordered"><tbody><tr >
            						<th:block th:with="w='30%',tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><th th:replace="fragments/tc :: ch"></th></th:block>	
-           						<th:block th:with="w=${attr.length>0 ? '' + (attr.length * 100 / 12) + '%' : '70%'},tt=${attr.type},nn=${attr.name},vv=${hs.getPropertyString(obj,attr.name)},ll=${hs.getVariable(#vars,attr.nameList)},rr=${attr.required ? 1 : 0},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+           						<th:block th:with="w=${attr.length>0 ? '' + (attr.length * 100 / 12) + '%' : '70%'},tt=${attr.type},nn=${attr.name},vv=${hs.getPropertyString(obj,attr.name)},ll=${hs.getVariable(#vars,attr.nameList)},rr=${attr.required ? 1 : 0},ro=${rco},_attr=${attr.attrList}"><td th:replace="fragments/tc :: cd"></td></th:block>
            						<td th:if="${attr.length>0}" th:width="${'' + (70 - attr.length * 100 / 12) + '%'}"></td>	
            					</tr></tbody></table>
            				</th:block>
            				<th:block th:if="${bs==true}">
 			            	<div th:each="attr : ${listAttribute}" class="form-group-sm mt-sm-1">
 			            		<th:block th:if="${attr.type!='checkbox'}" th:with="tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><div class="col-sm-12"><th:block th:replace="fragments/component :: c"></th:block></div></th:block>
-		                        <div th:class="${'col-sm-' + (attr.length>0 ? attr.length : 12)}"><th:block th:with="tt=${attr.type},nn=${attr.name},vv=${hs.getPropertyString(obj,attr.name)},ll=${hs.getVariable(#vars,attr.nameList)},rr=${attr.required ? 1 : 0},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></th:block></div>
+		                        <div th:class="${'col-sm-' + (attr.length>0 ? attr.length : 12)}"><th:block th:with="tt=${attr.type},nn=${attr.name},vv=${hs.getPropertyString(obj,attr.name)},ll=${hs.getVariable(#vars,attr.nameList)},rr=${attr.required ? 1 : 0},ro=${rco},_attr=${attr.attrList}"><th:block th:replace="fragments/component :: c"></th:block></th:block></div>
 		                    </div>
 	                    </th:block>
                     </div>
