@@ -7,7 +7,7 @@ import ru.landar.spring.model.IBase;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
-public class SpOwnershipType extends IBase{
+public class SpOwnershipType extends IBase {
 	public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Вид собственности"; }
 	public static String multipleTitle() { return "Виды собственности"; }
