@@ -24,10 +24,10 @@ import ru.landar.spring.model.SpCommon;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RProperty extends IBase {
-	private IOrganization org;
+	private IOrganization co_org;
 	private String inv_number;
-	private SpPropertyDivision div;
-	private String type;
+	private SpPropertyDivision co_div;
+	private String co_type;
 	private BigDecimal book_value;
 	private BigDecimal residual_value;
 	private Date in_date;
@@ -37,19 +37,20 @@ public class RProperty extends IBase {
 	private String comment;
 	
 	@ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
-    public IOrganization getOrg() { return org; }
-    public void setOrg(IOrganization org) { this.org = org; }
+    public IOrganization getCo_org() { return co_org; }
+    public void setCo_org(IOrganization co_org) { this.co_org = co_org; }
     
     @Column(length=50)
     public String getInv_number() { return inv_number; }
     public void setInv_number(String inv_number) { this.inv_number = inv_number; }
     
     @ManyToOne(targetEntity=SpPropertyDivision.class, fetch=FetchType.LAZY)
-    public SpPropertyDivision getDiv() { return div; }
-    public void setDiv(SpPropertyDivision div) { this.div = div; }
+    public SpPropertyDivision getCo_div() { return co_div; }
+    public void setCo_div(SpPropertyDivision co_div) { this.co_div = co_div; }
     
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    @Column(length=16)
+    public String getCo_type() { return co_type; }
+    public void setCo_type(String co_type) { this.co_type = co_type; }
     
     @Column(precision=18, scale = 2)
     public BigDecimal getBook_value() { return book_value; }
@@ -83,10 +84,10 @@ public class RProperty extends IBase {
 	public static String menuTitle() { return "Единый реестр имущества"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("org__name", "Подвед, учреждение")); 
+		ret.add(new ColumnInfo("co_org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
-		ret.add(new ColumnInfo("div__name", "Раздел учета", true, true, "div__rn", "select", "listPropertyDivision"));
-		ret.add(new ColumnInfo("type", "Тип имущества", true, true, "type", "select", "listPropertyType", "code"));
+		ret.add(new ColumnInfo("co_div__name", "Раздел учета", true, true, "co_div__rn", "select", "listPropertyDivision"));
+		ret.add(new ColumnInfo("co_type", "Тип имущества", true, true, "co_type", "select", "listPropertyType", "code"));
 		ret.add(new ColumnInfo("name", "Наименование объекта имущества"));
 		ret.add(new ColumnInfo("book_value", "Балансовая стоимость"));
 		ret.add(new ColumnInfo("residual_value", "Остаточная стоимость"));

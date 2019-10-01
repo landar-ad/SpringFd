@@ -12,11 +12,11 @@ import ru.landar.spring.classes.ColumnInfo;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RBuilding extends RProperty {
-	private String address;
+	private String co_address;
 	
 	@Column(length=512)
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public String getCo_address() { return co_address; }
+    public void setCo_address(String co_address) { this.co_address = co_address; }
 	
 	public static String singleTitle() { return "Здание/сооружение"; }
 	public static String multipleTitle() { return "Здания/сооружения"; }
