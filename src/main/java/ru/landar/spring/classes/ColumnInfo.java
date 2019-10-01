@@ -8,14 +8,18 @@ public class ColumnInfo {
 	String filter;
 	String filterType;
 	String filterList;
+	String filterAttr;
 	
 	public ColumnInfo(String name, String title) {
-		this(name, title, true, true, "*", "text", null);
+		this(name, title, true, true, "*", "text", null, null);
 	}
 	public ColumnInfo(String name, String title, boolean visible) {
-		this(name, title, visible, true, "*", "text", null);
+		this(name, title, visible, true, "*", "text", null, null);
 	}
 	public ColumnInfo(String name, String title, boolean visible, boolean sortable, String filter, String filterType, String filterList) {
+		this(name, title, visible, true, filter, filterType, filterList, "rn");
+	}
+	public ColumnInfo(String name, String title, boolean visible, boolean sortable, String filter, String filterType, String filterList, String filterAttr) {
 		setName(name);
 		setTitle(title);
 		setVisible(visible);
@@ -42,6 +46,9 @@ public class ColumnInfo {
 	
 	public String getFilterList() { return filterList; }
 	public void setFilterList(String filterList) { this.filterList = filterList; }
+	
+	public String getFilterAttr() { return filterAttr; }
+	public void setFilterAttr(String filterAttr) { this.filterAttr = filterAttr; }
 	
 	public void setVisible(boolean visible) { this.visible = visible; }
 	public boolean getVisible() { return visible; }

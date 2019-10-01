@@ -75,7 +75,7 @@
 			<input type="hidden" value="">
 			<select th:if="${ro!=1}" th:name="${nn}" class="not-visible form-control form-control-sm" th:required="${rr==1 ? 'required' : null}">
 				<option value=""></option>
-				<option th:each="d : ${ll}" th:selected="${vv!=null && vv.rn==d.rn}" th:value="${d.rn}" th:text="${d.name}"/>
+				<option th:each="d : ${ll}" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,attr!=null?attr:'rn'))}" th:value="${hs.getPropertyString(d,attr!=null?attr:'rn')}" th:text="${d.name}"/>
 			</select>  
 		</th:block>
 		<th:block th:if="${tt=='button'}">

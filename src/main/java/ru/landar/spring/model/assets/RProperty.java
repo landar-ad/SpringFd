@@ -87,7 +87,7 @@ public class RProperty extends IBase {
 		ret.add(new ColumnInfo("org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
 		ret.add(new ColumnInfo("div__name", "Раздел учета", true, true, "div__rn", "select", "listPropertyDivision"));
-		ret.add(new ColumnInfo("type", "Тип имущества", true, true, "type", "select", "listPropertyType"));
+		ret.add(new ColumnInfo("type", "Тип имущества", true, true, "type", "select", "listPropertyType", "code"));
 		ret.add(new ColumnInfo("name", "Наименование объекта имущества"));
 		ret.add(new ColumnInfo("book_value", "Балансовая стоимость"));
 		ret.add(new ColumnInfo("residual_value", "Остаточная стоимость"));
