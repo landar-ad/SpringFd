@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IOrganization;
+import ru.landar.spring.model.SpCommon;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -27,7 +28,7 @@ public class RProperty extends IBase {
 	private IOrganization org;
 	private String inv_number;
 	private SpPropertyDivision div;
-	private SpPropertyType type;
+	private String type;
 	private BigDecimal book_value;
 	private BigDecimal residual_value;
 	private Date in_date;
@@ -48,9 +49,8 @@ public class RProperty extends IBase {
     public SpPropertyDivision getDiv() { return div; }
     public void setDiv(SpPropertyDivision div) { this.div = div; }
     
-    @ManyToOne(targetEntity=SpPropertyType.class, fetch=FetchType.LAZY)
-    public SpPropertyType getType() { return type; }
-    public void setType(SpPropertyType type) { this.type = type; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
     
     @Column(precision=18, scale = 2)
     public BigDecimal getBook_value() { return book_value; }
@@ -87,7 +87,7 @@ public class RProperty extends IBase {
 		ret.add(new ColumnInfo("org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
 		ret.add(new ColumnInfo("div__name", "Раздел учета", true, true, "div__rn", "select", "listPropertyDivision"));
-		ret.add(new ColumnInfo("type__name", "Тип имущества", true, true, "type__rn", "select", "listPropertyType"));
+		ret.add(new ColumnInfo("type", "Тип имущества", true, true, "type", "select", "listPropertyType"));
 		ret.add(new ColumnInfo("name", "Наименование объекта имущества"));
 		ret.add(new ColumnInfo("book_value", "Балансовая стоимость"));
 		ret.add(new ColumnInfo("residual_value", "Остаточная стоимость"));
@@ -110,7 +110,7 @@ public class RProperty extends IBase {
 		if (ret != null) return ret;
 		try {
 			model.addAttribute("listPropertyDivision", objService.findAll(SpPropertyDivision.class));
-			model.addAttribute("listPropertyType", objService.findAll(SpPropertyType.class));
+			model.addAttribute("listPropertyType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"PropertyType"}));
 		}
 		catch (Exception ex) { }
 		return true;
