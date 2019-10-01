@@ -115,7 +115,7 @@
 		        		<input th:if="${c_f=='text'}" type="text" th:name="${col.filter}" class="form-control form-control-th" th:value="${hs.getVariableString(#vars,col.filter)}">
 		        		<select th:if="${c_f=='select'}" th:name="${col.filter}" class="form-control form-control-th">
 		        			<option value=""></option>
-							<option th:each="item : ${hs.getVariable(#vars,col.filterList)}" th:text="${item.name}" th:selected="${hs.getVariable(#vars,col.filter)==item.rn}" th:value="${item.rn}"/>
+							<option th:each="item : ${hs.getVariable(#vars,col.filterList)}" th:text="${item.name}" th:selected="${#strings.equals(''+hs.getVariable(#vars,col.filter),hs.getPropertyString(item, col.filterAttr))}" th:value="${hs.getPropertyString(item, col.filterAttr)}"/>
 						</select>
 						<div th:if="${c_f=='checkbox'}" class="form-inline form-check">
 			        		<label class="form-check-label">
