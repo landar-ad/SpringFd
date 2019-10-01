@@ -42,6 +42,7 @@ public abstract class IBase {
 	private String clazz;
 	private String name;
 	private String code;
+	private Boolean actual;
 	private Integer version;
 	private String creator;
 	private Date cdate;
@@ -73,6 +74,9 @@ public abstract class IBase {
     @Column(length=256)
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
+    
+    public Boolean getActual() { return actual; }
+    public void setActual(Boolean actual) { this.actual = actual; }
     
     public Integer getVersion() { return version; }
     public void setVersion(Integer version) { this.version = version; }

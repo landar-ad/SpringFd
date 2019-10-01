@@ -46,12 +46,12 @@
 	                    	</tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
 		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (юридическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='70%',tt='text',vv=${obj.org?.name},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='70%',tt='text',vv=${obj.org?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='4%',tt='pbutton',nn1='org',nn2='',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    </tr></tbody></table>
                        		<table class="table table-sm table-edited table-bordered mb-0"><tbody><tr class="parent-popup">
 		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (физическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='70%',tt='text',vv=${obj.person?.name},ro=1,rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='70%',tt='text',vv=${obj.person?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    	<th:block th:with="w='4%',tt='pbutton',nn1='person',nn2='',vv=${obj.person?.rn},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    </tr></tbody></table>
 	                    </th:block>
