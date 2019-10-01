@@ -19,14 +19,24 @@
            				<th:block th:if="${bs!=true}">
            					<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
 		                    	<th:block th:with="w='13%',tt='label',vv='Подвед, учреждение'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    	<th:block th:with="w='50%',tt='text',vv=${obj.org?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<th:block th:with="w='50%',tt='text',vv=${obj.co_org?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	<th:block th:with="w='13%',tt='label',vv='Код сводного реестра'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    	<th:block th:with="w='20%',tt='text',vv=${obj.org?.srcode}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-		                    	<th:block th:with="w='4%',tt='pbutton',nn1='org',nn2='',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<th:block th:with="w='20%',tt='text',vv=${obj.co_org?.srcode}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<th:block th:with="w='4%',tt='pbutton',nn1='co_org',nn2='',vv=${obj.co_org?.rn},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    </tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Инвентарный номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    	<th:block th:with="w='26%',tt='text',vv=${obj.inv_number},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<td width="61%"/>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Раздел учета'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='select',nn='co_div',vv=${obj.co_div},ll=${listPropertyDivision},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<td width="61%"/>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Тип имущества'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='select',nn='co_type',vv=${obj.co_type},ll=${listPropertyType},_attr='code',ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	<td width="61%"/>
 	                    	</tr></tbody></table>
            				</th:block>
