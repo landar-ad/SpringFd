@@ -23,15 +23,15 @@ import ru.landar.spring.classes.ColumnInfo;
 public class RLand extends RProperty {
 	private String сad_num;
 	private Date cad_date;
-	private BigDecimal area;
+	private BigDecimal co_area;
 	private String fp_reg_num;
 	private Date fp_in_date;
 	private Date fp_out_date;
-	private String address;
+	private String co_address;
 	private BigDecimal dist_ns;
-	private SpLandCategory category;
-	private String usage;
-	private SpLandFeature feature;
+	private SpLandCategory co_category;
+	private String co_usage;
+	private SpLandFeature co_feature;
 	private Boolean ki_gkh;
 	private Boolean ki_az;
 	private Boolean ki_omr;
@@ -52,11 +52,11 @@ public class RLand extends RProperty {
 	private BigDecimal area_suf;
 	private Boolean inv_attr;
 	private String eff_use_fut;
-	private String chrs;
+	private String co_chrs;
 	private BigDecimal market_value;
 	private BigDecimal cadastre_value;
 	private BigDecimal standard_cost;
-	private BigDecimal rent;
+	private BigDecimal co_rent;
 	private List<RBuilding> list_build;
 	
 	@Column(length=18)
@@ -68,8 +68,8 @@ public class RLand extends RProperty {
     public void setCad_date(Date cad_date) { this.cad_date = cad_date; }
     
     @Column(precision=17, scale=3)
-    public BigDecimal getArea() { return area; }
-    public void setArea(BigDecimal area) { this.area = area; }
+    public BigDecimal getCo_area() { return co_area; }
+    public void setCo_area(BigDecimal co_area) { this.co_area = co_area; }
     
     @Column(length=12)
     public String getFp_reg_num() { return fp_reg_num; }
@@ -84,24 +84,24 @@ public class RLand extends RProperty {
     public void setFp_out_date(Date fp_out_date) { this.fp_out_date = fp_out_date; }
     
     @Column(length=512)
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public String getCo_address() { return co_address; }
+    public void setCo_address(String co_address) { this.co_address = co_address; }
     
     @Column(precision=17, scale=3)
     public BigDecimal getDist_ns() { return dist_ns; }
     public void setDist_ns(BigDecimal dist_ns) { this.dist_ns = dist_ns; }
     
     @ManyToOne(targetEntity=SpLandCategory.class, fetch=FetchType.LAZY)
-    public SpLandCategory getCategory() { return category; }
-    public void setCategory(SpLandCategory category) { this.category = category; }
+    public SpLandCategory getCo_category() { return co_category; }
+    public void setCo_category(SpLandCategory co_category) { this.co_category = co_category; }
     
     @ManyToOne(targetEntity=SpLandFeature.class, fetch=FetchType.LAZY)
-    public SpLandFeature getFeature() { return feature; }
-    public void setFeature(SpLandFeature feature) { this.feature = feature; }
+    public SpLandFeature getCo_feature() { return co_feature; }
+    public void setCo_feature(SpLandFeature co_feature) { this.co_feature = co_feature; }
     
     @Column(length=1024)
-    public String getUsage() { return usage; }
-    public void setUsage(String usage) { this.usage = usage; }
+    public String getCo_usage() { return co_usage; }
+    public void setCo_usage(String co_usage) { this.co_usage = co_usage; }
     
     public Boolean getKi_gkh() { return ki_gkh; }
     public void setKi_gkh(Boolean ki_gkh) { this.ki_gkh = ki_gkh; }
@@ -176,8 +176,8 @@ public class RLand extends RProperty {
     public void setEff_use_fut(String eff_use_fut) { this.eff_use_fut = eff_use_fut; }
     
     @Column(length=2048)
-    public String getChrs() { return chrs; }
-    public void setChrs(String chrs) { this.chrs = chrs; }
+    public String getCo_chrs() { return co_chrs; }
+    public void setCo_chrs(String co_chrs) { this.co_chrs = co_chrs; }
     
     @Column(precision=17, scale=2)
     public BigDecimal getMarket_value() { return market_value; }
@@ -192,8 +192,8 @@ public class RLand extends RProperty {
     public void setStandard_cost(BigDecimal standard_cost) { this.standard_cost = standard_cost; }
    
     @Column(precision=17, scale=2)
-    public BigDecimal getRent() { return rent; }
-    public void setRent(BigDecimal rent) { this.rent = rent; }
+    public BigDecimal getCo_rent() { return co_rent; }
+    public void setCo_rent(BigDecimal co_rent) { this.co_rent = co_rent; }
     
     @ManyToMany(targetEntity=RBuilding.class, fetch=FetchType.LAZY)
     public List<RBuilding> getList_build() { return list_build != null ? list_build : new ArrayList<RBuilding>(); }
@@ -208,15 +208,15 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
 		ret.add(new ColumnInfo("cad_num", "Кадастровый номер"));
 		ret.add(new ColumnInfo("cad_date", "Дата постановки на кадастровый учет"));
-		ret.add(new ColumnInfo("area", "Площадь земельного участка, кв.м"));
+		ret.add(new ColumnInfo("co_area", "Площадь земельного участка, кв.м"));
 		ret.add(new ColumnInfo("fp_reg_num", "РНФИ"));
 		ret.add(new ColumnInfo("fp_in_date", "Дата РНФИ"));
 		ret.add(new ColumnInfo("fp_out_date", "Дата выбытия"));
-		ret.add(new ColumnInfo("address", "Полный адрес"));
+		ret.add(new ColumnInfo("co_address", "Полный адрес"));
 		ret.add(new ColumnInfo("dist_ns", "Расстояние до ближайшего населенного пункта, м"));
-		ret.add(new ColumnInfo("category__name", "Категория земель", false, true, "category__rn", "select", "listLandCategory"));
-		ret.add(new ColumnInfo("usage", "Разрешенное использование (назначение)"));
-		ret.add(new ColumnInfo("feature__name", "Особенности оборота", false, true, "feature__rn", "select", "listLandFeature"));
+		ret.add(new ColumnInfo("co_category__name", "Категория земель", false, true, "co_category__rn", "select", "listLandCategory"));
+		ret.add(new ColumnInfo("co_usage", "Разрешенное использование (назначение)"));
+		ret.add(new ColumnInfo("co_feature__name", "Особенности оборота", false, true, "co_feature__rn", "select", "listLandFeature"));
 		ret.add(new ColumnInfo("ki_gkh", "ЖКХ", false));
 		ret.add(new ColumnInfo("ki_az", "Административное здание", false));
 		ret.add(new ColumnInfo("ki_omr", "Объект мобилизационного резерва", false));
@@ -237,11 +237,11 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("area_suf", "Избыточная/недостающая площадь, кв.м", false));
 		ret.add(new ColumnInfo("inv_attr", "Инвестиционная привлекательность", false));
 		ret.add(new ColumnInfo("eff_use_fut", "Наиболее эффективное использование на перспективу", false));
-		ret.add(new ColumnInfo("chrs", "Характеристика", false));
+		ret.add(new ColumnInfo("co_chrs", "Характеристика", false));
 		ret.add(new ColumnInfo("market_value", "Рыночная стоимость"));
 		ret.add(new ColumnInfo("cadastre_value", "Кадастровая стоимость"));
 		ret.add(new ColumnInfo("standard_cost", "Нормативная стоимость"));
-		ret.add(new ColumnInfo("rent", "Арендная плата (в месяц)"));
+		ret.add(new ColumnInfo("co_rent", "Арендная плата (в месяц)"));
 		ret.add(new ColumnInfo("comment", "Примечание", false));
 		return ret;
 	}
