@@ -14,10 +14,15 @@ import ru.landar.spring.classes.ColumnInfo;
 @PrimaryKeyJoinColumn(name="rn")
 public class SpCommon extends IBase {
 	private String sp_code;
+	private String sp_name;
 	
 	@Column(length=50)
     public String getSp_code() { return sp_code; }
     public void setSp_code(String sp_code) { this.sp_code = sp_code; }
+    
+    @Column(length=512)
+    public String getSp_name() { return sp_name; }
+    public void setSp_name(String sp_name) { this.sp_name = sp_name; }
     
     public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Элемент общего справочника"; }
@@ -26,6 +31,7 @@ public class SpCommon extends IBase {
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("sp_code", "Код справочника"));
+		ret.add(new ColumnInfo("sp_name", "Наименование справочника"));
 		ret.add(new ColumnInfo("code", "Код")); 
 		ret.add(new ColumnInfo("name", "Наименование")); 
 		ret.add(new ColumnInfo("actual", "Актуальность"));
