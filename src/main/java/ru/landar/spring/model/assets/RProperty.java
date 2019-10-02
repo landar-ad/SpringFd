@@ -93,7 +93,7 @@ public class RProperty extends IBase {
 		ret.add(new ColumnInfo("residual_value", "Остаточная стоимость"));
 		ret.add(new ColumnInfo("in_date", "Дата ввода в эксплуатацию"));
 		ret.add(new ColumnInfo("ocdi", "Отнесен к ОЦДИ"));
-		ret.add(new ColumnInfo("comment", "Примечание"));
+		ret.add(new ColumnInfo("comment", "Примечание", false));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }

@@ -305,7 +305,16 @@ public class HelperServiceImpl implements HelperService {
 				o = ret;
 			}
 		} 
-		catch (Exception e) { } 
+		catch (Exception e) { 
+			if (obj != null && 
+				(obj instanceof String || 
+				obj instanceof Boolean || 
+				obj instanceof Integer || 
+				obj instanceof Long || 
+				obj instanceof Double || 
+				obj instanceof Float ||
+				obj instanceof Date)) ret = obj;
+		} 
 		return ret;
 	}
 	@Override
