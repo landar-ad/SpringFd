@@ -250,8 +250,9 @@ public class RLand extends RProperty {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	
-    	return ret;
+     	hs.setProperty(this, "co_type", "Недмижимое");
+     	hs.setProperty(this, "co_div", objService.getObjByCode(SpPropertyDivision.class, "01"));
+    	return true;
 	}
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
