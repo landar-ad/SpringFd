@@ -9,7 +9,7 @@ import ru.landar.spring.model.IBase;
 @PrimaryKeyJoinColumn(name="rn")
 public class SpPropertyDivision extends IBase{
 	public static boolean isVoc() { return true; }
-	public static String singleTitle() { return "Тип имущества"; }
-	public static String multipleTitle() { return "Типы имущества"; }
+	public static String singleTitle() { return "Раздел учета"; }
+	public static String multipleTitle() { return "Разделы учета"; }
 	public static String menuTitle() { return multipleTitle(); }
 }
