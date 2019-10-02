@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Voc;
+import ru.landar.spring.model.SpCommon;
+import ru.landar.spring.model.assets.SpObjectLocation;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -172,5 +174,20 @@ public class PopupController {
 		model.addAttribute("p_title", "Выберите объект, который Вы хотите добавить");
 		model.addAttribute("hs", hs);
 		return "popupClasses";
+	}
+	@RequestMapping(value = "/popupAddress")
+	public String popupAddress(@RequestParam("p_title") Optional<String> pTitleParam,
+							@RequestParam("addr") Optional<String> addrParam,
+							@RequestParam("addr_code") Optional<String> addrCodeParam,
+							HttpServletRequest request, 
+							Model model) throws Exception {
+		String addr = addrParam.orElse(null), addr_code = addrParam.orElse(null);
+		if (!hs.isEmpty(addr_code)) {
+			
+		}
+		model.addAttribute("listRegion", objService.findAll(SpObjectLocation.class));
+		model.addAttribute("p_title", pTitleParam.orElse("Редактирование"));
+		model.addAttribute("hs", hs);
+		return "popupAddress";
 	}
 }
