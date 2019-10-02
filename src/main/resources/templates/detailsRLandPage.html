@@ -49,7 +49,7 @@
 	                    	<table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
 	                    		<th:block th:with="w='7%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 	                    		<th:block th:with="w='93%',tt='mtext',nn='co_address',vv=${obj.co_address},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-	                    		<th:block th:with="w='4%',tt='pbutton',nn1='co_address_code',nn2='',vv=${obj.co_address_code},rr=1,ro=${rco},ddcl='Address',ddti='Формирование адреса'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='4%',tt='abutton',nn1='co_address_code',nn2='',vv=${obj.co_address_code},rr=1,ro=${rco},ddaa=${obj.co_address},ddac=${obj.co_address_code},ddti='Формирование адреса'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 	                    	</tr></tbody></table>
            				</th:block>
            				<th:block th:if="${bs==true}">
