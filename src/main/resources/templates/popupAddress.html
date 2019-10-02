@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div class="modal" tabindex="-1" role="dialog" style="height: 90%">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" th:utext="${p_title}"></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body small">
+				<div class="form-group-sm row">
+					<div class="col-sm-2" th:with="tt='label',vv='Регион'"><div th:replace="fragments/component :: c"></div></div>
+					<div class="col-sm-10" th:with="tt='select',nn='region',vv=${region},ll='listRegion'"><div th:replace="fragments/component :: c"></div></div>
+				</div>
+				<div class="form-group-sm row">
+					<div class="col-sm-2" th:with="tt='label',vv='Город/населенный пункт'"><div th:replace="fragments/component :: c"></div></div>
+					<div class="col-sm-10" th:with="tt='select',nn='city',vv=${city},ll='listCity'"><div th:replace="fragments/component :: c"></div></div>
+				</div>
+				<div class="form-group-sm row">
+					<div class="col-sm-2" th:with="tt='label',vv='Улица'"><div th:replace="fragments/component :: c"></div></div>
+					<div class="col-sm-10" th:with="tt='select',nn='street',vv=${street},ll='listStreet'"><div th:replace="fragments/component :: c"></div></div>
+				</div>
+				<div class="form-group-sm row">
+					<div class="col-sm-2" th:with="tt='label',vv='Дом'"><div th:replace="fragments/component :: c"></div></div>
+					<div class="col-sm-10" th:with="tt='select',nn='building',vv=${street},ll='listBuilding'"><div th:replace="fragments/component :: c"></div></div>
+				</div>
+				<div class="form-group-sm row">
+					<div class="col-sm-2" th:with="tt='label',vv='Полный адрес'"><div th:replace="fragments/component :: c"></div></div>
+					<div class="col-sm-12" th:with="tt='mtext',nn='co_address',vv=${co_address},ro=1'"><div th:replace="fragments/component :: c"></div></div>
+					<input type="hidden" name="co_address_code" th:value="${co_address_code}">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="save-button btn btn-sm btn-light" data-dismiss="modal">Сохранить</button>
+				<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
+			</div>
+		</div>
+	</div>
+</div>
