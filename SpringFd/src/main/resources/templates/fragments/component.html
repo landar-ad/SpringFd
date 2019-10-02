@@ -41,7 +41,7 @@
 			<option th:each="d : ${ll}" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,_attr!=null?_attr:'rn'))}" th:value="${hs.getPropertyString(d,_attr!=null?_attr:'rn')}" th:utext="${d.name}"/>
 		</select>  
 		<select th:if="${ro==1}" class="form-control form-control-sm" disabled>
-			<option selected="selected" th:utext="${vv!=null ? vv.name : ''}"/>
+			<option selected="selected" th:utext="${hs.getPropertyString(vv,'name')}"/>
 		</select>
 	</th:block>
 	<th:block th:if="${tt=='button'}">
