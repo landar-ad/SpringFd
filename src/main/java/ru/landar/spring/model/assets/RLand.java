@@ -28,6 +28,7 @@ public class RLand extends RProperty {
 	private Date fp_in_date;
 	private Date fp_out_date;
 	private String co_address;
+	private String co_address_code;
 	private BigDecimal dist_ns;
 	private SpLandCategory co_category;
 	private String co_usage;
@@ -86,6 +87,10 @@ public class RLand extends RProperty {
     @Column(length=512)
     public String getCo_address() { return co_address; }
     public void setCo_address(String co_address) { this.co_address = co_address; }
+    
+    @Column(length=30)
+    public String getCo_address_code() { return co_address_code; }
+    public void setCo_address_code(String co_address_code) { this.co_address_code = co_address_code; }
     
     @Column(precision=17, scale=3)
     public BigDecimal getDist_ns() { return dist_ns; }
@@ -204,7 +209,7 @@ public class RLand extends RProperty {
 	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("org__name", "Подвед, учреждение")); 
+		ret.add(new ColumnInfo("co_org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
 		ret.add(new ColumnInfo("cad_num", "Кадастровый номер"));
 		ret.add(new ColumnInfo("cad_date", "Дата постановки на кадастровый учет"));
@@ -213,6 +218,7 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("fp_in_date", "Дата РНФИ"));
 		ret.add(new ColumnInfo("fp_out_date", "Дата выбытия"));
 		ret.add(new ColumnInfo("co_address", "Полный адрес"));
+		ret.add(new ColumnInfo("co_address_code", "Код адреса", false));
 		ret.add(new ColumnInfo("dist_ns", "Расстояние до ближайшего населенного пункта, м"));
 		ret.add(new ColumnInfo("co_category__name", "Категория земель", false, true, "co_category__rn", "select", "listLandCategory"));
 		ret.add(new ColumnInfo("co_usage", "Разрешенное использование (назначение)"));

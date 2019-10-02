@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+			<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+           		<div class="m-sm-0">
+           			<div th:replace="fragments/header :: details-buttons"></div>
+           			<div class="col-sm-12 border fit-height">
+           				<th:block th:if="${bs!=true}">
+           					<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+		                    	<th:block th:with="w='13%',tt='label',vv='Подвед. учреждение',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='50%',tt='text',vv=${obj.co_org?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<th:block th:with="w='13%',tt='label',vv='Код сводного реестра'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='20%',tt='text',vv=${obj.co_org?.srcode}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<th:block th:with="w='4%',tt='pbutton',nn1='co_org',nn2='',vv=${obj.co_org?.rn},rr=1,ro=${rco},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    </tr></tbody></table>
+		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Инвентарный номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='text',vv=${obj.inv_number},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<td width="61%"/>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Кадастровый номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='text',nn='cad_num',vv=${obj.cad_num},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<th:block th:with="w='21%',tt='label',vv='Дата постановки на кадастровый учет'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='21%',tt='date',nn='cad_date',vv=${obj.cad_date},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>	
+		                    	<td width="19%"/>
+	                    	</tr></tbody></table>
+	                    	
+	                    	
+           				</th:block>
+           				<th:block th:if="${bs==true}">
+		                    <div class="form-group-sm row mt-sm-1 parent-popup">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Подвед. учреждение',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-5" th:with="tt='text',vv=${obj.co_org?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',vv='Код сводного реестра'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='text',vv=${obj.co_org?.srcode},ro=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-1" th:with="tt='pbutton',nn='co_org',vv=${obj.co_org?.rn},rr=1,ro=${rco},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Инвентарный номер'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='text',nn='inv_number',vv=${obj.inv_number},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Кадастровый номер'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='text',nn='cad_num',vv=${obj.cad_num},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-3" th:with="tt='label',vv='Дата постановки на кадастровый учет'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-3" th:with="tt='date',nn='cad_date',vv=${obj.cad_date},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    
+	                    </th:block>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>
