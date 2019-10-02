@@ -137,7 +137,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			Predicate prTotal = getFilter(cb, cl, f, attrFilter, valueFilter);
 			if (prTotal != null) query.where(cb.and(prTotal));
 		}
-		query.select(cb.max(f.get(attr)));
+		Path p = f.get(attr);
+		query.select(cb.max(p));
 		return em.createQuery(query).getSingleResult();
 	}
 	@Override
