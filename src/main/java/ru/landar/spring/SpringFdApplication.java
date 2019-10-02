@@ -3,6 +3,8 @@ package ru.landar.spring;
 import javax.sql.DataSource;
 
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,6 +23,9 @@ import ru.landar.spring.classes.AppClassLoader;
 @EnableAutoConfiguration(exclude = { FreeMarkerAutoConfiguration.class })
 public class SpringFdApplication {
 	public static void main(String[] args) {
+		for(String arg : args) {
+            System.out.println(arg);
+        }
 		SpringApplication.run(SpringFdApplication.class, args);
 	}
 	@Value("${spring.datasource.url}")
