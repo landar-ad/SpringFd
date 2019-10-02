@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>ru.landar.spring</groupId>
 	<artifactId>SpringFd</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>SpringFd</name>
 	<description>Fd project for Spring Boot</description>
 
