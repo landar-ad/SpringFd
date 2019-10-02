@@ -15,6 +15,10 @@
 					<div class="col-sm-10" th:with="tt='select',nn='region',vv=${region},ll='listRegion'"><div th:replace="fragments/component :: c"></div></div>
 				</div>
 				<div class="form-group-sm row">
+					<div class="col-sm-2" th:with="tt='label',vv='Район'"><div th:replace="fragments/component :: c"></div></div>
+					<div class="col-sm-10" th:with="tt='select',nn='district',vv=${district},ll='listDistrict'"><div th:replace="fragments/component :: c"></div></div>
+				</div>
+				<div class="form-group-sm row">
 					<div class="col-sm-2" th:with="tt='label',vv='Город/населенный пункт'"><div th:replace="fragments/component :: c"></div></div>
 					<div class="col-sm-10" th:with="tt='select',nn='city',vv=${city},ll='listCity'"><div th:replace="fragments/component :: c"></div></div>
 				</div>
@@ -28,8 +32,8 @@
 				</div>
 				<div class="form-group-sm row">
 					<div class="col-sm-2" th:with="tt='label',vv='Полный адрес'"><div th:replace="fragments/component :: c"></div></div>
-					<div class="col-sm-12" th:with="tt='mtext',nn='co_address',vv=${co_address},ro=1'"><div th:replace="fragments/component :: c"></div></div>
-					<input type="hidden" name="co_address_code" th:value="${co_address_code}">
+					<div class="col-sm-12" th:with="tt='mtext',nn='addr',vv=${addr},ro=1'"><div th:replace="fragments/component :: c"></div></div>
+					<input type="hidden" name="addr_code" th:value="${addr_code}">
 				</div>
 			</div>
 			<div class="modal-footer">
