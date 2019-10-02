@@ -102,7 +102,7 @@ public class RProperty extends IBase {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
     	
-    	return ret;
+    	return null;
 	}
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
@@ -113,6 +113,6 @@ public class RProperty extends IBase {
 			model.addAttribute("listPropertyType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"PropertyType"}));
 		}
 		catch (Exception ex) { }
-		return true;
+		return null;
 	}
 }

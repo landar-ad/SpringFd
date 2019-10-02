@@ -39,6 +39,30 @@
 		                    	<th:block th:with="w='26%',tt='select',nn='co_type',vv=${obj.co_type},ll=${listPropertyType},_attr='code',ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	<td width="61%"/>
 	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Наименование объекта имущества'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='87%',tt='mtext',nn='name',vv=${obj.name},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Балансовая стоимость'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='text',nn='book_value',vv=${obj.book_value},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<td width="61%"/>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Остаточная стоимость'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='text',nn='residual_value',vv=${obj.residual_value},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<td width="61%"/>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Дата ввода в эксплуатацию'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='date',nn='in_date',vv=${obj.in_date},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<td width="61%"/>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    	<th:block th:with="w='13%',tt='label',vv='Отнесен к ОЦДИ'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	<th:block th:with="w='4%',tt='check',nn='ocdi',vv=${obj.ocdi},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<td width="83%"/>
+	                    	</tr></tbody></table>
            				</th:block>
            				<th:block th:if="${bs==true}">
 			            	
