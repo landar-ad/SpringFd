@@ -15,7 +15,7 @@
            	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
            		<div class="m-sm-0">
            			<div th:replace="fragments/header :: details-buttons"></div>
-           			<div th:with="bs=true" class="col-sm-12 border fit-height">
+           			<div class="col-sm-12 border fit-height">
            				<th:block th:if="${bs!=true}">
            					<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
 		                    	<th:block th:with="w='13%',tt='label',vv='Подвед. учреждение',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
