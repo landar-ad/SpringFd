@@ -69,8 +69,6 @@
 					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_prop'"><td th:replace="fragments/tc :: cd"></td></th:block>
 					        	<td width="52%"></td>
 					        </tr></tbody></table>
-					        <th:block th:replace="fragments/prop :: prop_list"/>
-	                    	<th:block th:replace="fragments/prop :: doc_list"/>
            				</th:block>
            				<th:block th:if="${bs==true}">
 		                    <div class="form-group-sm row mt-sm-1 parent-popup">
@@ -112,6 +110,8 @@
 		                    	<div class="col-sm-6" th:with="tt='check',nn='ocdi',vv=${obj.ocdi},xx='Отнесен к ОЦДИ',ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 	                    </th:block>
+	                    <th:block th:replace="fragments/prop :: prop_list"/>
+                    	<th:block th:replace="fragments/prop :: doc_list"/>
                     </div>
 				</div>
 			</div>
