@@ -32,8 +32,8 @@ public class RProperty extends IBase {
 	private BigDecimal residual_value;
 	private Date in_date;
 	private Boolean ocdi;
-	private List<RProperty> list_prop;
-	private List<RDocument> list_doc;
+	private List<RProperty_RProperty> list_prop;
+	private List<RProperty_RDocument> list_doc;
 	private String comment;
 	
 	@ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
@@ -64,13 +64,13 @@ public class RProperty extends IBase {
     public Date getIn_date() { return in_date; }
     public void setIn_date(Date in_date) { this.in_date = in_date; }
     
-    @ManyToMany(targetEntity=RProperty.class, fetch=FetchType.LAZY)
-    public List<RProperty> getList_prop() { return list_prop != null ? list_prop : new ArrayList<RProperty>(); }
-    public void setList_prop(List<RProperty> list_prop) { this.list_prop = list_prop; }
+    @ManyToMany(targetEntity=RProperty_RProperty.class, fetch=FetchType.LAZY)
+    public List<RProperty_RProperty> getList_prop() { return list_prop != null ? list_prop : new ArrayList<RProperty_RProperty>(); }
+    public void setList_prop(List<RProperty_RProperty> list_prop) { this.list_prop = list_prop; }
     
-    @ManyToMany(targetEntity=RDocument.class, fetch=FetchType.LAZY)
-    public List<RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RDocument>(); }
-    public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
+    @ManyToMany(targetEntity=RProperty_RDocument.class, fetch=FetchType.LAZY)
+    public List<RProperty_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RProperty_RDocument>(); }
+    public void setList_doc(List<RProperty_RDocument> list_doc) { this.list_doc = list_doc; }
     
     public Boolean getOcdi() { return ocdi; }
     public void setOcdi(Boolean ocdi) { this.ocdi = ocdi; }

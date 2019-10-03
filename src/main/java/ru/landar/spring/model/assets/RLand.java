@@ -58,7 +58,6 @@ public class RLand extends RProperty {
 	private BigDecimal cadastre_value;
 	private BigDecimal standard_cost;
 	private BigDecimal co_rent;
-	private List<RBuilding> list_build;
 	
 	@Column(length=18)
     public String getCad_num() { return сad_num; }
@@ -199,10 +198,6 @@ public class RLand extends RProperty {
     @Column(precision=17, scale=2)
     public BigDecimal getCo_rent() { return co_rent; }
     public void setCo_rent(BigDecimal co_rent) { this.co_rent = co_rent; }
-    
-    @ManyToMany(targetEntity=RBuilding.class, fetch=FetchType.LAZY)
-    public List<RBuilding> getList_build() { return list_build != null ? list_build : new ArrayList<RBuilding>(); }
-    public void setList_build(List<RBuilding> list_build) { this.list_build = list_build; }
     
 	public static String singleTitle() { return "Земельный участок"; }
 	public static String multipleTitle() { return "Земельные участки"; }

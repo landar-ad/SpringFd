@@ -47,7 +47,7 @@ public class Act_document extends IBase {
 	
 	private void updateName() {
 		String name = "";
-		if (getParent() != null && getParent() instanceof Act) name += getParent().getName();
+		if (getParent() != null) name += getParent().getName();
 		if (doc != null) {
 			if (!name.isEmpty()) name += " <-> ";
 			name += doc.getName();
