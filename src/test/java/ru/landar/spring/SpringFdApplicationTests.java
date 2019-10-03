@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class SpringFdApplicationTests {
 	@Test
 	public void test() throws IOException {
+		/*
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/address");
 		//HttpPost httpPost = new HttpPost("https://cleaner.dadata.ru/api/v1/clean/address");
@@ -57,5 +58,6 @@ public class SpringFdApplicationTests {
 		finally {
 		    response.close();
 		}
+		*/
 	}
 }
