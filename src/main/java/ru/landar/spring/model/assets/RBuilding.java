@@ -136,7 +136,6 @@ public class RBuilding extends RProperty {
 		ret.add(new ColumnInfo("s_perv", "Первоначальная стоимость"));
 		ret.add(new ColumnInfo("s_amor", "Начисленная амортизация"));
 		ret.add(new ColumnInfo("plosh", "Площадь, кв.м"));
-		
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
