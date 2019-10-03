@@ -58,11 +58,11 @@
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    		<th:block th:with="w='7%',tt='label',vv='Категория земель'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-	                    		<th:block th:with="w='13%',tt='select',nn='co_category',ll='listLandCategory',vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='13%',tt='select',nn='co_category',ll=${listLandCategory},vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 	                    		<th:block th:with="w='13%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 	                    		<th:block th:with="w='47%',tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 	                    		<th:block th:with="w='7%',tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-	                    		<th:block th:with="w='13%',tt='select',nn='co_feature',ll='listLandFeature',vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='13%',tt='select',nn='co_feature',ll=${listLandFeature},vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    		<th:block th:with="w='100%',tt='label',vv='Категории использования'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
@@ -125,11 +125,11 @@
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-1" th:with="tt='label',vv='Категория земель'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-2" th:with="tt='select',nn='co_category',ll='listLandCategory',vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='co_category',ll=${listLandCategory},vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-2" th:with="tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-4" th:with="tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-1" th:with="tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-2" th:with="tt='select',nn='co_feature',ll='listLandFeature',vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='co_feature',ll=${listLandFeature},vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1"><h6>Категории использования</h6></div>
 	                    	<div class="form-group-sm row mt-sm-1">
