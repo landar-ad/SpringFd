@@ -40,7 +40,7 @@ public class RProperty extends IBase {
     public IOrganization getCo_org() { return co_org; }
     public void setCo_org(IOrganization co_org) { this.co_org = co_org; }
     
-    @Column(length=50)
+    @Column(length=20)
     public String getInv_number() { return inv_number; }
     public void setInv_number(String inv_number) { this.inv_number = inv_number; }
     

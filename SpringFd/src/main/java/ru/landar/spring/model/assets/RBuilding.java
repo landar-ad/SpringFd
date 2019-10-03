@@ -21,6 +21,7 @@ import ru.landar.spring.model.SpCommon;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RBuilding extends RProperty {
+	private String on_nam;
 	private SpCommon on_typ;
 	private SpCommon on_celn;
 	private String adr_fo;
@@ -38,6 +39,10 @@ public class RBuilding extends RProperty {
 	private BigDecimal s_perv;
 	private BigDecimal s_amor;
 	private BigDecimal plosh;
+	
+	@Column(length=2000)
+    public String getOn_nam() { return on_nam; }
+    public void setOn_nam(String on_nam) { this.on_nam = on_nam; setName(on_nam); }
 	
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getOn_typ() { return on_typ; }
@@ -113,6 +118,7 @@ public class RBuilding extends RProperty {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("co_org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
+		ret.add(new ColumnInfo("on_nam", "Наименование"));
 		ret.add(new ColumnInfo("on_typ__name", "Тип объекта", true, true, "on_typ__rn", "select", "listOnTyp"));
 		ret.add(new ColumnInfo("on_celn__name", "Целевое назначение", true, true, "on_celn__rn", "select", "listOnCeln"));
 		ret.add(new ColumnInfo("adr_pa", "Полный адрес"));
