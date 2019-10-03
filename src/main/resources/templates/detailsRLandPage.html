@@ -48,9 +48,43 @@
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
 	                    		<th:block th:with="w='7%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-	                    		<th:block th:with="w='93%',tt='mtext',nn='co_address',vv=${obj.co_address},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-	                    		<th:block th:with="w='4%',tt='abutton',nn1='co_address_code',nn2='',vv=${obj.co_address_code},rr=1,ro=${rco},ddaa=${obj.co_address},ddac=${obj.co_address_code},ddti='Формирование адреса'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='89%',tt='mtext',nn='co_address',vv=${obj.co_address},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='4%',tt='abutton',nn1='co_address_code',nn2='',ro=${rco},ddaa='co_address',ddac='co_address_code',ddti='Формирование адреса'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='28%',tt='label',vv='Расстояние до ближайшего населенного пункта, м'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='7%',tt='text',nn='dist_ns',vv=${obj.dist_ns},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+								<td width="65%"/>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='7%',tt='label',vv='Категория земель'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='13%',tt='select',nn='co_category',ll='listLandCategory',vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='13%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='47%',tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='7%',tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='13%',tt='select',nn='co_feature',ll='listLandFeature',vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='100%',tt='label',vv='Категории использования'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='5%',tt='checkbox',nn='ki_gkh',vv=${obj.ki_gkh},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='5%',tt='label',vv='ЖКХ'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='5%',tt='checkbox',nn='ki_az',vv=${obj.ki_az},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='10%',tt='label',vv='Административное здание'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='5%',tt='checkbox',nn='ki_omr',vv=${obj.ki_omr},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='15%',tt='label',vv='Объект мобилизационного резерва'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='5%',tt='checkbox',nn='ki_ppz',vv=${obj.ki_ppz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='15%',tt='label',vv='Прочие для производственных целей'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='5%',tt='checkbox',nn='ki_inoe',vv=${obj.ki_inoe},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='5%',tt='label',vv='Иное'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='5%',tt='checkbox',nn='ki_neisp',vv=${obj.ki_neisp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='10%',tt='label',vv='Не используется'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                       	</tr></tbody></table>
+	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	                    		<th:block th:with="w='100%',tt='label',vv='Права собственности'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    	</tr></tbody></table>
+	                    	
            				</th:block>
            				<th:block th:if="${bs==true}">
 		                    <div class="form-group-sm row mt-sm-1 parent-popup">
@@ -80,7 +114,34 @@
 		                    	<div class="col-sm-1" th:with="tt='label',vv='Дата выбытия"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-3" th:with="tt='date',nn='fp_out_date',vv=${obj.fp_out_date},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
-		                    
+		                    <div class="form-group-sm row mt-sm-1">
+	                    		<div class="col-sm-1" th:with="tt='label',vv='Полный адрес'"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-10" th:with="tt='mtext',nn='co_address',vv=${obj.co_address},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-1" th:with="tt='abutton',nn1='co_address_code',nn2='',ro=${rco},ddaa='co_address',ddac='co_address_code',ddti='Формирование адреса'"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+	                    		<div class="col-sm-4" th:with="tt='label',vv='Расстояние до ближайшего населенного пункта, м'"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-1" th:with="tt='text',nn='dist_ns',vv=${obj.dist_ns},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+	                    		<div class="col-sm-1" th:with="tt='label',vv='Категория земель'"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='co_category',ll='listLandCategory',vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-4" th:with="tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-1" th:with="tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='co_feature',ll='listLandFeature',vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1"><h6>Категории использования</h6></div>
+	                    	<div class="form-group-sm row mt-sm-1">
+	                    		<div class="col-sm-1" th:with="tt='checkbox',nn='ki_gkh',vv=${obj.ki_gkh},xx='ЖКХ',ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='checkbox',nn='ki_az',vv=${obj.ki_az},xx='Административное здание',ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+								<div class="col-sm-3" th:with="tt='checkbox',nn='ki_omr',vv=${obj.ki_omr},xx='Объект мобилизационного резерва',ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+								<div class="col-sm-3" th:with="tt='checkbox',nn='ki_ppz',vv=${obj.ki_ppz},xx='Прочие для производственных целей',ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-1" th:with="tt='checkbox',nn='ki_inoe',vv=${obj.ki_inoe},xx='Иное',ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='checkbox',nn='ki_neisp',vv=${obj.ki_neisp},xx='Не используется',ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                       	</div>
+	                    	<div class="form-group-sm row mt-sm-1"><h6>Права собственности</h6></div>
+	                    	
 	                    </th:block>
                     </div>
 				</div>
