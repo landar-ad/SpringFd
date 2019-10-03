@@ -69,67 +69,8 @@
 					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_prop'"><td th:replace="fragments/tc :: cd"></td></th:block>
 					        	<td width="52%"></td>
 					        </tr></tbody></table>
-	                    	<table id="list_prop" class="table table-sm table-edited table-bordered">
-					        	<tbody>
-					        		<tr>
-							       		<td class="d-none"></td>
-							       		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='31%',tt='label',vv='Объект имущества'"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='20%',tt='label',vv='Инвентарный номер'"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='24%',tt='label',vv='Раздел учета',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='20%',tt='label',vv='Тип связи'"><td th:replace="fragments/tc :: cd"></td></th:block>
-					       			</tr>
-					     		</tbody>
-					        	<tbody>
-						        	<tr th:each="d : ${obj?.list_prop}" class="parent-popup">
-							         	<td class="d-none"><input type="hidden" name="list_prop__rn" th:value="${d.rn}"><input type="hidden" name="list_prop__rnOld" th:value="${d.rn}"><input type="hidden" name="list_prop__clazz" value="RProperty_RProperty"><input type="hidden" name="list_prop__p_add" value="new"><input type="hidden" name="list_prop__p_cmd" value=""></td>
-							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-							           	<th:block th:with="w='31%',tt='text',vv=${d.prop?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-							           	<th:block th:with="w='20%',tt='text',vv=${d.prop?.inv_number},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-							           	<th:block th:with="w='20%',tt='text',vv=${d.prop?.co_div?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_prop',nn2='prop',vv=${d.prop?.rn},ro=${rco},ddcl='RProperty',ddti='Выберите объект имущества',ddco='rn;name=Наименование=YYA;inv_number=Инвентарный номер;co_div__name=Раздел учета',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							           	<th:block th:with="w='20%',tt='select',nn='list_prop__conn_type',vv=${d.conn_type},ll=${listConnectionType},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       	</tr>
-							       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
-							           	<td class="d-none"><input type="hidden" name="list_prop__rn" value=""><input type="hidden" name="list_prop__rnOld" value=""><input type="hidden" name="list_prop__clazz" value="RProperty_RProperty"><input type="hidden" name="list_prop__p_add" value="new"><input type="hidden" name="list_prop__p_cmd" value=""></td>
-							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-							           	<th:block th:with="w='31%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-							           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-							           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_prop',nn2='prop',vv='',ro=${rco},ddcl='RProperty',ddti='Выберите объект имущества',ddco='rn;name=Наименование=YYA;inv_number=Инвентарный номер;co_div__name=Раздел учета',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							           	<th:block th:with="w='20%',tt='select',nn='list_prop__conn_type',vv='',ll=${listConnectionType},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-							    	</tr>
-					        	</tbody>
-				        	</table>
-				        	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-					        	<th:block th:with="w='16%',tt='label',vv='Прикрепленные документы'"><th th:replace="fragments/tc :: ch"></th></th:block>
-					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
-					        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
-					        	<td width="52%"></td>
-					        </tr></tbody></table>
-	                    	<table id="list_doc" class="table table-sm table-edited table-bordered">
-					        	<tbody>
-					        		<tr>
-							       		<td class="d-none"></td>
-							       		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       		<th:block th:with="w='95%',tt='label',vv='Документ',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
-					       			</tr>
-					     		</tbody>
-					        	<tbody>
-						        	<tr th:each="d : ${obj?.list_doc}" class="parent-popup">
-							         	<td class="d-none"><input type="hidden" name="list_doc__rn" th:value="${d.rn}"><input type="hidden" name="list_doc__rnOld" th:value="${d.rn}"><input type="hidden" name="list_doc__clazz" value="RProperty_RDocument"><input type="hidden" name="list_doc__p_add" value="new"><input type="hidden" name="list_doc__p_cmd" value=""></td>
-							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-							           	<th:block th:with="w='91%',tt='text',vv=${d.doc?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv=${d.doc?.rn},ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							       	</tr>
-							       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
-							           	<td class="d-none"><input type="hidden" name="list_prop__rn" value=""><input type="hidden" name="list_doc__rnOld" value=""><input type="hidden" name="list_doc__clazz" value="RProperty_RDocument"><input type="hidden" name="list_doc__p_add" value="new"><input type="hidden" name="list_doc__p_cmd" value=""></td>
-							           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-							           	<th:block th:with="w='91%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-	            						<th:block th:with="w='4%',tt='pbutton',nn1='list_doc',nn2='doc',vv='',ro=${rco},ddcl='RProperty',ddti='Выберите объект имущества',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-							    	</tr>
-					        	</tbody>
-				        	</table>
+					        <th:block th:replace="fragments/prop :: prop_list"/>
+	                    	<th:block th:replace="fragments/prop :: doc_list"/>
            				</th:block>
            				<th:block th:if="${bs==true}">
 		                    <div class="form-group-sm row mt-sm-1 parent-popup">
