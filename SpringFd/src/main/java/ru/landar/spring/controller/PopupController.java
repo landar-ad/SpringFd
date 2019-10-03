@@ -1,15 +1,23 @@
 package ru.landar.spring.controller;
 
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,9 +29,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Voc;
-import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.assets.SpObjectLocation;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -183,7 +193,21 @@ public class PopupController {
 							Model model) throws Exception {
 		String addr = addrParam.orElse(null), addr_code = addrParam.orElse(null);
 		if (!hs.isEmpty(addr_code)) {
-			
+			CloseableHttpClient httpclient = HttpClients.createDefault();
+			HttpPost httpPost = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/address");
+			List <NameValuePair> nvps = new ArrayList<NameValuePair>();
+			nvps.add(new BasicNameValuePair("query", addr_code));
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			CloseableHttpResponse response = httpclient.execute(httpPost);
+
+			try {
+			    HttpEntity entity = response.getEntity();
+		    	InputStream is = entity.getContent();
+		    	
+			    EntityUtils.consume(entity);
+			} finally {
+			    response.close();
+			}
 		}
 		model.addAttribute("listRegion", objService.findAll(SpObjectLocation.class));
 		model.addAttribute("p_title", pTitleParam.orElse("Редактирование"));
