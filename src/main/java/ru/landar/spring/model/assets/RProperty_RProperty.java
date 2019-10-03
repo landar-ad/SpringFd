@@ -29,7 +29,7 @@ public class RProperty_RProperty extends IBase {
    		if (ret != null) return ret;
    		
    		try {
-   			model.addAttribute("listConnectionType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"conn_type"}));
+   			model.addAttribute("listConnectionType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"pp_conn_type"}));
    		}
    		catch (Exception ex) { }
    		return true;

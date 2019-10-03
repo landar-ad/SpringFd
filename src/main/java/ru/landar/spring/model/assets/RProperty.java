@@ -110,7 +110,8 @@ public class RProperty extends IBase {
 		if (ret != null) return ret;
 		try {
 			model.addAttribute("listPropertyDivision", objService.findAll(SpPropertyDivision.class));
-			model.addAttribute("listPropertyType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"PropertyType"}));
+			model.addAttribute("listPropertyType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"p_type"}));
+			model.addAttribute("listConnectionType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"pp_conn_type"}));
 		}
 		catch (Exception ex) { }
 		return null;
