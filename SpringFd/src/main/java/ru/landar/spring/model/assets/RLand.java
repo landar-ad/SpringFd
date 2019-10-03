@@ -248,7 +248,7 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("cadastre_value", "Кадастровая стоимость"));
 		ret.add(new ColumnInfo("standard_cost", "Нормативная стоимость"));
 		ret.add(new ColumnInfo("co_rent", "Арендная плата (в месяц)"));
-		ret.add(new ColumnInfo("comment", "Примечание", false));
+		ret.add(new ColumnInfo("comment", "Примечания", false));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
