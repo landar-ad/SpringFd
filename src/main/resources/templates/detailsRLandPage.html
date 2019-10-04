@@ -5,6 +5,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			Amel.details_init();
+			$("[name='co_address']").fias({ oneString: true });
 		});
 	</script>
 	<header th:replace="fragments/header :: header"></header>
@@ -26,7 +27,7 @@
 		                    </tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Инвентарный номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    	<th:block th:with="w='26%',tt='text'nn='inv_number',vv=${obj.inv_number},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	<th:block th:with="w='26%',tt='text',nn='inv_number',vv=${obj.inv_number},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	<td width="61%"/>
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
@@ -47,9 +48,8 @@
 		                    	<td width="16%"/>
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
-	                    		<th:block th:with="w='7%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-	                    		<th:block th:with="w='89%',tt='mtext',nn='co_address',vv=${obj.co_address},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-	                    		<th:block th:with="w='4%',tt='abutton',nn1='co_address_code',nn2='',ro=${rco},ddaa='co_address',ddac='co_address_code',ddti='Формирование адреса'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                    		<th:block th:with="w='13%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    		<th:block th:with="w='87%',tt='mtext',nn='co_address',vv=${obj.co_address},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 	                    	</tr></tbody></table>
 	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    		<th:block th:with="w='28%',tt='label',vv='Расстояние до ближайшего населенного пункта, м'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
@@ -189,8 +189,7 @@
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-1" th:with="tt='label',vv='Полный адрес'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-10" th:with="tt='mtext',nn='co_address',vv=${obj.co_address},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-1" th:with="tt='abutton',nn1='co_address_code',nn2='',ro=${rco},ddaa='co_address',ddac='co_address_code',ddti='Формирование адреса'"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-10" th:with="tt='mtext',nn='co_address',vv=${obj.co_address},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-4" th:with="tt='label',vv='Расстояние до ближайшего населенного пункта, м'"><th:block th:replace="fragments/component :: c"></th:block></div>

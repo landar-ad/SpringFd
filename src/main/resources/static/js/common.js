@@ -346,7 +346,7 @@ Amel = {
 		var t = q.attr("type");
 		if (a.hasClass("custom-date")) t = "cdate";
 		if (a.prop("tagName").toLowerCase() == "select") t = "select";
-		if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && !e.ctrlKey) return true;
+		if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && e.keyCode && !e.ctrlKey) return true;
 		if ((t == "file" || t == "cdate") && !e.keyCode) { if (t == "cdate") q.focus(); return true; }
 		
 		if (b.length > 0) {
