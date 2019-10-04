@@ -305,6 +305,7 @@ Amel = {
 		q.hide();
 		s.show();
 	},
+	cli: false,
 	// Редактирование в ячейках таблицы
 	table_edit: function(c) {
 		var target = this;
@@ -321,6 +322,10 @@ Amel = {
 			h.val(q.val());
 			h.text(b.text());
 		}
+		target.cli = false;
+		target.add_on(a, 'mousedown', function() {
+			target.cli = true;
+		});
 		target.add_on(q.first(), "keydown blur", function(e) {
 			var k = e.keyCode ? e.keyCode : 13;
 			if (k != 9 && k != 13 && k != 27) return;
@@ -346,8 +351,16 @@ Amel = {
 		if (a.hasClass("custom-date")) t = "cdate";
 		if (a.prop("tagName").toLowerCase() == "select") t = "select";
 		if (a.prop("tagName").toLowerCase() == "textarea" && (k == 13) && e.keyCode && !e.ctrlKey) return true;
-		if ((t == "file" || t == "cdate") && !e.keyCode) { if (t == "cdate") q.focus(); return true; }
-		
+		if ((t == "file" || t == "cdate") && !e.keyCode) { 
+			if (t == "cdate") {
+				if (target.cli) {
+					q.focus(); 
+					target.cli = false;
+					return true;
+				}
+			}
+			else return true; 
+		}
 		if (b.length > 0) {
 			b.show();
 			a.hide();
@@ -809,6 +822,7 @@ Amel = {
 			if (param == "save" || param == "refresh" || param == "cancel") op = param;
 			target.exec_obj(op, param); 
 		});
+		if ($.isFunction($.fn.fias)) $(".address").fias({ oneString: true });
 	},
 	// Повторная инициализация окна редактирования (просмотра) объекта (при изменении)
 	edit_init: function() {
