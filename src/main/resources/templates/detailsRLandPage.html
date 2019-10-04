@@ -135,12 +135,15 @@
 	                    		<th:block th:with="w='5%',tt='checkbox',nn='inv_attr',vv=${obj.inv_attr},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 	                    		<th:block th:with="w='20%',tt='label',vv='Наличие инвестиционной привлекательности'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
                     		</tr></tbody></table>
-                    		<table class="table table-sm table-edited table-bordered"><tbody><tr>
-                    			<th:block th:with="w='10%',tt='label',vv='Наиболее эффективное использование земельного участка на перспективу'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-                    			<th:block th:with="w='40%',tt='mtext',nn='eff_use_fut',vv=${obj.eff_use_fut},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-                    			<th:block th:with="w='10%',tt='label',vv='Характеристика'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-                    			<th:block th:with="w='40%',tt='mtext',nn='co_chrs',vv=${obj.co_chrs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-                    		</tr></tbody></table>
+                    		<table class="table table-sm table-edited table-bordered"><tbody>
+                    			<tr>
+	                    			<th:block th:with="w='50%',tt='label',vv='Наиболее эффективное использование земельного участка на перспективу'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+	                    			<th:block th:with="w='50%',tt='label',vv='Характеристика'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+                   				</tr><tr>
+	                    			<th:block th:with="w='50%',tt='mtext',nn='eff_use_fut',vv=${obj.eff_use_fut},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+	                                <th:block th:with="w='50%',tt='mtext',nn='co_chrs',vv=${obj.co_chrs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+                    			</tr>
+                   			</tbody></table>
                     		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    		<th:block th:with="w='100%',tt='label',vv='Стоимостные показатели'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 	                    	</tr></tbody></table>
