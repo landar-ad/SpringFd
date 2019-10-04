@@ -65,14 +65,13 @@
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='20%',tt='label',vv='Категория земель'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='20%',tt='select',nn='co_category',ll=${listLandCategory},vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-		                    		<th:block th:with="w='20%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='40%',tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='30%',tt='select',nn='co_category',ll=${listLandCategory},vv=${obj.co_category},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='30%',tt='select',nn='co_feature',ll=${listLandFeature},vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='20%',tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='40%',tt='select',nn='co_feature',ll=${listLandFeature},vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-		                    		<td width="40%"/>
+		                    		<th:block th:with="w='20%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='80%',tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
 	                    	<div class="w-100 border border-primary">
@@ -192,7 +191,7 @@
 	                    	<div class="w-100 border border-primary">
 	                    		<th:block th:replace="fragments/prop :: prop_list"/>
                     		</div>
-                    		<div class="w-100 border border-primary">
+                    		<div class="w-100 border border-primary pb-1">
                     			<th:block th:replace="fragments/prop :: doc_list"/>
                    			</div>
            				</th:block>
