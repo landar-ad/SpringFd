@@ -329,8 +329,7 @@ Amel = {
 		});
 		b.hide();
 		if ("file" == q.attr("type")) q.click();
-		else if (q.prop("tagName").toLowerCase() == "select") 
-		{ 
+		else if (q.prop("tagName").toLowerCase() == "select") { 
 			
 		}
 	},
