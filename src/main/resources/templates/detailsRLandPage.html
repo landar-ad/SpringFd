@@ -19,15 +19,19 @@
            				<th:block th:if="${bs!=true}">
            					<div class="w-100 border border-primary">
 	           					<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
-			                    	<th:block th:with="w='20%',tt='label',vv='Подвед. учреждение',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',vv='Принадлежность',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='36%',tt='text',vv=${obj.co_org?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='20%',tt='label',vv='Код сводного реестра'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='20%',tt='text',vv=${obj.co_org?.srcode}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='text',vv=${obj.co_org?.srcode},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='4%',tt='pbutton',nn1='co_org',nn2='',vv=${obj.co_org?.rn},rr=1,ro=${rco},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    </tr></tbody></table>
 			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',vv='Инвентарный номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='80%',tt='text',nn='inv_number',vv=${obj.inv_number},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',vv='Наименование объекта'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='80%',tt='mtext',nn='name',vv=${obj.name},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',vv='Кадастровый номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
@@ -51,12 +55,12 @@
 		                    </div>
 	                    	<div class="w-100 border border-primary">
 		                    	<table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
-		                    		<th:block th:with="w='20%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='80%',tt='text',nn='co_address',vv=${obj.co_address},ro=${rco},cc='address'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='40%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='60%',tt='text',nn='co_address',vv=${obj.co_address},ro=${rco},cc='address'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='80%',tt='label',vv='Расстояние до ближайшего населенного пункта, м'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='20%',tt='text',nn='dist_ns',vv=${obj.dist_ns},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='40%',tt='label',vv='Расстояние до ближайшего населенного пункта, м'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='60%',tt='text',nn='dist_ns',vv=${obj.dist_ns},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
 	                    	<div class="w-100 border border-primary">
@@ -70,8 +74,8 @@
 		                    		<th:block th:with="w='30%',tt='select',nn='co_feature',ll=${listLandFeature},vv=${obj.co_feature},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='20%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='80%',tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='40%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='60%',tt='mtext',nn='co_usage',vv=${obj.co_usage},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
 	                    	<div class="w-100 border border-primary">

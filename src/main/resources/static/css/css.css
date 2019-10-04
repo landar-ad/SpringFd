@@ -156,6 +156,7 @@ body {
 .table-edited td h6, .table-edited th h6 {
 	padding: 0.25rem;
 	margin-bottom: 0rem;
+	color: #16189b; 
 }
 .table-edited .td-center {
 	text-align:center;
@@ -205,4 +206,8 @@ body {
   color: #16189b;
   text-decoration: none;
   background-color: transparent;
+}
+.readonly {
+  background-color: #f9fcff;
+  opacity: 1;
 }

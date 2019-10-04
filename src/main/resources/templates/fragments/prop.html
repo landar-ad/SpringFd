@@ -4,10 +4,10 @@
 	<th:block th:fragment="prop_list">
 		<th:block th:if="${bs!=true}">
 			<table class="table table-sm table-edited table-bordered"><tbody><tr>
-	        	<th:block th:with="w='16%',tt='label',vv='Связанные объекты имущества'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	        	<th:block th:with="w='32%',tt='label',vv='Связанные объекты имущества'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_prop'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_prop'"><td th:replace="fragments/tc :: cd"></td></th:block>
-	        	<td width="52%"></td>
+	        	<td width="36%"></td>
 	        </tr></tbody></table>
 			<table id="list_prop" class="table table-sm table-edited table-bordered">
 				<tbody>
@@ -117,10 +117,10 @@
    	<th:block th:fragment="doc_list">
    		<th:block th:if="${bs!=true}">
 			<table class="table table-sm table-edited table-bordered"><tbody><tr>
-	        	<th:block th:with="w='16%',tt='label',vv='Прикрепленные документы'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	        	<th:block th:with="w='32%',tt='label',vv='Прикрепленные документы'"><th th:replace="fragments/tc :: ch"></th></th:block>
 	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
 	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_doc'"><td th:replace="fragments/tc :: cd"></td></th:block>
-	        	<td width="52%"></td>
+	        	<td width="36%"></td>
 	        </tr></tbody></table>
 			<table id="list_doc" class="table table-sm table-edited table-bordered">
 	        	<tbody>
