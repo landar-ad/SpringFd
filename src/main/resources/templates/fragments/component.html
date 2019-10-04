@@ -26,7 +26,7 @@
 	</th:block>
 	<th:block th:if="${tt=='text'}">
 		<th:block th:if="${ro!=1}">
-			<input class="form-control form-control-sm" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
+			<input th:class="${'form-control form-control-sm' + (cc!=null?' '+cc:'')}" type="text" th:name="${nn}" th:value="${vv}" th:required="${rr==1 ? 'required' : null}"></input>
 		</th:block>
 		<th:block th:if="${ro==1}">
 			<input class="form-control form-control-sm" type="text" th:value="${vv}" readonly="readonly"></input>
@@ -72,7 +72,7 @@
 	</th:block>
 	<th:block th:if="${tt=='mtext' || tt=='textarea'}">
 		<th:block th:if="${ro!=1}">
-			<textarea class="form-control form-control-sm" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : null}" th:rows="${rows==null ? 3 : rows}"></textarea>
+			<textarea th:class="${'form-control form-control-sm' + (cc!=null?' '+cc:'')}" th:id="${ii}" th:name="${nn}" th:text="${vv}" th:required="${rr==1 ? 'required' : null}" th:rows="${rows==null ? 3 : rows}"></textarea>
 		</th:block>
 		<th:block th:if="${ro==1}">
 			<textarea class="form-control form-control-sm" th:text="${vv}" readonly="readonly" th:rows="${rows==null ? 3 : rows}"></textarea>
