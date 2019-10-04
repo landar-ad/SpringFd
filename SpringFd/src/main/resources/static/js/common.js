@@ -889,6 +889,7 @@ Amel = {
 		target.add_on($("#" + target.tableId + " tbody tr"), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
 		// Установка однострочного содержимого данных
 		$("#" + target.tableId + " td .max-width").addClass('one-line');
+		if ($("#" + target.tableId + " tbody tr").length > 0) $("#" + target.tableId + " th").addClass('one-line');
 		// Установка максимального размера колонки
 		var wt = 0, sc = $("#" + target.tableId).outerWidth() - 3 * target.scroll_bar_size().width, max = sc / 4;
 		// Установка размера колонок - предварительно последнюю увеличиваем для скроллинга

@@ -136,6 +136,13 @@
 	            	 <div th:text="${hs.getPropertyString(obj,col.name)}" class="max-width"></div>
             	</td>
 	        </tr>
+	        <tr th:if="${#lists.size(listObj.content) == 0}">
+	        	<td class="d-none"/>
+	            <td/>
+	            <td th:each="col : ${listColumn}">
+	            	 <div class="max-width"></div>
+            	</td>
+	        </tr>
         </tbody>
     </table>
     <div th:fragment="list_file" id="list_file" class="form-group-sm mt-sm-1">
