@@ -211,3 +211,6 @@ body {
   background-color: #f9fcff;
   opacity: 1;
 }
+.dropdown-menu {
+	font-size: 90%;
+}
