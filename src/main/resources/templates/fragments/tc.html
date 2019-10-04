@@ -3,6 +3,7 @@
 <table class="table table-sm table-edited table-bordered small"><tbody><tr>
 	<th th:fragment="ch" th:width="${w}" th:class="${#strings.equals(aa,'c') ? 'td-center' : (#strings.equals(aa,'r') ? 'td-right' : 'td-left')}" th:colspan="${cs}">
 		<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
+		<h6 th:if="${tt=='group'}" th:text="${vv}"></h6>
 	</th>
 	<td th:fragment="check" class="td-edited td-center" th:width="${w}">
 		<th:block th:if="${ro!=1}">
