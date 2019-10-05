@@ -127,6 +127,13 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		return ret;
 	}
 	@Override
+	public Object find(Class<?> cl, String[] attr, Object[] value) {
+		Object ret = null;
+		Page<Object> p = findAll(cl, null, attr, value);
+		if (p != null && !p.isEmpty()) ret = p.getContent().get(0);
+		return ret;
+	}
+	@Override
 	public Object getMaxAttr(Class<?> cl, String attr) { return getMaxAttr(cl, attr, null, null); }
 	@Override 
 	public Object getMaxAttr(Class<?> cl, String attr, String[] attrFilter, Object[] valueFilter) {
