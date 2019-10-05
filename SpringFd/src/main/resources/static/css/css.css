@@ -210,6 +210,7 @@ body {
 .readonly {
   background-color: #f9fcff;
   opacity: 1;
+  color: #ff8080;
 }
 .dropdown-menu {
 	font-size: 90%;
