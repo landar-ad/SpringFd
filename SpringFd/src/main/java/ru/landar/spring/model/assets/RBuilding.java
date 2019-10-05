@@ -139,6 +139,15 @@ public class RBuilding extends RProperty {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
+	public static String getSpCode(String attr) {
+		String ret = null;
+		if ("on_typ".equals(attr)) ret = "sp_typo"; 
+		else if ("on_celn".equals(attr)) ret = "sp_nazn";
+		else if ("s_fs".equals(attr)) ret = "sp_fsob";
+		else if ("s_vps".equals(attr)) ret = "sp_vidpfs";
+		else if ("th_mp".equals(attr) || "th_ms".equals(attr)) ret = "sp_matr";
+		return ret;
+	}
 	@Override
     public Object onNew() {
      	Object ret = super.onNew();

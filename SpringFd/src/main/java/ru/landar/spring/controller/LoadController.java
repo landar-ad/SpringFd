@@ -152,7 +152,10 @@ public class LoadController {
 			}
 			if (IBase.class.isAssignableFrom(clAttr)) {
 				if (!hs.isEmpty(value)) {
-					Object o = objRepository.findByCode(clAttr, value);
+					Object o = null;
+					String sp_code = (String)hs.invoke(cl, "getSpCode", name);
+					if (!hs.isEmpty(sp_code)) o = objRepository.find(clAttr, new String[] {"code", "sp_code"}, new Object[] { value, sp_code });
+					else o = objRepository.findByCode(clAttr, value);
 					if (o != null) hs.setProperty(obj, name, o);
 					else listAdd.add(String.format("Не найден объект %s по коду %s", clAttr.getSimpleName(), value));
 				}
@@ -189,7 +192,10 @@ public class LoadController {
 				String value = elChild.getTextContent();
 				if (IBase.class.isAssignableFrom(clAttr)) {
 					if (!hs.isEmpty(value)) {
-						Object o = objRepository.findByCode(clAttr, value);
+						Object o = null;
+						String sp_code = (String)hs.invoke(cl, "getSpCode", name);
+						if (!hs.isEmpty(sp_code)) o = objRepository.find(clAttr, new String[] {"code", "sp_code"}, new Object[] { value, sp_code });
+						else o = objRepository.findByCode(clAttr, value);
 						if (o != null) hs.setProperty(obj, name, o);
 						else listAdd.add(String.format("Не найден объект %s по коду %s", clAttr.getSimpleName(), value));
 					}

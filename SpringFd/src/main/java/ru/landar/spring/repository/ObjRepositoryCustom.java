@@ -23,6 +23,7 @@ public interface ObjRepositoryCustom {
 	Object getMaxAttr(Class<?> cl, String attr, String[] attrFilter, Object[] valueFilter);
 	Object find(Class<?> cl, Object pk);
 	Object find(Class<?> cl, String attr, Object value);
+	Object find(Class<?> cl, String[] attr, Object[] value);
 	Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value);
 	Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value, Integer rn);
 	Page<Map<String, Object>> findAllResult(Class<?> cl, String[] result, Pageable p, String[] attr, Object[] value);
