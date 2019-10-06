@@ -114,7 +114,7 @@ public class IPerson extends IAgent {
    	public Object onNew() {
     	Object ret = super.onNew();
        	if (ret != null) return ret;
-       	hs.setProperty(this, "type", (SpAgentType)objService.getObjByCode(SpAgentType.class, "2"));
+       	hs.setProperty(this, "type", (SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"2", "sp_typa"}));
     	return true;
    	}
    	@Override
