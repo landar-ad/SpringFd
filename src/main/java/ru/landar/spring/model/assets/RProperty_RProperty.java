@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.SpCommon;
+import ru.landar.spring.service.HelperServiceImpl;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -22,6 +23,13 @@ public class RProperty_RProperty extends IBase {
     @ManyToOne(targetEntity=SpCommon.class)
     public SpCommon getConn_type() { return conn_type; }
     public void setConn_type(SpCommon conn_type) { this.conn_type = conn_type; updateName(); }
+    
+    public static String spCode(String attr) {
+		String ret = null;
+		if ("conn_type".equals(attr)) ret = "pp_conn_type"; 
+		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
+		return ret;
+	}
     
     @Override
    	public Object onAddAttributes(Model model, boolean list) {
