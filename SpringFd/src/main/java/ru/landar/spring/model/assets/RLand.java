@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.model.SpCommon;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -29,9 +30,9 @@ public class RLand extends RProperty {
 	private String co_address;
 	private String co_address_code;
 	private BigDecimal dist_ns;
-	private SpLandCategory co_category;
+	private SpCommon co_category;
 	private String co_usage;
-	private SpLandFeature co_feature;
+	private SpCommon co_feature;
 	private Boolean ki_gkh;
 	private Boolean ki_az;
 	private Boolean ki_omr;
@@ -40,15 +41,15 @@ public class RLand extends RProperty {
 	private Boolean ki_neisp;
 	private Boolean pr_formed;
 	private Date pr_prognoz_date;
-	private SpRightType pr_r_type;
+	private SpCommon pr_r_type;
 	private String pr_owner;
-	private SpRightTerm pr_term;
-	private SpOwnershipType pr_o_type;
+	private SpCommon pr_term;
+	private SpCommon pr_o_type;
 	private Date pr_reg_rf_plan_date;
 	private Date pr_reg_rf_fact_date;
 	private Date pr_reg_other_plan_date;
 	private Date pr_reg_other_fact_date;
-	private SpSquareSufficiency square_suf;
+	private SpCommon square_suf;
 	private BigDecimal area_suf;
 	private Boolean inv_attr;
 	private String eff_use_fut;
@@ -94,13 +95,13 @@ public class RLand extends RProperty {
     public BigDecimal getDist_ns() { return dist_ns; }
     public void setDist_ns(BigDecimal dist_ns) { this.dist_ns = dist_ns; }
     
-    @ManyToOne(targetEntity=SpLandCategory.class, fetch=FetchType.LAZY)
-    public SpLandCategory getCo_category() { return co_category; }
-    public void setCo_category(SpLandCategory co_category) { this.co_category = co_category; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getCo_category() { return co_category; }
+    public void setCo_category(SpCommon co_category) { this.co_category = co_category; }
     
-    @ManyToOne(targetEntity=SpLandFeature.class, fetch=FetchType.LAZY)
-    public SpLandFeature getCo_feature() { return co_feature; }
-    public void setCo_feature(SpLandFeature co_feature) { this.co_feature = co_feature; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getCo_feature() { return co_feature; }
+    public void setCo_feature(SpCommon co_feature) { this.co_feature = co_feature; }
     
     @Column(length=1024)
     public String getCo_usage() { return co_usage; }
@@ -131,21 +132,21 @@ public class RLand extends RProperty {
     public Date getPr_prognoz_date() { return pr_prognoz_date; }
     public void setPr_prognoz_date(Date pr_prognoz_date) { this.pr_prognoz_date = pr_prognoz_date; }
     
-    @ManyToOne(targetEntity=SpRightType.class, fetch=FetchType.LAZY)
-    public SpRightType getPr_r_type() { return pr_r_type; }
-    public void setPr_r_type(SpRightType pr_r_type) { this.pr_r_type = pr_r_type; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getPr_r_type() { return pr_r_type; }
+    public void setPr_r_type(SpCommon pr_r_type) { this.pr_r_type = pr_r_type; }
     
     @Column(length=1024)
     public String getPr_owner() { return pr_owner; }
     public void setPr_owner(String pr_owner) { this.pr_owner = pr_owner; }
     
-    @ManyToOne(targetEntity=SpRightTerm.class, fetch=FetchType.LAZY)
-    public SpRightTerm getPr_term() { return pr_term; }
-    public void setPr_term(SpRightTerm pr_term) { this.pr_term = pr_term; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getPr_term() { return pr_term; }
+    public void setPr_term(SpCommon pr_term) { this.pr_term = pr_term; }
     
-    @ManyToOne(targetEntity=SpOwnershipType.class, fetch=FetchType.LAZY)
-    public SpOwnershipType getPr_o_type() { return pr_o_type; }
-    public void setPr_o_type(SpOwnershipType pr_o_type) { this.pr_o_type = pr_o_type; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getPr_o_type() { return pr_o_type; }
+    public void setPr_o_type(SpCommon pr_o_type) { this.pr_o_type = pr_o_type; }
     
     @Temporal(TemporalType.DATE)
     public Date getPr_reg_rf_plan_date() { return pr_reg_rf_plan_date; }
@@ -163,9 +164,9 @@ public class RLand extends RProperty {
     public Date getPr_reg_other_fact_date() { return pr_reg_other_fact_date; }
     public void setPr_reg_other_fact_date(Date pr_reg_other_fact_date) { this.pr_reg_other_fact_date = pr_reg_other_fact_date; }
     
-    @ManyToOne(targetEntity=SpSquareSufficiency.class, fetch=FetchType.LAZY)
-    public SpSquareSufficiency getSquare_suf() { return square_suf; }
-    public void setSquare_suf(SpSquareSufficiency square_suf) { this.square_suf = square_suf; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getSquare_suf() { return square_suf; }
+    public void setSquare_suf(SpCommon square_suf) { this.square_suf = square_suf; }
     
     @Column(precision=17, scale=3)
     public BigDecimal getArea_suf() { return area_suf; }
@@ -246,6 +247,16 @@ public class RLand extends RProperty {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
+	public static String spCode(String attr) {
+		String ret = null;
+		if ("co_category".equals(attr)) ret = "sp_kz"; 
+		else if ("co_feature".equals(attr)) ret = "sp_ooz"; 
+		else if ("pr_r_type".equals(attr)) ret = "sp_vpr"; 
+		else if ("pr_term".equals(attr)) ret = "sp_sdpr"; 
+		else if ("pr_r_type".equals(attr)) ret = "sp_vspr"; 
+		else if ("square_suf".equals(attr)) ret = "sp_dpz"; 
+		return ret;
+	}
 	@Override
     public Object onNew() {
      	Object ret = super.onNew();
@@ -259,12 +270,12 @@ public class RLand extends RProperty {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listLandCategory", objService.findAll(SpLandCategory.class));
-			model.addAttribute("listLandFeature", objService.findAll(SpLandFeature.class));
-			model.addAttribute("listRightType", objService.findAll(SpRightType.class));
-			model.addAttribute("listRightTerm", objService.findAll(SpRightTerm.class));
-			model.addAttribute("listOwnershipType", objService.findAll(SpOwnershipType.class));
-			model.addAttribute("listSquareSufficiency", objService.findAll(SpSquareSufficiency.class));
+			model.addAttribute("listLandCategory", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_kz"}));
+			model.addAttribute("listLandFeature", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_ooz"}));
+			model.addAttribute("listRightType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vpr"}));
+			model.addAttribute("listRightTerm", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_sdpr"}));
+			model.addAttribute("listOwnershipType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vspr"}));
+			model.addAttribute("listSquareSufficiency", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_dpz"}));
 		}
 		catch (Exception ex) { }
 		return true;

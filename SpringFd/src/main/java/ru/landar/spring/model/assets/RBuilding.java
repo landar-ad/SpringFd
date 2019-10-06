@@ -139,7 +139,7 @@ public class RBuilding extends RProperty {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
-	public static String getSpCode(String attr) {
+	public static String spCode(String attr) {
 		String ret = null;
 		if ("on_typ".equals(attr)) ret = "sp_typo"; 
 		else if ("on_celn".equals(attr)) ret = "sp_nazn";
