@@ -151,7 +151,7 @@ body {
 .table-edited td label, .table-edited th label {
 	padding: 0.25rem;
 	margin-bottom: 0rem;
-	height: calc(1.5em + .5rem - 2px);
+	height: calc(1.5em + .5rem + 2px);
 }
 .table-edited td h6, .table-edited th h6 {
 	padding: 0.25rem;
@@ -159,12 +159,12 @@ body {
 	color: #16189b; 
 }
 .table-edited .td-center {
-	text-align:center;
-	vertical-align:middle;
+	text-align: center;
+	vertical-align: middle;
 }
 .table-edited .td-right {
-	text-align:right;
-	vertical-align:middle;
+	text-align: right;
+	vertical-align: middle;
 }
 .table-edited .td-left {
 	text-align:left;
