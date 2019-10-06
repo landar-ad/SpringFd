@@ -31,6 +31,7 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.assets.RProperty;
+import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
@@ -115,6 +116,9 @@ public abstract class IBase {
     protected ObjService objService;
     @Autowired
 	protected HelperService hs;
+    @Autowired
+	protected ObjRepositoryCustom objRepository;
+    
     public Object onNew() { 
     	Object ret = invoke("onNew");
     	String principal = userService.getPrincipal();
