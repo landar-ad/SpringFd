@@ -227,7 +227,7 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("ki_neisp", "Не используется", false));
 		ret.add(new ColumnInfo("pr_formed", "Оформлен"));
 		ret.add(new ColumnInfo("pr_prognoz_date", "Прогноз завершения оформления"));
-		ret.add(new ColumnInfo("pr_r_type__name", "Вид права", false, true, "pr_r_type__rn", "select", "listRightType"));
+		ret.add(new ColumnInfo("pr_r_type__name", "Вид права собственности", false, true, "pr_r_type__rn", "select", "listRightType"));
 		ret.add(new ColumnInfo("pr_owner", "Правообладатель"));
 		ret.add(new ColumnInfo("pr_term__name", "Срок действия права", false, true, "pr_term__rn", "select", "listRightTerm"));
 		ret.add(new ColumnInfo("pr_o_type__name", "Вид собственности", false, true, "pr_o_type__rn", "select", "listOwnershipType"));
@@ -252,9 +252,9 @@ public class RLand extends RProperty {
 		String ret = null;
 		if ("co_category".equals(attr)) ret = "sp_kz"; 
 		else if ("co_feature".equals(attr)) ret = "sp_ooz"; 
-		else if ("pr_r_type".equals(attr)) ret = "sp_vpr"; 
+		else if ("pr_r_type".equals(attr)) ret = "sp_vidpfs"; 
 		else if ("pr_term".equals(attr)) ret = "sp_sdpr"; 
-		else if ("pr_r_type".equals(attr)) ret = "sp_vspr"; 
+		else if ("pr_o_type".equals(attr)) ret = "sp_vspr"; 
 		else if ("square_suf".equals(attr)) ret = "sp_dpz"; 
 		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
 		return ret;
@@ -274,7 +274,7 @@ public class RLand extends RProperty {
 		try {
 			model.addAttribute("listLandCategory", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_kz"}));
 			model.addAttribute("listLandFeature", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_ooz"}));
-			model.addAttribute("listRightType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vpr"}));
+			model.addAttribute("listRightType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vidpfs"}));
 			model.addAttribute("listRightTerm", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_sdpr"}));
 			model.addAttribute("listOwnershipType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vspr"}));
 			model.addAttribute("listSquareSufficiency", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_dpz"}));
