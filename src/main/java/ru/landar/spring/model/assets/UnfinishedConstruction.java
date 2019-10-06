@@ -459,7 +459,7 @@ public class UnfinishedConstruction extends IBase {
 		else if ("safund_pres_obj_source".equals(attr) || "safund_destr_source".equals(attr)) ret = "sp_if";
 		else if ("purpose".equals(attr)) ret = "sp_nazn"; 
 		else if ("obj_capacity_ei".equals(attr)) ret = "sp_ei";
-		else if ("status".equals(attr)) ret = "sp_os";
+		else if ("status".equals(attr)) ret = "sp_so";
 		else if ("state_view_event".equals(attr)) ret = "sp_svm";
 		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
 		return ret;
@@ -484,7 +484,7 @@ public class UnfinishedConstruction extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listObjectStatus", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_os"}));
+			model.addAttribute("listObjectStatus", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_so"}));
 			model.addAttribute("listViewEvent", objService.findAll(SpViewEvent.class));
 			model.addAttribute("listOrg", objService.findAll(IOrganization.class));
 			model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
