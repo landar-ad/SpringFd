@@ -153,7 +153,7 @@ public class LoadController {
 			if (IBase.class.isAssignableFrom(clAttr)) {
 				if (!hs.isEmpty(value)) {
 					Object o = null;
-					String sp_code = (String)hs.invoke(cl, "getSpCode", name);
+					String sp_code = (String)hs.invoke(cl, "spCode", name);
 					if (!hs.isEmpty(sp_code)) o = objRepository.find(clAttr, new String[] {"code", "sp_code"}, new Object[] { value, sp_code });
 					else o = objRepository.findByCode(clAttr, value);
 					if (o != null) hs.setProperty(obj, name, o);
@@ -193,7 +193,7 @@ public class LoadController {
 				if (IBase.class.isAssignableFrom(clAttr)) {
 					if (!hs.isEmpty(value)) {
 						Object o = null;
-						String sp_code = (String)hs.invoke(cl, "getSpCode", name);
+						String sp_code = (String)hs.invoke(cl, "spCode", name);
 						if (!hs.isEmpty(sp_code)) o = objRepository.find(clAttr, new String[] {"code", "sp_code"}, new Object[] { value, sp_code });
 						else o = objRepository.findByCode(clAttr, value);
 						if (o != null) hs.setProperty(obj, name, o);

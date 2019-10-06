@@ -20,6 +20,7 @@ import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SearchContent;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.fd.SpDocType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
@@ -45,9 +46,9 @@ public class UnfinishedConstruction extends IBase {
 	private String obj_address;
 	private BigDecimal latitude; 
 	private BigDecimal longtitude; 
-	private SpObjectPurpose purpose;
+	private SpCommon purpose;
 	private BigDecimal obj_capacity;
-	private SpMeasureUnit obj_capacity_ei;
+	private SpCommon obj_capacity_ei;
 	private BigDecimal estimated_cost;
 	private Integer year_start;
 	private Integer year_stop;
@@ -58,9 +59,9 @@ public class UnfinishedConstruction extends IBase {
 	private BigDecimal safund_comcon; 
 	private BigDecimal safund_comcon_iefb; 
 	private BigDecimal safund_comcon_ievs; 
-	private SpFundsSource safund_pres_obj_source;
+	private SpCommon safund_pres_obj_source;
 	private BigDecimal safund_pres_obj;
-	private SpFundsSource safund_destr_source;
+	private SpCommon safund_destr_source;
 	private BigDecimal safund_destr;
 	private String imp_period_event;
 	private String prop_rec_object;
@@ -70,7 +71,7 @@ public class UnfinishedConstruction extends IBase {
 	private IDepartment depart;
 	private SpObjectLocation locobj;
 	private SpViewEvent view_event;
-	private SpStateViewEvent state_view_event;
+	private SpCommon state_view_event;
 	private String agnname1;
 	private String emppost1;
 	private String phone_s1;
@@ -82,12 +83,12 @@ public class UnfinishedConstruction extends IBase {
 	private String phone_m2;
 	private String email2;
 	private Boolean req_trip; 
-	private SpObjectStatus status;
+	private SpCommon status;
 	private SpCompletionPhase complet_build_phs; 
 	private BigDecimal complet_build_val;
 	private String ident_obj;
 	private Boolean faip;
-	private SpFaipType type_faip;
+	private SpCommon type_faip;
 	private String num_faip; 
 	private Date date_faip; 
 	private Boolean bs_source;
@@ -202,9 +203,9 @@ public class UnfinishedConstruction extends IBase {
     public SpViewEvent getView_event() { return view_event; }
     public void setView_event(SpViewEvent view_event) { this.view_event = view_event; }
     
-    @ManyToOne(targetEntity=SpStateViewEvent.class, fetch=FetchType.LAZY)
-    public SpStateViewEvent getState_view_event() { return state_view_event; }
-    public void setState_view_event(SpStateViewEvent state_view_event) { this.state_view_event = state_view_event; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getState_view_event() { return state_view_event; }
+    public void setState_view_event(SpCommon state_view_event) { this.state_view_event = state_view_event; }
     
     @Column(length=120)
     public String getAgnname1() { return agnname1; }
@@ -249,9 +250,9 @@ public class UnfinishedConstruction extends IBase {
     public Boolean getReq_trip() { return req_trip; }
     public void setReq_trip(Boolean req_trip) { this.req_trip = req_trip; }
     
-    @ManyToOne(targetEntity=SpObjectStatus.class, fetch=FetchType.LAZY)
-    public SpObjectStatus getStatus() { return status; }
-    public void setStatus(SpObjectStatus status) { this.status = status; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getStatus() { return status; }
+    public void setStatus(SpCommon status) { this.status = status; }
     
     @ManyToOne(targetEntity=SpCompletionPhase.class, fetch=FetchType.LAZY)
     public SpCompletionPhase getComplet_build_phs() { return complet_build_phs; }
@@ -261,9 +262,9 @@ public class UnfinishedConstruction extends IBase {
     public BigDecimal getComplet_build_val() { return complet_build_val; }
     public void setComplet_build_val(BigDecimal complet_build_val) { this.complet_build_val = complet_build_val; }
     
-    @ManyToOne(targetEntity=SpMeasureUnit.class, fetch=FetchType.LAZY)
-    public SpMeasureUnit getObj_capacity_ei() { return obj_capacity_ei; }
-    public void setObj_capacity_ei(SpMeasureUnit obj_capacity_ei) { this.obj_capacity_ei = obj_capacity_ei; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getObj_capacity_ei() { return obj_capacity_ei; }
+    public void setObj_capacity_ei(SpCommon obj_capacity_ei) { this.obj_capacity_ei = obj_capacity_ei; }
     
     @Column(length=20)
     public String getIdent_obj() { return ident_obj; }
@@ -272,9 +273,9 @@ public class UnfinishedConstruction extends IBase {
     public Boolean getFaip() { return faip; }
     public void setFaip(Boolean faip) { this.faip = faip; }
     
-    @ManyToOne(targetEntity=SpFaipType.class, fetch=FetchType.LAZY)
-    public SpFaipType getType_faip() { return type_faip; }
-    public void setType_faip(SpFaipType type_faip) { this.type_faip = type_faip; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getType_faip() { return type_faip; }
+    public void setType_faip(SpCommon type_faip) { this.type_faip = type_faip; }
     
     @Column(length=40)
     public String getNum_faip() { return num_faip; }
@@ -329,13 +330,13 @@ public class UnfinishedConstruction extends IBase {
     public BigDecimal getLongtitude() { return longtitude; }
     public void setLongtitude(BigDecimal longtitude) { this.longtitude = longtitude; }
     
-    @ManyToOne(targetEntity=SpFundsSource.class, fetch=FetchType.LAZY)
-    public SpFundsSource getSafund_pres_obj_source() { return safund_pres_obj_source; }
-    public void setSafund_pres_obj_source(SpFundsSource safund_pres_obj_source) { this.safund_pres_obj_source = safund_pres_obj_source; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getSafund_pres_obj_source() { return safund_pres_obj_source; }
+    public void setSafund_pres_obj_source(SpCommon safund_pres_obj_source) { this.safund_pres_obj_source = safund_pres_obj_source; }
     
-    @ManyToOne(targetEntity=SpFundsSource.class, fetch=FetchType.LAZY)
-    public SpFundsSource getSafund_destr_source() { return safund_destr_source; }
-    public void setSafund_destr_source(SpFundsSource safund_destr_source) { this.safund_destr_source = safund_destr_source; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getSafund_destr_source() { return safund_destr_source; }
+    public void setSafund_destr_source(SpCommon safund_destr_source) { this.safund_destr_source = safund_destr_source; }
     
     @Column(length=120)
     public String getRegnum_fedprop() { return regnum_fedprop; }
@@ -360,9 +361,9 @@ public class UnfinishedConstruction extends IBase {
     public Boolean getVvod_expl() { return vvod_expl; }
     public void setVvod_expl(Boolean vvod_expl) { this.vvod_expl = vvod_expl; }
     
-    @ManyToOne(targetEntity=SpObjectPurpose.class, fetch=FetchType.LAZY)
-    public SpObjectPurpose getPurpose() { return purpose; }
-    public void setPurpose(SpObjectPurpose purpose) { this.purpose = purpose; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getPurpose() { return purpose; }
+    public void setPurpose(SpCommon purpose) { this.purpose = purpose; }
     
     @ManyToMany(targetEntity=RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     public List<RDocument> getDocuments() { return documents; }
@@ -451,6 +452,16 @@ public class UnfinishedConstruction extends IBase {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
+	public static String spCode(String attr) {
+		String ret = null;
+		if ("type_faip".equals(attr)) ret = "sp_tfaip"; 
+		else if ("safund_pres_obj_source".equals(attr) || "safund_destr_source".equals(attr)) ret = "sp_if";
+		else if ("purpose".equals(attr)) ret = "sp_nazn"; 
+		else if ("obj_capacity_ei".equals(attr)) ret = "sp_ei";
+		else if ("status".equals(attr)) ret = "sp_os";
+		else if ("state_view_event".equals(attr)) ret = "sp_svm";
+		return ret;
+	}
 	@Override
 	public Object onListAddFilter(List<String> listAttr, List<Object> listValue, Map<String, String[]> mapParam) {
 		Object ret = super.onListAddFilter(listAttr, listValue, mapParam);
@@ -471,16 +482,16 @@ public class UnfinishedConstruction extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listObjectStatus", objService.findAll(SpObjectStatus.class));
+			model.addAttribute("listObjectStatus", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_os"}));
 			model.addAttribute("listViewEvent", objService.findAll(SpViewEvent.class));
 			model.addAttribute("listOrg", objService.findAll(IOrganization.class));
 			model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
-			model.addAttribute("listStateViewEvent", objService.findAll(SpStateViewEvent.class));
+			model.addAttribute("listStateViewEvent", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_svm"}));
 			model.addAttribute("listCompletionPhase", objService.findAll(SpCompletionPhase.class));
-			model.addAttribute("listPurpose", objService.findAll(SpObjectPurpose.class));
-			model.addAttribute("listMeasureUnit", objService.findAll(SpMeasureUnit.class));
-			model.addAttribute("listFundsSource", objService.findAll(SpFundsSource.class));
-			model.addAttribute("listTypeFaip", objService.findAll(SpFaipType.class));
+			model.addAttribute("listPurpose", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_nazn"}));
+			model.addAttribute("listMeasureUnit", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_ei"}));
+			model.addAttribute("listFundsSource", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_if"}));
+			model.addAttribute("listTypeFaip", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_tfaip"}));
 			model.addAttribute("listObjectLocation", objService.findAll(SpObjectLocation.class));
 		}
 		catch (Exception ex) { }
@@ -490,7 +501,7 @@ public class UnfinishedConstruction extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	setStatus((SpObjectStatus)objService.getObjByCode(SpObjectStatus.class, "0"));
+    	setStatus((SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"0", "sp_os"}));
      	IUser user = userService.getUser((String)null);
      	if (user != null) {
 	     	IOrganization org = user.getOrg();
