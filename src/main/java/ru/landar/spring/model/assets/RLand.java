@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.model.SpCommon;
+import ru.landar.spring.service.HelperServiceImpl;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -255,6 +256,7 @@ public class RLand extends RProperty {
 		else if ("pr_term".equals(attr)) ret = "sp_sdpr"; 
 		else if ("pr_r_type".equals(attr)) ret = "sp_vspr"; 
 		else if ("square_suf".equals(attr)) ret = "sp_dpz"; 
+		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
 		return ret;
 	}
 	@Override

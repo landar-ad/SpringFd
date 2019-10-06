@@ -24,6 +24,7 @@ import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.fd.SpDocType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
@@ -460,6 +461,7 @@ public class UnfinishedConstruction extends IBase {
 		else if ("obj_capacity_ei".equals(attr)) ret = "sp_ei";
 		else if ("status".equals(attr)) ret = "sp_os";
 		else if ("state_view_event".equals(attr)) ret = "sp_svm";
+		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
 		return ret;
 	}
 	@Override
