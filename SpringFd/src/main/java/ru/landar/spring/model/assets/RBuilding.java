@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.model.SpCommon;
+import ru.landar.spring.service.HelperServiceImpl;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -146,6 +147,7 @@ public class RBuilding extends RProperty {
 		else if ("s_fs".equals(attr)) ret = "sp_fsob";
 		else if ("s_vps".equals(attr)) ret = "sp_vidpfs";
 		else if ("th_mp".equals(attr) || "th_ms".equals(attr)) ret = "sp_matr";
+		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
 		return ret;
 	}
 	@Override

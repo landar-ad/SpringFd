@@ -20,13 +20,14 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.SpCommon;
+import ru.landar.spring.service.HelperServiceImpl;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RProperty extends IBase {
 	private IOrganization co_org;
 	private String inv_number;
-	private SpPropertyDivision co_div;
+	private SpCommon co_div;
 	private String co_type;
 	private BigDecimal book_value;
 	private BigDecimal residual_value;
@@ -44,9 +45,9 @@ public class RProperty extends IBase {
     public String getInv_number() { return inv_number; }
     public void setInv_number(String inv_number) { this.inv_number = inv_number; }
     
-    @ManyToOne(targetEntity=SpPropertyDivision.class, fetch=FetchType.LAZY)
-    public SpPropertyDivision getCo_div() { return co_div; }
-    public void setCo_div(SpPropertyDivision co_div) { this.co_div = co_div; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getCo_div() { return co_div; }
+    public void setCo_div(SpCommon co_div) { this.co_div = co_div; }
     
     @Column(length=16)
     public String getCo_type() { return co_type; }
@@ -97,6 +98,12 @@ public class RProperty extends IBase {
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
+	public static String spCode(String attr) {
+		String ret = null;
+		if ("co_div".equals(attr)) ret = "sp_rui"; 
+		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
+		return ret;
+	}
 	@Override
     public Object onNew() {
      	Object ret = super.onNew();
@@ -109,7 +116,7 @@ public class RProperty extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listPropertyDivision", objService.findAll(SpPropertyDivision.class));
+			model.addAttribute("listPropertyDivision", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_rui"}));
 			model.addAttribute("listPropertyType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"p_type"}));
 			model.addAttribute("listConnectionType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"pp_conn_type"}));
 		}

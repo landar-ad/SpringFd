@@ -30,7 +30,9 @@ import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
+import ru.landar.spring.model.assets.RProperty;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
@@ -240,6 +242,9 @@ public abstract class IBase {
 		ret.add(new AttributeInfo("code", "Код", "text", null, false));
 		ret.add(new AttributeInfo("name", "Наименование", "text", null, false)); 
 		return ret;
+	}
+	public static String spCode(String attr) {
+		return null;
 	}
 	/**
 	 * Функция вызова внешнего обработчика объекта

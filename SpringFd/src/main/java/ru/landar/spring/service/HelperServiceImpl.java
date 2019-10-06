@@ -515,6 +515,12 @@ public class HelperServiceImpl implements HelperService {
 		try { return m.invoke(null, args); } catch (Exception ex) { } 
 		return null;
 	}
+	public static Object invokeStatic(Class<?> cl, String method, Object... args) {
+		Method m = getInvokeMethod(cl, method, args);
+		if (m == null) return null;
+		try { return m.invoke(null, args); } catch (Exception ex) { } 
+		return null;
+	}
 	@Override
 	public boolean templateExists(String template) {
 		boolean found = false;
@@ -553,11 +559,11 @@ public class HelperServiceImpl implements HelperService {
 		}
 		return ret;
 	}
-	private Method getInvokeMethod(Object obj, String method, Object... args) {
+	private static Method getInvokeMethod(Object obj, String method, Object... args) {
 		if (obj == null) return null;
 		return getInvokeMethod(obj.getClass(), method, args);
 	}
-	private Method getInvokeMethod(Class<?> cl, String method, Object... args) {
+	private static Method getInvokeMethod(Class<?> cl, String method, Object... args) {
 		Method ret = null;
 		if (cl == null) return ret;
 		Method[] methods = cl.getMethods();
