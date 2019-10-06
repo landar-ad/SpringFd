@@ -43,7 +43,7 @@ import ru.landar.spring.model.ActionLog;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.ISession;
 import ru.landar.spring.model.SearchContent;
-import ru.landar.spring.model.SpActionType;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.repository.solr.ObjSolrRepository;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.UserService;
@@ -578,7 +578,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		if (op == Operation.create) opCode = "create";
 		else if (op == Operation.update) opCode = "update";
 		else if (op == Operation.delete) opCode = "remove";
-		SpActionType action_type = (SpActionType)findByCode(SpActionType.class, opCode);
+		SpCommon action_type = (SpCommon)find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {opCode, "sp_typd"});
 		Date dt = new Date();
 		String attr = "";
 		if (mapChanged != null && !mapChanged.isEmpty()) {

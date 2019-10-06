@@ -13,7 +13,9 @@ import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.model.assets.RProperty;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
@@ -28,7 +30,7 @@ import javax.persistence.Column;
 @PrimaryKeyJoinColumn(name="rn")
 public class ActionLog extends IBase {
 	private Date action_time;
-	private SpActionType action_type;
+	private SpCommon action_type;
 	private String user_login;
 	private String obj_name;
 	private Integer obj_rn;
@@ -40,9 +42,9 @@ public class ActionLog extends IBase {
     public Date getAction_time() { return action_time; }
     public void setAction_time(Date action_time) { this.action_time = action_time;}
     
-	@ManyToOne(targetEntity=SpActionType.class, fetch=FetchType.LAZY)
-    public SpActionType getAction_type() { return action_type; }
-    public void setAction_type(SpActionType action_type) { this.action_type = action_type; }
+	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getAction_type() { return action_type; }
+    public void setAction_type(SpCommon action_type) { this.action_type = action_type; }
 
 	@Column(length=32)
     public String getUser_login() { return user_login; }
@@ -94,6 +96,12 @@ public class ActionLog extends IBase {
 		ret.add(new ColumnInfo("client_browser", "Браузер клиента"));
 		return ret;
 	}
+	public static String spCode(String attr) {
+		String ret = null;
+		if ("action_type".equals(attr)) ret = "sp_typd"; 
+		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
+		return ret;
+	}
 	public Object onListPaginated() { return true; }
 	public List<AttributeInfo> onListAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
@@ -133,7 +141,7 @@ public class ActionLog extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listActionType", objService.findAll(SpActionType.class));
+			model.addAttribute("listActionType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_typd"}));
 		}
 		catch (Exception ex) { }
 		return true;

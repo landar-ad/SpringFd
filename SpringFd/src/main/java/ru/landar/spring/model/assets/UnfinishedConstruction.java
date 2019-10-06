@@ -503,7 +503,7 @@ public class UnfinishedConstruction extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	setStatus((SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"0", "sp_os"}));
+    	setStatus((SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"0", "sp_so"}));
      	IUser user = userService.getUser((String)null);
      	if (user != null) {
 	     	IOrganization org = user.getOrg();
