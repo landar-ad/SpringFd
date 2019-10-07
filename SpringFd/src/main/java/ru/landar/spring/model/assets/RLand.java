@@ -26,9 +26,9 @@ public class RLand extends RProperty {
 	private String kad_num;
 	private Date kad_dpnu;
 	private BigDecimal plosh;
-	private String rnfi;
-	private Date dat_rnfi;
-	private Date dat_vib;
+	private String rf_ni;
+	private Date rf_dr;
+	private Date rf_vi;
 	private String adr_pa;
 	private String adr_fo;
 	private SpCommon k_kz;
@@ -71,16 +71,16 @@ public class RLand extends RProperty {
     public void setPlosh(BigDecimal plosh) { this.plosh = plosh; }
     
     @Column(length=20)
-    public String getRnfi() { return rnfi; }
-    public void setRnfi(String rnfi) { this.rnfi = rnfi; }
+    public String getRf_ni() { return rf_ni; }
+    public void setRf_ni(String rf_ni) { this.rf_ni = rf_ni; }
     
     @Temporal(TemporalType.DATE)
-    public Date getDat_rnfi() { return dat_rnfi; }
-    public void setDat_rnfi(Date dat_rnfi) { this.dat_rnfi = dat_rnfi; }
+    public Date getRf_dr() { return rf_dr; }
+    public void setRf_dr(Date rf_dr) { this.rf_dr = rf_dr; }
     
     @Temporal(TemporalType.DATE)
-    public Date getDat_vib() { return dat_vib; }
-    public void setDat_vib(Date dat_vib) { this.dat_vib = dat_vib; }
+    public Date getRf_vi() { return rf_vi; }
+    public void setrf_vi(Date rf_vi) { this.rf_vi = rf_vi; }
     
     @Column(length=4000)
     public String getAdr_pa() { return adr_pa; }
@@ -182,9 +182,9 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("kad_num", "Кадастровый номер"));
 		ret.add(new ColumnInfo("kad_dpnu", "Дата постановки на кадастровый учет"));
 		ret.add(new ColumnInfo("plosh", "Площадь земельного участка, кв.м"));
-		ret.add(new ColumnInfo("rnfi", "РНФИ"));
-		ret.add(new ColumnInfo("dat_rnfi", "Дата РНФИ"));
-		ret.add(new ColumnInfo("dat_vib", "Дата выбытия"));
+		ret.add(new ColumnInfo("rf_ni", "РНФИ"));
+		ret.add(new ColumnInfo("rf_dr", "Дата РНФИ"));
+		ret.add(new ColumnInfo("rf_vi", "Дата выбытия"));
 		ret.add(new ColumnInfo("adr_pa", "Полный адрес"));
 		ret.add(new ColumnInfo("adr_fo", "Код адреса", false));
 		ret.add(new ColumnInfo("k_kz__name", "Категория земель", false, true, "k_kz__rn", "select", "listSp_kz"));
