@@ -479,6 +479,15 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public String loadTemplate(String template) { return (String)objService.getSettings(template, "thymeleaf"); }
 	@Override
+	public String getDefaultObjectTemplate(String clazz) {
+		String ret = null;
+		Class<?> cl = getClassByName(clazz);
+		if (cl == null) return ret;
+		ret = getTemplateSource("detailsObjPage");
+		
+		return ret;
+	}
+	@Override
 	public boolean isServerConnected(String url, int timeout) {
 		try {
 			URL serverUrl = new URL(url);
