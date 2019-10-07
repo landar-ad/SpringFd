@@ -27,9 +27,9 @@ public class RBuilding extends RProperty {
 	private SpCommon on_celn;
 	private String adr_fo;
 	private String adr_pa;
-	private SpCommon s_fs;
-	private SpCommon s_vp;
-	private String rf_numre;
+	private SpCommon so_fs;
+	private SpCommon so_vp;
+	private String rf_ni;
 	private Date rf_dr;
 	private String rf_sk;
 	private Date th_dp;
@@ -62,16 +62,17 @@ public class RBuilding extends RProperty {
     public void setAdr_fo(String adr_fo) { this.adr_fo = adr_fo; }
     
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getS_fs() { return s_fs; }
-    public void setS_fs(SpCommon s_fs) { this.s_fs = s_fs; }
+    public SpCommon getSo_vp() { return so_vp; }
+    public void setSo_vp(SpCommon s_vp) { this.so_vp = so_vp; }
+
     
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getS_vp() { return s_vp; }
-    public void setS_vp(SpCommon s_vp) { this.s_vp = s_vp; }
-    
+    public SpCommon getSo_fs() { return so_fs; }
+    public void setSo_fs(SpCommon so_fs) { this.so_fs = so_fs; }
+        
     @Column(length=100)
-    public String getRf_numre() { return rf_numre; }
-    public void setRf_numre(String rf_numre) { this.rf_numre = rf_numre; }
+    public String getRf_ni() { return rf_ni; }
+    public void setRf_ni(String rf_ni) { this.rf_ni = rf_ni; }
     
     @Temporal(TemporalType.DATE)
     public Date getRf_dr() { return rf_dr; }
@@ -124,9 +125,9 @@ public class RBuilding extends RProperty {
 		ret.add(new ColumnInfo("on_celn__name", "Целевое назначение", true, true, "on_celn__rn", "select", "listSp_nazn"));
 		ret.add(new ColumnInfo("adr_pa", "Полный адрес"));
 		ret.add(new ColumnInfo("adr_fo", "Код адреса", false));
-		ret.add(new ColumnInfo("s_fs__name", "Форма собственности", true, true, "s_fs__rn", "select", "listSp_fsob"));
-		ret.add(new ColumnInfo("s_vp__name", "Вид права", true, true, "s_vp__rn", "select", "listSp_vidpfs"));
-		ret.add(new ColumnInfo("rf_numre", "РНФИ"));
+		ret.add(new ColumnInfo("so_fs__name", "Форма собственности", true, true, "so_fs__rn", "select", "listSp_fsob"));
+		ret.add(new ColumnInfo("so_vp__name", "Вид права", true, true, "so_vp__rn", "select", "listSp_vidpfs"));
+		ret.add(new ColumnInfo("rf_ni", "РНФИ"));
 		ret.add(new ColumnInfo("rf_dr", "Дата РНФИ"));
 		ret.add(new ColumnInfo("rf_sk", "Статус карты РНФИ"));
 		ret.add(new ColumnInfo("th_dp", "Дата постройки"));
