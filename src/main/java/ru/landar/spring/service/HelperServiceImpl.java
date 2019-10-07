@@ -34,6 +34,8 @@ import javax.servlet.http.Part;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
@@ -46,6 +48,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.AppClassLoader;
+import ru.landar.spring.classes.AttributeInfo;
+import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
@@ -484,6 +488,93 @@ public class HelperServiceImpl implements HelperService {
 		Class<?> cl = getClassByName(clazz);
 		if (cl == null) return ret;
 		ret = getTemplateSource("detailsObjPage");
+		if (isEmpty(ret)) return ret;
+		try {
+			org.jsoup.nodes.Document d = Jsoup.parse(ret);
+			org.jsoup.nodes.Element elTable = null, elDiv = null;
+			Elements els = d.getElementsByAttributeValue("th:if", "${bs!=true}");
+			if (els.size() > 0) elTable = els.get(0);
+			els = d.getElementsByAttributeValue("th:if", "${bs==true}");
+			if (els.size() > 0) elDiv = els.get(0);
+			List<AttributeInfo> listAttribute = null;
+			Method m = null;
+			try { m = cl.getDeclaredMethod("listAttribute"); } catch (Exception ex) { }
+			if (m != null) listAttribute =  (List<AttributeInfo>)invoke(cl, "listAttribute");
+			if (listAttribute == null) {
+				listAttribute = new ArrayList<AttributeInfo>();
+				List<ColumnInfo> listColumn = (List<ColumnInfo>)invoke(cl, "listColumn");
+				for (ColumnInfo col : listColumn) {
+					String name = col.getName(), type = col.getFilterType(), nameList = null;
+					if (name.indexOf("__") > 0) name = name.substring(0, name.indexOf("__"));
+					Class<?> clAttr = getAttrType(cl, name);
+					if (IBase.class.isAssignableFrom(clAttr)) {
+						type = "select";
+						nameList = "list" + clAttr.getSimpleName();
+					}
+					AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false);
+					listAttribute.add(attr);
+				}
+			}
+			if (elTable != null) {
+				for (org.jsoup.nodes.Element child : elTable.children()) child.remove();
+				org.jsoup.nodes.Element elTr, elBlock, elThBlock, elTd;
+				for (AttributeInfo attr : listAttribute) {
+					org.jsoup.nodes.Element elT = d.createElement("table");
+					elT.attr("class", "table table-sm table-edited table-bordered");
+					elTable.appendChild(elT);
+					org.jsoup.nodes.Element elTBody = d.createElement("tbody");
+					elT.appendChild(elTBody);
+					elTBody.appendChild(elTr = d.createElement("tr"));
+					
+					elTr.appendChild(elBlock = d.createElement("th:block"));
+					String v = String.format("w=\'30%%\',tt=\'label\',vv=\'%s\',rr=%d", attr.getTitle(), attr.getRequired() ? 1 : 0);
+					elBlock.attr("th:with", v);
+					elBlock.appendChild(elThBlock = d.createElement("th:block"));
+					elThBlock.attr("th:replace", "fragments/tc :: ch");
+					
+					elTr.appendChild(elBlock = d.createElement("th:block"));
+					v = String.format("w='%d%%',tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getLength() > 0 ? attr.getLength() * 100 / 12 : 70, attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
+					if (attr.getNameList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getNameList(), attr.getAttrList());
+					elBlock.attr("th:with", v);
+					elBlock.appendChild(elThBlock = d.createElement("th:block"));
+					elThBlock.attr("th:replace", "fragments/tc :: cd");
+					if (attr.getLength() > 0) {
+						elTr.appendChild(elTd = d.createElement("td"));
+						elTd.attr("width", "" + (70 - attr.getLength() * 100 / 12));
+					}
+				}
+			}
+			if (elDiv != null) {
+				for (org.jsoup.nodes.Element child : elDiv.children()) child.remove();
+				org.jsoup.nodes.Element elTrDiv, elChildDiv, elBlock, elTh, elTd, elThBlock;
+				for (AttributeInfo attr : listAttribute) {
+					elDiv.appendChild(elTrDiv = d.createElement("div"));
+					elTrDiv.attr("class", "form-group-sm mt-sm-1");
+					if (!"checkbox".equals(attr.getType())) {
+						elTrDiv.appendChild(elBlock = d.createElement("th:block"));
+						String v = String.format("tt=\'label\',vv=\'%s\',rr=%d", attr.getTitle(), attr.getRequired() ? 1 : 0);
+						elBlock.attr("th:with", v);
+						elBlock.appendChild(elChildDiv = d.createElement("div"));
+						elChildDiv.attr("class", "col-sm-12");
+						elChildDiv.appendChild(elThBlock = d.createElement("th:block"));
+						elThBlock.attr("th:replace", "fragments/component :: c");
+					}
+					elTrDiv.appendChild(elChildDiv = d.createElement("div"));
+					elChildDiv.attr("class", "col-sm-" + (attr.getLength() > 0 ? attr.getLength() : 12));
+					elChildDiv.appendChild(elBlock = d.createElement("th:block"));
+					String v = String.format("tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
+					if (attr.getNameList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getNameList(), attr.getAttrList());
+					
+					elBlock.attr("th:with", v);
+					elBlock.appendChild(elThBlock = d.createElement("th:block"));
+					elThBlock.attr("th:replace", "fragments/component :: c");
+				}
+			}
+			ret = d.toString();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		return ret;
 	}

@@ -1,5 +1,7 @@
 package ru.landar.spring;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -21,17 +23,22 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ru.landar.spring.service.HelperService;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringFdApplicationTests {
+	@Autowired
+	HelperService hs;
 	@Test
-	public void test() throws IOException {
+	public void test() throws Exception {
 		/*
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/address");
@@ -59,5 +66,7 @@ public class SpringFdApplicationTests {
 		    response.close();
 		}
 		*/
+		String s = hs.getDefaultObjectTemplate("RProperty_RProperty");
+		if (s != null) hs.copyStream(new ByteArrayInputStream(s.getBytes("UTF-8")), new FileOutputStream("C:\\TEMP\\detailsRProperty_RPropertyPage.html"), true, true);
 	}
 }
