@@ -28,7 +28,7 @@ public class RBuilding extends RProperty {
 	private String adr_fo;
 	private String adr_pa;
 	private SpCommon s_fs;
-	private SpCommon s_vps;
+	private SpCommon s_vp;
 	private String rf_numre;
 	private Date rf_dr;
 	private String rf_sk;
@@ -66,8 +66,8 @@ public class RBuilding extends RProperty {
     public void setS_fs(SpCommon s_fs) { this.s_fs = s_fs; }
     
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getS_vps() { return s_vps; }
-    public void setS_vps(SpCommon s_vps) { this.s_vps = s_vps; }
+    public SpCommon getS_vp() { return s_vp; }
+    public void setS_vps(SpCommon s_vp) { this.s_vp = s_vp; }
     
     @Column(length=100)
     public String getRf_numre() { return rf_numre; }
@@ -120,12 +120,12 @@ public class RBuilding extends RProperty {
 		ret.add(new ColumnInfo("co_org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
 		ret.add(new ColumnInfo("on_nam", "Наименование"));
-		ret.add(new ColumnInfo("on_typ__name", "Тип объекта", true, true, "on_typ__rn", "select", "listOnTyp"));
-		ret.add(new ColumnInfo("on_celn__name", "Целевое назначение", true, true, "on_celn__rn", "select", "listOnCeln"));
+		ret.add(new ColumnInfo("on_typ__name", "Тип объекта", true, true, "on_typ__rn", "select", "listSp_typo"));
+		ret.add(new ColumnInfo("on_celn__name", "Целевое назначение", true, true, "on_celn__rn", "select", "listSp_nazn"));
 		ret.add(new ColumnInfo("adr_pa", "Полный адрес"));
 		ret.add(new ColumnInfo("adr_fo", "Код адреса", false));
-		ret.add(new ColumnInfo("s_fs__name", "Форма собственности", true, true, "s_fs__rn", "select", "listSFs"));
-		ret.add(new ColumnInfo("s_vps__name", "Вид права собственности", true, true, "s_vps__rn", "select", "listSVps"));
+		ret.add(new ColumnInfo("s_fs__name", "Форма собственности", true, true, "s_fs__rn", "select", "listSp_fsob"));
+		ret.add(new ColumnInfo("s_vp__name", "Вид права", true, true, "s_vp__rn", "select", "listSp_vidpfs"));
 		ret.add(new ColumnInfo("rf_numre", "РНФИ"));
 		ret.add(new ColumnInfo("rf_dr", "Дата РНФИ"));
 		ret.add(new ColumnInfo("rf_sk", "Статус карты РНФИ"));
@@ -145,7 +145,7 @@ public class RBuilding extends RProperty {
 		if ("on_typ".equals(attr)) ret = "sp_typo"; 
 		else if ("on_celn".equals(attr)) ret = "sp_nazn";
 		else if ("s_fs".equals(attr)) ret = "sp_fsob";
-		else if ("s_vps".equals(attr)) ret = "sp_vidpfs";
+		else if ("s_vp".equals(attr)) ret = "sp_vidpfs";
 		else if ("th_mp".equals(attr) || "th_ms".equals(attr)) ret = "sp_matr";
 		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
 		return ret;
@@ -163,11 +163,11 @@ public class RBuilding extends RProperty {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listOnTyp", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_typo"}));
-			model.addAttribute("listOnCeln", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_nazn"}));
-			model.addAttribute("listSFs", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_fsob"}));
-			model.addAttribute("listSVps", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vidpfs"}));
-			model.addAttribute("listMatr", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_matr"}));
+			model.addAttribute("listSp_typo", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_typo"}));
+			model.addAttribute("listSp_nazn", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_nazn"}));
+			model.addAttribute("listSp_fsob", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_fsob"}));
+			model.addAttribute("listSp_vidpfs", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vidpfs"}));
+			model.addAttribute("listSp_matr", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_matr"}));
 		}
 		catch (Exception ex) { }
 		return true;

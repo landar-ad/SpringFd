@@ -23,95 +23,84 @@ import ru.landar.spring.service.HelperServiceImpl;
 @PrimaryKeyJoinColumn(name="rn")
 public class RLand extends RProperty {
 	private String on_nam;
-	private String сad_num;
-	private Date cad_date;
-	private BigDecimal co_area;
-	private String fp_reg_num;
-	private Date fp_in_date;
-	private Date fp_out_date;
-	private String co_address;
-	private String co_address_code;
-	private BigDecimal dist_ns;
-	private SpCommon co_category;
-	private String co_usage;
-	private SpCommon co_feature;
+	private String kad_num;
+	private Date kad_dpnu;
+	private BigDecimal plosh;
+	private String rnfi;
+	private Date dat_rnfi;
+	private Date dat_vib;
+	private String adr_pa;
+	private String adr_fo;
+	private SpCommon k_kz;
+	private SpCommon k_vi;
+	private SpCommon k_oo;
 	private Boolean ki_gkh;
 	private Boolean ki_az;
 	private Boolean ki_omr;
 	private Boolean ki_ppz;
 	private Boolean ki_inoe;
 	private Boolean ki_neisp;
-	private Boolean pr_formed;
-	private Date pr_prognoz_date;
-	private SpCommon pr_r_type;
-	private String pr_owner;
-	private SpCommon pr_term;
-	private SpCommon pr_o_type;
-	private Date pr_reg_rf_plan_date;
-	private Date pr_reg_rf_fact_date;
-	private Date pr_reg_other_plan_date;
-	private Date pr_reg_other_fact_date;
-	private SpCommon square_suf;
-	private BigDecimal area_suf;
-	private Boolean inv_attr;
-	private String eff_use_fut;
-	private String co_chrs;
-	private BigDecimal market_value;
-	private BigDecimal cadastre_value;
-	private BigDecimal standard_cost;
-	private BigDecimal co_rent;
+	private Boolean so_of;
+	private Date so_psz;
+	private SpCommon so_vp;
+	private Date so_sdp;
+	private SpCommon so_fs;
+	private Date so_drs_p;
+	private Date so_drs_f;
+	private Date so_drivp_p;
+	private Date so_drivp_f;
+	private BigDecimal s_rs;
+	private BigDecimal s_ks;
+	private BigDecimal s_ns;
+	private BigDecimal s_ap;
 	
 	@Column(length=2000)
     public String getOn_nam() { return on_nam; }
     public void setOn_nam(String on_nam) { this.on_nam = on_nam; setName(on_nam); }
 	
 	@Column(length=18)
-    public String getCad_num() { return сad_num; }
-    public void setCad_num(String сad_num) { this.сad_num = сad_num; }
+    public String getKad_num() { return kad_num; }
+    public void setKad_num(String kad_num) { this.kad_num = kad_num; }
     
     @Temporal(TemporalType.DATE)
-    public Date getCad_date() { return cad_date; }
-    public void setCad_date(Date cad_date) { this.cad_date = cad_date; }
+    public Date getKad_dpnu() { return kad_dpnu; }
+    public void setKad_dpnu(Date kad_dpnu) { this.kad_dpnu = kad_dpnu; }
     
     @Column(precision=17, scale=3)
-    public BigDecimal getCo_area() { return co_area; }
-    public void setCo_area(BigDecimal co_area) { this.co_area = co_area; }
+    public BigDecimal getPlosh() { return plosh; }
+    public void setPlosh(BigDecimal plosh) { this.plosh = plosh; }
     
-    @Column(length=12)
-    public String getFp_reg_num() { return fp_reg_num; }
-    public void setFp_reg_num(String fp_reg_num) { this.fp_reg_num = fp_reg_num; }
-    
-    @Temporal(TemporalType.DATE)
-    public Date getFp_in_date() { return fp_in_date; }
-    public void setFp_in_date(Date fp_in_date) { this.fp_in_date = fp_in_date; }
+    @Column(length=20)
+    public String getRnfi() { return rnfi; }
+    public void setRnfi(String rnfi) { this.rnfi = rnfi; }
     
     @Temporal(TemporalType.DATE)
-    public Date getFp_out_date() { return fp_out_date; }
-    public void setFp_out_date(Date fp_out_date) { this.fp_out_date = fp_out_date; }
+    public Date getDat_rnfi() { return dat_rnfi; }
+    public void setDat_rnfi(Date dat_rnfi) { this.dat_rnfi = dat_rnfi; }
     
-    @Column(length=512)
-    public String getCo_address() { return co_address; }
-    public void setCo_address(String co_address) { this.co_address = co_address; }
+    @Temporal(TemporalType.DATE)
+    public Date getDat_vib() { return dat_vib; }
+    public void setDat_vib(Date dat_vib) { this.dat_vib = dat_vib; }
     
-    @Column(length=30)
-    public String getCo_address_code() { return co_address_code; }
-    public void setCo_address_code(String co_address_code) { this.co_address_code = co_address_code; }
+    @Column(length=4000)
+    public String getAdr_pa() { return adr_pa; }
+    public void setAdr_pa(String adr_pa) { this.adr_pa = adr_pa; }
     
-    @Column(precision=17, scale=3)
-    public BigDecimal getDist_ns() { return dist_ns; }
-    public void setDist_ns(BigDecimal dist_ns) { this.dist_ns = dist_ns; }
-    
-    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getCo_category() { return co_category; }
-    public void setCo_category(SpCommon co_category) { this.co_category = co_category; }
+    @Column(length=40)
+    public String getAdr_fo() { return adr_fo; }
+    public void setAdr_fo(String adr_fo) { this.adr_fo = adr_fo; }
     
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getCo_feature() { return co_feature; }
-    public void setCo_feature(SpCommon co_feature) { this.co_feature = co_feature; }
+    public SpCommon getK_kz() { return k_kz; }
+    public void setK_kz(SpCommon k_kz) { this.k_kz = k_kz; }
     
-    @Column(length=1024)
-    public String getCo_usage() { return co_usage; }
-    public void setCo_usage(String co_usage) { this.co_usage = co_usage; }
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getK_vi() { return k_vi; }
+    public void setK_vi(SpCommon k_vi) { this.k_vi = k_vi; }
+    
+    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getK_oo() { return k_oo; }
+    public void setK_oo(SpCommon k_oo) { this.k_oo = k_oo; }
     
     public Boolean getKi_gkh() { return ki_gkh; }
     public void setKi_gkh(Boolean ki_gkh) { this.ki_gkh = ki_gkh; }
@@ -131,79 +120,56 @@ public class RLand extends RProperty {
     public Boolean getKi_neisp() { return ki_neisp; }
     public void setKi_neisp(Boolean ki_neisp) { this.ki_neisp = ki_neisp; }
     
-    public Boolean getPr_formed() { return pr_formed; }
-    public void setPr_formed(Boolean pr_formed) { this.pr_formed = pr_formed; }
+    public Boolean getSo_of() { return so_of; }
+    public void setSo_of(Boolean so_of) { this.so_of = so_of; }
     
     @Temporal(TemporalType.DATE)
-    public Date getPr_prognoz_date() { return pr_prognoz_date; }
-    public void setPr_prognoz_date(Date pr_prognoz_date) { this.pr_prognoz_date = pr_prognoz_date; }
+    public Date getSo_psz() { return so_psz; }
+    public void setSo_psz(Date so_psz) { this.so_psz = so_psz; }
     
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getPr_r_type() { return pr_r_type; }
-    public void setPr_r_type(SpCommon pr_r_type) { this.pr_r_type = pr_r_type; }
+    public SpCommon getSo_vp() { return so_vp; }
+    public void setSo_vp(SpCommon so_vp) { this.so_vp = so_vp; }
     
-    @Column(length=1024)
-    public String getPr_owner() { return pr_owner; }
-    public void setPr_owner(String pr_owner) { this.pr_owner = pr_owner; }
+    @Temporal(TemporalType.DATE)
+    public Date getSo_sdp() { return so_sdp; }
+    public void setSo_sdp(Date so_sdp) { this.so_sdp = so_sdp; }
     
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getPr_term() { return pr_term; }
-    public void setPr_term(SpCommon pr_term) { this.pr_term = pr_term; }
-    
-    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getPr_o_type() { return pr_o_type; }
-    public void setPr_o_type(SpCommon pr_o_type) { this.pr_o_type = pr_o_type; }
+    public SpCommon getSo_fs() { return so_fs; }
+    public void setSo_fs(SpCommon so_fs) { this.so_fs = so_fs; }
     
     @Temporal(TemporalType.DATE)
-    public Date getPr_reg_rf_plan_date() { return pr_reg_rf_plan_date; }
-    public void setPr_reg_rf_plan_date(Date pr_reg_rf_plan_date) { this.pr_reg_rf_plan_date = pr_reg_rf_plan_date; }
+    public Date getSo_drs_p() { return so_drs_p; }
+    public void setSo_drs_p(Date so_drs_p) { this.so_drs_p = so_drs_p; }
     
     @Temporal(TemporalType.DATE)
-    public Date getPr_reg_rf_fact_date() { return pr_reg_rf_fact_date; }
-    public void setPr_reg_rf_fact_date(Date pr_reg_rf_fact_date) { this.pr_reg_rf_fact_date = pr_reg_rf_fact_date; }
+    public Date getSo_drs_f() { return so_drs_f; }
+    public void setSo_drs_f(Date so_drs_f) { this.so_drs_f = so_drs_f; }
     
     @Temporal(TemporalType.DATE)
-    public Date getPr_reg_other_plan_date() { return pr_reg_other_plan_date; }
-    public void setPr_reg_other_plan_date(Date pr_reg_other_plan_date) { this.pr_reg_other_plan_date = pr_reg_other_plan_date; }
+    public Date getSo_drivp_p() { return so_drivp_p; }
+    public void setSo_drivp_p(Date so_drivp_p) { this.so_drivp_p = so_drivp_p; }
     
     @Temporal(TemporalType.DATE)
-    public Date getPr_reg_other_fact_date() { return pr_reg_other_fact_date; }
-    public void setPr_reg_other_fact_date(Date pr_reg_other_fact_date) { this.pr_reg_other_fact_date = pr_reg_other_fact_date; }
-    
-    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getSquare_suf() { return square_suf; }
-    public void setSquare_suf(SpCommon square_suf) { this.square_suf = square_suf; }
-    
-    @Column(precision=17, scale=3)
-    public BigDecimal getArea_suf() { return area_suf; }
-    public void setArea_suf(BigDecimal area_suf) { this.area_suf = area_suf; }
-    
-    public Boolean getInv_attr() { return inv_attr; }
-    public void setInv_attr(Boolean inv_attr) { this.inv_attr = inv_attr; }
-    
-    @Column(length=512)
-    public String getEff_use_fut() { return eff_use_fut; }
-    public void setEff_use_fut(String eff_use_fut) { this.eff_use_fut = eff_use_fut; }
-    
-    @Column(length=2048)
-    public String getCo_chrs() { return co_chrs; }
-    public void setCo_chrs(String co_chrs) { this.co_chrs = co_chrs; }
+    public Date getSo_drivp_f() { return so_drivp_f; }
+    public void setSo_drivp_f(Date so_drivp_f) { this.so_drivp_f = so_drivp_f; }
     
     @Column(precision=17, scale=2)
-    public BigDecimal getMarket_value() { return market_value; }
-    public void setMarket_value(BigDecimal market_value) { this.market_value = market_value; }
+    public BigDecimal getS_rs() { return s_rs; }
+    public void setS_rs(BigDecimal s_rs) { this.s_rs = s_rs; }
     
     @Column(precision=17, scale=2)
-    public BigDecimal getCadastre_value() { return cadastre_value; }
-    public void setCadastre_value(BigDecimal cadastre_value) { this.cadastre_value = cadastre_value; }
+    public BigDecimal getS_ks() { return s_ks; }
+    public void setS_ks(BigDecimal s_ks) { this.s_ks = s_ks; }
     
     @Column(precision=17, scale=2)
-    public BigDecimal getStandard_cost() { return standard_cost; }
-    public void setStandard_cost(BigDecimal standard_cost) { this.standard_cost = standard_cost; }
+    public BigDecimal getS_ns() { return s_ns; }
+    public void setS_ns(BigDecimal s_ns) { this.s_ns = s_ns; }
    
     @Column(precision=17, scale=2)
-    public BigDecimal getCo_rent() { return co_rent; }
-    public void setCo_rent(BigDecimal co_rent) { this.co_rent = co_rent; }
+    public BigDecimal getS_ap() { return s_ap; }
+    public void setS_ap(BigDecimal s_ap) { this.s_ap = s_ap; }
     
 	public static String singleTitle() { return "Земельный участок"; }
 	public static String multipleTitle() { return "Земельные участки"; }
@@ -213,55 +179,47 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("co_org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
 		ret.add(new ColumnInfo("on_nam", "Наименование"));
-		ret.add(new ColumnInfo("cad_num", "Кадастровый номер"));
-		ret.add(new ColumnInfo("cad_date", "Дата постановки на кадастровый учет"));
-		ret.add(new ColumnInfo("co_area", "Площадь земельного участка, кв.м"));
-		ret.add(new ColumnInfo("fp_reg_num", "РНФИ"));
-		ret.add(new ColumnInfo("fp_in_date", "Дата РНФИ"));
-		ret.add(new ColumnInfo("fp_out_date", "Дата выбытия"));
-		ret.add(new ColumnInfo("co_address", "Полный адрес"));
-		ret.add(new ColumnInfo("co_address_code", "Код адреса", false));
-		ret.add(new ColumnInfo("dist_ns", "Расстояние до ближайшего населенного пункта, м"));
-		ret.add(new ColumnInfo("co_category__name", "Категория земель", false, true, "co_category__rn", "select", "listLandCategory"));
-		ret.add(new ColumnInfo("co_usage", "Разрешенное использование (назначение)"));
-		ret.add(new ColumnInfo("co_feature__name", "Особенности оборота", false, true, "co_feature__rn", "select", "listLandFeature"));
+		ret.add(new ColumnInfo("kad_num", "Кадастровый номер"));
+		ret.add(new ColumnInfo("kad_dpnu", "Дата постановки на кадастровый учет"));
+		ret.add(new ColumnInfo("plosh", "Площадь земельного участка, кв.м"));
+		ret.add(new ColumnInfo("rnfi", "РНФИ"));
+		ret.add(new ColumnInfo("dat_rnfi", "Дата РНФИ"));
+		ret.add(new ColumnInfo("dat_vib", "Дата выбытия"));
+		ret.add(new ColumnInfo("adr_pa", "Полный адрес"));
+		ret.add(new ColumnInfo("adr_fo", "Код адреса", false));
+		ret.add(new ColumnInfo("k_kz__name", "Категория земель", false, true, "k_kz__rn", "select", "listSp_kz"));
+		ret.add(new ColumnInfo("k_vi__name", "Разрешенное использование (назначение)", false, true, "k_vi__rn", "select", "listSp_vi"));
+		ret.add(new ColumnInfo("k_oo__name", "Особенности оборота", false, true, "k_oo__rn", "select", "listSp_oo"));
 		ret.add(new ColumnInfo("ki_gkh", "ЖКХ", false));
 		ret.add(new ColumnInfo("ki_az", "Административное здание", false));
 		ret.add(new ColumnInfo("ki_omr", "Объект мобилизационного резерва", false));
 		ret.add(new ColumnInfo("ki_ppz", "Прочие для производственных целей", false));
 		ret.add(new ColumnInfo("ki_inoe", "Иное", false));
 		ret.add(new ColumnInfo("ki_neisp", "Не используется", false));
-		ret.add(new ColumnInfo("pr_formed", "Оформлен"));
-		ret.add(new ColumnInfo("pr_prognoz_date", "Прогноз завершения оформления"));
-		ret.add(new ColumnInfo("pr_r_type__name", "Вид права собственности", false, true, "pr_r_type__rn", "select", "listRightType"));
-		ret.add(new ColumnInfo("pr_owner", "Правообладатель"));
-		ret.add(new ColumnInfo("pr_term__name", "Срок действия права", false, true, "pr_term__rn", "select", "listRightTerm"));
-		ret.add(new ColumnInfo("pr_o_type__name", "Вид собственности", false, true, "pr_o_type__rn", "select", "listOwnershipType"));
-		ret.add(new ColumnInfo("pr_reg_rf_plan_date", "Дата регистрации прав собственности РФ - планируемая", false));
-		ret.add(new ColumnInfo("pr_reg_rf_fact_date", "Дата регистрации прав собственности РФ - фактическая", false));
-		ret.add(new ColumnInfo("pr_reg_other_plan_date", "Дата регистрации иных вещных прав - планируемая", false));
-		ret.add(new ColumnInfo("pr_reg_other_fact_date", "Дата регистрации иных вещных прав - фактическая", false));
-		ret.add(new ColumnInfo("square_suf", "Достаточность по площади", false, true, "square_suf__rn", "select", "listSquareSufficiency"));
-		ret.add(new ColumnInfo("area_suf", "Избыточная/недостающая площадь, кв.м", false));
-		ret.add(new ColumnInfo("inv_attr", "Инвестиционная привлекательность", false));
-		ret.add(new ColumnInfo("eff_use_fut", "Наиболее эффективное использование на перспективу", false));
-		ret.add(new ColumnInfo("co_chrs", "Характеристика", false));
-		ret.add(new ColumnInfo("market_value", "Рыночная стоимость"));
-		ret.add(new ColumnInfo("cadastre_value", "Кадастровая стоимость"));
-		ret.add(new ColumnInfo("standard_cost", "Нормативная стоимость"));
-		ret.add(new ColumnInfo("co_rent", "Арендная плата (в месяц)"));
+		ret.add(new ColumnInfo("so_of", "Оформлен"));
+		ret.add(new ColumnInfo("so_psz", "Прогноз завершения оформления"));
+		ret.add(new ColumnInfo("so_vp__name", "Вид права", false, true, "so_vp__rn", "select", "listSp_vidpfs"));
+		ret.add(new ColumnInfo("so_sdp", "Срок действия права", false));
+		ret.add(new ColumnInfo("so_fs__name", "Вид собственности", false, true, "so_fs__rn", "select", "listSp_fsob"));
+		ret.add(new ColumnInfo("so_drs_p", "Дата регистрации прав собственности РФ - планируемая", false));
+		ret.add(new ColumnInfo("so_drs_f", "Дата регистрации прав собственности РФ - фактическая", false));
+		ret.add(new ColumnInfo("so_drivp_p", "Дата регистрации иных вещных прав - планируемая", false));
+		ret.add(new ColumnInfo("so_drivp_f", "Дата регистрации иных вещных прав - фактическая", false));
+		ret.add(new ColumnInfo("s_rs", "Рыночная стоимость"));
+		ret.add(new ColumnInfo("s_ks", "Кадастровая стоимость"));
+		ret.add(new ColumnInfo("s_ns", "Нормативная стоимость"));
+		ret.add(new ColumnInfo("s_ap", "Арендная плата (в месяц)"));
 		ret.add(new ColumnInfo("comment", "Примечания", false));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
 	public static String spCode(String attr) {
 		String ret = null;
-		if ("co_category".equals(attr)) ret = "sp_kz"; 
-		else if ("co_feature".equals(attr)) ret = "sp_ooz"; 
-		else if ("pr_r_type".equals(attr)) ret = "sp_vidpfs"; 
-		else if ("pr_term".equals(attr)) ret = "sp_sdpr"; 
-		else if ("pr_o_type".equals(attr)) ret = "sp_vspr"; 
-		else if ("square_suf".equals(attr)) ret = "sp_dpz"; 
+		if ("k_kz".equals(attr)) ret = "sp_kz"; 
+		else if ("k_vi".equals(attr)) ret = "sp_vi";
+		else if ("k_oo".equals(attr)) ret = "sp_oo"; 
+		else if ("so_vp".equals(attr)) ret = "sp_vidpfs"; 
+		else if ("so_fs".equals(attr)) ret = "sp_fsob"; 
 		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
 		return ret;
 	}
@@ -278,12 +236,11 @@ public class RLand extends RProperty {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listLandCategory", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_kz"}));
-			model.addAttribute("listLandFeature", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_ooz"}));
-			model.addAttribute("listRightType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vidpfs"}));
-			model.addAttribute("listRightTerm", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_sdpr"}));
-			model.addAttribute("listOwnershipType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vspr"}));
-			model.addAttribute("listSquareSufficiency", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_dpz"}));
+			model.addAttribute("listSp_kz", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_kz"}));
+			model.addAttribute("listSp_vi", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vi"}));
+			model.addAttribute("listSp_oo", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_oo"}));
+			model.addAttribute("listSp_vidpfs", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_vidpfs"}));
+			model.addAttribute("listSp_fsob", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_fsob"}));
 		}
 		catch (Exception ex) { }
 		return true;
