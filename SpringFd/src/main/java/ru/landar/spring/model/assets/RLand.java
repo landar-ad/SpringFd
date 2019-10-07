@@ -22,6 +22,7 @@ import ru.landar.spring.service.HelperServiceImpl;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RLand extends RProperty {
+	private String on_nam;
 	private String сad_num;
 	private Date cad_date;
 	private BigDecimal co_area;
@@ -59,6 +60,10 @@ public class RLand extends RProperty {
 	private BigDecimal cadastre_value;
 	private BigDecimal standard_cost;
 	private BigDecimal co_rent;
+	
+	@Column(length=2000)
+    public String getOn_nam() { return on_nam; }
+    public void setOn_nam(String on_nam) { this.on_nam = on_nam; setName(on_nam); }
 	
 	@Column(length=18)
     public String getCad_num() { return сad_num; }
@@ -207,6 +212,7 @@ public class RLand extends RProperty {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("co_org__name", "Подвед, учреждение")); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
+		ret.add(new ColumnInfo("on_nam", "Наименование"));
 		ret.add(new ColumnInfo("cad_num", "Кадастровый номер"));
 		ret.add(new ColumnInfo("cad_date", "Дата постановки на кадастровый учет"));
 		ret.add(new ColumnInfo("co_area", "Площадь земельного участка, кв.м"));
