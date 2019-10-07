@@ -67,7 +67,7 @@ public class RBuilding extends RProperty {
     
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getS_vp() { return s_vp; }
-    public void setS_vps(SpCommon s_vp) { this.s_vp = s_vp; }
+    public void setS_vp(SpCommon s_vp) { this.s_vp = s_vp; }
     
     @Column(length=100)
     public String getRf_numre() { return rf_numre; }
