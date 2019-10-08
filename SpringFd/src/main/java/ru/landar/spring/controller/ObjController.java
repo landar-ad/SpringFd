@@ -55,6 +55,7 @@ import ru.landar.spring.model.fd.Reestr;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.model.ISettings;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
@@ -675,7 +676,7 @@ public class ObjController {
 			Object o = null;
 			try { o = hs.invoke(cl, "isVoc"); } catch (Exception ex) { }
 			if (o == null || !(o instanceof Boolean) || !((Boolean)o)) continue;
-			listVoc.add(new Voc(cl.getSimpleName(), (String)hs.invoke(cl, "singleTitle")));
+			listVoc.add(new Voc(cl.getSimpleName(), (String)HelperServiceImpl.getAttrInfo(cl, null, "single")));
 		}
 		model.addAttribute("listObj", new PageImpl<Voc>(listVoc));
 		setMainModel(model, "Справочники системы");

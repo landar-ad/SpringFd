@@ -46,6 +46,7 @@ import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 
 @Controller
@@ -153,7 +154,7 @@ public class LoadController {
 			if (IBase.class.isAssignableFrom(clAttr)) {
 				if (!hs.isEmpty(value)) {
 					Object o = null;
-					String sp_code = (String)hs.invoke(cl, "spCode", name);
+					String sp_code = (String)HelperServiceImpl.getAttrInfo(cl, name, "sp");
 					if (!hs.isEmpty(sp_code)) o = objRepository.find(clAttr, new String[] {"code", "sp_code"}, new Object[] { value, sp_code });
 					else o = objRepository.findByCode(clAttr, value);
 					if (o != null) hs.setProperty(obj, name, o);
@@ -193,7 +194,7 @@ public class LoadController {
 				if (IBase.class.isAssignableFrom(clAttr)) {
 					if (!hs.isEmpty(value)) {
 						Object o = null;
-						String sp_code = (String)hs.invoke(cl, "spCode", name);
+						String sp_code = (String)HelperServiceImpl.getAttrInfo(cl, name, "sp");
 						if (!hs.isEmpty(sp_code)) o = objRepository.find(clAttr, new String[] {"code", "sp_code"}, new Object[] { value, sp_code });
 						else o = objRepository.findByCode(clAttr, value);
 						if (o != null) hs.setProperty(obj, name, o);

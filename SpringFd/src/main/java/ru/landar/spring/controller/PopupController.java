@@ -36,6 +36,7 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Voc;
 import ru.landar.spring.model.assets.SpObjectLocation;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
@@ -175,10 +176,10 @@ public class PopupController {
 		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
 		Class<?>[] classes = hs.getAllClasses();
 		List<Voc> listVoc = new ArrayList<Voc>();
-		listVoc.add(new Voc(cl.getSimpleName(), (String)hs.invoke(cl, "singleTitle")));
+		listVoc.add(new Voc(cl.getSimpleName(), (String)HelperServiceImpl.getAttrInfo(cl, null, "single")));
 		for (Class<?> cls : classes) {
 			if (cls.getSimpleName().equals(cl.getSimpleName()) || !cl.isAssignableFrom(cls)) continue;
-			listVoc.add(new Voc(cls.getSimpleName(), (String)hs.invoke(cls, "singleTitle")));
+			listVoc.add(new Voc(cls.getSimpleName(), (String)HelperServiceImpl.getAttrInfo(cls, null, "single")));
 		}
 		model.addAttribute("listClasses", listVoc);
 		model.addAttribute("p_title", "Выберите объект, который Вы хотите добавить");

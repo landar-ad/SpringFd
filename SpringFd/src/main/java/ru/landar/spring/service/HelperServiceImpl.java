@@ -52,7 +52,8 @@ import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
-import ru.landar.spring.classes.Title;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
@@ -172,6 +173,17 @@ public class HelperServiceImpl implements HelperService {
 	public Class<?> getAttrType(Class<?> cl, String attr) {
 		Class<?> ret = null;
 		if (cl == null || isEmpty(attr)) return ret;
+    	for (String a : attr.split("__")) {
+    		String getter = "get" + a.substring(0, 1).toUpperCase() + a.substring(1);
+    		try { ret = cl.getMethod(getter).getReturnType(); } catch (Exception ex) { }
+    		if (ret == null) break;
+     		cl = ret;
+    	}
+		return ret;
+	}
+	public static Class<?> getAttrTypeStatic(Class<?> cl, String attr) {
+		Class<?> ret = null;
+		if (cl == null || attr == null || attr.isEmpty()) return ret;
     	for (String a : attr.split("__")) {
     		String getter = "get" + a.substring(0, 1).toUpperCase() + a.substring(1);
     		try { ret = cl.getMethod(getter).getReturnType(); } catch (Exception ex) { }
@@ -515,12 +527,7 @@ public class HelperServiceImpl implements HelperService {
 						Class<?> clAttr = getAttrType(cl, name);
 						if (IBase.class.isAssignableFrom(clAttr)) {
 							type = "select";
-							nameList = clAttr.getSimpleName();
-							if ("SpCommon".equals(nameList)) {
-								String spCode = (String)invoke(cl, "spCode", name);
-								if (!isEmpty(spCode)) nameList = spCode.substring(0, 1).toUpperCase() + spCode.substring(1);
-							}
-							nameList = "list" + nameList;
+							nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
 						}
 						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false);
 						listAttribute.add(attr);
@@ -545,12 +552,7 @@ public class HelperServiceImpl implements HelperService {
 						}
 						else if (IBase.class.isAssignableFrom(clAttr)) {
 							type = "select";
-							nameList = clAttr.getSimpleName();
-							if ("SpCommon".equals(nameList)) {
-								String spCode = (String)invoke(cl, "spCode", name);
-								if (!isEmpty(spCode)) nameList = spCode.substring(0, 1).toUpperCase() + spCode.substring(1);
-							}
-							nameList = "list" + nameList;
+							nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
 						}
 						AttributeInfo attr = new AttributeInfo(name, "", type, nameList, false);
 						listAttribute.add(attr);
@@ -620,9 +622,8 @@ public class HelperServiceImpl implements HelperService {
 		
 		return ret;
 	}
-	public static String getAttrInfo(Class<?> cl, String attr) { return getAttrInfo(cl, attr, null); }
-	public static String getAttrInfo(Class<?> cl, String attr, String info) {
-		String ret = "";
+	public static FieldTitle getTitleAnnotation(Class<?> cl, String attr) { 
+		FieldTitle ret = null;
 		if (cl == null || attr == null) return ret;
 		Method m = null;
 		Class<?> clAttr = null;
@@ -636,10 +637,31 @@ public class HelperServiceImpl implements HelperService {
     		if (clAttr == null) break;
      		cl = clAttr;
     	}
-    	if (clAttr != null && m != null) {
-    		if ("sp".equals(info)) ret = m.getAnnotation(Title.class).sp();
-    		else ret = m.getAnnotation(Title.class).name();
-    	}
+    	if (clAttr != null && m != null) ret = m.getAnnotation(FieldTitle.class);
+    	return ret;
+	}
+	public static ObjectTitle getTitleAnnotation(Class<?> cl) { return cl.getAnnotation(ObjectTitle.class); }
+	public static Object getAttrInfo(Class<?> cl, String attr) { return getAttrInfo(cl, attr, null); }
+	public static Object getAttrInfo(Class<?> cl, String attr, String info) {
+		Object ret = "";
+		if (cl == null) return ret;
+		if (attr != null) {
+			FieldTitle a = getTitleAnnotation(cl, attr);
+			Class<?> clAttr = getAttrTypeStatic(cl, attr);
+			if ("sp".equals(info)) ret = a.sp();
+    		else if ("list".equals(info)) ret = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName());
+    		else ret = a.name();
+		}
+		else {
+			ObjectTitle a = getTitleAnnotation(cl);
+			if ("multi".equals(info)) ret = a != null ? a.multi() : invokeStatic(cl, "multipleTitle");
+			else if ("menu".equals(info)) {
+				ret = a != null ? a.menu() : invokeStatic(cl, "menuTitle");
+				if (ret == null) ret = a.multi();
+			}
+			else if ("voc".equals(info)) ret = a != null ? a.voc() : invokeStatic(cl, "isVoc");
+			else ret = a != null ? a.single() : invokeStatic(cl, "singleTitle");
+		}
 		return ret;
 	}
 	@Override
