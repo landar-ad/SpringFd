@@ -22,7 +22,6 @@ import ru.landar.spring.service.HelperServiceImpl;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RLand extends RProperty {
-	private String on_nam;
 	private String kad_num;
 	private Date kad_dpnu;
 	private BigDecimal plosh;
@@ -53,10 +52,6 @@ public class RLand extends RProperty {
 	private BigDecimal s_ks;
 	private BigDecimal s_ns;
 	private BigDecimal s_ap;
-	
-	@Column(length=2000)
-    public String getOn_nam() { return on_nam; }
-    public void setOn_nam(String on_nam) { this.on_nam = on_nam; setName(on_nam); }
 	
 	@Column(length=18)
     public String getKad_num() { return kad_num; }

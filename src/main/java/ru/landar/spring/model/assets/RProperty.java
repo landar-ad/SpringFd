@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +18,7 @@ import javax.persistence.TemporalType;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.Title;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.SpCommon;
@@ -27,6 +29,7 @@ import ru.landar.spring.service.HelperServiceImpl;
 public class RProperty extends IBase {
 	private IOrganization co_org;
 	private String inv_number;
+	private String on_nam;
 	private SpCommon co_div;
 	private String co_type;
 	private BigDecimal book_value;
@@ -37,45 +40,61 @@ public class RProperty extends IBase {
 	private List<RProperty_RDocument> list_doc;
 	private String comment;
 	
+	@Title(name="Принадлежность")
 	@ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
     public IOrganization getCo_org() { return co_org; }
     public void setCo_org(IOrganization co_org) { this.co_org = co_org; }
     
+    @Title(name="Инвентарный номер")
     @Column(length=20)
     public String getInv_number() { return inv_number; }
     public void setInv_number(String inv_number) { this.inv_number = inv_number; }
     
+    @Title(name="Наименование")
+    @Column(length=2000)
+    public String getOn_nam() { return on_nam; }
+    public void setOn_nam(String on_nam) { this.on_nam = on_nam; setName(on_nam); }
+	
+    @Title(name="Раздел учета", sp="sp_rui")
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getCo_div() { return co_div; }
     public void setCo_div(SpCommon co_div) { this.co_div = co_div; }
     
+    @Title(name="Тип имущества", sp="p_type")
     @Column(length=16)
     public String getCo_type() { return co_type; }
     public void setCo_type(String co_type) { this.co_type = co_type; }
     
+    @Title(name="Балансовая стоимость")
     @Column(precision=18, scale = 2)
     public BigDecimal getBook_value() { return book_value; }
     public void setBook_value(BigDecimal book_value) { this.book_value = book_value; }
     
+    @Title(name="Остаточная стоимость")
     @Column(precision=18, scale = 2)
     public BigDecimal getResidual_value() { return residual_value; }
     public void setResidual_value(BigDecimal residual_value) { this.residual_value = residual_value; }
     
+    @Title(name="Дата ввода в эксплуатацию")
     @Temporal(TemporalType.DATE)
     public Date getIn_date() { return in_date; }
     public void setIn_date(Date in_date) { this.in_date = in_date; }
     
-    @ManyToMany(targetEntity=RProperty_RProperty.class, fetch=FetchType.LAZY)
+    @Title(name="Связанные объекты имущества")
+    @OneToMany(targetEntity=RProperty_RProperty.class, fetch=FetchType.LAZY)
     public List<RProperty_RProperty> getList_prop() { return list_prop != null ? list_prop : new ArrayList<RProperty_RProperty>(); }
     public void setList_prop(List<RProperty_RProperty> list_prop) { this.list_prop = list_prop; }
     
-    @ManyToMany(targetEntity=RProperty_RDocument.class, fetch=FetchType.LAZY)
+    @Title(name="Прикрепленные документы")
+    @OneToMany(targetEntity=RProperty_RDocument.class, fetch=FetchType.LAZY)
     public List<RProperty_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RProperty_RDocument>(); }
     public void setList_doc(List<RProperty_RDocument> list_doc) { this.list_doc = list_doc; }
     
+    @Title(name="Отнесен к ОЦДИ")
     public Boolean getOcdi() { return ocdi; }
     public void setOcdi(Boolean ocdi) { this.ocdi = ocdi; }
     
+    @Title(name="Примечание")
     @Column(length=2048)
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
@@ -85,11 +104,11 @@ public class RProperty extends IBase {
 	public static String menuTitle() { return "Единый реестр имущества"; }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("co_org__name", "Подвед, учреждение")); 
+		ret.add(new ColumnInfo("co_org__name", HelperServiceImpl.getAttrInfo(RProperty.class, "co_org"))); 
 		ret.add(new ColumnInfo("inv_number", "Инвентарный номер"));
 		ret.add(new ColumnInfo("co_div__name", "Раздел учета", true, true, "co_div__rn", "select", "listPropertyDivision"));
 		ret.add(new ColumnInfo("co_type", "Тип имущества", true, true, "co_type", "select", "listPropertyType", "code"));
-		ret.add(new ColumnInfo("name", "Наименование объекта имущества"));
+		ret.add(new ColumnInfo("on_nam", "Наименование объекта имущества"));
 		ret.add(new ColumnInfo("book_value", "Балансовая стоимость"));
 		ret.add(new ColumnInfo("residual_value", "Остаточная стоимость"));
 		ret.add(new ColumnInfo("in_date", "Дата ввода в эксплуатацию"));

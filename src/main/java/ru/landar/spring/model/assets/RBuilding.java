@@ -16,13 +16,13 @@ import javax.persistence.TemporalType;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.Title;
 import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.service.HelperServiceImpl;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 public class RBuilding extends RProperty {
-	private String on_nam;
 	private SpCommon on_typ;
 	private SpCommon on_celn;
 	private String adr_fo;
@@ -41,74 +41,86 @@ public class RBuilding extends RProperty {
 	private BigDecimal s_amor;
 	private BigDecimal plosh;
 	
-	@Column(length=2000)
-    public String getOn_nam() { return on_nam; }
-    public void setOn_nam(String on_nam) { this.on_nam = on_nam; setName(on_nam); }
-	
+	@Title(name="Тип объекта", sp="sp_typo")
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getOn_typ() { return on_typ; }
     public void setOn_typ(SpCommon on_typ) { this.on_typ = on_typ; }
     
+    @Title(name="Целевое назначение", sp="sp_nazn")
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getOn_celn() { return on_celn; }
     public void setOn_celn(SpCommon on_celn) { this.on_celn = on_celn; }
 	
+    @Title(name="Полный адрес")
 	@Column(length=4000)
     public String getAdr_pa() { return adr_pa; }
     public void setAdr_pa(String adr_pa) { this.adr_pa = adr_pa; }
     
+    @Title(name="Код адреса")
     @Column(length=40)
     public String getAdr_fo() { return adr_fo; }
     public void setAdr_fo(String adr_fo) { this.adr_fo = adr_fo; }
     
+    @Title(name="Вид права", sp="sp_vidpfs")
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getSo_vp() { return so_vp; }
-    public void setSo_vp(SpCommon s_vp) { this.so_vp = so_vp; }
+    public void setSo_vp(SpCommon so_vp) { this.so_vp = so_vp; }
 
-    
+    @Title(name="Форма собственности", sp="sp_fsob")
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getSo_fs() { return so_fs; }
     public void setSo_fs(SpCommon so_fs) { this.so_fs = so_fs; }
-        
+    
+    @Title(name="РНФИ")
     @Column(length=100)
     public String getRf_ni() { return rf_ni; }
     public void setRf_ni(String rf_ni) { this.rf_ni = rf_ni; }
     
+    @Title(name="Дата РНФИ")
     @Temporal(TemporalType.DATE)
     public Date getRf_dr() { return rf_dr; }
     public void setRf_dr(Date rf_dr) { this.rf_dr = rf_dr; }
     
+    @Title(name="Статус карты РНФИ")
     @Column(length=100)
     public String getRf_sk() { return rf_sk; }
     public void setRf_sk(String rf_sk) { this.rf_sk = rf_sk; }
     
+    @Title(name="Дата постройки")
     @Temporal(TemporalType.DATE)
     public Date getTh_dp() { return th_dp; }
     public void setTh_dp(Date th_dp) { this.th_dp = th_dp; }
     
+    @Title(name="Этаж")
     public Integer getTh_etag() { return th_etag; }
     public void setTh_etag(Integer th_etag) { this.th_etag = th_etag; }
     
+    @Title(name="Материал перекрытий", sp="sp_matr")
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getTh_mp() { return th_mp; }
     public void setTh_mp(SpCommon th_mp) { this.th_mp = th_mp; }
     
+    @Title(name="Материал стен", sp="sp_matr")
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getTh_ms() { return th_ms; }
     public void setTh_ms(SpCommon th_ms) { this.th_ms = th_ms; }
     
+    @Title(name="Техническое состояние")
     @Column(length=4000)
     public String getTh_ts() { return th_ts; }
     public void setTh_ts(String th_ts) { this.th_ts = th_ts; }
     
+    @Title(name="Первоначальная стоимость")
     @Column(precision=17, scale=2)
     public BigDecimal getS_perv() { return s_perv; }
     public void setS_perv(BigDecimal s_perv) { this.s_perv = s_perv; }
     
+    @Title(name="Начисленная амортизация")
     @Column(precision=17, scale=2)
     public BigDecimal getS_amor() { return s_amor; }
     public void setS_amor(BigDecimal s_amor) { this.s_amor = s_amor; }
     
+    @Title(name="Площадь")
     @Column(precision=17, scale=2)
     public BigDecimal getPlosh() { return plosh; }
     public void setPlosh(BigDecimal plosh) { this.plosh = plosh; }
