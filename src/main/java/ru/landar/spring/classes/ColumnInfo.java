@@ -1,5 +1,8 @@
 package ru.landar.spring.classes;
 
+import ru.landar.spring.model.assets.RProperty;
+import ru.landar.spring.service.HelperServiceImpl;
+
 public class ColumnInfo {
 	String name;
 	String title;
@@ -10,6 +13,45 @@ public class ColumnInfo {
 	String filterList;
 	String filterAttr;
 	
+	public ColumnInfo(String name, Class<?> cl) {
+		setName(name);
+		setTitle((String)HelperServiceImpl.getAttrInfo(cl, name.indexOf("__") > 0 ? name.substring(0, name.indexOf("__")) : name));
+		setVisible(true);
+		setSortable(true);
+		setFilter("*");
+		setFilterType("text");
+		setFilterList(null);
+		setFilterAttr(null);
+	}
+	public ColumnInfo(String name, Class<?> cl, boolean visible) {
+		setName(name);
+		setTitle((String)HelperServiceImpl.getAttrInfo(cl, name.indexOf("__") > 0 ? name.substring(0, name.indexOf("__")) : name));
+		setVisible(visible);
+		setSortable(true);
+		setFilter("*");
+		setFilterType("text");
+		setFilterList(null);
+		setFilterAttr(null);
+	}
+	public ColumnInfo(String name, Class<?> cl, boolean visible, boolean sortable, String filter, String filterType) {
+		setName(name);
+		String attr = name;
+		int k = attr.indexOf("__");
+		if (k > 0) attr = attr.substring(0, k); 
+		setTitle((String)HelperServiceImpl.getAttrInfo(cl, attr));
+		setVisible(visible);
+		setSortable(sortable);
+		setFilter(filter);
+		setFilterType(filterType);
+		String filterList = null, filterAttr = null;
+		if ("select".equals(filterType)) {
+			filterList = (String)HelperServiceImpl.getAttrInfo(RProperty.class, attr, "list");
+			filterAttr = k < 0 ? "code" : "rn";
+			if ("*".equals(filter)) setFilter(attr + "__rn");
+		}
+		setFilterList(filterList);
+		setFilterAttr(filterAttr);
+	}
 	public ColumnInfo(String name, String title) {
 		this(name, title, true, true, "*", "text", null, null);
 	}
@@ -26,7 +68,7 @@ public class ColumnInfo {
 		setSortable(sortable);
 		setFilter(filter);
 		setFilterType(filterType);
-		setFilterList(filterList);
+		setFilterAttr(filterAttr);
 	}
 	
 	public String getName() { return name; }

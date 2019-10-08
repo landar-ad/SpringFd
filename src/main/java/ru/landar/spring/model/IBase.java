@@ -29,13 +29,16 @@ import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
-import ru.landar.spring.classes.Title;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
+import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
+@ObjectTitle(single="Базовый объект", multi="Базовые объекты")
 @Entity
 @EntityListeners(IBaseListener.class)
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -62,62 +65,62 @@ public abstract class IBase {
 	}
 	
 	@Id
-	@Title(name="Идентификатор")
+	@FieldTitle(name="Идентификатор")
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getRn() { return rn; }
     public void setRn(Integer rn) { this.rn = rn; }
     
-    @Title(name="Класс")
+    @FieldTitle(name="Класс")
     @Column(length=32)
     public String getClazz() { return clazz; }
     public void setClazz(String clazz) { this.clazz = clazz; }
     
-    @Title(name="Наименование")
+    @FieldTitle(name="Наименование")
     @Column(length=2048)
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     
-    @Title(name="Код")
+    @FieldTitle(name="Код")
     @Column(length=256)
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
     
-    @Title(name="Актуальность")
+    @FieldTitle(name="Актуальность")
     public Boolean getActual() { return actual; }
     public void setActual(Boolean actual) { this.actual = actual; }
     
-    @Title(name="Версия")
+    @FieldTitle(name="Версия")
     public Integer getVersion() { return version; }
     public void setVersion(Integer version) { this.version = version; }
     
-    @Title(name="Создан")
+    @FieldTitle(name="Создан")
     @Column(length=128)
     @CreatedBy
     public String getCreator() { return creator; }
     public void setCreator(String creator) { this.creator = creator; }
     
-    @Title(name="Время создания")
+    @FieldTitle(name="Время создания")
     @CreatedDate
     public Date getCdate() { return cdate; }
     public void setCdate(Date cdate) { this.cdate = cdate; }
     
-    @Title(name="Изменен")
+    @FieldTitle(name="Изменен")
     @Column(length=128)
     @LastModifiedBy
     public String getModifier() { return modifier; }
     public void setModifier(String modifier) { this.modifier = modifier; }
     
-    @Title(name="Время изменения")
+    @FieldTitle(name="Время изменения")
     @LastModifiedDate
     public Date getMdate() { return mdate; }
     public void setMdate(Date mdate) { this.mdate = mdate; }
     
-    @Title(name="Родительский объект")
+    @FieldTitle(name="Родительский объект")
     @ManyToOne(targetEntity=IBase.class, fetch=FetchType.LAZY)
     public IBase getParent() { return parent; }
     public void setParent(IBase parent) { this.parent = parent; }
     
-    @Title(name="Базовый класс")
+    @FieldTitle(name="Базовый класс")
     @Transient
     public String getBaseClazz() { return clazz; }
 
@@ -213,17 +216,17 @@ public abstract class IBase {
 	public Object onSingleTitle() {
 		Object ret = invoke("onSingleTitle");
 		if (ret != null) return ret;
-		return hs.invoke(getClass(), "singleTitle");
+		return HelperServiceImpl.getAttrInfo(getClass(), null, "single");
 	}
 	public Object onMultipleTitle() {
 		Object ret = invoke("onMultipleTitle");
 		if (ret != null) return ret;
-		return hs.invoke(getClass(), "multipleTitle");
+		return HelperServiceImpl.getAttrInfo(getClass(), null, "multi");
 	}
 	public Object onMenuTitle() {
 		Object ret = invoke("onMenuTitle");
 		if (ret != null) return ret;
-		return hs.invoke(getClass(), "menuTitle");
+		return HelperServiceImpl.getAttrInfo(getClass(), null, "menu");
 	}
 	public Object onListAttribute() {
 		Object ret = invoke("onListAttribute");
@@ -231,10 +234,6 @@ public abstract class IBase {
 		return hs.invoke(getClass(), "listAttribute");
 	}
 	// Статические методы
-	public static boolean isVoc() { return false; }
-	public static String singleTitle() { return "Базовый объект"; }
-	public static String multipleTitle() { return "Базовые объекты"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		ret.add(new ColumnInfo("code", "Код")); 

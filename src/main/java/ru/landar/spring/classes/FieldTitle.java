@@ -7,7 +7,7 @@ import java.lang.annotation.ElementType;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Title {
+public @interface FieldTitle {
 	public String name() default "";
 	public String sp() default "";
 }
