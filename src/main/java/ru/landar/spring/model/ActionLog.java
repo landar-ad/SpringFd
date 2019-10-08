@@ -12,10 +12,10 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
-import ru.landar.spring.model.assets.RProperty;
 import ru.landar.spring.service.HelperService;
-import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
@@ -28,6 +28,7 @@ import javax.persistence.Column;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Зарегистрированное действие", multi="Журнал регистрации действий")
 public class ActionLog extends IBase {
 	private Date action_time;
 	private SpCommon action_type;
@@ -39,36 +40,45 @@ public class ActionLog extends IBase {
 	private String client_ip;
 	private String client_browser;
 	
+	@FieldTitle(name="Время действия")
     public Date getAction_time() { return action_time; }
     public void setAction_time(Date action_time) { this.action_time = action_time;}
     
+    @FieldTitle(name="Тип действия", sp="sp_typd")
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getAction_type() { return action_type; }
     public void setAction_type(SpCommon action_type) { this.action_type = action_type; }
-
+    
+    @FieldTitle(name="Пользователь")
 	@Column(length=32)
     public String getUser_login() { return user_login; }
     public void setUser_login(String user_login) { this.user_login = user_login; }
 	
+    @FieldTitle(name="Объект")
 	@Column(length=32)
     public String getObj_name() { return obj_name; }
     public void setObj_name(String obj_name) { this.obj_name = obj_name; }
 	
+    @FieldTitle(name="Идентификатор объекта")
 	public Integer getObj_rn() { return obj_rn; }
     public void setObj_rn(Integer obj_rn) { this.obj_rn = obj_rn; }
 	
+    @FieldTitle(name="Атрибуты")
 	@Lob
     public String getObj_attr() { return obj_attr; }
     public void setObj_attr(String obj_attr) { this.obj_attr = obj_attr; }
 	
+    @FieldTitle(name="Данные")
 	@Lob
     public String getObj_value() { return obj_value; }
     public void setObj_value(String obj_value) { this.obj_value = obj_value; }
 	
+    @FieldTitle(name="IP клиента")
 	@Column(length=32)
     public String getClient_ip() { return client_ip; }
     public void setClient_ip(String client_ip) { this.client_ip = client_ip; }
 	
+    @FieldTitle(name="Браузер клиента")
 	@Column(length=256)
     public String getClient_browser() { return client_browser; }
     public void setClient_browser(String client_browser) { this.client_browser = client_browser; }
@@ -80,33 +90,25 @@ public class ActionLog extends IBase {
     @Autowired
 	HelperService hs;
     
-	public static String singleTitle() { return "Зарегистрированное действие"; }
-	public static String multipleTitle() { return "Журнал регистрации действий"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("action_time", "Время действия"));
-		ret.add(new ColumnInfo("action_type__name", "Тип действия", true, true, "action_type__rn", "select", "listActionType"));
-		ret.add(new ColumnInfo("user_login", "Пользователь"));
-		ret.add(new ColumnInfo("obj_name", "Объект"));
-		ret.add(new ColumnInfo("obj_rn", "Идентификатор"));
-		ret.add(new ColumnInfo("obj_attr", "Атрибут"));
-		ret.add(new ColumnInfo("obj_value", "Данные"));
-		ret.add(new ColumnInfo("client_ip", "IP клиента"));
-		ret.add(new ColumnInfo("client_browser", "Браузер клиента"));
-		return ret;
-	}
-	public static String spCode(String attr) {
-		String ret = null;
-		if ("action_type".equals(attr)) ret = "sp_typd"; 
-		else ret = (String)HelperServiceImpl.invokeStatic(RProperty.class.getSuperclass(), "spCode", attr);
+		Class<?> cl = ActionLog.class;
+		ret.add(new ColumnInfo("action_time", cl));
+		ret.add(new ColumnInfo("action_type__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("user_login", cl));
+		ret.add(new ColumnInfo("obj_name", cl));
+		ret.add(new ColumnInfo("obj_rn", cl));
+		ret.add(new ColumnInfo("obj_attr", cl));
+		ret.add(new ColumnInfo("obj_value", cl));
+		ret.add(new ColumnInfo("client_ip", cl));
+		ret.add(new ColumnInfo("client_browser", cl));
 		return ret;
 	}
 	public Object onListPaginated() { return true; }
 	public List<AttributeInfo> onListAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		ret.add(new AttributeInfo("action_time", "Время действия", "text", null, false, 4));
-		ret.add(new AttributeInfo("action_type", "Тип действия", "select", "listActionType", false, 2));
+		ret.add(new AttributeInfo("action_type", "Тип действия", "select", "listSp_typd", false, 2));
 		ret.add(new AttributeInfo("user_login", "Пользователь", "text", null, false, 2));
 		ret.add(new AttributeInfo("obj_name", "Объект", "text", null, false, 2));
 		ret.add(new AttributeInfo("obj_rn", "Идентификатор", "text", null, false, 2));
@@ -141,7 +143,7 @@ public class ActionLog extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listActionType", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_typd"}));
+			model.addAttribute("listSp_typd", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_typd"}));
 		}
 		catch (Exception ex) { }
 		return true;

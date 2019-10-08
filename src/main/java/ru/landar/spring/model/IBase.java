@@ -260,9 +260,6 @@ public abstract class IBase {
 		ret.add(new AttributeInfo("actual", "Актуальность", "check", null, false));
 		return ret;
 	}
-	public static String spCode(String attr) {
-		return null;
-	}
 	/**
 	 * Функция вызова внешнего обработчика объекта
 	 * @param method
