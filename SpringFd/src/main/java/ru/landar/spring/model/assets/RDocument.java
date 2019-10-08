@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpFileType;
-import ru.landar.spring.model.fd.SpDocType;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
@@ -34,6 +35,7 @@ import javax.persistence.Column;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Документ управления имуществом", multi="Документы управления имуществом")
 public class RDocument extends IBase {
 	
 	private SpRDocType doctype;
@@ -46,37 +48,46 @@ public class RDocument extends IBase {
 	private Boolean apsend;
 	private String prim_apsend;
 	
+	@FieldTitle(name="Тип документа")
 	@ManyToOne(targetEntity=SpRDocType.class, fetch=FetchType.LAZY)
     public SpRDocType getDoctype() { return doctype; }
     public void setDoctype(SpRDocType doctype) { this.doctype = doctype; }
     
+    @FieldTitle(name="Наименование документа")
     @Column(length=1024)
     public String getDocname() { return docname; }
     public void setDocname(String docname) { this.docname = docname; updateName(); }
     
+    @FieldTitle(name="Номер документа")
     @Column(length=50)
     public String getDocnum() { return docnum; }
     public void setDocnum(String docnum) { this.docnum = docnum; updateName(); }
     
+    @FieldTitle(name="Дата")
     @Temporal(TemporalType.DATE)
     public Date getDocdate() { return docdate; }
     public void setDocdate(Date docdate) { this.docdate = docdate; updateName(); }
     
+    @FieldTitle(name="Действителен до")
     @Temporal(TemporalType.DATE)
     public Date getDocdate_end() { return docdate_end; }
     public void setDocdate_end(Date docdate_end) { this.docdate_end = docdate_end; }
     
+    @FieldTitle(name="Примечания")
     @Column(length=2048)
     public String getPrim() { return prim; }
     public void setPrim(String prim) { this.prim = prim; }
     
+    @FieldTitle(name="Прикрепленный файл")
     @ManyToOne(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public IFile getFile() { return file; }
     public void setFile(IFile file) { this.file = file; }
     
+    @FieldTitle(name="Документ отсутствует")
     public Boolean getApsend() { return apsend; }
     public void setApsend(Boolean apsend) { this.apsend = apsend; }
     
+    @FieldTitle(name="Комментарий к отсутствию документа")
     @Column(length=2048)
     public String getPrim_apsend() { return prim_apsend; }
     public void setPrim_apsend(String prim_apsend) { this.prim_apsend = prim_apsend; }
@@ -104,20 +115,17 @@ public class RDocument extends IBase {
     @Autowired
 	HelperService hs;
     
-	public static String singleTitle() { return "Документ управления имуществом"; }
-	public static String multipleTitle() { return "Документы управления имуществом"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
-		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("doctype__name", "Тип документа", true, true, "doctype__rn", "select", "listDocType")); 
-		ret.add(new ColumnInfo("docname", "Наименование документа"));
-		ret.add(new ColumnInfo("docnum", "Номер документа"));
-		ret.add(new ColumnInfo("docdate", "Дата"));
-		ret.add(new ColumnInfo("docdate_end", "Действителен до"));
-		ret.add(new ColumnInfo("file__name", "Прикрепленный файл"));
-		ret.add(new ColumnInfo("apsend", "Документ отсутствует"));
-		ret.add(new ColumnInfo("prim_apsend", "Комментарий к отсутствию документа"));
+		Class<?> cl = RDocument.class;
+		ret.add(new ColumnInfo("doctype__name", cl, true, true, "*", "select")); 
+		ret.add(new ColumnInfo("docname", cl));
+		ret.add(new ColumnInfo("docnum", cl));
+		ret.add(new ColumnInfo("docdate", cl));
+		ret.add(new ColumnInfo("docdate_end", cl));
+		ret.add(new ColumnInfo("file__name", cl));
+		ret.add(new ColumnInfo("apsend", cl));
+		ret.add(new ColumnInfo("prim_apsend", cl));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
@@ -144,8 +152,8 @@ public class RDocument extends IBase {
 		if (ret != null) return ret;
 		
 		try {
-			model.addAttribute("listDocType", objService.findAll(SpDocType.class));
-			if (!list) model.addAttribute("listFileType", objService.findAll(SpFileType.class));
+			model.addAttribute("lisSptRDocType", objService.findAll(SpRDocType.class));
+			if (!list) model.addAttribute("listSpFileType", objService.findAll(SpFileType.class));
 		}
 		catch (Exception ex) { }
 		return true;

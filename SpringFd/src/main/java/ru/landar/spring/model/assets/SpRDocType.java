@@ -9,31 +9,33 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Тип документа управления имуществом", multi="Типы документа управления имуществом", voc=true)
 public class SpRDocType extends IBase {
 	private String fullname;
 	private Boolean pay;
 	
+	@FieldTitle(name="Полное наименование")
 	@Column(length=2000)
 	public String getFullname() { return fullname; }
     public void setFullname(String fullname) { this.fullname = fullname; }
 	
+    @FieldTitle(name="Платежный документ")
 	public Boolean getPay() { return pay; }
     public void setPay(Boolean pay) { this.pay = pay; }
-	
-    public static boolean isVoc() { return true; }
-	public static String singleTitle() { return "Тип документа управления имуществом"; }
-	public static String multipleTitle() { return "Типы документа управления имуществом"; }
-	public static String menuTitle() { return multipleTitle(); }
+
 	public static List<ColumnInfo> listColumn() {
     	List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("code", "Код")); 
-		ret.add(new ColumnInfo("name", "Наименование"));
-		ret.add(new ColumnInfo("fullname", "Полное наименование"));
-		ret.add(new ColumnInfo("pay", "Платежный документ"));
+    	Class<?> cl = SpObjectLocation.class;
+		ret.add(new ColumnInfo("code", cl)); 
+		ret.add(new ColumnInfo("name", cl));
+		ret.add(new ColumnInfo("fullname", cl));
+		ret.add(new ColumnInfo("pay", cl));
 		return ret;
 	}
     public static List<AttributeInfo> listAttribute() {

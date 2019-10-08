@@ -9,40 +9,42 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Тип файла", multi="Типы файла", voc=true)
 public class SpFileType extends IBase {
 	private String mimetype;
 	private String ext;
     
+	@FieldTitle(name="Тип")
     @Column(length=256)
     public String getMimetype() { return mimetype; }
     public void setMimetype(String mimetype) { this.mimetype = mimetype; }
     
+    @FieldTitle(name="Расширение")
     @Column(length=10)
     public String getExt() { return ext; }
     public void setExt(String ext) { this.ext = ext; }
     
-    public static boolean isVoc() { return true; }
-	public static String singleTitle() { return "Тип файла"; }
-	public static String multipleTitle() { return "Типы файла"; }
-	public static String menuTitle() { return multipleTitle(); }
     public static List<ColumnInfo> listColumn() {
     	List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("code", "Код")); 
-		ret.add(new ColumnInfo("name", "Наименование"));
-		ret.add(new ColumnInfo("ext", "Расширение"));
-		ret.add(new ColumnInfo("mimetype", "Тип"));
+    	Class<?> cl = SpFileType.class;
+		ret.add(new ColumnInfo("code", cl)); 
+		ret.add(new ColumnInfo("name", cl));
+		ret.add(new ColumnInfo("ext", cl));
+		ret.add(new ColumnInfo("mimetype", cl));
 		return ret;
 	}
     public static List<AttributeInfo> listAttribute() {
-		
     	List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
-		ret.add(new AttributeInfo("code", "Код", "text", null, false, 2)); 
-		ret.add(new AttributeInfo("name", "Наименование", "text", null, false));
-		ret.add(new AttributeInfo("ext", "Расширение", "text", null, false, 4));
-		ret.add(new AttributeInfo("mimetype", "Тип", "text", null, false));
+    	Class<?> cl = SpFileType.class;
+		ret.add(new AttributeInfo("code", cl, "text", null, false, 2, null)); 
+		ret.add(new AttributeInfo("name", cl));
+		ret.add(new AttributeInfo("ext", cl, "text", null, false, 4, null));
+		ret.add(new AttributeInfo("mimetype", cl));
 		return ret;
 	}
 }

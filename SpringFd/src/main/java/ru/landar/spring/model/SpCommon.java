@@ -9,40 +9,40 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Элемент общего справочника", multi="Элементы общего справочника", voc=true)
 public class SpCommon extends IBase {
 	private String sp_code;
-	private String sp_name;
 	
+	@FieldTitle(name="Код справочника")
 	@Column(length=50)
     public String getSp_code() { return sp_code; }
     public void setSp_code(String sp_code) { this.sp_code = sp_code; }
-    
-    @Column(length=512)
-    public String getSp_name() { return sp_name; }
-    public void setSp_name(String sp_name) { this.sp_name = sp_name; }
-    
-    public static boolean isVoc() { return true; }
+
+	public static boolean isVoc() { return true; }
 	public static String singleTitle() { return "Элемент общего справочника"; }
 	public static String multipleTitle() { return "Элементы общего справочника"; }
 	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("sp_code", "Код справочника"));
-		ret.add(new ColumnInfo("sp_name", "Наименование справочника"));
-		ret.add(new ColumnInfo("code", "Код")); 
-		ret.add(new ColumnInfo("name", "Наименование")); 
-		ret.add(new ColumnInfo("actual", "Актуальность"));
+		Class<?> cl = SpCommon.class;
+		ret.add(new ColumnInfo("sp_code", cl));
+		ret.add(new ColumnInfo("code", cl)); 
+		ret.add(new ColumnInfo("name", cl)); 
+		ret.add(new ColumnInfo("actual", cl));
 		return ret;
 	}
 	public static List<AttributeInfo> listAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
-		ret.add(new AttributeInfo("sp_code", "Код справочника", "text", null, true)); 
-		ret.add(new AttributeInfo("code", "Код", "text", null, true)); 
-		ret.add(new AttributeInfo("name", "Наименование элемента", "text", null, true));
-		ret.add(new AttributeInfo("actual", "Актуальность", "checkbox", null, false));
+		Class<?> cl = SpCommon.class;
+		ret.add(new AttributeInfo("sp_code", cl, "text", null, true, 0, null)); 
+		ret.add(new AttributeInfo("code", cl, "text", null, true, 0, null)); 
+		ret.add(new AttributeInfo("name", cl, "text", null, true, 0, null));
+		ret.add(new AttributeInfo("actual", cl, "checkbox", null, false, 0, null));
 		return ret;
 	}
 }

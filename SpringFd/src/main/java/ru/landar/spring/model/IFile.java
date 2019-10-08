@@ -1,5 +1,8 @@
 package ru.landar.spring.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,49 +13,68 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.UserService;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Файл", multi="Файлы")
 public class IFile extends IBase {
-	public static String singleTitle() { return "Файл"; }
-	public static String multipleTitle() { return "Файлы"; }
-	public static String menuTitle() { return multipleTitle(); }
-	
 	private String filename;
 	private String fileext;
 	private SpFileType filetype;
 	private String fileuri;
 	private Long filelength;
 	private String comment;
-	
+
+	@FieldTitle(name="Имя файла")
 	@Column(length=1024)
     public String getFilename() { return filename; }
     public void setFilename(String filename) { this.filename = filename; setName(filename); }
     
+    @FieldTitle(name="Расширение")
     @Column(length=10)
     public String getFileext() { return fileext; }
     public void setFileext(String fileext) { this.fileext = fileext; }
     
+    @FieldTitle(name="Тип файла")
     @ManyToOne(targetEntity=SpFileType.class, fetch=FetchType.LAZY)
     public SpFileType getFiletype() { return filetype; }
     public void setFiletype(SpFileType filetype) { this.filetype = filetype; }
     
+    @FieldTitle(name="Ссылка на содержимое")
     @Column(length=2048)
     public String getFileuri() { return fileuri; }
     public void setFileuri(String fileuri) { this.fileuri = fileuri; }
     
+    @FieldTitle(name="Длина файла")
     public Long getFilelength() { return filelength; }
     public void setFilelength(Long filelength) { this.filelength = filelength; }
     
+    @FieldTitle(name="Примечания")
     @Column(length=2048)
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
-    
+          
     @Autowired
 	ObjRepositoryCustom objRepository;
+    
+    public static List<ColumnInfo> listColumn() {
+   		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+   		Class<?> cl = IFile.class;
+   		ret.add(new ColumnInfo("filename", cl)); 
+   		ret.add(new ColumnInfo("fileext", cl));
+   		ret.add(new ColumnInfo("filetype__name", cl, true, true, "*", "select"));
+   		ret.add(new ColumnInfo("fileuri", cl, false));
+   		ret.add(new ColumnInfo("filelength", cl));
+   		ret.add(new ColumnInfo("comment", cl));
+   		return ret;
+   	}
+    
     @Override
     public Object onUpdate() throws Exception { 
     	Object ret = super.onUpdate();
@@ -103,7 +125,7 @@ public class IFile extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listFileType", objService.findAll(SpFileType.class));
+			model.addAttribute("listSpFileType", objService.findAll(SpFileType.class));
 		}
 		catch (Exception ex) { }
 		return true;

@@ -1,5 +1,7 @@
 package ru.landar.spring.classes;
 
+import ru.landar.spring.service.HelperServiceImpl;
+
 public class AttributeInfo {
 	
 	String name;
@@ -10,30 +12,53 @@ public class AttributeInfo {
 	int length;
 	String attrList;
 	
+	public AttributeInfo(String name, Class<?> cl) {
+		setName(name);
+		setTitle((String)HelperServiceImpl.getAttrInfo(cl, name));
+		setType("text");
+		setNameList(null);
+		setRequired(false);
+		setLength(0);
+		setAttrList("rn");
+	}
+	
+	public AttributeInfo(String name, Class<?> cl, String type, String nameList, boolean required, int length, String attrList) {
+		setName(name);
+		setTitle((String)HelperServiceImpl.getAttrInfo(cl, name));
+		setType(type);
+		if ("*".equals(nameList) && "select".equals(type)) nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
+		setNameList(nameList);
+		setRequired(required);
+		setLength(length);
+		if (attrList == null) attrList = "rn";
+		setAttrList(attrList);
+	}
+	
 	public AttributeInfo(String name, String title, String type, String nameList, boolean required) {
 		setName(name);
 		setTitle(title);
 		setType(type);
 		setNameList(nameList);
+		setRequired(required);
 		setLength(0);
 		setAttrList("rn");
 	}
 	public AttributeInfo(String name, String title, String type, String nameList, boolean required, int length) {
-		
 		setName(name);
 		setTitle(title);
 		setType(type);
 		setNameList(nameList);
+		setRequired(required);
 		setLength(length);
 		setAttrList("rn");
 	}
 	
 	public AttributeInfo(String name, String title, String type, String nameList, boolean required, int length, String attrList) {
-		
 		setName(name);
 		setTitle(title);
 		setType(type);
 		setNameList(nameList);
+		setRequired(required);
 		setLength(length);
 		setAttrList(attrList);
 	}
