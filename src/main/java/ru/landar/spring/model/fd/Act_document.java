@@ -15,36 +15,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.ObjectChanged;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Сведения о включенном в акт документе", multi="Сведения о включенном в акт документе")
 public class Act_document extends IBase {
 	private Document doc;
 	private Boolean exclude;
 	private String exclude_reason;
 	private Date exclude_date;
 	
+	@FieldTitle(name="Документ")
 	@ManyToOne(targetEntity=Document.class)
     public Document getDoc() { return doc; }
     public void setDoc(Document doc) { this.doc = doc; updateName(); }
     
+    @FieldTitle(name="Исключен из акта")
     public Boolean getExclude() { return exclude; }
     public void setExclude(Boolean exclude) { this.exclude = exclude; }
     
+    @FieldTitle(name="Причина исключения")
     @Column(length=256)
     public String getExclude_reason() { return exclude_reason; }
     public void setExclude_reason(String exclude_reason) { this.exclude_reason = exclude_reason; }
 
+    @FieldTitle(name="Дата исключения")
     @Temporal(TemporalType.DATE)
     public Date getExclude_date() { return exclude_date; }
     public void setExclude_date(Date exclude_date) { this.exclude_date = exclude_date; }
     
-    public static String singleTitle() { return "Сведения о включенном в акт документе"; }
-	public static String multipleTitle() { return "Сведения о включенных в акты документах"; }
-	public static String menuTitle() { return multipleTitle(); }
-	
 	private void updateName() {
 		String name = "";
 		if (getParent() != null) name += getParent().getName();

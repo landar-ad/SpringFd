@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IAgent;
@@ -49,6 +51,7 @@ import javax.persistence.Column;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Документ", multi="Документы")
 public class Document extends IBase {
 	private SpDocType doc_type;
 	private String doc_number;
@@ -82,121 +85,152 @@ public class Document extends IBase {
 	private String comment;
 	private List<IMailing> mailing_list;
 	
+	@FieldTitle(name="Тип документа")
 	@ManyToOne(targetEntity=SpDocType.class, fetch=FetchType.LAZY)
     public SpDocType getDoc_type() { return doc_type; }
     public void setDoc_type(SpDocType doc_type) { this.doc_type = doc_type; updateName(); }
     
+    @FieldTitle(name="№ документа")
     @Column(length=40)
     public String getDoc_number() { return doc_number; }
     public void setDoc_number(String doc_number) { this.doc_number = doc_number; updateName(); }
     
+    @FieldTitle(name="Порядковый номер")
     public Integer getNumber() { return number; }
     public void setNumber(Integer number) { this.number = number; }
     
+    @FieldTitle(name="Дата документа")
     @Temporal(TemporalType.DATE)
     public Date getDoc_date() { return doc_date; }
     public void setDoc_date(Date doc_date) { this.doc_date = doc_date; updateName(); }
     
+    @FieldTitle(name="Основной документ")
     @ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
     public Document getParent_doc() { return parent_doc; }
     public void setParent_doc(Document parent_doc) { this.parent_doc = parent_doc; }
-
+    
+    @FieldTitle(name="Контрагент")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getAgent() { return agent; }
     public void setAgent(IAgent agent) { this.agent = agent; }
 	
+    @FieldTitle(name="Статус документа")
 	@ManyToOne(targetEntity=SpDocStatus.class, fetch=FetchType.LAZY)
     public SpDocStatus getDoc_status() { return doc_status; }
     public void setDoc_status(SpDocStatus doc_status) { this.doc_status = doc_status; }
 	
+    @FieldTitle(name="Дата присвоения статуса")
     public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
+    @FieldTitle(name="Создан")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
 	
+    @FieldTitle(name="Структурное подразделение")
 	@ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
     public IDepartment getDepart() { return depart; }
     public void setDepart(IDepartment depart) { this.depart = depart; }
 	
+    @FieldTitle(name="Дата создания")
     public Date getCreate_time() { return create_time; }
     public void setCreate_time(Date create_time) { this.create_time = create_time; }
 	
+    @FieldTitle(name="Изменен")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getChange_agent() { return change_agent; }
     public void setChange_agent(IAgent change_agent) { this.change_agent = change_agent; }
 	
+    @FieldTitle(name="Дата изменения")
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
 	
+    @FieldTitle(name="Включен в акт")
     @ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
     public Act getAct() { return act; }
     public void setAct(Act act) { this.act = act; }
     
+    @FieldTitle(name="Исключен из акта")
     @Column(length=40)
     public String getAct_exclude_num() { return act_exclude_num; }
     public void setAct_exclude_num(String act_exclude_num) { this.act_exclude_num = act_exclude_num; }
     
+    @FieldTitle(name="Причина исключения")
     @Column(length=256)
     public String getAct_exclude_reason() { return act_exclude_reason; }
     public void setAct_exclude_reason(String act_exclude_reason) { this.act_exclude_reason = act_exclude_reason; }
 
+    @FieldTitle(name="Дата исключения")
     @Temporal(TemporalType.DATE)
     public Date getAct_exclude_date() { return act_exclude_date; }
     public void setAct_exclude_date(Date act_exclude_date) { this.act_exclude_date = act_exclude_date; }
 	
+    @FieldTitle(name="Включен в реестр")
     @ManyToOne(targetEntity=Reestr.class, fetch=FetchType.LAZY)
     public Reestr getReestr() { return reestr; }
     public void setReestr(Reestr reestr) { this.reestr = reestr; }
 
+    @FieldTitle(name="Заменен документом")
 	@ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
     public Document getChange_doc() { return change_doc; }
     public void setChange_doc(Document change_doc) { this.change_doc = change_doc; }
 	
+    @FieldTitle(name="Дата бухучета")
 	@Temporal(TemporalType.DATE)
     public Date getBuh_date() { return buh_date; }
     public void setBuh_date(Date buh_date) { this.buh_date = buh_date; }
 	
+    @FieldTitle(name="Выписка: №")
 	@Column(length=40)
     public String getExtract_number() { return extract_number; }
     public void setExtract_number(String extract_number) { this.extract_number = extract_number; }
 	
+    @FieldTitle(name="Выписка: дата")
 	@Temporal(TemporalType.DATE)
     public Date getExtract_date() { return extract_date; }
     public void setExtract_date(Date extract_date) { this.extract_date = extract_date; }
 
+    @FieldTitle(name="Прикрепленные файлы")
     @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     
+    @FieldTitle(name="Количество листов")
 	public Integer getSheet_count() { return sheet_count; }
     public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
     
+    @FieldTitle(name="Год проверки")
     @Column(length=4)
     public String getSp_year() { return sp_year; }
     public void setSp_year(String sp_year) { this.sp_year = sp_year; }
     
+    @FieldTitle(name="№ пункта запроса")
     @Column(length=1000)
     public String getSp_num() { return sp_num; }
     public void setSp_num(String sp_num) { this.sp_num = sp_num; }
     
+    @FieldTitle(name="№ подпункта запроса")
     @Column(length=1000)
     public String getSp_subnum() { return sp_subnum; }
     public void setSp_subnum(String sp_subnum) { this.sp_subnum = sp_subnum; }
     
+    @FieldTitle(name="Номер документа СЭДКП")
     @Column(length=20)
     public String getSedkp_num() { return sedkp_num; }
     public void setSedkp_num(String sedkp_num) { this.sedkp_num = sedkp_num; }
     
+    @FieldTitle(name="Дата документа СЭДКП")
     @Temporal(TemporalType.DATE)
     public Date getSedkp_date() { return sedkp_date; }
     public void setSedkp_date(Date sedkp_date) { this.sedkp_date = sedkp_date; }
     
+    @FieldTitle(name="Примечания")
     @Column(length=1000)
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
     
+    @FieldTitle(name="Список рассылки")
     @ManyToMany(targetEntity=IMailing.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<IMailing> getMailing_list() { return mailing_list != null ? mailing_list : new ArrayList<IMailing>(); }
     public void setMailing_list(List<IMailing> mailing_list) { this.mailing_list = mailing_list; }
@@ -219,39 +253,39 @@ public class Document extends IBase {
     @Resource(name = "getObjectChanged")
     protected ObjectChanged objectChanged;
     
-	public static String singleTitle() { return "Документ"; }
-	public static String multipleTitle() { return "Документы"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("create_time", "Дата создания"));
+		Class<?> cl = Document.class;
+		ret.add(new ColumnInfo("create_time", cl));
 		ret.add(new ColumnInfo("depart__code", "№ департамента"));
-		ret.add(new ColumnInfo("doc_type__name", "Тип документа")); 
-		ret.add(new ColumnInfo("doc_number", "№ документа"));
-		ret.add(new ColumnInfo("doc_date", "Дата документа"));
-		ret.add(new ColumnInfo("version", "Версия"));
-		ret.add(new ColumnInfo("agent__name", "Контрагент"));
-		ret.add(new ColumnInfo("parent_doc__name", "Основной документ", false));
-		ret.add(new ColumnInfo("doc_status__name", "Статус документа", true, true, "doc_status__rn", "select", "listDocStatus"));
-		ret.add(new ColumnInfo("time_status", "Дата присвоения статуса"));
-		ret.add(new ColumnInfo("create_agent__name", "Создан", false));
-		ret.add(new ColumnInfo("change_agent__name", "Изменен", false));
+		ret.add(new ColumnInfo("doc_type__name", cl)); 
+		ret.add(new ColumnInfo("doc_number", cl));
+		ret.add(new ColumnInfo("doc_date", cl));
+		ret.add(new ColumnInfo("version", cl));
+		ret.add(new ColumnInfo("agent__name", cl));
+		ret.add(new ColumnInfo("parent_doc__name", cl, false));
+		ret.add(new ColumnInfo("doc_status__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("time_status", cl));
+		ret.add(new ColumnInfo("create_agent__name", cl, false));
+		ret.add(new ColumnInfo("change_agent__name", cl, false));
 		ret.add(new ColumnInfo("change_time", "Дата изменения", false));
-		ret.add(new ColumnInfo("act__name", "Включен в акт"));
-		ret.add(new ColumnInfo("reestr__name", "Включен в реестр"));
-		ret.add(new ColumnInfo("act_exclude_num", "Исключен из акта", false));
-		ret.add(new ColumnInfo("change_doc__name", "Заменен документом", false));
-		ret.add(new ColumnInfo("buh_date", "Дата бухучета"));
-		ret.add(new ColumnInfo("sp_year", "Год проверки", false));
-		ret.add(new ColumnInfo("sp_num", "№ пункта запроса", false));
-		ret.add(new ColumnInfo("sp_subnum", "№ подпункта запроса", false));
-		ret.add(new ColumnInfo("extract_number", "Выписка: №", false));
-		ret.add(new ColumnInfo("extract_date", "Выписка: дата", false));
-		ret.add(new ColumnInfo("list_file", "Прикрепленные файлы", false));
-		ret.add(new ColumnInfo("sheet_count", "Количество листов", false));
-		ret.add(new ColumnInfo("sedkp_num", "Номер документа СЭДКП", false));
-		ret.add(new ColumnInfo("sedkp_date", "Дата документа СЭДКП", false));
-		ret.add(new ColumnInfo("comment", "Комментарий", false));
+		ret.add(new ColumnInfo("act__name", cl));
+		ret.add(new ColumnInfo("reestr__name", cl));
+		ret.add(new ColumnInfo("act_exclude_num", cl, false));
+		ret.add(new ColumnInfo("act_exclude_reason", cl, false));
+		ret.add(new ColumnInfo("act_exclude_date", cl, false));
+		ret.add(new ColumnInfo("change_doc__name", cl, false));
+		ret.add(new ColumnInfo("buh_date", cl));
+		ret.add(new ColumnInfo("sp_year", cl, false));
+		ret.add(new ColumnInfo("sp_num", cl, false));
+		ret.add(new ColumnInfo("sp_subnum", cl, false));
+		ret.add(new ColumnInfo("extract_number", cl, false));
+		ret.add(new ColumnInfo("extract_date", cl, false));
+		ret.add(new ColumnInfo("list_file", cl, false));
+		ret.add(new ColumnInfo("sheet_count", cl, false));
+		ret.add(new ColumnInfo("sedkp_num", cl, false));
+		ret.add(new ColumnInfo("sedkp_date", cl, false));
+		ret.add(new ColumnInfo("comment", cl, false));
 		return ret;
 	}
 	@Override
