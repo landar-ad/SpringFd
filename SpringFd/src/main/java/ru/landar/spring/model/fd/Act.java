@@ -240,10 +240,10 @@ public class Act extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listActStatus", objService.findAll(SpActStatus.class));
+			model.addAttribute("listSpActStatus", objService.findAll(SpActStatus.class));
 			if (!list) {
-				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
-				model.addAttribute("listAgent", objService.findAll(IOrganization.class));
+				model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
+				model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
 			}	
 		}
 		catch (Exception ex) { }

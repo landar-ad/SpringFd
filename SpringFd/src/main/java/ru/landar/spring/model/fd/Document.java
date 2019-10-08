@@ -360,13 +360,13 @@ public class Document extends IBase {
 		if (ret != null) return ret;
 		
 		try {
-			model.addAttribute("listDocType", objService.findAll(SpDocType.class));
-			model.addAttribute("listDocStatus", objService.findAll(SpDocStatus.class));
+			model.addAttribute("listSpDocType", objService.findAll(SpDocType.class));
+			model.addAttribute("listSpDocStatus", objService.findAll(SpDocStatus.class));
 			if (!list) {
-				model.addAttribute("listFileType", objService.findAll(SpFileType.class));
-				model.addAttribute("listDocument", objService.findAll(Document.class));
-				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
-				model.addAttribute("listAgent", objService.findAll(IOrganization.class));
+				model.addAttribute("listSpFileType", objService.findAll(SpFileType.class));
+				model.addAttribute("listIDocument", objService.findAll(Document.class));
+				model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
+				model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
 			}	
 		}
 		catch (Exception ex) { }
