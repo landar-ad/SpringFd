@@ -47,9 +47,9 @@
 		                    			<th:block th:with="w='34%',tt='label',vv='Материально-ответственное лицо'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    		</tr>
 		                    		<tr>
-		                    			<th:block th:with="w='33%',tt='select',nn='agent_from',ll=${listPerson},vv=${obj.agent_from},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    			<th:block th:with="w='33%',tt='select',nn='agent_to',ll=${listPerson},vv=${obj.agent_to},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    			<th:block th:with="w='34%',tt='select',nn='mol',ll=${listPerson},vv=${obj.mol},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    			<th:block th:with="w='33%',tt='select',nn='agent_from',ll=${listIPerson},vv=${obj.agent_from},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    			<th:block th:with="w='33%',tt='select',nn='agent_to',ll=${listIPerson},vv=${obj.agent_to},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    			<th:block th:with="w='34%',tt='select',nn='mol',ll=${listIPerson},vv=${obj.mol},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    		</tr>
 		                    	</tbody></table>
 		                    </div>
@@ -102,7 +102,7 @@
 						    	</tr></tbody></table>
 							    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                   		<th:block th:with="w='7%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
-			                		<th:block th:with="w='13%',tt='select',nn='reestr_status',ll=${listReestrStatus},vv=${obj.reestr_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
+			                		<th:block th:with="w='13%',tt='select',nn='reestr_status',ll=${listSpReestrStatus},vv=${obj.reestr_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
 		                    		<th:block th:with="w='20%',tt='label',vv='Дата присвоения статуса'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    		<th:block th:with="w='13%',tt='time',vv=${obj.time_status},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    		<td width="47%"></td>
@@ -134,7 +134,7 @@
 		                   </div>
 		                   <div class="form-group-sm row mt-sm-1">
 		                       	<div class="col-sm-2" th:with="tt='label',vv='Структурное подразделение'"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listIDepartment},vv=${obj.depart},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-4" th:with="tt='label',vv='Документы сдал'"><div th:replace="fragments/component :: c"></div></div>
@@ -142,9 +142,9 @@
 		                    	<div class="col-sm-4" th:with="tt='label',vv='Материально-ответственное лицо'"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-4" th:with="tt='select',nn='agent_from',ll=${listPerson},vv=${obj.agent_from},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-4" th:with="tt='select',nn='agent_to',ll=${listPerson},vv=${obj.agent_to},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-4" th:with="tt='select',nn='mol',ll=${listPerson},vv=${obj.mol},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='select',nn='agent_from',ll=${listIPerson},vv=${obj.agent_from},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='select',nn='agent_to',ll=${listIPerson},vv=${obj.agent_to},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='select',nn='mol',ll=${listIPerson},vv=${obj.mol},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 							</div>
 							<div id="list_doc" class="form-group-sm mt-sm-1">
 		                        <label class="col-sm-4">Документы, включенные в реестр</label>
@@ -218,7 +218,7 @@
 						    </div>
 							<div class="form-group-sm row mt-sm-1">
 								<div class="col-sm-2" th:with="tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
-								<div class="col-sm-2" th:with="tt='select',nn='reestr_status',ll=${listReestrStatus},vv=${obj.reestr_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='select',nn='reestr_status',ll=${listSpReestrStatus},vv=${obj.reestr_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 								<div class="col-sm-1" th:with="tt='label',vv='Дата присвоения статуса'"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='time',vv=${obj.time_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
