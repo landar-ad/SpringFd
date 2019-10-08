@@ -85,7 +85,7 @@
 							<div class="w-100 border border-primary">
 								<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                   		<th:block th:with="w='7%',tt='label',vv='Статус'"><th th:replace="fragments/tc :: ch"></th></th:block>
-			                		<th:block th:with="w='13%',tt='select',nn='act_status',ll=${listActStatus},vv=${obj.act_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
+			                		<th:block th:with="w='13%',tt='select',nn='act_status',ll=${listSpActStatus},vv=${obj.act_status},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block> 	
 		                    		<th:block th:with="w='20%',tt='label',vv='Дата присвоения статуса'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                    		<th:block th:with="w='13%',tt='time',vv=${obj.time_status},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    		<th:block th:with="w='13%',tt='label',vv='Причина отказа'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -211,7 +211,7 @@
 						    </div>
 							<div class="form-group-sm row mt-sm-1">
 								<div class="col-sm-2" th:with="tt='label',vv='Статус'"><div th:replace="fragments/component :: c"></div></div>
-								<div class="col-sm-2" th:with="tt='select',nn='act_status',ll=${listActStatus},vv=${obj.act_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='select',nn='act_status',ll=${listSpActStatus},vv=${obj.act_status},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 								<div class="col-sm-1" th:with="tt='label',vv='Дата присвоения статуса'"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='time',vv=${obj.time_status},ro=1"><div th:replace="fragments/component :: c"></div></div>
 								<div class="col-sm-1" th:with="tt='label',vv='Причина отказа'"><div th:replace="fragments/component :: c"></div></div>
