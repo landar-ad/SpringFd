@@ -255,9 +255,10 @@ public abstract class IBase {
 	public static boolean listPaginated() { return false; }
 	public static List<AttributeInfo> listAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
-		ret.add(new AttributeInfo("code", "Код", "text", null, false));
-		ret.add(new AttributeInfo("name", "Наименование", "text", null, false));
-		ret.add(new AttributeInfo("actual", "Актуальность", "check", null, false));
+		Class<?> cl = IBase.class;
+		ret.add(new AttributeInfo("code", cl));
+		ret.add(new AttributeInfo("name", cl));
+		ret.add(new AttributeInfo("actual", cl, "check", null, false, 2, null));
 		return ret;
 	}
 	/**
