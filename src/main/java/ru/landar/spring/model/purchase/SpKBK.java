@@ -10,24 +10,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="КБК", multi="КБК", voc=true)
 public class SpKBK extends IBase {
 	private String kbk;
 	private String kosgu;
 	private IDepartment depart;
 	
+	@FieldTitle(name="КБК")
 	@Column(length=20)
 	public String getKbk() { return kbk; }
     public void setKbk(String kbk) { this.kbk = kbk; updateCode(); }
     
+    @FieldTitle(name="КОСГУ")
     @Column(length=3)
 	public String getKosgu() { return kosgu; }
     public void setKosgu(String kosgu) { this.kosgu = kosgu; updateCode(); }
     
+    @FieldTitle(name="Код департамента")
     @ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
     public IDepartment getDepart() { return depart; }
     public void setDepart(IDepartment depart) { this.depart = depart; }
@@ -41,18 +47,14 @@ public class SpKBK extends IBase {
     	}
     	setCode(code);
     }
-    
-	public static boolean isVoc() { return true; }
-	public static String singleTitle() { return "КБК"; }
-	public static String multipleTitle() { return "КБК"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static boolean listPaginated() { return true; }
 	public static List<ColumnInfo> listColumn() {
     	List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("kbk", "КБК")); 
-		ret.add(new ColumnInfo("kosgu", "КОСГУ"));
-		ret.add(new ColumnInfo("depart__code", "Код департамента"));
-		ret.add(new ColumnInfo("name", "Наименование"));
+    	Class<?> cl = SpKBK.class;
+		ret.add(new ColumnInfo("kbk", cl)); 
+		ret.add(new ColumnInfo("kosgu", cl));
+		ret.add(new ColumnInfo("depart__code", cl));
+		ret.add(new ColumnInfo("name", cl));
 		return ret;
 	}
 }
