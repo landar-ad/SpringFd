@@ -29,7 +29,7 @@
 				                </tr></tbody></table>
 		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                		<th:block th:with="w='13%',tt='label',vv='Тип документа',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-			                		<th:block th:with="w='20%',tt='select',nn='doc_type',ll=${listDocType},vv=${obj.doc_type},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                		<th:block th:with="w='20%',tt='select',nn='doc_type',ll=${listSpDocType},vv=${obj.doc_type},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			                		<th:block th:with="w='13%',tt='label',vv='№ документа',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
 			          				<th:block th:with="w='20%',tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			          				<th:block th:with="w='13%',tt='label',vv='Дата документа',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -149,7 +149,7 @@
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
-		                        <div class="col-sm-2" th:with="tt='select',nn='doc_type',ll=${listDocType},vv=${obj.doc_type},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='select',nn='doc_type',ll=${listSpDocType},vv=${obj.doc_type},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='label',vv='№ документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='text',nn='doc_number',vv=${obj.doc_number},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='label',vv='Дата документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
@@ -157,7 +157,7 @@
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Структурное подразделение',rr=1"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listDepartment},vv=${obj.depart},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-10" th:with="tt='select',nn='depart',ll=${listIDepartment},vv=${obj.depart},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1 parent-popup">
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Тип основного документа'"><div th:replace="fragments/component :: c"></div></div>
