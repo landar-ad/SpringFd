@@ -20,6 +20,8 @@ import org.springframework.ui.Model;
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IAgent;
@@ -46,6 +48,7 @@ import javax.persistence.Column;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Реестр сдачи документов", multi="Реестры сдачи документов")
 public class Reestr extends IBase {
 	private String reestr_number;
 	private Integer reestr_num;
@@ -65,64 +68,81 @@ public class Reestr extends IBase {
 	private List<Document> list_doc;
 	private List<IFile> list_file;
 	
+	@FieldTitle(name="Номер реестра")
     @Column(length=40)
     public String getReestr_number() { return reestr_number; }
     public void setReestr_number(String reestr_number) { this.reestr_number = reestr_number; updateName(); }
     
+    @FieldTitle(name="Порядковый номер")
     public Integer getReestr_num() { return reestr_num; }
     public void setReestr_num(Integer reestr_num) { this.reestr_num = reestr_num; }
         
+    @FieldTitle(name="Дата реестра")
     @Temporal(TemporalType.DATE)
     public Date getReestr_date() { return reestr_date; }
     public void setReestr_date(Date reestr_date) { this.reestr_date = reestr_date; updateName(); }
     
+    @FieldTitle(name="Статус реестра")
 	@ManyToOne(targetEntity=SpReestrStatus.class, fetch=FetchType.LAZY)
     public SpReestrStatus getReestr_status() { return reestr_status; }
     public void setReestr_status(SpReestrStatus reestr_status) { this.reestr_status = reestr_status; }
 	
+    @FieldTitle(name="Дата изменения статуса")
 	public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
+    @FieldTitle(name="Материально-ответственное лицо")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getMol() { return mol; }
     public void setMol(IAgent mol) { this.mol = mol; }
 	
+    @FieldTitle(name="Документы сдал")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getAgent_from() { return agent_from; }
     public void setAgent_from(IAgent agent_from) { this.agent_from = agent_from; }
 	
+    @FieldTitle(name="Документы принял")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getAgent_to() { return agent_to; }
     public void setAgent_to(IAgent agent_to) { this.agent_to = agent_to; }
     
+    @FieldTitle(name="Количество документов")
     public Integer getDoc_count() { return doc_count; }
     public void setDoc_count(Integer doc_count) { this.doc_count = doc_count; }
     
+    @FieldTitle(name="Количество листов")
     public Integer getSheet_count() { return sheet_count; }
     public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
 	
+    @FieldTitle(name="Создан")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
 	
+    @FieldTitle(name="Структурное подразделение")
 	@ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
     public IDepartment getDepart() { return depart; }
     public void setDepart(IDepartment depart) { this.depart = depart; }
 	
+    @FieldTitle(name="Дата создания")
     public Date getCreate_time() { return create_time; }
     public void setCreate_time(Date create_time) { this.create_time = create_time; }
 	
+    @FieldTitle(name="Изменен")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getChange_agent() { return change_agent; }
     public void setChange_agent(IAgent change_agent) { this.change_agent = change_agent; }
 	
+    @FieldTitle(name="Дата изменения")
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
-
+    
+    @FieldTitle(name="Документы, включенные в реестр")
     @ManyToMany(targetEntity=Document.class, fetch=FetchType.LAZY)
     public List<Document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Document>(); }
     public void setList_doc(List<Document> list_doc) { this.list_doc = list_doc; }
     
+    @FieldTitle(name="Прикрепленные файлы")
     @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
@@ -149,18 +169,19 @@ public class Reestr extends IBase {
 	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("reestr_number", "Номер реестра"));
-		ret.add(new ColumnInfo("reestr_date", "Дата реестра"));
-		ret.add(new ColumnInfo("reestr_status__name", "Статус реестра", true, true, "reestr_status__rn", "select", "listReestrStatus"));
-		ret.add(new ColumnInfo("agent_from__name", "Документы сдал"));
-		ret.add(new ColumnInfo("agent_to__name", "Документы принял"));
-		ret.add(new ColumnInfo("mol__name", "Материально-ответственное лицо"));
-		ret.add(new ColumnInfo("time_status", "Дата изменения статуса"));
-		ret.add(new ColumnInfo("create_agent__name", "Создан"));
-		ret.add(new ColumnInfo("depart__name", "Структурное подразделение"));
-		ret.add(new ColumnInfo("create_time", "Дата создания"));
-		ret.add(new ColumnInfo("change_agent__name", "Изменен"));
-		ret.add(new ColumnInfo("change_time", "Дата изменения"));
+		Class<?> cl = Reestr.class;
+		ret.add(new ColumnInfo("reestr_number", cl));
+		ret.add(new ColumnInfo("reestr_date", cl));
+		ret.add(new ColumnInfo("reestr_status__name", cl, true, true, "reestr_status__rn", "select"));
+		ret.add(new ColumnInfo("agent_from__name", cl));
+		ret.add(new ColumnInfo("agent_to__name", cl));
+		ret.add(new ColumnInfo("mol__name", cl));
+		ret.add(new ColumnInfo("time_status", cl));
+		ret.add(new ColumnInfo("create_agent__name", cl));
+		ret.add(new ColumnInfo("depart__name", cl));
+		ret.add(new ColumnInfo("create_time", cl));
+		ret.add(new ColumnInfo("change_agent__name", cl));
+		ret.add(new ColumnInfo("change_time", cl));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
@@ -266,11 +287,11 @@ public class Reestr extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listReestrStatus", objService.findAll(SpReestrStatus.class));
+			model.addAttribute("listSpReestrStatus", objService.findAll(SpReestrStatus.class));
 			if (!list) {
-				model.addAttribute("listDepartment", objService.findAll(IDepartment.class));
-				model.addAttribute("listAgent", objService.findAll(IOrganization.class));
-				model.addAttribute("listPerson", objService.findAll(IPerson.class));
+				model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
+				model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
+				model.addAttribute("listIPerson", objService.findAll(IPerson.class));
 			}	
 		}
 		catch (Exception ex) { }

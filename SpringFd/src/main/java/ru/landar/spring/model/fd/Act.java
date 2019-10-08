@@ -5,6 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.LockModeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +22,8 @@ import org.springframework.ui.Model;
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IAgent;
@@ -46,6 +49,7 @@ import javax.persistence.Column;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Акт приема-передачи", multi="Акты приема-передачи")
 public class Act extends IBase {
 	private String act_number;
 	private Integer act_num;
@@ -61,50 +65,63 @@ public class Act extends IBase {
 	private List<Act_document> list_doc;
 	private List<IFile> list_file;
 	
+	@FieldTitle(name="Номер акта")
     @Column(length=40)
     public String getAct_number() { return act_number; }
     public void setAct_number(String act_number) { this.act_number = act_number; updateName(); }
     
+    @FieldTitle(name="Порядковый номер")
     public Integer getAct_num() { return act_num; }
     public void setAct_num(Integer act_num) { this.act_num = act_num; }
     
+    @FieldTitle(name="Дата акта")
     @Temporal(TemporalType.DATE)
     public Date getAct_date() { return act_date; }
     public void setAct_date(Date act_date) { this.act_date = act_date; updateName(); }
     
+    @FieldTitle(name="Статус акта")
 	@ManyToOne(targetEntity=SpActStatus.class, fetch=FetchType.LAZY)
     public SpActStatus getAct_status() { return act_status; }
     public void setAct_status(SpActStatus act_status) { this.act_status = act_status; }
 	
+    @FieldTitle(name="Причина отказа")
     @Column(length=256)
     public String getAct_reason() { return act_reason; }
     public void setAct_reason(String act_reason) { this.act_reason = act_reason; }
     
+    @FieldTitle(name="Дата изменения статуса")
 	public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
+    @FieldTitle(name="Создан")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
 	
+    @FieldTitle(name="Структурное подразделение")
 	@ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
     public IDepartment getDepart() { return depart; }
     public void setDepart(IDepartment depart) { this.depart = depart; }
 	
+    @FieldTitle(name="Дата создания")
     public Date getCreate_time() { return create_time; }
     public void setCreate_time(Date create_time) { this.create_time = create_time; }
 	
+    @FieldTitle(name="Изменен")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.EAGER)
     public IAgent getChange_agent() { return change_agent; }
     public void setChange_agent(IAgent change_agent) { this.change_agent = change_agent; }
 	
+    @FieldTitle(name="Дата изменения")
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
     
-    @ManyToMany(targetEntity=Act_document.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @FieldTitle(name="Документы, включенные в акт")
+    @OneToMany(targetEntity=Act_document.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Act_document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Act_document>(); }
     public void setList_doc(List<Act_document> list_doc) { this.list_doc = list_doc; }
     
+    @FieldTitle(name="ПРикрепленные файлы")
     @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
@@ -126,21 +143,19 @@ public class Act extends IBase {
     @Resource(name = "getObjectChanged")
     ObjectChanged objectChanged;
     
-	public static String singleTitle() { return "Акт приема-передачи"; }
-	public static String multipleTitle() { return "Акты приема-передачи"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("act_number", "Номер акта"));
-		ret.add(new ColumnInfo("act_date", "Дата акта"));
-		ret.add(new ColumnInfo("act_status__name", "Статус акта", true, true, "act_status__rn", "select", "listActStatus"));
-		ret.add(new ColumnInfo("time_status", "Дата изменения статуса"));
-		ret.add(new ColumnInfo("act_reason", "Причина отказа"));
-		ret.add(new ColumnInfo("create_agent__name", "Создан"));
-		ret.add(new ColumnInfo("depart__name", "Структурное подразделение"));
-		ret.add(new ColumnInfo("create_time", "Дата создания"));
-		ret.add(new ColumnInfo("change_agent__name", "Изменен"));
-		ret.add(new ColumnInfo("change_time", "Дата изменения"));
+		Class<?> cl = Act.class;
+		ret.add(new ColumnInfo("act_number", cl));
+		ret.add(new ColumnInfo("act_date", cl));
+		ret.add(new ColumnInfo("act_status__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("time_status", cl));
+		ret.add(new ColumnInfo("act_reason", cl));
+		ret.add(new ColumnInfo("create_agent__name", cl));
+		ret.add(new ColumnInfo("depart__name", cl));
+		ret.add(new ColumnInfo("create_time", cl));
+		ret.add(new ColumnInfo("change_agent__name", cl));
+		ret.add(new ColumnInfo("change_time", cl));
 		return ret;
 	}
 	@Override
