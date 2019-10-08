@@ -16,13 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperService;
 
 @Entity
+@ObjectTitle(single="Сессия", multi="Сессии")
 public class ISession {
-	
 	private Integer rn;
 	private String id;
 	private String login;
@@ -33,49 +35,52 @@ public class ISession {
 	public ISession() {
 	}
 	
+	@FieldTitle(name="Идентификатор")
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getRn() { return rn; }
     public void setRn(Integer rn) { this.rn = rn; }	
 	
+    @FieldTitle(name="Идентификатор сессии")
     @Column(length=128, nullable=false)
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     
+    @FieldTitle(name="Пользователь")
     @Column(length=50)
     public String getLogin() { return login; }
     public void setLogin(String login) { this.login = login; }
     
+    @FieldTitle(name="Адрес")
     @Column(length=50)
     public String getIp() { return ip; }
     public void setIp(String ip) { this.ip = ip; }
     
+    @FieldTitle(name="Начало")
     public Date getStart_time() { return start_time; }
     public void setStart_time(Date start_time) { this.start_time = start_time; }
     
+    @FieldTitle(name="Окончание")
     public Date getEnd_time() { return end_time; }
     public void setEnd_time(Date end_time) { this.end_time = end_time; }
     
-    public static String singleTitle() { return "Сессия"; }
-	public static String multipleTitle() { return "Сессии"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public List<ColumnInfo> onListColumn() {
-		
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("login", "Пользователь")); 
-		ret.add(new ColumnInfo("ip", "Адрес"));
-		ret.add(new ColumnInfo("start_time", "Начало"));
-		ret.add(new ColumnInfo("end_time", "Окончание"));
+		Class<?> cl = ISession.class;
+		ret.add(new ColumnInfo("login", cl)); 
+		ret.add(new ColumnInfo("ip", cl));
+		ret.add(new ColumnInfo("start_time", cl));
+		ret.add(new ColumnInfo("end_time", cl));
 		return ret;
 	}
 	public boolean onListPaginated() { return true; }
 	public List<AttributeInfo> onListAttribute() {
-		
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
-		ret.add(new AttributeInfo("login", "Пользователь", "text", null, false, 4)); 
-		ret.add(new AttributeInfo("ip", "Адрес", "text", null, false, 4));
-		ret.add(new AttributeInfo("start_time", "Начало", "time", null, false));
-		ret.add(new AttributeInfo("end_time", "Окончание", "time", null, false));
+		Class<?> cl = ISession.class;
+		ret.add(new AttributeInfo("login", cl, "text", null, false, 4, null)); 
+		ret.add(new AttributeInfo("ip", cl, "text", null, false, 4, null));
+		ret.add(new AttributeInfo("start_time", cl, "time", null, false, 0, null));
+		ret.add(new AttributeInfo("end_time", cl, "time", null, false, 0, null));
 		return ret;
 	}
 	public List<ButtonInfo> onListButton() {

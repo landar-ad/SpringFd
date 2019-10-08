@@ -14,11 +14,14 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Пользователь", multi="Пользователи")
 public class IUser extends IBase {
 	private String login;
 	private String password;
@@ -27,25 +30,31 @@ public class IUser extends IBase {
 	private IOrganization org;
 	private IPerson person;
 	
+	@FieldTitle(name="Логин")
 	@Column(length=50, nullable=false, unique=true)
     public String getLogin() { return login; }
     public void setLogin(String login) { this.login = login; setName(login); }
     
+    @FieldTitle(name="Пароль")
     @Column(length=256, nullable=false)
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
     
+    @FieldTitle(name="Роли")
     @Column(length=256)
     public String getRoles() { return roles; }
     public void setRoles(String roles) { this.roles = roles; }
     
+    @FieldTitle(name="Заблокирован")
     public Boolean getDisabled() { return disabled; }
     public void setDisabled(Boolean disabled) { this.disabled = disabled; }
     
+    @FieldTitle(name="Организация")
     @ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
     public IOrganization getOrg() { return org; }
     public void setOrg(IOrganization org) { this.org = org; }
     
+    @FieldTitle(name="Контрагент (физическое лицо)")
     @ManyToOne(targetEntity=IPerson.class, fetch=FetchType.LAZY)
     public IPerson getPerson() { return person; }
     public void setPerson(IPerson person) { this.person = person; }
@@ -60,8 +69,8 @@ public class IUser extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listOrg", objService.findAll(IOrganization.class));
-			model.addAttribute("listPerson", objService.findAll(IPerson.class));
+			model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
+			model.addAttribute("listIPerson", objService.findAll(IPerson.class));
 			if (!list) {
 				boolean role_user = false, role_admin = false, role_df = false;
 				String roles = getRoles();
@@ -91,16 +100,14 @@ public class IUser extends IBase {
 		return ret;
 	}
     // Статические функции
-	public static String singleTitle() { return "Пользователь"; }
-	public static String multipleTitle() { return "Пользователи"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("login", "Логин"));
-		ret.add(new ColumnInfo("roles", "Роли"));
-		ret.add(new ColumnInfo("org__name", "Организация", true, true, "org__rn", "select", "listOrg"));
-		ret.add(new ColumnInfo("person__name", "Контрагент (физическое лицо)", true, true, "person__rn", "select", "listPerson"));
-		ret.add(new ColumnInfo("disabled", "Заблокирован"));
+		Class<?> cl = IUser.class;
+		ret.add(new ColumnInfo("login", cl));
+		ret.add(new ColumnInfo("roles", cl));
+		ret.add(new ColumnInfo("org__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("person__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("disabled", cl));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }

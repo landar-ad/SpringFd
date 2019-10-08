@@ -10,11 +10,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ru.landar.spring.classes.ColumnInfo;
+import ru.landar.spring.classes.FieldTitle;
+import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.ObjService;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
+@ObjectTitle(single="Организация", multi="Организации")
 public class IOrganization extends IAgent {
 	private String shortname; 
 	private String fullname; 
@@ -28,46 +31,57 @@ public class IOrganization extends IAgent {
 	private String okpo;
 	private String okopf;
 	
+	@FieldTitle(name="Короткое наименование")
     @Column(length=256)
     public String getShortname() { return shortname; }
     public void setShortname(String shortname) { this.shortname = shortname; }
     
+    @FieldTitle(name="Полное наименование")
     @Column(length=2000)
     public String getFullname() { return fullname; }
     public void setFullname(String fullname) { this.fullname = fullname; updateName(); }
     
+    @FieldTitle(name="ИНН")
     @Column(length=12)
     public String getInn() { return inn; }
     public void setInn(String inn) { this.inn = inn; updateCode(); }
     
+    @FieldTitle(name="КПП")
     @Column(length=9)
     public String getKpp() { return kpp; }
     public void setKpp(String kpp) { this.kpp = kpp; updateCode(); }
     
+    @FieldTitle(name="Адрес")
     @Column(length=2000)
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
     
+    @FieldTitle(name="Телефон")
     @Column(length=40)
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
     
+    @FieldTitle(name="Электронная почта")
     @Column(length=40)
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
     
+    @FieldTitle(name="Код сводного реестра")
     @Column(length=8)
     public String getSrcode() { return srcode; }
     public void setSrcode(String srcode) { this.srcode = srcode; }
     
+    @FieldTitle(name="ОГРН")
     @Column(length=15)
     public String getOgrn() { return ogrn; }
     public void setOgrn(String ogrn) { this.ogrn = ogrn; }
     
+    @FieldTitle(name="ОКПО")
     @Column(length=8)
     public String getOkpo() { return okpo; }
     public void setOkpo(String ookpo) { this.okpo = ookpo; }
     
+    @FieldTitle(name="ОКОПФ")
     @Column(length=5)
     public String getOkopf() { return okopf; }
     public void setOkopf(String okopf) { this.okopf = okopf; }
@@ -87,21 +101,22 @@ public class IOrganization extends IAgent {
     }
     @Autowired
 	ObjService objService;
-    public static String singleTitle() { return "Организация"; }
-	public static String multipleTitle() { return "Организации"; }
-	public static String menuTitle() { return multipleTitle(); }
+    
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("mkod", "Машкод")); 
-		ret.add(new ColumnInfo("shortname", "Короткое наименование"));
-		ret.add(new ColumnInfo("fullname", "Полное наименование"));
-		ret.add(new ColumnInfo("inn", "ИНН"));
-		ret.add(new ColumnInfo("kpp", "КПП"));
-		ret.add(new ColumnInfo("address", "Адрес"));
-		ret.add(new ColumnInfo("srcode", "Код сводного реестра"));
-		ret.add(new ColumnInfo("ogrn", "ОГРН"));
-		ret.add(new ColumnInfo("okpo", "ОКПО"));
-		ret.add(new ColumnInfo("okopf", "ОКОПФ"));
+		Class<?> cl = IOrganization.class;
+		ret.add(new ColumnInfo("mkod", cl)); 
+		ret.add(new ColumnInfo("shortname", cl));
+		ret.add(new ColumnInfo("fullname", cl));
+		ret.add(new ColumnInfo("inn", cl));
+		ret.add(new ColumnInfo("kpp", cl));
+		ret.add(new ColumnInfo("address", cl));
+		ret.add(new ColumnInfo("phone", cl));
+		ret.add(new ColumnInfo("email", cl));
+		ret.add(new ColumnInfo("srcode", cl));
+		ret.add(new ColumnInfo("ogrn", cl));
+		ret.add(new ColumnInfo("okpo", cl));
+		ret.add(new ColumnInfo("okopf", cl));
 		return ret;
 	}
 	@Override
