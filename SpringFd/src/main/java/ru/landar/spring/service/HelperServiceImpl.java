@@ -29,6 +29,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.servlet.http.Part;
 import javax.tools.JavaCompiler;
@@ -51,6 +52,7 @@ import ru.landar.spring.classes.AppClassLoader;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.classes.Title;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
@@ -186,6 +188,7 @@ public class HelperServiceImpl implements HelperService {
 			String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 			Method mGet = cl.getMethod(getter);
 			ret = mGet.getAnnotation(ManyToMany.class).targetEntity();
+			if (ret == null) ret = mGet.getAnnotation(OneToMany.class).targetEntity();
 		}
 		catch (Exception ex) {}
 		return ret;
@@ -198,6 +201,7 @@ public class HelperServiceImpl implements HelperService {
 				String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 				Method mGet = cl.getMethod(getter);
 				clItem = mGet.getAnnotation(ManyToMany.class).targetEntity();
+				if (clItem == null) clItem = mGet.getAnnotation(OneToMany.class).targetEntity();
 			}
 			catch (Exception ex) {}
 		}
@@ -501,18 +505,56 @@ public class HelperServiceImpl implements HelperService {
 			try { m = cl.getDeclaredMethod("listAttribute"); } catch (Exception ex) { }
 			if (m != null) listAttribute =  (List<AttributeInfo>)invoke(cl, "listAttribute");
 			if (listAttribute == null) {
-				listAttribute = new ArrayList<AttributeInfo>();
-				List<ColumnInfo> listColumn = (List<ColumnInfo>)invoke(cl, "listColumn");
-				for (ColumnInfo col : listColumn) {
-					String name = col.getName(), type = col.getFilterType(), nameList = null;
-					if (name.indexOf("__") > 0) name = name.substring(0, name.indexOf("__"));
-					Class<?> clAttr = getAttrType(cl, name);
-					if (IBase.class.isAssignableFrom(clAttr)) {
-						type = "select";
-						nameList = "list" + clAttr.getSimpleName();
+				try { m = cl.getDeclaredMethod("listColumn"); } catch (Exception ex) { }
+				if (m != null) {
+					listAttribute = new ArrayList<AttributeInfo>();
+					List<ColumnInfo> listColumn = (List<ColumnInfo>)invoke(cl, "listColumn");
+					for (ColumnInfo col : listColumn) {
+						String name = col.getName(), type = col.getFilterType(), nameList = null;
+						if (name.indexOf("__") > 0) name = name.substring(0, name.indexOf("__"));
+						Class<?> clAttr = getAttrType(cl, name);
+						if (IBase.class.isAssignableFrom(clAttr)) {
+							type = "select";
+							nameList = clAttr.getSimpleName();
+							if ("SpCommon".equals(nameList)) {
+								String spCode = (String)invoke(cl, "spCode", name);
+								if (!isEmpty(spCode)) nameList = spCode.substring(0, 1).toUpperCase() + spCode.substring(1);
+							}
+							nameList = "list" + nameList;
+						}
+						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false);
+						listAttribute.add(attr);
 					}
-					AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false);
-					listAttribute.add(attr);
+				}
+			}
+			if (listAttribute == null) {
+				listAttribute = new ArrayList<AttributeInfo>();
+				Field[] fs = null;
+				try { fs = cl.getDeclaredFields(); } catch (Exception e) { }
+				if (fs != null) {
+					for (Field f : fs) {
+						String name = f.getName();
+						Class<?> clAttr = getAttrType(cl, name);
+						if (clAttr == null || f.isAnnotationPresent(Transient.class)) continue;
+						String type = "text", nameList = null;
+						if (Boolean.class.isAssignableFrom(clAttr)) {
+							type = "checkbox";
+						}
+						else if (Date.class.isAssignableFrom(clAttr)) {
+							type = "date";
+						}
+						else if (IBase.class.isAssignableFrom(clAttr)) {
+							type = "select";
+							nameList = clAttr.getSimpleName();
+							if ("SpCommon".equals(nameList)) {
+								String spCode = (String)invoke(cl, "spCode", name);
+								if (!isEmpty(spCode)) nameList = spCode.substring(0, 1).toUpperCase() + spCode.substring(1);
+							}
+							nameList = "list" + nameList;
+						}
+						AttributeInfo attr = new AttributeInfo(name, "", type, nameList, false);
+						listAttribute.add(attr);
+					}
 				}
 			}
 			if (elTable != null) {
@@ -576,6 +618,28 @@ public class HelperServiceImpl implements HelperService {
 			ex.printStackTrace();
 		}
 		
+		return ret;
+	}
+	public static String getAttrInfo(Class<?> cl, String attr) { return getAttrInfo(cl, attr, null); }
+	public static String getAttrInfo(Class<?> cl, String attr, String info) {
+		String ret = "";
+		if (cl == null || attr == null) return ret;
+		Method m = null;
+		Class<?> clAttr = null;
+    	for (String a : attr.split("__")) {
+    		String getter = "get" + a.substring(0, 1).toUpperCase() + a.substring(1);
+    		try { 
+    			m = cl.getMethod(getter);
+    			clAttr = m.getReturnType(); 
+			} 
+    		catch (Exception ex) { }
+    		if (clAttr == null) break;
+     		cl = clAttr;
+    	}
+    	if (clAttr != null && m != null) {
+    		if ("sp".equals(info)) ret = m.getAnnotation(Title.class).sp();
+    		else ret = m.getAnnotation(Title.class).name();
+    	}
 		return ret;
 	}
 	@Override
