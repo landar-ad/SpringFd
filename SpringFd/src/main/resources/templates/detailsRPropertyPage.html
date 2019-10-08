@@ -32,12 +32,12 @@
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',vv='Раздел учета',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='co_div',vv=${obj.co_div},ll=${listPropertyDivision},rr=1,ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='co_div',vv=${obj.co_div},ll=${listSp_rui},rr=1,ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="50%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',vv='Тип имущества',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='co_type',vv=${obj.co_type},ll=${listPropertyType},_attr='code',rr=1,ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='co_type',vv=${obj.co_type},ll=${listP_type},_attr='code',rr=1,ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="50%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
@@ -88,11 +88,11 @@
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Раздел учета',rr=1"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-4" th:with="tt='select',nn='co_div',vv=${obj.co_div},ll=${listPropertyDivision},rr=1,ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='select',nn='co_div',vv=${obj.co_div},ll=${listSp_rui},rr=1,ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Тип имущества',rr=1"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-4" th:with="tt='select',nn='co_type',vv=${obj.co_type},ll=${listPropertyType},_attr='code',rr=1,ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='select',nn='co_type',vv=${obj.co_type},ll=${listP_type},_attr='code',rr=1,ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-4" th:with="tt='label',vv='Наименование объекта имущества'"><div th:replace="fragments/component :: c"></div></div>
