@@ -66,10 +66,11 @@ public class SpCompletionPhase extends IBase {
 	}
 	public static List<AttributeInfo> listAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
-		ret.add(new AttributeInfo("code", "Код", "text", null, false, 2)); 
-		ret.add(new AttributeInfo("phasename", "Наименование стадии строительства", "text", null, false));
-		ret.add(new AttributeInfo("minpct", "Минимальный процент готовности", "text", null, false, 2));
-		ret.add(new AttributeInfo("maxpct", "Максимальный процент готовности", "text", null, false, 2));
+		Class<?> cl = SpCompletionPhase.class;
+		ret.add(new AttributeInfo("code", cl, "text", null, false, 2, null)); 
+		ret.add(new AttributeInfo("phasename", cl));
+		ret.add(new AttributeInfo("minpct", cl, "text", null, false, 2, null));
+		ret.add(new AttributeInfo("maxpct", cl, "text", null, false, 2, null));
 		return ret;
 	}
 }

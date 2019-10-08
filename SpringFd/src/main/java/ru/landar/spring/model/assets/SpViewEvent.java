@@ -41,12 +41,12 @@ public class SpViewEvent extends IBase {
 		return ret;
 	}
 	public static List<AttributeInfo> listAttribute() {
-		
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
-		ret.add(new AttributeInfo("code", "Код", "text", null, false, 2)); 
-		ret.add(new AttributeInfo("name", "Наименование", "text", null, false));
-		ret.add(new AttributeInfo("razdel", "Раздел", "text", null, false, 4));
-		ret.add(new AttributeInfo("doctype", "Типы документа", "text", null, false));
+		Class<?> cl = SpViewEvent.class;
+		ret.add(new AttributeInfo("code", cl, "text", null, false, 2, null)); 
+		ret.add(new AttributeInfo("name", cl));
+		ret.add(new AttributeInfo("razdel", cl, "text", null, false, 4, null));
+		ret.add(new AttributeInfo("doctype", cl));
 		return ret;
 	}
 }

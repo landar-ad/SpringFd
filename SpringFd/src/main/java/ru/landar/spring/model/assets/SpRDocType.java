@@ -31,7 +31,7 @@ public class SpRDocType extends IBase {
 
 	public static List<ColumnInfo> listColumn() {
     	List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-    	Class<?> cl = SpObjectLocation.class;
+    	Class<?> cl = SpRDocType.class;
 		ret.add(new ColumnInfo("code", cl)); 
 		ret.add(new ColumnInfo("name", cl));
 		ret.add(new ColumnInfo("fullname", cl));
@@ -39,12 +39,12 @@ public class SpRDocType extends IBase {
 		return ret;
 	}
     public static List<AttributeInfo> listAttribute() {
-		
     	List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
-		ret.add(new AttributeInfo("code", "Код", "text", null, true, 2)); 
-		ret.add(new AttributeInfo("name", "Наименование", "text", null, true));
-		ret.add(new AttributeInfo("fullname", "Полное наименование", "text", null, true));
-		ret.add(new AttributeInfo("pay", "Платежный документ", "checkbox", null, false));
+    	Class<?> cl = SpRDocType.class;
+		ret.add(new AttributeInfo("code", cl, "text", null, true, 2, null)); 
+		ret.add(new AttributeInfo("name", cl, "text", null, true, 0, null));
+		ret.add(new AttributeInfo("fullname", cl, "text", null, true, 0, null));
+		ret.add(new AttributeInfo("pay", cl, "checkbox", null, false, 2, null));
 		return ret;
 	}
     @Override
