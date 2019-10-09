@@ -327,7 +327,7 @@ public class LoadController {
 							}
 							else {
 								ot = hs.getObjectByString(v, clType);
-								if (IUser.class.isAssignableFrom(cl) && "password".equals(attr)) 
+								if (IUser.class.isAssignableFrom(cl) && "password".equals(attr) && !((String)ot).startsWith("{bcrypt}"))  
 									ot = UserRepositoryCustomImpl.encoder.encode((String)ot);
 							}
 							mSet.invoke(obj, ot);
