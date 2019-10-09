@@ -31,6 +31,9 @@ public class IDepartment extends IBase {
 	private Date date_from;
 	private Date date_to;
 	private IOrganization org;
+	
+	@FieldTitle(name="Номер департамента", nameColumn="№ департамента")
+	public String getCode() { return super.getCode(); }
     
 	@FieldTitle(name="Короткое наименование")
 	@Column(length=256)

@@ -20,18 +20,18 @@ public class ColumnInfo {
 		String attr = name;
 		int k = attr.indexOf("__");
 		if (k > 0) attr = attr.substring(0, k);
-		String title = (String)HelperServiceImpl.getAttrInfo(cl, attr, "nameColumn");
-		if (title == null || "*".equals(title)) title = (String)HelperServiceImpl.getAttrInfo(cl, attr);
+		String title = (String)HelperServiceImpl.getAttrInfo(cl, name, "nameColumn");
+		if (title == null || "*".equals(title)) title = (String)HelperServiceImpl.getAttrInfo(cl, name);
 		setTitle(title);
 		Boolean visible = (Boolean)HelperServiceImpl.getAttrInfo(cl, attr, "visible");
 		setVisible(visible == null ? true : visible);
 		Boolean sortable = (Boolean)HelperServiceImpl.getAttrInfo(cl, attr, "sortable");
 		setSortable(sortable == null ? true : sortable);
 		setFilter((String)HelperServiceImpl.getAttrInfo(cl, attr, "filter"));
-		String filterType = (String)HelperServiceImpl.getAttrInfo(cl, name, "filterType");
+		String filterType = (String)HelperServiceImpl.getAttrInfo(cl, attr, "filterType");
 		if ("*".equals(filterType)) {
 			filterType = "text";
-			Class<?> clAttr = HelperServiceImpl.getAttrTypeStatic(cl, name);
+			Class<?> clAttr = HelperServiceImpl.getAttrTypeStatic(cl, attr);
 			if (clAttr != null) {
 				if (IBase.class.isAssignableFrom(clAttr)) filterType = "select";
 				else if (Date.class.isAssignableFrom(clAttr)) {
@@ -41,7 +41,7 @@ public class ColumnInfo {
 			}
 		}
 		setFilterType(filterType);
-		String filterList = (String)HelperServiceImpl.getAttrInfo(cl, name, "filterList"), filterAttr = (String)HelperServiceImpl.getAttrInfo(cl, name, "filterAttr");
+		String filterList = (String)HelperServiceImpl.getAttrInfo(cl, attr, "filterList"), filterAttr = (String)HelperServiceImpl.getAttrInfo(cl, attr, "filterAttr");
 		if ((filterList == null || "*".equals(filterList)) && "select".equals((filterType))) {
 			filterList = (String)HelperServiceImpl.getAttrInfo(cl, attr, "list");
 			if (filterAttr == null || "*".equals(filterAttr)) filterAttr = k < 0 ? "code" : "rn";
