@@ -60,6 +60,10 @@ public class ObjServiceImpl implements ObjService {
 		return find(cl, pk);
 	}
 	@Override
+    public Object find(Class<?> cl, String[] attr, Object[] value) {
+		return objRepository.find(cl, attr, value);
+	}
+	@Override
 	public Object find(Class<?> cl, String attr, Object value) {
 		return objRepository.find(cl, attr, value);
 	}

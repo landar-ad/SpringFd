@@ -23,6 +23,7 @@ public interface ObjService {
     List<Object> findAll(Class<?> cl, boolean empty) throws Exception;
     Object find(Class<?> cl, Object pk);
     Object find(String clazz, Object pk) throws Exception;
+    Object find(Class<?> cl, String[] attr, Object[] value);
     Object find(Class<?> cl, String attr, Object value);
     Object getObjByCode(Class<?> cl, String code);
     String getClassByKey(Integer rn);

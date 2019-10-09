@@ -43,6 +43,7 @@ import org.w3c.dom.Node;
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
@@ -307,11 +308,6 @@ public class LoadController {
 					    String v = cell.getStringCellValue();
 						if (!hs.isEmpty(v)) v = v.trim();
 					    String attr = listAttr.get(j);
-					    if ("code".equals(attr) && !hs.isEmpty(v)) {
-					    	if (hs.isEmpty(v)) { bContinue = true; break; }
-					    	Page<Object> p = objService.findAll(cl, null, new String[] {"code"}, new Object[] {v});
-					    	if (p != null && !p.isEmpty()) { messageContinue = "Дублирование кода " + obj.getClazz() + " " + v; bContinue = true; break; }
-				    	}
 					    String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 					    String setter = "set" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 						Method mSet = null, mGet = null;
@@ -319,9 +315,32 @@ public class LoadController {
 							mGet = cl.getMethod(getter);
 							mSet = cl.getMethod(setter, mGet.getReturnType()); 
 							Class<?> clType = mGet.getReturnType();
-							mSet.invoke(obj, IBase.class.isAssignableFrom(clType) ? objService.getObjByCode(clType, v) : hs.getObjectByString(v, clType));
+							Object ot = null;
+							if (IBase.class.isAssignableFrom(clType)) {
+								if (!"SpCommon".equals(clType.getSimpleName())) ot = objService.getObjByCode(clType, v);
+								else {
+									String sp_code = (String)HelperServiceImpl.getAttrInfo(clType, attr, "sp");
+									ot = objService.find(clType, new String[] {"code", "sp_code"}, new Object[] { v, sp_code});
+								}
+							}
+							else ot = hs.getObjectByString(v, clType);
+							mSet.invoke(obj, o);
 						} 
 						catch (Exception e) { }
+					}
+					// Проверка объекта obj по code + (sp_code)
+					String code = (String)hs.getProperty(obj, "code"), sp_code = (String)hs.getProperty(obj, "sp_code");
+					if (!hs.isEmpty(code)) {
+						List<String> la = new ArrayList<String>();
+				    	la.add("code");
+				    	List<Object> lv = new ArrayList<Object>();
+				    	lv.add(code);
+				    	if (SpCommon.class.isAssignableFrom(cl)) {
+				    		la.add("sp_code");
+				    		lv.add(sp_code);
+				    	}
+				    	Page<Object> p = objService.findAll(cl, null, la.toArray(new String[la.size()]), lv.toArray(new Object[lv.size()]));
+				    	if (p != null && !p.isEmpty()) { messageContinue = "Дублирование кода " + obj.getClazz() + " " + code + (!hs.isEmpty(sp_code) ? " " + sp_code : ""); bContinue = true; }
 					}
 					if (bContinue) {
 						if (messageContinue != null) listAdd.add(messageContinue); 
@@ -339,6 +358,7 @@ public class LoadController {
 		}
 		catch (Exception ex) {
 			listAdd.add("Исключение " + ex.getClass().getSimpleName() + " " + ex.getMessage());
+			ex.printStackTrace();
 		}
 		model.addAttribute("datetime", new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(new Date()));
     	model.addAttribute("listResult", listAdd);
