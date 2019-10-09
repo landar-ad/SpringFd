@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
@@ -85,6 +86,21 @@ public class IDepartment extends IBase {
 		ret.add(new ColumnInfo("org__name", cl));
 		return ret;
 	}
+	public static List<AttributeInfo> listAttribute() {
+		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
+		Class<?> cl = IDepartment.class;
+		ret.add(new AttributeInfo("code", cl)); 
+		ret.add(new AttributeInfo("shortname", cl));
+		ret.add(new AttributeInfo("fullname", cl));
+		ret.add(new AttributeInfo("level", cl));
+		ret.add(new AttributeInfo("prn", cl));
+		ret.add(new AttributeInfo("date_from", cl));
+		ret.add(new AttributeInfo("date_to", cl));
+		ret.add(new AttributeInfo("org", cl));
+		return ret;
+	}
+	
+	
 	@Override
     public Object onNew() {
      	Object ret = super.onNew();
