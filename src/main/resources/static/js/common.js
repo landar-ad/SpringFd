@@ -401,8 +401,9 @@ Amel = {
 		if (k == 9) {
 			var p = $(".td-edited"), pa = [];
 			for (var j=0; j<p.length; j++) {
-				var zz = $(p[j]).find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date");
-				if (zz.length > 0) pa[pa.length] = p[j]; 
+				var zz = $(p[j]).find("input[type='text'],input[type='date'],select,.custom-file,textarea,.custom-date");
+				if (zz.length == 0) continue;
+				pa[pa.length] = p[j]; 
 			}
 			for (var j=0; j<pa.length; j++) {
 				var s = pa[j];
