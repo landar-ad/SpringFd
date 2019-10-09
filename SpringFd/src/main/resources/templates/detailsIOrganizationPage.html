@@ -29,11 +29,12 @@
 		                    </tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='ИНН',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                        <th:block th:with="w='21%',tt='text',nn='inn',vv=${obj.inn},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='13%',tt='text',nn='inn',vv=${obj.inn},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <th:block th:with="w='7%',tt='label',vv='КПП'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                        <th:block th:with="w='21%',tt='text',nn='kpp',vv=${obj.kpp},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                      	<th:block th:with="w='21%',tt='label',vv='Код сводного реестра'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                        <th:block th:with="w='17%',tt='text',nn='srcode',vv=${obj.srcode},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <td width="8%"/>
 		                    </tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Адрес'"><th th:replace="fragments/tc :: ch"></th></th:block>
