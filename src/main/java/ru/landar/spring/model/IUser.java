@@ -105,8 +105,8 @@ public class IUser extends IBase {
 		Class<?> cl = IUser.class;
 		ret.add(new ColumnInfo("login", cl));
 		ret.add(new ColumnInfo("roles", cl));
-		ret.add(new ColumnInfo("org__name", cl, true, true, "*", "select"));
-		ret.add(new ColumnInfo("person__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("org__name", cl));
+		ret.add(new ColumnInfo("person__name", cl));
 		ret.add(new ColumnInfo("disabled", cl));
 		return ret;
 	}

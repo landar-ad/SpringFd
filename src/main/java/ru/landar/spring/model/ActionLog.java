@@ -94,7 +94,7 @@ public class ActionLog extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = ActionLog.class;
 		ret.add(new ColumnInfo("action_time", cl));
-		ret.add(new ColumnInfo("action_type__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("action_type__name", cl));
 		ret.add(new ColumnInfo("user_login", cl));
 		ret.add(new ColumnInfo("obj_name", cl));
 		ret.add(new ColumnInfo("obj_rn", cl));

@@ -106,8 +106,7 @@ public class PopupController {
 				String visible = cv.substring(0, 1), target = cv.substring(1, 2);
 				if ("A".equals(sortType) || "D".equals(sortType)) sortId = name;
 				if (!"Y".equals(visible)) continue;
-				ColumnInfo ci = new ColumnInfo(name, title);
-				ci.setFilter(target);
+				ColumnInfo ci = new ColumnInfo(name, title, true, true, target, "text", null, null);
 				listColumn.add(ci);
 			}
 		}

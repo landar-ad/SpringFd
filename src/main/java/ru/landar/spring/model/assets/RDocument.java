@@ -118,7 +118,7 @@ public class RDocument extends IBase {
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = RDocument.class;
-		ret.add(new ColumnInfo("doctype__name", cl, true, true, "*", "select")); 
+		ret.add(new ColumnInfo("doctype__name", cl)); 
 		ret.add(new ColumnInfo("docname", cl));
 		ret.add(new ColumnInfo("docnum", cl));
 		ret.add(new ColumnInfo("docdate", cl));
