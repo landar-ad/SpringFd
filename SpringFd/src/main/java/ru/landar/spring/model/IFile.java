@@ -46,7 +46,7 @@ public class IFile extends IBase {
     public SpFileType getFiletype() { return filetype; }
     public void setFiletype(SpFileType filetype) { this.filetype = filetype; }
     
-    @FieldTitle(name="Ссылка на содержимое")
+    @FieldTitle(name="Ссылка на содержимое", visible=false, readOnly=true)
     @Column(length=2048)
     public String getFileuri() { return fileuri; }
     public void setFileuri(String fileuri) { this.fileuri = fileuri; }
@@ -68,8 +68,8 @@ public class IFile extends IBase {
    		Class<?> cl = IFile.class;
    		ret.add(new ColumnInfo("filename", cl)); 
    		ret.add(new ColumnInfo("fileext", cl));
-   		ret.add(new ColumnInfo("filetype__name", cl, true, true, "*", "select"));
-   		ret.add(new ColumnInfo("fileuri", cl, false));
+   		ret.add(new ColumnInfo("filetype__name", cl));
+   		ret.add(new ColumnInfo("fileuri", cl));
    		ret.add(new ColumnInfo("filelength", cl));
    		ret.add(new ColumnInfo("comment", cl));
    		return ret;

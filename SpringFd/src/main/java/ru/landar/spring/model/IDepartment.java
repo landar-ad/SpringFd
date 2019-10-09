@@ -76,10 +76,10 @@ public class IDepartment extends IBase {
 		ret.add(new ColumnInfo("shortname", cl));
 		ret.add(new ColumnInfo("fullname", cl));
 		ret.add(new ColumnInfo("level", cl));
-		ret.add(new ColumnInfo("prn__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("prn__name", cl));
 		ret.add(new ColumnInfo("date_from", cl));
 		ret.add(new ColumnInfo("date_to", cl));
-		ret.add(new ColumnInfo("org__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("org__name", cl));
 		return ret;
 	}
 	@Override

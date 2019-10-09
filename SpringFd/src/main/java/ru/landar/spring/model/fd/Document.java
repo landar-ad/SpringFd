@@ -105,7 +105,7 @@ public class Document extends IBase {
     public Date getDoc_date() { return doc_date; }
     public void setDoc_date(Date doc_date) { this.doc_date = doc_date; updateName(); }
     
-    @FieldTitle(name="Основной документ")
+    @FieldTitle(name="Основной документ", visible=false)
     @ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
     public Document getParent_doc() { return parent_doc; }
     public void setParent_doc(Document parent_doc) { this.parent_doc = parent_doc; }
@@ -124,12 +124,12 @@ public class Document extends IBase {
     public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
-    @FieldTitle(name="Создан")
+    @FieldTitle(name="Создан", visible=false)
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
 	
-    @FieldTitle(name="Структурное подразделение")
+    @FieldTitle(name="Структурное подразделение", nameColumn="№ департамента")
 	@ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
     public IDepartment getDepart() { return depart; }
     public void setDepart(IDepartment depart) { this.depart = depart; }
@@ -138,12 +138,12 @@ public class Document extends IBase {
     public Date getCreate_time() { return create_time; }
     public void setCreate_time(Date create_time) { this.create_time = create_time; }
 	
-    @FieldTitle(name="Изменен")
+    @FieldTitle(name="Изменен", visible=false)
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getChange_agent() { return change_agent; }
     public void setChange_agent(IAgent change_agent) { this.change_agent = change_agent; }
 	
-    @FieldTitle(name="Дата изменения")
+    @FieldTitle(name="Дата изменения", visible=false)
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
 	
@@ -152,17 +152,17 @@ public class Document extends IBase {
     public Act getAct() { return act; }
     public void setAct(Act act) { this.act = act; }
     
-    @FieldTitle(name="Исключен из акта")
+    @FieldTitle(name="Исключен из акта", visible=false)
     @Column(length=40)
     public String getAct_exclude_num() { return act_exclude_num; }
     public void setAct_exclude_num(String act_exclude_num) { this.act_exclude_num = act_exclude_num; }
     
-    @FieldTitle(name="Причина исключения")
+    @FieldTitle(name="Причина исключения", visible=false)
     @Column(length=256)
     public String getAct_exclude_reason() { return act_exclude_reason; }
     public void setAct_exclude_reason(String act_exclude_reason) { this.act_exclude_reason = act_exclude_reason; }
 
-    @FieldTitle(name="Дата исключения")
+    @FieldTitle(name="Дата исключения", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getAct_exclude_date() { return act_exclude_date; }
     public void setAct_exclude_date(Date act_exclude_date) { this.act_exclude_date = act_exclude_date; }
@@ -172,7 +172,7 @@ public class Document extends IBase {
     public Reestr getReestr() { return reestr; }
     public void setReestr(Reestr reestr) { this.reestr = reestr; }
 
-    @FieldTitle(name="Заменен документом")
+    @FieldTitle(name="Заменен документом", visible=false)
 	@ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
     public Document getChange_doc() { return change_doc; }
     public void setChange_doc(Document change_doc) { this.change_doc = change_doc; }
@@ -182,12 +182,12 @@ public class Document extends IBase {
     public Date getBuh_date() { return buh_date; }
     public void setBuh_date(Date buh_date) { this.buh_date = buh_date; }
 	
-    @FieldTitle(name="Выписка: №")
+    @FieldTitle(name="Выписка: №", visible=false)
 	@Column(length=40)
     public String getExtract_number() { return extract_number; }
     public void setExtract_number(String extract_number) { this.extract_number = extract_number; }
 	
-    @FieldTitle(name="Выписка: дата")
+    @FieldTitle(name="Выписка: дата", visible=false)
 	@Temporal(TemporalType.DATE)
     public Date getExtract_date() { return extract_date; }
     public void setExtract_date(Date extract_date) { this.extract_date = extract_date; }
@@ -197,36 +197,36 @@ public class Document extends IBase {
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     
-    @FieldTitle(name="Количество листов")
+    @FieldTitle(name="Количество листов", visible=false)
 	public Integer getSheet_count() { return sheet_count; }
     public void setSheet_count(Integer sheet_count) { this.sheet_count = sheet_count; }
     
-    @FieldTitle(name="Год проверки")
+    @FieldTitle(name="Год проверки", visible=false)
     @Column(length=4)
     public String getSp_year() { return sp_year; }
     public void setSp_year(String sp_year) { this.sp_year = sp_year; }
     
-    @FieldTitle(name="№ пункта запроса")
+    @FieldTitle(name="№ пункта запроса", visible=false)
     @Column(length=1000)
     public String getSp_num() { return sp_num; }
     public void setSp_num(String sp_num) { this.sp_num = sp_num; }
     
-    @FieldTitle(name="№ подпункта запроса")
+    @FieldTitle(name="№ подпункта запроса", visible=false)
     @Column(length=1000)
     public String getSp_subnum() { return sp_subnum; }
     public void setSp_subnum(String sp_subnum) { this.sp_subnum = sp_subnum; }
     
-    @FieldTitle(name="Номер документа СЭДКП")
+    @FieldTitle(name="Номер документа СЭДКП", visible=false)
     @Column(length=20)
     public String getSedkp_num() { return sedkp_num; }
     public void setSedkp_num(String sedkp_num) { this.sedkp_num = sedkp_num; }
     
-    @FieldTitle(name="Дата документа СЭДКП")
+    @FieldTitle(name="Дата документа СЭДКП", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getSedkp_date() { return sedkp_date; }
     public void setSedkp_date(Date sedkp_date) { this.sedkp_date = sedkp_date; }
     
-    @FieldTitle(name="Примечания")
+    @FieldTitle(name="Примечания", visible=false)
     @Column(length=1000)
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
@@ -258,35 +258,34 @@ public class Document extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = Document.class;
 		ret.add(new ColumnInfo("create_time", cl));
-		ret.add(new ColumnInfo("depart__code", "№ департамента"));
+		ret.add(new ColumnInfo("depart__code", cl));
 		ret.add(new ColumnInfo("doc_type__name", cl)); 
 		ret.add(new ColumnInfo("doc_number", cl));
 		ret.add(new ColumnInfo("doc_date", cl));
 		ret.add(new ColumnInfo("version", cl));
 		ret.add(new ColumnInfo("agent__name", cl));
-		ret.add(new ColumnInfo("parent_doc__name", cl, false));
-		ret.add(new ColumnInfo("doc_status__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("parent_doc__name", cl));
+		ret.add(new ColumnInfo("doc_status__name", cl));
 		ret.add(new ColumnInfo("time_status", cl));
-		ret.add(new ColumnInfo("create_agent__name", cl, false));
-		ret.add(new ColumnInfo("change_agent__name", cl, false));
-		ret.add(new ColumnInfo("change_time", "Дата изменения", false));
+		ret.add(new ColumnInfo("create_agent__name", cl));
+		ret.add(new ColumnInfo("change_agent__name", cl));
+		ret.add(new ColumnInfo("change_time", cl));
 		ret.add(new ColumnInfo("act__name", cl));
 		ret.add(new ColumnInfo("reestr__name", cl));
-		ret.add(new ColumnInfo("act_exclude_num", cl, false));
-		ret.add(new ColumnInfo("act_exclude_reason", cl, false));
-		ret.add(new ColumnInfo("act_exclude_date", cl, false));
-		ret.add(new ColumnInfo("change_doc__name", cl, false));
+		ret.add(new ColumnInfo("act_exclude_num", cl));
+		ret.add(new ColumnInfo("act_exclude_reason", cl));
+		ret.add(new ColumnInfo("act_exclude_date", cl));
+		ret.add(new ColumnInfo("change_doc__name", cl));
 		ret.add(new ColumnInfo("buh_date", cl));
-		ret.add(new ColumnInfo("sp_year", cl, false));
-		ret.add(new ColumnInfo("sp_num", cl, false));
-		ret.add(new ColumnInfo("sp_subnum", cl, false));
-		ret.add(new ColumnInfo("extract_number", cl, false));
-		ret.add(new ColumnInfo("extract_date", cl, false));
-		ret.add(new ColumnInfo("list_file", cl, false));
-		ret.add(new ColumnInfo("sheet_count", cl, false));
-		ret.add(new ColumnInfo("sedkp_num", cl, false));
-		ret.add(new ColumnInfo("sedkp_date", cl, false));
-		ret.add(new ColumnInfo("comment", cl, false));
+		ret.add(new ColumnInfo("sp_year", cl));
+		ret.add(new ColumnInfo("sp_num", cl));
+		ret.add(new ColumnInfo("sp_subnum", cl));
+		ret.add(new ColumnInfo("extract_number", cl));
+		ret.add(new ColumnInfo("extract_date", cl));
+		ret.add(new ColumnInfo("sheet_count", cl));
+		ret.add(new ColumnInfo("sedkp_num", cl));
+		ret.add(new ColumnInfo("sedkp_date", cl));
+		ret.add(new ColumnInfo("comment", cl));
 		return ret;
 	}
 	@Override

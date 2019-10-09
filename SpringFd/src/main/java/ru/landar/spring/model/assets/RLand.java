@@ -91,43 +91,43 @@ public class RLand extends RProperty {
     public String getAdr_pa() { return adr_pa; }
     public void setAdr_pa(String adr_pa) { this.adr_pa = adr_pa; }
     
-    @FieldTitle(name="Код адреса")
+    @FieldTitle(name="Код адреса", visible=false)
     @Column(length=40)
     public String getAdr_fo() { return adr_fo; }
     public void setAdr_fo(String adr_fo) { this.adr_fo = adr_fo; }
     
-    @FieldTitle(name="Категория земель", sp="sp_kz")
+    @FieldTitle(name="Категория земель", sp="sp_kz", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getK_kz() { return k_kz; }
     public void setK_kz(SpCommon k_kz) { this.k_kz = k_kz; }
     
-    @FieldTitle(name="Разрешенное использование (назначение)", sp="sp_vi")
+    @FieldTitle(name="Разрешенное использование (назначение)", sp="sp_vi", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getK_vi() { return k_vi; }
     public void setK_vi(SpCommon k_vi) { this.k_vi = k_vi; }
     
-    @FieldTitle(name="Особенности оборота", sp="sp_oo")
+    @FieldTitle(name="Особенности оборота", sp="sp_oo", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getK_oo() { return k_oo; }
     public void setK_oo(SpCommon k_oo) { this.k_oo = k_oo; }
     
-    @FieldTitle(name="ЖКХ")
+    @FieldTitle(name="ЖКХ", visible=false)
     public Boolean getKi_gkh() { return ki_gkh; }
     public void setKi_gkh(Boolean ki_gkh) { this.ki_gkh = ki_gkh; }
     
-    @FieldTitle(name="Административное здание")
+    @FieldTitle(name="Административное здание", visible=false)
     public Boolean getKi_az() { return ki_az; }
     public void setKi_az(Boolean ki_az) { this.ki_az = ki_az; }
     
-    @FieldTitle(name="Объект мобилизационного резерва")
+    @FieldTitle(name="Объект мобилизационного резерва", visible=false)
     public Boolean getKi_omr() { return ki_omr; }
     public void setKi_omr(Boolean ki_omr) { this.ki_omr = ki_omr; }
     
-    @FieldTitle(name="Прочие для производственных целей")
+    @FieldTitle(name="Прочие для производственных целей", visible=false)
     public Boolean getKi_ppz() { return ki_ppz; }
     public void setKi_ppz(Boolean ki_ppz) { this.ki_ppz = ki_ppz; }
     
-    @FieldTitle(name="Иное")
+    @FieldTitle(name="Иное", visible=false)
     public Boolean getKi_inoe() { return ki_inoe; }
     public void setKi_inoe(Boolean ki_inoe) { this.ki_inoe = ki_inoe; }
     
@@ -144,37 +144,37 @@ public class RLand extends RProperty {
     public Date getSo_psz() { return so_psz; }
     public void setSo_psz(Date so_psz) { this.so_psz = so_psz; }
     
-    @FieldTitle(name="Вид права", sp="sp_vidpfs")
+    @FieldTitle(name="Вид права", sp="sp_vidpfs", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getSo_vp() { return so_vp; }
     public void setSo_vp(SpCommon so_vp) { this.so_vp = so_vp; }
     
-    @FieldTitle(name="Срок действия права")
+    @FieldTitle(name="Срок действия права", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getSo_sdp() { return so_sdp; }
     public void setSo_sdp(Date so_sdp) { this.so_sdp = so_sdp; }
     
-    @FieldTitle(name="Вид собственности", sp="sp_fsob")
+    @FieldTitle(name="Вид собственности", sp="sp_fsob", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getSo_fs() { return so_fs; }
     public void setSo_fs(SpCommon so_fs) { this.so_fs = so_fs; }
     
-    @FieldTitle(name="Дата регистрации прав собственности РФ - планируемая")
+    @FieldTitle(name="Дата регистрации прав собственности РФ - планируемая", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getSo_drs_p() { return so_drs_p; }
     public void setSo_drs_p(Date so_drs_p) { this.so_drs_p = so_drs_p; }
     
-    @FieldTitle(name="Дата регистрации прав собственности РФ - фактическая")
+    @FieldTitle(name="Дата регистрации прав собственности РФ - фактическая", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getSo_drs_f() { return so_drs_f; }
     public void setSo_drs_f(Date so_drs_f) { this.so_drs_f = so_drs_f; }
     
-    @FieldTitle(name="Дата регистрации иных вещных прав - планируемая")
+    @FieldTitle(name="Дата регистрации иных вещных прав - планируемая", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getSo_drivp_p() { return so_drivp_p; }
     public void setSo_drivp_p(Date so_drivp_p) { this.so_drivp_p = so_drivp_p; }
     
-    @FieldTitle(name="Дата регистрации иных вещных прав - фактическая")
+    @FieldTitle(name="Дата регистрации иных вещных прав - фактическая", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getSo_drivp_f() { return so_drivp_f; }
     public void setSo_drivp_f(Date so_drivp_f) { this.so_drivp_f = so_drivp_f; }
@@ -212,30 +212,30 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("rf_dr", cl));
 		ret.add(new ColumnInfo("rf_vi", cl));
 		ret.add(new ColumnInfo("adr_pa", cl));
-		ret.add(new ColumnInfo("adr_fo", cl, false));
-		ret.add(new ColumnInfo("k_kz__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("k_vi__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("k_oo__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("ki_gkh", cl, false));
-		ret.add(new ColumnInfo("ki_az", cl, false));
-		ret.add(new ColumnInfo("ki_omr", cl, false));
-		ret.add(new ColumnInfo("ki_ppz", cl, false));
-		ret.add(new ColumnInfo("ki_inoe", cl, false));
-		ret.add(new ColumnInfo("ki_neisp", cl, false));
+		ret.add(new ColumnInfo("adr_fo", cl));
+		ret.add(new ColumnInfo("k_kz__name", cl));
+		ret.add(new ColumnInfo("k_vi__name", cl));
+		ret.add(new ColumnInfo("k_oo__name", cl));
+		ret.add(new ColumnInfo("ki_gkh", cl));
+		ret.add(new ColumnInfo("ki_az", cl));
+		ret.add(new ColumnInfo("ki_omr", cl));
+		ret.add(new ColumnInfo("ki_ppz", cl));
+		ret.add(new ColumnInfo("ki_inoe", cl));
+		ret.add(new ColumnInfo("ki_neisp", cl));
 		ret.add(new ColumnInfo("so_of", cl));
 		ret.add(new ColumnInfo("so_psz", cl));
-		ret.add(new ColumnInfo("so_vp__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("so_sdp", cl, false));
-		ret.add(new ColumnInfo("so_fs__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("so_drs_p", cl, false));
-		ret.add(new ColumnInfo("so_drs_f", cl, false));
-		ret.add(new ColumnInfo("so_drivp_p", cl, false));
-		ret.add(new ColumnInfo("so_drivp_f", cl, false));
+		ret.add(new ColumnInfo("so_vp__name", cl));
+		ret.add(new ColumnInfo("so_sdp", cl));
+		ret.add(new ColumnInfo("so_fs__name", cl));
+		ret.add(new ColumnInfo("so_drs_p", cl));
+		ret.add(new ColumnInfo("so_drs_f", cl));
+		ret.add(new ColumnInfo("so_drivp_p", cl));
+		ret.add(new ColumnInfo("so_drivp_f", cl));
 		ret.add(new ColumnInfo("s_rs", cl));
 		ret.add(new ColumnInfo("s_ks", cl));
 		ret.add(new ColumnInfo("s_ns", cl));
 		ret.add(new ColumnInfo("s_ap", cl));
-		ret.add(new ColumnInfo("comment", cl, false));
+		ret.add(new ColumnInfo("comment", cl));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }

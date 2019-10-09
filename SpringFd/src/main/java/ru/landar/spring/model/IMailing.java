@@ -28,7 +28,7 @@ public class IMailing extends IBase {
     public static List<ColumnInfo> listColumn() {
    		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
    		Class<?> cl = IFile.class;
-   		ret.add(new ColumnInfo("person__name", cl, true, true, "*", "select"));
+   		ret.add(new ColumnInfo("person__name", cl));
    		return ret;
    	}
     

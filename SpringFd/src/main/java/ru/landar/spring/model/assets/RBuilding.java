@@ -57,7 +57,7 @@ public class RBuilding extends RProperty {
     public String getAdr_pa() { return adr_pa; }
     public void setAdr_pa(String adr_pa) { this.adr_pa = adr_pa; }
     
-    @FieldTitle(name="Код адреса")
+    @FieldTitle(name="Код адреса", visible=false)
     @Column(length=40)
     public String getAdr_fo() { return adr_fo; }
     public void setAdr_fo(String adr_fo) { this.adr_fo = adr_fo; }
@@ -132,19 +132,19 @@ public class RBuilding extends RProperty {
 		ret.add(new ColumnInfo("co_org__name", cl)); 
 		ret.add(new ColumnInfo("inv_number", cl));
 		ret.add(new ColumnInfo("on_nam", cl));
-		ret.add(new ColumnInfo("on_typ__name", cl, true, true, "*", "select"));
-		ret.add(new ColumnInfo("on_celn__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("on_typ__name", cl));
+		ret.add(new ColumnInfo("on_celn__name", cl));
 		ret.add(new ColumnInfo("adr_pa", cl));
-		ret.add(new ColumnInfo("adr_fo", cl, false));
-		ret.add(new ColumnInfo("so_fs__name", cl, true, true, "*", "select"));
-		ret.add(new ColumnInfo("so_vp__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("adr_fo", cl));
+		ret.add(new ColumnInfo("so_fs__name", cl));
+		ret.add(new ColumnInfo("so_vp__name", cl));
 		ret.add(new ColumnInfo("rf_ni", cl));
 		ret.add(new ColumnInfo("rf_dr", cl));
 		ret.add(new ColumnInfo("rf_sk", cl));
 		ret.add(new ColumnInfo("th_dp", cl));
 		ret.add(new ColumnInfo("th_etag", cl));
-		ret.add(new ColumnInfo("th_mp__name", cl, true, true, "*", "select"));
-		ret.add(new ColumnInfo("th_ms__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("th_mp__name", cl));
+		ret.add(new ColumnInfo("th_ms__name", cl));
 		ret.add(new ColumnInfo("th_ts", cl));
 		ret.add(new ColumnInfo("s_perv", cl));
 		ret.add(new ColumnInfo("s_amor", cl));

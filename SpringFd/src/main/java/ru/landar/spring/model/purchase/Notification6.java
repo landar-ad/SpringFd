@@ -58,10 +58,10 @@ public class Notification6 extends Document {
 		Class<?> cl = Notification6.class;
 		ret.add(new ColumnInfo("doc_number", cl));
 		ret.add(new ColumnInfo("doc_date", cl));
-		ret.add(new ColumnInfo("depart__name", "Ответственное структурное подразделение"));
-		ret.add(new ColumnInfo("comment", "Резолюция"));
-		ret.add(new ColumnInfo("create_agent__name", "Документ создал"));
-		ret.add(new ColumnInfo("doc_status__name", "Статус", true, true, "doc_status__rn", "select", "listDocStatus"));
+		ret.add(new ColumnInfo("depart__name", cl));
+		ret.add(new ColumnInfo("comment", cl));
+		ret.add(new ColumnInfo("create_agent__name", cl));
+		ret.add(new ColumnInfo("doc_status__name", cl));
 		return ret;
 	}
 }

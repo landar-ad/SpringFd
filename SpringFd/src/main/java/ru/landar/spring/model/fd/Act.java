@@ -149,7 +149,7 @@ public class Act extends IBase {
 		Class<?> cl = Act.class;
 		ret.add(new ColumnInfo("act_number", cl));
 		ret.add(new ColumnInfo("act_date", cl));
-		ret.add(new ColumnInfo("act_status__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("act_status__name", cl));
 		ret.add(new ColumnInfo("time_status", cl));
 		ret.add(new ColumnInfo("act_reason", cl));
 		ret.add(new ColumnInfo("create_agent__name", cl));

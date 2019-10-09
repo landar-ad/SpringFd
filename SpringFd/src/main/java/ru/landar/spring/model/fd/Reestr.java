@@ -173,7 +173,7 @@ public class Reestr extends IBase {
 		Class<?> cl = Reestr.class;
 		ret.add(new ColumnInfo("reestr_number", cl));
 		ret.add(new ColumnInfo("reestr_date", cl));
-		ret.add(new ColumnInfo("reestr_status__name", cl, true, true, "reestr_status__rn", "select"));
+		ret.add(new ColumnInfo("reestr_status__name", cl));
 		ret.add(new ColumnInfo("agent_from__name", cl));
 		ret.add(new ColumnInfo("agent_to__name", cl));
 		ret.add(new ColumnInfo("mol__name", cl));

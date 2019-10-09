@@ -236,9 +236,10 @@ public abstract class IBase {
 	// Статические методы
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		ret.add(new ColumnInfo("code", "Код")); 
-		ret.add(new ColumnInfo("name", "Наименование"));
-		ret.add(new ColumnInfo("actual", "Актуальность"));
+		Class<?> cl = IBase.class;
+		ret.add(new ColumnInfo("code", cl)); 
+		ret.add(new ColumnInfo("name", cl));
+		ret.add(new ColumnInfo("actual", cl));
 		return ret;
 	}
 	public List<ButtonInfo> listButton() {

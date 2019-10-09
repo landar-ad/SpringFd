@@ -117,12 +117,12 @@ public class UnfinishedConstruction extends IBase {
     public String getObj_name() { return obj_name; }
     public void setObj_name(String obj_name) { this.obj_name = obj_name; setName(obj_name); }
     
-    @FieldTitle(name="Адрес объекта")
+    @FieldTitle(name="Адрес объекта", visible=false)
     @Column(length=2000)
     public String getObj_address() { return obj_address; }
     public void setObj_address(String obj_address) { this.obj_address = obj_address; }
     
-    @FieldTitle(name="Мощность объекта")
+    @FieldTitle(name="Мощность объекта", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getObj_capacity() { return obj_capacity; }
     public void setObj_capacity(BigDecimal obj_capacity) { this.obj_capacity = obj_capacity; }
@@ -140,72 +140,72 @@ public class UnfinishedConstruction extends IBase {
     public Integer getYear_stop() { return year_stop; }
     public void setYear_stop(Integer year_stop) { this.year_stop = year_stop; }
     
-    @FieldTitle(name="Документ-основание")
+    @FieldTitle(name="Документ-основание", visible=false)
     @Column(length=2000)
     public String getDoc_basis_fbfund() { return doc_basis_fbfund; }
     public void setDoc_basis_fbfund(String doc_basis_fbfund) { this.doc_basis_fbfund = doc_basis_fbfund; }
     
-    @FieldTitle(name="Фактические расходы")
+    @FieldTitle(name="Фактические расходы", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getAct_cost_real() { return act_cost_real; }
     public void setAct_cost_real(BigDecimal act_cost_real) { this.act_cost_real = act_cost_real; }
     
-    @FieldTitle(name="Фактические расходы в том числе из федерального бюджета")
+    @FieldTitle(name="Фактические расходы в том числе из федерального бюджета", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getAct_cost_real_iefb() { return act_cost_real_iefb; }
     public void setAct_cost_real_iefb(BigDecimal act_cost_real_iefb) { this.act_cost_real_iefb = act_cost_real_iefb; }
     
-    @FieldTitle(name="Остаток сметной стоимости")
+    @FieldTitle(name="Остаток сметной стоимости", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getRemain_est_cost() { return remain_est_cost; }
     public void setRemain_est_cost(BigDecimal remain_est_cost) { this.remain_est_cost = remain_est_cost; }
     
-    @FieldTitle(name="Для завершения строительства")
+    @FieldTitle(name="Для завершения строительства", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getSafund_comcon() { return safund_comcon; }
     public void setSafund_comcon(BigDecimal safund_comcon) { this.safund_comcon = safund_comcon; }
     
-    @FieldTitle(name="Для завершения строительства из федерального бюджета")
+    @FieldTitle(name="Для завершения строительства из федерального бюджета", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getSafund_comcon_iefb() { return safund_comcon_iefb; }
     public void setSafund_comcon_iefb(BigDecimal safund_comcon_iefb) { this.safund_comcon_iefb = safund_comcon_iefb; }
     
-    @FieldTitle(name="Для завершения строительства из внебюджетных источников")
+    @FieldTitle(name="Для завершения строительства из внебюджетных источников", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getSafund_comcon_ievs() { return safund_comcon_ievs; }
     public void setSafund_comcon_ievs(BigDecimal safund_comcon_ievs) { this.safund_comcon_ievs = safund_comcon_ievs; }
     
-    @FieldTitle(name="Срок реализации мероприятия")
+    @FieldTitle(name="Срок реализации мероприятия", visible=false)
     @Column(length=256)
     public String getImp_period_event() { return imp_period_event; }
     public void setImp_period_event(String imp_period_event) { this.imp_period_event = imp_period_event; }
 
-    @FieldTitle(name="На консервацию объекта")
+    @FieldTitle(name="На консервацию объекта", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getSafund_pres_obj() { return safund_pres_obj; }
     public void setSafund_pres_obj(BigDecimal safund_pres_obj) { this.safund_pres_obj = safund_pres_obj; }
     
-    @FieldTitle(name="Предлагаемый получатель объекта")
+    @FieldTitle(name="Предлагаемый получатель объекта", visible=false)
     @Column(length=200)
     public String getProp_rec_object() { return prop_rec_object; }
     public void setProp_rec_object(String prop_rec_object) { this.prop_rec_object = prop_rec_object; }
     
-    @FieldTitle(name="Обоснование необходимости списания")
+    @FieldTitle(name="Обоснование необходимости списания", visible=false)
     @Column(length=600)
     public String getRat_writing_obj() { return rat_writing_obj; }
     public void setRat_writing_obj(String rat_writing_obj) { this.rat_writing_obj = rat_writing_obj; }
     
-    @FieldTitle(name="На снос объекта")
+    @FieldTitle(name="На снос объекта", visible=false)
     @Column(precision=17, scale=2)
     public BigDecimal getSafund_destr() { return safund_destr; }
     public void setSafund_destr(BigDecimal safund_destr) { this.safund_destr = safund_destr; }
     
-    @FieldTitle(name="Наличие проектной документации")
+    @FieldTitle(name="Наличие проектной документации", visible=false)
     @Column(length=400)
     public String getPresence_dpd() { return presence_dpd; }
     public void setPresence_dpd(String presence_dpd) { this.presence_dpd = presence_dpd; }
     
-    @FieldTitle(name="Предлагаемые решения организации")
+    @FieldTitle(name="Предлагаемые решения организации", visible=false)
     @Column(length=600)
     public String getProp_sol_dpd() { return prop_sol_dpd; }
     public void setProp_sol_dpd(String prop_sol_dpd) { this.prop_sol_dpd = prop_sol_dpd; }
@@ -215,7 +215,7 @@ public class UnfinishedConstruction extends IBase {
     public IOrganization getCustomer() { return customer; }
     public void setCustomer(IOrganization customer) { this.customer = customer; }
     
-    @FieldTitle(name="Департамент")
+    @FieldTitle(name="Департамент", visible=false)
     @ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
     public IDepartment getDepart() { return depart; }
     public void setDepart(IDepartment depart) { this.depart = depart; }
@@ -230,62 +230,62 @@ public class UnfinishedConstruction extends IBase {
     public SpViewEvent getView_event() { return view_event; }
     public void setView_event(SpViewEvent view_event) { this.view_event = view_event; }
     
-    @FieldTitle(name="Состояние мероприятия", sp="sp_svm")
+    @FieldTitle(name="Состояние мероприятия", sp="sp_svm", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getState_view_event() { return state_view_event; }
     public void setState_view_event(SpCommon state_view_event) { this.state_view_event = state_view_event; }
     
-    @FieldTitle(name="ФИО контактного лица 1")
+    @FieldTitle(name="ФИО контактного лица 1", visible=false)
     @Column(length=120)
     public String getAgnname1() { return agnname1; }
     public void setAgnname1(String agnname1) { this.agnname1 = agnname1; }
     
-    @FieldTitle(name="Должность контактного лица 1")
+    @FieldTitle(name="Должность контактного лица 1", visible=false)
     @Column(length=160)
     public String getEmppost1() { return emppost1; }
     public void setEmppost1(String emppost1) { this.emppost1 = emppost1; }
     
-    @FieldTitle(name="Телефон гор. контактного лица 1")
+    @FieldTitle(name="Телефон гор. контактного лица 1", visible=false)
     @Column(length=40)
     public String getPhone_s1() { return phone_s1; }
     public void setPhone_s1(String phone_s1) { this.phone_s1 = phone_s1; }
     
-    @FieldTitle(name="Телефон моб. контактного лица 1")
+    @FieldTitle(name="Телефон моб. контактного лица 1", visible=false)
     @Column(length=40)
     public String getPhone_m1() { return phone_m1; }
     public void setPhone_m1(String phone_m1) { this.phone_m1 = phone_m1; }
     
-    @FieldTitle(name="Электронная почта контактного лица 1")
+    @FieldTitle(name="Электронная почта контактного лица 1", visible=false)
     @Column(length=80)
     public String getEmail1() { return email1; }
     public void setEmail1(String email1) { this.email1 = email1; }
     
-    @FieldTitle(name="ФИО контактного лица 2")
+    @FieldTitle(name="ФИО контактного лица 2", visible=false)
     @Column(length=120)
     public String getAgnname2() { return agnname2; }
     public void setAgnname2(String agnname2) { this.agnname2 = agnname2; }
     
-    @FieldTitle(name="Должность контактного лица 2")
+    @FieldTitle(name="Должность контактного лица 2", visible=false)
     @Column(length=160)
     public String getEmppost2() { return emppost2; }
     public void setEmppost2(String emppost2) { this.emppost2 = emppost2; }
     
-    @FieldTitle(name="Телефон гор. контактного лица 2")
+    @FieldTitle(name="Телефон гор. контактного лица 2", visible=false)
     @Column(length=40)
     public String getPhone_s2() { return phone_s2; }
     public void setPhone_s2(String phone_s2) { this.phone_s2 = phone_s2; }
     
-    @FieldTitle(name="Телефон моб. контактного лица 2")
+    @FieldTitle(name="Телефон моб. контактного лица 2", visible=false)
     @Column(length=40)
     public String getPhone_m2() { return phone_m2; }
     public void setPhone_m2(String phone_m2) { this.phone_m2 = phone_m2; }
     
-    @FieldTitle(name="Электронная почта контактного лица 2")
+    @FieldTitle(name="Электронная почта контактного лица 2", visible=false)
     @Column(length=80)
     public String getEmail2() { return email2; }
     public void setEmail2(String email2) { this.email2 = email2; }
     
-    @FieldTitle(name="Требуется выезд")
+    @FieldTitle(name="Требуется выезд", visible=false)
     public Boolean getReq_trip() { return req_trip; }
     public void setReq_trip(Boolean req_trip) { this.req_trip = req_trip; }
     
@@ -294,7 +294,7 @@ public class UnfinishedConstruction extends IBase {
     public SpCommon getStatus() { return status; }
     public void setStatus(SpCommon status) { this.status = status; }
     
-    @FieldTitle(name="Стадия строительства")
+    @FieldTitle(name="Стадия строительства", visible=false)
     @ManyToOne(targetEntity=SpCompletionPhase.class, fetch=FetchType.LAZY)
     public SpCompletionPhase getComplet_build_phs() { return complet_build_phs; }
     public void setComplet_build_phs(SpCompletionPhase complet_build_phs) { this.complet_build_phs = complet_build_phs; }
@@ -318,59 +318,59 @@ public class UnfinishedConstruction extends IBase {
     public Boolean getFaip() { return faip; }
     public void setFaip(Boolean faip) { this.faip = faip; }
     
-    @FieldTitle(name="Тип документа ФАИП", sp="sp_tfaip")
+    @FieldTitle(name="Тип документа ФАИП", sp="sp_tfaip", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getType_faip() { return type_faip; }
     public void setType_faip(SpCommon type_faip) { this.type_faip = type_faip; }
     
-    @FieldTitle(name="Номер документа ФАИП")
+    @FieldTitle(name="Номер документа ФАИП", visible=false)
     @Column(length=40)
     public String getNum_faip() { return num_faip; }
     public void setNum_faip(String num_faip) { this.num_faip = num_faip; }
     
-    @FieldTitle(name="Дата документа ФАИП")
+    @FieldTitle(name="Дата документа ФАИП", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getDate_faip() { return date_faip; }
     public void setDate_faip(Date date_faip) { this.date_faip = date_faip; }
     
-    @FieldTitle(name="Бюджетные средства")
+    @FieldTitle(name="Бюджетные средства", visible=false)
     public Boolean getBs_source() { return bs_source; }
     public void setBs_source(Boolean bs_source) { this.bs_source = bs_source; }
     
-    @FieldTitle(name="Бюджетные средства: письмо №")
+    @FieldTitle(name="Бюджетные средства: письмо №", visible=false)
     @Column(length=100)
     public String getBs_num() { return bs_num; }
     public void setBs_num(String bs_num) { this.bs_num = bs_num; }
     
-    @FieldTitle(name="Бюджетные средства: дата")
+    @FieldTitle(name="Бюджетные средства: дата", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getBs_date() { return bs_date; }
     public void setBs_date(Date bs_date) { this.bs_date = bs_date; }
     
-    @FieldTitle(name="Внебюджетные источники")
+    @FieldTitle(name="Внебюджетные источники", visible=false)
     public Boolean getVs_source() { return vs_source; }
     public void setVs_source(Boolean vs_source) { this.vs_source = vs_source; }
     
-    @FieldTitle(name="Внебюджетные источники: письмо №")
+    @FieldTitle(name="Внебюджетные источники: письмо №", visible=false)
     @Column(length=100)
     public String getVs_num() { return vs_num; }
     public void setVs_num(String vs_num) { this.vs_num = vs_num; }
     
-    @FieldTitle(name="Внебюджетные источники: дата")
+    @FieldTitle(name="Внебюджетные источники: дата", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getVs_date() { return vs_date; }
     public void setVs_date(Date vs_date) { this.vs_date = vs_date; }
     
-    @FieldTitle(name="Иные источники")
+    @FieldTitle(name="Иные источники", visible=false)
     public Boolean getIi_source() { return ii_source; }
     public void setIi_source(Boolean ii_source) { this.ii_source = ii_source; }
     
-    @FieldTitle(name="Иные источники: письмо №")
+    @FieldTitle(name="Иные источники: письмо №", visible=false)
     @Column(length=100)
     public String getIi_num() { return ii_num; }
     public void setIi_num(String ii_num) { this.ii_num = ii_num; }
     
-    @FieldTitle(name="Иные источники: дата")
+    @FieldTitle(name="Иные источники: дата", visible=false)
     @Temporal(TemporalType.DATE)
     public Date getIi_date() { return ii_date; }
     public void setIi_date(Date ii_date) { this.ii_date = ii_date; }
@@ -380,47 +380,47 @@ public class UnfinishedConstruction extends IBase {
     public IFile getFile_zag() { return file_zag; }
     public void setFile_zag(IFile file_zag) { this.file_zag = file_zag; }
     
-    @FieldTitle(name="Широта")
+    @FieldTitle(name="Широта", visible=false)
     @Column(precision=17, scale=7)
     public BigDecimal getLatitude() { return latitude; }
     public void setLatitude(BigDecimal latitude) { this.latitude = latitude; }
     
-    @FieldTitle(name="Долгота")
+    @FieldTitle(name="Долгота", visible=false)
     @Column(precision=17, scale=7)
     public BigDecimal getLongtitude() { return longtitude; }
     public void setLongtitude(BigDecimal longtitude) { this.longtitude = longtitude; }
     
-    @FieldTitle(name="Источник финансирования консервации объекта", sp="sp_if")
+    @FieldTitle(name="Источник финансирования консервации объекта", sp="sp_if", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getSafund_pres_obj_source() { return safund_pres_obj_source; }
     public void setSafund_pres_obj_source(SpCommon safund_pres_obj_source) { this.safund_pres_obj_source = safund_pres_obj_source; }
     
-    @FieldTitle(name="Источник финансирования сноса объекта", sp="sp_if")
+    @FieldTitle(name="Источник финансирования сноса объекта", sp="sp_if", visible=false)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getSafund_destr_source() { return safund_destr_source; }
     public void setSafund_destr_source(SpCommon safund_destr_source) { this.safund_destr_source = safund_destr_source; }
     
-    @FieldTitle(name="Реестровый номер федерального имущества")
+    @FieldTitle(name="Реестровый номер федерального имущества", visible=false)
     @Column(length=120)
     public String getRegnum_fedprop() { return regnum_fedprop; }
     public void setRegnum_fedprop(String regnum_fedprop) { this.regnum_fedprop = regnum_fedprop; }
     
-    @FieldTitle(name="Реестровый номер земельного участка")
+    @FieldTitle(name="Реестровый номер земельного участка", visible=false)
     @Column(length=120)
     public String getRegnum_zu() { return regnum_zu; }
     public void setRegnum_zu(String regnum_zu) { this.regnum_zu = regnum_zu; }
     
-    @FieldTitle(name="Кадастровый номер объекта")
+    @FieldTitle(name="Кадастровый номер объекта", visible=false)
     @Column(length=120)
     public String getKadnum_obj() { return kadnum_obj; }
     public void setKadnum_obj(String kadnum_obj) { this.kadnum_obj = kadnum_obj; }
     
-    @FieldTitle(name="Кадастровый номер земельного участка")
+    @FieldTitle(name="Кадастровый номер земельного участка", visible=false)
     @Column(length=120)
     public String getKadnum_zu() { return kadnum_zu; }
     public void setKadnum_zu(String kadnum_zu) { this.kadnum_zu = kadnum_zu; }
     
-    @FieldTitle(name="Предлагаемые решения по результатам проверки")
+    @FieldTitle(name="Предлагаемые решения по результатам проверки", visible=false)
     @Column(length=600)
     public String getProp_sol_prov() { return prop_sol_prov; }
     public void setProp_sol_prov(String prop_sol_prov) { this.prop_sol_prov = prop_sol_prov; }
@@ -452,69 +452,69 @@ public class UnfinishedConstruction extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = UnfinishedConstruction.class;
 		ret.add(new ColumnInfo("customer__name", cl)); 
-		ret.add(new ColumnInfo("status__name", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("status__name", cl));
 		ret.add(new ColumnInfo("obj_name", cl));
 		ret.add(new ColumnInfo("ident_obj", cl));
-		ret.add(new ColumnInfo("locobj__name", cl, true, true, "*", "select"));
-		ret.add(new ColumnInfo("obj_address", cl, false));
-		ret.add(new ColumnInfo("latitude", cl, false));
-		ret.add(new ColumnInfo("longtitude", cl, false));
-		ret.add(new ColumnInfo("purpose__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("obj_capacity", "Мощность объекта", false));
-		ret.add(new ColumnInfo("obj_capacity_ei__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("view_event__name", cl, true, true, "*", "select"));
-		ret.add(new ColumnInfo("state_view_event__name", cl, false, true, "*", "select"));
+		ret.add(new ColumnInfo("locobj__name", cl));
+		ret.add(new ColumnInfo("obj_address", cl));
+		ret.add(new ColumnInfo("latitude", cl));
+		ret.add(new ColumnInfo("longtitude", cl));
+		ret.add(new ColumnInfo("purpose__name", cl));
+		ret.add(new ColumnInfo("obj_capacity", cl));
+		ret.add(new ColumnInfo("obj_capacity_ei__name", cl));
+		ret.add(new ColumnInfo("view_event__name", cl));
+		ret.add(new ColumnInfo("state_view_event__name", cl));
 		ret.add(new ColumnInfo("estimated_cost", cl));
 		ret.add(new ColumnInfo("year_start", cl));
-		ret.add(new ColumnInfo("year_stop", "Окончание строительства (год)"));
-		ret.add(new ColumnInfo("complet_build_phs__name", cl, false, true, "*", "select"));
+		ret.add(new ColumnInfo("year_stop", cl));
+		ret.add(new ColumnInfo("complet_build_phs__name", cl));
 		ret.add(new ColumnInfo("complet_build_val", cl));
-		ret.add(new ColumnInfo("doc_basis_fbfund", cl, false));
-		ret.add(new ColumnInfo("act_cost_real", cl, false));
-		ret.add(new ColumnInfo("act_cost_real_iefb", cl, false));
-		ret.add(new ColumnInfo("remain_est_cost", cl, false));
-		ret.add(new ColumnInfo("safund_comcon", cl, false));
-		ret.add(new ColumnInfo("safund_comcon_iefb", cl, false));
-		ret.add(new ColumnInfo("safund_comcon_ievs", cl, false));
-		ret.add(new ColumnInfo("safund_pres_obj", cl, false));
-		ret.add(new ColumnInfo("safund_pres_obj_source__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("safund_destr", cl, false));
-		ret.add(new ColumnInfo("safund_destr_source__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("imp_period_event", cl, false));
-		ret.add(new ColumnInfo("prop_rec_object", cl, false));
-		ret.add(new ColumnInfo("rat_writing_obj", cl, false));
-		ret.add(new ColumnInfo("presence_dpd", cl, false));
-		ret.add(new ColumnInfo("prop_sol_dpd", cl, false));
-		ret.add(new ColumnInfo("prop_sol_prov", cl, false));
-		ret.add(new ColumnInfo("depart__name", cl, false)); 
-		ret.add(new ColumnInfo("agnname1", cl, false));
-		ret.add(new ColumnInfo("emppost1", cl, false));
-		ret.add(new ColumnInfo("phone_s1", cl, false));
-		ret.add(new ColumnInfo("phone_m1", cl, false));
-		ret.add(new ColumnInfo("email1", cl, false));
-		ret.add(new ColumnInfo("agnname2", cl, false));
-		ret.add(new ColumnInfo("emppost2", cl, false));
-		ret.add(new ColumnInfo("phone_s2", cl, false));
-		ret.add(new ColumnInfo("phone_m2", cl, false));
-		ret.add(new ColumnInfo("email2", cl, false));
-		ret.add(new ColumnInfo("bs_source", cl, false));
-		ret.add(new ColumnInfo("bs_num", cl, false));
-		ret.add(new ColumnInfo("bs_date", cl, false));
-		ret.add(new ColumnInfo("vs_source", cl, false));
-		ret.add(new ColumnInfo("vs_num", cl, false));
-		ret.add(new ColumnInfo("vs_date", cl, false));
-		ret.add(new ColumnInfo("ii_source", cl, false));
-		ret.add(new ColumnInfo("ii_num", cl, false));
-		ret.add(new ColumnInfo("ii_date", cl, false));
+		ret.add(new ColumnInfo("doc_basis_fbfund", cl));
+		ret.add(new ColumnInfo("act_cost_real", cl));
+		ret.add(new ColumnInfo("act_cost_real_iefb", cl));
+		ret.add(new ColumnInfo("remain_est_cost", cl));
+		ret.add(new ColumnInfo("safund_comcon", cl));
+		ret.add(new ColumnInfo("safund_comcon_iefb", cl));
+		ret.add(new ColumnInfo("safund_comcon_ievs", cl));
+		ret.add(new ColumnInfo("safund_pres_obj", cl));
+		ret.add(new ColumnInfo("safund_pres_obj_source__name", cl));
+		ret.add(new ColumnInfo("safund_destr", cl));
+		ret.add(new ColumnInfo("safund_destr_source__name", cl));
+		ret.add(new ColumnInfo("imp_period_event", cl));
+		ret.add(new ColumnInfo("prop_rec_object", cl));
+		ret.add(new ColumnInfo("rat_writing_obj", cl));
+		ret.add(new ColumnInfo("presence_dpd", cl));
+		ret.add(new ColumnInfo("prop_sol_dpd", cl));
+		ret.add(new ColumnInfo("prop_sol_prov", cl));
+		ret.add(new ColumnInfo("depart__name", cl)); 
+		ret.add(new ColumnInfo("agnname1", cl));
+		ret.add(new ColumnInfo("emppost1", cl));
+		ret.add(new ColumnInfo("phone_s1", cl));
+		ret.add(new ColumnInfo("phone_m1", cl));
+		ret.add(new ColumnInfo("email1", cl));
+		ret.add(new ColumnInfo("agnname2", cl));
+		ret.add(new ColumnInfo("emppost2", cl));
+		ret.add(new ColumnInfo("phone_s2", cl));
+		ret.add(new ColumnInfo("phone_m2", cl));
+		ret.add(new ColumnInfo("email2", cl));
+		ret.add(new ColumnInfo("bs_source", cl));
+		ret.add(new ColumnInfo("bs_num", cl));
+		ret.add(new ColumnInfo("bs_date", cl));
+		ret.add(new ColumnInfo("vs_source", cl));
+		ret.add(new ColumnInfo("vs_num", cl));
+		ret.add(new ColumnInfo("vs_date", cl));
+		ret.add(new ColumnInfo("ii_source", cl));
+		ret.add(new ColumnInfo("ii_num", cl));
+		ret.add(new ColumnInfo("ii_date", cl));
 		ret.add(new ColumnInfo("faip", cl));
-		ret.add(new ColumnInfo("type_faip__name", cl, false, true, "*", "select"));
-		ret.add(new ColumnInfo("num_faip", cl, false));
-		ret.add(new ColumnInfo("date_faip", cl, false));
-		ret.add(new ColumnInfo("regnum_fedprop", cl, false));
-		ret.add(new ColumnInfo("regnum_zu", cl, false));
-		ret.add(new ColumnInfo("kadnum_obj", cl, false));
-		ret.add(new ColumnInfo("kadnum_zu", cl, false));
-		ret.add(new ColumnInfo("req_trip", cl, false));
+		ret.add(new ColumnInfo("type_faip__name", cl));
+		ret.add(new ColumnInfo("num_faip", cl));
+		ret.add(new ColumnInfo("date_faip", cl));
+		ret.add(new ColumnInfo("regnum_fedprop", cl));
+		ret.add(new ColumnInfo("regnum_zu", cl));
+		ret.add(new ColumnInfo("kadnum_obj", cl));
+		ret.add(new ColumnInfo("kadnum_zu", cl));
+		ret.add(new ColumnInfo("req_trip", cl));
 		ret.add(new ColumnInfo("vvod_expl", cl));
 		
 		return ret;

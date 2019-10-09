@@ -95,7 +95,7 @@ public class RProperty extends IBase {
     public Boolean getOcdi() { return ocdi; }
     public void setOcdi(Boolean ocdi) { this.ocdi = ocdi; }
     
-    @FieldTitle(name="Примечание")
+    @FieldTitle(name="Примечание", visible=false)
     @Column(length=2048)
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
@@ -105,14 +105,14 @@ public class RProperty extends IBase {
 		Class<?> cl = RProperty.class;
 		ret.add(new ColumnInfo("co_org__name", cl)); 
 		ret.add(new ColumnInfo("inv_number", cl));
-		ret.add(new ColumnInfo("co_div__name", cl, true, true, "*", "select"));
-		ret.add(new ColumnInfo("co_type", cl, true, true, "*", "select"));
+		ret.add(new ColumnInfo("co_div__name", cl));
+		ret.add(new ColumnInfo("co_type", cl));
 		ret.add(new ColumnInfo("on_nam", cl));
 		ret.add(new ColumnInfo("book_value", cl));
 		ret.add(new ColumnInfo("residual_value", cl));
 		ret.add(new ColumnInfo("in_date", cl));
 		ret.add(new ColumnInfo("ocdi", cl));
-		ret.add(new ColumnInfo("comment", cl, false));
+		ret.add(new ColumnInfo("comment", cl));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
