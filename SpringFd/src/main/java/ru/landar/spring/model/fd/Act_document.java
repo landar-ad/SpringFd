@@ -18,6 +18,7 @@ import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 
 @Entity
@@ -84,7 +85,7 @@ public class Act_document extends IBase {
     			if (hs.isEmpty(getExclude_reason())) hs.setProperty(this, "exclude_reason", "Причина не указана");
     			if (getExclude_date() == null) hs.setProperty(this, "exclude_date", new Date());
     			if (doc != null) {
-    				hs.setProperty(doc, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5"));
+    				hs.setProperty(doc, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "5"}));
     				hs.setProperty(doc, "act_exclude_date", act != null ? act.getAct_date() : null);
     				hs.setProperty(doc, "act_exclude_num", act != null ? act.getAct_number() : null);
     				hs.setProperty(doc, "act_exclude_reason", getExclude_reason());
@@ -94,7 +95,7 @@ public class Act_document extends IBase {
     			setExclude_date(null);
     			setExclude_reason(null);
     			if (doc != null) {
-    				hs.setProperty(doc, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3"));
+    				hs.setProperty(doc, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "3"}));
     				hs.setProperty(doc, "act_exclude_date", null);
     				hs.setProperty(doc, "act_exclude_num", null);
     				hs.setProperty(doc, "act_exclude_reason", null);
@@ -109,7 +110,7 @@ public class Act_document extends IBase {
     	if (ret != null) return ret;
     	Document doc = getDoc();
     	if (doc != null) {
-    		hs.setProperty(doc, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+    		hs.setProperty(doc, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "2"}));
     		hs.setProperty(doc, "act", null);
     	}
     	return true;

@@ -30,6 +30,7 @@ import ru.landar.spring.model.IMailing;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SearchContent;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
@@ -59,7 +60,7 @@ public class Document extends IBase {
 	private Date doc_date;
 	private Document parent_doc;
 	private IAgent agent;
-	private SpDocStatus doc_status;
+	private SpCommon doc_status;
 	private Date time_status;
 	private IAgent create_agent;
 	private IDepartment depart;
@@ -114,10 +115,10 @@ public class Document extends IBase {
     public IAgent getAgent() { return agent; }
     public void setAgent(IAgent agent) { this.agent = agent; }
 	
-    @FieldTitle(name="Статус документа")
-	@ManyToOne(targetEntity=SpDocStatus.class, fetch=FetchType.LAZY)
-    public SpDocStatus getDoc_status() { return doc_status; }
-    public void setDoc_status(SpDocStatus doc_status) { this.doc_status = doc_status; }
+    @FieldTitle(name="Статус документа", sp="sp_sd")
+	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getDoc_status() { return doc_status; }
+    public void setDoc_status(SpCommon doc_status) { this.doc_status = doc_status; }
 	
     @FieldTitle(name="Дата присвоения статуса")
     public Date getTime_status() { return time_status; }
@@ -310,7 +311,7 @@ public class Document extends IBase {
       	hs.setProperty(this, "change_time", dt);
       	if (getDepart() == null) hs.setProperty(this, "depart", hs.getDepartment());
       	hs.setProperty(this, "doc_date", dt);
-      	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "1"));
+      	hs.setProperty(this, "doc_status", (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "1"}));
       	hs.setProperty(this, "time_status", dt);
       	hs.setProperty(this, "sheet_count", 0);
       	String dep_code = hs.getPropertyString(this, "depart__code");
@@ -361,7 +362,7 @@ public class Document extends IBase {
 		
 		try {
 			model.addAttribute("listSpDocType", objService.findAll(SpDocType.class));
-			model.addAttribute("listSpDocStatus", objService.findAll(SpDocStatus.class));
+			model.addAttribute("listSp_sd", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_sd"}));
 			if (!list) {
 				model.addAttribute("listSpFileType", objService.findAll(SpFileType.class));
 				model.addAttribute("listIDocument", objService.findAll(Document.class));
@@ -455,7 +456,7 @@ public class Document extends IBase {
     public void confirm(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("confirm")) return;
-    	hs.setProperty(this, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+    	hs.setProperty(this, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "2"}));
 	}
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public String copyDoc(HttpServletRequest request) throws Exception {

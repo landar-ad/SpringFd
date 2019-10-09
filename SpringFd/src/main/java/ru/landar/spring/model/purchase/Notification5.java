@@ -17,8 +17,8 @@ import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IAgent;
 import ru.landar.spring.model.IDepartment;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.fd.Document;
-import ru.landar.spring.model.fd.SpDocStatus;
 import ru.landar.spring.model.fd.SpDocType;
 
 @Entity
@@ -69,7 +69,7 @@ public class Notification5 extends Document {
     public IAgent getCreate_agent() { return super.getCreate_agent(); }
     
     @FieldTitle(name="Статус")
-    public SpDocStatus getDoc_status() { return super.getDoc_status(); }
+    public SpCommon getDoc_status() { return super.getDoc_status(); }
     
     @Transient
     public String getBaseClazz() { return "Document"; }

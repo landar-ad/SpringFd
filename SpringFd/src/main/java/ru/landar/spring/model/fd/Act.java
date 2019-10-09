@@ -32,6 +32,7 @@ import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IUser;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -54,7 +55,7 @@ public class Act extends IBase {
 	private String act_number;
 	private Integer act_num;
 	private Date act_date;
-	private SpActStatus act_status;
+	private SpCommon act_status;
 	private String act_reason;
 	private Date time_status;
 	private IAgent create_agent;
@@ -79,10 +80,10 @@ public class Act extends IBase {
     public Date getAct_date() { return act_date; }
     public void setAct_date(Date act_date) { this.act_date = act_date; updateName(); }
     
-    @FieldTitle(name="Статус акта")
-	@ManyToOne(targetEntity=SpActStatus.class, fetch=FetchType.LAZY)
-    public SpActStatus getAct_status() { return act_status; }
-    public void setAct_status(SpActStatus act_status) { this.act_status = act_status; }
+    @FieldTitle(name="Статус акта", sp="sp_sa")
+	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getAct_status() { return act_status; }
+    public void setAct_status(SpCommon act_status) { this.act_status = act_status; }
 	
     @FieldTitle(name="Причина отказа")
     @Column(length=256)
@@ -121,7 +122,7 @@ public class Act extends IBase {
     public List<Act_document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Act_document>(); }
     public void setList_doc(List<Act_document> list_doc) { this.list_doc = list_doc; }
     
-    @FieldTitle(name="ПРикрепленные файлы")
+    @FieldTitle(name="Прикрепленные файлы")
     @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
@@ -190,7 +191,7 @@ public class Act extends IBase {
     	setAct_date(dt);
     	setAct_num(0);
     	if (getDepart() == null) setDepart(hs.getDepartment());
-    	setAct_status((SpActStatus)objRepository.findByCode(SpActStatus.class, "1"));
+    	setAct_status((SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sa", "1"}));
     	setTime_status(dt);
      	return true;
     }
@@ -214,7 +215,7 @@ public class Act extends IBase {
     	for (Act_document act_doc : l) {
     		Document doc = act_doc.getDoc();
     		if (doc == null) continue;
-    		hs.setProperty(doc, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "2"));
+    		hs.setProperty(doc, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "2"}));
     		hs.setProperty(doc, "act", null);
      	}
     	return true;
@@ -240,7 +241,7 @@ public class Act extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listSpActStatus", objService.findAll(SpActStatus.class));
+			model.addAttribute("listSp_sa", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_sa"}));
 			if (!list) {
 				model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
 				model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
@@ -336,7 +337,7 @@ public class Act extends IBase {
 	    	hs.setProperty(this, "act_num", max + 1); 
 	    	hs.setProperty(this, "act_number", "" + getAct_num());
 	    	Act act = (Act)objRepository.createObj(this);
-	    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "3");
+	    	SpCommon doc_status = (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "3"});
 	    	List<Act_document> l = act.getList_doc();
 	    	for (Object o : p.getContent()) {
 	    		Document doc = (Document)o;
@@ -357,13 +358,13 @@ public class Act extends IBase {
     public void sendAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("sendAct")) return;
-    	hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, "2"));
+    	hs.setProperty(this, "act_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sa", "2"}));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void acceptAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("acceptAct")) return;
-    	hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, "3"));
+    	hs.setProperty(this, "act_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sa", "3"}));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void confirmAct(HttpServletRequest request) throws Exception {
@@ -379,8 +380,8 @@ public class Act extends IBase {
 		else if (!ne && e) act_status = "6";
 		else if (ne && e) act_status = "5";
 		// Изменить документы
-		SpDocStatus doc_status4 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4");
-		SpDocStatus doc_status5 = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
+		SpCommon doc_status4 = (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "4"});
+		SpCommon doc_status5 = (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "5"});
 		for (Act_document act_doc : getList_doc()) {
 			e = act_doc.getExclude() != null && act_doc.getExclude();
 			Document doc = act_doc.getDoc();
@@ -388,13 +389,13 @@ public class Act extends IBase {
 			hs.setProperty(doc, "doc_status", e ? doc_status5 : doc_status4);
 			objRepository.saveObj(doc);
 		}
-		hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, act_status));
+		hs.setProperty(this, "act_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sa", act_status}));
     }
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void refuseAct(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("refuseAct")) return;
-    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "5");
+    	SpCommon doc_status = (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "5"});
 		for (Act_document act_doc : getList_doc()) {
 			Document doc = act_doc.getDoc();
 			if (doc == null) continue;
@@ -402,7 +403,7 @@ public class Act extends IBase {
 			objRepository.saveObj(doc);
 		}
 		hs.setProperty(this, "act_reason", "Отклонен пользователем");
-		hs.setProperty(this, "act_status", (SpActStatus)objRepository.findByCode(SpActStatus.class, "6"));
+		hs.setProperty(this, "act_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sa", "6"}));
     }
     public String printAct(HttpServletRequest request) throws Exception {
     	return getRn() != null ? "/printAct?rn=" + getRn() : null;
