@@ -259,81 +259,86 @@ public class LoadController {
 		String[] filters = paramFilter.orElse("").split(",");
 		for (String filter : filters) if (!filter.trim().isEmpty()) listFilter.add(filter.trim());
 		List<String> listAdd = new ArrayList<String>();
-		InputStream is = file.getInputStream();
-		HSSFWorkbook wb = (HSSFWorkbook)WorkbookFactory.create(is);
-		for (int n=0; n<wb.getNumberOfSheets(); n++) {
-			HSSFSheet sheet = wb.getSheetAt(n);
-			String clazz = sheet.getSheetName();
-			if (listFilter.size() > 0 && !listFilter.contains(clazz)) continue;
-			Class<?> cl = hs.getClassByName(clazz);
-			if (cl == null) {
-				listAdd.add("Не найден класс по имени '" + clazz + "'");
-				continue;
-			}
-			// Заголовок
-			List<String> listAttr = new ArrayList<String>();
-			HSSFRow row = sheet.getRow(sheet.getFirstRowNum() + 2);
-			for (int j=row.getFirstCellNum(); j<=row.getLastCellNum(); j++) {
-	            HSSFCell cell = row.getCell(j);
-	            if (cell == null) continue;
-	            String v = cell.getStringCellValue();
-	            if (!hs.isEmpty(v)) v = v.trim().toLowerCase();
-	            listAttr.add(v);
-	        }
-			// Данные
-	    	for (int i=sheet.getFirstRowNum()+3; i<=sheet.getLastRowNum(); i++) {
-				row = sheet.getRow(i);
-				if (row == null) continue;
-				Object o = cl.newInstance();
-				if (!(o instanceof IBase)) continue;
-				IBase obj = (IBase)o;
-				boolean bContinue = false;
-				String messageContinue = null;
-				boolean empty = true;
-				for (int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
-				    HSSFCell cell = row.getCell(j);
-				    if (cell == null) continue;
-				    if (cell.getCellType() != Cell.CELL_TYPE_STRING) cell.setCellType(Cell.CELL_TYPE_STRING);
-				    String v = cell.getStringCellValue();
-				    if (!hs.isEmpty(v)) v = v.trim();
-				    if (!hs.isEmpty(v)) { empty = false; break; } 
-				}
-				if (empty) continue;
-				for (int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
-				    HSSFCell cell = row.getCell(j);
-				    if (cell == null) continue;
-				    if (cell.getCellType() != Cell.CELL_TYPE_STRING) cell.setCellType(Cell.CELL_TYPE_STRING);
-				    String v = cell.getStringCellValue();
-					if (!hs.isEmpty(v)) v = v.trim();
-				    String attr = listAttr.get(j);
-				    if ("code".equals(attr) && !hs.isEmpty(v)) {
-				    	if (hs.isEmpty(v)) { bContinue = true; break; }
-				    	Page<Object> p = objService.findAll(cl, null, new String[] {"code"}, new Object[] {v});
-				    	if (p != null && !p.isEmpty()) { messageContinue = "Дублирование кода " + obj.getClazz() + " " + v; bContinue = true; break; }
-			    	}
-				    String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
-				    String setter = "set" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
-					Method mSet = null, mGet = null;
-					try { 
-						mGet = cl.getMethod(getter);
-						mSet = cl.getMethod(setter, mGet.getReturnType()); 
-						Class<?> clType = mGet.getReturnType();
-						mSet.invoke(obj, IBase.class.isAssignableFrom(clType) ? objService.getObjByCode(clType, v) : hs.getObjectByString(v, clType));
-					} 
-					catch (Exception e) { }
-				}
-				if (bContinue) {
-					if (messageContinue != null) listAdd.add(messageContinue); 
+		try {
+			InputStream is = file.getInputStream();
+			HSSFWorkbook wb = (HSSFWorkbook)WorkbookFactory.create(is);
+			for (int n=0; n<wb.getNumberOfSheets(); n++) {
+				HSSFSheet sheet = wb.getSheetAt(n);
+				String clazz = sheet.getSheetName();
+				if (listFilter.size() > 0 && !listFilter.contains(clazz)) continue;
+				Class<?> cl = hs.getClassByName(clazz);
+				if (cl == null) {
+					listAdd.add("Не найден класс по имени '" + clazz + "'");
 					continue;
 				}
-				try  { 
-					obj = (IBase)objService.saveObj(obj);
-					listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
-				} 
-				catch (Exception ex) { 
-					listAdd.add("Не добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName() + ": " + ex.getClass().getSimpleName() + " " + ex.getMessage());
-				}
-	    	}
+				// Заголовок
+				List<String> listAttr = new ArrayList<String>();
+				HSSFRow row = sheet.getRow(sheet.getFirstRowNum() + 2);
+				for (int j=row.getFirstCellNum(); j<=row.getLastCellNum(); j++) {
+		            HSSFCell cell = row.getCell(j);
+		            if (cell == null) continue;
+		            String v = cell.getStringCellValue();
+		            if (!hs.isEmpty(v)) v = v.trim().toLowerCase();
+		            listAttr.add(v);
+		        }
+				// Данные
+		    	for (int i=sheet.getFirstRowNum()+3; i<=sheet.getLastRowNum(); i++) {
+					row = sheet.getRow(i);
+					if (row == null) continue;
+					Object o = cl.newInstance();
+					if (!(o instanceof IBase)) continue;
+					IBase obj = (IBase)o;
+					boolean bContinue = false;
+					String messageContinue = null;
+					boolean empty = true;
+					for (int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
+					    HSSFCell cell = row.getCell(j);
+					    if (cell == null) continue;
+					    if (cell.getCellType() != Cell.CELL_TYPE_STRING) cell.setCellType(Cell.CELL_TYPE_STRING);
+					    String v = cell.getStringCellValue();
+					    if (!hs.isEmpty(v)) v = v.trim();
+					    if (!hs.isEmpty(v)) { empty = false; break; } 
+					}
+					if (empty) continue;
+					for (int j=row.getFirstCellNum(); j<row.getLastCellNum() && j<listAttr.size(); j++) {
+					    HSSFCell cell = row.getCell(j);
+					    if (cell == null) continue;
+					    if (cell.getCellType() != Cell.CELL_TYPE_STRING) cell.setCellType(Cell.CELL_TYPE_STRING);
+					    String v = cell.getStringCellValue();
+						if (!hs.isEmpty(v)) v = v.trim();
+					    String attr = listAttr.get(j);
+					    if ("code".equals(attr) && !hs.isEmpty(v)) {
+					    	if (hs.isEmpty(v)) { bContinue = true; break; }
+					    	Page<Object> p = objService.findAll(cl, null, new String[] {"code"}, new Object[] {v});
+					    	if (p != null && !p.isEmpty()) { messageContinue = "Дублирование кода " + obj.getClazz() + " " + v; bContinue = true; break; }
+				    	}
+					    String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
+					    String setter = "set" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
+						Method mSet = null, mGet = null;
+						try { 
+							mGet = cl.getMethod(getter);
+							mSet = cl.getMethod(setter, mGet.getReturnType()); 
+							Class<?> clType = mGet.getReturnType();
+							mSet.invoke(obj, IBase.class.isAssignableFrom(clType) ? objService.getObjByCode(clType, v) : hs.getObjectByString(v, clType));
+						} 
+						catch (Exception e) { }
+					}
+					if (bContinue) {
+						if (messageContinue != null) listAdd.add(messageContinue); 
+						continue;
+					}
+					try  { 
+						obj = (IBase)objService.saveObj(obj);
+						listAdd.add("Добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName());
+					} 
+					catch (Exception ex) { 
+						listAdd.add("Не добавлен " + obj.getClazz() + " " + obj.getRn() + " " + obj.getName() + ": " + ex.getClass().getSimpleName() + " " + ex.getMessage());
+					}
+		    	}
+			}
+		}
+		catch (Exception ex) {
+			listAdd.add("Исключение " + ex.getClass().getSimpleName() + " " + ex.getMessage());
 		}
 		model.addAttribute("datetime", new SimpleDateFormat("dd.MM.yyyy HH.mm.ss").format(new Date()));
     	model.addAttribute("listResult", listAdd);
