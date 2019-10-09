@@ -27,7 +27,8 @@ public class ColumnInfo {
 		setVisible(visible == null ? true : visible);
 		Boolean sortable = (Boolean)HelperServiceImpl.getAttrInfo(cl, attr, "sortable");
 		setSortable(sortable == null ? true : sortable);
-		setFilter((String)HelperServiceImpl.getAttrInfo(cl, attr, "filter"));
+		String filter = (String)HelperServiceImpl.getAttrInfo(cl, attr, "filter"); 
+		setFilter(filter);
 		String filterType = (String)HelperServiceImpl.getAttrInfo(cl, attr, "filterType");
 		if ("*".equals(filterType)) {
 			filterType = "text";
@@ -45,8 +46,8 @@ public class ColumnInfo {
 		if ((filterList == null || "*".equals(filterList)) && "select".equals((filterType))) {
 			filterList = (String)HelperServiceImpl.getAttrInfo(cl, attr, "list");
 			if (filterAttr == null || "*".equals(filterAttr)) filterAttr = k < 0 ? "code" : "rn";
+			if ("*".equals(filter) && k >= 0) setFilter(attr + "__rn");
 		}
-		if ("*".equals(getFilter())) setFilter(attr + "__rn");
 		setFilterList(filterList);
 		setFilterAttr(filterAttr);
 	}

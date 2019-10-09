@@ -650,6 +650,20 @@ public class HelperServiceImpl implements HelperService {
 			Class<?> clAttr = getAttrTypeStatic(cl, attr);
 			if ("sp".equals(info)) ret = a.sp();
     		else if ("list".equals(info)) ret = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName());
+    		else if ("nameColumn".equals(info)) ret = a.nameColumn();
+    		else if ("visible".equals(info)) ret = a.visible();
+    		else if ("sortable".equals(info)) ret = a.sortable();
+    		else if ("filter".equals(info)) ret = a.filter();
+    		else if ("filterType".equals(info)) ret = a.filterType();
+    		else if ("filterList".equals(info)) ret = a.filterList();
+    		else if ("filterAttr".equals(info)) ret = a.filterAttr();
+    		else if ("nameField".equals(info)) ret = a.nameField();
+    		else if ("editType".equals(info)) ret = a.editType();
+    		else if ("editList".equals(info)) ret = a.editList();
+    		else if ("required".equals(info)) ret = a.required();
+    		else if ("editLength".equals(info)) ret = a.editLength();
+    		else if ("readOnly".equals(info)) ret = a.readOnly();
+    		else if ("editAttr".equals(info)) ret = a.editAttr();
     		else ret = a.name();
 		}
 		else {
