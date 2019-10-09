@@ -12,8 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -253,10 +251,11 @@ public class ObjController {
 		for (String[] cs : listMenus) {
 			for (String ct : cs) {
 				if (!ct.equals(clazz)) continue;
-				for (String c : cs) 
-					listMenu.add(new MenuInfo((String)hs.invoke(hs.getClassByName(c), "menuTitle"), 
+				for (String c : cs) {
+					listMenu.add(new MenuInfo((String)HelperServiceImpl.getAttrInfo(hs.getClassByName(c), null, "menu"), 
 								"listObj?clazz=" + c, 
 								c.equals(clazz)));
+				}
 				break;
 			}
 			if (listMenu.size() > 0) break;
@@ -673,8 +672,7 @@ public class ObjController {
 		List<Voc> listVoc = new ArrayList<Voc>();
 		Class<?>[] classes = hs.getAllClasses();
 		for (Class<?> cl : classes) {
-			Object o = null;
-			try { o = hs.invoke(cl, "isVoc"); } catch (Exception ex) { }
+			Object o = HelperServiceImpl.getAttrInfo(cl, null, "voc");
 			if (o == null || !(o instanceof Boolean) || !((Boolean)o)) continue;
 			listVoc.add(new Voc(cl.getSimpleName(), (String)HelperServiceImpl.getAttrInfo(cl, null, "single")));
 		}
