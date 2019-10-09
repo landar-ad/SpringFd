@@ -43,9 +43,11 @@ import org.w3c.dom.Node;
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
+import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
+import ru.landar.spring.repository.UserRepositoryCustomImpl;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
@@ -323,7 +325,11 @@ public class LoadController {
 									ot = objService.find(clType, new String[] {"code", "sp_code"}, new Object[] { v, sp_code});
 								}
 							}
-							else ot = hs.getObjectByString(v, clType);
+							else {
+								ot = hs.getObjectByString(v, clType);
+								if (IUser.class.isAssignableFrom(cl) && "password".equals(attr)) 
+									ot = UserRepositoryCustomImpl.encoder.encode((String)ot);
+							}
 							mSet.invoke(obj, ot);
 						} 
 						catch (Exception e) { }
