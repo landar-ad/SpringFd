@@ -34,6 +34,9 @@ public class IPerson extends IAgent {
 	private String email;
 	private Date date_fire;
 	
+	@FieldTitle(name="mkod", visible=false)
+	public String getMkod() { return super.getMkod(); }
+	
 	@FieldTitle(name="Фамилия")
 	@Column(length=40)
     public String getSurname() { return surname; }
