@@ -46,7 +46,7 @@ public class IDepartment extends IBase {
     public String getFullname() { return fullname; }
     public void setFullname(String fullname) { this.fullname = fullname; setName(fullname); }
 	
-    @FieldTitle(name="")
+    @FieldTitle(name="Вышестоящее подразделение")
     @ManyToOne(targetEntity=IDepartment.class, fetch=FetchType.LAZY)
     public IDepartment getPrn() { return prn; }
     public void setPrn(IDepartment prn) { this.prn = prn; }
