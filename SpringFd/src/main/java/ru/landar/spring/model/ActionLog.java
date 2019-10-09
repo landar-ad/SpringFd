@@ -40,26 +40,26 @@ public class ActionLog extends IBase {
 	private String client_ip;
 	private String client_browser;
 	
-	@FieldTitle(name="Время действия")
+	@FieldTitle(name="Время действия", editLength=4)
     public Date getAction_time() { return action_time; }
     public void setAction_time(Date action_time) { this.action_time = action_time;}
     
-    @FieldTitle(name="Тип действия", sp="sp_typd")
+    @FieldTitle(name="Тип действия", sp="sp_typd", editLength=2)
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getAction_type() { return action_type; }
     public void setAction_type(SpCommon action_type) { this.action_type = action_type; }
     
-    @FieldTitle(name="Пользователь")
+    @FieldTitle(name="Пользователь", editLength=2)
 	@Column(length=32)
     public String getUser_login() { return user_login; }
     public void setUser_login(String user_login) { this.user_login = user_login; }
 	
-    @FieldTitle(name="Объект")
+    @FieldTitle(name="Объект", editLength=2)
 	@Column(length=32)
     public String getObj_name() { return obj_name; }
     public void setObj_name(String obj_name) { this.obj_name = obj_name; }
 	
-    @FieldTitle(name="Идентификатор объекта")
+    @FieldTitle(name="Идентификатор объекта", editLength=2)
 	public Integer getObj_rn() { return obj_rn; }
     public void setObj_rn(Integer obj_rn) { this.obj_rn = obj_rn; }
 	
@@ -68,12 +68,12 @@ public class ActionLog extends IBase {
     public String getObj_attr() { return obj_attr; }
     public void setObj_attr(String obj_attr) { this.obj_attr = obj_attr; }
 	
-    @FieldTitle(name="Данные")
+    @FieldTitle(name="Данные", editType="textarea")
 	@Lob
     public String getObj_value() { return obj_value; }
     public void setObj_value(String obj_value) { this.obj_value = obj_value; }
 	
-    @FieldTitle(name="IP клиента")
+    @FieldTitle(name="IP клиента", editLength=4)
 	@Column(length=32)
     public String getClient_ip() { return client_ip; }
     public void setClient_ip(String client_ip) { this.client_ip = client_ip; }
@@ -108,15 +108,15 @@ public class ActionLog extends IBase {
 	public List<AttributeInfo> onListAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		Class<?> cl = ActionLog.class;
-		ret.add(new AttributeInfo("action_time", cl, "text", null, false, 4, null));
-		ret.add(new AttributeInfo("action_type", cl, "select", "*", false, 2, null));
-		ret.add(new AttributeInfo("user_login", cl, "text", null, false, 2, null));
-		ret.add(new AttributeInfo("obj_name", cl, "text", null, false, 2, null));
-		ret.add(new AttributeInfo("obj_rn", cl, "text", null, false, 2, null));
-		ret.add(new AttributeInfo("obj_attr", cl, "text", null, false, 0, null));
-		ret.add(new AttributeInfo("obj_value", cl, "textarea", null, false, 0, null));
-		ret.add(new AttributeInfo("client_ip", cl, "text", null, false, 4, null));
-		ret.add(new AttributeInfo("client_browser", cl, "text", null, false, 0, null));
+		ret.add(new AttributeInfo("action_time", cl));
+		ret.add(new AttributeInfo("action_type", cl));
+		ret.add(new AttributeInfo("user_login", cl));
+		ret.add(new AttributeInfo("obj_name", cl));
+		ret.add(new AttributeInfo("obj_rn", cl));
+		ret.add(new AttributeInfo("obj_attr", cl));
+		ret.add(new AttributeInfo("obj_value", cl));
+		ret.add(new AttributeInfo("client_ip", cl));
+		ret.add(new AttributeInfo("client_browser", cl));
 		return ret;
 	}
 	@Override

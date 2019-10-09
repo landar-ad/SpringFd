@@ -20,12 +20,15 @@ public class SpDocType extends IBase {
 	private String fullname;
 	private Boolean pay;
 	
-	@FieldTitle(name="Полное наименование")
+	@FieldTitle(name="Код", editLength=2)
+	public String getCode() { return super.getCode(); }
+	
+	@FieldTitle(name="Полное наименование", editType="textarea")
 	@Column(length=2000)
 	public String getFullname() { return fullname; }
     public void setFullname(String fullname) { this.fullname = fullname; }
 	
-    @FieldTitle(name="Платежный документ")
+    @FieldTitle(name="Платежный документ", editLength=2)
 	public Boolean getPay() { return pay; }
     public void setPay(Boolean pay) { this.pay = pay; }
 	
@@ -41,10 +44,10 @@ public class SpDocType extends IBase {
     public static List<AttributeInfo> listAttribute() {
     	List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
     	Class<?> cl = SpDocType.class;
-		ret.add(new AttributeInfo("code", cl, "text", null, true, 2, null)); 
-		ret.add(new AttributeInfo("name", cl, "text", null, true, 0, null));
-		ret.add(new AttributeInfo("fullname", cl, "text", null, true, 0, null));
-		ret.add(new AttributeInfo("pay", cl, "checkbox", null, false, 2, null));
+		ret.add(new AttributeInfo("code", cl)); 
+		ret.add(new AttributeInfo("name", cl));
+		ret.add(new AttributeInfo("fullname", cl));
+		ret.add(new AttributeInfo("pay", cl));
 		return ret;
 	}
     @Override

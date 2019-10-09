@@ -1,6 +1,5 @@
 package ru.landar.spring.classes;
 
-import ru.landar.spring.model.assets.RProperty;
 import ru.landar.spring.service.HelperServiceImpl;
 
 public class ColumnInfo {
@@ -45,7 +44,7 @@ public class ColumnInfo {
 		setFilterType(filterType);
 		String filterList = null, filterAttr = null;
 		if ("select".equals(filterType)) {
-			filterList = (String)HelperServiceImpl.getAttrInfo(RProperty.class, attr, "list");
+			filterList = (String)HelperServiceImpl.getAttrInfo(cl, attr, "list");
 			filterAttr = k < 0 ? "code" : "rn";
 			if ("*".equals(filter)) setFilter(attr + "__rn");
 		}

@@ -20,8 +20,11 @@ public class SpViewEvent extends IBase {
 	
 	private String razdel;
 	private String doctype;
-    
-	@FieldTitle(name="Раздел")
+	
+	@FieldTitle(name="Код", editLength=2)
+	public String getCode() { return super.getCode(); }
+	
+	@FieldTitle(name="Раздел", editLength=4)
 	@Column(length=32)
 	public String getRazdel() { return razdel; }
     public void setRazdel(String razdel) { this.razdel = razdel; }
@@ -43,9 +46,9 @@ public class SpViewEvent extends IBase {
 	public static List<AttributeInfo> listAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		Class<?> cl = SpViewEvent.class;
-		ret.add(new AttributeInfo("code", cl, "text", null, false, 2, null)); 
+		ret.add(new AttributeInfo("code", cl)); 
 		ret.add(new AttributeInfo("name", cl));
-		ret.add(new AttributeInfo("razdel", cl, "text", null, false, 4, null));
+		ret.add(new AttributeInfo("razdel", cl));
 		ret.add(new AttributeInfo("doctype", cl));
 		return ret;
 	}

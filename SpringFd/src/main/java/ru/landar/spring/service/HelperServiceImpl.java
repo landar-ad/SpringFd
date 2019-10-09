@@ -529,7 +529,7 @@ public class HelperServiceImpl implements HelperService {
 							type = "select";
 							nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
 						}
-						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false);
+						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false, false, 0, null);
 						listAttribute.add(attr);
 					}
 				}
@@ -554,7 +554,7 @@ public class HelperServiceImpl implements HelperService {
 							type = "select";
 							nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
 						}
-						AttributeInfo attr = new AttributeInfo(name, "", type, nameList, false);
+						AttributeInfo attr = new AttributeInfo(name, (String)HelperServiceImpl.getAttrInfo(cl, name), type, nameList, false, false, 0, null);
 						listAttribute.add(attr);
 					}
 				}
@@ -578,7 +578,7 @@ public class HelperServiceImpl implements HelperService {
 					
 					elTr.appendChild(elBlock = d.createElement("th:block"));
 					v = String.format("w='%d%%',tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getLength() > 0 ? attr.getLength() * 100 / 12 : 70, attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
-					if (attr.getNameList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getNameList(), attr.getAttrList());
+					if (attr.getEditList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getEditList(), attr.getEditAttr());
 					elBlock.attr("th:with", v);
 					elBlock.appendChild(elThBlock = d.createElement("th:block"));
 					elThBlock.attr("th:replace", "fragments/tc :: cd");
@@ -607,7 +607,7 @@ public class HelperServiceImpl implements HelperService {
 					elChildDiv.attr("class", "col-sm-" + (attr.getLength() > 0 ? attr.getLength() : 12));
 					elChildDiv.appendChild(elBlock = d.createElement("th:block"));
 					String v = String.format("tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
-					if (attr.getNameList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getNameList(), attr.getAttrList());
+					if (attr.getEditList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getEditList(), attr.getEditAttr());
 					
 					elBlock.attr("th:with", v);
 					elBlock.appendChild(elThBlock = d.createElement("th:block"));
