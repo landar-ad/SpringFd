@@ -18,9 +18,16 @@
            			<div class="col-sm-12 border fit-height">
            				<th:block th:if="${bs!=true}">
            					<table th:each="attr : ${listAttribute}" class="table table-sm table-edited table-bordered"><tbody><tr >
-           						<th:block th:with="w='30%',tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><th th:replace="fragments/tc :: ch"></th></th:block>	
-           						<th:block th:with="w=${attr.length>0 ? '' + (attr.length * 100 / 12) + '%' : '70%'},tt=${attr.type},nn=${attr.name},vv=${hs.getProperty(obj,attr.name)},ll=${hs.getVariable(#vars,attr.editList)},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><td th:replace="fragments/tc :: cd"></td></th:block>
-           						<td th:if="${attr.length>0}" th:width="${'' + (70 - attr.length * 100 / 12) + '%'}"></td>	
+           						<th:block th:if="${attr.type!='check' && attr.type!='checkbox'}">
+	           						<th:block th:with="w='30%',tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><th th:replace="fragments/tc :: ch"></th></th:block>	
+	           						<th:block th:with="w=${attr.length>0 ? '' + (attr.length * 100 / 12) + '%' : '70%'},tt=${attr.type},nn=${attr.name},vv=${hs.getProperty(obj,attr.name)},ll=${hs.getVariable(#vars,attr.editList)},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	           						<td th:if="${attr.length>0}" th:width="${'' + (70 - attr.length * 100 / 12) + '%'}"></td>	
+           						</th:block>
+           						<th:block th:if="${attr.type=='check' || attr.type=='checkbox'}">
+           							<th:block th:with="w='4%',tt=${attr.type},nn=${attr.name},vv=${hs.getProperty(obj,attr.name)},ll=${hs.getVariable(#vars,attr.editList)},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><td th:replace="fragments/tc :: cd"></td></th:block>
+           							<th:block th:with="w='26%',tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><th th:replace="fragments/tc :: ch"></th></th:block>
+           							<td width="70%"></td>
+           						</th:block>
            					</tr></tbody></table>
            				</th:block>
            				<th:block th:if="${bs==true}">
