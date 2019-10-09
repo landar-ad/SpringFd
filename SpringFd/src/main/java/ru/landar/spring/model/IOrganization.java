@@ -31,6 +31,9 @@ public class IOrganization extends IAgent {
 	private String okpo;
 	private String okopf;
 	
+	@FieldTitle(name="Наименование организации")
+	public String getName() { return super.getName(); }
+	
 	@FieldTitle(name="Короткое наименование")
     @Column(length=256)
     public String getShortname() { return shortname; }
