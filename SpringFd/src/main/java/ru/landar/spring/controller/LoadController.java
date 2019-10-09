@@ -280,7 +280,7 @@ public class LoadController {
 		            if (cell == null) continue;
 		            String v = cell.getStringCellValue();
 		            if (!hs.isEmpty(v)) v = v.trim().toLowerCase();
-		            listAttr.add(v);
+		            if (!hs.isEmpty(v)) listAttr.add(v);
 		        }
 				// Данные
 		    	for (int i=sheet.getFirstRowNum()+3; i<=sheet.getLastRowNum(); i++) {
@@ -324,7 +324,7 @@ public class LoadController {
 								}
 							}
 							else ot = hs.getObjectByString(v, clType);
-							mSet.invoke(obj, o);
+							mSet.invoke(obj, ot);
 						} 
 						catch (Exception e) { }
 					}
