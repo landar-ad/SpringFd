@@ -19,12 +19,15 @@ public class SpFileType extends IBase {
 	private String mimetype;
 	private String ext;
     
+	@FieldTitle(name="Код", editLength = 2)
+	public String getCode() { return super.getCode(); }
+	
 	@FieldTitle(name="Тип")
     @Column(length=256)
     public String getMimetype() { return mimetype; }
     public void setMimetype(String mimetype) { this.mimetype = mimetype; }
     
-    @FieldTitle(name="Расширение")
+    @FieldTitle(name="Расширение", editLength = 4)
     @Column(length=10)
     public String getExt() { return ext; }
     public void setExt(String ext) { this.ext = ext; }
@@ -41,9 +44,9 @@ public class SpFileType extends IBase {
     public static List<AttributeInfo> listAttribute() {
     	List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
     	Class<?> cl = SpFileType.class;
-		ret.add(new AttributeInfo("code", cl, "text", null, false, 2, null)); 
+		ret.add(new AttributeInfo("code", cl)); 
 		ret.add(new AttributeInfo("name", cl));
-		ret.add(new AttributeInfo("ext", cl, "text", null, false, 4, null));
+		ret.add(new AttributeInfo("ext", cl));
 		ret.add(new AttributeInfo("mimetype", cl));
 		return ret;
 	}

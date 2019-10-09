@@ -39,10 +39,10 @@ public class SpCommon extends IBase {
 	public static List<AttributeInfo> listAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		Class<?> cl = SpCommon.class;
-		ret.add(new AttributeInfo("sp_code", cl, "text", null, true, 0, null)); 
-		ret.add(new AttributeInfo("code", cl, "text", null, true, 0, null)); 
-		ret.add(new AttributeInfo("name", cl, "text", null, true, 0, null));
-		ret.add(new AttributeInfo("actual", cl, "checkbox", null, false, 0, null));
+		ret.add(new AttributeInfo("sp_code", cl)); 
+		ret.add(new AttributeInfo("code", cl)); 
+		ret.add(new AttributeInfo("name", cl));
+		ret.add(new AttributeInfo("actual", cl));
 		return ret;
 	}
 }

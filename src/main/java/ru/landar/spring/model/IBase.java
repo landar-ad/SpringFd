@@ -258,7 +258,7 @@ public abstract class IBase {
 		Class<?> cl = IBase.class;
 		ret.add(new AttributeInfo("code", cl));
 		ret.add(new AttributeInfo("name", cl));
-		ret.add(new AttributeInfo("actual", cl, "check", null, false, 2, null));
+		ret.add(new AttributeInfo("actual", cl, "check", null, false, false, 2, null));
 		return ret;
 	}
 	/**

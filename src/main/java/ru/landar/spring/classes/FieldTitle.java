@@ -32,11 +32,13 @@ public @interface FieldTitle {
 	// Тип элемента редактирования
 	public String editType() default "*";
 	// Для типа select - список заполнения
-	public String attrList() default "*";
+	public String editList() default "*";
 	// Обязательное поле
 	public boolean required() default false;
 	// Ширина поля (1-12)
 	public int editLength() default 0;
 	// Нередактируемое поле (если true)
 	public boolean readOnly() default false;
+	// Атрибут для выбора значения в списке
+	public String editAttr() default "*";
 }

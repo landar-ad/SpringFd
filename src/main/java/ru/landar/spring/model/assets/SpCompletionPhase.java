@@ -23,17 +23,20 @@ public class SpCompletionPhase extends IBase {
 	private BigDecimal minpct;
 	private BigDecimal maxpct;
 	
+	@FieldTitle(name="Код", editLength=2)
+	public String getCode() { return super.getCode(); }
+	
 	@FieldTitle(name="Наименование стадии строительства")
 	@Column(length=256)
     public String getPhasename() { return phasename; }
     public void setPhasename(String phasename) { this.phasename = phasename; updateName(); }
     
-    @FieldTitle(name="Минимальный процент готовности")
+    @FieldTitle(name="Минимальный процент готовности", editLength=2)
     @Column(precision=17, scale = 2)
     public BigDecimal getMinpct() { return minpct; }
     public void setMinpct(BigDecimal minpct) { this.minpct = minpct; updateName(); }
     
-    @FieldTitle(name="Максимальный процент готовности")
+    @FieldTitle(name="Максимальный процент готовности", editLength=2)
     @Column(precision=17, scale = 2)
     public BigDecimal getMaxpct() { return maxpct; }
     public void setMaxpct(BigDecimal minpct) { this.maxpct = minpct; updateName(); }
@@ -67,10 +70,10 @@ public class SpCompletionPhase extends IBase {
 	public static List<AttributeInfo> listAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		Class<?> cl = SpCompletionPhase.class;
-		ret.add(new AttributeInfo("code", cl, "text", null, false, 2, null)); 
+		ret.add(new AttributeInfo("code", cl)); 
 		ret.add(new AttributeInfo("phasename", cl));
-		ret.add(new AttributeInfo("minpct", cl, "text", null, false, 2, null));
-		ret.add(new AttributeInfo("maxpct", cl, "text", null, false, 2, null));
+		ret.add(new AttributeInfo("minpct", cl));
+		ret.add(new AttributeInfo("maxpct", cl));
 		return ret;
 	}
 }

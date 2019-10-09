@@ -46,21 +46,21 @@ public class ISession {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     
-    @FieldTitle(name="Пользователь")
+    @FieldTitle(name="Пользователь", editLength=4)
     @Column(length=50)
     public String getLogin() { return login; }
     public void setLogin(String login) { this.login = login; }
     
-    @FieldTitle(name="Адрес")
+    @FieldTitle(name="Адрес", editLength=4)
     @Column(length=50)
     public String getIp() { return ip; }
     public void setIp(String ip) { this.ip = ip; }
     
-    @FieldTitle(name="Начало")
+    @FieldTitle(name="Начало", editType="time")
     public Date getStart_time() { return start_time; }
     public void setStart_time(Date start_time) { this.start_time = start_time; }
     
-    @FieldTitle(name="Окончание")
+    @FieldTitle(name="Окончание", editType="time")
     public Date getEnd_time() { return end_time; }
     public void setEnd_time(Date end_time) { this.end_time = end_time; }
     
@@ -77,10 +77,10 @@ public class ISession {
 	public List<AttributeInfo> onListAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		Class<?> cl = ISession.class;
-		ret.add(new AttributeInfo("login", cl, "text", null, false, 4, null)); 
-		ret.add(new AttributeInfo("ip", cl, "text", null, false, 4, null));
-		ret.add(new AttributeInfo("start_time", cl, "time", null, false, 0, null));
-		ret.add(new AttributeInfo("end_time", cl, "time", null, false, 0, null));
+		ret.add(new AttributeInfo("login", cl)); 
+		ret.add(new AttributeInfo("ip", cl));
+		ret.add(new AttributeInfo("start_time", cl));
+		ret.add(new AttributeInfo("end_time", cl));
 		return ret;
 	}
 	public List<ButtonInfo> onListButton() {
