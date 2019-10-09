@@ -403,6 +403,9 @@ Amel = {
 			for (var j=0; j<p.length; j++) {
 				var zz = $(p[j]).find("input[type='text'],input[type='date'],select,.custom-file,textarea,.custom-date");
 				if (zz.length == 0) continue;
+				var zz1 = $(p[j]).find(">label,>span");
+				if (zz1.length == 0) continue;
+				if (zz.is(':hidden') && zz1.is(':hidden')) continue;
 				pa[pa.length] = p[j]; 
 			}
 			for (var j=0; j<pa.length; j++) {
@@ -417,6 +420,18 @@ Amel = {
 			setTimeout(function() { target.table_edit(c); }, 10); 
 		}
 		return false;
+	},
+	table_edit_focus: function() {
+		var target = this, p = $(".td-edited");
+		for (var j=0; j<p.length; j++) {
+			var zz = $(p[j]).find("input[type='text'],input[type='date'],select,.custom-file,textarea,.custom-date");
+			if (zz.length == 0) continue;
+			var zz1 = $(p[j]).find(">label,>span");
+			if (zz1.length == 0) continue;
+			if (zz.is(':hidden') && zz1.is(':hidden')) continue;
+			setTimeout(function() { target.table_edit(p[j]); }, 10);
+			break;
+		}
 	},
 	table_ret: function(c, q, b) {
 		var target = this, v = q.val(), t = q.attr("type");
@@ -1276,5 +1291,6 @@ Amel = {
 		$(".table-edited td,.table-edited th").resizable({handles: "e"});
 		target.button_enabled();
 		target.calculate();
+		target.table_edit_focus();
 	}
 };
