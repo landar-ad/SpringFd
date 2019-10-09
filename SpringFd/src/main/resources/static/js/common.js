@@ -429,7 +429,7 @@ Amel = {
 			var zz1 = $(p[j]).find(">label,>span");
 			if (zz1.length == 0) continue;
 			if (zz.is(':hidden') && zz1.is(':hidden')) continue;
-			setTimeout(function() { target.table_edit(p[j]); }, 10);
+			setTimeout(function() { target.table_edit($(p[j])); }, 10);
 			break;
 		}
 	},
