@@ -24,8 +24,10 @@ import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
+import ru.landar.spring.model.IAgent;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.fd.Document;
+import ru.landar.spring.model.fd.SpDocStatus;
 import ru.landar.spring.model.fd.SpDocType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 
@@ -45,6 +47,21 @@ public class Notification1 extends Document {
 	@ManyToMany(targetEntity=Specification1.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Specification1> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification1>(); }
     public void setList_spec(List<Specification1> list_spec) { this.list_spec = list_spec; }
+    
+    @FieldTitle(name="Основание доведения")
+    public Document getParent_doc() { return super.getParent_doc(); }
+    
+    @FieldTitle(name="Ответственное структурное подразделение")
+    public IDepartment getDepart() { return super.getDepart(); }
+   
+    @FieldTitle(name="Резолюция")
+    public String getComment() { return super.getComment(); }
+    
+    @FieldTitle(name="Документ создал")
+    public IAgent getCreate_agent() { return super.getCreate_agent(); }
+    
+    @FieldTitle(name="Статус")
+    public SpDocStatus getDoc_status() { return super.getDoc_status(); }
     
     @Transient
     public String getBaseClazz() { return "Document"; }
@@ -69,12 +86,12 @@ public class Notification1 extends Document {
 		Class<?> cl = Notification1.class;
 		ret.add(new ColumnInfo("doc_number", cl));
 		ret.add(new ColumnInfo("doc_date", cl));
-		ret.add(new ColumnInfo("parent_doc__name", "Основание доведения"));
-		ret.add(new ColumnInfo("depart__name", "Ответственное структурное подразделение"));
+		ret.add(new ColumnInfo("parent_doc__name", cl));
+		ret.add(new ColumnInfo("depart__name", cl));
 		ret.add(new ColumnInfo("date_repr", cl));
-		ret.add(new ColumnInfo("comment", "Резолюция"));
-		ret.add(new ColumnInfo("create_agent__name", "Документ создал"));
-		ret.add(new ColumnInfo("doc_status__name", "Статус", true, true, "doc_status__rn", "select", "listSpDocStatus"));
+		ret.add(new ColumnInfo("comment", cl));
+		ret.add(new ColumnInfo("create_agent__name", cl));
+		ret.add(new ColumnInfo("doc_status__name", cl, true, true, "*", "select"));
 		return ret;
 	}
 	@Autowired
