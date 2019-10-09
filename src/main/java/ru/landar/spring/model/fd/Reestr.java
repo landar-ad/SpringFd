@@ -31,6 +31,7 @@ import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IPerson;
 import ru.landar.spring.model.IUser;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
 import ru.landar.spring.service.ObjService;
@@ -53,7 +54,7 @@ public class Reestr extends IBase {
 	private String reestr_number;
 	private Integer reestr_num;
 	private Date reestr_date;
-	private SpReestrStatus reestr_status;
+	private SpCommon reestr_status;
 	private Date time_status;
 	private IAgent mol;
 	private IAgent agent_from;
@@ -82,10 +83,10 @@ public class Reestr extends IBase {
     public Date getReestr_date() { return reestr_date; }
     public void setReestr_date(Date reestr_date) { this.reestr_date = reestr_date; updateName(); }
     
-    @FieldTitle(name="Статус реестра")
-	@ManyToOne(targetEntity=SpReestrStatus.class, fetch=FetchType.LAZY)
-    public SpReestrStatus getReestr_status() { return reestr_status; }
-    public void setReestr_status(SpReestrStatus reestr_status) { this.reestr_status = reestr_status; }
+    @FieldTitle(name="Статус реестра", sp="sp_sr")
+	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
+    public SpCommon getReestr_status() { return reestr_status; }
+    public void setReestr_status(SpCommon reestr_status) { this.reestr_status = reestr_status; }
 	
     @FieldTitle(name="Дата изменения статуса")
 	public Date getTime_status() { return time_status; }
@@ -211,7 +212,7 @@ public class Reestr extends IBase {
     	hs.setProperty(this, "change_time", dt);
     	hs.setProperty(this, "reestr_date", dt);
     	if (getDepart() == null) hs.setProperty(this, "depart", hs.getDepartment());
-    	hs.setProperty(this, "reestr_status", (SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "1"));
+    	hs.setProperty(this, "reestr_status", (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sr", "1"}));
     	hs.setProperty(this, "time_status", dt);
     	hs.setProperty(this, "doc_count", 0);
     	hs.setProperty(this, "sheet_count", 0);
@@ -242,7 +243,7 @@ public class Reestr extends IBase {
     		Document docOld = (Document)objRepository.find(clItem, rnItemOld);
     		Document doc = (Document)objRepository.find(clItem, rnItem);
     		if (docOld != null) {
-    			hs.setProperty(docOld, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "8"));
+    			hs.setProperty(docOld, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "8"}));
     			hs.setProperty(docOld, "change_doc", doc);
     			Integer version = docOld.getVersion();
     			if (version == null) version = 1;
@@ -250,9 +251,9 @@ public class Reestr extends IBase {
     		}
     		if (doc != null) {
     			hs.setProperty(docOld, "reestr", null);
-    			hs.setProperty(docOld, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6"));
+    			hs.setProperty(docOld, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "6"}));
     		}
-    		hs.setProperty(this, "reestr_status", (SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "4"));
+    		hs.setProperty(this, "reestr_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sr", "4"}));
     	}
     }
     @Override
@@ -262,7 +263,7 @@ public class Reestr extends IBase {
     	List<Document> l = getList_doc();
     	for (Document doc : l) {
     		hs.setProperty(doc, "reestr", null);
-    		hs.setProperty(doc, "doc_status", (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "4"));
+    		hs.setProperty(doc, "doc_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "4"}));
     	}
     	return true;
     }
@@ -287,7 +288,7 @@ public class Reestr extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listSpReestrStatus", objService.findAll(SpReestrStatus.class));
+			model.addAttribute("listSp_sr", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_sr"}));
 			if (!list) {
 				model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
 				model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
@@ -354,7 +355,7 @@ public class Reestr extends IBase {
 	    	hs.setProperty(this, "reestr_num", max + 1); 
 	    	hs.setProperty(this, "reestr_number", "" + getReestr_num());
 	    	Reestr reestr = (Reestr)objRepository.createObj(this);
-	    	SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "6");
+	    	SpCommon doc_status = (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "6"});
 	    	List<Document> l = reestr.getList_doc();
 	    	for (Object o : p.getContent()) {
 	    		Document doc = (Document)o;
@@ -371,12 +372,12 @@ public class Reestr extends IBase {
     public void sendReestr(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("sendReestr")) return;
-		SpDocStatus doc_status = (SpDocStatus)objRepository.findByCode(SpDocStatus.class, "7");
+		SpCommon doc_status = (SpCommon)objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sd", "7"});
 		for (Document doc : getList_doc()) {
 			hs.setProperty(doc, "doc_status", doc_status);
 			objRepository.saveObj(doc);
 		}
-		hs.setProperty(this, "reestr_status", (SpReestrStatus)objRepository.findByCode(SpReestrStatus.class, "2"));
+		hs.setProperty(this, "reestr_status", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_sr", "2"}));
     }
     public String printReestr(HttpServletRequest request) throws Exception {
     	return getRn() != null ? "/printReestr?rn=" + getRn() : null;

@@ -26,8 +26,8 @@ import ru.landar.spring.classes.Operation;
 import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IAgent;
 import ru.landar.spring.model.IDepartment;
+import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.fd.Document;
-import ru.landar.spring.model.fd.SpDocStatus;
 import ru.landar.spring.model.fd.SpDocType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 
@@ -61,7 +61,7 @@ public class Notification1 extends Document {
     public IAgent getCreate_agent() { return super.getCreate_agent(); }
     
     @FieldTitle(name="Статус")
-    public SpDocStatus getDoc_status() { return super.getDoc_status(); }
+    public SpCommon getDoc_status() { return super.getDoc_status(); }
     
     @Transient
     public String getBaseClazz() { return "Document"; }
