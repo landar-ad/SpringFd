@@ -670,8 +670,10 @@ public class HelperServiceImpl implements HelperService {
 			ObjectTitle a = getTitleAnnotation(cl);
 			if ("multi".equals(info)) ret = a != null ? a.multi() : invokeStatic(cl, "multipleTitle");
 			else if ("menu".equals(info)) {
-				ret = a != null ? a.menu() : invokeStatic(cl, "menuTitle");
-				if (ret == null) ret = a.multi();
+				String v = "";
+				v = a != null ? a.menu() : (String)invokeStatic(cl, "menuTitle");
+				if (v == null || v.isEmpty()) v = a.multi();
+				ret = v;
 			}
 			else if ("voc".equals(info)) ret = a != null ? a.voc() : invokeStatic(cl, "isVoc");
 			else ret = a != null ? a.single() : invokeStatic(cl, "singleTitle");
