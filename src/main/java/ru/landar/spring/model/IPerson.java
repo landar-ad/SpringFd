@@ -71,7 +71,7 @@ public class IPerson extends IAgent {
     @FieldTitle(name="Электронная почта")
     @Column(length=40)
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; setCode(email); }
+    public void setEmail(String email) { this.email = email; updateCode(); }
     
     @FieldTitle(name="Дата увольнения")
     @Temporal(TemporalType.DATE)
@@ -90,6 +90,10 @@ public class IPerson extends IAgent {
     		name += middlename.substring(0, 1) + ".";
     	}	
     	hs.setProperty(this, "name", name);
+    	updateCode();
+    }
+    private void updateCode() {
+    	setCode(!hs.isEmpty(email) ? email : getName());
     }
     
     @Transient
