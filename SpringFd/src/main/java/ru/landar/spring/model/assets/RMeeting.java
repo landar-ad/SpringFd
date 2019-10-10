@@ -70,7 +70,7 @@ public class RMeeting extends IBase {
     public List<RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RDocument>(); }
     public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
     
-    @FieldTitle(name="Члены комиссии, участвующие на заседании")
+    @FieldTitle(name="Члены комиссии, участвующие в заседании")
     @OneToMany(targetEntity=RMeeting_RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RMeeting_RMember> getList_cs() { return list_cs != null ? list_cs : new ArrayList<RMeeting_RMember>(); }
     public void setList_cs(List<RMeeting_RMember> list_cs) { this.list_cs = list_cs; }
@@ -100,6 +100,7 @@ public class RMeeting extends IBase {
 		try {
 			model.addAttribute("listSp_type_c", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_c"}));
 			model.addAttribute("listSp_stat_z", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_stat_z"}));
+			model.addAttribute("listSp_rezg", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_resg"}));
 		}
 		catch (Exception ex) { }
 		return null;
