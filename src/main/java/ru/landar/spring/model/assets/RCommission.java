@@ -20,6 +20,7 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
+import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.SpCommon;
 
 @Entity
@@ -106,6 +107,10 @@ public class RCommission extends IBase {
 		if (ret != null) return ret;
 		try {
 			model.addAttribute("listSp_type_c", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_c"}));
+			model.addAttribute("listSp_cs_rol", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_cs_rol"}));
+			model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
+			model.addAttribute("listSp_type_c", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_c"}));
+			model.addAttribute("listSp_stat_z", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_stat_z"}));
 		}
 		catch (Exception ex) { }
 		return null;

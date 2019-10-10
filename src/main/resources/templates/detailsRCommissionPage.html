@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+			<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+           		<div class="m-sm-0">
+           			<div th:replace="fragments/header :: details-buttons"></div>
+           			<div class="col-sm-12 border fit-height">
+           				<th:block th:if="${bs!=true}">
+           					<div class="w-100 border border-primary">
+	           					<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='c_name'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='80%',tt='mtext',nn='c_name',vv=${obj.c_name},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='c_num'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='text',nn='c_num',vv=${obj.c_num},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='c_date'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='date',nn='c_date',vv=${obj.c_date},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='c_type'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='select',nn='c_type',vv=${obj.c_type},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='c_pr_num'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='text',nn='c_pr_num',vv=${obj.c_pr_num},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='c_pr_date'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='date',nn='c_pr_date',vv=${obj.c_pr_date},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+	                    	</div>
+				        	<div class="w-100 border border-primary">
+	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
+						        	<th:block th:with="w='16%',tt='label',vv='Состав комиссии'"><th th:replace="fragments/tc :: ch"></th></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='c_sostav'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='edit',ddta='c_sostav'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='c_sostav'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<td width="36%"></td>
+						        </tr></tbody></table>
+						        <table id="c_sostav" class="table table-sm table-edited table-bordered">
+						        	<tbody>
+						        		<tr>
+						        			<td class="d-none"/>
+						        			<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='15%',tt='label',vv='Роль'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='24%',tt='label',vv='Член комиссии',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='18%',tt='label',vv='Дата назначения'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='18%',tt='label',vv='Дата выбытия'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='20%',tt='label',vv='Департамент'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        		</tr>
+							        	<tr th:each="d : ${obj?.c_sostav}" class="parent-popup">
+								         	<td class="d-none"><input type="hidden" name="c_sostav__rn" th:value="${d.rn}"><input type="hidden" name="c_sostav__rnOld" th:value="${d.rn}"><input type="hidden" name="c_sostav__clazz" value="RMember"><input type="hidden" name="c_sostav__p_add" value="new"><input type="hidden" name="c_sostav__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='15%',tt='select',nn='c_sostav__cs_rol',vv=${d.cs_rol?.rn},ll=${listSp_cs_rol},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='text',vv=${d.cs_sot?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_sostav',nn2='cs_sot',vv=${d.cs_sot?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=ФИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dn',vv=${d.cs_dn},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dv',vv=${d.cs_dv},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='20%',tt='select',nn='c_sostav__cs_dep',vv=${d.cs_dep?.rn},ll=${listIDepartment},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       	</tr>
+								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
+								           	<td class="d-none"><input type="hidden" name="c_sostav__rn" value=""><input type="hidden" name="c_sostav__rnOld" value=""><input type="hidden" name="c_sostav__clazz" value="RMember"><input type="hidden" name="c_sostav__p_add" value="new"><input type="hidden" name="c_sostav__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='15%',tt='select',nn='c_sostav__cs_rol',ll=${listSp_cs_rol}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_sostav',nn2='cs_sot',vv='',ro=${rco},ddcl='RProperty',ddti='Выберите объект имущества',ddco='rn;name=Наименование объекта=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dn'"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dv'"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='20%',tt='select',nn='c_sostav__cs_dep',ll=${listIDepartment}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								    	</tr>
+						        	</tbody>
+					        	</table>                       	
+	                       	</div>
+	                       	<div class="w-100 border border-primary">
+	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
+						        	<th:block th:with="w='16%',tt='label',vv='Заседания комиссии'"><th th:replace="fragments/tc :: ch"></th></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='c_meeting'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='edit',ddta='c_meeting'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='c_meeting'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<td width="36%"></td>
+						        </tr></tbody></table>
+						        <table id="c_meeting" class="table table-sm table-edited table-bordered">
+						        	<tbody>
+						        		<tr>
+						        			<td class="d-none"/>
+						        			<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='15%',tt='label',vv='Номер заседания'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='20%',tt='label',vv='Дата заседания планируемая'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='18%',tt='label',vv='Дата заседания фактическая'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='18%',tt='label',vv='Тип комиссии'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       		<th:block th:with="w='20%',tt='label',vv='Статус заседания'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        		</tr>
+							        	<tr th:each="d : ${obj?.c_meeting}" class="parent-popup">
+								         	<td class="d-none"><input type="hidden" name="c_meeting__rn" th:value="${d.rn}"><input type="hidden" name="c_meeting__rnOld" th:value="${d.rn}"><input type="hidden" name="c_meeting__clazz" value="RMeeting"><input type="hidden" name="c_meeting__p_add" value="new"><input type="hidden" name="c_meeting__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='15%',tt='text',nn='c_meeting__cm_nz',vv=${d.cm_nz},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='date',nn='c_meeting__cm_dz_p',vv=${d.cm_dz_p},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='date',nn='c_meeting__cm_dz_f',vv=${d.cm_dz_f},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='select',nn='c_meeting__c_type',vv=${d.c_type?.rn},ll=${listSp_type_c},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='select',nn='c_meeting__cm_stat_z',vv=${d.cm_stat_z?.rn},ll=${listSp_stat_z},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								       	</tr>
+								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
+								           	<td class="d-none"><input type="hidden" name="c_meeting__rn" value=""><input type="hidden" name="c_meeting__rnOld" value=""><input type="hidden" name="c_meeting__clazz" value="RMeeting"><input type="hidden" name="c_meeting__p_add" value="new"><input type="hidden" name="c_meeting__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='15%',tt='text',nn='c_meeting__cm_nz'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='date',nn='c_meeting__cm_dz_p'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='date',nn='c_meeting__cm_dz_f'"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='select',nn='c_meeting__c_type',ll=${listSp_type_c}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='select',nn='c_meeting__cm_stat_z',ll=${listSp_stat_z}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								    	</tr>
+						        	</tbody>
+					        	</table>                       	
+	                       	</div>
+				        	<div class="w-100 border border-primary pb-1">
+                    			<table class="table table-sm table-edited table-bordered"><tbody><tr>
+						        	<th:block th:with="w='16%',tt='label',vv='Список документов'"><th th:replace="fragments/tc :: ch"></th></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='c_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='c_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<td width="52%"></td>
+						        </tr></tbody></table>
+						        <table id="c_docs" class="table table-sm table-edited table-bordered">
+						        	<tbody>
+							        	<tr th:each="d : ${obj?.c_docs}" class="parent-popup">
+								         	<td class="d-none"><input type="hidden" name="c_docs__rn" th:value="${d.rn}"><input type="hidden" name="c_docs__rnOld" th:value="${d.rn}"><input type="hidden" name="c_docs__clazz" value="RDocument"><input type="hidden" name="c_docs__p_add" value="exists"><input type="hidden" name="c_docs__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='87%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_docs',nn2='rn',vv=${d.rn},ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='anchor',vv=${'detailsObj?readonly=1&rn=' + d.rn + '&prn=' + obj.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
+								       	</tr>
+								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
+								           	<td class="d-none"><input type="hidden" name="c_docs__rn" value=""><input type="hidden" name="c_docs__rnOld" value=""><input type="hidden" name="c_docs__clazz" value="RDocument"><input type="hidden" name="c_docs__p_add" value="exists"><input type="hidden" name="c_docs__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='87%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_docs',nn2='rn',vv='',ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
+								    	</tr>
+						        	</tbody>
+					        	</table> 
+                   			</div>
+           				</th:block>
+           				<th:block th:if="${bs==true}">
+		                    
+	                    </th:block>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>

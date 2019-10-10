@@ -98,6 +98,7 @@ public class RMember extends IBase {
 		try {
 			model.addAttribute("listSp_cs_rol", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_cs_rol"}));
 			model.addAttribute("listIPerson", objService.findAll(IPerson.class));
+			model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
 		}
 		catch (Exception ex) { }
 		return null;
