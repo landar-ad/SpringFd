@@ -20,7 +20,7 @@
            					<div class="w-100 border border-primary">
 	           					<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',nn='c_name'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='80%',tt='mtext',nn='c_name',vv=${obj.c_name},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='80%',tt='text',nn='c_name',vv=${obj.c_name},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',nn='c_num'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
@@ -35,6 +35,7 @@
 			                    	<th:block th:with="w='16%',tt='text',nn='c_pr_num',vv=${obj.c_pr_num},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='16%',tt='label',nn='c_pr_date'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='16%',tt='date',nn='c_pr_date',vv=${obj.c_pr_date},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<td width="32%"/>
 		                    	</tr></tbody></table>
 	                    	</div>
 				        	<div class="w-100 border border-primary">
