@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -89,6 +90,21 @@ public class IPerson extends IAgent {
     		name += middlename.substring(0, 1) + ".";
     	}	
     	hs.setProperty(this, "name", name);
+    }
+    
+    @Transient
+    public String getFullname() {
+    	String name = "";
+    	if (surname != null) name = surname;
+    	if (firstname != null && !firstname.isEmpty()) {
+    		if (!name.isEmpty()) name += " ";
+    		name += firstname;
+    	}
+    	if (middlename != null && !middlename.isEmpty()) {
+    		if (!name.isEmpty()) name += " ";
+    		name += middlename;
+    	}
+    	return name;
     }
     
     @Autowired
