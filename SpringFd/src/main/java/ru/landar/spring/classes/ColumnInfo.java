@@ -33,7 +33,7 @@ public class ColumnInfo {
 		String filterType = (String)HelperServiceImpl.getAttrInfo(cl, attr, "filterType");
 		if ("*".equals(filterType)) {
 			filterType = "text";
-			Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, attr);
+			Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, name);
 			if (clAttr != null) {
 				if (IBase.class.isAssignableFrom(clAttr)) filterType = "select";
 			}
