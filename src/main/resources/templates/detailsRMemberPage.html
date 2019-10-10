@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+			<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+           		<div class="m-sm-0">
+           			<div th:replace="fragments/header :: details-buttons"></div>
+           			<div class="col-sm-12 border fit-height">
+           				<th:block th:if="${bs!=true}">
+           					<div class="w-100 border border-primary">
+	           					<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+			                    	<th:block th:with="w='20%',tt='label',nn='cs_rol'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='76%',tt='select',nn='cs_rol',vv=${obj.cs_rol},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+			                    	<th:block th:with="w='7%',tt='label',vv='ФИО'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='13%',tt='text',vv=${obj.cs_sot?.fullname},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='7%',tt='label',vv='Должность'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='18%',tt='text',vv=${obj.cs_sot?.position},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='7%',tt='label',vv='Телефон'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='13%',tt='text',vv=${obj.cs_sot?.phone},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='13%',tt='label',vv='Электронная почта'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='18%',tt='text',vv=${obj.cs_sot?.email},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='4%',tt='pbutton',nn1='c_sot',nn2='',vv=${obj.cs_sot?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=ФИО=YYA;position=Должность;phone=Телефон;email=Электронная почта',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='cs_dn'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='date',nn='cs_dn',vv=${obj.cs_dn},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='cs_dv'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='date',nn='cs_dv',vv=${obj.cs_dv},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+			                    	<th:block th:with="w='20%',tt='label',vv='Структурное подразделение'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='76%',tt='text',vv=${obj.cs_dep?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='4%',tt='pbutton',nn1='cs_dep',nn2='',vv=${obj.cs_dep?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Номер=YYA;name=Наименование=YNN',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+	                    	</div>
+				        	<div class="w-100 border border-primary pb-1">
+                    			<table class="table table-sm table-edited table-bordered"><tbody><tr>
+						        	<th:block th:with="w='16%',tt='label',vv='Список документов'"><th th:replace="fragments/tc :: ch"></th></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='cs_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='cs_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<td width="52%"></td>
+						        </tr></tbody></table>
+						        <table id="cs_docs" class="table table-sm table-edited table-bordered">
+						        	<tbody>
+							        	<tr th:each="d : ${obj?.cs_docs}" class="parent-popup">
+								         	<td class="d-none"><input type="hidden" name="cs_docs__rn" th:value="${d.rn}"><input type="hidden" name="cs_docs__rnOld" th:value="${d.rn}"><input type="hidden" name="cs_docs__clazz" value="RDocument"><input type="hidden" name="cs_docs__p_add" value="exists"><input type="hidden" name="cs_docs__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='87%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='cs_docs',nn2='rn',vv=${d.rn},ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='anchor',vv=${'detailsObj?readonly=1&rn=' + d.rn + '&prn=' + obj.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
+								       	</tr>
+								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
+								           	<td class="d-none"><input type="hidden" name="cs_docs__rn" value=""><input type="hidden" name="cs_docs__rnOld" value=""><input type="hidden" name="cs_docs__clazz" value="RDocument"><input type="hidden" name="cs_docs__p_add" value="exists"><input type="hidden" name="cs_docs__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='87%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='cs_docs',nn2='rn',vv='',ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
+								    	</tr>
+						        	</tbody>
+					        	</table> 
+                   			</div>
+           				</th:block>
+           				<th:block th:if="${bs==true}">
+		                    
+	                    </th:block>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>
