@@ -18,10 +18,11 @@ public class ColumnInfo {
 	public ColumnInfo(String name, Class<?> cl) {
 		setName(name);
 		String attr = name;
-		int k = attr.indexOf("__");
+		int k = attr.lastIndexOf("__");
 		if (k > 0) attr = attr.substring(0, k);
-		String title = (String)HelperServiceImpl.getAttrInfo(cl, name, "nameColumn");
-		if (title == null || "*".equals(title)) title = (String)HelperServiceImpl.getAttrInfo(cl, name);
+		String tn = name.endsWith("__name") ? attr : name;
+		String title = (String)HelperServiceImpl.getAttrInfo(cl, tn, "nameColumn");
+		if (title == null || "*".equals(title)) title = (String)HelperServiceImpl.getAttrInfo(cl, tn);
 		setTitle(title);
 		Boolean visible = (Boolean)HelperServiceImpl.getAttrInfo(cl, attr, "visible");
 		setVisible(visible == null ? true : visible);
@@ -32,13 +33,9 @@ public class ColumnInfo {
 		String filterType = (String)HelperServiceImpl.getAttrInfo(cl, attr, "filterType");
 		if ("*".equals(filterType)) {
 			filterType = "text";
-			Class<?> clAttr = HelperServiceImpl.getAttrTypeStatic(cl, attr);
+			Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, attr);
 			if (clAttr != null) {
 				if (IBase.class.isAssignableFrom(clAttr)) filterType = "select";
-				else if (Date.class.isAssignableFrom(clAttr)) {
-					filterType = "date";
-				}
-				else if (Boolean.class.isAssignableFrom(clAttr)) filterType = "checkbox";
 			}
 		}
 		setFilterType(filterType);

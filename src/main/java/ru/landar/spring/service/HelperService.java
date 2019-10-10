@@ -13,6 +13,7 @@ import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 
 public interface HelperService {
+	Object ai(String clazz, String attr, String info);
 	boolean isEmpty(String v);
 	boolean isEmptyTrim(String v);
 	Object getObjectByString(Class<?> cl, String attr, String v);

@@ -24,7 +24,7 @@ public class AttributeInfo {
 		String type = (String)HelperServiceImpl.getAttrInfo(cl, name, "editType");
 		if ("*".equals(type)) {
 			type = "text";
-			Class<?> clAttr = HelperServiceImpl.getAttrTypeStatic(cl, name);
+			Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, name);
 			if (clAttr != null) {
 				if (IBase.class.isAssignableFrom(clAttr)) type = "select";
 				else if (Date.class.isAssignableFrom(clAttr)) {
@@ -55,7 +55,7 @@ public class AttributeInfo {
 		if ("*".equals(title)) title = (String)HelperServiceImpl.getAttrInfo(cl, name);
 		setTitle(title);
 		if ("*".equals(type)) {
-			Class<?> clAttr = HelperServiceImpl.getAttrTypeStatic(cl, name);
+			Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, name);
 			if (clAttr != null && IBase.class.isAssignableFrom(clAttr)) type = "select";
 			else type = "text";
 		}

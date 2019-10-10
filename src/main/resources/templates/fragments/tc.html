@@ -2,7 +2,7 @@
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <table class="table table-sm table-edited table-bordered small"><tbody><tr>
 	<th th:fragment="ch" th:width="${w}" th:class="${#strings.equals(aa,'c') ? 'td-center' : (#strings.equals(aa,'r') ? 'td-right' : 'td-left')}" th:colspan="${cs}">
-		<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:text="${vv}"></label>
+		<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:text="${vv!=null?vv:hs.ai(obj.clazz,nn,'nf')}"></label>
 		<h6 th:if="${tt=='group'}" th:text="${vv}"></h6>
 	</th>
 	<td th:fragment="check" class="td-edited td-center" th:width="${w}">
@@ -76,7 +76,7 @@
 			<input type="hidden" value="">
 			<select th:if="${ro!=1}" th:name="${nn}" class="not-visible form-control form-control-sm" th:required="${rr==1 ? 'required' : null}">
 				<option value=""></option>
-				<option th:each="d : ${ll}" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,_attr!=null?_attr:'rn'))}" th:value="${hs.getPropertyString(d,_attr!=null?_attr:'rn')}" th:text="${d.name}"/>
+				<option th:each="d : ${ll!=null?ll:hs.getVariable(#vars,hs.ai(obj.clazz,nn,'editList'))}" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,_attr!=null?_attr:'rn'))}" th:value="${hs.getPropertyString(d,_attr!=null?_attr:'rn')}" th:text="${d.name}"/>
 			</select>  
 		</th:block>
 		<th:block th:if="${tt=='button'}">

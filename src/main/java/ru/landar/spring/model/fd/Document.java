@@ -28,6 +28,7 @@ import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IMailing;
 import ru.landar.spring.model.IOrganization;
+import ru.landar.spring.model.IPerson;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SearchContent;
 import ru.landar.spring.model.SpCommon;
@@ -105,7 +106,7 @@ public class Document extends IBase {
     public Date getDoc_date() { return doc_date; }
     public void setDoc_date(Date doc_date) { this.doc_date = doc_date; updateName(); }
     
-    @FieldTitle(name="Основной документ", visible=false)
+    @FieldTitle(name="Основной документ", visible=false, filterType="text")
     @ManyToOne(targetEntity=Document.class, fetch=FetchType.LAZY)
     public Document getParent_doc() { return parent_doc; }
     public void setParent_doc(Document parent_doc) { this.parent_doc = parent_doc; }
@@ -124,7 +125,7 @@ public class Document extends IBase {
     public Date getTime_status() { return time_status; }
     public void setTime_status(Date time_status) { this.time_status = time_status; }
 	
-    @FieldTitle(name="Создан", visible=false)
+    @FieldTitle(name="Создан", nameField="Создан пользователем", visible=false, filterType="text")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getCreate_agent() { return create_agent; }
     public void setCreate_agent(IAgent create_agent) { this.create_agent = create_agent; }
@@ -138,7 +139,7 @@ public class Document extends IBase {
     public Date getCreate_time() { return create_time; }
     public void setCreate_time(Date create_time) { this.create_time = create_time; }
 	
-    @FieldTitle(name="Изменен", visible=false)
+    @FieldTitle(name="Изменен", nameField="Изменен пользователем", visible=false, filterType="text")
 	@ManyToOne(targetEntity=IAgent.class, fetch=FetchType.LAZY)
     public IAgent getChange_agent() { return change_agent; }
     public void setChange_agent(IAgent change_agent) { this.change_agent = change_agent; }
@@ -147,12 +148,12 @@ public class Document extends IBase {
     public Date getChange_time() { return change_time; }
     public void setChange_time(Date change_time) { this.change_time = change_time; }
 	
-    @FieldTitle(name="Включен в акт")
+    @FieldTitle(name="Включен в акт", filterType="text")
     @ManyToOne(targetEntity=Act.class, fetch=FetchType.LAZY)
     public Act getAct() { return act; }
     public void setAct(Act act) { this.act = act; }
     
-    @FieldTitle(name="Исключен из акта", visible=false)
+    @FieldTitle(name="Исключен из акта", visible=false, filterType="text")
     @Column(length=40)
     public String getAct_exclude_num() { return act_exclude_num; }
     public void setAct_exclude_num(String act_exclude_num) { this.act_exclude_num = act_exclude_num; }
@@ -167,7 +168,7 @@ public class Document extends IBase {
     public Date getAct_exclude_date() { return act_exclude_date; }
     public void setAct_exclude_date(Date act_exclude_date) { this.act_exclude_date = act_exclude_date; }
 	
-    @FieldTitle(name="Включен в реестр")
+    @FieldTitle(name="Включен в реестр", filterType="text")
     @ManyToOne(targetEntity=Reestr.class, fetch=FetchType.LAZY)
     public Reestr getReestr() { return reestr; }
     public void setReestr(Reestr reestr) { this.reestr = reestr; }
@@ -362,10 +363,11 @@ public class Document extends IBase {
 		try {
 			model.addAttribute("listSpDocType", objService.findAll(SpDocType.class));
 			model.addAttribute("listSp_sd", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_sd"}));
+			model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
+			model.addAttribute("listIAgent", objService.findAll(IPerson.class));
 			if (!list) {
 				model.addAttribute("listSpFileType", objService.findAll(SpFileType.class));
 				model.addAttribute("listIDocument", objService.findAll(Document.class));
-				model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
 				model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
 			}	
 		}
