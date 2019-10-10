@@ -77,12 +77,6 @@
 						        </tr></tbody></table>
 						        <table id="list_oz" class="table table-sm table-edited table-bordered">
 						        	<tbody>
-						        		<tr>
-								       		<td class="d-none"></td>
-								       		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-								       		<th:block th:with="w='91%',tt='label',vv='Объект',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
-								       		<th:block th:with="w='4%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
-						       			</tr>
 							        	<tr th:each="d : ${obj?.list_oz}" class="parent-popup">
 								         	<td class="d-none"><input type="hidden" name="list_oz__rn" th:value="${d.rn}"><input type="hidden" name="list_oz__rnOld" th:value="${d.rn}"><input type="hidden" name="list_oz__clazz" value="RProperty"><input type="hidden" name="list_oz__p_add" value="exists"><input type="hidden" name="list_oz__p_cmd" value=""></td>
 								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
@@ -109,12 +103,6 @@
 						        </tr></tbody></table>
 						        <table id="list_doc" class="table table-sm table-edited table-bordered">
 						        	<tbody>
-						        		<tr>
-								       		<td class="d-none"></td>
-								       		<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-								       		<th:block th:with="w='91%',tt='label',vv='Документ',cs=2"><td th:replace="fragments/tc :: cd"></td></th:block>
-								       		<th:block th:with="w='4%',tt='label',vv='Ссылка'"><td th:replace="fragments/tc :: cd"></td></th:block>
-						       			</tr>
 							        	<tr th:each="d : ${obj?.list_doc}" class="parent-popup">
 								         	<td class="d-none"><input type="hidden" name="list_doc__rn" th:value="${d.rn}"><input type="hidden" name="list_doc__rnOld" th:value="${d.rn}"><input type="hidden" name="list_doc__clazz" value="RDocument"><input type="hidden" name="list_doc__p_add" value="exists"><input type="hidden" name="list_doc__p_cmd" value=""></td>
 								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
