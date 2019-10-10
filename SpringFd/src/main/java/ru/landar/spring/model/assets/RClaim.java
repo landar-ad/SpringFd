@@ -103,7 +103,7 @@ public class RClaim extends IBase {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = RClaim.class;
 		ret.add(new ColumnInfo("co_org__name", cl)); 
-		ret.add(new ColumnInfo("za_type__num", cl));
+		ret.add(new ColumnInfo("za_type__name", cl));
 		ret.add(new ColumnInfo("za_num", cl));
 		ret.add(new ColumnInfo("za_date", cl));
 		ret.add(new ColumnInfo("za_sod", cl));
