@@ -33,7 +33,7 @@ public class RMember extends IBase {
 	private IDepartment cs_dep;
 	private List<RDocument> cs_docs;
 	
-	@FieldTitle(name="Тип заявки", sp="sp_cs_rol")
+	@FieldTitle(name="Роль", sp="sp_cs_rol")
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
 	public SpCommon getCs_rol() { return cs_rol; }
 	public void setCs_rol(SpCommon cs_rol) { this.cs_rol = cs_rol; }
