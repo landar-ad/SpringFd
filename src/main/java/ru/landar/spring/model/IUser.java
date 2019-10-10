@@ -33,7 +33,7 @@ public class IUser extends IBase {
 	@FieldTitle(name="Логин")
 	@Column(length=50, nullable=false, unique=true)
     public String getLogin() { return login; }
-    public void setLogin(String login) { this.login = login; setName(login); }
+    public void setLogin(String login) { this.login = login; setName(login); setCode(login); }
     
     @FieldTitle(name="Пароль")
     @Column(length=256, nullable=false)
