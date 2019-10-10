@@ -41,7 +41,7 @@ public class RMember extends IBase {
 	@FieldTitle(name="Сотрудник")
     @ManyToOne(targetEntity=IPerson.class, fetch=FetchType.LAZY)
     public IPerson getCs_sot() { return cs_sot; }
-    public void setCs_sot(IPerson cs_sot) { this.cs_sot = cs_sot; }
+    public void setCs_sot(IPerson cs_sot) { this.cs_sot = cs_sot; updateName(); }
     
     @FieldTitle(name="Дата назначения")
     @Temporal(TemporalType.DATE)
@@ -62,6 +62,16 @@ public class RMember extends IBase {
     @OneToMany(targetEntity=RDocument.class, fetch=FetchType.LAZY)
     public List<RDocument> getCs_docs() { return cs_docs != null ? cs_docs : new ArrayList<RDocument>(); }
     public void setCs_docs(List<RDocument> cs_docs) { this.cs_docs = cs_docs; }
+    
+    private void updateName() {
+    	String name = "";
+    	if (getCs_rol() != null) name = getCs_rol().getName();
+    	if (getCs_sot() != null) {
+    		if (!hs.isEmpty(name)) name += " ";
+    		name += cs_sot.getName();
+    	}
+    	setName(name);
+    }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+			<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+           		<div class="m-sm-0">
+           			<div th:replace="fragments/header :: details-buttons"></div>
+           			<div class="col-sm-12 border fit-height">
+           				<th:block th:if="${bs!=true}">
+           					<div class="w-100 border border-primary pb-1">
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+			                    	<th:block th:with="w='13%',tt='label',vv='Член комиссии'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='83%',tt='text',vv=${obj.uz?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='4%',tt='pbutton',nn1='uz',nn2='',vv=${obj.uz?.rn},ro=${rco},ddcl='RMember',ddti='Выберите члена комиссии',ddco='rn;name=Член комиссии=YYA',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='4%',tt='check',nn='uz_pz',vv=${obj.uz_pz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='uz_pz'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<td width="80%"/>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='13%',tt='label',nn='uz_oo'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='87%',tt='text',nn='uz_oo',vv=${obj.uz_oo},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    		<th:block th:with="w='13%',tt='label',nn='uz_rg'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='select',nn='uz_rg',vv=${obj.uz_rg},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<td width="67%"/>
+		                    	</tr></tbody></table>
+	                    	</div>
+           				</th:block>
+           				<th:block th:if="${bs==true}">
+		                    
+	                    </th:block>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>
