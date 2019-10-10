@@ -648,6 +648,9 @@ public class HelperServiceImpl implements HelperService {
 		if (cl == null) return ret;
 		if (attr != null) {
 			FieldTitle a = getTitleAnnotation(cl, attr);
+			if (a == null) {
+				return ret;
+			}
 			Class<?> clAttr = s_getAttrType(cl, attr);
 			if ("sp".equals(info)) ret = a.sp();
     		else if ("list".equals(info)) ret = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName());
