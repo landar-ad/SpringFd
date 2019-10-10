@@ -20,7 +20,6 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
-import ru.landar.spring.model.IPerson;
 import ru.landar.spring.model.SpCommon;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
