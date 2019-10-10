@@ -76,6 +76,7 @@ public class HelperServiceImpl implements HelperService {
 	
 	@Override
 	public boolean isEmpty(String v) { return v == null || v.isEmpty(); }
+	public static boolean s_isEmpty(String v) { return v == null || v.isEmpty(); }
 	@Override
 	public boolean isEmptyTrim(String v) { return v == null || v.trim().isEmpty(); }
 	@Override
@@ -181,7 +182,7 @@ public class HelperServiceImpl implements HelperService {
     	}
 		return ret;
 	}
-	public static Class<?> getAttrTypeStatic(Class<?> cl, String attr) {
+	public static Class<?> s_getAttrType(Class<?> cl, String attr) {
 		Class<?> ret = null;
 		if (cl == null || attr == null || attr.isEmpty()) return ret;
     	for (String a : attr.split("__")) {
@@ -647,19 +648,19 @@ public class HelperServiceImpl implements HelperService {
 		if (cl == null) return ret;
 		if (attr != null) {
 			FieldTitle a = getTitleAnnotation(cl, attr);
-			Class<?> clAttr = getAttrTypeStatic(cl, attr);
+			Class<?> clAttr = s_getAttrType(cl, attr);
 			if ("sp".equals(info)) ret = a.sp();
     		else if ("list".equals(info)) ret = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName());
-    		else if ("nameColumn".equals(info)) ret = a.nameColumn();
+    		else if ("nameColumn".equals(info)) { String v = a.nameColumn(); if (v == null || v.isEmpty() || "*".equals(v)) v = a.name(); ret = v; }
     		else if ("visible".equals(info)) ret = a.visible();
     		else if ("sortable".equals(info)) ret = a.sortable();
     		else if ("filter".equals(info)) ret = a.filter();
     		else if ("filterType".equals(info)) ret = a.filterType();
-    		else if ("filterList".equals(info)) ret = a.filterList();
+    		else if ("filterList".equals(info)) { String v = a.filterList(); if ("*".equals(v)) v = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName()); ret = v; }
     		else if ("filterAttr".equals(info)) ret = a.filterAttr();
-    		else if ("nameField".equals(info)) ret = a.nameField();
+    		else if ("nameField".equals(info) || "nf".equals(info)) { String v = a.nameField(); if (v == null || v.isEmpty() || "*".equals(v)) v = a.name(); ret = v; }
     		else if ("editType".equals(info)) ret = a.editType();
-    		else if ("editList".equals(info)) ret = a.editList();
+    		else if ("editList".equals(info)) { String v = a.editList(); if ("*".equals(v)) v = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName()); ret = v; }
     		else if ("required".equals(info)) ret = a.required();
     		else if ("editLength".equals(info)) ret = a.editLength();
     		else if ("readOnly".equals(info)) ret = a.readOnly();
@@ -680,6 +681,9 @@ public class HelperServiceImpl implements HelperService {
 		}
 		return ret;
 	}
+	public static Object getAttrInfo(String clazz, String attr, String info) { return getAttrInfo(getMapClasses().get(clazz), attr, info); }
+	@Override
+	public Object ai(String clazz, String attr, String info) { return getAttrInfo(clazz, attr, info); }
 	@Override
 	public boolean isServerConnected(String url, int timeout) {
 		try {
@@ -898,8 +902,8 @@ public class HelperServiceImpl implements HelperService {
 		IPerson person = user.getPerson();
 		return person != null && base != null && person.getRn() == base.getRn();
 	}
-	private Map<String, Class<?>> mapClasses = null;
-	private Map<String, Class<?>> getMapClasses() {
+	private static Map<String, Class<?>> mapClasses = null;
+	private static Map<String, Class<?>> getMapClasses() {
 		if (mapClasses == null) {
 			mapClasses = new LinkedHashMap<String, Class<?>>();
 			PathMatchingResourcePatternResolver scanner = new PathMatchingResourcePatternResolver();
