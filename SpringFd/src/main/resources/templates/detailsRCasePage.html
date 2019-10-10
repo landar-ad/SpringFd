@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			Amel.details_init();
+		});
+	</script>
+	<header th:replace="fragments/header :: header"></header>
+	<div class="container">
+		<form action="detailsObj" method="POST" autocomplete="off">
+			<div th:replace="fragments/header :: details-param"></div>
+			<div th:replace="fragments/header :: details-header"></div>
+           	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
+           		<div class="m-sm-0">
+           			<div th:replace="fragments/header :: details-buttons"></div>
+           			<div class="col-sm-12 border fit-height">
+           				<th:block th:if="${bs!=true}">
+           					<div class="w-100 border border-primary">
+	           					<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+			                    	<th:block th:with="w='20%',tt='label',nn='co_org',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='76%',tt='text',vv=${obj.co_org?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='4%',tt='pbutton',nn1='co_org',nn2='',vv=${obj.co_org?.rn},rr=1,ro=${rco},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_st'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='select',nn='sd_st',vv=${obj.sd_st},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='sd_ist'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='text',nn='sd_ist',vv=${obj.sd_ist},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='sd_otv'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='text',nn='sd_otv',vv=${obj.sd_otv},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='sd_tl'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='text',nn='sd_tl',vv=${obj.sd_tl},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_tsr'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='select',nn='sd_tsr',vv=${obj.sd_tsr},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='10%',tt='label',nn='sd_ns'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='54%',tt='text',nn='sd_ns',vv=${obj.sd_ns},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_nd'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='text',nn='sd_nd',vv=${obj.sd_nd},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_drs'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='date',nn='sd_drs',vv=${obj.sd_drs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<td width="10%"/>
+		                    	</tr></tbody></table>
+	                    	</div>
+	                    	<div class="w-100 border border-primary">
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_psr'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='80%',tt='mtext',nn='sd_psr',vv=${obj.sd_psr},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_ci'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='text',nn='sd_ci',vv=${obj.sd_ci},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='4%',tt='check',nn='sd_lu',vv=${obj.sd_lu},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='56%',tt='label',nn='sd_lu'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_po'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='80%',tt='mtext',nn='sd_po',vv=${obj.sd_po},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+	                    		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+									<th:block th:with="w='20%',tt='label',nn='sd_sd'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='select',nn='sd_sd',vv=${obj.sd_sd},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_hrd'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='select',nn='sd_hrd',vv=${obj.sd_hrd},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<td width="28%"/>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+									<th:block th:with="w='20%',tt='label',nn='sd_dsz'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='time',nn='sd_dsz',vv=${obj.sd_dsz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<td width="50%"/>
+		                    	</tr></tbody></table>
+	                    	</div>
+	                    	<div class="w-100 border border-primary">
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='sd_rr'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='14%',tt='select',nn='sd_rr',vv=${obj.sd_rr},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='18%',tt='label',nn='sd_dvsz'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='15%',tt='date',nn='sd_dvsz',vv=${obj.sd_dvsz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='18%',tt='label',nn='sd_ro'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='15%',tt='select',nn='sd_ro',vv=${obj.sd_ro},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    	</tr></tbody></table>
+				        	</div>
+				        	<div class="w-100 border border-primary pb-1">
+                    			<table class="table table-sm table-edited table-bordered"><tbody><tr>
+						        	<th:block th:with="w='16%',tt='label',vv='Список документов'"><th th:replace="fragments/tc :: ch"></th></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='sd_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='sd_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<td width="52%"></td>
+						        </tr></tbody></table>
+						        <table id="sd_docs" class="table table-sm table-edited table-bordered">
+						        	<tbody>
+							        	<tr th:each="d : ${obj?.sd_docs}" class="parent-popup">
+								         	<td class="d-none"><input type="hidden" name="sd_docs__rn" th:value="${d.rn}"><input type="hidden" name="sd_docs__rnOld" th:value="${d.rn}"><input type="hidden" name="sd_docs__clazz" value="RDocument"><input type="hidden" name="sd_docs__p_add" value="exists"><input type="hidden" name="sd_docs__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='87%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='sd_docs',nn2='rn',vv=${d.rn},ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='anchor',vv=${'detailsObj?readonly=1&rn=' + d.rn + '&prn=' + obj.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
+								       	</tr>
+								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
+								           	<td class="d-none"><input type="hidden" name="sd_docs__rn" value=""><input type="hidden" name="sd_docs__rnOld" value=""><input type="hidden" name="sd_docs__clazz" value="RDocument"><input type="hidden" name="sd_docs__p_add" value="exists"><input type="hidden" name="sd_docs__p_cmd" value=""></td>
+								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+								           	<th:block th:with="w='87%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='pbutton',nn1='sd_docs',nn2='rn',vv='',ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
+								    	</tr>
+						        	</tbody>
+					        	</table> 
+                   			</div>
+           				</th:block>
+           				<th:block th:if="${bs==true}">
+		                    
+	                    </th:block>
+                    </div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/header :: details-footer"></div>
+</body>
+</html>
