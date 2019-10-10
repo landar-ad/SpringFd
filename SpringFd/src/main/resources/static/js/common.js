@@ -310,7 +310,7 @@ Amel = {
 	table_edit: function(c) {
 		var target = this;
 		if (!c) return;
-		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date"), b = c.find(">label,>span").first();
+		var a = c.find("input[type='text'],input[type='password'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date"), b = c.find(">label,>span").first();
 		if (a.length < 1) return; 
 		a = a.first();
 		if (!a.is(':hidden')) return;
@@ -343,7 +343,7 @@ Amel = {
 		if (k != 9 && k != 13 && k != 27) return true;
 		var target = this;
 		var c = q.closest(".td-edited"), b = c.find(">label,>span").first();
-		var a = c.find("input[type='text'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date");
+		var a = c.find("input[type='text'],input[type='password'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date");
 		if (a.length < 1) return false;
 		a = a.first();
 		var h = c.find("input[type='hidden']").first()
@@ -401,7 +401,7 @@ Amel = {
 		if (k == 9) {
 			var p = $(".td-edited"), pa = [];
 			for (var j=0; j<p.length; j++) {
-				var zz = $(p[j]).find("input[type='text'],input[type='date'],select,.custom-file,textarea,.custom-date");
+				var zz = $(p[j]).find("input[type='text'],input[type='password'],input[type='date'],select,.custom-file,textarea,.custom-date");
 				if (zz.length == 0) continue;
 				var zz1 = $(p[j]).find(">label,>span");
 				if (zz1.length == 0) continue;
@@ -424,7 +424,7 @@ Amel = {
 	table_edit_focus: function() {
 		var target = this, p = $(".td-edited");
 		for (var j=0; j<p.length; j++) {
-			var zz = $(p[j]).find("input[type='text'],input[type='date'],select,.custom-file,textarea,.custom-date");
+			var zz = $(p[j]).find("input[type='text'],input[type='password'],input[type='date'],select,.custom-file,textarea,.custom-date");
 			if (zz.length == 0) continue;
 			var zz1 = $(p[j]).find(">label,>span");
 			if (zz1.length == 0) continue;

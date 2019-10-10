@@ -17,15 +17,15 @@
 	       	<div class="col-sm-12 card small">
 	            <div class="m-sm-0">
 	            	<div th:replace="fragments/header :: details-buttons"></div>
-	            	<div class="col-sm-12 border fit-height">
+	            	<div thclass="col-sm-12 border fit-height">
 	            		<th:block th:if="${bs!=true}">
 	            			<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Логин',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='87%',tt='text',nn='login',vv=${obj.login},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='87%',tt='text',nn='login',vv=${obj.login}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    </tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    	<th:block th:with="w='13%',tt='label',vv='Пароль',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='87%',tt='password',nn='password',vv='',rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	<th:block th:with="w='13%',tt='label',vv='Пароль'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    	<th:block th:with="w='87%',tt='password',nn='password',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                    </tr></tbody></table>
 		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='100%',tt='label',vv='<h6>Роли</h6>'"><td th:replace="fragments/tc :: cd"></td></th:block>
