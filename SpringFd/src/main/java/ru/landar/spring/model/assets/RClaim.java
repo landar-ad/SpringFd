@@ -101,7 +101,7 @@ public class RClaim extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RProperty.class;
+		Class<?> cl = RClaim.class;
 		ret.add(new ColumnInfo("co_org__name", cl)); 
 		ret.add(new ColumnInfo("za_type__num", cl));
 		ret.add(new ColumnInfo("za_num", cl));
