@@ -144,7 +144,7 @@ public class Reestr extends IBase {
     public void setList_doc(List<Document> list_doc) { this.list_doc = list_doc; }
     
     @FieldTitle(name="Прикрепленные файлы")
-    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     

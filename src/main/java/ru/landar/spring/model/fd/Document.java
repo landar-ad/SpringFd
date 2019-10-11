@@ -194,7 +194,7 @@ public class Document extends IBase {
     public void setExtract_date(Date extract_date) { this.extract_date = extract_date; }
 
     @FieldTitle(name="Прикрепленные файлы")
-    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     
@@ -233,7 +233,7 @@ public class Document extends IBase {
     public void setComment(String comment) { this.comment = comment; }
     
     @FieldTitle(name="Список рассылки")
-    @ManyToMany(targetEntity=IMailing.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @ManyToMany(targetEntity=IMailing.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     public List<IMailing> getMailing_list() { return mailing_list != null ? mailing_list : new ArrayList<IMailing>(); }
     public void setMailing_list(List<IMailing> mailing_list) { this.mailing_list = mailing_list; }
 	
