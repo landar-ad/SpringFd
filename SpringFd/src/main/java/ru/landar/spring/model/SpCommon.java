@@ -23,10 +23,6 @@ public class SpCommon extends IBase {
     public String getSp_code() { return sp_code; }
     public void setSp_code(String sp_code) { this.sp_code = sp_code; }
 
-	public static boolean isVoc() { return true; }
-	public static String singleTitle() { return "Элемент общего справочника"; }
-	public static String multipleTitle() { return "Элементы общего справочника"; }
-	public static String menuTitle() { return multipleTitle(); }
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = SpCommon.class;
