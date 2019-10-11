@@ -2,6 +2,7 @@ package ru.landar.spring.model.assets;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
@@ -43,10 +44,10 @@ public class RDocument extends IBase {
 	private String docnum;
 	private Date docdate;
 	private Date docdate_end;
-	private IFile file;
 	private String prim;
 	private Boolean apsend;
 	private String prim_apsend;
+	private List<IFile> list_file;
 	
 	@FieldTitle(name="Тип документа")
 	@ManyToOne(targetEntity=SpRDocType.class, fetch=FetchType.LAZY)
@@ -78,11 +79,6 @@ public class RDocument extends IBase {
     public String getPrim() { return prim; }
     public void setPrim(String prim) { this.prim = prim; }
     
-    @FieldTitle(name="Прикрепленный файл")
-    @ManyToOne(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public IFile getFile() { return file; }
-    public void setFile(IFile file) { this.file = file; }
-    
     @FieldTitle(name="Документ отсутствует")
     public Boolean getApsend() { return apsend; }
     public void setApsend(Boolean apsend) { this.apsend = apsend; }
@@ -91,6 +87,11 @@ public class RDocument extends IBase {
     @Column(length=2048)
     public String getPrim_apsend() { return prim_apsend; }
     public void setPrim_apsend(String prim_apsend) { this.prim_apsend = prim_apsend; }
+    
+    @FieldTitle(name="Прикрепленные файлы")
+    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
+    public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     
     private void updateName() {
     	String name = "";
@@ -152,7 +153,7 @@ public class RDocument extends IBase {
 		if (ret != null) return ret;
 		
 		try {
-			model.addAttribute("lisSptRDocType", objService.findAll(SpRDocType.class));
+			model.addAttribute("lisSpRDocType", objService.findAll(SpRDocType.class));
 			if (!list) model.addAttribute("listSpFileType", objService.findAll(SpFileType.class));
 		}
 		catch (Exception ex) { }

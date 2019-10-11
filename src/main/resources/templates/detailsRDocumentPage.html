@@ -15,7 +15,7 @@
 			<input type="hidden" name="p_tab" th:value="${p_tab}" />
     		<div th:replace="fragments/header :: details-header"></div>
            	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 card small">
-            	<div class="m-sm-2">
+            	<div class="m-sm-0">
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
 	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
@@ -23,53 +23,73 @@
 		                </div>
 	                </div>
 	                <div class="col-sm-12 border fit-height">
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-10" th:with="tt='select',nn='doctype',ll=${listSpRDocType},vv=${obj.doctype},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-							<div class="col-sm-2" th:with="tt='label',vv='Наименование документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-10" th:with="tt='text',nn='docname',vv=${obj.docname},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>                    	
-	                    </div>
-	                   	<div class="form-group-sm row mt-sm-1">
-	                        <div class="col-sm-2" th:with="tt='label',vv='Номер документа'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-1" th:with="tt='text',nn='docnum',vv=${obj.docnum},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='label',vv='Дата документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='date',nn='docdate',vv=${obj.docdate},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-							<div class="col-sm-2" th:with="tt='label',vv='Действует до'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-2" th:with="tt='date',nn='docdate_end',vv=${obj.docdate_end},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Примечание'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-12" th:with="tt='mtext',nn='prim',vv=${obj.prim},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row margin-left-0 mt-sm-1">
-	                    	<div class="col-sm-2" th:with="tt='check',nn='apsend',vv=${obj.apsend},xx='Документ отсутствует'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='label',vv='Примечание к отсутствию документа'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-8" th:with="tt='mtext',nn='prim_apsend',vv=${obj.prim_apsend},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div th:if="${obj.file != null}" class="col-sm-12 mt-sm-1">
-	                    		<a target="_blank" th:href="@{/fileView?rn=} + ${obj.file.rn}" th:text="${obj.file.filename}"></a>
-	                    	</div>
-	                   	</div>
-	                   	<div class="form-group-sm row mt-sm-1">
-	                   		<div class="col-sm-12" th:with="tt='file',nn='file__fileuri',vv=${obj.file == null ? 'Прикрепить файл' : 'Заменить файл'},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
-	                    <div class="form-group-sm row mt-sm-1">
-	                    	<div class="col-sm-1" th:with="tt='label',vv='Имя файла'"><div th:replace="fragments/component :: c"></div></div>
-	                    	<div class="col-sm-2" th:with="tt='text',nn='file__filename',vv=${obj.file?.filename},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-1" th:with="tt='label',vv='Расширение'"><div th:replace="fragments/component :: c"></div></div>
-	                       	<div class="col-sm-1" th:with="tt='text',nn='file__fileext',vv=${obj.file?.fileext},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-1" th:with="tt='label',vv='Тип файла'"><div th:replace="fragments/component :: c"></div></div>
-	                        <div class="col-sm-6" th:with="tt='select',nn='file__filetype',ll=${listFileType},vv=${obj.file?.filetype},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-	                    </div>
+	                	<th:block th:if="${bs!=true}">
+	                		<div class="w-100 border border-primary">
+		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                			<th:block th:with="w='13%',tt='label',nn='doctype',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			                		<th:block th:with="w='20%',tt='select',nn='doctype',vv=${obj.doctype},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                		<td width="67%"/>
+		                		</tr></tbody></table>
+		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                			<th:block th:with="w='13%',tt='label',nn='docname',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='87%',tt='text',nn='docname',vv=${obj.docname},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                		</tr></tbody></table>
+		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+									<th:block th:with="w='13%',tt='label',nn='docnum',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='20%',tt='text',nn='docnum',vv=${obj.docnum},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			          				<th:block th:with="w='13%',tt='label',nn='docdate',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='21%',tt='date',nn='docdate',vv=${obj.docdate},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			          				<th:block th:with="w='13%',tt='label',nn='docdate_end',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='21%',tt='date',nn='docdate_end',vv=${obj.docdate},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>		                			
+		                		</tr></tbody></table>
+		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                			<th:block th:with="w='13%',tt='label',nn='prim'"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='87%',tt='mtext',nn='prim',vv=${obj.prim},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                		</tr></tbody></table>
+		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                			<th:block th:with="w='4%',tt='check',nn='apsend',vv=${obj.prim},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                			<th:block th:with="w='29%',tt='label',nn='apsend'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                			<th:block th:with="w='21%',tt='label',nn='prim_apsend'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                			<th:block th:with="w='46%',tt='mtext',nn='prim_apsend',vv=${obj.prim_apsend},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                		</tr></tbody></table>
+	                		</div>
+	                		<div class="w-100 border border-primary pb-1">
+		                    	<th:block th:replace="fragments/header :: file_list"/>
+		                    </div>
+	                	</th:block>
+	                	<th:block th:if="${bs==true}">
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-10" th:with="tt='select',nn='doctype',ll=${listSpRDocType},vv=${obj.doctype},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',vv='Наименование документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-10" th:with="tt='text',nn='docname',vv=${obj.docname},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>                    	
+		                    </div>
+		                   	<div class="form-group-sm row mt-sm-1">
+		                        <div class="col-sm-2" th:with="tt='label',vv='Номер документа'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-1" th:with="tt='text',nn='docnum',vv=${obj.docnum},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',vv='Дата документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='date',nn='docdate',vv=${obj.docdate},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',vv='Действует до'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='date',nn='docdate_end',vv=${obj.docdate_end},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Примечание'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-12" th:with="tt='mtext',nn='prim',vv=${obj.prim},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div class="form-group-sm row margin-left-0 mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='check',nn='apsend',vv=${obj.apsend},xx='Документ отсутствует'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',vv='Примечание к отсутствию документа'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-8" th:with="tt='mtext',nn='prim_apsend',vv=${obj.prim_apsend},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    </div>
+		                    <div th:replace="fragments/header :: list_file"></div>
+	                    </th:block>
                     </div>
 				</div>
 			</div>
 			</form>
 	</div>
-	<div th:replace="fragments/header :: modal"></div>
 	<div th:replace="fragments/header :: details-footer"></div>
 </body>
 </html>
