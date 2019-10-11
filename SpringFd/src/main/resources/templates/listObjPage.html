@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head"></head>
+<th:block th:replace="fragments/header :: head"></th:block>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -9,13 +9,13 @@
 		});
 	</script>
 	<div th:with="l_p=${p_paging!=null && p_paging},l_lb=${p_listButtons}" id="listTop" class="h-100">
-		<header th:replace="fragments/header :: header"></header>
+		<th:block th:replace="fragments/header :: header"></th:block>
 	   	<div class="col">
 		 	<form id="formSubmit" th:action="${'listObj?clazz=' + clazz}" method="POST" novalidate  autocomplete="off">
-		 		<div th:replace="fragments/header :: list-param"></div>
-				<div th:replace="fragments/header :: list-buttons"></div>
-				<div th:if="${l_p}"><div th:replace="fragments/pager :: pager-param"></div></div>
-				<div class="fit-height"><table th:replace="fragments/header :: list-table"></table></div>
+		 		<th:block th:replace="fragments/header :: list-param"></th:block>
+				<th:block th:replace="fragments/header :: list-buttons"></th:block>
+				<th:block th:if="${l_p}"><th:block th:replace="fragments/pager :: pager-param"></th:block></th:block>
+				<div class="fit-height"><th:block th:replace="fragments/header :: list-table"></th:block></div>
 		     </form>
 		</div>
 		<footer>

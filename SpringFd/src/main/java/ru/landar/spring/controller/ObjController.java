@@ -14,10 +14,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Order;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import org.apache.commons.math3.util.MathArrays.OrderDirection;
+import org.hibernate.query.criteria.internal.OrderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -104,7 +108,7 @@ public class ObjController {
 		List<Object> listValue = new ArrayList<Object>();
 		// Данные для сортировки
 		Map<String, String> mapSort = new HashMap<String, String>();
-		Sort sort = null;
+		List<Sort.Order> listSort = new ArrayList<Sort.Order>();
 		for (String p : mapParam.keySet()) {
 			String v = "";
 			String[] vs = mapParam.get(p);
@@ -120,8 +124,7 @@ public class ObjController {
 				if ("ASC".equalsIgnoreCase(d) || "DESC".equalsIgnoreCase(d)) {
 					Sort sortAdd = Sort.by(n);
 					sortAdd = "DESC".equalsIgnoreCase(d) ? sortAdd.descending() : sortAdd.ascending();
-					if (sort == null) sort = sortAdd;
-					else sort.and(sortAdd);
+					sortAdd.get().forEach(o -> listSort.add(o));
 				}
 				continue;
 			}
@@ -168,7 +171,7 @@ public class ObjController {
 		for (ColumnInfo ci : listColumn) { if (!hs.isEmpty(ci.getFilter())) p_filtering = true; break; }
 		model.addAttribute("p_filtering", p_filtering);
 		// Сортировка
-		if (sort == null) sort = Sort.by("rn").ascending();
+		Sort sort = listSort.size() > 0 ? Sort.by(listSort) : Sort.by("rn").ascending();
 		// Пейджинг
 		boolean p_paging = (Boolean)hs.invoke(cl.newInstance(), "onListPaginated");
 		model.addAttribute("p_paging", p_paging);
