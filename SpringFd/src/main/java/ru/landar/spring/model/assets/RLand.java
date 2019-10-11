@@ -213,9 +213,9 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("rf_vi", cl));
 		ret.add(new ColumnInfo("adr_pa", cl));
 		ret.add(new ColumnInfo("adr_fo", cl));
-		ret.add(new ColumnInfo("k_kz__name", cl));
-		ret.add(new ColumnInfo("k_vi__name", cl));
-		ret.add(new ColumnInfo("k_oo__name", cl));
+		ret.add(new ColumnInfo("k_kz", cl));
+		ret.add(new ColumnInfo("k_vi", cl));
+		ret.add(new ColumnInfo("k_oo", cl));
 		ret.add(new ColumnInfo("ki_gkh", cl));
 		ret.add(new ColumnInfo("ki_az", cl));
 		ret.add(new ColumnInfo("ki_omr", cl));
@@ -224,9 +224,9 @@ public class RLand extends RProperty {
 		ret.add(new ColumnInfo("ki_neisp", cl));
 		ret.add(new ColumnInfo("so_of", cl));
 		ret.add(new ColumnInfo("so_psz", cl));
-		ret.add(new ColumnInfo("so_vp__name", cl));
+		ret.add(new ColumnInfo("so_vp", cl));
 		ret.add(new ColumnInfo("so_sdp", cl));
-		ret.add(new ColumnInfo("so_fs__name", cl));
+		ret.add(new ColumnInfo("so_fs", cl));
 		ret.add(new ColumnInfo("so_drs_p", cl));
 		ret.add(new ColumnInfo("so_drs_f", cl));
 		ret.add(new ColumnInfo("so_drivp_p", cl));

@@ -260,13 +260,13 @@ public class Document extends IBase {
 		Class<?> cl = Document.class;
 		ret.add(new ColumnInfo("create_time", cl));
 		ret.add(new ColumnInfo("depart__code", cl));
-		ret.add(new ColumnInfo("doc_type__name", cl)); 
+		ret.add(new ColumnInfo("doc_type", cl)); 
 		ret.add(new ColumnInfo("doc_number", cl));
 		ret.add(new ColumnInfo("doc_date", cl));
 		ret.add(new ColumnInfo("version", cl));
 		ret.add(new ColumnInfo("agent__name", cl));
 		ret.add(new ColumnInfo("parent_doc__name", cl));
-		ret.add(new ColumnInfo("doc_status__name", cl));
+		ret.add(new ColumnInfo("doc_status", cl));
 		ret.add(new ColumnInfo("time_status", cl));
 		ret.add(new ColumnInfo("create_agent__name", cl));
 		ret.add(new ColumnInfo("change_agent__name", cl));
