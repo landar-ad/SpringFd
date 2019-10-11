@@ -60,7 +60,7 @@
 							        	<tr th:each="d : ${obj?.c_sostav}" class="parent-popup">
 								         	<td class="d-none"><input type="hidden" name="c_sostav__rn" th:value="${d.rn}"><input type="hidden" name="c_sostav__rnOld" th:value="${d.rn}"><input type="hidden" name="c_sostav__clazz" value="RMember"><input type="hidden" name="c_sostav__p_add" value="new"><input type="hidden" name="c_sostav__p_cmd" value=""></td>
 								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-								           	<th:block th:with="w='15%',tt='select',nn='c_sostav__cs_rol',vv=${d.cs_rol?.rn},ll=${listSp_cs_rol},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='15%',tt='select',nn='c_sostav__cs_rol',vv=${d.cs_rol?.rn},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								           	<th:block th:with="w='20%',tt='text',vv=${d.cs_sot?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_sostav',nn2='cs_sot',vv=${d.cs_sot?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=ФИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dn',vv=${d.cs_dn},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -70,7 +70,7 @@
 								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
 								           	<td class="d-none"><input type="hidden" name="c_sostav__rn" value=""><input type="hidden" name="c_sostav__rnOld" value=""><input type="hidden" name="c_sostav__clazz" value="RMember"><input type="hidden" name="c_sostav__p_add" value="new"><input type="hidden" name="c_sostav__p_cmd" value=""></td>
 								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-								           	<th:block th:with="w='15%',tt='select',nn='c_sostav__cs_rol',ll=${listSp_cs_rol}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='15%',tt='select',nn='c_sostav__cs_rol'"><td th:replace="fragments/tc :: cd"></td></th:block>
 								           	<th:block th:with="w='20%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_sostav',nn2='cs_sot',vv='',ro=${rco},ddcl='RProperty',ddti='Выберите объект имущества',ddco='rn;name=Наименование объекта=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dn'"><td th:replace="fragments/tc :: cd"></td></th:block>
