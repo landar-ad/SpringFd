@@ -124,7 +124,6 @@ public class RDocument extends IBase {
 		ret.add(new ColumnInfo("docnum", cl));
 		ret.add(new ColumnInfo("docdate", cl));
 		ret.add(new ColumnInfo("docdate_end", cl));
-		ret.add(new ColumnInfo("file__name", cl));
 		ret.add(new ColumnInfo("apsend", cl));
 		ret.add(new ColumnInfo("prim_apsend", cl));
 		return ret;
