@@ -66,7 +66,7 @@
 	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 						        	<th:block th:with="w='32%',tt='label',vv='Члены комиссии, участвующие в заседании'"><th th:replace="fragments/tc :: ch"></th></th:block>
 						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='list_cs'"><td th:replace="fragments/tc :: cd"></td></th:block>
-						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='edit',ddta='list_cs'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='update',ddta='list_cs'"><td th:replace="fragments/tc :: cd"></td></th:block>
 						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='list_cs'"><td th:replace="fragments/tc :: cd"></td></th:block>
 						        	<td width="20%"></td>
 						        </tr></tbody></table>
