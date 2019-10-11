@@ -10,7 +10,7 @@
 	<header th:replace="fragments/header :: header"></header>
 	<div class="container">
 		<form action="detailsObj" method="POST" enctype="multipart/form-data" autocomplete="off">
-			<input type="hidden" name="clazz" value="Document" />
+			<input type="hidden" name="clazz" value="RDocument" />
 			<input type="hidden" name="rn" th:value="${obj.rn}" />
 			<input type="hidden" name="p_tab" th:value="${p_tab}" />
     		<div th:replace="fragments/header :: details-header"></div>
@@ -19,7 +19,8 @@
             		<div class="row small col-sm-12">
 	            		<div class="btn-group">
 	            			<button th:if="${readonly!=true}" class="btn btn-sm btn-light" type="submit"><i class="fa fa-sm fa-save"></i> Сохранить</button>
-			                <a th:href="@{/detailsObj?clazz=UnfinishedConstruction&rn=} + ${prn + '&p_tab=5'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+			                <a th:if="${prn!=null}" th:href="${'detailsObj?rn=' + prn + '&p_tab=5'}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
+			                <a th:if="${prn==null}" th:href="${'listObj?clazz=RDocument' + (obj.rn != null ? '&rn=' + obj.rn : '')}" class="btn btn-light btn-sm"><i class="fa fa-sm fa-window-close"></i> Отмена</a>
 		                </div>
 	                </div>
 	                <div class="col-sm-12 border fit-height">
