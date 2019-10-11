@@ -13,8 +13,13 @@
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	    		<ul class="navbar-nav mr-auto">
 				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=Document">Документооборот</a></li>
-				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=Notification1">Закупки (планирование)</a></li>
-				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=Notification4">Закупки (исполнение)</a></li>
+				    <li class="nav-item text-uppercase dropdown">
+				    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Закупки</a>
+				    	<div class="dropdown-menu bg-primary">
+				    		<a class="dropdown-item" href="listObj?clazz=Notification1">Планирование</a>
+				    		<a class="dropdown-item" href="listObj?clazz=Notification4">Исполнение</a>
+				    	</div>
+			    	</li>
 				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=RProperty">Управление имуществом</a></li>
 				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=RCommission">Комиссии, заявки, судебные дела</a></li>
 				    <li th:if="${#strings.contains(p_roles,'ADMIN')}" class="nav-item text-uppercase dropdown">
