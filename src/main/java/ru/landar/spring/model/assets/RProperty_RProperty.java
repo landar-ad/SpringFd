@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.SpCommon;
 
@@ -41,6 +42,7 @@ public class RProperty_RProperty extends IBase {
    	}
     
     private void updateName() {
+    	AutowireHelper.autowire(this);
 		String name = "";
 		if (getParent() != null) name += getParent().getName();
 		if (prop != null) {

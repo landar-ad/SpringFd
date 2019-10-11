@@ -16,6 +16,7 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
@@ -94,6 +95,7 @@ public class RDocument extends IBase {
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
     
     private void updateName() {
+    	if (hs == null) AutowireHelper.autowire(this);
     	String name = "";
     	if (getDocname() != null) name = getDocname();
     	if (getDocnum() != null && !getDocnum().isEmpty()) {

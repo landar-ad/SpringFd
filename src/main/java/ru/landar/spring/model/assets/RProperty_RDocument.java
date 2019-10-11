@@ -6,6 +6,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 
 @Entity
@@ -20,6 +21,7 @@ public class RProperty_RDocument extends IBase {
     public void setDoc(RDocument doc) { this.doc = doc; updateName(); }
     
     private void updateName() {
+    	AutowireHelper.autowire(this);
 		String name = "";
 		if (getParent() != null) name += getParent().getName();
 		if (doc != null) {

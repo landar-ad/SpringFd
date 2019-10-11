@@ -41,8 +41,7 @@ public class SpCompletionPhase extends IBase {
     public BigDecimal getMaxpct() { return maxpct; }
     public void setMaxpct(BigDecimal minpct) { this.maxpct = minpct; updateName(); }
     
-    private void updateName()
-    {
+    private void updateName() {
     	String name = "";
     	if (getPhasename() != null) name = getPhasename();
     	if (getMinpct() != null || getMaxpct() != null)

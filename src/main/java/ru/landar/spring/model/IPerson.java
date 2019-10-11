@@ -93,7 +93,7 @@ public class IPerson extends IAgent {
     	updateCode();
     }
     private void updateCode() {
-    	AutowireHelper.autowire(this);
+    	if (hs == null) AutowireHelper.autowire(this);
     	setCode(!hs.isEmpty(email) ? email : getName());
     }
     

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.ObjectChanged;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.repository.ObjRepositoryCustom;
@@ -50,6 +51,7 @@ public class Act_document extends IBase {
     public void setExclude_date(Date exclude_date) { this.exclude_date = exclude_date; }
     
 	private void updateName() {
+		AutowireHelper.autowire(this);
 		String name = "";
 		if (getParent() != null) name += getParent().getName();
 		if (doc != null) {
