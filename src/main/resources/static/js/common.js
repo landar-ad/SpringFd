@@ -500,9 +500,7 @@ Amel = {
 			c.removeClass("not-visible last-row");
 			$(c).find("input[name='" + targetId + "__p_cmd']").val("add");
 			c.show();
-			target.file_on();
-			target.popup_init();
-			target.table_edit_init();
+			target.edit_init();
 			setTimeout(function() { 
 				c.find(".td-edited .td-check").prop("checked", true);
 				target.button_enabled();

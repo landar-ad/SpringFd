@@ -636,7 +636,8 @@ public class HelperServiceImpl implements HelperService {
     			clAttr = m.getReturnType(); 
     			if (i < as.length - 1) {
 	    			if (List.class.isAssignableFrom(clAttr)) {
-	    				clAttr = m.getAnnotation(ManyToMany.class).targetEntity();
+	    				clAttr = null;
+	    				try { clAttr = m.getAnnotation(ManyToMany.class).targetEntity(); } catch (Exception ex) { }
 	    				if (clAttr == null) clAttr = m.getAnnotation(OneToMany.class).targetEntity();
 	    			}
     			}
