@@ -70,7 +70,7 @@ public class RMeeting extends IBase {
     public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
     
     @FieldTitle(name="Члены комиссии, участвующие в заседании")
-    @OneToMany(targetEntity=RMeeting_RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RMeeting_RMember.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     public List<RMeeting_RMember> getList_cs() { return list_cs != null ? list_cs : new ArrayList<RMeeting_RMember>(); }
     public void setList_cs(List<RMeeting_RMember> list_cs) { this.list_cs = list_cs; }
     

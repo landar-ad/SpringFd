@@ -44,7 +44,7 @@ public class Notification1 extends Document {
     public void setDate_repr(Date date_repr) { this.date_repr = date_repr; }
 	
     @FieldTitle(name="Спецификация")
-	@ManyToMany(targetEntity=Specification1.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(targetEntity=Specification1.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     public List<Specification1> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification1>(); }
     public void setList_spec(List<Specification1> list_spec) { this.list_spec = list_spec; }
     

@@ -52,7 +52,7 @@ public class Notification2 extends Document {
     public void setSum3(BigDecimal sum3) { this.sum3 = sum3; }
 	
     @FieldTitle(name="Спецификация")
-	@ManyToMany(targetEntity=Specification2.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(targetEntity=Specification2.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     public List<Specification2> getList_spec() { return list_spec != null ? list_spec : new ArrayList<Specification2>(); }
     public void setList_spec(List<Specification2> list_spec) { this.list_spec = list_spec; }
     
