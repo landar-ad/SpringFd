@@ -35,7 +35,10 @@ public class ColumnInfo {
 			filterType = "text";
 			Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, name);
 			if (clAttr != null) {
-				if (IBase.class.isAssignableFrom(clAttr)) filterType = "select";
+				if (IBase.class.isAssignableFrom(clAttr)) {
+					filterType = "select";
+					setName(getName() + "__name");
+				}
 			}
 		}
 		setFilterType(filterType);
