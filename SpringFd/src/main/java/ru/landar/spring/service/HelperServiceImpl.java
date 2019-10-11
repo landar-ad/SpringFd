@@ -200,7 +200,7 @@ public class HelperServiceImpl implements HelperService {
 		try {
 			String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 			Method mGet = cl.getMethod(getter);
-			ret = mGet.getAnnotation(ManyToMany.class).targetEntity();
+			try { ret = mGet.getAnnotation(ManyToMany.class).targetEntity(); } catch (Exception ex) { }
 			if (ret == null) ret = mGet.getAnnotation(OneToMany.class).targetEntity();
 		}
 		catch (Exception ex) {}
@@ -213,7 +213,7 @@ public class HelperServiceImpl implements HelperService {
 			try {
 				String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 				Method mGet = cl.getMethod(getter);
-				clItem = mGet.getAnnotation(ManyToMany.class).targetEntity();
+				try { clItem = mGet.getAnnotation(ManyToMany.class).targetEntity(); } catch (Exception ex) { }
 				if (clItem == null) clItem = mGet.getAnnotation(OneToMany.class).targetEntity();
 			}
 			catch (Exception ex) {}
@@ -646,10 +646,14 @@ public class HelperServiceImpl implements HelperService {
     		if (clAttr == null) break;
      		cl = clAttr;
     	}
-    	if (clAttr != null && m != null) ret = m.getAnnotation(FieldTitle.class);
+    	if (clAttr != null && m != null) try { ret = m.getAnnotation(FieldTitle.class); } catch (Exception ex) { }
     	return ret;
 	}
-	public static ObjectTitle getTitleAnnotation(Class<?> cl) { return cl.getAnnotation(ObjectTitle.class); }
+	public static ObjectTitle getTitleAnnotation(Class<?> cl) { 
+		ObjectTitle ret = null;
+		try { ret = cl.getAnnotation(ObjectTitle.class); } catch (Exception ex) { }
+		return ret; 
+	}
 	public static Object getAttrInfo(Class<?> cl, String attr) { return getAttrInfo(cl, attr, null); }
 	public static Object getAttrInfo(Class<?> cl, String attr, String info) {
 		Object ret = "";
