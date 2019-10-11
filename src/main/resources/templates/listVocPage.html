@@ -23,7 +23,7 @@
 				        <tbody>
 					        <tr th:each="obj,iter : ${listObj}">
 					            <td th:utext="${iter.index + 1}">..</td>
-					            <td><a th:href="@{/listObj?clazz=} + ${obj.name}" th:utext="${obj.title}"></a></td>
+					            <td><a th:href="${'listObj?clazz=' + obj.name + (#strings.equals(obj.name,'SpCommon') ? '&sort_' + '_sp_code=ASC' : '') + '&sort_' + '_code=ASC'}" th:utext="${obj.title}"></a></td>
 					        </tr>
 				        </tbody>
 			     	</table>
