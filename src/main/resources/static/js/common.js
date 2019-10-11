@@ -489,7 +489,7 @@ Amel = {
 	button_command: function(b) {
 		var target = this;
 		if (!b) return;
-		var command = b.attr("data-command"), targetId = b.attr("data-target"), names = b.attr("data-name"), p_sz =  = b.attr("data-size");
+		var command = b.attr("data-command"), targetId = b.attr("data-target"), names = b.attr("data-name"), p_sz = b.attr("data-size");
 		if (!command) return;
 		var table = $("#" + targetId);
 		if (!table) return;
