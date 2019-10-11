@@ -50,9 +50,11 @@ public class PopupController {
 	private HelperService hs;
 	@RequestMapping(value = "/popupEdit")
 	public String popupEdit(@RequestParam("p_title") Optional<String> pTitleParam,
+							@RequestParam("p_sz") Optional<String> pSzParam,
 							HttpServletRequest request, 
 							Model model) throws Exception {
 		model.addAttribute("p_title", pTitleParam.orElse("Редактирование"));
+		model.addAttribute("p_sz", pTitleParam.orElse("xl"));
 		return "popupEdit";
 	}
 	@RequestMapping(value = "/popupVisible")

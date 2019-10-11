@@ -489,7 +489,7 @@ Amel = {
 	button_command: function(b) {
 		var target = this;
 		if (!b) return;
-		var command = b.attr("data-command"), targetId = b.attr("data-target"), names = b.attr("data-name");
+		var command = b.attr("data-command"), targetId = b.attr("data-target"), names = b.attr("data-name"), p_sz =  = b.attr("data-size");
 		if (!command) return;
 		var table = $("#" + targetId);
 		if (!table) return;
@@ -555,7 +555,7 @@ Amel = {
 				var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
 				if (!rn && !clazz) return;
 				var div = null;
-				$.ajax({ method: "GET", url: "popupEdit", 
+				$.ajax({ method: "GET", url: "popupEdit?p_sz=" + (p_sz ? p_sz : "lg"), 
 					success: function(result) {
 						div = $('<div></div>');
 						div.html(result);
