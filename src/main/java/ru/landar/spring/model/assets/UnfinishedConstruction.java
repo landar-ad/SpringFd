@@ -435,7 +435,7 @@ public class UnfinishedConstruction extends IBase {
     public void setPurpose(SpCommon purpose) { this.purpose = purpose; }
     
     @FieldTitle(name="Документы")
-    @ManyToMany(targetEntity=RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @ManyToMany(targetEntity=RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RDocument> getDocuments() { return documents; }
     public void setDocuments(List<RDocument> documents) { this.documents = documents; }
     
