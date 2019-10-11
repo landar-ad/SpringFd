@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IPerson;
@@ -64,6 +65,7 @@ public class RMember extends IBase {
     public void setCs_docs(List<RDocument> cs_docs) { this.cs_docs = cs_docs; }
     
     private void updateName() {
+    	if (hs == null) AutowireHelper.autowire(this);
     	String name = "";
     	if (getCs_rol() != null) name = getCs_rol().getName();
     	if (getCs_sot() != null) {
