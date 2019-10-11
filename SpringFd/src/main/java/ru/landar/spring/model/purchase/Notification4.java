@@ -92,7 +92,7 @@ public class Notification4 extends Document {
 		ret.add(new ColumnInfo("date_repr", cl));
 		ret.add(new ColumnInfo("comment", cl));
 		ret.add(new ColumnInfo("create_agent__name", cl));
-		ret.add(new ColumnInfo("doc_status__name", cl));
+		ret.add(new ColumnInfo("doc_status", cl));
 		return ret;
 	}
 	

@@ -61,7 +61,7 @@ public class Notification6 extends Document {
 		ret.add(new ColumnInfo("depart__name", cl));
 		ret.add(new ColumnInfo("comment", cl));
 		ret.add(new ColumnInfo("create_agent__name", cl));
-		ret.add(new ColumnInfo("doc_status__name", cl));
+		ret.add(new ColumnInfo("doc_status", cl));
 		return ret;
 	}
 }
