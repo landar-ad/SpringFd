@@ -19,8 +19,8 @@
 		     </form>
 		</div>
 		<footer>
-	    	<div th:if="${l_p}"><div th:replace="fragments/pager :: pager"></div></div>
-	    	<div th:if="${!l_p}"><div th:replace="fragments/pager :: total"></div></div>
+	    	<th:block th:if="${l_p}"><th:block th:replace="fragments/pager :: pager"></th:block></th:block>
+	    	<th:block th:if="${!l_p}"><th:block th:replace="fragments/pager :: total"></th:block></th:block>
 	    </footer>
     </div>
 </body>
