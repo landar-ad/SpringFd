@@ -54,7 +54,7 @@ public class PopupController {
 							HttpServletRequest request, 
 							Model model) throws Exception {
 		model.addAttribute("p_title", pTitleParam.orElse("Редактирование"));
-		model.addAttribute("p_sz", pTitleParam.orElse("lg"));
+		model.addAttribute("p_sz", pSzParam.orElse("lg"));
 		return "popupEdit";
 	}
 	@RequestMapping(value = "/popupVisible")
