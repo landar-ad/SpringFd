@@ -105,7 +105,7 @@ public class RProperty extends IBase {
 		Class<?> cl = RProperty.class;
 		ret.add(new ColumnInfo("co_org__name", cl)); 
 		ret.add(new ColumnInfo("inv_number", cl));
-		ret.add(new ColumnInfo("co_div__name", cl));
+		ret.add(new ColumnInfo("co_div", cl));
 		ret.add(new ColumnInfo("co_type", cl));
 		ret.add(new ColumnInfo("on_nam", cl));
 		ret.add(new ColumnInfo("book_value", cl));
