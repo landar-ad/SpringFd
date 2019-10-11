@@ -571,8 +571,9 @@ Amel = {
 						});
 						tr.closest("form").find("input").each(function() {
 							var name = $(this).attr("name");
+							if (!name) return;
 							if (name.indexOf("__") >= 0) return;
-							if (!name || name=="rn" || name=="clazz" || p[name] || (names && names.indexOf(name) < 0)) return;
+							if (name=="rn" || name=="clazz" || p[name] || (names && names.indexOf(name) < 0)) return;
 							p[name] = $(this).val();
 						});
 						/*processData: false,
