@@ -17,7 +17,7 @@
 	       	<div class="col-sm-12 card small">
 	            <div class="m-sm-0">
 	            	<div th:replace="fragments/header :: details-buttons"></div>
-	            	<div thclass="col-sm-12 border fit-height">
+	            	<div th:class="col-sm-12 border fit-height">
 	            		<th:block th:if="${bs!=true}">
 	            			<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    	<th:block th:with="w='13%',tt='label',vv='Логин',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -89,7 +89,6 @@
 			</div>
 		</form>
 	</div>
-	<div th:replace="fragments/header :: modal"></div>
 	<div th:replace="fragments/header :: details-footer"></div>
 </body>
 </html>
