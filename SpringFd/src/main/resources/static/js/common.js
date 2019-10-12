@@ -463,11 +463,11 @@ Amel = {
 	row_to_modal: function(tr, modal, targetId) {
 		if (!tr || !modal || !targetId) return;
 		var target = this;
-		tr.find("input[name^='" + targetId + "__']").each(function() {
+		tr.find("[name^='" + targetId + "__']").each(function() {
 			var name = $(this).attr("name");
 			var k = name.indexOf("__");
 			if (k > 0) name = name.substring(k + 2);
-			var el = modal.find("input[name='" + name + "']");
+			var el = modal.find("[name='" + name + "']");
 			el.val($(this).val());
 			var c = el.closest(".td-edited"), q = el, b = c.find(">label,>span").first();
 			if (c.length > 0) target.table_ret(c, q, b);
@@ -476,14 +476,15 @@ Amel = {
 	modal_to_row: function(modal, tr, targetId) {
 		if (!tr || !modal || !targetId) return;
 		var target = this;
-		tr.find("input[name^='" + targetId + "__']").each(function() {
+		tr.find("[name^='" + targetId + "__']").each(function() {
 			var name = $(this).attr("name");
 			var k = name.indexOf("__");
 			if (k > 0) name = name.substring(k + 2);
 			var el = $(this);
-			el.val(modal.find("input[name='" + name + "']").val());
 			var c = el.closest(".td-edited"), q = el, b = c.find(">label,>span").first();
-			if (c.length > 0) target.table_ret(c, q, b);
+			if (c.length == 0) return;
+			el.val(modal.find("[name='" + name + "']").val());
+			target.table_ret(c, q, b);
 		});
 	},
 	in_array: function(rn, arr_rn) {
@@ -567,14 +568,14 @@ Amel = {
 						var p = {};
 						if (rn) p["rn"] = rn;
 						if (clazz) p["clazz"] = clazz;
-						tr.find("input[name^='" + targetId + "__']").each(function() {
+						tr.find("[name^='" + targetId + "__']").each(function() {
 							var name = $(this).attr("name");
 							var k = name.indexOf("__");
 							if (k > 0) name = name.substring(k + 2);
 							if (!name || name=="rn" || name=="clazz" || p[name]) return;
 							p[name] = $(this).val();
 						});
-						tr.closest("form").find("input").each(function() {
+						tr.closest("form").find("input,select").each(function() {
 							var name = $(this).attr("name");
 							if (!name) return;
 							if (name.indexOf("__") >= 0) return;
@@ -639,6 +640,7 @@ Amel = {
 									}
 									else {
 										target.modal_to_row(modal, tr, targetId);
+										
 									}
 									modal.modal('hide');
 									return false;

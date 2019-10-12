@@ -54,7 +54,7 @@ public class RMeeting extends IBase {
 	public SpCommon getC_type() { return c_type; }
 	public void setC_type(SpCommon c_type) { this.c_type = c_type; }
 	
-	@FieldTitle(name="Статус заседания", sp="sp_stat_z")
+	@FieldTitle(name="Статус заседания", sp="sp_stat_cm")
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
 	public SpCommon getCm_stat_z() { return cm_stat_z; }
 	public void setCm_stat_z(SpCommon cm_stat_z) { this.cm_stat_z = cm_stat_z; }
@@ -98,7 +98,7 @@ public class RMeeting extends IBase {
 		if (ret != null) return ret;
 		try {
 			model.addAttribute("listSp_type_c", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_c"}));
-			model.addAttribute("listSp_stat_z", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_stat_z"}));
+			model.addAttribute("listSp_stat_cm", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_stat_cm"}));
 			model.addAttribute("listSp_rezg", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_resg"}));
 		}
 		catch (Exception ex) { }

@@ -84,7 +84,7 @@
 	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 						        	<th:block th:with="w='16%',tt='label',vv='Заседания комиссии'"><th th:replace="fragments/tc :: ch"></th></th:block>
 						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='c_meeting'"><td th:replace="fragments/tc :: cd"></td></th:block>
-						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='update',ddta='c_meeting'"><td th:replace="fragments/tc :: cd"></td></th:block>
+						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='update',ddta='c_meeting',ddsi='xl'"><td th:replace="fragments/tc :: cd"></td></th:block>
 						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='c_meeting'"><td th:replace="fragments/tc :: cd"></td></th:block>
 						        	<td width="36%"></td>
 						        </tr></tbody></table>
@@ -105,7 +105,7 @@
 								           	<th:block th:with="w='15%',tt='text',nn='c_meeting__cm_nz',vv=${d.cm_nz},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								           	<th:block th:with="w='20%',tt='date',nn='c_meeting__cm_dz_p',vv=${d.cm_dz_p},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								           	<th:block th:with="w='20%',tt='date',nn='c_meeting__cm_dz_f',vv=${d.cm_dz_f},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-								           	<th:block th:with="w='20%',tt='select',nn='c_meeting__c_type',vv=${d.c_type,ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								           	<th:block th:with="w='20%',tt='select',nn='c_meeting__c_type',vv=${d.c_type},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								           	<th:block th:with="w='20%',tt='select',nn='c_meeting__cm_stat_z',vv=${d.cm_stat_z},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								       	</tr>
 								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
