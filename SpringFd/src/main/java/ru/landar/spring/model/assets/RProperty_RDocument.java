@@ -23,11 +23,10 @@ public class RProperty_RDocument extends IBase {
     private void updateName() {
     	AutowireHelper.autowire(this);
 		String name = "";
-		if (getParent() != null) name += getParent().getName();
-		if (doc != null) {
-			if (!name.isEmpty()) name += " <-> ";
-			name += doc.getName();
-		}
+		IBase p = getParentProxy();
+		if (p != null) name += p.getName();
+		if (!name.isEmpty()) name += " <-> ";
+		if (doc != null) name += doc.getName();
 		setName(name);
 	}
 }

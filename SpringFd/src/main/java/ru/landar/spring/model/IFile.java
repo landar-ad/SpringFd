@@ -116,7 +116,8 @@ public class IFile extends IBase {
      	if (ret != null) return ret;
      	Integer rn = getRn();
     	if (rn == null) return true;
-    	if (getParent() != null) return getParent().onCheckRights(op);
+    	IBase p = getParentProxy();
+    	if (p != null) return p.onCheckRights(op);
     	if (getCreator() != null) return getCreator().equals(userService.getPrincipal());
     	return true;
     }
@@ -134,6 +135,7 @@ public class IFile extends IBase {
     public Object onRedirectAfterUpdate(HttpServletRequest request) { 
     	Object ret = invoke("onRedirectAfterUpdate", request);
     	if (ret != null) return ret;
-    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : super.onRedirectAfterUpdate(request);
+    	IBase p = getParentProxy();
+    	return p != null ? "/detailsObj?clazz=" + p.getClazz() + "&rn=" + p.getRn() : super.onRedirectAfterUpdate(request);
     }
 }

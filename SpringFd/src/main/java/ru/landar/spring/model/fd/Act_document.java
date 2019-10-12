@@ -53,11 +53,10 @@ public class Act_document extends IBase {
 	private void updateName() {
 		AutowireHelper.autowire(this);
 		String name = "";
-		if (getParent() != null) name += getParent().getName();
-		if (doc != null) {
-			if (!name.isEmpty()) name += " <-> ";
-			name += doc.getName();
-		}
+		IBase p = getParentProxy();
+		if (p != null) name += p.getName();
+		if (!name.isEmpty()) name += " <-> ";
+		if (doc != null) name += doc.getName();
 		setName(name);
 	}
     @Override
@@ -75,7 +74,7 @@ public class Act_document extends IBase {
     public Object onUpdate() throws Exception {
     	Object ret = super.onUpdate();
     	if (ret != null) return ret;
-    	Act act = (Act)getParent();
+    	Act act = (Act)getParentProxy();
 		Document doc = getDoc();
 		if (objectChanged.isAttrChanged(this, "doc")) {
 			Document docOld = (Document)objectChanged.getAttrValue(this, "doc", 0);
@@ -128,10 +127,4 @@ public class Act_document extends IBase {
 		catch (Exception ex) { }
 		return true;
 	}
-    @Override
-    public Object onRedirectAfterUpdate(HttpServletRequest request) { 
-    	Object ret = invoke("onRedirectAfterUpdate", request);
-    	if (ret != null) return ret;
-    	return getParent() != null ? "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn() : null;
-    }
 }
