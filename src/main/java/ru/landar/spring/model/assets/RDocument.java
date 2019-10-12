@@ -175,8 +175,8 @@ public class RDocument extends IBase {
 			if (roles.indexOf("ADMIN") >= 0) return true;
 			IOrganization org = user.getOrg();
 			if (org == null) throw new SecurityException("У пользователя " + user.getLogin() + " не указана организация");
-			UnfinishedConstruction uc = (UnfinishedConstruction)getParent();
-			if (uc != null && uc.getCustomer() != null && org.getRn().compareTo(uc.getCustomer().getRn()) == 0) return true;
+			IBase p = getParentProxy();
+			if (p != null) return p.onCheckRights(op);
 			return false;
     	}
     	return true;
@@ -192,6 +192,7 @@ public class RDocument extends IBase {
     public Object onRedirectAfterUpdate(HttpServletRequest request) { 
     	Object ret = invoke("onRedirectAfterUpdate", request);
     	if (ret != null) return ret;
-    	return getParent() != null ? "/detailsObj?clazz=UnfinishedConstruction" + "&rn=" + getParent().getRn() + "&p_tab=5" : super.onRedirectAfterUpdate(request);
+    	IBase p = getParentProxy();
+    	return p != null ? "/detailsObj?clazz=" + p.getClazz() + "&rn=" + p.getRn() + "&p_tab=5" : super.onRedirectAfterUpdate(request);
     }
 }

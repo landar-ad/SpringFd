@@ -118,7 +118,10 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		catch (Exception ex) { }
 	}
 	@Override
-	public Object find(Class<?> cl, Object pk) { return em.find(cl, pk); }
+	public Object find(Class<?> cl, Object pk) { 
+		Object o = em.find(cl, pk); 
+		return o;
+	}
 	@Override
 	public Object find(Class<?> cl, String attr, Object value) {
 		Object ret = null;

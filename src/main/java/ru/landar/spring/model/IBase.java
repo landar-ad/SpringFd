@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostPersist;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
@@ -120,6 +121,19 @@ public abstract class IBase {
     public IBase getParent() { return parent; }
     public void setParent(IBase parent) { this.parent = parent; }
     
+    @Transient
+    public IBase getParentProxy() {
+    	if (hs == null) AutowireHelper.autowire(this);
+    	if (parent != null) {
+    		Integer rn = (Integer)hs.getProperty(parent, "rn");
+			if (rn != null) {
+				String clazz = objService.getClassByKey(rn);
+				parent = (IBase)objService.find(hs.getClassByName(clazz), rn);
+			}
+    	}
+    	return getParent();
+    }
+        
     @FieldTitle(name="Базовый класс")
     @Transient
     public String getBaseClazz() { return clazz; }
@@ -133,7 +147,7 @@ public abstract class IBase {
 	protected HelperService hs;
     @Autowired
 	protected ObjRepositoryCustom objRepository;
-    
+
     public Object onNew() { 
     	Object ret = invoke("onNew");
     	String principal = userService.getPrincipal();
@@ -156,7 +170,8 @@ public abstract class IBase {
     public Object onRedirectAfterUpdate(HttpServletRequest request) { 
     	Object ret = invoke("onRedirectAfterUpdate", request);
     	if (ret != null) return ret;
-    	if (getParent() != null) return "/detailsObj?clazz=" + getParent().getClazz() + "&rn=" + getParent().getRn();
+    	IBase p = getParentProxy();
+    	if (p != null) return "/detailsObj?clazz=" + p.getClazz() + "&rn=" + p.getRn();
     	return "/listObj?clazz=" + getBaseClazz() + "&p_ret=1" + (getRn() != null ? "&rn=" + getRn() : "");
     }
     public Object onCheckRights(Operation op) { 

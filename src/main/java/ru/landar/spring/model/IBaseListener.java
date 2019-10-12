@@ -2,6 +2,7 @@ package ru.landar.spring.model;
 
 import java.util.Date;
 
+import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;

@@ -44,7 +44,8 @@ public class RProperty_RProperty extends IBase {
     private void updateName() {
     	AutowireHelper.autowire(this);
 		String name = "";
-		if (getParent() != null) name += getParent().getName();
+		IBase p = getParentProxy();
+		if (p != null) name += p.getName();
 		if (prop != null) {
 			if (!name.isEmpty()) name += " <-> ";
 			name += prop.getName();
