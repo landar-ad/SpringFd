@@ -333,7 +333,12 @@ Amel = {
 			return false;
 		});
 		b.hide();
-		if ("file" == q.attr("type")) q.click();
+		var t = q.attr("type");
+		if (a.hasClass("custom-date")) t = "cdate";
+		if ("file" == t) q.click();
+		else if ("cdate" == t) {
+			//a.find(".input-group-append").click();
+		}
 		else if (q.prop("tagName").toLowerCase() == "select") { 
 			
 		}
