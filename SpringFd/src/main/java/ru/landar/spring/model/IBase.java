@@ -124,7 +124,7 @@ public abstract class IBase {
     @Transient
     public IBase getParentProxy() {
     	if (hs == null) AutowireHelper.autowire(this);
-    	if (parent != null) {
+    	if (parent != null && parent.getClass().getSimpleName().indexOf("Proxy") >= 0) {
     		Integer rn = (Integer)hs.getProperty(parent, "rn");
 			if (rn != null) {
 				String clazz = objService.getClassByKey(rn);
