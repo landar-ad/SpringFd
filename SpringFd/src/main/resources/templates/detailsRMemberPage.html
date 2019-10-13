@@ -46,30 +46,7 @@
 		                    	</tr></tbody></table>
 	                    	</div>
 				        	<div class="w-100 border border-primary pb-1">
-                    			<table class="table table-sm table-edited table-bordered"><tbody><tr>
-						        	<th:block th:with="w='16%',tt='label',vv='Список документов'"><th th:replace="fragments/tc :: ch"></th></th:block>
-						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='cs_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
-						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta='cs_docs'"><td th:replace="fragments/tc :: cd"></td></th:block>
-						        	<td width="52%"></td>
-						        </tr></tbody></table>
-						        <table id="cs_docs" class="table table-sm table-edited table-bordered">
-						        	<tbody>
-							        	<tr th:each="d : ${obj?.cs_docs}" class="parent-popup">
-								         	<td class="d-none"><input type="hidden" name="cs_docs__rn" th:value="${d.rn}"><input type="hidden" name="cs_docs__rnOld" th:value="${d.rn}"><input type="hidden" name="cs_docs__clazz" value="RDocument"><input type="hidden" name="cs_docs__p_add" value="exists"><input type="hidden" name="cs_docs__p_cmd" value=""></td>
-								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-								           	<th:block th:with="w='87%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		            						<th:block th:with="w='4%',tt='pbutton',nn1='cs_docs',nn2='rn',vv=${d.rn},ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-		            						<th:block th:with="w='4%',tt='anchor',vv=${'detailsObj?readonly=1&rn=' + d.rn + '&prn=' + obj.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
-								       	</tr>
-								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
-								           	<td class="d-none"><input type="hidden" name="cs_docs__rn" value=""><input type="hidden" name="cs_docs__rnOld" value=""><input type="hidden" name="cs_docs__clazz" value="RDocument"><input type="hidden" name="cs_docs__p_add" value="exists"><input type="hidden" name="cs_docs__p_cmd" value=""></td>
-								           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
-								           	<th:block th:with="w='87%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		            						<th:block th:with="w='4%',tt='pbutton',nn1='cs_docs',nn2='rn',vv='',ro=${rco},ddcl='RDocument',ddti='Выберите документ',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-		            						<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
-								    	</tr>
-						        	</tbody>
-					        	</table> 
+				        		<th:block th:with="ii='cs_docs',ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: doc_list"></th:block></th:block>
                    			</div>
            				</th:block>
            				<th:block th:if="${bs==true}">

@@ -41,7 +41,7 @@ public interface HelperService {
 	long copyStream(InputStream is, OutputStream os, boolean closeIn, boolean closeOut) throws Exception;
 	String replaceSpecial(String s);
 	String loadTemplate(String template);
-	String getDefaultObjectTemplate(String clazz);
+	String getDefaultObjectTemplate(String clazz, boolean byObject);
 	boolean isServerConnected(String url, int timeout);
 	boolean checkRights(Object obj, Operation op);
 	Object invoke(Object obj, String method, Object... args);
