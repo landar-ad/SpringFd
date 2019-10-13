@@ -710,6 +710,8 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public Object ai(String clazz, String attr, String info) { return getAttrInfo(clazz, attr, info); }
 	@Override
+	public List<AttributeInfo> la(String clazz, boolean byObject) { return getListAttribute(getMapClasses().get(clazz), byObject); }
+	@Override
 	public boolean isServerConnected(String url, int timeout) {
 		try {
 			URL serverUrl = new URL(url);
