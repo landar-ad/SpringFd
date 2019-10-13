@@ -4,16 +4,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Part;
 
+import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 
 public interface HelperService {
 	Object ai(String clazz, String attr, String info);
+	List<AttributeInfo> la(String clazz, boolean byObject);
 	boolean isEmpty(String v);
 	boolean isEmptyTrim(String v);
 	Object getObjectByString(Class<?> cl, String attr, String v);

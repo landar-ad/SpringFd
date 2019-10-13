@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
-	<th:block th:fragment="exists_list">
+	<th:block th:fragment="exists">
 		<th:block th:if="${bs!=true}">
 			<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	        	<th:block th:with="w='16%',tt='label',vv=${xx}"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -93,6 +93,44 @@
    			</div>
        	</th:block>
    	</th:block>
-   	
+   	<th:block th:fragment="new">
+		<th:block th:if="${bs!=true}">
+	   		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	        	<th:block th:with="w='16%',tt='label',vv=${xx}'"><th th:replace="fragments/tc :: ch"></th></th:block>
+	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta=${ii}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='update',ddta=${ii},ddsi='xl'"><td th:replace="fragments/tc :: cd"></td></th:block>
+	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta=${ii}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	        	<td width="36%"></td>
+	        </tr></tbody></table>
+	        <table th:id="${ii}" class="table table-sm table-edited table-bordered">
+	        	<tbody>
+	        		<tr>
+	        			<td class="d-none"/>
+	        			<th:block th:with="w='5%',tt='label',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+			       		<th:block th:each="attr : ${hs.la(obj.clazz,false)}">
+			       			<th:block th:with="w=${''+(95/#list.size(hs.la(obj.clazz,false)))+'%'},tt='label',vv=${attr.title}"><td th:replace="fragments/tc :: cd"></td></th:block>
+			       		</th:block>
+	        		</tr>
+		        	<tr th:each="d : ${hs.getPropery(obj,ii)}">
+			         	<td class="d-none"><input type="hidden" th:name="${ii+'__rn'}" th:value="${d.rn}"><input type="hidden" th:name="${ii+'__rnOld'}" th:value="${d.rn}"><input type="hidden" th:name="${ii+'__clazz'}" th:value="${ll}"><input type="hidden" th:name="${ii+'__p_add'}" value="new"><input type="hidden" th:name="${ii+'__p_cmd'}" value=""></td>
+			           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+			           	<th:block th:each="attr : ${hs.la(obj.clazz,false)}">
+			           		<th:block th:with="w='15%',tt=${attr.type},nn=${ii+'__'+attr.name},vv=${hs.getProperty(d,attr.name)},ll=${attr.editList},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+			           	</th:block>
+			       	</tr>
+			       	<tr th:if="${rco!=1}" class="not-visible last-row">
+			           	<td class="d-none"><input type="hidden" name="c_sostav__rn" value=""><input type="hidden" name="c_sostav__rnOld" value=""><input type="hidden" name="c_sostav__clazz" value="RMember"><input type="hidden" name="c_sostav__p_add" value="new"><input type="hidden" name="c_sostav__p_cmd" value=""></td>
+			           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+			           	<th:block th:each="attr : ${hs.la(obj.clazz,false)}">
+			           		<th:block th:with="w='15%',tt=${attr.type},nn=${ii+'__'+attr.name},ll=${attr.editList}"><td th:replace="fragments/tc :: cd"></td></th:block>
+			           	</th:block>
+			    	</tr>
+	        	</tbody>
+	       	</table> 
+   		</th:block>
+       	<th:block th:if="${bs==true}">
+       		
+       	</th:block>
+   	</th:block>
 </body>
 </html>
