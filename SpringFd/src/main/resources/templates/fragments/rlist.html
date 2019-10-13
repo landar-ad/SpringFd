@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
-	<th:block th:fragment="exist_list">
+	<th:block th:fragment="exists_list">
 		<th:block th:if="${bs!=true}">
 			<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	        	<th:block th:with="w='16%',tt='label',vv=${xx}"><th th:replace="fragments/tc :: ch"></th></th:block>

@@ -511,28 +511,37 @@ public class HelperServiceImpl implements HelperService {
 				for (org.jsoup.nodes.Element child : elTable.children()) child.remove();
 				org.jsoup.nodes.Element elTr, elBlock, elThBlock, elTd;
 				for (AttributeInfo attr : listAttribute) {
-					org.jsoup.nodes.Element elT = d.createElement("table");
-					elT.attr("class", "table table-sm table-edited table-bordered");
-					elTable.appendChild(elT);
-					org.jsoup.nodes.Element elTBody = d.createElement("tbody");
-					elT.appendChild(elTBody);
-					elTBody.appendChild(elTr = d.createElement("tr"));
-					
-					elTr.appendChild(elBlock = d.createElement("th:block"));
-					String v = String.format("w=\'30%%\',tt=\'label\',vv=\'%s\',rr=%d", attr.getTitle(), attr.getRequired() ? 1 : 0);
-					elBlock.attr("th:with", v);
-					elBlock.appendChild(elThBlock = d.createElement("th:block"));
-					elThBlock.attr("th:replace", "fragments/tc :: ch");
-					
-					elTr.appendChild(elBlock = d.createElement("th:block"));
-					v = String.format("w='%d%%',tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getLength() > 0 ? attr.getLength() * 100 / 12 : 70, attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
-					if (attr.getEditList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getEditList(), attr.getEditAttr());
-					elBlock.attr("th:with", v);
-					elBlock.appendChild(elThBlock = d.createElement("th:block"));
-					elThBlock.attr("th:replace", "fragments/tc :: cd");
-					if (attr.getLength() > 0) {
-						elTr.appendChild(elTd = d.createElement("td"));
-						elTd.attr("width", "" + (70 - attr.getLength() * 100 / 12));
+					if (!"list".equals(attr.getType())) {
+						org.jsoup.nodes.Element elT = d.createElement("table");
+						elT.attr("class", "table table-sm table-edited table-bordered");
+						elTable.appendChild(elT);
+						org.jsoup.nodes.Element elTBody = d.createElement("tbody");
+						elT.appendChild(elTBody);
+						elTBody.appendChild(elTr = d.createElement("tr"));
+						
+						elTr.appendChild(elBlock = d.createElement("th:block"));
+						String v = String.format("w=\'30%%\',tt=\'label\',vv=\'%s\',rr=%d", attr.getTitle(), attr.getRequired() ? 1 : 0);
+						elBlock.attr("th:with", v);
+						elBlock.appendChild(elThBlock = d.createElement("th:block"));
+						elThBlock.attr("th:replace", "fragments/tc :: ch");
+						
+						elTr.appendChild(elBlock = d.createElement("th:block"));
+						v = String.format("w='%d%%',tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getLength() > 0 ? attr.getLength() * 100 / 12 : 70, attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
+						if (attr.getEditList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getEditList(), attr.getEditAttr());
+						elBlock.attr("th:with", v);
+						elBlock.appendChild(elThBlock = d.createElement("th:block"));
+						elThBlock.attr("th:replace", "fragments/tc :: cd");
+						if (attr.getLength() > 0) {
+							elTr.appendChild(elTd = d.createElement("td"));
+							elTd.attr("width", "" + (70 - attr.getLength() * 100 / 12));
+						}
+					}
+					else {
+						elTable.appendChild(elBlock = d.createElement("th:block"));
+						String v = String.format("ii='%s',ll='%s',xx='%s'", attr.getName(), attr.getEditList(), attr.getTitle());
+						elBlock.attr("th:with", v);
+						elBlock.appendChild(elThBlock = d.createElement("th:block"));
+						elThBlock.attr("th:replace", "fragments/rlist :: exists");
 					}
 				}
 			}
@@ -540,26 +549,35 @@ public class HelperServiceImpl implements HelperService {
 				for (org.jsoup.nodes.Element child : elDiv.children()) child.remove();
 				org.jsoup.nodes.Element elTrDiv, elChildDiv, elBlock, elTh, elTd, elThBlock;
 				for (AttributeInfo attr : listAttribute) {
-					elDiv.appendChild(elTrDiv = d.createElement("div"));
-					elTrDiv.attr("class", "form-group-sm mt-sm-1");
-					if (!"checkbox".equals(attr.getType())) {
-						elTrDiv.appendChild(elBlock = d.createElement("th:block"));
-						String v = String.format("tt=\'label\',vv=\'%s\',rr=%d", attr.getTitle(), attr.getRequired() ? 1 : 0);
+					if (!"list".equals(attr.getType())) {
+						elDiv.appendChild(elTrDiv = d.createElement("div"));
+						elTrDiv.attr("class", "form-group-sm mt-sm-1");
+						if (!"checkbox".equals(attr.getType())) {
+							elTrDiv.appendChild(elBlock = d.createElement("th:block"));
+							String v = String.format("tt=\'label\',vv=\'%s\',rr=%d", attr.getTitle(), attr.getRequired() ? 1 : 0);
+							elBlock.attr("th:with", v);
+							elBlock.appendChild(elChildDiv = d.createElement("div"));
+							elChildDiv.attr("class", "col-sm-12");
+							elChildDiv.appendChild(elThBlock = d.createElement("th:block"));
+							elThBlock.attr("th:replace", "fragments/component :: c");
+						}
+						elTrDiv.appendChild(elChildDiv = d.createElement("div"));
+						elChildDiv.attr("class", "col-sm-" + (attr.getLength() > 0 ? attr.getLength() : 12));
+						elChildDiv.appendChild(elBlock = d.createElement("th:block"));
+						String v = String.format("tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
+						if (attr.getEditList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getEditList(), attr.getEditAttr());
+						
 						elBlock.attr("th:with", v);
-						elBlock.appendChild(elChildDiv = d.createElement("div"));
-						elChildDiv.attr("class", "col-sm-12");
-						elChildDiv.appendChild(elThBlock = d.createElement("th:block"));
+						elBlock.appendChild(elThBlock = d.createElement("th:block"));
 						elThBlock.attr("th:replace", "fragments/component :: c");
 					}
-					elTrDiv.appendChild(elChildDiv = d.createElement("div"));
-					elChildDiv.attr("class", "col-sm-" + (attr.getLength() > 0 ? attr.getLength() : 12));
-					elChildDiv.appendChild(elBlock = d.createElement("th:block"));
-					String v = String.format("tt='%s',nn='%s',vv=${obj.%s},rr=%d,ro=${rco}", attr.getType(), attr.getName(), attr.getName(), attr.getRequired() ? 1 : 0);
-					if (attr.getEditList() != null) v += String.format(",ll=${%s},_attr='%s'", attr.getEditList(), attr.getEditAttr());
-					
-					elBlock.attr("th:with", v);
-					elBlock.appendChild(elThBlock = d.createElement("th:block"));
-					elThBlock.attr("th:replace", "fragments/component :: c");
+					else {
+						elDiv.appendChild(elBlock = d.createElement("th:block"));
+						String v = String.format("bs=true,ii='%s',ll='%s',xx='%s'", attr.getName(), attr.getEditList(), attr.getTitle());
+						elBlock.attr("th:with", v);
+						elBlock.appendChild(elThBlock = d.createElement("th:block"));
+						elThBlock.attr("th:replace", "fragments/rlist :: exists");
+					}
 				}
 			}
 			ret = d.toString();
