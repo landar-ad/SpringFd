@@ -574,6 +574,9 @@ public class HelperServiceImpl implements HelperService {
 								editList = clAttr.getSimpleName();
 							}
 						}
+						else if (List.class.isAssignableFrom(clAttr)) {
+							continue;
+						}
 						AttributeInfo attr = new AttributeInfo(name, (String)HelperServiceImpl.getAttrInfo(cl, name), type, editList, false, false, 0, null);
 						listAttribute.add(attr);
 					}
