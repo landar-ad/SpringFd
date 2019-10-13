@@ -830,33 +830,38 @@ Amel = {
 	// Функция инициализации окна редактирования (просмотра) объекта
 	details_init: function() {
 		var target = this;
+		// Каждый раз 
+		target.edit_init();
+		// Только в начале
+		target.size_init();
+		target.buttons_init();
+		target.table_edit_focus();
+	},
+	// Инициализация окна редактирования (просмотра) объекта
+	edit_init: function() {
+		var target = this;
 		target.date_on();
 		target.time_on();
 		target.file_on();
-		target.size_init();
+		target.address_on();
 		target.page_init();
 		target.popup_init();
 		target.table_edit_init();
 		target.require_init();
-		var rn = $('input[name="rn"]').val();
+	},
+	// Инициализация кнопок
+	buttons_init: function() {
+		var target = this,rn = $('input[name="rn"]').val();
 		target.set_buttons(rn);
 		target.add_on($('.execute_obj'), "click", function() { 
 			var param = $(this).attr("data-param"), op = "execute";
 			if (param == "save" || param == "refresh" || param == "cancel") op = param;
 			target.exec_obj(op, param); 
 		});
-		if ($.isFunction($.fn.fias)) $(".address").fias({ oneString: true });
 	},
-	// Повторная инициализация окна редактирования (просмотра) объекта (при изменении)
-	edit_init: function() {
-		var target = this;
-		target.date_on();
-		target.time_on();
-		target.file_on();
-		target.page_init();
-		target.popup_init();
-		target.table_edit_init();
-		target.require_init();
+	// Инициализация строк ввода адреса
+	address_on: function() {
+		if ($.isFunction($.fn.fias)) $(".address").fias({ oneString: true });
 	},
 	// Инициализация работы с файлами через окно на форме
 	file_init: function() {
@@ -1234,11 +1239,12 @@ Amel = {
 				var id = $(this).closest('.tab-pane').attr('id');
 				if (b) {
 					var a = $(this), c = $('.nav a[href="#' + id + '"]'); 
-					if (c) c.tab('show');
+					if (c.length > 0) c.tab('show');
 					var h = a.is(':hidden');
 					if (h) {
 						c = a.closest(".td-edited");
-						target.table_edit(c);
+						if (c.length > 0) target.table_edit(c);
+						else a.show();
 					}
 					a.tooltip({
 						'trigger': 'focus', 
@@ -1298,6 +1304,5 @@ Amel = {
 		$(".table-edited td,.table-edited th").resizable({handles: "e"});
 		target.button_enabled();
 		target.calculate();
-		target.table_edit_focus();
 	}
 };

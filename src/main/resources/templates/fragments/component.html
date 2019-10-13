@@ -55,6 +55,15 @@
 			<input th:name="${nn}" type="hidden" th:value="${vv}">
 		</div>
 	</th:block>
+	<th:block th:if="${tt=='choose'}">
+		<div class="parent-popup">
+			<input class="form-control form-control-sm" type="text" th:value="${hs.getPropertyString(vv,'name')}" readonly="readonly"></input>
+			<div th:if="${ro!=1}" class="justify-content-end">
+				<button type="button" class="choose_obj btn btn-light btn-sm" th:data-clazz="${ll}" th:title="${hs.ai(ll,null,'multi')}" th:data-title="${hs.ai(ll,null,'multi')}" data-column="rn;name=Наименование=YYA" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file btn-link"></i></button>
+				<input th:name="${nn}" type="hidden" th:value="${hs.getProperty(vv,'rn')">
+			</div>
+		</div>
+	</th:block>
 	<div th:if="${tt=='check' || tt=='checkbox'}" class="form-check">
 		<label th:if="${ro!=1}" class="form-check-label">
 			<input th:name="${nn}" type="checkbox" class="form-check-input" th:checked="${vv}==true" th:text="${xx}">

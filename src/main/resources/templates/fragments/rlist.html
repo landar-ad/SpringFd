@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+	<th:block th:fragment="exist_list">
+		<th:block th:if="${bs!=true}">
+			<table class="table table-sm table-edited table-bordered"><tbody><tr>
+	        	<th:block th:with="w='16%',tt='label',vv=${xx}"><th th:replace="fragments/tc :: ch"></th></th:block>
+	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta=${ii}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='remove',ddta=${ii}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	        	<td width="52%"></td>
+	        </tr></tbody></table>
+	        <table th:id="${ii}" class="table table-sm table-edited table-bordered">
+	        	<tbody>
+		        	<tr th:each="d : ${hs.getProperty(obj,ii)}" class="parent-popup">
+			         	<td class="d-none"><input type="hidden" th:name="${ii+'__rn'}" th:value="${d.rn}"><input type="hidden" th:name="${ii+'__rnOld'}" th:value="${d.rn}"><input type="hidden" th:name="${ii+'__clazz'}" th:value=${ll}><input type="hidden" th:name="${ii+'__p_add'}" value="exists"><input type="hidden" th:name="${ii+'__p_cmd'}" value=""></td>
+			           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+			           	<th:block th:with="w='87%',tt='text',vv=${d.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+   						<th:block th:with="w='4%',tt='pbutton',nn1=${ii},nn2='rn',vv=${d.rn},ro=${rco},ddcl=${ll},ddti=${xx},ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+   						<th:block th:with="w='4%',tt='anchor',vv=${'detailsObj?readonly=1&rn=' + d.rn + '&prn=' + obj.rn}"><td th:replace="fragments/tc :: cr"></td></th:block>
+			       	</tr>
+			       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
+			           	<td class="d-none"><input type="hidden" th:name="${ii+'__rn'}" value=""><input type="hidden" th:name="${ii+'__rnOld'}" value=""><input type="hidden" th:name="${ii+'__clazz'}" th:value=${ll}><input type="hidden" th:name="${ii+'__p_add'}" value="exists"><input type="hidden" th:name="${ii+'__p_cmd'" value=""></td>
+			           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
+			           	<th:block th:with="w='87%',tt='text',vv='',ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+   						<th:block th:with="w='4%',tt='pbutton',nn1=${ii},nn2='rn',vv='',ro=${rco},ddcl=${ll},ddti=${xx},ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+   						<th:block th:with="w='4%',tt='label',vv=''"><td th:replace="fragments/tc :: cr"></td></th:block>
+			    	</tr>
+	        	</tbody>
+        	</table> 
+       	</th:block>
+       	<th:block th:if="${bs==true}">
+       		<div th:id="${ii}" class="form-group-sm mt-sm-1">
+				<label class="col-sm-4" th:text="${xx}"></label>
+				<div class="col-sm-12">
+					<table class="table table-sm table-striped table-light table-bordered">
+	    				<thead>
+					        <tr>
+					            <th class="d-none">Идентификатор</th>
+					            <th>#</th>
+					            <th>Документ</th>
+					            <th></th>
+					            <th></th>
+					            <th class="d-none">Команда</th>
+					        </tr>
+	        			</thead>
+				        <tbody>
+				        	<tr th:if="${rco!=1}" class="first-row not-visible">
+					            <td class="d-none">
+					            	<input type="hidden" th:name="${ii+'__rn'}" value="">
+					            	<input type="hidden" th:name="${ii+'__rnOld'}" value="">
+					            	<input type="hidden" th:name="${ii+'__clazz'}" th:value="${ll}">
+					            	<input type="hidden" th:name="${ii+'__p_add'}" value="exists">
+					            </td>
+					            <td></td>
+					            <td class="edited">
+					            	<span></span>
+					            	<input th:name="${ii+'__prop'}" type="hidden" value="" data-type="select" th:data-clazz="${ll}" th:data-title="${xx}" data-column="name=Наименование" data-filter="">
+					            </td>
+					            <td></td>
+					            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+					            <td class="d-none cmd"><input type="hidden" th:name="${ii+'__p_cmd'}" value=""></td>
+					        </tr>
+					        <tr th:each="d,iter : ${hs.getProperty()obj,ii)}">
+					            <td class="d-none">
+					            	<input type="hidden" th:name="${ii+'__rn'}" th:value="${d.rn}">
+					            	<input type="hidden" th:name="${ii+'__rnOld'}" th:value="${d.rn}">
+					            	<input type="hidden" th:name="${ii+'__clazz'}" th:value="${ll}">
+					            	<input type="hidden" th:name="${ii+'__p_add'}" value="exists">
+					            </td>
+					            <td th:text="${iter.index + 1}"/>
+					            <td class="edited">
+					            	<span th:text="${d.prop?.name}"></span>
+					            	<input th:if="${rco!=1}" th:name="${ii+'__rn'}" type="hidden" th:value="${d.prop?.rn}" data-type="select" th:data-clazz="${ll}" th:data-title="${xx}" data-column="name=Наименование" data-filter="">
+					            </td>
+					            <td><a th:if=${d.prop!=null} th:href="@{/detailsObj?readonly=1&rn=} + ${d.prop.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm" title="Редактировать/просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
+					            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
+					            <td class="d-none cmd"><input type="hidden" th:name="${ii+'__p_cmd'}" value=""></td>
+					        </tr>
+					        <tr th:if="${rco!=1}" class="last-row">
+					        	<td class="d-none"/>
+					        	<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
+					        	<td></td>
+					        	<td></td>
+					        	<td></td>
+					        	<td></td>
+					        	<td></td>
+					        	<td></td>
+					        	<td class="d-none"/>
+				        	</tr>
+				        </tbody>
+	    			</table>
+    			</div>
+   			</div>
+       	</th:block>
+   	</th:block>
+   	
+</body>
+</html>

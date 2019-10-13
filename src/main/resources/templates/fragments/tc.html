@@ -93,6 +93,15 @@
 				<input th:name="${nn1 + (!#strings.isEmpty(nn2) ? '__' + nn2 : '')}" type="hidden" th:value="${vv}">
 			</div>
 		</th:block>
+		<th:block th:if="${tt=='choose'}">
+			<div class="parent-popup">
+				<label th:text="${hs.getPropertyString(vv,'name')}" th:class="${'td-label form-control-sm' + (ro==1?' readonly':'')}"></label>
+				<div th:if="${ro!=1}" class="justify-content-end">
+					<button type="button" class="td-button choose_obj btn btn-sm" th:data-clazz="${ll}" th:title="${hs.ai(ll,null,'multi')}" th:data-title="${hs.ai(ll,null,'multi')}" data-column="rn;name=Наименование=YYA" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file btn-link"></i></button>
+					<input th:name="${nn}" type="hidden" th:value="${hs.getProperty(vv,'rn')">
+				</div>
+			</div>
+		</th:block>
 		<th:block th:if="${tt=='file'}">
 			<label class="td-label" th:utext="${vv}"></label>
 			<div th:if="${ro!=1}" class="custom-file not-visible">
