@@ -173,17 +173,7 @@ public class HelperServiceImpl implements HelperService {
 		return f;
 	}
 	@Override
-	public Class<?> getAttrType(Class<?> cl, String attr) {
-		Class<?> ret = null;
-		if (cl == null || isEmpty(attr)) return ret;
-    	for (String a : attr.split("__")) {
-    		String getter = "get" + a.substring(0, 1).toUpperCase() + a.substring(1);
-    		try { ret = cl.getMethod(getter).getReturnType(); } catch (Exception ex) { }
-    		if (ret == null) break;
-     		cl = ret;
-    	}
-		return ret;
-	}
+	public Class<?> getAttrType(Class<?> cl, String attr) { return s_getAttrType(cl, attr); }
 	public static Class<?> s_getAttrType(Class<?> cl, String attr) {
 		Class<?> ret = null;
 		if (cl == null || attr == null || attr.isEmpty()) return ret;
@@ -209,8 +199,9 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
-	public Class<?> getItemType(Class<?> cl, String attr) {
-		Class<?> clItem = null, clAttr = getAttrType(cl, attr);
+	public Class<?> getItemType(Class<?> cl, String attr) { return s_getItemType(cl, attr); }
+	public static Class<?> s_getItemType(Class<?> cl, String attr) {
+		Class<?> clItem = null, clAttr = s_getAttrType(cl, attr);
 		if (List.class.isAssignableFrom(clAttr)) {
 			try {
 				String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
@@ -515,73 +506,7 @@ public class HelperServiceImpl implements HelperService {
 			if (els.size() > 0) elTable = els.get(0);
 			els = d.getElementsByAttributeValue("th:if", "${bs==true}");
 			if (els.size() > 0) elDiv = els.get(0);
-			List<AttributeInfo> listAttribute = null;
-			if (!byObject) {
-				Method m = null;
-				try { m = cl.getDeclaredMethod("listAttribute"); } catch (Exception ex) { }
-				if (m != null) listAttribute =  (List<AttributeInfo>)invoke(cl, "listAttribute");
-				if (listAttribute == null) {
-					try { m = cl.getDeclaredMethod("listColumn"); } catch (Exception ex) { }
-					if (m != null) {
-						listAttribute = new ArrayList<AttributeInfo>();
-						List<ColumnInfo> listColumn = (List<ColumnInfo>)invoke(cl, "listColumn");
-						for (ColumnInfo col : listColumn) {
-							String name = col.getName(), type = col.getFilterType(), nameList = null;
-							if (name.indexOf("__") > 0) name = name.substring(0, name.indexOf("__"));
-							Class<?> clAttr = getAttrType(cl, name);
-							if (IBase.class.isAssignableFrom(clAttr)) {
-								boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "voc");
-								if (voc) {
-									type = "select";
-									nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
-								}
-								else {
-									type = "choose";
-									nameList = clAttr.getSimpleName();
-								}
-							}
-							AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false, false, 0, null);
-							listAttribute.add(attr);
-						}
-					}
-				}
-			}
-			if (listAttribute == null) {
-				listAttribute = new ArrayList<AttributeInfo>();
-				Field[] fs = null;
-				try { fs = cl.getDeclaredFields(); } catch (Exception e) { }
-				if (fs != null) {
-					for (Field f : fs) {
-						String name = f.getName();
-						Class<?> clAttr = getAttrType(cl, name);
-						if (clAttr == null || f.isAnnotationPresent(Transient.class)) continue;
-						String type = "text", editList = null;
-						if (Boolean.class.isAssignableFrom(clAttr)) {
-							type = "checkbox";
-						}
-						else if (Date.class.isAssignableFrom(clAttr)) {
-							Temporal a = f.getAnnotation(Temporal.class);
-							type = a != null && a.value() == TemporalType.DATE ? "date" : "time";
-						}
-						else if (IBase.class.isAssignableFrom(clAttr)) {
-							boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "voc");
-							if (voc) {
-								type = "select";
-								editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
-							}
-							else {
-								type = "choose";
-								editList = clAttr.getSimpleName();
-							}
-						}
-						else if (List.class.isAssignableFrom(clAttr)) {
-							continue;
-						}
-						AttributeInfo attr = new AttributeInfo(name, (String)HelperServiceImpl.getAttrInfo(cl, name), type, editList, false, false, 0, null);
-						listAttribute.add(attr);
-					}
-				}
-			}
+			List<AttributeInfo> listAttribute = getListAttribute(cl, byObject);
 			if (elTable != null) {
 				for (org.jsoup.nodes.Element child : elTable.children()) child.remove();
 				org.jsoup.nodes.Element elTr, elBlock, elThBlock, elTd;
@@ -645,6 +570,51 @@ public class HelperServiceImpl implements HelperService {
 		
 		return ret;
 	}
+	public static List<AttributeInfo> getListAttribute(Class<?> cl, boolean byObject) {
+		List<AttributeInfo> listAttribute = null;
+		if (!byObject) {
+			Method m = null;
+			try { m = cl.getDeclaredMethod("listAttribute"); } catch (Exception ex) { }
+			if (m != null) listAttribute =  (List<AttributeInfo>)s_invoke(cl, "listAttribute");
+			if (listAttribute == null) {
+				try { m = cl.getDeclaredMethod("listColumn"); } catch (Exception ex) { }
+				if (m != null) {
+					listAttribute = new ArrayList<AttributeInfo>();
+					List<ColumnInfo> listColumn = (List<ColumnInfo>)s_invoke(cl, "listColumn");
+					for (ColumnInfo col : listColumn) {
+						String name = col.getName(), type = col.getFilterType(), nameList = null;
+						if (name.indexOf("__") > 0) name = name.substring(0, name.indexOf("__"));
+						Class<?> clAttr = s_getAttrType(cl, name);
+						if (IBase.class.isAssignableFrom(clAttr)) {
+							boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "voc");
+							if (voc) {
+								type = "select";
+								nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
+							}
+							else {
+								type = "choose";
+								nameList = clAttr.getSimpleName();
+							}
+						}
+						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false, false, 0, null);
+						listAttribute.add(attr);
+					}
+				}
+			}
+		}
+		if (listAttribute == null) {
+			listAttribute = new ArrayList<AttributeInfo>();
+			Field[] fs = null;
+			try { fs = cl.getDeclaredFields(); } catch (Exception e) { }
+			if (fs != null) for (Field f : fs) {
+				String name = f.getName();
+				Class<?> clAttr = s_getAttrType(cl, name);
+				if (clAttr == null || f.isAnnotationPresent(Transient.class)) continue;
+				listAttribute.add(new AttributeInfo(name, cl));
+			}
+		}
+		return listAttribute;
+	}
 	public static FieldTitle getTitleAnnotation(Class<?> cl, String attr) { 
 		FieldTitle ret = null;
 		if (cl == null || attr == null) return ret;
@@ -706,15 +676,15 @@ public class HelperServiceImpl implements HelperService {
 		}
 		else {
 			ObjectTitle a = getTitleAnnotation(cl);
-			if ("multi".equals(info)) ret = a != null ? a.multi() : invokeStatic(cl, "multipleTitle");
+			if ("multi".equals(info)) ret = a != null ? a.multi() : s_invoke(cl, "multipleTitle");
 			else if ("menu".equals(info)) {
 				String v = "";
-				v = a != null ? a.menu() : (String)invokeStatic(cl, "menuTitle");
+				v = a != null ? a.menu() : (String)s_invoke(cl, "menuTitle");
 				if (v == null || v.isEmpty()) v = a.multi();
 				ret = v;
 			}
-			else if ("voc".equals(info)) ret = a != null ? a.voc() : invokeStatic(cl, "isVoc");
-			else ret = a != null ? a.single() : invokeStatic(cl, "singleTitle");
+			else if ("voc".equals(info)) ret = a != null ? a.voc() : s_invoke(cl, "isVoc");
+			else ret = a != null ? a.single() : s_invoke(cl, "singleTitle");
 		}
 		return ret;
 	}
@@ -758,7 +728,7 @@ public class HelperServiceImpl implements HelperService {
 		try { return m.invoke(null, args); } catch (Exception ex) { } 
 		return null;
 	}
-	public static Object invokeStatic(Class<?> cl, String method, Object... args) {
+	public static Object s_invoke(Class<?> cl, String method, Object... args) {
 		Method m = getInvokeMethod(cl, method, args);
 		if (m == null) return null;
 		try { return m.invoke(null, args); } catch (Exception ex) { } 

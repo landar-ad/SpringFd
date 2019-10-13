@@ -1,6 +1,7 @@
 package ru.landar.spring.classes;
 
 import java.util.Date;
+import java.util.List;
 
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.service.HelperServiceImpl;
@@ -15,18 +16,27 @@ public class AttributeInfo {
 	boolean readOnly;
 	int length;
 	String editAttr;
+	List<AttributeInfo> listAttr;
 	
 	public AttributeInfo(String name, Class<?> cl) {
 		setName(name);
 		String title = (String)HelperServiceImpl.getAttrInfo(cl, name, "nameField");
 		if ("*".equals(title)) title = (String)HelperServiceImpl.getAttrInfo(cl, name);
 		setTitle(title);
+		Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, name);
 		String type = (String)HelperServiceImpl.getAttrInfo(cl, name, "editType");
 		if ("*".equals(type)) {
 			type = "text";
-			Class<?> clAttr = HelperServiceImpl.s_getAttrType(cl, name);
 			if (clAttr != null) {
-				if (IBase.class.isAssignableFrom(clAttr)) type = "select";
+				if (IBase.class.isAssignableFrom(clAttr)) {
+					boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "voc");
+					if (voc) type = voc ? "select" : "choose";
+				}
+				else if (List.class.isAssignableFrom(clAttr)) {
+					type = "list";
+					Class<?> clItem = HelperServiceImpl.s_getItemType(cl, name);
+					listAttr = HelperServiceImpl.getListAttribute(clItem, false);
+				}
 				else if (Date.class.isAssignableFrom(clAttr)) {
 					type = "date";
 				}
@@ -35,7 +45,11 @@ public class AttributeInfo {
 		}
 		setType(type);
 		String editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "editList");
-		if ("*".equals(editList) && "select".equals(type)) editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
+		if ("*".equals(editList) && ("select".equals(type) || "choose".equals(type) || "list".equals(type))) {
+			if ("select".equals(type)) editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
+			else if ("choose".equals(type)) editList = clAttr.getSimpleName();
+			else if ("list".equals(type)) editList = HelperServiceImpl.s_getItemType(cl, name).getSimpleName();
+		}
 		else editList = null;
 		setEditList(editList);
 		Boolean required = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "required");
@@ -102,4 +116,7 @@ public class AttributeInfo {
 	
 	public int getLength() { return length; }
 	public void setLength(int length) { this.length = length; }
+	
+	public List<AttributeInfo> getListAttr() { return listAttr; }
+	public void setListAttr(List<AttributeInfo> listAttr) { this.listAttr = listAttr; }
 }
