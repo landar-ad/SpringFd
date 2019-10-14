@@ -3,6 +3,10 @@ package ru.landar.spring.classes;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.service.HelperServiceImpl;
 
@@ -17,6 +21,7 @@ public class AttributeInfo {
 	int length;
 	String editAttr;
 	List<AttributeInfo> listAttr;
+	boolean listAddExists;
 	
 	public AttributeInfo(String name, Class<?> cl) {
 		setName(name);
@@ -36,6 +41,15 @@ public class AttributeInfo {
 					type = "list";
 					Class<?> clItem = HelperServiceImpl.s_getItemType(cl, name);
 					listAttr = HelperServiceImpl.getListAttribute(clItem, false);
+					CascadeType[] c = null;
+					try { c = clAttr.getAnnotation(OneToMany.class).cascade(); } catch (Exception ex) { }
+					if (c == null) try { c = clAttr.getAnnotation(ManyToMany.class).cascade(); } catch (Exception ex) { }
+					listAddExists = true;
+					if (c != null) for (CascadeType ci : c) {
+						if (ci != CascadeType.ALL && ci != CascadeType.REMOVE) continue;
+						listAddExists = false;
+						break;
+					}
 				}
 				else if (Date.class.isAssignableFrom(clAttr)) {
 					type = "date";
@@ -119,4 +133,7 @@ public class AttributeInfo {
 	
 	public List<AttributeInfo> getListAttr() { return listAttr; }
 	public void setListAttr(List<AttributeInfo> listAttr) { this.listAttr = listAttr; }
+	
+	public boolean getListAddExists() { return listAddExists; }
+	public void setListAddExists(boolean listAddExists) { this.listAddExists = listAddExists; }
 }
