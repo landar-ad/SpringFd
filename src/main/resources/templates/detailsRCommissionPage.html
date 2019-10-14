@@ -39,6 +39,8 @@
 		                    	</tr></tbody></table>
 	                    	</div>
 				        	<div class="w-100 border border-primary">
+				        		<th:block th:with="ii='c_sostav',ll='RMember',xx='Состав комиссии'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
+				        		<!-- 
 	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 						        	<th:block th:with="w='16%',tt='label',vv='Состав комиссии'"><th th:replace="fragments/tc :: ch"></th></th:block>
 						        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta='c_sostav'"><td th:replace="fragments/tc :: cd"></td></th:block>
@@ -78,7 +80,8 @@
 		            						<th:block th:with="w='20%',tt='select',nn='c_sostav__cs_dep',ll=${listIDepartment}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								    	</tr>
 						        	</tbody>
-					        	</table>                       	
+					        	</table>
+					        	 -->                      	
 	                       	</div>
 	                       	<div class="w-100 border border-primary">
 	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>

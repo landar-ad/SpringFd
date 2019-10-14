@@ -84,7 +84,7 @@
 		</th:block>
 		<th:block th:if="${tt=='xbutton'}">
 			<th:block th:with="cc=${ddco=='copy' ? '<i class=''fa fa-clone''></i> ' : (ddco=='update' ? '<i class=''fa fa-edit''></i> ' : (ddco=='remove' ? '<i class=''fa fa-trash''></i> ' : (ddco=='add' ? '<i class=''fa fa-plus-circle''></i> ' : null)))}">
-				<button th:id="${ii}" type="button" class="xbutton td-button btn btn-light btn-link btn-sm" th:utext="${(cc!=null?cc:'') + vv}" th:data-command="${ddco}" th:data-target="${ddta}" th:data-name="${ddna}" th:data-size="${ddsi}"></button>
+				<button type="button" class="xbutton td-button btn btn-light btn-link btn-sm" th:utext="${(cc!=null?cc:'') + vv}" th:data-command="${ddco}" th:data-target="${ddta}" th:data-name="${ddna}" th:data-size="${ddsi}"></button>
 			</th:block>
 		</th:block>
 		<th:block th:if="${tt=='pbutton'}">
