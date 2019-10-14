@@ -37,7 +37,7 @@
 		                    	</tr></tbody></table>
 				        	</div>
 				        	<div class="w-100 border border-primary">
-				        		<th:block th:with="ii='list_rcl',ll='RClaim',xx='Заявки к рассмотрению'"><th:block th:replace="fragments/rlist :: doc_list"></th:block></th:block>
+				        		<th:block th:with="r_ii='list_rcl',r_ll='RClaim',xx='Заявки к рассмотрению'"><th:block th:replace="fragments/rlist :: doc_list"></th:block></th:block>
 	                       	</div>
 	                       	<div class="w-100 border border-primary">
 	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
@@ -79,7 +79,7 @@
 					        	</table>                       	
 	                       	</div>
 				        	<div class="w-100 border border-primary pb-1">
-				        		<th:block th:with="ii='list_doc',ll='RDocument',xx='Документы заседания'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+				        		<th:block th:with="r_ii='list_doc',r_ll='RDocument',xx='Документы заседания'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
                             </div>
            				</th:block>
            				<th:block th:if="${bs==true}">
