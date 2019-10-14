@@ -106,7 +106,7 @@ public class RClaim extends IBase {
     @FieldTitle(name="Заявка на оценку принятия решений")
     @ManyToOne(targetEntity=RClaim.class, fetch=FetchType.LAZY)
     public RClaim getZa_opr() { return za_opr; }
-    public void setZza_opr(RClaim za_opr) { this.za_opr = za_opr; }
+    public void setZa_opr(RClaim za_opr) { this.za_opr = za_opr; }
     
     @FieldTitle(name="Возможность заочного голосования")
     public Boolean getZa_vzg() { return za_vzg; }
