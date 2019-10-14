@@ -76,7 +76,7 @@
 			<input type="hidden" value="">
 			<select th:if="${ro!=1}" th:name="${nn}" class="not-visible form-control form-control-sm" th:required="${rr==1 ? 'required' : null}">
 				<option value=""></option>
-				<option th:each="d : ${ll!=null?ll:hs.getVariable(#vars,hs.ai(obj.clazz,nn,'editList'))}" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,_attr!=null?_attr:'rn'))}" th:value="${hs.getPropertyString(d,_attr!=null?_attr:'rn')}" th:text="${d.name}"/>
+				<option th:each="d : ${hs.getVariable(#vars,ll!=null?ll:hs.ai(obj.clazz,nn,'editList'))}" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,_attr!=null?_attr:'rn'))}" th:value="${hs.getPropertyString(d,_attr!=null?_attr:'rn')}" th:text="${d.name}"/>
 			</select>  
 		</th:block>
 		<th:block th:if="${tt=='button'}">
@@ -98,7 +98,7 @@
 				<label th:text="${hs.getPropertyString(vv,'name')}" th:class="${'td-label form-control-sm' + (ro==1?' readonly':'')}"></label>
 				<div th:if="${ro!=1}" class="justify-content-end">
 					<button type="button" class="td-button choose_obj btn btn-sm" th:data-clazz="${ll}" th:title="${hs.ai(ll,null,'multi')}" th:data-title="${hs.ai(ll,null,'multi')}" data-column="rn;name=Наименование=YYA" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file btn-link"></i></button>
-					<input th:name="${nn}" type="hidden" th:value="${hs.getProperty(vv,'rn')">
+					<input th:name="${nn}" type="hidden" th:value="${hs.getProperty(vv,'rn')}">
 				</div>
 			</div>
 		</th:block>
