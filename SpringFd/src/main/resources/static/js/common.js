@@ -548,9 +548,11 @@ Amel = {
 				var tr = $(this);
 				var c = tr.find(".td-edited .td-check").prop("checked");
 				if (!c) return;
+				tr.find(".td-edited .td-check").prop("checked", false);
 				tr.find("input[name='" + targetId + "__p_cmd']").val("remove");
 				tr.addClass("not-visible");
 			});
+			target.button_enabled();
 		}
 		else if ("update" == command) {
 			table.find("tr").each(function() {

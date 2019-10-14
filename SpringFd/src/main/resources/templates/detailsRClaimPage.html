@@ -69,6 +69,9 @@
 		                    	</tr></tbody></table>
 				        	</div>
 				        	<div class="w-100 border border-primary">
+				        		<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    		<th:block th:with="w='100%',tt='group',vv='Ответственное лицо'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	</tr></tbody></table>
 				        		<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
 			                    	<th:block th:with="w='7%',tt='label',vv='ФИО'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='13%',tt='text',vv=${obj.za_ol?.fullname},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
