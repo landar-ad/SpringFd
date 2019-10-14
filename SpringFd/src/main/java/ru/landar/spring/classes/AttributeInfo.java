@@ -42,8 +42,9 @@ public class AttributeInfo {
 					Class<?> clItem = HelperServiceImpl.s_getItemType(cl, name);
 					listAttr = HelperServiceImpl.getListAttribute(clItem, false);
 					CascadeType[] c = null;
-					try { c = clAttr.getAnnotation(OneToMany.class).cascade(); } catch (Exception ex) { }
-					if (c == null) try { c = clAttr.getAnnotation(ManyToMany.class).cascade(); } catch (Exception ex) { }
+					String getter = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+					try { c = cl.getMethod(getter).getAnnotation(OneToMany.class).cascade(); } catch (Exception ex) { }
+					if (c == null) try { c = cl.getMethod(getter).getAnnotation(ManyToMany.class).cascade(); } catch (Exception ex) { }
 					listAddExists = true;
 					if (c != null) for (CascadeType ci : c) {
 						if (ci != CascadeType.ALL && ci != CascadeType.REMOVE) continue;
