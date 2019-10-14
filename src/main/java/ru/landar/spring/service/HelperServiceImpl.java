@@ -177,12 +177,27 @@ public class HelperServiceImpl implements HelperService {
 	public static Class<?> s_getAttrType(Class<?> cl, String attr) {
 		Class<?> ret = null;
 		if (cl == null || attr == null || attr.isEmpty()) return ret;
-    	for (String a : attr.split("__")) {
-    		String getter = "get" + a.substring(0, 1).toUpperCase() + a.substring(1);
-    		try { ret = cl.getMethod(getter).getReturnType(); } catch (Exception ex) { }
-    		if (ret == null) break;
-     		cl = ret;
+		Method m = null;
+		Class<?> clAttr = null;
+		String[] as = attr.split("__");
+    	for (int i=0; i<as.length; i++) {
+    		String a = as[i], getter = "get" + a.substring(0, 1).toUpperCase() + a.substring(1);
+    		try { 
+    			m = cl.getMethod(getter);
+    			clAttr = m.getReturnType(); 
+    			if (i < as.length - 1) {
+	    			if (List.class.isAssignableFrom(clAttr)) {
+	    				clAttr = null;
+	    				try { clAttr = m.getAnnotation(ManyToMany.class).targetEntity(); } catch (Exception ex) { }
+	    				if (clAttr == null) clAttr = m.getAnnotation(OneToMany.class).targetEntity();
+	    			}
+    			}
+			} 
+    		catch (Exception ex) { }
+    		if (clAttr == null) break;
+     		cl = clAttr;
     	}
+    	ret = clAttr;
 		return ret;
 	}
 	@Override
