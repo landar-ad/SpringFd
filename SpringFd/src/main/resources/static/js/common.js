@@ -1281,6 +1281,13 @@ Amel = {
 		target.add_on($(".td-edited .td-check"), "change", function() {
 			target.button_enabled();
 		});
+		target.add_on($('.td-edited select'), "change", function() {
+			var q = $(this);
+			setTimeout(function() {
+				target.table_edit_end(q, { keyCode: 13, shiftKey: false, ctrlKey: false });
+			}, 10);
+			
+		});
 		target.add_on($('.td-edited .custom-file-input'), "change", function() { 
 			var fileName = $(this).val().split('\\').pop(); 
 			$(this).next('.custom-file-label').addClass("selected").html(fileName);
