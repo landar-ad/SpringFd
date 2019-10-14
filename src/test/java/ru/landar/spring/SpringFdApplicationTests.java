@@ -18,7 +18,8 @@ public class SpringFdApplicationTests {
 	HelperService hs;
 	@Test
 	public void test() throws Exception {
-		String s = hs.getDefaultObjectTemplate("RProperty_RProperty", true);
-		if (s != null) hs.copyStream(new ByteArrayInputStream(s.getBytes("UTF-8")), new FileOutputStream("C:\\TEMP\\detailsRProperty_RPropertyPage.html"), true, true);
+		String clazz = "RCommission";
+		String s = hs.getDefaultObjectTemplate(clazz, true);
+		if (s != null) hs.copyStream(new ByteArrayInputStream(s.getBytes("UTF-8")), new FileOutputStream("C:\\TEMP\\details" + clazz + "Page.html"), true, true);
 	}
 }
