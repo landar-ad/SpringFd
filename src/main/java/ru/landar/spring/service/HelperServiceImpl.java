@@ -604,7 +604,7 @@ public class HelperServiceImpl implements HelperService {
 						if (name.indexOf("__") > 0) name = name.substring(0, name.indexOf("__"));
 						Class<?> clAttr = s_getAttrType(cl, name);
 						if (IBase.class.isAssignableFrom(clAttr)) {
-							boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "voc");
+							boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(clAttr, null, "voc");
 							if (voc) {
 								type = "select";
 								nameList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
