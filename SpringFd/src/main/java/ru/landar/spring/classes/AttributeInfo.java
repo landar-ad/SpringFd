@@ -34,7 +34,7 @@ public class AttributeInfo {
 			type = "text";
 			if (clAttr != null) {
 				if (IBase.class.isAssignableFrom(clAttr)) {
-					boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "voc");
+					boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(clAttr, null, "voc");
 					if (voc) type = voc ? "select" : "choose";
 				}
 				else if (List.class.isAssignableFrom(clAttr)) {
