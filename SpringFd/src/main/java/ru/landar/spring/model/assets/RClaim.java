@@ -37,6 +37,10 @@ public class RClaim extends IBase {
 	private SpCommon za_stat;
 	private String za_zc;
 	private IPerson za_ol;
+	private Date za_srz;
+	private Date za_spo;
+	private RClaim za_opr;
+	private Boolean za_vzg;
 	private List<RProperty> list_oz;
 	private List<RDocument> list_doc;
 	
@@ -89,6 +93,25 @@ public class RClaim extends IBase {
     public IPerson getZa_ol() { return za_ol; }
     public void setZa_ol(IPerson za_ol) { this.za_ol = za_ol; }
     
+    @FieldTitle(name="Срок рассмотрения заявки заявки")
+    @Temporal(TemporalType.DATE)
+    public Date getZa_srz() { return za_srz; }
+    public void setZa_srz(Date za_srz) { this.za_srz = za_srz; }
+    
+    @FieldTitle(name="Срок предоставления отчета о реализации вынесенного решения")
+    @Temporal(TemporalType.DATE)
+    public Date getZa_spo() { return za_spo; }
+    public void setZa_spo(Date za_spo) { this.za_spo = za_spo; }
+    
+    @FieldTitle(name="Заявка на оценку принятия решений")
+    @ManyToOne(targetEntity=RClaim.class, fetch=FetchType.LAZY)
+    public RClaim getZa_opr() { return za_opr; }
+    public void setZza_opr(RClaim za_opr) { this.za_opr = za_opr; }
+    
+    @FieldTitle(name="Возможность заочного голосования")
+    public Boolean getZa_vzg() { return za_vzg; }
+    public void setZa_vzg(Boolean za_vzg) { this.za_vzg = za_vzg; }
+	    
     @FieldTitle(name="Объекты заявки")
     @OneToMany(targetEntity=RProperty.class, fetch=FetchType.LAZY)
     public List<RProperty> getList_oz() { return list_oz != null ? list_oz : new ArrayList<RProperty>(); }
@@ -112,6 +135,10 @@ public class RClaim extends IBase {
 		ret.add(new ColumnInfo("za_stat", cl));
 		ret.add(new ColumnInfo("za_zc", cl));
 		ret.add(new ColumnInfo("za_ol", cl));
+		ret.add(new ColumnInfo("za_srz", cl));
+		ret.add(new ColumnInfo("za_spo", cl));
+		ret.add(new ColumnInfo("za_opr__name", cl));
+		ret.add(new ColumnInfo("za_vzg", cl));
 		return ret;
 	}
 	public static boolean listPaginated() { return true; }
