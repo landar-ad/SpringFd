@@ -541,7 +541,7 @@ public class HelperServiceImpl implements HelperService {
 						String v = String.format("ii='%s',ll='%s',xx='%s'", attr.getName(), attr.getEditList(), attr.getTitle());
 						elBlock.attr("th:with", v);
 						elBlock.appendChild(elThBlock = d.createElement("th:block"));
-						elThBlock.attr("th:replace", "fragments/rlist :: exists");
+						elThBlock.attr("th:replace", "fragments/rlist :: " + (attr.getListAddExists() ? "exists" : "new"));
 					}
 				}
 			}
@@ -576,7 +576,7 @@ public class HelperServiceImpl implements HelperService {
 						String v = String.format("bs=true,ii='%s',ll='%s',xx='%s'", attr.getName(), attr.getEditList(), attr.getTitle());
 						elBlock.attr("th:with", v);
 						elBlock.appendChild(elThBlock = d.createElement("th:block"));
-						elThBlock.attr("th:replace", "fragments/rlist :: exists");
+						elThBlock.attr("th:replace", "fragments/rlist :: " + (attr.getListAddExists() ? "exists" : "new"));
 					}
 				}
 			}
