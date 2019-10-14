@@ -26,7 +26,6 @@
 			                    	<th:block th:with="w='20%',tt='label',nn='cm_dz_f'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='15%',tt='date',nn='cm_dz_f',vv=${obj.cm_dz_f},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
-		                    	
 	                    	</div>
 	                    	<div class="w-100 border border-primary">
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
@@ -37,7 +36,7 @@
 		                    	</tr></tbody></table>
 				        	</div>
 				        	<div class="w-100 border border-primary">
-				        		<th:block th:with="r_ii='list_rcl',r_ll='RClaim',xx='Заявки к рассмотрению'"><th:block th:replace="fragments/rlist :: doc_list"></th:block></th:block>
+				        		<th:block th:with="r_ii='list_rcl',r_ll='RClaim',xx='Заявки к рассмотрению'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
 	                       	</div>
 	                       	<div class="w-100 border border-primary">
 	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
