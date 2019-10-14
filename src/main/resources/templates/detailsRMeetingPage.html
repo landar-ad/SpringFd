@@ -64,7 +64,7 @@
 		            						<th:block th:with="w='4%',tt='pbutton',nn1='list_cs',nn2='uz',vv=${d.rn},ro=${rco},ddcl='RMember',ddti='Выберите участника заседания',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='20%',tt='check',nn='list_cs_uz_pz',vv=${d.uz_pz},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='20%',tt='text',nn='list_cs__uz_oo',vv=${d.uz_oo},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-		            						<th:block th:with="w='21%',tt='select',nn='list_cs__uz_rg',ll=${listSp_rezg},vv=${d.uz_rg},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='21%',tt='select',nn='list_cs__uz_rg',vv=${d.uz_rg},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								       	</tr>
 								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
 								           	<td class="d-none"><input type="hidden" name="list_cs__rn" value=""><input type="hidden" name="list_cs__rnOld" value=""><input type="hidden" name="list_cs__clazz" value="RMeeting_RMember"><input type="hidden" name="list_cs__p_add" value="new"><input type="hidden" name="list_cs__p_cmd" value=""></td>
@@ -73,7 +73,7 @@
 		            						<th:block th:with="w='4%',tt='pbutton',nn1='list_cs',nn2='rn',vv='',ddcl='RMember',ddti='Выберите участника заседания',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 								    		<th:block th:with="w='20%',tt='check',nn='list_cs_uz_pz'"><td th:replace="fragments/tc :: cd"></td></th:block>
 								    		<th:block th:with="w='20%',tt='text',nn='list_cs__uz_oo'"><td th:replace="fragments/tc :: cd"></td></th:block>
-								    		<th:block th:with="w='21%',tt='select',nn='list_cs__uz_rg',ll=${listSp_rezg}"><td th:replace="fragments/tc :: cd"></td></th:block>
+								    		<th:block th:with="w='21%',tt='select',nn='list_cs__uz_rg'"><td th:replace="fragments/tc :: cd"></td></th:block>
 								    	</tr>
 						        	</tbody>
 					        	</table>                       	

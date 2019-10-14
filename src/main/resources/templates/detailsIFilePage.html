@@ -26,7 +26,7 @@
 		                        <th:block th:with="w='10%',tt='label',vv='Расширение'"><th th:replace="fragments/tc :: ch"></th></th:block>
 		                       	<th:block th:with="w='5%',tt='text',nn='fileext',vv=${obj.fileext},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                        <th:block th:with="w='10%',tt='label',vv='Тип файла'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                        <th:block th:with="w='44%',tt='select',nn='filetype',ll=${listSpFileType},vv=${obj.filetype},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                        <th:block th:with="w='44%',tt='select',nn='filetype',vv=${obj.filetype},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	                		<tr></tbody></table>
 	                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                			<th:block th:with="w='7%',tt='label',vv='Длина файла'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -52,7 +52,7 @@
 		                        <div class="col-sm-1" th:with="tt='label',vv='Расширение'"><div th:replace="fragments/component :: c"></div></div>
 		                       	<div class="col-sm-1" th:with="tt='text',nn='fileext',vv=${obj.fileext},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-1" th:with="tt='label',vv='Тип файла'"><div th:replace="fragments/component :: c"></div></div>
-		                        <div class="col-sm-6" th:with="tt='select',nn='filetype',ll=${listSpFileType},vv=${obj.filetype},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-6" th:with="tt='select',nn='filetype',vv=${obj.filetype},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-1" th:with="tt='label',vv='Длина файла'"><div th:replace="fragments/component :: c"></div></div>

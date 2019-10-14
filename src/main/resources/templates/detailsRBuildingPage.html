@@ -35,9 +35,9 @@
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',vv='Тип объекта'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='on_typ',ll=${listSp_typo},vv=${obj.on_typ},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='on_typ',vv=${obj.on_typ},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='20%',tt='label',vv='Целевое назначение'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='on_celn',ll=${listSp_nazn},vv=${obj.on_celn},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='on_celn',vv=${obj.on_celn},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
 		                    		<th:block th:with="w='20%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
@@ -50,9 +50,9 @@
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',vv='Вид права'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='so_vp',ll=${listSp_vidpfs},vv=${obj.so_vp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='so_vp',vv=${obj.so_vp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='20%',tt='label',vv='Форма собственности'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='so_fs',ll=${listSp_fsob},vv=${obj.so_fs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='so_fs',vv=${obj.so_fs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
 	                    	<div class="w-100 border border-primary">
@@ -81,9 +81,9 @@
 		                    	</tr></tbody></table>
 	                    		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='20%',tt='label',vv='Материал перекрытий'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='th_mp',ll=${listSp_matr},vv=${obj.th_mp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='th_mp',vv=${obj.th_mp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='20%',tt='label',vv='Материал стен'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    	<th:block th:with="w='30%',tt='select',nn='th_ms',ll=${listSp_matr},vv=${obj.th_ms},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='30%',tt='select',nn='th_ms',vv=${obj.th_ms},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    			<th:block th:with="w='20%',tt='label',vv='Техническое состояние'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
@@ -132,9 +132,9 @@
 	                    	</div>
 		                    <div class="form-group-sm row mt-sm-1">
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Тип объекта'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-3" th:with="tt='select',nn='on_typ',ll=${listSp_typo},vv=${obj.on_typ},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-3" th:with="tt='select',nn='on_typ',vv=${obj.on_typ},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Целевое назначение'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-3" th:with="tt='select',nn='on_celn',ll=${listSp_nazn},vv=${obj.on_celn},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-3" th:with="tt='select',nn='on_celn',vv=${obj.on_celn},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
 		                    <div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-1" th:with="tt='label',vv='Полный адрес'"><th:block th:replace="fragments/component :: c"></th:block></div>
@@ -143,9 +143,9 @@
 	                    	<div class="form-group-sm row mt-sm-1"><h6>Собственность</h6></div>
 	                    	<div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-2" th:with="tt='label',vv='Вид права собственности'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-3" th:with="tt='select',nn='so_vp',ll=${listSp_vippfs},vv=${obj.s_vp},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-3" th:with="tt='select',nn='so_vp',vv=${obj.s_vp},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Форма собственности'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-3" th:with="tt='select',nn='so_fs',ll=${listSp_fsob},vv=${obj.s_fs},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-3" th:with="tt='select',nn='so_fs',vv=${obj.s_fs},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1"><h6>Регистрация в Реестре федерального имущества</h6></div>
 	                    	<div class="form-group-sm row mt-sm-1">
@@ -165,9 +165,9 @@
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-2" th:with="tt='label',vv='Материал перекрытий'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-2" th:with="tt='select',nn='th_mp',ll=${listSp_matr},vv=${obj.th_mp},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='th_mp',vv=${obj.th_mp},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 		                    	<div class="col-sm-2" th:with="tt='label',vv='Материал стен'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-2" th:with="tt='select',nn='th_ms',ll=${listSp_matr},vv=${obj.th_ms},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='th_ms',vv=${obj.th_ms},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1">
                     			<div class="col-sm-2" th:with="tt='label',vv='Техническое состояние"><th:block th:replace="fragments/component :: c"></th:block></div>

@@ -67,7 +67,7 @@
 		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_sostav',nn2='cs_sot',vv=${d.cs_sot?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=ФИО=Y1A',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dn',vv=${d.cs_dn},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dv',vv=${d.cs_dv},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-		            						<th:block th:with="w='20%',tt='select',nn='c_sostav__cs_dep',vv=${d.cs_dep},ll=${listIDepartment},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='20%',tt='select',nn='c_sostav__cs_dep',vv=${d.cs_dep},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 								       	</tr>
 								       	<tr th:if="${rco!=1}" class="not-visible last-row parent-popup">
 								           	<td class="d-none"><input type="hidden" name="c_sostav__rn" value=""><input type="hidden" name="c_sostav__rnOld" value=""><input type="hidden" name="c_sostav__clazz" value="RMember"><input type="hidden" name="c_sostav__p_add" value="new"><input type="hidden" name="c_sostav__p_cmd" value=""></td>
@@ -77,7 +77,7 @@
 		            						<th:block th:with="w='4%',tt='pbutton',nn1='c_sostav',nn2='cs_sot',vv='',ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=ФИО=Y1A',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dn'"><td th:replace="fragments/tc :: cd"></td></th:block>
 		            						<th:block th:with="w='18%',tt='date',nn='c_sostav__cs_dv'"><td th:replace="fragments/tc :: cd"></td></th:block>
-		            						<th:block th:with="w='20%',tt='select',nn='c_sostav__cs_dep',ll=${listIDepartment}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		            						<th:block th:with="w='20%',tt='select',nn='c_sostav__cs_dep',"><td th:replace="fragments/tc :: cd"></td></th:block>
 								    	</tr>
 						        	</tbody>
 					        	</table>

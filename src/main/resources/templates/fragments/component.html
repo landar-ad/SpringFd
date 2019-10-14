@@ -38,7 +38,7 @@
 	<th:block th:if="${tt=='select'}">
 		<select th:if="${ro!=1}" th:name="${nn}" class="form-control form-control-sm" th:required="${rr==1 ? 'required' : null}">
 			<option value=""></option>
-			<option th:each="d : ${hs.getVariable(#vars,ll)}" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,_attr!=null?_attr:'rn'))}" th:value="${hs.getPropertyString(d,_attr!=null?_attr:'rn')}" th:utext="${d.name}"/>
+			<option th:each="d : hs.getVariable(#vars,ll!=null?ll:hs.ai(obj.clazz,nn,'editList'))" th:selected="${vv!=null && #strings.equals(hs.getObjectString(vv),hs.getPropertyString(d,_attr!=null?_attr:'rn'))}" th:value="${hs.getPropertyString(d,_attr!=null?_attr:'rn')}" th:utext="${d.name}"/>
 		</select>  
 		<select th:if="${ro==1}" class="form-control form-control-sm" disabled>
 			<option selected="selected" th:utext="${hs.getPropertyString(vv,'name')}"/>

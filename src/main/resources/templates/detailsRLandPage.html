@@ -65,13 +65,13 @@
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='20%',tt='label',vv='Категория земель'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='30%',tt='select',nn='k_kz',ll=${listSp_kz},vv=${obj.k_kz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='30%',tt='select',nn='k_kz',vv=${obj.k_kz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    		<th:block th:with="w='20%',tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='30%',tt='select',nn='k_oo',ll=${listSp_oo},vv=${obj.k_oo},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='30%',tt='select',nn='k_oo',vv=${obj.k_oo},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='40%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='60%',tt='select',nn='k_vi',ll=${listSp_vi},vv=${obj.k_vi},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='60%',tt='select',nn='k_vi',vv=${obj.k_vi},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
 	                    	<div class="w-100 border border-primary">
@@ -107,13 +107,13 @@
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='20%',tt='label',vv='Вид права'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='30%',tt='select',nn='so_vp',ll=${listSp_vidpfs},vv=${obj.so_vp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='30%',tt='select',nn='so_vp',vv=${obj.so_vp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    		<th:block th:with="w='20%',tt='label',vv='Срок действия права'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='30%',tt='date',nn='so_sdp',vv=${obj.so_sdp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>	
 		                    		<th:block th:with="w='20%',tt='label',vv='Вид собственности'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='80%',tt='select',nn='so_fs',ll=${listSp_fsob},vv=${obj.so_fs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='80%',tt='select',nn='so_fs',vv=${obj.so_fs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='100%',tt='label',vv='Дата регистрации права собственности:'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
@@ -204,11 +204,11 @@
 	                    	<div class="form-group-sm row mt-sm-1"><h6>Категория</h6></div>
 	                    	<div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-2" th:with="tt='label',vv='Категория земель'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-2" th:with="tt='select',nn='k_kz',ll=${listSp_kz},vv=${obj.k_kz},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='k_kz',vv=${obj.k_kz},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-2" th:with="tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-2" th:with="tt='select',nn='k_vi',ll=${listSp_vi},vv=${obj.k_vi},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='k_vi',vv=${obj.k_vi},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-2" th:with="tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-2" th:with="tt='select',nn='k_oo',ll=${listSp_oo},vv=${obj.k_oo},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='k_oo',vv=${obj.k_oo},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1"><h6>Категории использования</h6></div>
 	                    	<div class="form-group-sm row mt-sm-1">
@@ -227,11 +227,11 @@
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1">
 	                    		<div class="col-sm-1" th:with="tt='label',vv='Вид права'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-2" th:with="tt='select',nn='so_vp',ll=${listSp_vidpfs},vv=${obj.so_vp},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='so_vp',vv=${obj.so_vp},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-1" th:with="tt='label',vv='Срок действия права'"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-2" th:with="tt='date',nn='so_sdp',vv=${obj.so_sdp},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    		<div class="col-sm-1" th:with="tt='label',vv='Вид собственности'"><th:block th:replace="fragments/component :: c"></th:block></div>
-	                    		<div class="col-sm-2" th:with="tt='select',nn='so_fs',ll=${listSp_fsob},vv=${obj.so_fs},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    		<div class="col-sm-2" th:with="tt='select',nn='so_fs',vv=${obj.so_fs},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
 	                    	<div class="form-group-sm row mt-sm-1"><h6>Дата регистрации права собственности:</h6></div>
 	                    	<div class="form-group-sm row mt-sm-1">
