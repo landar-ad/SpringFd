@@ -37,9 +37,22 @@
 		                    	</tr></tbody></table>
 	                    		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	                    			<th:block th:with="w='4%',tt='check',nn='za_poppr',vv=${obj.za_poppr},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='86%',tt='label',nn='za_poppr'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='46%',tt='label',nn='za_poppr'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='za_opr'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='26%',tt='text',vv=${obj.za_opr?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+									<th:block th:with="w='4%',tt='pbutton',nn1='za_opr',nn2='',vv=${obj.za_opr?.rn},rr=1,ro=${rco},ddcl='RClaim',ddti='Выберите заявку',ddco='rn;name=Наименование=YYA',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>			                    	
 		                    	</tr></tbody></table>
 	                    	</div>
+	                    	<div class="w-100 border border-primary">
+					        	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='20%',tt='label',nn='za_srz'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='17%',tt='date',nn='za_srz',vv=${obj.za_srz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='za_spo'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='17%',tt='date',nn='za_spo',vv=${obj.za_spo},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='4%',tt='check',nn='za_vzg',vv=${obj.za_vzg},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='22%',tt='label',nn='za_vzg'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    	</tr></tbody></table>
+				        	</div>
 	                    	<div class="w-100 border border-primary">
 					        	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='20%',tt='label',nn='prim'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
