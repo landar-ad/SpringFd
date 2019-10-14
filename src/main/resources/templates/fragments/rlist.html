@@ -177,10 +177,9 @@
 					        <tr th:if="${rco!=1}" class="last-row">
 					        	<td class="d-none"/>
 					        	<td><button class="add-item btn btn-light btn-sm" type="button" title="Добавить элемент"><i class="fa fa-sm fa-plus"></i></button></td>
-					        	<td></td>
-					        	<td></td>
-					        	<td></td>
-					        	<td></td>
+					        	<td th:each="attr : ${hs.la(obj.clazz,false)}">
+					            	<th:block th:with="tt=${attr.type},nn=${ii+'__'+attr.name},ll=${hs.getVariable(#vars,attr.editList)},ro=${rco},_attr=${attr.editAttr}"><th:block th:replace="fragments/component :: c"></th:block></th:block>
+					            </td>
 					        	<td></td>
 					        	<td></td>
 					        	<td class="d-none"/>
