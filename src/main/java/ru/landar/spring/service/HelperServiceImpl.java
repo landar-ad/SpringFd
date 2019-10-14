@@ -614,6 +614,9 @@ public class HelperServiceImpl implements HelperService {
 								nameList = clAttr.getSimpleName();
 							}
 						}
+						else if (Date.class.isAssignableFrom(clAttr)) {
+							type = "date";
+						}
 						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false, false, 0, null);
 						listAttribute.add(attr);
 					}
