@@ -159,7 +159,7 @@ public class RClaim extends IBase {
     	if (getZa_ol() == null) hs.setProperty(this, "za_ol", user.getPerson());
     	if (getZa_date() == null) hs.setProperty(this, "za_date", new Date());
     	if (getZa_stat() == null) hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "1"})); 
-    	return null;
+    	return this;
 	}
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {

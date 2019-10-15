@@ -248,6 +248,13 @@ public class RLand extends RProperty {
     	return true;
 	}
 	@Override
+    public Object onUpdate() throws Exception { 
+    	Object ret = super.onUpdate();
+    	if (ret != null) return ret;
+    	
+		return true;
+    }
+	@Override
 	public Object onAddAttributes(Model model, boolean list) {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;

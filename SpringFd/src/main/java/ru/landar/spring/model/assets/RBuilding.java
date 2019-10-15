@@ -159,7 +159,7 @@ public class RBuilding extends RProperty {
     	if (ret != null) return ret;
      	hs.setProperty(this, "co_type", "Недмижимое");
      	hs.setProperty(this, "co_div", (SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"02", "sp_rui"}));
-    	return true;
+    	return this;
 	}
 	@Override
     public Object onUpdate() throws Exception { 
