@@ -245,9 +245,10 @@ public class ObjController {
 		listMenus.add(new String[] {"Document","Act", "Reestr"});
 		listMenus.add(new String[] {"Notification1", "Notification2", "Notification3", "Document"});
 		listMenus.add(new String[] {"Notification4", "Notification5", "Notification6", "Document"});
-		listMenus.add(new String[] {"IUser", "IPerson", "IDepartment", "IOrganization"});
 		listMenus.add(new String[] {"RProperty", "RLand", "RBuilding", "UnfinishedConstruction"});
 		listMenus.add(new String[] {"RCommission", "RClaim", "RCase"});
+		listMenus.add(new String[] {"IPerson", "IDepartment", "IOrganization", "IUser"});
+		listMenus.add(new String[] {"IUser", "IRole", "IRule", "IUser"});
 		List<MenuInfo> listMenu = new ArrayList<MenuInfo>();
 		for (String[] cs : listMenus) {
 			for (String ct : cs) {
