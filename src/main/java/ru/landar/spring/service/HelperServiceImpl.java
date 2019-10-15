@@ -216,17 +216,18 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public Class<?> getItemType(Class<?> cl, String attr) { return s_getItemType(cl, attr); }
 	public static Class<?> s_getItemType(Class<?> cl, String attr) {
-		Class<?> clItem = null, clAttr = s_getAttrType(cl, attr);
+		Class<?> clAttr = s_getAttrType(cl, attr);
 		if (List.class.isAssignableFrom(clAttr)) {
 			try {
 				String getter = "get" + attr.substring(0, 1).toUpperCase() + attr.substring(1);
 				Method mGet = cl.getMethod(getter);
-				try { clItem = mGet.getAnnotation(ManyToMany.class).targetEntity(); } catch (Exception ex) { }
-				if (clItem == null) clItem = mGet.getAnnotation(OneToMany.class).targetEntity();
+				clAttr = null;
+				try { clAttr = mGet.getAnnotation(ManyToMany.class).targetEntity(); } catch (Exception ex) { }
+				if (clAttr == null) clAttr = mGet.getAnnotation(OneToMany.class).targetEntity();
 			}
 			catch (Exception ex) {}
 		}
-		return clItem;
+		return clAttr;
 	}
 	@Override
 	public Map<String, Object> getMapProperties(Object obj, boolean persist) {
@@ -640,12 +641,13 @@ public class HelperServiceImpl implements HelperService {
 		}
 		if (listAttribute == null) {
 			listAttribute = new ArrayList<AttributeInfo>();
-			Field[] fs = null;
-			try { fs = cl.getDeclaredFields(); } catch (Exception e) { }
-			if (fs != null) for (Field f : fs) {
-				String name = f.getName();
-				Class<?> clAttr = s_getAttrType(cl, name);
-				if (clAttr == null || f.isAnnotationPresent(Transient.class)) continue;
+			Method[] ms = null;
+			try { ms = cl.getDeclaredMethods(); } catch (Exception e) { }
+			if (ms != null) for (Method m : ms) {
+				if (!m.isAnnotationPresent(FieldTitle.class) || m.isAnnotationPresent(Transient.class)) continue;
+				String name = m.getName();
+				if (!name.startsWith("get")) continue;
+				name = name.substring(3, 4).toLowerCase() + name.substring(4);
 				listAttribute.add(new AttributeInfo(name, cl));
 			}
 		}
@@ -691,7 +693,7 @@ public class HelperServiceImpl implements HelperService {
 			if (a == null) {
 				return ret;
 			}
-			Class<?> clAttr = s_getAttrType(cl, attr);
+			Class<?> clAttr = s_getItemType(cl, attr);
 			if ("sp".equals(info)) ret = a.sp();
     		else if ("list".equals(info)) ret = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName());
     		else if ("nameColumn".equals(info)) { String v = a.nameColumn(); if (v == null || v.isEmpty() || "*".equals(v)) v = a.name(); ret = v; }
@@ -728,7 +730,9 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public Object ai(String clazz, String attr, String info) { return getAttrInfo(clazz, attr, info); }
 	@Override
-	public List<AttributeInfo> la(String clazz, boolean byObject) { return getListAttribute(getMapClasses().get(clazz), byObject); }
+	public List<AttributeInfo> la(String clazz, boolean byObject) { 
+		return getListAttribute(getMapClasses().get(clazz), byObject); 
+	}
 	@Override
 	public boolean isServerConnected(String url, int timeout) {
 		try {

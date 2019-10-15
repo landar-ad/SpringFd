@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.AttributeInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperServiceImpl;
 
 @Entity
@@ -26,8 +27,8 @@ public class IRole_IRule extends IBase {
 	
 	@FieldTitle(name="Правило")
 	@ManyToOne(targetEntity=IRule.class, fetch=FetchType.LAZY)
-    public IRule getUz() { return pr; }
-    public void setUz(IRule pr) { this.pr = pr; }
+    public IRule getPr() { return pr; }
+    public void setPr(IRule pr) { this.pr = pr; updateName(); }
     
     @FieldTitle(name="Заблокировано")
     public Boolean getPr_bl() { return pr_bl; }
@@ -54,5 +55,15 @@ public class IRole_IRule extends IBase {
 		}
 		catch (Exception ex) { }
 		return null;
+	}
+    
+    private void updateName() {
+    	AutowireHelper.autowire(this);
+		String name = "";
+		IBase p = getParentProxy();
+		if (p != null) name += p.getName();
+		if (!name.isEmpty()) name += " <-> ";
+		if (pr != null) name += pr.getName();
+		setName(name);
 	}
 }

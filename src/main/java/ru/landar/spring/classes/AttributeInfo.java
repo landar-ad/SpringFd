@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.service.HelperServiceImpl;
@@ -35,7 +37,7 @@ public class AttributeInfo {
 			if (clAttr != null) {
 				if (IBase.class.isAssignableFrom(clAttr)) {
 					boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(clAttr, null, "voc");
-					if (voc) type = voc ? "select" : "choose";
+					type = voc ? "select" : "choose";
 				}
 				else if (List.class.isAssignableFrom(clAttr)) {
 					type = "list";
@@ -51,26 +53,32 @@ public class AttributeInfo {
 						listAddExists = false;
 						break;
 					}
+					editList = clItem.getSimpleName();
 				}
 				else if (Date.class.isAssignableFrom(clAttr)) {
 					type = "date";
+					String getter = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+					Temporal t = null;
+					try { t = cl.getMethod(getter).getAnnotation(Temporal.class); } catch (Exception ex) { }
+					if (t == null || t.value() != TemporalType.DATE) type = "time";
 				}
 				else if (Boolean.class.isAssignableFrom(clAttr)) type = "checkbox";
 			}
 		}
 		setType(type);
-		String editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "editList");
-		if ("*".equals(editList) && ("select".equals(type) || "choose".equals(type) || "list".equals(type))) {
-			if ("select".equals(type)) editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
-			else if ("choose".equals(type)) editList = clAttr.getSimpleName();
-			else if ("list".equals(type)) editList = HelperServiceImpl.s_getItemType(cl, name).getSimpleName();
+		if (getEditList() == null) {
+			String editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "editList");
+			if ("*".equals(editList) && ("select".equals(type) || "choose".equals(type) || "list".equals(type))) {
+				if ("select".equals(type)) editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
+				else if ("choose".equals(type)) editList = clAttr.getSimpleName();
+			}
+			else editList = null;
+			setEditList(editList);
 		}
-		else editList = null;
-		setEditList(editList);
 		Boolean required = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "required");
 		setRequired(required == null ? false : required);
 		Boolean readOnly = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "readOnly");
-		setReadOnly(readOnly == null ? false : required);
+		setReadOnly(readOnly == null ? false : readOnly);
 		Integer length = (Integer)HelperServiceImpl.getAttrInfo(cl, name, "editLength");
 		setLength(length == null ? 0 : length);
 		String editAttr = (String)HelperServiceImpl.getAttrInfo(cl, name, "editAttr");
