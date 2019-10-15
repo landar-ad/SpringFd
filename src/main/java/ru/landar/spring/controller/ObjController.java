@@ -451,11 +451,10 @@ public class ObjController {
 						if ("remove".equals(cmd) && rnItem != null) {
 							try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 						}
-						else if ("add".equals(cmd) && rnItem == null) {
-							try { item = objRepository.executeItem(obj, list, cmd, clazzItem, null, bNew); } catch (Exception ex) { }
+						else if ("add".equals(cmd)) {
+							try { item = objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 						}
-						else if (rnItem != null && ("add".equals(cmd) || "update".equals(cmd))) {
-							cmd = "update";
+						else if (rnItem != null && ("update".equals(cmd))) {
 							try {
 								item = objRepository.updateItem(obj, list, clazzItem, rnItemOld, rnItem);
 								if (item != null && rnItemOld != rnItem) hs.invoke(obj, "onUpdateItem", clItem, rnItemOld, rnItem);
