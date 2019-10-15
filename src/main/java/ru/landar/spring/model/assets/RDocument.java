@@ -37,7 +37,7 @@ import javax.persistence.Column;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
-@ObjectTitle(single="Документ управления имуществом", multi="Документы управления имуществом")
+@ObjectTitle(single="Имущественный документ", multi="Имущественные документы")
 public class RDocument extends IBase {
 	
 	private SpRDocType doctype;
