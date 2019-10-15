@@ -44,7 +44,7 @@ public class IRole extends IBase {
 	}
     
     public static List<AttributeInfo> listAttribute() {
-    	return HelperServiceImpl.getListAttribute(IRule.class, true);
+    	return HelperServiceImpl.getListAttribute(IRole.class, true);
     }
     
     @Override
