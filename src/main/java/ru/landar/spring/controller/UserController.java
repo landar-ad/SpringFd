@@ -1,5 +1,7 @@
 package ru.landar.spring.controller;
 
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ import ru.landar.spring.classes.ChangeInfo;
 import ru.landar.spring.classes.Operation;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IPerson;
+import ru.landar.spring.model.IRole;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.repository.UserRepositoryCustom;
@@ -84,6 +87,22 @@ public class UserController {
 		Integer person_rn = personParam.orElse(null);
 		IPerson person = person_rn != null ? (IPerson)objService.find(IPerson.class, person_rn) : null;
 		user.setPerson(person);
+		// Список ролей
+		List<IRole> lr = user.getList_roles();
+		List<String> listNames = Collections.list((Enumeration<String>)request.getParameterNames());
+		for (String p : listNames) {
+			if (!p.startsWith("list_roles__rn")) continue;
+			String[] vs = request.getParameterValues(p);
+			for (String v : vs) {
+				try { 
+					IRole role = (IRole)objService.find(IRole.class, Integer.valueOf(v));
+					if (role != null) lr.add(role);
+				} 
+				catch (Exception ex) { }
+			}
+		}
+		user.setList_roles(lr);
+		// Проверка прав на редактирование
 		if (!hs.checkRights(user, Operation.update)) throw new SecurityException("Вы не имеете право на редактирование пользователя " + user.getLogin());
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {

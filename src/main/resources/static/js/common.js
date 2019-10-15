@@ -1276,7 +1276,7 @@ Amel = {
 		var target = this;
 		$(".td-edited").each(function() {
 			if ($(this).hasClass("readonly")) return;
-			var zz = $(this).find("input[type='text'],input[type='password'],input[type='date'],select,.custom-file,textarea,.custom-date");
+			var zz = $(this).find("input[type='text'],input[type='password'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date,.pbutton");
 			if (zz.length == 0) return;
 			$(this).addClass("edited");	
 		});
