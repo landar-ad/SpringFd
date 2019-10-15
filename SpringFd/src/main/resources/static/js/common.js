@@ -1274,6 +1274,12 @@ Amel = {
 	// Инициализация редактирования в таблице
 	table_edit_init: function() {
 		var target = this;
+		$(".td-edited").each(function() {
+			if ($(this).hasClass("readonly")) return;
+			var zz = $(this).find("input[type='text'],input[type='password'],input[type='date'],select,.custom-file,textarea,.custom-date");
+			if (zz.length == 0) return;
+			$(this).addClass("edited");	
+		});
 		target.add_on($(".td-edited"), "click", function() {
 			target.table_edit($(this));
 		});
@@ -1288,7 +1294,6 @@ Amel = {
 			setTimeout(function() {
 				target.table_edit_end(q, { keyCode: 13, shiftKey: false, ctrlKey: false });
 			}, 10);
-			
 		});
 		target.add_on($('.td-edited .custom-file-input'), "change", function() { 
 			var fileName = $(this).val().split('\\').pop(); 
