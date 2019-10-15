@@ -39,7 +39,6 @@ import javax.persistence.Column;
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Имущественный документ", multi="Имущественные документы")
 public class RDocument extends IBase {
-	
 	private SpRDocType doctype;
 	private String docname;
 	private String docnum;
