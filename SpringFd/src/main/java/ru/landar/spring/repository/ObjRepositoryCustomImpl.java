@@ -532,6 +532,15 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 				item = createObj(item);
 			}
 			else if (item == null) throw new Exception("Не найден объект " + clazzItem + " по идентификатору " + rnItem + " для добавления в список '" + listAttr + "'");
+			boolean found = false;
+			if (rnItem != null)
+				for (int i=0; i<list.size(); i++) {
+					Object o = list.get(i);
+					if (!(o instanceof IBase) || rnItem.compareTo(((IBase)o).getRn()) != 0) continue;
+					found = true;
+					break;
+				}
+			if (found) throw new Exception("Объект " + clazzItem + " c идентификатором " + rnItem + " уже есть в списке '" + listAttr + "'"); 
 			list.add(item);
 			hs.setProperty(obj, listAttr, list);
 			saveObj(obj);
