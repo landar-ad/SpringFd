@@ -71,6 +71,7 @@ public class IUser extends IBase {
 		try {
 			model.addAttribute("listIOrganization", objService.findAll(IOrganization.class));
 			model.addAttribute("listIPerson", objService.findAll(IPerson.class));
+			model.addAttribute("listIRole", objService.findAll(IRole.class));
 			if (!list) {
 				boolean role_user = false, role_admin = false, role_df = false;
 				String roles = getRoles();
