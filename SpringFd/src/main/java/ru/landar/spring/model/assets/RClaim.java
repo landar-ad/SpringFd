@@ -242,7 +242,8 @@ public class RClaim extends IBase {
     	RClaim popr = new RClaim();
     	hs.setProperty(popr, "co_org", getCo_org());
     	hs.setProperty(popr, "za_poppr", true);
-    	hs.setProperty(popr, "za_type", getZa_type());
+    	hs.setProperty(popr, "za_type", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_type_za", "1"}));
+    	hs.setProperty(popr, "za_ol", getZa_ol());
     	hs.invoke(popr, "onNew");
     	popr = (RClaim)objRepository.createObj(popr);
     	hs.setProperty(this, "za_opr", popr);
