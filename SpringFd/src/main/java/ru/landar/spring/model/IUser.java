@@ -60,8 +60,8 @@ public class IUser extends IBase {
     
     @FieldTitle(name="Список ролей")
     @ManyToMany(targetEntity=IRole.class, fetch=FetchType.LAZY)
-    public List<IRole> getRo_prs() { return list_roles != null ? list_roles : new ArrayList<IRole>(); }
-    public void setRo_prs(List<IRole> list_roles) { this.list_roles = list_roles; }
+    public List<IRole> getList_roles() { return list_roles != null ? list_roles : new ArrayList<IRole>(); }
+    public void setList_roles(List<IRole> list_roles) { this.list_roles = list_roles; }
        
     // Функции класса
 	@Override

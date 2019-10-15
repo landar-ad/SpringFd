@@ -178,7 +178,8 @@ body {
 .td-button {
 	width: 100%; 
 	display: block;
-	margin-bottom: 1px;
+	margin-bottom: 0.2rem;
+	margin-top: 0.2rem;
 }
 
 .td-label {
