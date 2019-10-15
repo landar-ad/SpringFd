@@ -81,7 +81,7 @@
 				</select>  
 			</th:block>
 			<th:block th:if="${tt=='button'}">
-				<button th:id="${ii}" type="button" class="td-button btn btn-light btn-sm pbutton" th:utext="${vv}"></button>
+				<button th:id="${ii}" type="button" class="td-button btn btn-light btn-sm" th:utext="${vv}"></button>
 			</th:block>
 			<th:block th:if="${tt=='xbutton'}">
 				<th:block th:with="cc=${ddco=='copy' ? '<i class=''fa fa-clone''></i> ' : (ddco=='update' ? '<i class=''fa fa-edit''></i> ' : (ddco=='remove' ? '<i class=''fa fa-trash''></i> ' : (ddco=='add' ? '<i class=''fa fa-plus-circle''></i> ' : null)))}">
@@ -90,7 +90,7 @@
 			</th:block>
 			<th:block th:if="${tt=='pbutton'}">
 				<div th:if="${ro!=1}">
-					<button type="button" class="td-button choose_obj btn btn-sm" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file btn-link"></i></button>
+					<button type="button" class="td-button choose_obj btn btn-sm pbutton" th:data-clazz="${ddcl}" th:title="${ddti}" th:data-title="${ddti}" th:data-column="${ddco}" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file btn-link"></i></button>
 					<input th:name="${nn1 + (!#strings.isEmpty(nn2) ? '__' + nn2 : '')}" type="hidden" th:value="${vv}">
 				</div>
 			</th:block>
