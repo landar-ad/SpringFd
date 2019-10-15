@@ -27,6 +27,7 @@ import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IPerson;
+import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpCommon;
 
 @Entity
@@ -99,7 +100,7 @@ public class RClaim extends IBase {
     public IPerson getZa_ol() { return za_ol; }
     public void setZa_ol(IPerson za_ol) { this.za_ol = za_ol; }
     
-    @FieldTitle(name="Срок рассмотрения заявки заявки")
+    @FieldTitle(name="Срок рассмотрения заявки")
     @Temporal(TemporalType.DATE)
     public Date getZa_srz() { return za_srz; }
     public void setZa_srz(Date za_srz) { this.za_srz = za_srz; }
@@ -152,7 +153,12 @@ public class RClaim extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	
+    	IUser user = userService.getUser((String)null);
+    	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+    	if (getCo_org() == null) hs.setProperty(this, "co_org", user.getOrg());
+    	if (getZa_ol() == null) hs.setProperty(this, "za_ol", user.getPerson());
+    	if (getZa_date() == null) hs.setProperty(this, "za_date", new Date());
+    	if (getZa_stat() == null) hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "1"})); 
     	return null;
 	}
 	@Override
@@ -209,7 +215,13 @@ public class RClaim extends IBase {
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
 		else if ("confirm".equals(param)) {
 			if (userService.isAdmin(null)) return true;
-			if (statusCode() == 1 || statusCode() == 3) return true;
+			// Условия заврешения подготовки заявки
+			if ((statusCode() == 1 || statusCode() == 3) && 
+				getCo_org() != null &
+				!hs.isEmptyTrim(getZa_num()) &
+				getZa_date() != null &&
+				getList_doc().size() > 0 && 
+				getList_oz().size() > 0)  return true;
 		}
 		else if ("create_popr".equals(param)) {
 			if (userService.isAdmin(null)) return true;
