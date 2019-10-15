@@ -6,18 +6,16 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
-import ru.landar.spring.service.HelperService;
-import ru.landar.spring.service.ObjService;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
@@ -29,6 +27,7 @@ public class IUser extends IBase {
 	private Boolean disabled;
 	private IOrganization org;
 	private IPerson person;
+	private List<IRole> list_roles;
 	
 	@FieldTitle(name="Логин")
 	@Column(length=50, nullable=false, unique=true)
@@ -58,6 +57,11 @@ public class IUser extends IBase {
     @ManyToOne(targetEntity=IPerson.class, fetch=FetchType.LAZY)
     public IPerson getPerson() { return person; }
     public void setPerson(IPerson person) { this.person = person; }
+    
+    @FieldTitle(name="Список ролей")
+    @ManyToMany(targetEntity=IRole.class, fetch=FetchType.LAZY)
+    public List<IRole> getRo_prs() { return list_roles != null ? list_roles : new ArrayList<IRole>(); }
+    public void setRo_prs(List<IRole> list_roles) { this.list_roles = list_roles; }
        
     // Функции класса
 	@Override

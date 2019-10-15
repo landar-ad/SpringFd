@@ -84,6 +84,7 @@
 								<div class="col-sm-1" th:with="tt='pbutton',nn='person',vv=${obj.person?.rn},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 	                    </th:block>
+	                    <th:block th:with="r_ii='list_roles',r_ll='IRole',xx='Список ролей'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
                     </div>
 				</div>
 			</div>
