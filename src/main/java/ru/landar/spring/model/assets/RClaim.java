@@ -7,17 +7,23 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.LockModeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.classes.Operation;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.IPerson;
@@ -160,4 +166,79 @@ public class RClaim extends IBase {
 		catch (Exception ex) { }
 		return null;
 	}
+	@Override
+	public List<ButtonInfo> listButton() {
+		List<ButtonInfo> ret = super.listButton();
+		if (ret == null) ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("confirm", "Завершить подготовку заявки", null, "primary"));
+		return ret;
+	}
+	@Override
+	public List<ButtonInfo> detailsButton() {
+		List<ButtonInfo> ret = super.detailsButton();
+		if (ret == null) ret = new ArrayList<ButtonInfo>();
+		ret.add(new ButtonInfo("create_popr", "Создать заявку ПОПР", null, "primary"));
+		return ret;
+	}
+	@Override
+    public Object onCheckRights(Operation op) { 
+    	Object ret = invoke("onCheckRights", op);
+     	if (ret != null) return ret;
+    	Integer rn = getRn();
+    	if (op == Operation.create) return true;
+    	if (op == Operation.load) return true;
+    	if (rn == null) return true;
+    	if (op == Operation.update) {
+    		if (userService.isAdmin(null)) return true;
+    		if (statusCode() == 1 || statusCode() == 3) return true;
+    	}
+    	if (op == Operation.delete) {
+    		if (userService.isAdmin(null)) return true;
+    		if (statusCode() == 1) return true;
+    	}
+    	return false;
+    }
+    @Override
+    public Object onCheckExecute(String param) { 
+     	Object ret = invoke("onCheckExecute", param);
+     	if (ret != null) return ret;
+     	if ("add".equals(param)) return onCheckRights(Operation.create);
+    	if (getRn() == null) return false;
+    	if ("edit".equals(param)) return onCheckRights(Operation.update);
+		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
+		else if ("view".equals(param)) return onCheckRights(Operation.load);
+		else if ("confirm".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			if (statusCode() == 1 || statusCode() == 3) return true;
+		}
+		else if ("create_popr".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			if (statusCode() == 1) return true;
+		}
+		return false;
+    }
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void confirm(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("confirm")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "2"}));
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public String create_popr(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("create_popr")) return null;
+    	RClaim popr = new RClaim();
+    	hs.setProperty(popr, "co_org", getCo_org());
+    	hs.setProperty(popr, "za_poppr", true);
+    	hs.setProperty(popr, "za_type", getZa_type());
+    	hs.invoke(popr, "onNew");
+    	popr = (RClaim)objRepository.createObj(popr);
+    	hs.setProperty(this, "za_opr", popr);
+    	return "/detailsObj?rn=" + popr.getRn();
+	}
+	protected int statusCode() {
+    	int ret = 1; 
+    	try { ret = Integer.valueOf(getZa_stat().getCode()); } catch (Exception ex) { }
+    	return ret;
+    }
 }
