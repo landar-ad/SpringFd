@@ -37,9 +37,9 @@ public class IRole extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = IRule.class;
-		ret.add(new ColumnInfo("name", cl)); 
+		Class<?> cl = IRole.class;
 		ret.add(new ColumnInfo("code", cl));
+		ret.add(new ColumnInfo("name", cl)); 
 		return ret;
 	}
     

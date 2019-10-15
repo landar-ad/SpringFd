@@ -19,41 +19,47 @@
 	            	<div th:replace="fragments/header :: details-buttons"></div>
 	            	<div class="col-sm-12 border fit-height">
 	            		<th:block th:if="${bs!=true}">
-	            			<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    	<th:block th:with="w='13%',tt='label',vv='Логин',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='87%',tt='text',nn='login',vv=${obj.login}"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    </tr></tbody></table>
-		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    	<th:block th:with="w='13%',tt='label',vv='Пароль'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='87%',tt='password',nn='password',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    </tr></tbody></table>
-		                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    	<th:block th:with="w='100%',tt='label',vv='<h6>Роли</h6>'"><td th:replace="fragments/tc :: cd"></td></th:block>
-	                    	</tr></tbody></table>
-	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-	                    		<th:block th:with="w='4%',tt='check',nn='role_user',vv=${role_user}"><th th:replace="fragments/tc :: check"></th></th:block>
-	                    		<th:block th:with="w='26%',tt='label',vv='Пользователь'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<th:block th:with="w='4%',tt='check',nn='role_admin',vv=${role_admin}"><th th:replace="fragments/tc :: check"></th></th:block>
-	                    		<th:block th:with="w='26%',tt='label',vv='Администратор'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<th:block th:with="w='4%',tt='check',nn='role_df',vv=${role_df}"><th th:replace="fragments/tc :: check"></th></th:block>
-	                    		<th:block th:with="w='26%',tt='label',vv='Сотрудник Департамента финансов'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<td width="10%"></td>
-	                    	</tr></tbody></table>
-	                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-	                    		<th:block th:with="w='4%',tt='check',nn='disabled',vv=${obj.disabled}"><th th:replace="fragments/tc :: check"></th></th:block>
-	                    		<th:block th:with="w='10%',tt='label',vv='Заблокирован'"><th th:replace="fragments/tc :: ch"></th></th:block>
-	                    		<td width="86%"></td>
-	                    	</tr></tbody></table>
-		                    <table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
-		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (юридическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='70%',tt='text',vv=${obj.org?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='4%',tt='pbutton',nn1='org',nn2='',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    </tr></tbody></table>
-                       		<table class="table table-sm table-edited table-bordered mb-0"><tbody><tr class="parent-popup">
-		                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (физическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                    	<th:block th:with="w='70%',tt='text',vv=${obj.person?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    	<th:block th:with="w='4%',tt='pbutton',nn1='person',nn2='',vv=${obj.person?.rn},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                    </tr></tbody></table>
+	            			<div class="w-100 border border-primary">
+		            			<table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='13%',tt='label',vv='Логин',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			                    	<th:block th:with="w='87%',tt='text',nn='login',vv=${obj.login}"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                    </tr></tbody></table>
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='13%',tt='label',vv='Пароль'"><th th:replace="fragments/tc :: ch"></th></th:block>
+			                    	<th:block th:with="w='87%',tt='password',nn='password',vv=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                    </tr></tbody></table>
+		                    </div>
+		                    <div class="w-100 border border-primary">
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
+			                    	<th:block th:with="w='100%',tt='label',vv='<h6>Роли</h6>'"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    		<th:block th:with="w='4%',tt='check',nn='role_user',vv=${role_user}"><th th:replace="fragments/tc :: check"></th></th:block>
+		                    		<th:block th:with="w='26%',tt='label',vv='Пользователь'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    		<th:block th:with="w='4%',tt='check',nn='role_admin',vv=${role_admin}"><th th:replace="fragments/tc :: check"></th></th:block>
+		                    		<th:block th:with="w='26%',tt='label',vv='Администратор'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    		<th:block th:with="w='4%',tt='check',nn='role_df',vv=${role_df}"><th th:replace="fragments/tc :: check"></th></th:block>
+		                    		<th:block th:with="w='26%',tt='label',vv='Сотрудник Департамента финансов'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    		<td width="10%"></td>
+		                    	</tr></tbody></table>
+		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
+		                    		<th:block th:with="w='4%',tt='check',nn='disabled',vv=${obj.disabled}"><th th:replace="fragments/tc :: check"></th></th:block>
+		                    		<th:block th:with="w='10%',tt='label',vv='Заблокирован'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                    		<td width="86%"></td>
+		                    	</tr></tbody></table>
+	                    	</div>
+	                    	<div class="w-100 border border-primary">
+			                    <table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
+			                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (юридическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+			                    	<th:block th:with="w='70%',tt='text',vv=${obj.org?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                    	<th:block th:with="w='4%',tt='pbutton',nn1='org',nn2='',vv=${obj.org?.rn},ddcl='IOrganization',ddti='Выберите организацию',ddco='rn;name=Наименование=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                    </tr></tbody></table>
+	                       		<table class="table table-sm table-edited table-bordered mb-0"><tbody><tr class="parent-popup">
+			                    	<th:block th:with="w='26%',tt='label',vv='Контрагент (физическое лицо)'"><th th:replace="fragments/tc :: ch"></th></th:block>
+			                    	<th:block th:with="w='70%',tt='text',vv=${obj.person?.name},ro=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                    	<th:block th:with="w='4%',tt='pbutton',nn1='person',nn2='',vv=${obj.person?.rn},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО=YYA',ddfi=''"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                    </tr></tbody></table>
+		                    </div>
 	                    </th:block>
 	                    <th:block th:if="${bs==true}">
 	                    	<div class="form-group-sm row mt-sm-2">
@@ -84,7 +90,9 @@
 								<div class="col-sm-1" th:with="tt='pbutton',nn='person',vv=${obj.person?.rn},ddcl='IPerson',ddti='Выберите персону',ddco='rn;name=Фамилия ИО',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 	                    </th:block>
-	                    <th:block th:with="r_ii='list_roles',r_ll='IRole',xx='Список ролей'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+	                    <div class="w-100 border border-primary pb-1">
+	                    	<th:block th:with="r_ii='list_roles',r_ll='IRole',xx='Список ролей'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+                    	</div>
                     </div>
 				</div>
 			</div>

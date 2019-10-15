@@ -49,8 +49,8 @@ public class IRule extends IBase {
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = IRule.class;
-		ret.add(new ColumnInfo("name", cl)); 
 		ret.add(new ColumnInfo("code", cl));
+		ret.add(new ColumnInfo("name", cl)); 
 		ret.add(new ColumnInfo("pr_dr", cl));
 		ret.add(new ColumnInfo("pr_razr", cl));
 		ret.add(new ColumnInfo("pr_filter", cl));
