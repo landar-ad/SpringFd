@@ -22,6 +22,7 @@ import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IOrganization;
+import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpCommon;
 
 @Entity
@@ -120,8 +121,10 @@ public class RProperty extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	
-    	return null;
+    	IUser user = userService.getUser((String)null);
+    	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
+    	if (getCo_org() == null) hs.setProperty(this, "co_org", user.getOrg());
+    	return this;
 	}
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
