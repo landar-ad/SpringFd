@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpCommon;
 
 @Entity
@@ -160,6 +161,15 @@ public class RBuilding extends RProperty {
      	hs.setProperty(this, "co_div", (SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"02", "sp_rui"}));
     	return true;
 	}
+	@Override
+    public Object onUpdate() throws Exception { 
+    	Object ret = super.onUpdate();
+    	if (ret != null) return ret;
+    	if (getBook_value() == null && getS_perv() != null) hs.setProperty(this, "book_value", getS_perv());
+    	if (getResidual_value() == null && getS_perv() != null && getS_amor() != null && getS_amor().compareTo(getS_perv()) <= 0) hs.setProperty(this, "residual_value", getS_perv().subtract(getS_amor()));
+    	if (getTh_dp() != null && getIn_date() == null) hs.setProperty(this, "in_date", getTh_dp());
+		return true;
+    }
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
 		Object ret = super.onAddAttributes(model, list);
