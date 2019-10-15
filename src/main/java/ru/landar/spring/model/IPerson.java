@@ -35,7 +35,7 @@ public class IPerson extends IAgent {
 	private String email;
 	private Date date_fire;
 	
-	@FieldTitle(name="mkod", visible=false)
+	@FieldTitle(name="Машинный код", visible=false)
 	public String getMkod() { return super.getMkod(); }
 	
 	@FieldTitle(name="Фамилия")

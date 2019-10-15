@@ -59,10 +59,6 @@ public class IUser extends IBase {
     public IPerson getPerson() { return person; }
     public void setPerson(IPerson person) { this.person = person; }
        
-    @Autowired
-	ObjService objService;
-    @Autowired
-	HelperService hs;
     // Функции класса
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
@@ -91,6 +87,7 @@ public class IUser extends IBase {
 		catch (Exception ex) { }
 		return true;
 	}
+	// Статические функции
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = new ArrayList<ButtonInfo>();
 		if (userService.isAdmin(null)) ret.add(new ButtonInfo("edit", "Редактировать", "edit"));
@@ -99,7 +96,6 @@ public class IUser extends IBase {
 		if (userService.isAdmin(null)) ret.add(new ButtonInfo("remove", "Удалить", "trash"));
 		return ret;
 	}
-    // Статические функции
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
 		Class<?> cl = IUser.class;
