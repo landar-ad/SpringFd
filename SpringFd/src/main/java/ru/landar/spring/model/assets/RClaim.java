@@ -176,7 +176,11 @@ public class RClaim extends IBase {
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = super.listButton();
 		if (ret == null) ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("confirm", "Завершить подготовку заявки", null, "primary"));
+		ret.add(new ButtonInfo("send", "Отправить", null, "primary"));
+		ret.add(new ButtonInfo("correct", "На доработку", null, "primary"));
+		ret.add(new ButtonInfo("accept", "Принять", null, "primary"));
+		ret.add(new ButtonInfo("confirm", "Утвердить", null, "primary"));
+		ret.add(new ButtonInfo("refuse", "Отклонить", null, "primary"));
 		return ret;
 	}
 	@Override
@@ -213,9 +217,9 @@ public class RClaim extends IBase {
     	if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		else if ("confirm".equals(param)) {
+		else if ("send".equals(param)) {
 			if (userService.isAdmin(null)) return true;
-			// Условия заврешения подготовки заявки
+			// Условия завершения подготовки заявки
 			if ((statusCode() == 1 || statusCode() == 3) && 
 				getCo_org() != null &
 				!hs.isEmptyTrim(getZa_num()) &
@@ -227,12 +231,32 @@ public class RClaim extends IBase {
 			if (userService.isAdmin(null)) return true;
 			if (statusCode() == 1) return true;
 		}
+		else if ("accept".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			// Условия завершения проверки заявки
+			if (statusCode() == 2)  return true;
+		}
+		else if ("correct".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			// Условия перевода на корректировку
+			if (statusCode() == 2)  return true;
+		}
+		else if ("confirm".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			// Условия перевода на корректировку
+			if (statusCode() == 4)  return true;
+		}
+		else if ("refuse".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			// Условия перевода на корректировку
+			if (statusCode() == 4)  return true;
+		}
 		return false;
     }
 	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    public void confirm(HttpServletRequest request) throws Exception {
+    public void send(HttpServletRequest request) throws Exception {
     	AutowireHelper.autowire(this);
-    	if (!(Boolean)onCheckExecute("confirm")) return;
+    	if (!(Boolean)onCheckExecute("send")) return;
     	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "2"}));
 	}
 	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
@@ -248,6 +272,30 @@ public class RClaim extends IBase {
     	popr = (RClaim)objRepository.createObj(popr);
     	hs.setProperty(this, "za_opr", popr);
     	return "/detailsObj?rn=" + popr.getRn();
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void accept(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("accept")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "7"}));
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void correct(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("correct")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "3"}));
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void confirm(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("confirm")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "6"}));
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void refuse(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("refuse")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "5"}));
 	}
 	protected int statusCode() {
     	int ret = 1; 
