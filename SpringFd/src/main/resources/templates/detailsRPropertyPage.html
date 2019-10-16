@@ -26,96 +26,94 @@
 			                    	<th:block th:with="w='4%',tt='pbutton',nn1='co_org',nn2='',vv=${obj.co_org?.rn},rr=1,ro=${rco},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Инвентарный номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='inv_number'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='80%',tt='text',nn='inv_number',vv=${obj.inv_number},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="61%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Раздел учета',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='co_div',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='30%',tt='select',nn='co_div',vv=${obj.co_div},rr=1,ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="50%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Тип имущества',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='co_type',rr=1"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='30%',tt='select',nn='co_type',vv=${obj.co_type},_attr='code',rr=1,ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="50%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Наименование объекта'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='on_nam'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='80%',tt='mtext',nn='on_nam',vv=${obj.on_nam},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
 	                    	<div class="w-100 border border-primary">
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Балансовая стоимость'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='book_value'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='30%',tt='text',nn='book_value',vv=${obj.book_value},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="50%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Остаточная стоимость'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='residual_value'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='30%',tt='text',nn='residual_value',vv=${obj.residual_value},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="50%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Дата ввода в эксплуатацию'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='in_date'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='30%',tt='date',nn='in_date',vv=${obj.in_date},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="61%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='4%',tt='check',nn='ocdi',vv=${obj.ocdi},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='16%',tt='label',vv='Отнесен к ОЦДИ'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='16%',tt='label',nn='ocdi'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<td width="80%"/>
 		                    	</tr></tbody></table>
 	                    	</div>
-	                    	<div class="w-100 border border-primary">
-					        	<th:block th:replace="fragments/prop :: prop_list"/>
-				        	</div>
-				        	<div class="w-100 border border-primary pb-1">
-                    			<th:block th:replace="fragments/prop :: doc_list"/>
-                   			</div>
            				</th:block>
            				<th:block th:if="${bs==true}">
 		                    <div class="form-group-sm row mt-sm-1 parent-popup">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Подвед. учреждение',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='co_org',rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-5" th:with="tt='text',vv=${obj.co_org?.name},ro=1"><div th:replace="fragments/component :: c"></div></div>
-		                        <div class="col-sm-2" th:with="tt='label',vv='Код сводного реестра'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',nn='co_org__srcode'"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='text',vv=${obj.co_org?.srcode},ro=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-1" th:with="tt='pbutton',nn='co_org',vv=${obj.co_org?.rn},rr=1,ro=${rco},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA;srcode=Код сводного реестра',ddfi=''"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Инвентарный номер'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='inv_number'"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-4" th:with="tt='text',nn='inv_number',vv=${obj.inv_number},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Раздел учета',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='co_div',rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-4" th:with="tt='select',nn='co_div',vv=${obj.co_div},rr=1,ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Тип имущества',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='co_type',rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-4" th:with="tt='select',nn='co_type',vv=${obj.co_type},_attr='code',rr=1,ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-4" th:with="tt='label',vv='Наименование объекта имущества'"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-12" th:with="tt='mtext',nn='name',vv=${obj.name},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-4" th:with="tt='label',nn='on_nam'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-12" th:with="tt='mtext',nn='on_nam',vv=${obj.name},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Балансовая стоимость'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='book_value'"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-4" th:with="tt='text',nn='book_value',vv=${obj.book_value},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Остаточная стоимость'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='residual_value'"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-4" th:with="tt='text',nn='residual_value',vv=${obj.residual_value},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Дата ввода в эксплуатацию'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='in_date'"><div th:replace="fragments/component :: c"></div></div>
 		                    	<div class="col-sm-4" th:with="tt='date',nn='in_date',vv=${obj.in_date},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-6" th:with="tt='check',nn='ocdi',vv=${obj.ocdi},xx='Отнесен к ОЦДИ',ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-6" th:with="tt='check',nn='ocdi',vv=${obj.ocdi},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
-		                    <th:block th:replace="fragments/prop :: prop_list"/>
-                    		<th:block th:replace="fragments/prop :: doc_list"/>
 	                    </th:block>
+	                    <div class="w-100 border border-primary pb-1">
+			        		<th:block th:with="r_ii='list_prop',r_ll='RProperty',xx='Связанные объекты имущества'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+                  		</div>
+	                    <div class="w-100 border border-primary pb-1">
+			        		<th:block th:with="r_ii='list_doc',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+                  		</div>
                     </div>
 				</div>
 			</div>

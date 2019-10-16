@@ -128,17 +128,19 @@
 		                    	<div class="col-sm-4" th:with="tt='label',nn='za_zc'"><th:block th:replace="fragments/component :: c"></th:block></div>
 		                    	<div class="col-sm-12" th:with="tt='mtext',nn='za_zc',vv=${obj.za_zc},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
 	                    	</div>
-	                    	<div class="form-group-sm row mt-sm-1"><h6>Ответственное лицо'"></h6></div>
-			        		<div class="form-group-sm row mt-sm-1 parent-popup">
-		                    	<div class="col-sm-1" th:with="tt='label',vv='ФИО'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-2" th:with="tt='text',vv=${obj.za_ol?.fullname},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-1" th:with="tt='label',vv='Должность'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-4" th:with="tt='text',vv=${obj.za_ol?.position},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-1" th:with="tt='label',vv='Телефон'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-3" th:with="tt='text',vv=${obj.za_ol?.phone},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Электронная почта'"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-3" th:with="tt='text',vv=${obj.za_ol?.email},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
-		                    	<div class="col-sm-1" th:with="tt='pbutton',nn1='za_ol',nn2='',vv=${obj.za_ol?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;fullname=ФИО=YYA;position=Должность;phone=Телефон;email=Электронная почта',ddfi=''"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	<div class="w-100 border border-primary">
+		                    	<div class="form-group-sm row mt-sm-1"><h6>Ответственное лицо'"></h6></div>
+				        		<div class="form-group-sm row mt-sm-1 parent-popup">
+			                    	<div class="col-sm-1" th:with="tt='label',vv='ФИО'"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-2" th:with="tt='text',vv=${obj.za_ol?.fullname},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-1" th:with="tt='label',vv='Должность'"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-4" th:with="tt='text',vv=${obj.za_ol?.position},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-1" th:with="tt='label',vv='Телефон'"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-3" th:with="tt='text',vv=${obj.za_ol?.phone},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-2" th:with="tt='label',vv='Электронная почта'"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-3" th:with="tt='text',vv=${obj.za_ol?.email},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+			                    	<div class="col-sm-1" th:with="tt='pbutton',nn1='za_ol',nn2='',vv=${obj.za_ol?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;fullname=ФИО=YYA;position=Должность;phone=Телефон;email=Электронная почта',ddfi=''"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	</div>
 	                    	</div>
 	                    </th:block>
 	                    <div class="w-100 border border-primary">
