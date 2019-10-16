@@ -41,4 +41,6 @@ public @interface FieldTitle {
 	public boolean readOnly() default false;
 	// Атрибут для выбора значения в списке
 	public String editAttr() default "*";
+	// Атрибут для отбора
+	public String filterSelect() default "";
 }
