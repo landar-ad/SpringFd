@@ -875,6 +875,11 @@ Amel = {
 		target.buttons_init();
 		target.table_edit_focus();
 	},
+	get_value: function() {
+		var ret = "";
+		$("form").first().find("[name]").each(function() { ret += $(this).val(); });
+		return ret;
+	},
 	// Инициализация окна редактирования (просмотра) объекта
 	edit_init: function() {
 		var target = this;
@@ -886,17 +891,10 @@ Amel = {
 		target.popup_init();
 		target.table_edit_init();
 		target.require_init();
-		target.valueSource = "";
-		$("form").first().find("[name]").each(function(){
-			target.valueSource += $(this).val();
-		});
+		target.valueSource = target.get_value();
 		target.add_on($(".cancel-button"), "click", function() {
-			var valueSource = "";
-			$("form").first().find("[name]").each(function(){
-				valueSource += $(this).val();
-			});
 			var b = $(this);
-			if (valueSource != target.valueSource) {
+			if (target.get_value() != target.valueSource) {
 				target.question("Сообщение", "Данные на форме были отредактированы.<br>Сохранить?", "yes=Да;no=Нет;cancel=Отмена", "3", function(r) {
 					if (r == "cancel") return;
 					else if (r == "no") window.location = b.attr("href");
@@ -904,7 +902,6 @@ Amel = {
 				});
 				return false;
 			}
-			return;
 		});
 	},
 	// Инициализация кнопок
