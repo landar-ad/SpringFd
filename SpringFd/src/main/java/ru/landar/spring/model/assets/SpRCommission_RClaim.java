@@ -7,12 +7,13 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.SpCommon;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Связь между типами комиссий и заявок", multi="Связи между типами комиссий и заявок", voc=true)
-public class SpRCommission_RClaim {
+public class SpRCommission_RClaim extends IBase {
 	private SpCommon c_type;
 	private SpCommon za_type;
 	
