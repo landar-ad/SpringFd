@@ -233,7 +233,9 @@ public class PopupController {
 			listButton.add(new ButtonInfo(ob[0], ob.length > 1 ? ob[1] : null, ob.length > 2 ? ob[2] : null, ob.length > 3 ? ob[3] : null));
 		}
 		model.addAttribute("p_buttons", listButton);
-		model.addAttribute("p_sz", pSzParam.orElse("sm"));
+		String sz = pSzParam.orElse("");
+		if (sz.isEmpty()) sz = "12";
+		model.addAttribute("p_sz", sz);
 		model.addAttribute("hs", hs);
 		return "popupQuestion";
 	}
