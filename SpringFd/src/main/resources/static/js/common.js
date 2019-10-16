@@ -38,6 +38,34 @@ Amel = {
 		if (!modal) return;
 		this.modalStack.push(modal);
 	},
+	question: function(title, text, buttons, sz, callback) {
+		var target = this;
+		var data = {
+				p_title: title,
+				p_text: text,
+				p_buttons: buttons,
+				p_sz: sz 
+			};
+		$.ajax({ method: "POST", url: "popupQuestion", 
+			data: data,
+			success: function(result) {
+				var div = $('<div></div>');
+				div.html(result);
+				var modal = target.get_modal();
+				modal.html(div.find(".modal").html());
+				modal.modal();
+				target.add_on(modal.find("button"), "click", function() {
+					if (callback) callback($(this).attr("data-param"));
+				});
+				target.add_on(modal, "hidden.bs.modal", function (e) {
+					  target.put_modal(modal);
+				});
+			},
+			error: function(xhr) {
+				if (xhr.status == 401) window.location = "login";
+			}
+		});
+	},
 	// Добавление обработчика: после выбора файла показать его имя 
 	file_on: function() {
 		this.add_on($('.custom-file-input'), "change", function() { 
@@ -567,7 +595,7 @@ Amel = {
 				var clazz = tr.find("input[name='" + targetId + "__clazz']").val();
 				if (!rn && !clazz) return;
 				var div = null;
-				$.ajax({ method: "GET", url: "popupEdit?p_sz=" + (p_sz ? p_sz : "lg"), 
+				$.ajax({ method: "GET", url: "popupEdit?p_sz=" + (p_sz ? p_sz : "12"), 
 					success: function(result) {
 						div = $('<div></div>');
 						div.html(result);
@@ -858,9 +886,25 @@ Amel = {
 		target.popup_init();
 		target.table_edit_init();
 		target.require_init();
-		var a = $("[name]");
-		target.add_on(a, "change", function() {
-			target.changed = true;
+		target.valueSource = "";
+		$("form").first().find("[name]").each(function(){
+			target.valueSource += $(this).val();
+		});
+		target.add_on($(".cancel-button"), "click", function() {
+			var valueSource = "";
+			$("form").first().find("[name]").each(function(){
+				valueSource += $(this).val();
+			});
+			var b = $(this);
+			if (valueSource != target.valueSource) {
+				target.question("Сообщение", "Данные на форме были отредактированы.<br>Сохранить?", "yes=Да;no=Нет;cancel=Отмена", "3", function(r) {
+					if (r == "cancel") return;
+					else if (r == "no") window.location = b.attr("href");
+					else b.closest("form").submit();
+				});
+				return false;
+			}
+			return;
 		});
 	},
 	// Инициализация кнопок
