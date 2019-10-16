@@ -328,6 +328,7 @@ Amel = {
 		target.add_on(a, 'mousedown', function() {
 			target.cli = true;
 		});
+		$(c).removeClass("edited");
 		target.add_on(q.first(), "keydown blur", function(e) {
 			var k = e.keyCode ? e.keyCode : 13;
 			if (k != 9 && k != 13 && k != 27) return;
@@ -372,6 +373,7 @@ Amel = {
 			b.show();
 			a.hide();
 		}
+		$(c).addClass("edited");
 		if (k != 27) {
 			var v = q.val();
 			if (t == "date" && v && v.length >= 10) {
@@ -856,8 +858,9 @@ Amel = {
 		target.popup_init();
 		target.table_edit_init();
 		target.require_init();
-		target.add_on($("[name*='']"), "change", function() {
-			targed.changed = true;
+		var a = $("[name]");
+		target.add_on(a, "change", function() {
+			target.changed = true;
 		});
 	},
 	// Инициализация кнопок

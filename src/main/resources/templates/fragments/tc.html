@@ -98,7 +98,7 @@
 					<div class="parent-popup">
 						<label style="float:left;" th:text="${hs.getPropertyString(vv,'name')}" th:class="${'td-label form-control-xs' + (ro==1?' readonly':'')}"></label>
 						<th:block th:if="${ro!=1}">
-							<button style="float:right;" type="button" class="choose_obj btn btn-sm" th:data-clazz="${ll}" th:title="${hs.ai(ll,null,'multi')}" th:data-title="${hs.ai(ll,null,'multi')}" data-column="rn;name=Наименование=YYA" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file btn-link"></i></button>
+							<button style="float:right;" type="button" class="choose_obj btn btn-sm pbutton" th:data-clazz="${ll}" th:title="${hs.ai(ll,null,'multi')}" th:data-title="${hs.ai(ll,null,'multi')}" data-column="rn;name=Наименование=YYA" th:data-filter="${ddfi}" th:data-multiple="${ddmu}"><i class="fa fa-sm fa-file btn-link"></i></button>
 							<input th:name="${nn}" type="hidden" th:value="${hs.getProperty(vv,'rn')}">
 						</th:block>
 					</div>
