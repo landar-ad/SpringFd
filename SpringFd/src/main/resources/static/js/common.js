@@ -856,6 +856,9 @@ Amel = {
 		target.popup_init();
 		target.table_edit_init();
 		target.require_init();
+		target.add_on($("[name*='']"), "change", function() {
+			targed.changed = true;
+		});
 	},
 	// Инициализация кнопок
 	buttons_init: function() {
