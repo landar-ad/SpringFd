@@ -68,12 +68,12 @@ public class RCommission extends IBase {
 	public void setC_type(SpCommon c_type) { this.c_type = c_type; }
 	
 	@FieldTitle(name="Состав комиссии")
-    @OneToMany(targetEntity=RMember.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RMember> getC_sostav() { return c_sostav != null ? c_sostav : new ArrayList<RMember>(); }
     public void setC_sostav(List<RMember> c_sostav) { this.c_sostav = c_sostav; }
     
     @FieldTitle(name="Заседания комиссии")
-    @OneToMany(targetEntity=RMeeting.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RMeeting.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RMeeting> getC_meeting() { return c_meeting != null ? c_meeting : new ArrayList<RMeeting>(); }
     public void setC_meeting(List<RMeeting> c_meeting) { this.c_meeting = c_meeting; }
     

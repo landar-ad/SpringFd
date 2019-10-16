@@ -86,13 +86,72 @@
 			                    	<th:block th:with="w='15%',tt='select',nn='sd_ro',vv=${obj.sd_ro},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 				        	</div>
-				        	<div class="w-100 border border-primary pb-1">
-				        		<th:block th:with="r_ii='sd_docs',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
-							</div>
            				</th:block>
            				<th:block th:if="${bs==true}">
-		                    
+           					<div class="form-group-sm row mt-sm-1 parent-popup">
+		                    	<div class="col-sm-1" th:with="tt='label',nn='co_org',rr=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-10" th:with="tt='text',vv=${obj.co_org?.name},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-1" th:with="tt='pbutton',nn1='co_org',nn2='',vv=${obj.co_org?.rn},rr=1,ro=${rco},ddcl='IOrganization',ddti='Выберите учреждение',ddco='rn;name=Наименование=YYA',ddfi=''"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_st'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='sd_st',vv=${obj.sd_st},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_ist'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='sd_ist',vv=${obj.sd_ist},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_otv'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='sd_otv',vv=${obj.sd_otv},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_tl'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='sd_tl',vv=${obj.sd_tl},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_tsr'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='sd_tsr',vv=${obj.sd_tsr},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_ns'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-6" th:with="tt='text',nn='sd_ns',vv=${obj.sd_ns},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_nd'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-3" th:with="tt='text',nn='sd_nd',vv=${obj.sd_nd},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_drs'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='date',nn='sd_drs',vv=${obj.sd_drs},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_psr'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-12" th:with="tt='mtext',nn='sd_psr',vv=${obj.sd_psr},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_ci'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='sd_ci',vv=${obj.sd_ci},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-8" th:with="tt='check',nn='sd_lu',vv=${obj.sd_lu},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_po'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-12" th:with="tt='mtext',nn='sd_po',vv=${obj.sd_po},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+                    		<div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',nn='sd_sd'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='sd_sd',vv=${obj.sd_sd},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_hrd'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='sd_hrd',vv=${obj.sd_hrd},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+								<div class="col-sm-2" th:with="tt='label',nn='sd_dsz'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-3" th:with="tt='time',nn='sd_dsz',vv=${obj.sd_dsz},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_rr'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='sd_rr',vv=${obj.sd_rr},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_dvzs'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='date',nn='sd_dvzs',vv=${obj.sd_dvzs},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='sd_ro'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='sd_ro',vv=${obj.sd_ro},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
 	                    </th:block>
+	                    <div class="w-100 border border-primary pb-1">
+			        		<th:block th:with="r_ii='sd_docs',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+						</div>
                     </div>
 				</div>
 			</div>

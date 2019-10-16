@@ -23,13 +23,13 @@
 			                    	<th:block th:with="w='76%',tt='select',nn='cs_rol',vv=${obj.cs_rol},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
-			                    	<th:block th:with="w='7%',tt='label',vv='ФИО'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='7%',tt='label',nn='cs_sot__fullname'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='13%',tt='text',vv=${obj.cs_sot?.fullname},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='7%',tt='label',vv='Должность'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='7%',tt='label',nn='cs_sot__position'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='18%',tt='text',vv=${obj.cs_sot?.position},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='7%',tt='label',vv='Телефон'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='7%',tt='label',nn='cs_sot__phone'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='13%',tt='text',vv=${obj.cs_sot?.phone},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='13%',tt='label',vv='Электронная почта'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='13%',tt='label',nn='cs_sot__email'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='18%',tt='text',vv=${obj.cs_sot?.email},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='4%',tt='pbutton',nn1='c_sot',nn2='',vv=${obj.cs_sot?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=ФИО=YYA;position=Должность;phone=Телефон;email=Электронная почта',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
@@ -40,18 +40,43 @@
 			                    	<th:block th:with="w='20%',tt='date',nn='cs_dv',vv=${obj.cs_dv},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
-			                    	<th:block th:with="w='20%',tt='label',vv='Структурное подразделение'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='cs_dep'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='76%',tt='text',vv=${obj.cs_dep?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<th:block th:with="w='4%',tt='pbutton',nn1='cs_dep',nn2='',vv=${obj.cs_dep?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Номер=YYA;name=Наименование=YNN',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
-				        	<div class="w-100 border border-primary pb-1">
-				        		<th:block th:with="r_ii='cs_docs',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
-                   			</div>
            				</th:block>
            				<th:block th:if="${bs==true}">
-		                    
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='cs_rol'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-6" th:with="tt='select',nn='cs_rol',vv=${obj.cs_rol},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1 parent-popup">
+		                    	<div class="col-sm-1" th:with="tt='label',nn='cs_sot__fullname'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',vv=${obj.cs_sot?.fullname},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-1" th:with="tt='label',nn='cs_sot__position'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',vv=${obj.cs_sot?.position},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-1" th:with="tt='label',nn='cs_sot__phone'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',vv=${obj.cs_sot?.phone},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='cs_sot__email'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',vv=${obj.cs_sot?.email},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-1" th:with="tt='pbutton',nn1='c_sot',nn2='',vv=${obj.cs_sot?.rn},ro=${rco},ddcl='IPerson',ddti='Выберите сотрудника',ddco='rn;name=ФИО=YYA;position=Должность;phone=Телефон;email=Электронная почта',ddfi=''"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='cs_dn'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='date',nn='cs_dn',vv=${obj.cs_dn},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='cs_dv'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='date',nn='cs_dv',vv=${obj.cs_dv},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1 parent-popup">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='cs_dep'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-9" th:with="tt='text',vv=${obj.cs_dep?.name},ro=1"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-1" th:with="tt='pbutton',nn1='cs_dep',nn2='',vv=${obj.cs_dep?.rn},ro=${rco},ddcl='IDepartment',ddti='Выберите подразделение',ddco='rn;code=Номер=YYA;name=Наименование=YNN',ddfi=''"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
 	                    </th:block>
+	                    <div class="w-100 border border-primary pb-1">
+			        		<th:block th:with="r_ii='cs_docs',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+                  		</div>
                     </div>
 				</div>
 			</div>

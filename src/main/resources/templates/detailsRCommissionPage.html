@@ -38,6 +38,7 @@
 			                    	<td width="32%"/>
 		                    	</tr></tbody></table>
 	                    	</div>
+	                    	<!-- 
 				        	<div class="w-100 border border-primary">
 	 							<table class="table table-sm table-edited table-bordered"><tbody><tr>
 						        	<th:block th:with="w='16%',tt='label',vv='Состав комиссии'"><th th:replace="fragments/tc :: ch"></th></th:block>
@@ -120,13 +121,37 @@
 						        	</tbody>
 					        	</table>                       	
 	                       	</div>
-				        	<div class="w-100 border border-primary pb-1">
-				        		<th:block th:with="r_ii='c_docs',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
-                   			</div>
+	                       	-->
            				</th:block>
            				<th:block th:if="${bs==true}">
-		                    
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='c_name'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-10" th:with="tt='text',nn='c_name',vv=${obj.c_name},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+		                    <div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='c_num'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='c_num',vv=${obj.c_num},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='c_date'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='date',nn='c_date',vv=${obj.c_date},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='c_type'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='select',nn='c_type',vv=${obj.c_type},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
+	                    	<div class="form-group-sm row mt-sm-1">
+		                    	<div class="col-sm-2" th:with="tt='label',nn='c_pr_num'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='text',nn='c_pr_num',vv=${obj.c_pr_num},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='c_pr_date'"><th:block th:replace="fragments/component :: c"></th:block></div>
+		                    	<div class="col-sm-2" th:with="tt='date',nn='c_pr_date',vv=${obj.c_pr_date},ro=${rco}"><th:block th:replace="fragments/component :: c"></th:block></div>
+	                    	</div>
 	                    </th:block>
+	                    <div class="w-100 border border-primary">
+			        		<th:block th:with="r_ii='c_sostav',r_ll='RMember',xx='Состав комиссии'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
+                  		</div>
+                  		<div class="w-100 border border-primary">
+			        		<th:block th:with="r_ii='c_meeting',r_ll='RMeeting',xx='Заседания комиссии'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
+                  		</div>
+	                    <div class="w-100 border border-primary pb-1">
+			        		<th:block th:with="r_ii='c_docs',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+                  		</div>
                     </div>
 				</div>
 			</div>
