@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div class="modal" tabindex="-1" role="dialog" style="height: 90%">
+	<div th:class="${'modal-dialog modal-' + p_sz}" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" th:utext="${p_title}"></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body small">
+				<div class="col-sm-12" th:utext="${p_text}"></div>
+			</div>
+			<div class="modal-footer">
+				<button th:each="b : ${p_buttons}" type="button" th:class="$'btn btn-sm btn-'+(b.color?b.color:'light'}" data-dismiss="modal" th:utext="${b.title}" th:data-param="${b.name}"></button>
+			</div>
+		</div>
+	</div>
+</div>
