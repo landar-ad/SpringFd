@@ -139,7 +139,8 @@ Amel = {
 					}
 					else window.location = "detailsObj?clazz=" + clazz;
 				},
-				error: function() {
+				error: function(xhr) {
+					if (xhr.status == 401) window.location = "login";
 				}
 			});
 			return;
@@ -181,7 +182,8 @@ Amel = {
 			success: function(result) {
 				fun(result);
 			},
-			error: function() {
+			error: function(xhr) {
+				if (xhr.status == 401) window.location = "login";
 				fun("0");
 			}
 		});
@@ -636,7 +638,8 @@ Amel = {
 												if (dest) dest.find(".td-edited .td-check").prop("checked", true);
 												target.edit_init();
 											},
-											error: function(result) {
+											error: function(xhr) {
+												if (xhr.status == 401) window.location = "login";
 											}
 										});
 									}
@@ -652,11 +655,13 @@ Amel = {
 								});
 								target.table_edit(modal.find(".td-edited").first());
 							},
-							error: function() {
-							} 
+							error: function(xhr) {
+								if (xhr.status == 401) window.location = "login";
+							}
 						});
 					},
-					error: function() {
+					error: function(xhr) {
+						if (xhr.status == 401) window.location = "login";
 					} 
 				});
 				return false;
@@ -773,7 +778,8 @@ Amel = {
 					  target.put_modal(modal);
 				});
 			},
-			error: function() {
+			error: function(xhr) {
+				if (xhr.status == 401) window.location = "login";
 			}
 		});
 	},
@@ -1041,7 +1047,8 @@ Amel = {
 						target.put_modal(modal);
 					});
 				},
-				error: function() {
+				error: function(xhr) {
+					if (xhr.status == 401) window.location = "login";
 				}
 			});
 		});
@@ -1227,7 +1234,8 @@ Amel = {
 						target.put_modal(modal);
 					});
 				},
-				error: function() {
+				error: function(xhr) {
+					if (xhr.status == 401) window.location = "login";
 				}
 			});
 		});
