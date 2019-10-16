@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Voc;
 import ru.landar.spring.model.assets.SpObjectLocation;
@@ -215,5 +216,25 @@ public class PopupController {
 		model.addAttribute("p_title", pTitleParam.orElse("Редактирование"));
 		model.addAttribute("hs", hs);
 		return "popupAddress";
+	}
+	@RequestMapping(value = "/popupQuestion")
+	public String popupQuestion(@RequestParam("p_title") Optional<String> pTitleParam,
+							@RequestParam("p_text") Optional<String> pTextParam,
+							@RequestParam("p_buttons") Optional<String> pButtonsParam,
+							@RequestParam("p_sz") Optional<String> pSzParam,
+							HttpServletRequest request, 
+							Model model) throws Exception {
+		model.addAttribute("p_title", pTitleParam.orElse("Вопрос"));
+		model.addAttribute("p_text", pTextParam.orElse(""));
+		String buttons = pButtonsParam.orElse("yes=Да;no=Нет");
+		List<ButtonInfo> listButton = new ArrayList<ButtonInfo>();
+		for (String button : buttons.split(";")) {
+			String[] ob = button.split("=");
+			listButton.add(new ButtonInfo(ob[0], ob.length > 1 ? ob[1] : null, ob.length > 2 ? ob[2] : null, ob.length > 3 ? ob[3] : null));
+		}
+		model.addAttribute("p_buttons", listButton);
+		model.addAttribute("p_sz", pSzParam.orElse("sm"));
+		model.addAttribute("hs", hs);
+		return "popupQuestion";
 	}
 }
