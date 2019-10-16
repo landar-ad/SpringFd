@@ -59,7 +59,7 @@ public class RMeeting extends IBase {
 	public SpCommon getCm_stat_z() { return cm_stat_z; }
 	public void setCm_stat_z(SpCommon cm_stat_z) { this.cm_stat_z = cm_stat_z; }
 	
-	@FieldTitle(name="Заявки к рассмотрению")
+	@FieldTitle(name="Заявки к рассмотрению", filterSelect="za_stat__code ='7'")
     @OneToMany(targetEntity=RClaim.class, fetch=FetchType.LAZY)
     public List<RClaim> getList_rcl() { return list_rcl != null ? list_rcl : new ArrayList<RClaim>(); }
     public void setList_rcl(List<RClaim> list_rcl) { this.list_rcl = list_rcl; }

@@ -705,11 +705,12 @@ public class HelperServiceImpl implements HelperService {
     		else if ("filterAttr".equals(info)) ret = a.filterAttr();
     		else if ("nameField".equals(info) || "nf".equals(info)) { String v = a.nameField(); if (v == null || v.isEmpty() || "*".equals(v)) v = a.name(); ret = v; }
     		else if ("editType".equals(info)) ret = a.editType();
-    		else if ("editList".equals(info)) { String v = a.editList(); if ("*".equals(v)) v = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName()); ret = v; }
+    		else if ("editList".equals(info) || "el".equals(info)) { String v = a.editList(); if ("*".equals(v)) v = "list" + (a.sp().length() > 0 ? a.sp().substring(0, 1).toUpperCase() + a.sp().substring(1) : clAttr.getSimpleName()); ret = v; }
     		else if ("required".equals(info)) ret = a.required();
     		else if ("editLength".equals(info)) ret = a.editLength();
     		else if ("readOnly".equals(info)) ret = a.readOnly();
     		else if ("editAttr".equals(info)) ret = a.editAttr();
+    		else if ("filterSelect".equals(info) || "fs".equals(info)) ret = a.filterSelect();
     		else ret = a.name();
 		}
 		else {
