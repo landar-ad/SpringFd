@@ -70,7 +70,7 @@ public class RMeeting extends IBase {
     public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
     
     @FieldTitle(name="Члены комиссии, участвующие в заседании")
-    @OneToMany(targetEntity=RMeeting_RMember.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RMeeting_RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RMeeting_RMember> getList_cs() { return list_cs != null ? list_cs : new ArrayList<RMeeting_RMember>(); }
     public void setList_cs(List<RMeeting_RMember> list_cs) { this.list_cs = list_cs; }
     
@@ -89,9 +89,19 @@ public class RMeeting extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	
-    	return null;
+    	hs.setProperty(this, "cm_stat_z", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_cm", "1"}));
+    	return true;
 	}
+	@Override
+    public Object onUpdate() throws Exception { 
+    	Object ret = super.onUpdate();
+    	if (ret != null) return ret;
+    	for (RClaim cl : getList_rcl()) {
+			if (cl.getZa_stat() == null || !"7".equals(cl.getZa_stat().getCode())) continue;
+			hs.setProperty(cl, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "4"}));
+    	}
+		return true;
+    }
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
 		Object ret = super.onAddAttributes(model, list);
