@@ -954,8 +954,9 @@ Amel = {
 				modal.modal();
 				var h = modal.outerHeight(true), a = modal.find("table tbody");
 				a.outerHeight(h / 2);
-				target.set_max_width(modal.find("table"));
-				target.add_on(modal.find("table"), "scroll", function() { $(this).find("tbody").width($(this).width() + $(this).scrollLeft()); });
+				var table = modal.find("table");
+				target.set_max_width(table);
+				target.add_on(table, "scroll", function() { $(this).find("tbody").width($(this).width() + $(this).scrollLeft()); });
 				table.find("tbody td:last-child").first().each(function() {
 					var w = $(this).outerWidth(true) + target.scroll_bar_size().width;
 					$(this).css("max-width", w);
