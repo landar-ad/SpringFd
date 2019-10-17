@@ -118,12 +118,12 @@ public class Act extends IBase {
     public void setChange_time(Date change_time) { this.change_time = change_time; }
     
     @FieldTitle(name="Документы, включенные в акт")
-    @OneToMany(targetEntity=Act_document.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=Act_document.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Act_document> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Act_document>(); }
     public void setList_doc(List<Act_document> list_doc) { this.list_doc = list_doc; }
     
     @FieldTitle(name="Прикрепленные файлы")
-    @ManyToMany(targetEntity=IFile.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=IFile.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<IFile> getList_file() { return list_file != null ? list_file : new ArrayList<IFile>(); }
     public void setList_file(List<IFile> list_file) { this.list_file = list_file; }
 	
