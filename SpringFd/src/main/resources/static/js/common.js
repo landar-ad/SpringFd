@@ -140,7 +140,7 @@ Amel = {
 						modal.modal();
 						modal.find(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
 						modal.find(".modal-body").css("overflow-y", "auto");
-						target.set_header_width(modal.find("table"), true);
+						target.set_header_width(modal.find("table"));
 						modal.find(".save-button").prop("disabled", true);
 						target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {
 							var p = $(this).prop("checked");
@@ -773,14 +773,14 @@ Amel = {
 		});
 	},
 	// Вызов всплывающего окна для выбора объекта
-	popup_select: function(a, s) {
+	popup_select: function(el, s) {
 		var target = this;
-		var filter = a.attr("data-filter");
+		var filter = el.attr("data-filter");
 		var data = {
-				clazz: a.attr("data-clazz"),
+				clazz: el.attr("data-clazz"),
 				p_sz: 12,
-				p_title: a.attr("data-title"),
-				p_column: a.attr("data-column"),
+				p_title: el.attr("data-title"),
+				p_column: el.attr("data-column"),
 				p_filter: filter
 			};
 		$.ajax({ method: "POST", url: "popupSelect", 
@@ -791,17 +791,17 @@ Amel = {
 				var modal = target.get_modal();
 				modal.html(div.find(".modal").html());
 				modal.modal();
-				modal.find(".modal-body").outerHeight($(document.body).outerHeight(true) * 2 / 3);
-				modal.find(".modal-body").css("overflow-y", "auto");
-				modal.find("table").css("overflow-x", "hidden");
-				target.set_header_width(modal.find("table"), true);
+				var h = modal.outerHeight(true), a = modal.find("table tbody");
+				a.outerHeight(h / 2);
+				target.set_header_width(modal.find("table"));
+				target.add_on(modal.find("table"), "scroll", function() { $(this).find("tbody").width($(this).width() + $(this).scrollLeft()); });
 				target.add_on(modal.find(".save-button"), "click", function() {
 					modal.find("table tbody tr").each(function() {
 						var rn = $(this).find(".d-none").first().text();
 						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
 						var t = $(this).find(".text-select").text();
 						if (c) {
-							a.val(rn);
+							el.val(rn);
 							s.text(t);
 							var b = a.closest("tr"); 
 							var cmd = $(b).find(".cmd > input").val();
@@ -920,11 +920,10 @@ Amel = {
 				var modal = target.get_modal();
 				modal.html(div.find('.modal').html());
 				modal.modal();
-				var h = modal.outerHeight(true);
-				var a = modal.find("table tbody");
+				var h = modal.outerHeight(true), a = modal.find("table tbody");
 				a.outerHeight(h / 2);
-				modal.find("table").css("overflow-x", "hidden");
-				target.set_header_width(modal.find("table"), true);
+				target.set_header_width(modal.find("table"));
+				target.add_on(modal.find("table"), "scroll", function() { $(this).find("tbody").width($(this).width() + $(this).scrollLeft()); });
 				target.scrollTo(modal);
 				target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {
 					var p = $(this).prop("checked");
@@ -1299,6 +1298,7 @@ Amel = {
 		var target = this;
 		target.add_on($(".choose_obj"), "click", function(event) {
 			target.choose_object($(this));
+			return false;
 		});
 	},
 	// Инициализация контроля обязательных полей
