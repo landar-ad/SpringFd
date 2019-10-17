@@ -272,6 +272,38 @@ Amel = {
 			a.css("min-width", w);
 		});
 	},
+	set_max_width: function(table) {
+		var target = this;
+		table.find("td .max-width").addClass('one-line');
+		//if (table.find("tbody tr").length > 0) table.find("th").addClass('one-line');
+		// Установка максимального размера колонки
+		var wt = 0, sc = table.outerWidth() - 3 * target.scroll_bar_size().width, max = sc / 4;
+		// Установка размера колонок - предварительно последнюю увеличиваем для скроллинга
+		target.set_header_width(table);
+		table.find("thead tr").each(function() {
+			wt = 0;
+			$(this).find("th").each(function() { wt += $(this).outerWidth(true); });
+			if (wt > 0) {
+				$(this).find("th").each(function() {
+					var m = $(this).outerWidth(true) * sc / wt;
+					if (m > max) max = m;
+					$(this).css("min-width", m);
+					$(this).css("max-width", m);
+				});
+			}
+		});
+		table.find("tbody tr").each(function() {
+			wt = 0;
+			$(this).find("td").each(function() { wt += $(this).outerWidth(true); });
+			if (wt > 0) {
+				$(this).find("td").each(function() {
+					var m = $(this).outerWidth(true) * sc / wt;
+					if (m > max) max = m;
+				});
+			}
+		});
+		table.find(".max-width").css("max-width", "" + max + "px");
+	},
 	// Начало редактирования
 	start_edit: function(c) {
 		var target = this;
@@ -922,8 +954,14 @@ Amel = {
 				modal.modal();
 				var h = modal.outerHeight(true), a = modal.find("table tbody");
 				a.outerHeight(h / 2);
-				target.set_header_width(modal.find("table"));
+				target.set_max_width(modal.find("table"));
 				target.add_on(modal.find("table"), "scroll", function() { $(this).find("tbody").width($(this).width() + $(this).scrollLeft()); });
+				table.find("tbody td:last-child").first().each(function() {
+					var w = $(this).outerWidth(true) + target.scroll_bar_size().width;
+					$(this).css("max-width", w);
+					$(this).css("min-width", w);
+				});
+				target.set_header_width(table);
 				target.scrollTo(modal);
 				target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {
 					var p = $(this).prop("checked");
@@ -1112,35 +1150,7 @@ Amel = {
 		target.add_on($("#" + target.tableId + " tbody tr"), "click", function() { target.click_row(this); });
 		target.add_on($("#" + target.tableId + " tbody tr"), "dblclick", function() { target.click_row(this, true); target.exec_obj("edit"); });
 		// Установка однострочного содержимого данных
-		$("#" + target.tableId + " td .max-width").addClass('one-line');
-		//if ($("#" + target.tableId + " tbody tr").length > 0) $("#" + target.tableId + " th").addClass('one-line');
-		// Установка максимального размера колонки
-		var wt = 0, sc = $("#" + target.tableId).outerWidth() - 3 * target.scroll_bar_size().width, max = sc / 4;
-		// Установка размера колонок - предварительно последнюю увеличиваем для скроллинга
-		target.set_header_width($("#" + target.tableId));
-		$("#" + target.tableId + " thead tr").each(function() {
-			wt = 0;
-			$(this).find("th").each(function() { wt += $(this).outerWidth(true); });
-			if (wt > 0) {
-				$(this).find("th").each(function() {
-					var m = $(this).outerWidth(true) * sc / wt;
-					if (m > max) max = m;
-					$(this).css("min-width", m);
-					$(this).css("max-width", m);
-				});
-			}
-		});
-		$("#" + target.tableId + " tbody tr").each(function() {
-			wt = 0;
-			$(this).find("td").each(function() { wt += $(this).outerWidth(true); });
-			if (wt > 0) {
-				$(this).find("td").each(function() {
-					var m = $(this).outerWidth(true) * sc / wt;
-					if (m > max) max = m;
-				});
-			}
-		});
-		$("#" + target.tableId + " .max-width").css("max-width", "" + max + "px");
+		target.set_max_width($("#" + target.tableId));
 		// Изменение размера области данных после скроллинга
 		target.add_on($("#" + target.tableId), "scroll", function() {
 			$(this).find("tbody").width($(this).width() + $(this).scrollLeft());
