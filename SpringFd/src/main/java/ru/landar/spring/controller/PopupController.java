@@ -29,9 +29,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ru.landar.spring.classes.ButtonInfo;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.Voc;
@@ -55,17 +52,23 @@ public class PopupController {
 							HttpServletRequest request, 
 							Model model) throws Exception {
 		model.addAttribute("p_title", pTitleParam.orElse("Редактирование"));
-		model.addAttribute("p_sz", pSzParam.orElse("lg"));
+		String sz = pSzParam.orElse("");
+		if (sz.isEmpty()) sz = "12";
+		model.addAttribute("p_sz", sz);
 		return "popupEdit";
 	}
 	@RequestMapping(value = "/popupVisible")
 	public String popupVisible(@RequestParam("clazz") String clazz,
+							@RequestParam("p_sz") Optional<String> pSzParam,
 							HttpServletRequest request, 
 							Model model) throws Exception {
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
 		Object obj = cl.newInstance();
 		model.addAttribute("listColumnAll", (List<ColumnInfo>)hs.invoke(obj, "onListColumn"));
+		String sz = pSzParam.orElse("");
+		if (sz.isEmpty()) sz = "12";
+		model.addAttribute("p_sz", sz);
 		return "popupVisible";
 	}
 	@RequestMapping(value = "/popupSelect")
@@ -74,6 +77,7 @@ public class PopupController {
 							@RequestParam("p_title") Optional<String> pTitleParam,
 							@RequestParam("p_column") Optional<String> pColumnParam,
 							@RequestParam("p_filter") Optional<String> pFilterParam,
+							@RequestParam("p_sz") Optional<String> pSzParam,
 							HttpServletRequest request,
 							Model model) throws Exception {
 		Class<?> cl = hs.getClassByName(clazz);
@@ -167,11 +171,15 @@ public class PopupController {
 		model.addAttribute("rn", rn);
 		model.addAttribute("listObj", listObj);
 		model.addAttribute("p_title", pTitleParam.orElse("Выбор"));
+		String sz = pSzParam.orElse("");
+		if (sz.isEmpty()) sz = "12";
+		model.addAttribute("p_sz", sz);
 		model.addAttribute("hs", hs);
 		return "popupSelect";
 	}
 	@RequestMapping(value = "/popupClasses")
 	public String popupClasses(@RequestParam("clazz") String clazz,
+							@RequestParam("p_sz") Optional<String> pSzParam,
 							HttpServletRequest request,
 							Model model) throws Exception {
 		Class<?> cl = hs.getClassByName(clazz);
@@ -185,6 +193,9 @@ public class PopupController {
 		}
 		model.addAttribute("listClasses", listVoc);
 		model.addAttribute("p_title", "Выберите объект, который Вы хотите добавить");
+		String sz = pSzParam.orElse("");
+		if (sz.isEmpty()) sz = "12";
+		model.addAttribute("p_sz", sz);
 		model.addAttribute("hs", hs);
 		return "popupClasses";
 	}

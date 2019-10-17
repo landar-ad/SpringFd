@@ -40,10 +40,14 @@ body {
   		max-width: 1540px;
   	}
   	.modal-dialog {
-    	max-width: 1024px;
+    	max-width: 1540px;
     	margin: 1.75rem auto;
 	}
 }
+.modal-xxl {
+    max-width: 4096px;
+}
+
 .form-control:disabled, .form-control[readonly] {
   background-color: #f9fcff;
   opacity: 1;

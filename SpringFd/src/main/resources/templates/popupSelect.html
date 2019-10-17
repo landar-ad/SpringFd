@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div class="modal" tabindex="-1" role="dialog" style="height: 90%">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" th:utext="${p_title}"></h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body small">
-				<div class="form-group-sm row">
-					<label class="col-sm-2 col-form-label">Фильтр: </label>
-					<input type="text" class="col-sm-4 filter-popup form-control form-control-sm">
-					<label class="col-sm-12 col-form-label"></label>
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="d-flex justify-content-center">
+    	<div th:class="${'col-md-' + p_sz}">
+			<div th:class="${'modal-dialog modal-xxl modal-dialog-centered'}" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" th:utext="${p_title}"></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body small">
+						<div class="form-group-sm row">
+							<label class="col-sm-2 col-form-label">Фильтр: </label>
+							<input type="text" class="col-sm-4 filter-popup form-control form-control-sm">
+							<label class="col-sm-12 col-form-label"></label>
+						</div>
+						<div class="fixed_header">
+							<table class="table-fixed table table-sm table-striped table-light table-bordered">
+								<thead>
+									<tr>
+										<th class="d-none"></th>
+										<th>#</th>
+										<th></th>
+										<th th:each="col : ${listColumn}"><div><span th:text="${col.title}"></span></div></th>
+										<th>Ссылка</th>
+									</tr>
+								</thead>
+								<tbody>
+							        <tr th:each="obj,iter : ${listObj}">
+							            <td class="d-none" th:text="${hs.getPropertyString(obj,columnId)}"/>
+							            <td th:text="${iter.index + 1}"/>
+							            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && #strings.equals(hs.getPropertyString(obj,columnId),rn)}"></input></td>
+							            <td th:each="col : ${listColumn}" th:text="${hs.getPropertyString(obj,col.name)}" th:class="${!#strings.equals('N',col.filter)  ? 'text-select' : ''}" th:data-target=${col.filter}></td>
+							            <td class="td-center"><a target="_blank" th:href="@{/detailsObj?clazz=} + ${obj.clazz} + '&readonly=1&rn=' + ${obj.rn}" class="td-button btn btn-light btn-sm btn-link" title="Просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
+							        </tr>
+						        </tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="save-button btn btn-sm btn-light" data-dismiss="modal">Выбрать</button>
+						<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
+					</div>
 				</div>
-				<div class="fixed_header">
-					<table class="table-fixed table table-sm table-striped table-light table-bordered">
-						<thead>
-							<tr>
-								<th class="d-none"></th>
-								<th>#</th>
-								<th></th>
-								<th th:each="col : ${listColumn}"><div><span th:text="${col.title}"></span></div></th>
-								<th>Ссылка</th>
-							</tr>
-						</thead>
-						<tbody>
-					        <tr th:each="obj,iter : ${listObj}">
-					            <td class="d-none" th:text="${hs.getPropertyString(obj,columnId)}"/>
-					            <td th:text="${iter.index + 1}"/>
-					            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && #strings.equals(hs.getPropertyString(obj,columnId),rn)}"></input></td>
-					            <td th:each="col : ${listColumn}" th:text="${hs.getPropertyString(obj,col.name)}" th:class="${!#strings.equals('N',col.filter)  ? 'text-select' : ''}" th:data-target=${col.filter}></td>
-					            <td class="td-center"><a target="_blank" th:href="@{/detailsObj?clazz=} + ${obj.clazz} + '&readonly=1&rn=' + ${obj.rn}" class="td-button btn btn-light btn-sm btn-link" title="Просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
-					        </tr>
-				        </tbody>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="save-button btn btn-sm btn-light" data-dismiss="modal">Выбрать</button>
-				<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
 			</div>
 		</div>
 	</div>

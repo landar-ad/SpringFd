@@ -127,7 +127,8 @@ Amel = {
 			$.ajax({ method: "GET", 
 				url: "popupClasses",
 				data: {
-					clazz: clazz
+					clazz: clazz,
+					p_sz: 4
 				},
 				success: function(result) {
 					var div = $('<div></div>');
@@ -340,10 +341,15 @@ Amel = {
 	table_edit: function(c) {
 		var target = this;
 		if (!c) return;
-		var a = c.find("input[type='text'],input[type='password'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date"), b = c.find(">label,>span").first();
+		var a = c.find("input[type='text'],input[type='password'],input[type='date'],input[type='checkbox'],select,.custom-file,textarea,.custom-date,.pbutton"), b = c.find(">label,>span").first();
 		if (a.length < 1) return; 
 		a = a.first();
-		if (!a.is(':hidden')) return;
+		if (!a.is(':hidden')) {
+			if (a.hasClass("choose_obj")) {
+				target.choose_object(a);
+			}
+			return;
+		}
 		var q = a, h = c.find("input[type='hidden']").first();
 		a.show();
 		if (a.prop("tagName").toLowerCase() == "div") q = a.find("input,select,textarea").first();
@@ -772,6 +778,7 @@ Amel = {
 		var filter = a.attr("data-filter");
 		var data = {
 				clazz: a.attr("data-clazz"),
+				p_sz: 12,
 				p_title: a.attr("data-title"),
 				p_column: a.attr("data-column"),
 				p_filter: filter
@@ -862,6 +869,141 @@ Amel = {
 				var off = $(this).offset().top - a.offset().top;
 				a.animate({scrollTop: off});
 				return false;
+			}
+		});
+	},
+	choose_object: function(t) {
+		if (!t) return;
+		var target = this, rn = $(t).parent().find("input[type='hidden']").val();
+		var multiple = t.attr("data-multiple");
+		var unique = t.attr("data-unique");
+		unique = unique != "false" && unique != "no" ? true : false;
+		var clazz = t.attr("data-clazz");
+		if (!clazz) clazz = $("input[name='clazz']").val();
+		if (!clazz) return;
+		var filter = t.attr("data-filter");
+		var data = {
+				clazz: clazz,
+				rn: rn,
+				p_sz: 8,
+				p_title: t.attr("data-title"),
+				p_column: t.attr("data-column"),
+				p_filter: filter
+			};
+		if (filter && filter.indexOf("$") >= 0) {
+			var k = filter.indexOf("$"), e = filter.indexOf("$", k + 1);
+			if (e > 0) {
+				var r = filter.substring(k + 1, e);
+				if (r) {
+					var v = null;
+					var zz = $(t).closest("tr").find("input[name$='" + r + "']");
+					if (zz.length > 0) v = zz.val();
+					if (!v) {
+						zz = $(t).closest("form").find("input[name='" + r + "']");
+						if (zz.length > 0) v = zz.val();
+					}
+					if (v) data[r] = v;
+				}
+			}
+		}
+		var arrRn = [];
+		$(t).closest("table").find(".choose_obj").each(function() {
+			var z_rn = $(this).parent().find("input[type='hidden']").val();
+			if (z_rn > 0) arrRn[length] = z_rn;
+		});
+		$.ajax({ method: "POST", url: "popupSelect", 
+			data: data,
+			success: function(result) {
+				var div = $('<div></div>');
+				div.html(result);
+				if (div.find('.modal').length == 0) return;
+				var modal = target.get_modal();
+				modal.html(div.find('.modal').html());
+				modal.modal();
+				var h = modal.outerHeight(true);
+				var a = modal.find("table tbody");
+				a.outerHeight(h / 2);
+				modal.find("table").css("overflow-x", "hidden");
+				target.set_header_width(modal.find("table"), true);
+				target.scrollTo(modal);
+				target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {
+					var p = $(this).prop("checked");
+					if (!multiple) modal.find(".check-select > input[type='checkbox']").prop("checked", false);
+					$(this).prop("checked", p);
+				});
+				target.add_on(modal.find(".save-button"), "click", function() {
+					var prn = [], psource = [];
+					modal.find("table tbody tr").each(function() {
+						var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
+						if (c) {
+							var rn = $(this).find(".d-none").first().text();
+							if (unique && target.in_array(rn, arrRn)) return;
+							prn[prn.length] = rn;
+							psource[psource.length] = this;
+						}
+					});
+					for (var j=0; j<prn.length; j++) {
+						var rn = prn[j], source = psource[j];
+						if (i > 0) {
+							var tr = $(t).closest("table").find(".last-row");
+							if (tr.length == 0) break;
+							var c = tr.clone().insertBefore(tr);
+							c.removeClass("not-visible last-row");
+							$(c).find("input[name$='p_cmd']").val("add");
+							t = $(c).find(".choose_obj");
+							c.find(".td-edited .td-check").prop("checked", true);
+							target.edit_init();
+						}
+						
+						var p = $(t).parent();
+						p.find("input[type='hidden']").val(rn > 0 ? rn : "");
+						p = $(p).closest(".parent-popup");
+						var zz = $(p).find(".d-none > input[name$='p_cmd']");
+						if (!zz.val()) zz.val("update");
+						target.calculate();
+						
+						var arr = $(source).find(".text-select");
+						for (var i=0; i<arr.length; i++) {
+							var tt = rn > 0 ?  $(arr[i]).text() : "";
+							var idx = null;
+							try {idx = parseInt($(arr[i]).attr("data-target")); } catch(e) { }
+							if (idx == null || isNaN(idx)) idx = i;
+							var oo = $(p).find(".td-label:eq(" + idx + ")");
+							oo.text(tt);
+							if (oo.length == 0) $(p).find("input:eq(" + idx + ")").val(tt);
+						}
+						if (!multiple) break;
+					}
+				});
+				target.add_on(modal.find(".filter-popup"), "input", function() {
+					var t = $(this);
+					modal.find("table tbody tr").show();
+					var tt = t.val();
+					if (tt) {
+						tt = tt.toLowerCase();
+						modal.find("table tbody tr").each(function() {
+							var b = false;
+							$(this).find("td").each(function() {
+								var ttt = $(this).text();
+								if (ttt) {
+									ttt = ttt.toLowerCase();
+									if (ttt.indexOf(tt) >= 0) {
+										b = true;
+										return false;
+									}
+								}
+							});
+							if (!b) $(this).hide(); 
+						});
+					}
+					target.scrollTo(modal);
+				});
+				target.add_on(modal, "hidden.bs.modal", function() {
+					target.put_modal(modal);
+				});
+			},
+			error: function(xhr) {
+				if (xhr.status == 401) window.location = "login";
 			}
 		});
 	},
@@ -1061,7 +1203,11 @@ Amel = {
 		});
 		// Колонки
 		target.add_on($("#" + target.setVisibleId), "click", function() {
-			$.ajax({ method: "GET", url: "popupVisible?clazz=" + $('#clazz').val(), 
+			$.ajax({ method: "GET", url: "popupVisible", 
+				data: {
+					clazz: $('#clazz').val(),
+					p_sz: 6
+				},
 				success: function(result) {
 					var div = $('<div></div>');
 					div.html(result);
@@ -1072,8 +1218,6 @@ Amel = {
 					var a = modal.find("table tbody");
 					a.outerHeight(h / 2);
 					modal.find("table tbody").css("overflow-y", "auto");
-					modal.outerWidth($(document.body).outerWidth() / 4);
-					modal.css({ "left": ((($(window).width() - a.outerWidth()) / 2) + $(window).scrollLeft() + "px") });
 					target.set_header_width($(".modal").find("table"));
 					target.add_on(modal.find(".td-visible"), "click", function() { 
 						$(this).text($(this).text() == "да" ? "нет" : "да"); 
@@ -1154,137 +1298,7 @@ Amel = {
 	popup_init: function() {
 		var target = this;
 		target.add_on($(".choose_obj"), "click", function(event) {
-			var t = $(this), rn = $(t).parent().find("input[type='hidden']").val();
-			var multiple = t.attr("data-multiple");
-			var unique = t.attr("data-unique");
-			unique = unique != "false" && unique != "no" ? true : false;
-			var clazz = t.attr("data-clazz");
-			if (!clazz) clazz = $("input[name='clazz']").val();
-			if (!clazz) return;
-			var filter = t.attr("data-filter");
-			var data = {
-					clazz: clazz,
-					rn: rn,
-					p_title: t.attr("data-title"),
-					p_column: t.attr("data-column"),
-					p_filter: filter
-				};
-			if (filter && filter.indexOf("$") >= 0) {
-				var k = filter.indexOf("$"), e = filter.indexOf("$", k + 1);
-				if (e > 0) {
-					var r = filter.substring(k + 1, e);
-					if (r) {
-						var v = null;
-						var zz = $(t).closest("tr").find("input[name$='" + r + "']");
-						if (zz.length > 0) v = zz.val();
-						if (!v) {
-							zz = $(t).closest("form").find("input[name='" + r + "']");
-							if (zz.length > 0) v = zz.val();
-						}
-						if (v) data[r] = v;
-					}
-				}
-			}
-			var arrRn = [];
-			$(t).closest("table").find(".choose_obj").each(function() {
-				var z_rn = $(this).parent().find("input[type='hidden']").val();
-				if (z_rn > 0) arrRn[length] = z_rn;
-			});
-			$.ajax({ method: "POST", url: "popupSelect", 
-				data: data,
-				success: function(result) {
-					var div = $('<div></div>');
-					div.html(result);
-					if (div.find('.modal').length == 0) return;
-					var modal = target.get_modal();
-					modal.html(div.find('.modal').html());
-					modal.modal();
-					var h = modal.outerHeight(true);
-					var a = modal.find("table tbody");
-					a.outerHeight(h / 2);
-					modal.find("table").css("overflow-x", "hidden");
-					target.set_header_width(modal.find("table"), true);
-					target.scrollTo(modal);
-					target.add_on(modal.find(".check-select > input[type='checkbox']"), "change", function() {
-						var p = $(this).prop("checked");
-						if (!multiple) modal.find(".check-select > input[type='checkbox']").prop("checked", false);
-						$(this).prop("checked", p);
-					});
-					target.add_on(modal.find(".save-button"), "click", function() {
-						var prn = [], psource = [];
-						modal.find("table tbody tr").each(function() {
-							var c = $(this).find(".check-select > input[type='checkbox']").prop("checked");
-							if (c) {
-								var rn = $(this).find(".d-none").first().text();
-								if (unique && target.in_array(rn, arrRn)) return;
-								prn[prn.length] = rn;
-								psource[psource.length] = this;
-							}
-						});
-						for (var j=0; j<prn.length; j++) {
-							var rn = prn[j], source = psource[j];
-							if (i > 0) {
-								var tr = $(t).closest("table").find(".last-row");
-								if (tr.length == 0) break;
-								var c = tr.clone().insertBefore(tr);
-								c.removeClass("not-visible last-row");
-								$(c).find("input[name$='p_cmd']").val("add");
-								t = $(c).find(".choose_obj");
-								c.find(".td-edited .td-check").prop("checked", true);
-								target.edit_init();
-							}
-							
-							var p = $(t).parent();
-							p.find("input[type='hidden']").val(rn > 0 ? rn : "");
-							p = $(p).closest(".parent-popup");
-							var zz = $(p).find(".d-none > input[name$='p_cmd']");
-							if (!zz.val()) zz.val("update");
-							target.calculate();
-							
-							var arr = $(source).find(".text-select");
-							for (var i=0; i<arr.length; i++) {
-								var tt = rn > 0 ?  $(arr[i]).text() : "";
-								var idx = null;
-								try {idx = parseInt($(arr[i]).attr("data-target")); } catch(e) { }
-								if (idx == null || isNaN(idx)) idx = i;
-								var oo = $(p).find(".td-label:eq(" + idx + ")");
-								oo.text(tt);
-								if (oo.length == 0) $(p).find("input:eq(" + idx + ")").val(tt);
-							}
-							if (!multiple) break;
-						}
-					});
-					target.add_on(modal.find(".filter-popup"), "input", function() {
-						var t = $(this);
-						modal.find("table tbody tr").show();
-						var tt = t.val();
-						if (tt) {
-							tt = tt.toLowerCase();
-							modal.find("table tbody tr").each(function() {
-								var b = false;
-								$(this).find("td").each(function() {
-									var ttt = $(this).text();
-									if (ttt) {
-										ttt = ttt.toLowerCase();
-										if (ttt.indexOf(tt) >= 0) {
-											b = true;
-											return false;
-										}
-									}
-								});
-								if (!b) $(this).hide(); 
-							});
-						}
-						target.scrollTo(modal);
-					});
-					target.add_on(modal, "hidden.bs.modal", function() {
-						target.put_modal(modal);
-					});
-				},
-				error: function(xhr) {
-					if (xhr.status == 401) window.location = "login";
-				}
-			});
+			target.choose_object($(this));
 		});
 	},
 	// Инициализация контроля обязательных полей
