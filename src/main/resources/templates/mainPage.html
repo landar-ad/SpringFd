@@ -12,6 +12,8 @@
 		<form action="search" method="POST">
 			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	    		<ul class="navbar-nav mr-auto">
+				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=RProperty">Управление имуществом</a></li>
+				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=RCommission">Комиссии, заявки, судебные дела</a></li>
 				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=Document">Документооборот</a></li>
 				    <li class="nav-item text-uppercase dropdown">
 				    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Закупки</a>
@@ -20,8 +22,6 @@
 				    		<a class="dropdown-item" href="listObj?clazz=Notification4">Исполнение</a>
 				    	</div>
 			    	</li>
-				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=RProperty">Управление имуществом</a></li>
-				    <li class="nav-item text-uppercase"><a class="nav-link" href="listObj?clazz=RCommission">Комиссии, заявки, судебные дела</a></li>
 				    <li th:if="${#strings.contains(p_roles,'ADMIN')}" class="nav-item text-uppercase dropdown">
 				    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Администрирование</a>
 	      				<div class="dropdown-menu bg-primary">

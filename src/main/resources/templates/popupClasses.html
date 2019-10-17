@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div class="modal" tabindex="-1" role="dialog" style="height: 90%">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" th:utext="${p_title}"></h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body small">
-				<div class="fixed_header">
-					<table class="table-fixed table table-sm table-striped table-light table-bordered">
-						<thead>
-							<tr>
-								<th class="d-none"></th>
-								<th>#</th>
-								<th></th>
-								<th>Наименование объекта</th>
-							</tr>
-						</thead>
-						<tbody>
-					        <tr th:each="obj,iter : ${listClasses}">
-					            <td class="d-none" th:text="${obj.name}"/>
-					            <td th:text="${iter.index + 1}"/>
-					            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && obj.rn==rn}"></input></td>
-					            <td class="text-select"th:text="${obj.title}"></td>
-					        </tr>
-				        </tbody>
-					</table>
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="d-flex justify-content-center">
+    	<div th:class="${'col-md-' + p_sz}">
+			<div th:class="${'modal-dialog modal-xxl modal-dialog-centered'}" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" th:utext="${p_title}"></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body small">
+						<div class="fixed_header">
+							<table class="table-fixed table table-sm table-striped table-light table-bordered">
+								<thead>
+									<tr>
+										<th class="d-none"></th>
+										<th>#</th>
+										<th></th>
+										<th>Наименование объекта</th>
+									</tr>
+								</thead>
+								<tbody>
+							        <tr th:each="obj,iter : ${listClasses}">
+							            <td class="d-none" th:text="${obj.name}"/>
+							            <td th:text="${iter.index + 1}"/>
+							            <td class="check-select"><input type="checkbox" th:checked="${rn!=null && obj.rn==rn}"></input></td>
+							            <td class="text-select"th:text="${obj.title}"></td>
+							        </tr>
+						        </tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="save-button btn btn-sm btn-light" data-dismiss="modal">Выбрать</button>
+						<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
+					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="save-button btn btn-sm btn-light" data-dismiss="modal">Выбрать</button>
-				<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Отмена</button>
 			</div>
 		</div>
 	</div>
