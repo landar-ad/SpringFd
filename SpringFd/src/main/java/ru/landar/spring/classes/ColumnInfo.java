@@ -16,6 +16,9 @@ public class ColumnInfo {
 	String filterAttr;
 	
 	public ColumnInfo(String name, Class<?> cl) {
+		this(name, cl, null);
+	}
+	public ColumnInfo(String name, Class<?> cl, Boolean visible) {
 		setName(name);
 		String attr = name;
 		int k = attr.lastIndexOf("__");
@@ -24,7 +27,7 @@ public class ColumnInfo {
 		String title = (String)HelperServiceImpl.getAttrInfo(cl, tn, "nameColumn");
 		if (title == null || "*".equals(title)) title = (String)HelperServiceImpl.getAttrInfo(cl, tn);
 		setTitle(title);
-		Boolean visible = (Boolean)HelperServiceImpl.getAttrInfo(cl, attr, "visible");
+		visible = visible != null ? visible : (Boolean)HelperServiceImpl.getAttrInfo(cl, attr, "visible");
 		setVisible(visible == null ? true : visible);
 		Boolean sortable = (Boolean)HelperServiceImpl.getAttrInfo(cl, attr, "sortable");
 		setSortable(sortable == null ? true : sortable);
@@ -50,6 +53,11 @@ public class ColumnInfo {
 		}
 		setFilterList(filterList);
 		setFilterAttr(filterAttr);
+	}
+	public ColumnInfo(String name, String title) {
+		setName(name);
+		setTitle(title);
+		setVisible(true);
 	}
 	public ColumnInfo(String name, String title, boolean visible, boolean sortable, String filter, String filterType, String filterList, String filterAttr) {
 		setName(name);

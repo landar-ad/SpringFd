@@ -86,6 +86,15 @@ public class IDepartment extends IBase {
 		ret.add(new ColumnInfo("org__name", cl));
 		return ret;
 	}
+	public static List<ColumnInfo> listSelect() {
+		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+		Class<?> cl = IDepartment.class;
+		ret.add(new ColumnInfo("code", cl)); 
+		ret.add(new ColumnInfo("shortname", cl));
+		ret.add(new ColumnInfo("fullname", cl));
+		return ret;
+	}
+	
 	public static List<AttributeInfo> listAttribute() {
 		List<AttributeInfo> ret = new ArrayList<AttributeInfo>();
 		Class<?> cl = IDepartment.class;

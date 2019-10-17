@@ -98,6 +98,7 @@ public class IPerson extends IAgent {
     }
     
     @Transient
+    @FieldTitle(name="ФИО")
     public String getFullname() {
     	String name = "";
     	if (surname != null) name = surname;
@@ -129,6 +130,17 @@ public class IPerson extends IAgent {
    		ret.add(new ColumnInfo("date_fire", cl));
    		return ret;
    	}
+   	public static List<ColumnInfo> listSelect() {
+   		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+   		Class<?> cl = IPerson.class;
+   		ret.add(new ColumnInfo("name", cl));
+   		ret.add(new ColumnInfo("depart__name", cl));
+   		ret.add(new ColumnInfo("position", cl));
+   		ret.add(new ColumnInfo("phone", cl));
+   		ret.add(new ColumnInfo("email", cl));
+   		return ret;
+   	}
+   	
    	@Override
    	public Object onNew() {
     	Object ret = super.onNew();

@@ -83,7 +83,7 @@ public class PopupController {
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
 		String rn = rnParam.orElse(null);
-		String columnId = null, sortId = null, sortType = "A";;
+		String columnId = null, sortId = null, sortType = "A";
 		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();
 		String column = pColumnParam.orElse("");
 		if (!column.isEmpty()) {
@@ -120,19 +120,20 @@ public class PopupController {
 			}
 		}
 		else {
-			List<ColumnInfo> listC = (List<ColumnInfo>)hs.invoke(cl, "listColumn");
+			List<ColumnInfo> listC = (List<ColumnInfo>)hs.invoke(cl, "listSelect");
+			if (listC == null) listC = (List<ColumnInfo>)hs.invoke(cl, "listColumn");
 			if (listC != null) {
+				columnId = "rn";
+				model.addAttribute("columnId", columnId);
 				for (int i=0; i<listC.size(); i++) {
 					ColumnInfo ci = listC.get(i);
-					if (i == 0) {
+					if (!ci.getVisible()) continue;
+					if (sortId == null) {
 						sortId = ci.getName();
 						sortType = "A";
 						ci.setFilter("Y");
 					}
-					else {
-						ci.setFilter("N");
-					}
-					if (!ci.getVisible()) continue;
+					else ci.setFilter("N");
 					listColumn.add(ci);
 				}
 			}
