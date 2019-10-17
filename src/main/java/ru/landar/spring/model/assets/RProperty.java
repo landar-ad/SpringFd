@@ -83,12 +83,12 @@ public class RProperty extends IBase {
     public void setIn_date(Date in_date) { this.in_date = in_date; }
     
     @FieldTitle(name="Связанные объекты имущества")
-    @OneToMany(targetEntity=RProperty_RProperty.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RProperty_RProperty.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RProperty_RProperty> getList_prop() { return list_prop != null ? list_prop : new ArrayList<RProperty_RProperty>(); }
     public void setList_prop(List<RProperty_RProperty> list_prop) { this.list_prop = list_prop; }
     
     @FieldTitle(name="Прикрепленные документы")
-    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RProperty_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RProperty_RDocument>(); }
     public void setList_doc(List<RProperty_RDocument> list_doc) { this.list_doc = list_doc; }
     

@@ -3,8 +3,8 @@ package ru.landar.spring.model.assets;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -435,7 +435,7 @@ public class UnfinishedConstruction extends IBase {
     public void setPurpose(SpCommon purpose) { this.purpose = purpose; }
     
     @FieldTitle(name="Документы")
-    @ManyToMany(targetEntity=RDocument.class, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RDocument> getDocuments() { return documents; }
     public void setDocuments(List<RDocument> documents) { this.documents = documents; }
     
