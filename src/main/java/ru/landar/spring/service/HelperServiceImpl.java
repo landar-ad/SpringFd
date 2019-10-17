@@ -632,7 +632,12 @@ public class HelperServiceImpl implements HelperService {
 						}
 						else if (Date.class.isAssignableFrom(clAttr)) {
 							type = "date";
+							String getter = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+							Temporal t = null;
+							try { t = cl.getMethod(getter).getAnnotation(Temporal.class); } catch (Exception ex) { }
+							if (t == null || t.value() != TemporalType.DATE) type = "time";
 						}
+						else if (Boolean.class.isAssignableFrom(clAttr)) type = "checkbox";
 						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false, false, 0, null);
 						listAttribute.add(attr);
 					}

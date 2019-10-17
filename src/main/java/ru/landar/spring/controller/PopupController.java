@@ -83,38 +83,58 @@ public class PopupController {
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени + '" + clazz + "'");
 		String rn = rnParam.orElse(null);
-		String column = pColumnParam.orElse("rn;name=Наименование");
-		String[] ss = column.split(";");
 		String columnId = null, sortId = null, sortType = "A";;
 		List<ColumnInfo> listColumn = new ArrayList<ColumnInfo>();
-		for (int i=0; i<ss.length; i++) {
-			String[] cs = ss[i].split("=");
-			if (i == 0) {
-				columnId = cs[0];
-				model.addAttribute("columnId", columnId);
-			}
-			else {
-				String name = cs[0], title = cs.length > 1 ? cs[1] : "", cv = cs.length > 2 ? cs[2] : "";
-				if (title.isEmpty()) {
-					List<ColumnInfo> listC = (List<ColumnInfo>)hs.invoke(cl, "listColumn");
-					if (listC != null) {
-						for (ColumnInfo ci : listC) {
-							if (name.equals(ci.getName())) {
-								title = ci.getTitle();
-								break;
+		String column = pColumnParam.orElse("");
+		if (!column.isEmpty()) {
+			String[] ss = column.split(";");
+			for (int i=0; i<ss.length; i++) {
+				String[] cs = ss[i].split("=");
+				if (i == 0) {
+					columnId = cs[0];
+					model.addAttribute("columnId", columnId);
+				}
+				else {
+					String name = cs[0], title = cs.length > 1 ? cs[1] : "", cv = cs.length > 2 ? cs[2] : "";
+					if (title.isEmpty()) {
+						List<ColumnInfo> listC = (List<ColumnInfo>)hs.invoke(cl, "listColumn");
+						if (listC != null) {
+							for (ColumnInfo ci : listC) {
+								if (name.equals(ci.getName())) {
+									title = ci.getTitle();
+									break;
+								}
 							}
 						}
 					}
+					if (cv.length() < 1) cv += "Y";
+					if (cv.length() < 2) cv += "Y";
+					if (cv.length() < 3) cv += "N";
+					sortType = cv.substring(2, 3);
+					String visible = cv.substring(0, 1), target = cv.substring(1, 2);
+					if ("A".equals(sortType) || "D".equals(sortType)) sortId = name;
+					if (!"Y".equals(visible)) continue;
+					ColumnInfo ci = new ColumnInfo(name, title, true, true, target, "text", null, null);
+					listColumn.add(ci);
 				}
-				if (cv.length() < 1) cv += "Y";
-				if (cv.length() < 2) cv += "Y";
-				if (cv.length() < 3) cv += "N";
-				sortType = cv.substring(2, 3);
-				String visible = cv.substring(0, 1), target = cv.substring(1, 2);
-				if ("A".equals(sortType) || "D".equals(sortType)) sortId = name;
-				if (!"Y".equals(visible)) continue;
-				ColumnInfo ci = new ColumnInfo(name, title, true, true, target, "text", null, null);
-				listColumn.add(ci);
+			}
+		}
+		else {
+			List<ColumnInfo> listC = (List<ColumnInfo>)hs.invoke(cl, "listColumn");
+			if (listC != null) {
+				for (int i=0; i<listC.size(); i++) {
+					ColumnInfo ci = listC.get(i);
+					if (i == 0) {
+						sortId = ci.getName();
+						sortType = "A";
+						ci.setFilter("Y");
+					}
+					else {
+						ci.setFilter("N");
+					}
+					if (!ci.getVisible()) continue;
+					listColumn.add(ci);
+				}
 			}
 		}
 		if (sortId == null) { sortId = "rn"; sortType = "A"; }

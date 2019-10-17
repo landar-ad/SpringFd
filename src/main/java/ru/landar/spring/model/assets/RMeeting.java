@@ -109,7 +109,7 @@ public class RMeeting extends IBase {
 		try {
 			model.addAttribute("listSp_type_c", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_c"}));
 			model.addAttribute("listSp_stat_cm", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_stat_cm"}));
-			model.addAttribute("listSp_rezg", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_resg"}));
+			model.addAttribute("listSp_rezg", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_rezg"}));
 		}
 		catch (Exception ex) { }
 		return null;
