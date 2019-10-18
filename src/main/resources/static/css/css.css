@@ -4,6 +4,12 @@ html {
 body {
     height: 100%;
 }
+a:hover {
+	text-decoration: none;
+}
+.btn-link:hover {
+	text-decoration: none; 
+}
 .table-fixed {
 	table-layout: fixed;
 	border-collapse: collapse;
@@ -162,7 +168,9 @@ body {
 	border-color: #80bdff;
   	outline: 0;
   	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  	cursor: pointer;
+}
+.edited {
+	cursor: pointer;
 }
 .table-edited td h6, .table-edited th h6 {
 	padding: 0.25rem;
@@ -190,6 +198,9 @@ body {
 
 .td-label {
 	color: #ff8000; 
+}
+.edited .td-label {
+	cursor: pointer;
 }
 .w-in {
 	display: inline-block;

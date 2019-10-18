@@ -409,7 +409,19 @@ Amel = {
 			//a.find(".input-group-append").click();
 		}
 		else if (q.prop("tagName").toLowerCase() == "select") { 
-			
+			target.add_on(q, "keypress", function(e) {
+				e.originalEvent.isTrusted = true;
+				return;
+			});
+			var event = document.createEvent("Event");
+			event.initEvent("keypress", true, true);
+			event.view = document.defaultView;
+			event.altKey = false;
+			event.ctrlKey = false;
+			event.shiftKey = false;
+			event.metaKey = false;
+			event.key = " ";
+			q[0].dispatchEvent(event);
 		}
 	},
 	table_edit_end: function(q, e) {
