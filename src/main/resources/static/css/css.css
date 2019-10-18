@@ -161,7 +161,7 @@ a:hover {
 }
 .table-edited td label, .table-edited th label {
 	padding: 0.25rem;
-	margin-bottom: 0rem;
+	margin-bottom: 0;
 	height: calc(1.5em + .5rem + 2px);
 }
 .edited:hover {

@@ -19,31 +19,31 @@
 	                	<th:block th:if="${bs!=true}">
 	                		<div class="w-100 border border-primary">
 		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                			<th:block th:with="w='13%',tt='label',nn='doctype',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-			                		<th:block th:with="w='20%',tt='select',nn='doctype',vv=${obj.doctype},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
-			                		<td width="67%"/>
+		                			<th:block th:with="w='20%',tt='label',nn='doctype',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			                		<th:block th:with="w='40%',tt='select',nn='doctype',vv=${obj.doctype},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			                		<td width="40%"/>
 		                		</tr></tbody></table>
 		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                			<th:block th:with="w='13%',tt='label',nn='docname',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-			          				<th:block th:with="w='87%',tt='text',nn='docname',vv=${obj.docname},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                			<th:block th:with="w='20%',tt='label',nn='docname',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='80%',tt='text',nn='docname',vv=${obj.docname},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                		</tr></tbody></table>
 		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
-									<th:block th:with="w='13%',tt='label',nn='docnum',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-			          				<th:block th:with="w='20%',tt='text',nn='docnum',vv=${obj.docnum},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+									<th:block th:with="w='20%',tt='label',nn='docnum',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='14%',tt='text',nn='docnum',vv=${obj.docnum},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			          				<th:block th:with="w='13%',tt='label',nn='docdate',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-			          				<th:block th:with="w='21%',tt='date',nn='docdate',vv=${obj.docdate},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
+			          				<th:block th:with="w='20%',tt='date',nn='docdate',vv=${obj.docdate},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>
 			          				<th:block th:with="w='13%',tt='label',nn='docdate_end',rr=1"><th th:replace="fragments/tc :: ch"></th></th:block>
-			          				<th:block th:with="w='21%',tt='date',nn='docdate_end',vv=${obj.docdate},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>		                			
+			          				<th:block th:with="w='20%',tt='date',nn='docdate_end',vv=${obj.docdate},ro=${rco},rr=1"><td th:replace="fragments/tc :: cd"></td></th:block>		                			
 		                		</tr></tbody></table>
 		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                			<th:block th:with="w='13%',tt='label',nn='prim'"><th th:replace="fragments/tc :: ch"></th></th:block>
-			          				<th:block th:with="w='87%',tt='mtext',nn='prim',vv=${obj.prim},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                			<th:block th:with="w='20%',tt='label',nn='prim'"><th th:replace="fragments/tc :: ch"></th></th:block>
+			          				<th:block th:with="w='80%',tt='mtext',nn='prim',vv=${obj.prim},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                		</tr></tbody></table>
 		                		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                			<th:block th:with="w='4%',tt='check',nn='apsend',vv=${obj.prim},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
-		                			<th:block th:with="w='29%',tt='label',nn='apsend'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                			<th:block th:with="w='21%',tt='label',nn='prim_apsend'"><th th:replace="fragments/tc :: ch"></th></th:block>
-		                			<th:block th:with="w='46%',tt='mtext',nn='prim_apsend',vv=${obj.prim_apsend},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		                			<th:block th:with="w='16%',tt='label',nn='apsend'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                			<th:block th:with="w='20%',tt='label',nn='prim_apsend'"><th th:replace="fragments/tc :: ch"></th></th:block>
+		                			<th:block th:with="w='60%',tt='mtext',nn='prim_apsend',vv=${obj.prim_apsend},ro=${rco}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		                		</tr></tbody></table>
 	                		</div>
 	                		<div class="w-100 border border-primary pb-1">
@@ -52,29 +52,29 @@
 	                	</th:block>
 	                	<th:block th:if="${bs==true}">
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Тип документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='doctype',rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-10" th:with="tt='select',nn='doctype',vv=${obj.doctype},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-								<div class="col-sm-2" th:with="tt='label',vv='Наименование документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',nn='docname',rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-10" th:with="tt='text',nn='docname',vv=${obj.docname},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>                    	
 		                    </div>
 		                   	<div class="form-group-sm row mt-sm-1">
-		                        <div class="col-sm-2" th:with="tt='label',vv='Номер документа'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',nn='docnum'"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-1" th:with="tt='text',nn='docnum',vv=${obj.docnum},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
-		                        <div class="col-sm-2" th:with="tt='label',vv='Дата документа',rr=1"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-2" th:with="tt='label',nn='docdate',rr=1"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='date',nn='docdate',vv=${obj.docdate},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
-								<div class="col-sm-2" th:with="tt='label',vv='Действует до'"><div th:replace="fragments/component :: c"></div></div>
+								<div class="col-sm-2" th:with="tt='label',nn='docdate_end'"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-2" th:with="tt='date',nn='docdate_end',vv=${obj.docdate_end},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Примечание'"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='prim'"><div th:replace="fragments/component :: c"></div></div>
 		                        <div class="col-sm-12" th:with="tt='mtext',nn='prim',vv=${obj.prim},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div class="form-group-sm row margin-left-0 mt-sm-1">
-		                    	<div class="col-sm-2" th:with="tt='check',nn='apsend',vv=${obj.apsend},xx='Документ отсутствует'"><div th:replace="fragments/component :: c"></div></div>
-		                    	<div class="col-sm-2" th:with="tt='label',vv='Примечание к отсутствию документа'"><div th:replace="fragments/component :: c"></div></div>
-		                        <div class="col-sm-8" th:with="tt='mtext',nn='prim_apsend',vv=${obj.prim_apsend},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-3" th:with="tt='check',nn='apsend',vv=${obj.apsend}"><div th:replace="fragments/component :: c"></div></div>
+		                    	<div class="col-sm-2" th:with="tt='label',nn='prim_apsend'"><div th:replace="fragments/component :: c"></div></div>
+		                        <div class="col-sm-7" th:with="tt='mtext',nn='prim_apsend',vv=${obj.prim_apsend},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 		                    <div th:replace="fragments/header :: list_file"></div>
 	                    </th:block>
