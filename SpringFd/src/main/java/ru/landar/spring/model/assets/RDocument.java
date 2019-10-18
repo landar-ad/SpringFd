@@ -153,7 +153,7 @@ public class RDocument extends IBase {
 		if (ret != null) return ret;
 		
 		try {
-			model.addAttribute("lisSpRDocType", objService.findAll(SpRDocType.class));
+			model.addAttribute("listSpRDocType", objService.findAll(SpRDocType.class));
 			if (!list) model.addAttribute("listSpFileType", objService.findAll(SpFileType.class));
 		}
 		catch (Exception ex) { }
