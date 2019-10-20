@@ -171,7 +171,7 @@ a:hover {
 }
 .edited {
 	cursor: pointer;
-	background-color: rgba(0, 255, 0, 0.05);
+	background-color: rgba(120, 255, 120, 0.05);
 }
 .table-edited td h6, .table-edited th h6 {
 	padding: 0.25rem;
@@ -235,7 +235,7 @@ a:hover {
   background-color: transparent;
 }
 .readonly {
-  background-color: rgba(128, 0, 0, 0.05);
+  background-color: rgba(255, 120, 120, 0.05);
   opacity: 1;
   color: #ff8080;
 }
