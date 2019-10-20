@@ -30,32 +30,32 @@
 			                    	<th:block th:with="w='80%',tt='text',nn='inv_number',vv=${obj.inv_number},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Наименование объекта'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='on_nam'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='80%',tt='mtext',nn='on_nam',vv=${obj.on_nam},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='20%',tt='label',vv='Кадастровый номер'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='20%',tt='label',nn='kad_num'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='20%',tt='text',nn='kad_num',vv=${obj.kad_num},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='40%',tt='label',vv='Дата постановки на кадастровый учет'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='40%',tt='label',nn='kad_dpnu'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='20%',tt='date',nn='kad_dpnu',vv=${obj.kad_dpnu},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    </tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='30%',tt='label',vv='Площадь земельного участка, кв.м'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='30%',tt='label',nn='plosh'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='20%',tt='text',nn='plosh',vv=${obj.plosh},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 			                    	<td width="50%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    	<th:block th:with="w='7%',tt='label',vv='РНФИ'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='7%',tt='label',nn='rf_ni'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='25%',tt='text',nn='rf_ni',vv=${obj.rf_ni},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='13%',tt='label',vv='Дата РНФИ'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+			                    	<th:block th:with="w='13%',tt='label',nn='rf_dr'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='21%',tt='date',nn='rf_dr',vv=${dat_rf_dr},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-		                    		<th:block th:with="w='13%',tt='label',vv='Дата выбытия'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='13%',tt='label',nn='rf__vi'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='21%',tt='date',nn='rf__vi',vv=${obj.rf_vi},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    </div>
 	                    	<div class="w-100 border border-primary">
 		                    	<table class="table table-sm table-edited table-bordered parent-popup"><tbody><tr>
-		                    		<th:block th:with="w='20%',tt='label',vv='Полный адрес'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',nn='adr_pa'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='80%',tt='text',nn='adr_pa',vv=${obj.adr_pa},ro=${rco},cc='address'"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
@@ -64,13 +64,13 @@
 		                    		<th:block th:with="w='100%',tt='group',vv='Категория'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='20%',tt='label',vv='Категория земель'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',nn='k_kz'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='30%',tt='select',nn='k_kz',vv=${obj.k_kz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-		                    		<th:block th:with="w='20%',tt='label',vv='Особенности оборота'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',nn='k_oo'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='30%',tt='select',nn='k_oo',vv=${obj.k_oo},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='40%',tt='label',vv='Разрешенное использование (назначение)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='40%',tt='label',nn='k_vi'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='60%',tt='select',nn='k_vi',vv=${obj.k_vi},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
@@ -101,43 +101,38 @@
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
 		                    		<th:block th:with="w='5%',tt='checkbox',nn='so_of',vv=${obj.so_of},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-		                    		<th:block th:with="w='25%',tt='label',vv='Оформлен'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    		<th:block th:with="w='45%',tt='label',vv='Прогнозный срок завершения оформления земельного участка'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='25%',tt='label',nn='so_of'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='45%',tt='label',nn='so_psz'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='25%',tt='date',nn='so_psz',vv=${obj.so_psz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='20%',tt='label',vv='Вид права'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',nn='so_vp'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='30%',tt='select',nn='so_vp',vv=${obj.so_vp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-		                    		<th:block th:with="w='20%',tt='label',vv='Срок действия права'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',nn='so_sdp'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='30%',tt='date',nn='so_sdp',vv=${obj.so_sdp},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>	
-		                    		<th:block th:with="w='20%',tt='label',vv='Вид собственности'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',nn='so_fs'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='80%',tt='select',nn='so_fs',vv=${obj.so_fs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='100%',tt='label',vv='Дата регистрации права собственности:'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='40%',tt='label',vv='Дата регистрации права собственности:'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='40%',tt='label',vv='Дата регистрации иного вещного права:'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<td width="20%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    		<th:block th:with="w='20%',tt='label',vv='- Планируемая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    		<th:block th:with="w='20%',tt='date',nn='so_drs_p',vv=${obj.so_drs_p},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    		<td width="60%"/>
-		                    		</tr><tr>
-			                    		<th:block th:with="w='20%',tt='label',vv='- Фактическая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-										<th:block th:with="w='20%',tt='date',nn='so_drs_f',vv=${obj.so_drs_f},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-										<td width="60%"/>
+		                    		<th:block th:with="w='20%',tt='label',vv='- Планируемая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='date',nn='so_drs_p',vv=${obj.so_drs_p},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',vv='- Планируемая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='date',nn='so_drivp_p',vv=${obj.so_drivp_p},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+									<td width="20%"/>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='100%',tt='label',vv='Дата регистрации иного вещного права:'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-		                    	</tr></tbody></table>
-		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-			                    		<th:block th:with="w='20%',tt='label',vv='- Планируемая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    		<th:block th:with="w='20%',tt='date',nn='so_drivp_p',vv=${obj.so_drivp_p},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    		<td width="60%"/>
-		                    		</tr><tr>
-			                    		<th:block th:with="w='20%',tt='label',vv='- Фактическая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
-			                    		<th:block th:with="w='20%',tt='date',nn='so_drivp_f',vv=${obj.so_drivp_f},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    		<td width="60%"/>
+		                    		<th:block th:with="w='20%',tt='label',vv='- Фактическая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+									<th:block th:with="w='20%',tt='date',nn='so_drs_f',vv=${obj.so_drs_f},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='label',vv='- Фактическая'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='20%',tt='date',nn='so_drivp_f',vv=${obj.so_drivp_f},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+		                    		<td width="20%"/>
 		                        </tr></tbody></table>
 		                    </div>
                    			<div class="w-100 border border-primary">
@@ -145,20 +140,20 @@
 		                    		<th:block th:with="w='100%',tt='group',vv='Стоимостные показатели'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-										<th:block th:with="w='20%',tt='label',vv='Рыночная стоимость'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+										<th:block th:with="w='20%',tt='label',nn='s_rs'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 										<th:block th:with="w='20%',tt='text',nn='s_rs',vv=${obj.s_rs},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-										<th:block th:with="w='20%',tt='label',vv='Кадастровая стоимость'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+										<th:block th:with="w='20%',tt='label',nn='s_ks'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 										<th:block th:with="w='20%',tt='text',nn='s_ks',vv=${obj.s_ks},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 										<td width="20%"/>
 									</tr><tr>
-										<th:block th:with="w='20%',tt='label',vv='Нормативная стоимость'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+										<th:block th:with="w='20%',tt='label',nn='s_ns'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 										<th:block th:with="w='20%',tt='text',nn='s_ns',vv=${obj.s_ns},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-										<th:block th:with="w='20%',tt='label',vv='Арендная плата (в месяц)'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+										<th:block th:with="w='20%',tt='label',nn='s_ap'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 										<th:block th:with="w='20%',tt='text',nn='s_ap',vv=${obj.s_ap},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 										<td width="20%"/>								                    		
 		                    	</tr></tbody></table>
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr>
-		                    		<th:block th:with="w='7%',tt='label',vv='Примечания'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
+		                    		<th:block th:with="w='7%',tt='label',nn='comment'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 		                    		<th:block th:with="w='93%',tt='mtext',nn='comment',vv=${obj.comment},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 	                    	</div>
