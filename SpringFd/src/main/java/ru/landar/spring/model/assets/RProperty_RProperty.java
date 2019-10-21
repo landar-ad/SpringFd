@@ -35,7 +35,7 @@ public class RProperty_RProperty extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RProperty_RDocument.class;
+		Class<?> cl = RProperty_RProperty.class;
 		ret.add(new ColumnInfo("prop__name", cl));
 		ret.add(new ColumnInfo("conn_type", cl));
 		return ret;
