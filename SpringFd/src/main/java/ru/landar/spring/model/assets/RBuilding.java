@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
-import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpCommon;
 
 @Entity

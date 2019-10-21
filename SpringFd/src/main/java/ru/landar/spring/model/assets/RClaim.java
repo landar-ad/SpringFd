@@ -9,8 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.LockModeType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -121,12 +121,12 @@ public class RClaim extends IBase {
     public void setZa_vzg(Boolean za_vzg) { this.za_vzg = za_vzg; }
 	    
     @FieldTitle(name="Объекты заявки")
-    @ManyToMany(targetEntity=RProperty_RProperty.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RProperty_RProperty.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RProperty_RProperty> getList_oz() { return list_oz != null ? list_oz : new ArrayList<RProperty_RProperty>(); }
     public void setList_oz(List<RProperty_RProperty> list_oz) { this.list_oz = list_oz; }
     
     @FieldTitle(name="Документы заявки")
-    @ManyToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RProperty_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RProperty_RDocument>(); }
     public void setList_doc(List<RProperty_RDocument> list_doc) { this.list_doc = list_doc; }
     

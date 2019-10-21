@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -142,7 +143,7 @@ public class RCase extends IBase {
     public void setSd_ro(SpCommon sd_ro) { this.sd_ro = sd_ro; }
     
     @FieldTitle(name="Список документоа")
-    @OneToMany(targetEntity=RProperty_RDocument.class, fetch=FetchType.LAZY)
+    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<RProperty_RDocument> getSd_docs() { return sd_docs != null ? sd_docs : new ArrayList<RProperty_RDocument>(); }
     public void setSd_docs(List<RProperty_RDocument> sd_docs) { this.sd_docs = sd_docs; }
     

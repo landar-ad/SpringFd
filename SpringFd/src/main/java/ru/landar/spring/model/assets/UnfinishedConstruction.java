@@ -26,7 +26,6 @@ import ru.landar.spring.model.SpCommon;
 import ru.landar.spring.model.fd.SpDocType;
 import ru.landar.spring.repository.ObjRepositoryCustom;
 import ru.landar.spring.service.HelperService;
-import ru.landar.spring.service.HelperServiceImpl;
 import ru.landar.spring.service.ObjService;
 import ru.landar.spring.service.UserService;
 
