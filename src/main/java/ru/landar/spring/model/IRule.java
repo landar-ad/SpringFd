@@ -3,6 +3,7 @@ package ru.landar.spring.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
@@ -37,6 +38,7 @@ public class IRule extends IBase {
     public void setPr_razr(Boolean pr_razr) { this.pr_razr = pr_razr; }
     
     @FieldTitle(name="Фильтр")
+    @Column(length=2048)
     public String getPr_filter() { return pr_filter; }
     public void setPr_filter(String pr_filter) { this.pr_filter = pr_filter; }
     
