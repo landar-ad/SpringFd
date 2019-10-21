@@ -36,7 +36,7 @@ public class SpringFdApplicationTests {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user", userService.getUser("admin"));
 		//map.put("obj", objService.find(RClaim.class, 0)); ==obj.co_org.rn
-		Integer r = (Integer)hs.evaluate("user.rn", map);
+		Object r = hs.evaluate("#user.org?.rn==null", map);
 		System.out.println(r);
 	}
 }
