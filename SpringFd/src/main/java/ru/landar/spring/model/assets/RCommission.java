@@ -35,7 +35,7 @@ public class RCommission extends IBase {
 	private SpCommon c_type; 
 	private List<RMember> c_sostav;
 	private List<RMeeting> c_meeting;
-	private List<RDocument> c_docs;
+	private List<RProperty_RDocument> c_docs;
 	
 	@FieldTitle(name="Наименование комиссии")
     @Column(length=2000)
@@ -78,9 +78,9 @@ public class RCommission extends IBase {
     public void setC_meeting(List<RMeeting> c_meeting) { this.c_meeting = c_meeting; }
     
     @FieldTitle(name="Список документов")
-    @OneToMany(targetEntity=RDocument.class, fetch=FetchType.LAZY)
-    public List<RDocument> getC_docs() { return c_docs != null ? c_docs : new ArrayList<RDocument>(); }
-    public void setC_docs(List<RDocument> c_docs) { this.c_docs = c_docs; }
+    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<RProperty_RDocument> getC_docs() { return c_docs != null ? c_docs : new ArrayList<RProperty_RDocument>(); }
+    public void setC_docs(List<RProperty_RDocument> c_docs) { this.c_docs = c_docs; }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

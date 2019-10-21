@@ -41,6 +41,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -479,6 +483,15 @@ public class HelperServiceImpl implements HelperService {
 		if (closeIn) is.close();
 		if (closeOut) os.close();
 		return ret;
+	}
+	@Override 
+	public Object evaluate(String expr, Map<String, Object> map) { return s_evaluate(expr, map); }
+	public static Object s_evaluate(String expr, Map<String, Object> map) {
+		StandardEvaluationContext context = new StandardEvaluationContext();
+		if (map != null) context.setVariables(map);
+		final ExpressionParser parser = new SpelExpressionParser();
+		Expression expression = parser.parseExpression(expr); 
+		return expression.getValue(context, Object.class);
 	}
 	
 	@Override

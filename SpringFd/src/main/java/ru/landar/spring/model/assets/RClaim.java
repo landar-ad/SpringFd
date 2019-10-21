@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,8 +49,8 @@ public class RClaim extends IBase {
 	private Date za_spo;
 	private RClaim za_opr;
 	private Boolean za_vzg;
-	private List<RProperty> list_oz;
-	private List<RDocument> list_doc;
+	private List<RProperty_RProperty> list_oz;
+	private List<RProperty_RDocument> list_doc;
 	
 	@FieldTitle(name="Принадлежность")
 	@ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
@@ -120,14 +121,14 @@ public class RClaim extends IBase {
     public void setZa_vzg(Boolean za_vzg) { this.za_vzg = za_vzg; }
 	    
     @FieldTitle(name="Объекты заявки")
-    @ManyToMany(targetEntity=RProperty.class, fetch=FetchType.LAZY)
-    public List<RProperty> getList_oz() { return list_oz != null ? list_oz : new ArrayList<RProperty>(); }
-    public void setList_oz(List<RProperty> list_oz) { this.list_oz = list_oz; }
+    @ManyToMany(targetEntity=RProperty_RProperty.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<RProperty_RProperty> getList_oz() { return list_oz != null ? list_oz : new ArrayList<RProperty_RProperty>(); }
+    public void setList_oz(List<RProperty_RProperty> list_oz) { this.list_oz = list_oz; }
     
     @FieldTitle(name="Документы заявки")
-    @ManyToMany(targetEntity=RDocument.class, fetch=FetchType.LAZY)
-    public List<RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RDocument>(); }
-    public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
+    @ManyToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<RProperty_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RProperty_RDocument>(); }
+    public void setList_doc(List<RProperty_RDocument> list_doc) { this.list_doc = list_doc; }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

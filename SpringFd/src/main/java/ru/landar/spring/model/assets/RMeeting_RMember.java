@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.SpCommon;
 
@@ -29,7 +30,7 @@ public class RMeeting_RMember extends IBase {
 	@FieldTitle(name="Член комиссии")
 	@ManyToOne(targetEntity=RMember.class, fetch=FetchType.LAZY)
     public RMember getUz() { return uz; }
-    public void setUz(RMember uz) { this.uz = uz; }
+    public void setUz(RMember uz) { this.uz = uz; updateName(); }
     
     @FieldTitle(name="Присутствие на заседании")
     public Boolean getUz_pz() { return uz_pz; }
@@ -44,6 +45,16 @@ public class RMeeting_RMember extends IBase {
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
 	public SpCommon getUz_rg() { return uz_rg; }
 	public void setUz_rg(SpCommon uz_rg) { this.uz_rg = uz_rg; }
+	
+	private void updateName() {
+    	AutowireHelper.autowire(this);
+		String name = "";
+		IBase p = getParentProxy();
+		if (p != null) name += p.getName();
+		if (!name.isEmpty()) name += " <-> ";
+		if (uz != null) name += uz.getName();
+		setName(name);
+	}
 	
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

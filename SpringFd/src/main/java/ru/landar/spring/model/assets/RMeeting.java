@@ -30,8 +30,8 @@ public class RMeeting extends IBase {
 	private String cm_nz;
 	private SpCommon c_type;
 	private SpCommon cm_stat_z;
-	private List<RClaim> list_rcl;
-	private List<RDocument> list_doc;
+	private List<RMeeting_RClaim> list_rcl;
+	private List<RProperty_RDocument> list_doc;
 	private List<RMeeting_RMember> list_cs;
 	
 	@FieldTitle(name="Дата заседания планируемая")
@@ -60,14 +60,14 @@ public class RMeeting extends IBase {
 	public void setCm_stat_z(SpCommon cm_stat_z) { this.cm_stat_z = cm_stat_z; }
 	
 	@FieldTitle(name="Заявки к рассмотрению", filterSelect="za_stat__code ='7'")
-    @OneToMany(targetEntity=RClaim.class, fetch=FetchType.LAZY)
-    public List<RClaim> getList_rcl() { return list_rcl != null ? list_rcl : new ArrayList<RClaim>(); }
-    public void setList_rcl(List<RClaim> list_rcl) { this.list_rcl = list_rcl; }
+    @OneToMany(targetEntity=RMeeting_RClaim.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<RMeeting_RClaim> getList_rcl() { return list_rcl != null ? list_rcl : new ArrayList<RMeeting_RClaim>(); }
+    public void setList_rcl(List<RMeeting_RClaim> list_rcl) { this.list_rcl = list_rcl; }
     
     @FieldTitle(name="Документы заседания")
-    @OneToMany(targetEntity=RDocument.class, fetch=FetchType.LAZY)
-    public List<RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RDocument>(); }
-    public void setList_doc(List<RDocument> list_doc) { this.list_doc = list_doc; }
+    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<RProperty_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RProperty_RDocument>(); }
+    public void setList_doc(List<RProperty_RDocument> list_doc) { this.list_doc = list_doc; }
     
     @FieldTitle(name="Члены комиссии, участвующие в заседании")
     @OneToMany(targetEntity=RMeeting_RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
@@ -96,9 +96,10 @@ public class RMeeting extends IBase {
     public Object onUpdate() throws Exception { 
     	Object ret = super.onUpdate();
     	if (ret != null) return ret;
-    	for (RClaim cl : getList_rcl()) {
-			if (cl.getZa_stat() == null || !"7".equals(cl.getZa_stat().getCode())) continue;
-			hs.setProperty(cl, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "4"}));
+    	for (RMeeting_RClaim cl : getList_rcl()) {
+    		if (cl.getClaim() == null) continue;
+			if (cl.getClaim().getZa_stat() == null || !"7".equals(cl.getClaim().getZa_stat().getCode())) continue;
+			hs.setProperty(cl.getClaim(), "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "4"}));
     	}
 		return true;
     }
