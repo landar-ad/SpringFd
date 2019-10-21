@@ -20,6 +20,7 @@ import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
+import ru.landar.spring.model.IPerson;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.service.HelperService;
@@ -129,6 +130,15 @@ public class RDocument extends IBase {
 		ret.add(new ColumnInfo("prim_apsend", cl));
 		return ret;
 	}
+	public static List<ColumnInfo> listSelect() {
+   		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+   		Class<?> cl = RDocument.class;
+   		ret.add(new ColumnInfo("doctype", cl)); 
+		ret.add(new ColumnInfo("docname", cl));
+		ret.add(new ColumnInfo("docnum", cl));
+		ret.add(new ColumnInfo("docdate", cl));
+   		return ret;
+   	}
 	public static boolean listPaginated() { return true; }
 	
 	@Override
