@@ -26,7 +26,7 @@ public class RProperty_RDocument extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RMeeting_RMember.class;
+		Class<?> cl = RProperty_RDocument.class;
 		ret.add(new ColumnInfo("doc__name", cl));
 		return ret;
 	}
