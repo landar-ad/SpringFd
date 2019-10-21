@@ -20,7 +20,6 @@ import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
-import ru.landar.spring.model.IPerson;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpFileType;
 import ru.landar.spring.service.HelperService;
