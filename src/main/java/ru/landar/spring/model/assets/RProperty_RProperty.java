@@ -1,11 +1,15 @@
 package ru.landar.spring.model.assets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.springframework.ui.Model;
 
+import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.config.AutowireHelper;
@@ -28,6 +32,14 @@ public class RProperty_RProperty extends IBase {
     @ManyToOne(targetEntity=SpCommon.class)
     public SpCommon getConn_type() { return conn_type; }
     public void setConn_type(SpCommon conn_type) { this.conn_type = conn_type; updateName(); }
+    
+    public static List<ColumnInfo> listColumn() {
+		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+		Class<?> cl = RMeeting_RMember.class;
+		ret.add(new ColumnInfo("prop__name", cl));
+		ret.add(new ColumnInfo("conn_type", cl));
+		return ret;
+	}
     
     @Override
    	public Object onAddAttributes(Model model, boolean list) {
