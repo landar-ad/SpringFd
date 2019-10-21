@@ -179,13 +179,16 @@ public abstract class IBase {
      	if (ret != null) return ret;
     	if (getRn() == null) return true;
     	if (op == Operation.load) return true;
-    	if (op == Operation.update || op == Operation.delete || op == Operation.create) return userService.isAdmin(null);
+    	if (op == Operation.update || op == Operation.delete || op == Operation.create) 
+    		if (userService.isAdmin(null)) return true;
     	return false;
     }
     public Object onCheckUpdateAttribute(String attr) { 
      	Object ret = invoke("onCheckUpdateAttribute", attr);
     	if (ret != null) return ret;
     	if (hs.getAttrType(getClass(), attr) == null) return true;
+    	Object o = onCheckRights(Operation.update);
+    	if (o != null && o instanceof Boolean && !(Boolean)o) return false;
     	if ("clazz".equals(attr) || "rn".equals(attr)) return false;
       	return ret;
     }
