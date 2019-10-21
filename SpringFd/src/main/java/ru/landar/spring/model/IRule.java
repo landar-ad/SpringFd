@@ -23,7 +23,6 @@ import ru.landar.spring.service.HelperServiceImpl;
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Правило", multi="Правила")
 public class IRule extends IBase {
-	private SpCommon pr_dr;
 	private Boolean pr_razr; 
 	private String pr_filter;
 	
