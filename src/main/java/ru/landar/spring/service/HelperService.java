@@ -64,4 +64,5 @@ public interface HelperService {
 	String getFullDate(Date date);
 	String getMonthDate(Date date);
 	String getJsonString(Object obj) throws Exception;
+	Object evaluate(String expr, Map<String, Object> map);
 }
