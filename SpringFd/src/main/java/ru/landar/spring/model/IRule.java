@@ -33,12 +33,7 @@ public class IRule extends IBase {
 	@FieldTitle(name="Код правила", required=true)
 	public String getCode() { return super.getCode(); }
 	
-	@FieldTitle(name="Действие", sp="sp_pr_dr", required=true)
-    @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
-    public SpCommon getPr_dr() { return pr_dr; }
-    public void setPr_dr(SpCommon pr_dr) { this.pr_dr = pr_dr; }
-    
-    @FieldTitle(name="Разрешено", required=true)
+	@FieldTitle(name="Разрешено", required=true)
     public Boolean getPr_razr() { return pr_razr; }
     public void setPr_razr(Boolean pr_razr) { this.pr_razr = pr_razr; }
     
@@ -51,7 +46,6 @@ public class IRule extends IBase {
 		Class<?> cl = IRule.class;
 		ret.add(new ColumnInfo("code", cl));
 		ret.add(new ColumnInfo("name", cl)); 
-		ret.add(new ColumnInfo("pr_dr", cl));
 		ret.add(new ColumnInfo("pr_razr", cl));
 		ret.add(new ColumnInfo("pr_filter", cl));
 		return ret;
@@ -65,7 +59,6 @@ public class IRule extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	setPr_dr((SpCommon)objService.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_pr_dr", "15"}));
     	setPr_razr(true);
     	return this;
 	}
@@ -75,7 +68,6 @@ public class IRule extends IBase {
 		Object ret = super.onAddAttributes(model, list);
 		if (ret != null) return ret;
 		try {
-			model.addAttribute("listSp_pr_dr", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_pr_dr"}));
 		}
 		catch (Exception ex) { }
 		return null;
