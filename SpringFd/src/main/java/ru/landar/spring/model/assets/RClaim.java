@@ -65,12 +65,12 @@ public class RClaim extends IBase {
     @FieldTitle(name="Номер заявки")
     @Column(length=30)
     public String getZa_num() { return za_num; }
-    public void setZa_num(String za_num) { this.za_num = za_num; }
+    public void setZa_num(String za_num) { this.za_num = za_num; updateName(); }
     
     @FieldTitle(name="Дата заявки")
     @Temporal(TemporalType.DATE)
     public Date getZa_date() { return za_date; }
-    public void setZa_date(Date za_date) { this.za_date = za_date; }
+    public void setZa_date(Date za_date) { this.za_date = za_date; updateName(); }
     
     @FieldTitle(name="Содержание заявки", editType="textarea")
     @Column(length=2000)
@@ -129,6 +129,17 @@ public class RClaim extends IBase {
     @OneToMany(targetEntity=Item_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Item_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Item_RDocument>(); }
     public void setList_doc(List<Item_RDocument> list_doc) { this.list_doc = list_doc; }
+    
+    private void updateName() {
+    	if (hs == null) AutowireHelper.autowire(this);
+    	String name = "";
+    	if (!hs.isEmptyTrim(getZa_num())) name = getZa_num();
+    	if (getZa_date() != null) {
+    		if (!hs.isEmpty(name)) name += " от ";
+    		name += hs.getPropertyString(this, "za_date");
+    	}
+    	setName(name);
+    }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

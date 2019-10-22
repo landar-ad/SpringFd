@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.SpCommon;
 @Entity
@@ -37,17 +38,17 @@ public class RMeeting extends IBase {
 	@FieldTitle(name="Дата заседания планируемая")
     @Temporal(TemporalType.DATE)
     public Date getCm_dz_p() { return cm_dz_p; }
-    public void setCm_dz_p(Date cm_dz_p) { this.cm_dz_p = cm_dz_p; }
+    public void setCm_dz_p(Date cm_dz_p) { this.cm_dz_p = cm_dz_p; updateName(); }
     
     @FieldTitle(name="Дата заседания фактическая")
     @Temporal(TemporalType.DATE)
     public Date getCm_dz_f() { return cm_dz_f; }
-    public void setCm_dz_f(Date cm_dz_f) { this.cm_dz_f = cm_dz_f; }
+    public void setCm_dz_f(Date cm_dz_f) { this.cm_dz_f = cm_dz_f; updateName(); }
     
     @FieldTitle(name="Номер заседания")
     @Column(length=30)
     public String getCm_nz() { return cm_nz; }
-    public void setCm_nz(String cm_nz) { this.cm_nz = cm_nz; }
+    public void setCm_nz(String cm_nz) { this.cm_nz = cm_nz; updateName(); }
     
     @FieldTitle(name="Тип комиссии", sp="sp_type_c")
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
@@ -73,6 +74,21 @@ public class RMeeting extends IBase {
     @OneToMany(targetEntity=Item_RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Item_RMember> getList_cs() { return list_cs != null ? list_cs : new ArrayList<Item_RMember>(); }
     public void setList_cs(List<Item_RMember> list_cs) { this.list_cs = list_cs; }
+    
+    private void updateName() {
+    	if (hs == null) AutowireHelper.autowire(this);
+    	String name = "";
+    	if (getCm_nz() != null) name = getCm_nz();
+    	if (getCm_dz_f() != null) {
+    		if (!hs.isEmpty(name)) name += " от ";
+    		name += hs.getPropertyString(this, "cm_dz_f");
+    	}
+    	else if (getCm_dz_p() != null) {
+    		if (!hs.isEmpty(name)) name += " от ";
+    		name += hs.getPropertyString(this, "cm_dz_p") + " (планируется)";
+    	}
+    	setName(name);
+    }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
