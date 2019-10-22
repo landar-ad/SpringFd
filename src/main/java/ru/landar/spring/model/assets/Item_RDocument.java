@@ -16,7 +16,7 @@ import ru.landar.spring.model.IBase;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Прикрепленный документ",multi="Прикрепленные документы")
-public class RProperty_RDocument extends IBase {
+public class Item_RDocument extends IBase {
 	private RDocument doc;
 	
 	@FieldTitle(name="Документ")
@@ -26,7 +26,7 @@ public class RProperty_RDocument extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RProperty_RDocument.class;
+		Class<?> cl = Item_RDocument.class;
 		ret.add(new ColumnInfo("doc__name", cl));
 		return ret;
 	}

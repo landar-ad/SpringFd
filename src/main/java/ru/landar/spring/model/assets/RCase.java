@@ -47,7 +47,7 @@ public class RCase extends IBase {
 	private SpCommon sd_rr;
 	private Date sd_dvzs;
 	private SpCommon sd_ro;
-	private List<RProperty_RDocument> sd_docs;
+	private List<Item_RDocument> sd_docs;
 	
 	@FieldTitle(name="Принадлежность")
 	@ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
@@ -143,9 +143,9 @@ public class RCase extends IBase {
     public void setSd_ro(SpCommon sd_ro) { this.sd_ro = sd_ro; }
     
     @FieldTitle(name="Список документоа")
-    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<RProperty_RDocument> getSd_docs() { return sd_docs != null ? sd_docs : new ArrayList<RProperty_RDocument>(); }
-    public void setSd_docs(List<RProperty_RDocument> sd_docs) { this.sd_docs = sd_docs; }
+    @OneToMany(targetEntity=Item_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Item_RDocument> getSd_docs() { return sd_docs != null ? sd_docs : new ArrayList<Item_RDocument>(); }
+    public void setSd_docs(List<Item_RDocument> sd_docs) { this.sd_docs = sd_docs; }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

@@ -770,6 +770,29 @@ public class HelperServiceImpl implements HelperService {
 		return o != null && o instanceof Boolean && (Boolean)o;
 	}
 	@Override
+	public boolean cr(Object obj, String c) { return checkRights(obj, Operation.valueOf(c)); }
+	@Override
+	public boolean checkUpdateAttribute(Object obj, String attr) {
+		Object o = invoke(obj, "onCheckUpdateAttribute", attr);
+		return o != null && o instanceof Boolean && (Boolean)o;
+	}
+	@Override
+	public boolean cua(Object obj, String attr) { return checkUpdateAttribute(obj, attr); }
+	@Override 
+	public boolean checkListAttribute(Object obj, String attr, Operation op) {
+		Object o = invoke(obj, "onCheckListAttribute", attr, op);
+		return o != null && o instanceof Boolean && (Boolean)o;
+	}
+	@Override 
+	public boolean cla(Object obj, String attr, String c) { return checkListAttribute(obj, attr, Operation.valueOf(c)); }
+	@Override
+	public boolean checkExecute(Object obj, String param) {
+		Object o = invoke(obj, "onCheckExecute", param);
+		return o != null && o instanceof Boolean && (Boolean)o;
+	}
+	@Override
+	public boolean ce(Object obj, String param) { return checkExecute(obj, param); }
+	@Override
 	public Object invoke(Object obj, String method, Object... args) {
 		Method m = getInvokeMethod(obj, method, args);
 		if (m == null) return null;

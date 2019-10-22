@@ -181,7 +181,7 @@ public abstract class IBase {
     	if (op == Operation.load) return true;
     	if (op == Operation.update || op == Operation.delete || op == Operation.create) 
     		if (userService.isAdmin(null)) return true;
-    	return false;
+    	return ret;
     }
     public Object onCheckUpdateAttribute(String attr) { 
      	Object ret = invoke("onCheckUpdateAttribute", attr);
@@ -192,6 +192,17 @@ public abstract class IBase {
     	if ("clazz".equals(attr) || "rn".equals(attr)) return false;
       	return ret;
     }
+    public Object onCheckListAttribute(String attr, Operation op) { 
+     	Object ret = invoke("onCheckListAttribute", attr, op);
+    	if (ret != null) return ret;
+    	if (hs.getAttrType(getClass(), attr) == null) return true;
+    	Object o = onCheckRights(Operation.update);
+    	if (o != null && o instanceof Boolean && !(Boolean)o) return false;
+    	if ("clazz".equals(attr) || "rn".equals(attr)) return false;
+    	o = onCheckUpdateAttribute(attr);
+    	if (o != null && o instanceof Boolean && !(Boolean)o) return false;
+      	return ret;
+    }
     public Object onCheckExecute(String param) { 
      	Object ret = invoke("onCheckExecute", param);
      	if (ret != null) return ret;
@@ -200,7 +211,7 @@ public abstract class IBase {
 		if ("edit".equals(param)) return onCheckRights(Operation.update);
 		else if ("remove".equals(param)) return onCheckRights(Operation.delete);
 		else if ("view".equals(param)) return onCheckRights(Operation.load);
-		return false;
+		return ret;
     }
     public Object onBuildContent() { 
     	return invoke("onBuildContent"); 

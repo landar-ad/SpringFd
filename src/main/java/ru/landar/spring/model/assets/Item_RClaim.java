@@ -19,7 +19,7 @@ import ru.landar.spring.model.IBase;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Заявка на рассмотрении", multi="Заявки на рассмотрении")
-public class RMeeting_RClaim extends IBase {
+public class Item_RClaim extends IBase {
 	private RClaim claim;
 	
 	@FieldTitle(name="Заявка")
@@ -29,7 +29,7 @@ public class RMeeting_RClaim extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RMeeting_RClaim.class;
+		Class<?> cl = Item_RClaim.class;
 		ret.add(new ColumnInfo("claim__name", cl));
 		return ret;
 	}

@@ -108,11 +108,11 @@
 		                    	<div class="col-sm-6" th:with="tt='check',nn='ocdi',vv=${obj.ocdi},ro=${rco}"><div th:replace="fragments/component :: c"></div></div>
 		                    </div>
 	                    </th:block>
-	                    <div class="w-100 border border-primary pb-1">
-			        		<th:block th:with="r_ii='list_prop',r_ll='RProperty',xx='Связанные объекты имущества'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+	                    <div class="w-100 border border-primary">
+			        		<th:block th:with="r_ii='list_prop',r_ll='Item_RProperty',xx='Связанные объекты имущества'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
                   		</div>
 	                    <div class="w-100 border border-primary pb-1">
-			        		<th:block th:with="r_ii='list_doc',r_ll='RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+			        		<th:block th:with="r_ii='list_doc',r_ll='Item_RDocument',xx='Список документов'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
                   		</div>
                     </div>
 				</div>
