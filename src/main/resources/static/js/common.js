@@ -1008,9 +1008,7 @@ Amel = {
 						
 						var p = $(t).parent();
 						p.find("input[type='hidden']").val(rn > 0 ? rn : "");
-						p = $(p).closest("tr");
-						var zz = $(p).find(".d-none > input[name$='p_cmd']");
-						if (!zz.val()) zz.val("update");
+						p = $(p).closest(".parent-popup");
 						target.calculate();
 						
 						var arr = $(source).find(".text-select");
@@ -1023,6 +1021,10 @@ Amel = {
 							oo.text(tt);
 							if (oo.length == 0) $(p).find("input:eq(" + idx + ")").val(tt);
 						}
+						
+						var zz = $(t).closest("tr").find(".d-none > input[name$='p_cmd']");
+						if (!zz.val()) zz.val("update");
+						
 						if (!multiple) break;
 					}
 				});
