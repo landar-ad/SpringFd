@@ -80,11 +80,11 @@ public class RMeeting extends IBase {
     	String name = "";
     	if (getCm_nz() != null) name = getCm_nz();
     	if (getCm_dz_f() != null) {
-    		if (!hs.isEmpty(name)) name += " от ";
+    		if (!hs.isEmpty(name)) name += " от "; else name += "От ";
     		name += hs.getPropertyString(this, "cm_dz_f");
     	}
     	else if (getCm_dz_p() != null) {
-    		if (!hs.isEmpty(name)) name += " от ";
+    		if (!hs.isEmpty(name)) name += " от "; else name += "От ";
     		name += hs.getPropertyString(this, "cm_dz_p") + " (планируется)";
     	}
     	setName(name);
