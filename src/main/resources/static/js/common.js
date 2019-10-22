@@ -1008,7 +1008,7 @@ Amel = {
 						
 						var p = $(t).parent();
 						p.find("input[type='hidden']").val(rn > 0 ? rn : "");
-						p = $(p).closest(".parent-popup");
+						p = $(p).closest("tr");
 						var zz = $(p).find(".d-none > input[name$='p_cmd']");
 						if (!zz.val()) zz.val("update");
 						target.calculate();
