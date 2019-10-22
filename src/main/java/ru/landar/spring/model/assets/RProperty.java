@@ -116,6 +116,15 @@ public class RProperty extends IBase {
 		ret.add(new ColumnInfo("comment", cl));
 		return ret;
 	}
+	public static List<ColumnInfo> listSelect() {
+		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+		Class<?> cl = RProperty.class;
+		ret.add(new ColumnInfo("on_nam", cl));
+		ret.add(new ColumnInfo("co_org__name", cl));
+		ret.add(new ColumnInfo("inv_number", cl));
+		ret.add(new ColumnInfo("co_div__name", cl));
+		return ret;
+	}
 	public static boolean listPaginated() { return true; }
 	@Override
     public Object onNew() {
