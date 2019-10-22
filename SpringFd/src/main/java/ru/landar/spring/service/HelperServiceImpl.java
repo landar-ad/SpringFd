@@ -774,14 +774,14 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public boolean checkUpdateAttribute(Object obj, String attr) {
 		Object o = invoke(obj, "onCheckUpdateAttribute", attr);
-		return o != null && o instanceof Boolean && (Boolean)o;
+		return o == null || (o instanceof Boolean && (Boolean)o);
 	}
 	@Override
 	public boolean cua(Object obj, String attr) { return checkUpdateAttribute(obj, attr); }
 	@Override 
 	public boolean checkListAttribute(Object obj, String attr, Operation op) {
 		Object o = invoke(obj, "onCheckListAttribute", attr, op);
-		return o != null && o instanceof Boolean && (Boolean)o;
+		return o == null || (o instanceof Boolean && (Boolean)o);
 	}
 	@Override 
 	public boolean cla(Object obj, String attr, String c) { return checkListAttribute(obj, attr, Operation.valueOf(c)); }
