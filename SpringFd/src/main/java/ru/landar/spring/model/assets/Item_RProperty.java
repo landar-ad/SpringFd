@@ -19,7 +19,7 @@ import ru.landar.spring.model.SpCommon;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Связь с объектом имущества", multi="Связи с объектом имущества")
-public class RProperty_RProperty extends IBase {
+public class Item_RProperty extends IBase {
 	private RProperty prop;
 	private SpCommon conn_type; 
 	
@@ -35,7 +35,7 @@ public class RProperty_RProperty extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RProperty_RProperty.class;
+		Class<?> cl = Item_RProperty.class;
 		ret.add(new ColumnInfo("prop__name", cl));
 		ret.add(new ColumnInfo("conn_type", cl));
 		return ret;

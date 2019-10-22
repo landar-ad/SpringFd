@@ -19,7 +19,6 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.model.SpCommon;
-import ru.landar.spring.service.HelperServiceImpl;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")

@@ -30,9 +30,9 @@ public class RMeeting extends IBase {
 	private String cm_nz;
 	private SpCommon c_type;
 	private SpCommon cm_stat_z;
-	private List<RMeeting_RClaim> list_rcl;
-	private List<RProperty_RDocument> list_doc;
-	private List<RMeeting_RMember> list_cs;
+	private List<Item_RClaim> list_rcl;
+	private List<Item_RDocument> list_doc;
+	private List<Item_RMember> list_cs;
 	
 	@FieldTitle(name="Дата заседания планируемая")
     @Temporal(TemporalType.DATE)
@@ -60,19 +60,19 @@ public class RMeeting extends IBase {
 	public void setCm_stat_z(SpCommon cm_stat_z) { this.cm_stat_z = cm_stat_z; }
 	
 	@FieldTitle(name="Заявки к рассмотрению", filterSelect="za_stat__code ='7'")
-    @OneToMany(targetEntity=RMeeting_RClaim.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<RMeeting_RClaim> getList_rcl() { return list_rcl != null ? list_rcl : new ArrayList<RMeeting_RClaim>(); }
-    public void setList_rcl(List<RMeeting_RClaim> list_rcl) { this.list_rcl = list_rcl; }
+    @OneToMany(targetEntity=Item_RClaim.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Item_RClaim> getList_rcl() { return list_rcl != null ? list_rcl : new ArrayList<Item_RClaim>(); }
+    public void setList_rcl(List<Item_RClaim> list_rcl) { this.list_rcl = list_rcl; }
     
     @FieldTitle(name="Документы заседания")
-    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<RProperty_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<RProperty_RDocument>(); }
-    public void setList_doc(List<RProperty_RDocument> list_doc) { this.list_doc = list_doc; }
+    @OneToMany(targetEntity=Item_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Item_RDocument> getList_doc() { return list_doc != null ? list_doc : new ArrayList<Item_RDocument>(); }
+    public void setList_doc(List<Item_RDocument> list_doc) { this.list_doc = list_doc; }
     
     @FieldTitle(name="Члены комиссии, участвующие в заседании")
-    @OneToMany(targetEntity=RMeeting_RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<RMeeting_RMember> getList_cs() { return list_cs != null ? list_cs : new ArrayList<RMeeting_RMember>(); }
-    public void setList_cs(List<RMeeting_RMember> list_cs) { this.list_cs = list_cs; }
+    @OneToMany(targetEntity=Item_RMember.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Item_RMember> getList_cs() { return list_cs != null ? list_cs : new ArrayList<Item_RMember>(); }
+    public void setList_cs(List<Item_RMember> list_cs) { this.list_cs = list_cs; }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
@@ -96,7 +96,7 @@ public class RMeeting extends IBase {
     public Object onUpdate() throws Exception { 
     	Object ret = super.onUpdate();
     	if (ret != null) return ret;
-    	for (RMeeting_RClaim cl : getList_rcl()) {
+    	for (Item_RClaim cl : getList_rcl()) {
     		if (cl.getClaim() == null) continue;
 			if (cl.getClaim().getZa_stat() == null || !"7".equals(cl.getClaim().getZa_stat().getCode())) continue;
 			hs.setProperty(cl.getClaim(), "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "4"}));

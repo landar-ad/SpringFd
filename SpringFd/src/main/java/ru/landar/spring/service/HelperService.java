@@ -47,6 +47,13 @@ public interface HelperService {
 	String getDefaultObjectTemplate(String clazz, boolean byObject);
 	boolean isServerConnected(String url, int timeout);
 	boolean checkRights(Object obj, Operation op);
+	boolean cr(Object obj, String c);
+	boolean checkUpdateAttribute(Object obj, String attr);
+	boolean cua(Object obj, String attr);
+	boolean checkListAttribute(Object obj, String attr, Operation op);
+	boolean cla(Object obj, String attr, String c);
+	boolean checkExecute(Object obj, String param);
+	boolean ce(Object obj, String param);
 	Object invoke(Object obj, String method, Object... args);
 	Object invokePure(Object obj, String method, Object... args) throws Exception;
 	Object invoke(Class<?> cl, String method, Object... args);

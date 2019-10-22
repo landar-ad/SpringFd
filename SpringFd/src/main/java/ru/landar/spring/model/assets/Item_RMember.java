@@ -21,7 +21,7 @@ import ru.landar.spring.model.SpCommon;
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Член комиссии, участвующий в заседании", multi="Члены комиссии, участвующие в заседании")
-public class RMeeting_RMember extends IBase {
+public class Item_RMember extends IBase {
 	private RMember uz;
 	private Boolean uz_pz;
 	private String uz_oo;
@@ -58,7 +58,7 @@ public class RMeeting_RMember extends IBase {
 	
 	public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RMeeting_RMember.class;
+		Class<?> cl = Item_RMember.class;
 		ret.add(new ColumnInfo("uz__name", cl));
 		ret.add(new ColumnInfo("uz_pz", cl));
 		ret.add(new ColumnInfo("uz_oo", cl));

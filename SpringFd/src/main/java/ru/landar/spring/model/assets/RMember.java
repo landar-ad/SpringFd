@@ -33,7 +33,7 @@ public class RMember extends IBase {
 	private Date cs_dn;
 	private Date cs_dv;
 	private IDepartment cs_dep;
-	private List<RProperty_RDocument> cs_docs;
+	private List<Item_RDocument> cs_docs;
 	
 	@FieldTitle(name="Роль", sp="sp_cs_rol")
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
@@ -61,9 +61,9 @@ public class RMember extends IBase {
     public void setCs_dep(IDepartment cs_dep) { this.cs_dep = cs_dep; }
     
     @FieldTitle(name="Список документов")
-    @OneToMany(targetEntity=RProperty_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<RProperty_RDocument> getCs_docs() { return cs_docs != null ? cs_docs : new ArrayList<RProperty_RDocument>(); }
-    public void setCs_docs(List<RProperty_RDocument> cs_docs) { this.cs_docs = cs_docs; }
+    @OneToMany(targetEntity=Item_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Item_RDocument> getCs_docs() { return cs_docs != null ? cs_docs : new ArrayList<Item_RDocument>(); }
+    public void setCs_docs(List<Item_RDocument> cs_docs) { this.cs_docs = cs_docs; }
     
     private void updateName() {
     	if (hs == null) AutowireHelper.autowire(this);

@@ -5,5 +5,7 @@ public enum Operation {
 	load,
 	update,
 	delete,
-	execute
+	execute,
+	copy,
+	add
 }
