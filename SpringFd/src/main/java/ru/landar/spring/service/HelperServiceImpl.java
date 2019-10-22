@@ -629,8 +629,9 @@ public class HelperServiceImpl implements HelperService {
 					listAttribute = new ArrayList<AttributeInfo>();
 					List<ColumnInfo> listColumn = (List<ColumnInfo>)s_invoke(cl, "listColumn");
 					for (ColumnInfo col : listColumn) {
-						String name = col.getName(), type = col.getFilterType(), nameList = null;
-						if (name.indexOf("__") > 0) name = name.substring(0, name.indexOf("__"));
+						String name = col.getName(), attrName = name, type = col.getFilterType(), nameList = null;
+						int k = name.indexOf("__");
+						if (k > 0) name = name.substring(0, k);
 						Class<?> clAttr = s_getAttrType(cl, name);
 						if (IBase.class.isAssignableFrom(clAttr)) {
 							boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(clAttr, null, "voc");
@@ -651,7 +652,7 @@ public class HelperServiceImpl implements HelperService {
 							if (t == null || t.value() != TemporalType.DATE) type = "time";
 						}
 						else if (Boolean.class.isAssignableFrom(clAttr)) type = "checkbox";
-						AttributeInfo attr = new AttributeInfo(name, col.getTitle(), type, nameList, false, false, 0, null);
+						AttributeInfo attr = new AttributeInfo(attrName, col.getTitle(), type, nameList, false, false, 0, null);
 						listAttribute.add(attr);
 					}
 				}

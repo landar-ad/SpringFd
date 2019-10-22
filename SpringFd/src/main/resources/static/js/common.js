@@ -121,7 +121,7 @@ Amel = {
 	exec_obj: function(op, param) {
 		var target = this, rn = $('input[name="rn"]').val(), clazz = $('#clazz').val();
 		if (!clazz) clazz = $('input[name="clazz"]').val();
-		if (!(rn > 0) && (op=="edit" || op=="remove" || op=="view")) return;
+		if (!(rn > 0) && (op=="update" || op=="edit" || op=="delete" || op=="remove" || op=="view")) return;
 		else if (op=="add") rn = null;
 		if (op=="add") {
 			$.ajax({ method: "GET", 
@@ -577,10 +577,11 @@ Amel = {
 	button_command: function(b) {
 		var target = this;
 		if (!b) return;
-		var command = b.attr("data-command"), targetId = b.attr("data-target"), names = b.attr("data-name"), p_sz = b.attr("data-size");
+		var command = b.attr("data-command"), targetId = b.attr("data-target"), names = b.attr("data-name"), p_sz = b.attr("data-size"), ena = b.attr("data-enabled");
 		if (!command) return;
 		var table = $("#" + targetId);
 		if (!table) return;
+		if (ena != "1") return;
 		if ("add" == command) {
 			var tr = table.find(".last-row");
 			if (tr.length == 0) return;
@@ -625,7 +626,7 @@ Amel = {
 				target.table_edit(zz); 
 			}, 10);
 		}
-		else if ("remove" == command) {
+		else if ("remove" == command || "delete" == command) {
 			table.find("tr").each(function() {
 				var tr = $(this);
 				var c = tr.find(".td-edited .td-check").prop("checked");
@@ -636,7 +637,7 @@ Amel = {
 			});
 			target.button_enabled();
 		}
-		else if ("update" == command) {
+		else if ("update" == command || "edit" == command) {
 			table.find("tr").each(function() {
 				var tr = $(this);
 				var c = tr.find(".td-edited .td-check").prop("checked");
@@ -780,8 +781,8 @@ Amel = {
 		$(".xbutton").each(function() {
 			var e = false, b = $(this);
 			for (; ;) {
-				var command = b.attr("data-command"), targetId = b.attr("data-target");
-				if (!command || !targetId) break;
+				var command = b.attr("data-command"), targetId = b.attr("data-target"), ena = b.attr("data-enabled");
+				if (!command || !targetId || ena != "1") break;
 				var table = $("#" + targetId);
 				if (!table) break;
 				if ("add" == command) {
@@ -794,7 +795,7 @@ Amel = {
 					var c = table.find(".td-edited .td-check:checked");
 					e = c.length > 0;
 				}
-				else if ("update" == command) {
+				else if ("update" == command || "edit" == command) {
 					var c = table.find(".td-edited .td-check:checked");
 					if (c.length == 0) break;
 					c.each(function() {
@@ -807,7 +808,7 @@ Amel = {
 						}						
 					});
 				}
-				else if ("remove" == command) {
+				else if ("remove" == command || "delete" == command) {
 					var c = table.find(".td-edited .td-check:checked");
 					e = c.length > 0;
 				}

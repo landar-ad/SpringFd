@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="c">
+<th:block th:with="${ro=${ro!=null?ro:hs.cua(obj,nn)}}" th:fragment="c">
 	<label th:if="${tt=='label'}" th:class="${rr==1 ? 'required' : ''}" th:utext="${vv!=null?vv:hs.ai(obj.clazz,nn,'nf')}"></label>
 	<th:block th:if="${tt=='time'}">
 		<div th:if="${ro!=1}" class="input-group date input_time" data-target-input="nearest">
