@@ -38,7 +38,7 @@ public class RMember extends IBase {
 	@FieldTitle(name="Роль", sp="sp_cs_rol")
 	@ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
 	public SpCommon getCs_rol() { return cs_rol; }
-	public void setCs_rol(SpCommon cs_rol) { this.cs_rol = cs_rol; }
+	public void setCs_rol(SpCommon cs_rol) { this.cs_rol = cs_rol; updateName(); }
 	
 	@FieldTitle(name="Сотрудник")
     @ManyToOne(targetEntity=IPerson.class, fetch=FetchType.LAZY)

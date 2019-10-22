@@ -13,7 +13,6 @@ import ru.landar.spring.model.IBase;
 import ru.landar.spring.service.HelperServiceImpl;
 
 public class AttributeInfo {
-	
 	String name;
 	String title;
 	String type;
@@ -118,6 +117,12 @@ public class AttributeInfo {
 	
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
+	
+	public String getAttrName() {
+		if (name == null) return name;
+		int k = name.indexOf("__");
+		return k > 0 ? name.substring(0, k) : name; 
+	}
 	
 	public String getTitle() { return title; }
 	public void setTitle(String title) { this.title = title; }
