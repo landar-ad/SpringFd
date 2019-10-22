@@ -86,6 +86,15 @@ public class RMember extends IBase {
 		ret.add(new ColumnInfo("cs_dep__code", cl));
 		return ret;
 	}
+    public static List<ColumnInfo> listSelect() {
+		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+		Class<?> cl = RMember.class;
+		ret.add(new ColumnInfo("name", cl));
+		ret.add(new ColumnInfo("cs_dn", cl));
+		ret.add(new ColumnInfo("cs_dv", cl));
+		ret.add(new ColumnInfo("cs_dep__code", cl));
+		return ret;
+	}
 	public static boolean listPaginated() { return true; }
 	@Override
     public Object onNew() {
