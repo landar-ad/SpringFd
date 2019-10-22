@@ -325,6 +325,15 @@ public class LoadController {
 									ot = objService.find(clType, new String[] {"code", "sp_code"}, new Object[] { v, sp_code});
 								}
 							}
+							else if (List.class.isAssignableFrom(clType)) {
+								clType = hs.getListAttrType(cl, attr);
+								ot = hs.getProperty(obj, attr); 
+								String[] vs = v.split(",");
+								for (String vl : vs) {
+									Object item = objService.getObjByCode(clType, vl);
+									if (item != null) ((List)ot).add(item);
+								}
+							}
 							else {
 								ot = hs.getObjectByString(v, clType);
 								if (IUser.class.isAssignableFrom(cl) && "password".equals(attr) && !((String)ot).startsWith("{bcrypt}"))  
