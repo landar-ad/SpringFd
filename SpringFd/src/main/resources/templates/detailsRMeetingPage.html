@@ -56,7 +56,7 @@
 			        		<th:block th:with="r_ii='list_rcl',r_ll='Item_RClaim',xx='Заявки к рассмотрению'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
                        	</div>
                        	<div class="w-100 border border-primary">
-			        		<th:block th:with="r_ii='list_cs',r_ll='Item_RMember',xx='Члены комиссии, участвующие в заседании'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
+			        		<th:block th:with="r_ii='list_cs',r_ll='Item_RMember',xx='Члены комиссии, участвующие в заседании',ff=${'parent__rn ='+obj.parent?.rn}"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
                        	</div>
 	                    <div class="w-100 border border-primary pb-1">
 			        		<th:block th:with="r_ii='list_doc',r_ll='Item_RDocument',xx='Документы заседания'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
