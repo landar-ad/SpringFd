@@ -16,6 +16,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
@@ -343,41 +344,64 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 	        			if (va.isEmpty() && "=".equals(op)) prT = cb.isNull(p);
 	        			else if (va.isEmpty() && "<>".equals(op)) prT = cb.isNotNull(p);
 	        			else {
-		        			Object o = hs.getObjectByString(va, clAttr);
-		        			if (o instanceof BigDecimal) o = ((BigDecimal)o).doubleValue();
-		        			if (o instanceof Date) {
-		        				Expression<Date> exprDate = expr != null ? (Expression<Date>)expr : p; 
-		        				Date d = (Date)o;
-		        				if (">".equals(op)) prT = cb.greaterThan(exprDate, d);
-		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(exprDate, d);
-			        			else if ("<".equals(op)) prT = cb.lessThan(exprDate, d);
-			        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(exprDate, d);
-			        			else if ("=".equals(op)) prT = cb.equal(exprDate, d);
-			        			else if ("<>".equals(op)) prT = cb.notEqual(exprDate, d);
-		        			}
-		        			else if (o instanceof Number) {
-		        				Expression<Number> exprNumber = expr != null ? (Expression<Number>)expr : p;
-			        			if (">".equals(op)) prT = cb.gt(exprNumber, (Number)o);
-			        			else if (">=".equals(op)) prT = cb.ge(exprNumber, (Number)o);
-			        			else if ("<".equals(op)) prT = cb.lt(exprNumber, (Number)o);
-			        			else if ("<=".equals(op)) prT = cb.le(exprNumber, (Number)o);
-			        			else if ("=".equals(op)) prT = cb.equal(exprNumber, (Number)o);
-			        			else if ("<>".equals(op)) prT = cb.notEqual(exprNumber, (Number)o);
-		        			}
-		        			else if (o instanceof String) {
-		        				String s = (String)o;
-		        				Expression<String> exprString = expr != null ? (Expression<String>)expr : p;
-		        				if (">".equals(op)) prT = cb.greaterThan(exprString, s);
-		        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(exprString, s);
-			        			else if ("<".equals(op)) prT = cb.lessThan(exprString, s);
-			        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(exprString, s);
-			        			else if ("=".equals(op)) prT = s.indexOf("%") >= 0 ? cb.like(exprString, s) : cb.equal(exprString, s);
-			        			else if ("<>".equals(op)) prT = s.indexOf("%") >= 0 ? cb.notLike(exprString, s) : cb.notEqual(exprString, s);
-			        			else if ("like".equals(op)) {
-			        				if (s.indexOf("%") < 0) s = "%" + s + "%";
-			        				prT = cb.like(exprString, s);
+	        				if ("in".equals(op)) {
+	        					String[] vs = va.split(",");
+	        					In<?> inClause = cb.in(p);
+	        					for (String vat : vs) {
+	        						Object o = hs.getObjectByString(vat, clAttr);
+	        						if (o instanceof BigDecimal) o = ((BigDecimal)o).doubleValue();
+	        						if (o instanceof Date) {
+	        							In<Date> inDate = (In<Date>)inClause;
+	        							inDate.value((Date)o);
+	        						}
+	        						else if (o instanceof Number) {
+	        							In<Number> inNumber = (In<Number>)inClause;
+	        							inNumber.value((Number)o);
+	        						}
+	        						else if (o instanceof String) {
+	        							In<String> inString = (In<String>)inClause;
+	        							inString.value((String)o);
+	        						}
+	        					}
+	        					prT = inClause;
+	        				}
+	        				else {
+			        			Object o = hs.getObjectByString(va, clAttr);
+			        			if (o instanceof BigDecimal) o = ((BigDecimal)o).doubleValue();
+			        			if (o instanceof Date) {
+			        				Expression<Date> exprDate = expr != null ? (Expression<Date>)expr : p; 
+			        				Date d = (Date)o;
+			        				if (">".equals(op)) prT = cb.greaterThan(exprDate, d);
+			        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(exprDate, d);
+				        			else if ("<".equals(op)) prT = cb.lessThan(exprDate, d);
+				        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(exprDate, d);
+				        			else if ("=".equals(op)) prT = cb.equal(exprDate, d);
+				        			else if ("<>".equals(op)) prT = cb.notEqual(exprDate, d);
 			        			}
-		        			}
+			        			else if (o instanceof Number) {
+			        				Expression<Number> exprNumber = expr != null ? (Expression<Number>)expr : p;
+				        			if (">".equals(op)) prT = cb.gt(exprNumber, (Number)o);
+				        			else if (">=".equals(op)) prT = cb.ge(exprNumber, (Number)o);
+				        			else if ("<".equals(op)) prT = cb.lt(exprNumber, (Number)o);
+				        			else if ("<=".equals(op)) prT = cb.le(exprNumber, (Number)o);
+				        			else if ("=".equals(op)) prT = cb.equal(exprNumber, (Number)o);
+				        			else if ("<>".equals(op)) prT = cb.notEqual(exprNumber, (Number)o);
+			        			}
+			        			else if (o instanceof String) {
+			        				String s = (String)o;
+			        				Expression<String> exprString = expr != null ? (Expression<String>)expr : p;
+			        				if (">".equals(op)) prT = cb.greaterThan(exprString, s);
+			        				else if (">=".equals(op)) prT = cb.greaterThanOrEqualTo(exprString, s);
+				        			else if ("<".equals(op)) prT = cb.lessThan(exprString, s);
+				        			else if ("<=".equals(op)) prT = cb.lessThanOrEqualTo(exprString, s);
+				        			else if ("=".equals(op)) prT = s.indexOf("%") >= 0 ? cb.like(exprString, s) : cb.equal(exprString, s);
+				        			else if ("<>".equals(op)) prT = s.indexOf("%") >= 0 ? cb.notLike(exprString, s) : cb.notEqual(exprString, s);
+				        			else if ("like".equals(op)) {
+				        				if (s.indexOf("%") < 0) s = "%" + s + "%";
+				        				prT = cb.like(exprString, s);
+				        			}
+			        			}
+	        				}
 	        			}
 	        			if (prT != null) {
 	        				pr = pr == null ? prT : ("or".equalsIgnoreCase(c) || "|".equals(c) || "||".equals(c))? cb.or(pr, prT) : cb.and(pr, prT);
@@ -419,6 +443,7 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 			   v.startsWith("<") ||
 			   v.startsWith("=") ||
 			   v.startsWith("like") ||
+			   v.startsWith("in") ||
 			   v.startsWith("or") ||
 			   v.startsWith("and");
 	}
@@ -429,7 +454,8 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 				"<=".equals(op) ||
 				"=".equals(op) ||
 				"<>".equals(op) ||
-				"like".equalsIgnoreCase(op);
+				"like".equalsIgnoreCase(op) ||
+				"in".equalsIgnoreCase(op);
 	}
 	private String[] parseExpression(String v) {
 		if (v == null || v.trim().isEmpty()) return new String[] {};
