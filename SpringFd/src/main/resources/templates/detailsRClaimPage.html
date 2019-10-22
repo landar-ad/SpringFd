@@ -144,7 +144,7 @@
 	                    	</div>
 	                    </th:block>
 	                    <div class="w-100 border border-primary">
-			        		<th:block th:with="r_ii='list_oz',r_ll='Item_RProperty',xx='Объекты заявки'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
+			        		<th:block th:with="r_ii='list_oz',r_ll='Item_RProperty',xx='Объекты заявки',ff=${'co_org__rn ='+obj.co_org?.rn}"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
                        	</div>
 			        	<div class="w-100 border border-primary pb-1">
 			        		<th:block th:with="r_ii='list_doc',r_ll='Item_RDocument',xx='Документы заявки'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>

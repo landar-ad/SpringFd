@@ -115,7 +115,7 @@
 			         	<td class="d-none"><input type="hidden" th:name="${r_ii+'__rn'}" th:value="${dd.rn}"><input type="hidden" th:name="${r_ii+'__rnOld'}" th:value="${dd.rn}"><input type="hidden" th:name="${r_ii+'__clazz'}" th:value="${r_ll}"><input type="hidden" th:name="${r_ii+'__p_add'}" value="new"><input type="hidden" th:name="${r_ii+'__p_cmd'}" value=""></td>
 			           	<th:block th:with="w='5%',tt='check',vv='',cc='td-check'"><td th:replace="fragments/tc :: check"></td></th:block>
 			           	<th:block th:each="attr : ${la}">
-			           		<th:block th:with="w=${''+len+'%'},tt=${attr.type},nn=${r_ii+'__'+attr.attrName},vv=${hs.getProperty(dd,attr.attrName)},zz=${attr.attr},ll=${attr.editList},ro=${hs.cua(dd,attr.attrName)==true?0:1},ddfi=${ff!=null?ff:hs.ai(obj.clazz,r_ii,'fs')"><td th:replace="fragments/tc :: cd"></td></th:block>
+			           		<th:block th:with="w=${''+len+'%'},tt=${attr.type},nn=${r_ii+'__'+attr.attrName},vv=${hs.getProperty(dd,attr.attrName)},zz=${attr.attr},ll=${attr.editList},ro=${hs.cua(dd,attr.attrName)==true?0:1},ddfi=${ff!=null?ff:hs.ai(obj.clazz,r_ii,'fs')}"><td th:replace="fragments/tc :: cd"></td></th:block>
 			           	</th:block>
 			       	</tr>
 			       	<tr th:if="${rco!=1}" class="not-visible last-row">
