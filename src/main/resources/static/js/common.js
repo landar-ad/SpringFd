@@ -200,6 +200,7 @@ Amel = {
 	},
 	// Проверка, доступны ли операции
 	check_execute: function(rn, param, fun) {
+		if (!param) return;
 		var clazz = $('#clazz').val();
 		$.ajax({ method: "GET", 
 			url: "checkExecuteObj",
