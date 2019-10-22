@@ -133,7 +133,7 @@ public class RProperty extends IBase {
     	IUser user = userService.getUser((String)null);
     	if (user == null) throw new SecurityException("Вы не зарегистрированы в системе");
     	if (getCo_org() == null) hs.setProperty(this, "co_org", user.getOrg());
-    	return this;
+    	return null;
 	}
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
