@@ -52,22 +52,22 @@ public class RClaim extends IBase {
 	private List<Item_RProperty> list_oz;
 	private List<Item_RDocument> list_doc;
 	
-	@FieldTitle(name="Принадлежность")
+	@FieldTitle(name="Принадлежность", required=true)
 	@ManyToOne(targetEntity=IOrganization.class, fetch=FetchType.LAZY)
     public IOrganization getCo_org() { return co_org; }
     public void setCo_org(IOrganization co_org) { this.co_org = co_org; }
     
-    @FieldTitle(name="Тип заявки", sp="sp_type_za")
+    @FieldTitle(name="Тип заявки", sp="sp_type_za", required=true)
     @ManyToOne(targetEntity=SpCommon.class, fetch=FetchType.LAZY)
     public SpCommon getZa_type() { return za_type; }
     public void setZa_type(SpCommon za_type) { this.za_type = za_type; }
     
-    @FieldTitle(name="Номер заявки")
+    @FieldTitle(name="Номер заявки", required=true)
     @Column(length=30)
     public String getZa_num() { return za_num; }
     public void setZa_num(String za_num) { this.za_num = za_num; updateName(); }
     
-    @FieldTitle(name="Дата заявки")
+    @FieldTitle(name="Дата заявки", required=true)
     @Temporal(TemporalType.DATE)
     public Date getZa_date() { return za_date; }
     public void setZa_date(Date za_date) { this.za_date = za_date; updateName(); }
