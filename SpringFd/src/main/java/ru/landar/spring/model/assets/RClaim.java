@@ -161,6 +161,16 @@ public class RClaim extends IBase {
 		ret.add(new ColumnInfo("za_vzg", cl));
 		return ret;
 	}
+    public static List<ColumnInfo> listSelect() {
+		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
+		Class<?> cl = RClaim.class;
+		ret.add(new ColumnInfo("name", cl));
+		ret.add(new ColumnInfo("co_org__name", cl)); 
+		ret.add(new ColumnInfo("za_type", cl));
+		ret.add(new ColumnInfo("za_num", cl));
+		ret.add(new ColumnInfo("za_date", cl));
+		return ret;
+	}
 	public static boolean listPaginated() { return true; }
 	@Override
     public Object onNew() {
