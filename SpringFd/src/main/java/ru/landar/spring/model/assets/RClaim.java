@@ -181,6 +181,7 @@ public class RClaim extends IBase {
 		try {
 			model.addAttribute("listSp_type_za", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_za"}));
 			model.addAttribute("listSp_stat_za", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_stat_za"}));
+			model.addAttribute("listPp_conn_type", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"pp_conn_type"}));
 		}
 		catch (Exception ex) { }
 		return null;
