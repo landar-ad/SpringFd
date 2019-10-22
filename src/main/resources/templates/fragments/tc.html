@@ -29,7 +29,7 @@
 		</th:block>
 	</td>
 	<th:block th:fragment="cd">
-		<td th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : (#strings.equals(aa,'l') ? ' td-left' : ((tt=='checkbox' || tt=='check') ? ' td-center' : ' td-left')))) + (ro==1?' readonly':'')}" th:colspan="${cs}">
+		<td th:with="ro=${ro!=null?ro:hs.cua(obj,nn)}" th:width="${w}" th:class="${'td-edited' + (#strings.equals(aa,'c') ? ' td-center' : (#strings.equals(aa,'r') ? ' td-right' : (#strings.equals(aa,'l') ? ' td-left' : ((tt=='checkbox' || tt=='check') ? ' td-center' : ' td-left')))) + (ro==1?' readonly':'')}" th:colspan="${cs}">
 			<th:block th:if="${tt=='label'}">
 				<label th:class="${rr==1 ? 'required' : ''}" th:utext="${vv}"></label>
 			</th:block>
