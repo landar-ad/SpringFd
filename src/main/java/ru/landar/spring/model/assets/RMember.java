@@ -22,6 +22,7 @@ import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IPerson;
+import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpCommon;
 
 @Entity
@@ -100,8 +101,19 @@ public class RMember extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
-    	
-    	return null;
+     	Date dt = new Date();
+     	hs.setProperty(this, "cs_dn", dt);
+     	return this;
+    }
+    
+    @Override
+    public Object onUpdate() throws Exception { 
+    	Object ret = super.onUpdate();
+    	if (ret != null) return ret;
+     	if (getCs_dep() == null && getCs_sot() != null) {
+     		hs.setProperty(this, "cs_dep", getCs_sot().getDepart());
+     	}
+    	return true;
 	}
 	@Override
 	public Object onAddAttributes(Model model, boolean list) {
