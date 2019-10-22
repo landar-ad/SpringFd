@@ -835,6 +835,8 @@ public class HelperServiceImpl implements HelperService {
 		return found;
 	}
 	@Override
+	public boolean te(String clazz) { return templateExists("details" + clazz + "page"); }
+	@Override
 	public String getTemplateSource(String template) {
 		String ret = null;
 		Set<ITemplateResolver> trs = templateEngine.getTemplateResolvers();

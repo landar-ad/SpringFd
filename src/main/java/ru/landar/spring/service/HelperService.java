@@ -58,6 +58,7 @@ public interface HelperService {
 	Object invokePure(Object obj, String method, Object... args) throws Exception;
 	Object invoke(Class<?> cl, String method, Object... args);
 	boolean templateExists(String template);
+	boolean te(String clazz);
 	String getTemplateSource(String template);
 	Class<?> getHandlerClass(String code); 
 	ObjService getObjService();
