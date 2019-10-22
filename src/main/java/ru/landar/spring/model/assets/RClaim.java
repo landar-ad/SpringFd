@@ -136,6 +136,7 @@ public class RClaim extends IBase {
     	if (!hs.isEmptyTrim(getZa_num())) name = getZa_num();
     	if (getZa_date() != null) {
     		if (!hs.isEmpty(name)) name += " от ";
+    		else name += "От ";
     		name += hs.getPropertyString(this, "za_date");
     	}
     	setName(name);

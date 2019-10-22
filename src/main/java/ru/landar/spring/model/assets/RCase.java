@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IOrganization;
 import ru.landar.spring.model.SpCommon;
@@ -87,12 +88,12 @@ public class RCase extends IBase {
     @FieldTitle(name="Номер дела")
     @Column(length=30)
     public String getSd_nd() { return sd_nd; }
-    public void setSd_nd(String sd_nd) { this.sd_nd = sd_nd; }
+    public void setSd_nd(String sd_nd) { this.sd_nd = sd_nd; updateName(); }
     
     @FieldTitle(name="Дата регистрации дела в суде")
     @Temporal(TemporalType.DATE)
     public Date getSd_drs() { return sd_drs; }
-    public void setSd_drs(Date sd_drs) { this.sd_drs = sd_drs; }
+    public void setSd_drs(Date sd_drs) { this.sd_drs = sd_drs; updateName(); }
     
     @FieldTitle(name="Предмет судебного разбирательства")
     @Column(length=4000)
@@ -146,6 +147,17 @@ public class RCase extends IBase {
     @OneToMany(targetEntity=Item_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Item_RDocument> getSd_docs() { return sd_docs != null ? sd_docs : new ArrayList<Item_RDocument>(); }
     public void setSd_docs(List<Item_RDocument> sd_docs) { this.sd_docs = sd_docs; }
+    
+    private void updateName() {
+    	if (hs == null) AutowireHelper.autowire(this);
+    	String name = "";
+    	if (!hs.isEmptyTrim(getSd_nd())) name = getSd_nd();
+    	if (getSd_drs() != null) {
+    		if (!hs.isEmpty(name)) name += " от "; else name += "От ";
+    		name += hs.getPropertyString(this, "sd_drs");
+    	}
+    	setName(name);
+    }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();

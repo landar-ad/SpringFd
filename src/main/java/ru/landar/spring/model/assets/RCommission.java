@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
+import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.SpCommon;
@@ -40,17 +41,17 @@ public class RCommission extends IBase {
 	@FieldTitle(name="Наименование комиссии")
     @Column(length=2000)
     public String getC_name() { return c_name; }
-    public void setC_name(String c_name) { this.c_name = c_name; }
+    public void setC_name(String c_name) { this.c_name = c_name; updateName(); }
     
     @FieldTitle(name="Комиссия №")
     @Column(length=30)
     public String getC_num() { return c_num; }
-    public void setC_num(String c_num) { this.c_num = c_num; }
+    public void setC_num(String c_num) { this.c_num = c_num; updateName(); }
     
     @FieldTitle(name="Дата создания комиссии")
     @Temporal(TemporalType.DATE)
     public Date getC_date() { return c_date; }
-    public void setC_date(Date c_date) { this.c_date = c_date; }
+    public void setC_date(Date c_date) { this.c_date = c_date; updateName(); }
     
     @FieldTitle(name="Номер приказа")
     @Column(length=30)
@@ -81,6 +82,21 @@ public class RCommission extends IBase {
     @OneToMany(targetEntity=Item_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<Item_RDocument> getC_docs() { return c_docs != null ? c_docs : new ArrayList<Item_RDocument>(); }
     public void setC_docs(List<Item_RDocument> c_docs) { this.c_docs = c_docs; }
+    
+    private void updateName() {
+    	if (hs == null) AutowireHelper.autowire(this);
+    	String name = "";
+    	if (!hs.isEmptyTrim(getC_name())) name = getC_name();
+    	if (!hs.isEmptyTrim(getC_num())) {
+    		if (!hs.isEmpty(name)) name += " ";
+    		name += "№ " + getC_num();
+    	}
+    	if (getC_date() != null) {
+    		if (!hs.isEmpty(name)) name += " от "; else name += "От ";
+    		name += hs.getPropertyString(this, "c_date");
+    	}
+    	setName(name);
+    }
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
