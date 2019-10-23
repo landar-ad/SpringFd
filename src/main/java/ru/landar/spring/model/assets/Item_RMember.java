@@ -70,6 +70,7 @@ public class Item_RMember extends IBase {
     public Object onNew() {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
+    	hs.setProperty(this, "uz_pz", true);
     	
     	return null;
 	}
