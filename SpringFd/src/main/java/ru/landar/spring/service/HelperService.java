@@ -17,6 +17,7 @@ import ru.landar.spring.model.IDepartment;
 public interface HelperService {
 	Object ai(String clazz, String attr, String info);
 	List<AttributeInfo> la(String clazz, boolean byObject);
+	String li(String clazz, String result, String attr, Object value);
 	boolean isEmpty(String v);
 	boolean isEmptyTrim(String v);
 	Object getObjectByString(Class<?> cl, String attr, String v);

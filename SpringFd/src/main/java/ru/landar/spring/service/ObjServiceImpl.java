@@ -80,6 +80,10 @@ public class ObjServiceImpl implements ObjService {
 		return objRepository.findAllResult(cl, result, p, attr, value);
 	}
 	@Override
+	public String findListResult (Class<?> cl, String result, String[] attr, Object[] value) {
+		return objRepository.findListResult(cl, result, attr, value);
+	}
+	@Override
 	public List<Object> findAll(Class<?> cl) throws Exception {
 		return findAll(cl, false);
 	}

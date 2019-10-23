@@ -27,6 +27,7 @@ public interface ObjRepositoryCustom {
 	Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value);
 	Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value, Integer rn);
 	Page<Map<String, Object>> findAllResult(Class<?> cl, String[] result, Pageable p, String[] attr, Object[] value);
+	String findListResult(Class<?> cl, String result, String[] attr, Object[] value);
 	List<Object> findAll(Class<?> cl);
 	Object findByCode(Class<?> cl, String code);
 	String getClassByKey(Object pk);

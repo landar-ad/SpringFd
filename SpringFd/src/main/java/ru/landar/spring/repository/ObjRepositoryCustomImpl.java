@@ -233,6 +233,18 @@ public class ObjRepositoryCustomImpl implements ObjRepositoryCustom {
 		}
         return new PageImpl<Map<String, Object>>(listResult, paged ? p : Pageable.unpaged(), count);
 	}
+	@Override
+	public String findListResult (Class<?> cl, String result, String[] attr, Object[] value) {
+		String ret = "";
+		Page<Object> p = findAll(cl, null, attr, value);
+		if (p != null && p.getContent() != null) for (Object o : p.getContent()) {
+			String v = hs.getPropertyString(o, result);
+			if (hs.isEmpty(v)) continue;
+			if (!ret.isEmpty()) ret += ",";
+			ret += v;
+		}
+		return ret;
+	}
 	private Long findAllCount(Class<?> cl, String[] attr, Object[] value) {
 		CriteriaQuery<Long> query = (CriteriaQuery<Long>)createAllQuery(cl, null, attr, value, null, 1);
         return em.createQuery(query).getSingleResult();

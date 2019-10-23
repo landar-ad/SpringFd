@@ -19,6 +19,7 @@ public interface ObjService {
     Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value);
     Page<Object> findAll(Class<?> cl, Pageable p, String[] attr, Object[] value, Integer rn);
     Page<Map<String, Object>> findAllResult(Class<?> cl, String[] result, Pageable p, String[] attr, Object[] value);
+    String findListResult (Class<?> cl, String result, String[] attr, Object[] value);
     List<Object> findAll(Class<?> cl) throws Exception;
     List<Object> findAll(Class<?> cl, boolean empty) throws Exception;
     Object find(Class<?> cl, Object pk);
