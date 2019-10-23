@@ -38,7 +38,7 @@ public class SpRCommission_RClaim extends IBase {
     
     public static List<ColumnInfo> listColumn() {
 		List<ColumnInfo> ret = new ArrayList<ColumnInfo>();
-		Class<?> cl = RCommission.class;
+		Class<?> cl = SpRCommission_RClaim.class;
 		ret.add(new ColumnInfo("code", cl));
 		ret.add(new ColumnInfo("c_type", cl));
 		ret.add(new ColumnInfo("za_type", cl));
