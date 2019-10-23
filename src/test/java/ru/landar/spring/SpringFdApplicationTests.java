@@ -35,13 +35,16 @@ public class SpringFdApplicationTests {
 		String s = hs.getDefaultObjectTemplate(clazz, true);
 		if (s != null) hs.copyStream(new ByteArrayInputStream(s.getBytes("UTF-8")), new FileOutputStream("C:\\TEMP\\details" + clazz + "Page.html"), true, true);
 		*/
-		/*
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", userService.getUser("admin"));
+		//map.put("user", userService.getUser("admin"));
 		//map.put("obj", objService.find(RClaim.class, 0)); ==obj.co_org.rn
-		Object r = hs.evaluate("#user.org?.rn==null", map);
+		map.put("op1", null);
+		map.put("op2", null);
+		Object r = hs.evaluate("#op1==#op2", map);
+		//Object r = hs.evaluate("{'delete','add','copy'}.?[#this=='*'||#this==#op].size()>0", map);
+		//Object r = hs.evaluate("!{'delete','add','copy'}.contains(#op)", map);
+		//Object r = hs.evaluate("#user.org?.rn==null", map);
 		System.out.println(r);
-		*/
 		/*
 		String v = hs.li("SpRCommission_RClaim", "za_type", "c_type", 726);
 		*/
