@@ -321,7 +321,7 @@ public class LoadController {
 							if (IBase.class.isAssignableFrom(clType)) {
 								if (!"SpCommon".equals(clType.getSimpleName())) ot = objService.getObjByCode(clType, v);
 								else {
-									String sp_code = (String)HelperServiceImpl.getAttrInfo(clType, attr, "sp");
+									String sp_code = (String)HelperServiceImpl.getAttrInfo(cl, attr, "sp");
 									ot = objService.find(clType, new String[] {"code", "sp_code"}, new Object[] { v, sp_code});
 								}
 							}
