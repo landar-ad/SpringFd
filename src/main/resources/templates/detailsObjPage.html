@@ -25,10 +25,8 @@
 		           						<td th:if="${attr.length>0}" th:width="${'' + (70 - attr.length * 100 / 12) + '%'}"></td>	
 	           						</th:block>
 	           						<th:block th:if="${attr.type=='list'}">
-	           							<th:block th:with="r_ii=${attr.attrName},r_ll=${attr.editList},xx=${attr.title}">
-	           								<th:block th:if="${attr.listAddExists}"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
-	           								<th:block th:if="${!attr.listAddExists}"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
-           								</th:block>
+           								<th:block th:if="${attr.listAddExists}" th:with="r_ii=${attr.attrName},r_ll=${attr.editList},xx=${attr.title}"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
+           								<th:block th:if="${!attr.listAddExists}" th:with="r_ii=${attr.attrName},r_ll=${attr.editList},xx=${attr.title}"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
 	           						</th:block>
            						</th:block>
            						<th:block th:if="${attr.type=='check' || attr.type=='checkbox'}">
