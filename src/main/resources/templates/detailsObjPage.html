@@ -21,18 +21,18 @@
            						<th:block th:if="${attr.type!='check' && attr.type!='checkbox'}">
            							<th:block th:if="${attr.type!='list'}">
 		           						<th:block th:with="w='30%',tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><th th:replace="fragments/tc :: ch"></th></th:block>	
-		           						<th:block th:with="w=${attr.length>0 ? '' + (attr.length * 100 / 12) + '%' : '70%'},tt=${attr.type},nn=${attr.name},vv=${hs.getProperty(obj,attr.name)},ll=${attr.editList},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><td th:replace="fragments/tc :: cd"></td></th:block>
+		           						<th:block th:with="w=${attr.length>0 ? '' + (attr.length * 100 / 12) + '%' : '70%'},tt=${attr.type},nn=${attr.attrName},vv=${hs.getProperty(obj,attr.attrName)},ll=${attr.editList},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><td th:replace="fragments/tc :: cd"></td></th:block>
 		           						<td th:if="${attr.length>0}" th:width="${'' + (70 - attr.length * 100 / 12) + '%'}"></td>	
 	           						</th:block>
 	           						<th:block th:if="${attr.type=='list'}">
-	           							<th:block th:with="r_ii=${attr.name},r_ll=${attr.editList},xx=${attr.title}">
+	           							<th:block th:with="r_ii=${attr.attrName},r_ll=${attr.editList},xx=${attr.title}">
 	           								<th:block th:if="${attr.listAddExists}"><th:block th:replace="fragments/rlist :: exists"></th:block></th:block>
 	           								<th:block th:if="${!attr.listAddExists}"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
            								</th:block>
 	           						</th:block>
            						</th:block>
            						<th:block th:if="${attr.type=='check' || attr.type=='checkbox'}">
-           							<th:block th:with="w='4%',tt=${attr.type},nn=${attr.name},vv=${hs.getProperty(obj,attr.name)},ll=${attr.editList},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><td th:replace="fragments/tc :: cd"></td></th:block>
+           							<th:block th:with="w='4%',tt=${attr.type},nn=${attr.attrName},vv=${hs.getProperty(obj,attr.attrName)},ll=${attr.editList},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><td th:replace="fragments/tc :: cd"></td></th:block>
            							<th:block th:with="w='26%',tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><th th:replace="fragments/tc :: ch"></th></th:block>
            							<td width="70%"></td>
            						</th:block>
@@ -41,7 +41,7 @@
            				<th:block th:if="${bs==true}">
 			            	<div th:each="attr : ${listAttribute}" class="form-group-sm mt-sm-1">
 			            		<th:block th:if="${attr.type!='checkbox'}" th:with="tt='label',vv=${attr.title},rr=${attr.required ? 1 : 0}"><div class="col-sm-12"><th:block th:replace="fragments/component :: c"></th:block></div></th:block>
-		                        <div th:class="${'col-sm-' + (attr.length>0 ? attr.length : 12)}"><th:block th:with="tt=${attr.type},nn=${attr.name},vv=${hs.getProperty(obj,attr.name)},ll=${attr.editList},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><th:block th:replace="fragments/component :: c"></th:block></th:block></div>
+		                        <div th:class="${'col-sm-' + (attr.length>0 ? attr.length : 12)}"><th:block th:with="tt=${attr.type},nn=${attr.attrName},vv=${hs.getProperty(obj,attr.attrName)},ll=${attr.editList},rr=${attr.required ? 1 : 0},ro=${attr.readOnly ? 1 : rco},_attr=${attr.editAttr}"><th:block th:replace="fragments/component :: c"></th:block></th:block></div>
 		                    </div>
 	                    </th:block>
                     </div>
