@@ -307,7 +307,7 @@ public class ObjController {
 		if (!hs.isEmpty(pClazz)) model.addAttribute("p_clazz", pClazz);
 		String t = "details" + (!hs.isEmpty(pClazz) ? pClazz : clazz) + "Page";
 		if (!hs.templateExists(t)) {
-			model.addAttribute("listAttribute", hs.la(hs.getPropertyString(obj, "clazz"), false));
+			if (!model.containsAttribute("listAttribute")) model.addAttribute("listAttribute", hs.la(hs.getPropertyString(obj, "clazz"), false));
 		}
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
