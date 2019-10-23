@@ -24,6 +24,7 @@ public interface HelperService {
 	Object getObjectByString(String v, Class<?> clType);
 	Object getObjectByPart(Part part) throws Exception;
 	Class<?> getAttrType(Class<?> cl, String attr);
+	String getEditType(Class<?> cl, String attr);
 	Class<?> getListAttrType(Class<?> cl, String attr);
 	Class<?> getItemType(Class<?> cl, String attr);
 	Field[] getFields(Class<?> cl, boolean persist);
