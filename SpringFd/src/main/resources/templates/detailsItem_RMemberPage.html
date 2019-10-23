@@ -21,7 +21,7 @@
 		                    	<table class="table table-sm table-edited table-bordered"><tbody><tr class="parent-popup">
 			                    	<th:block th:with="w='13%',tt='label',vv='Член комиссии'"><th:block th:replace="fragments/tc :: ch"></th:block></th:block>
 			                    	<th:block th:with="w='83%',tt='text',vv=${obj.uz?.name},ro=1"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
-			                    	<th:block th:with="w='4%',tt='pbutton',nn1='uz',nn2='',vv=${obj.uz?.rn},ro=${rco},ddcl='RMember',ddti='Выберите члена комиссии',ddco='rn;name=Член комиссии=YYA',ddfi=''"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
+			                    	<th:block th:with="w='4%',tt='pbutton',nn1='uz',nn2='',vv=${obj.uz?.rn},ro=${rco},ddcl='RMember',ddti='Выберите члена комиссии',ddco='rn;name=Член комиссии=YYA',ddfi=${'parent__rn ='+obj.parent?.parent?.rn}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
 		                    	</tr></tbody></table>
 			                    <table class="table table-sm table-edited table-bordered"><tbody><tr>
 			                    	<th:block th:with="w='4%',tt='check',nn='uz_pz',vv=${obj.uz_pz},ro=${rco}"><th:block th:replace="fragments/tc :: cd"></th:block></th:block>
