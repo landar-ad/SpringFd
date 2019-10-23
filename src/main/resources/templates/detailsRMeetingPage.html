@@ -53,7 +53,7 @@
 	                    	</div>
 	                    </th:block>
 	                    <div class="w-100 border border-primary">
-			        		<th:block th:with="r_ii='list_rcl',r_ll='Item_RClaim',xx='Заявки к рассмотрению'"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
+			        		<th:block th:with="r_ii='list_rcl',r_ll='Item_RClaim',xx='Заявки к рассмотрению',ff=${'za_type__rn in '+hs.li('SpRCommission_RClaim','za_type','c_type',obj.parent?.c_type?.rn)}"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>
                        	</div>
                        	<div class="w-100 border border-primary">
 			        		<th:block th:with="r_ii='list_cs',r_ll='Item_RMember',xx='Члены комиссии, участвующие в заседании',ff=${'parent__rn ='+obj.parent?.rn}"><th:block th:replace="fragments/rlist :: new"></th:block></th:block>

@@ -953,6 +953,10 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
+	public String li(String clazz, String result, String attr, Object value) {
+		return objService.findListResult(getClassByName(clazz), result, new String[] {attr}, new Object[] { value });
+	}
+	@Override
 	public ObjService getObjService() { return objService; }
 	@Override
 	public UserService getUserService() { return userService; }

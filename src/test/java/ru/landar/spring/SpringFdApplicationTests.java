@@ -42,14 +42,6 @@ public class SpringFdApplicationTests {
 		Object r = hs.evaluate("#user.org?.rn==null", map);
 		System.out.println(r);
 		*/
-		Page<?> p = objService.findAll(SpCommon.class, null, new String[] {"rn"}, new Object[] {"in 113,129,132"});
-		if (p != null) {
-			String v = "";
-			for (Object o : p.getContent()) {
-				if (!v.isEmpty()) v += ",";
-				v += hs.getPropertyString(o, "rn");
-			}
-			System.out.println(v);
-		}
+		String v = hs.li("SpRCommission_RClaim", "za_type", "c_type", 726);
 	}
 }
