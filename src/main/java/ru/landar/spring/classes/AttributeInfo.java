@@ -65,13 +65,12 @@ public class AttributeInfo {
 			}
 		}
 		setType(type);
-		if (getEditList() == null) {
-			String editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "editList");
-			if ("*".equals(editList) && ("select".equals(type) || "choose".equals(type) || "list".equals(type))) {
+		String editList = getEditList(); 
+		if (editList == null || "*".equals(editList)) {
+			if ("select".equals(type) || "choose".equals(type) || "list".equals(type)) {
 				if ("select".equals(type)) editList = (String)HelperServiceImpl.getAttrInfo(cl, name, "list");
 				else if ("choose".equals(type)) editList = clAttr.getSimpleName();
 			}
-			else editList = null;
 			setEditList(editList);
 		}
 		Boolean required = (Boolean)HelperServiceImpl.getAttrInfo(cl, name, "required");

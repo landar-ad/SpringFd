@@ -332,7 +332,6 @@ public class LoadController {
 								for (String vl : vs) {
 									Object item = objService.getObjByCode(clType, vl);
 									if (item != null) {
-										hs.setProperty(item, "parent", obj);
 										((List)ot).add(item);
 									}
 								}
@@ -344,7 +343,9 @@ public class LoadController {
 							}
 							mSet.invoke(obj, ot);
 						} 
-						catch (Exception e) { }
+						catch (Exception e){ 
+							listAdd.add("Исключение " + e.getClass().getSimpleName() + " при выполнении " + mSet.getName() + " для " + cl.getSimpleName());
+						}
 					}
 					// Проверка объекта obj по code + (sp_code)
 					String code = (String)hs.getProperty(obj, "code"), sp_code = (String)hs.getProperty(obj, "sp_code");
