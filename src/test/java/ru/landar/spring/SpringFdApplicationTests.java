@@ -42,6 +42,8 @@ public class SpringFdApplicationTests {
 		Object r = hs.evaluate("#user.org?.rn==null", map);
 		System.out.println(r);
 		*/
+		/*
 		String v = hs.li("SpRCommission_RClaim", "za_type", "c_type", 726);
+		*/
 	}
 }

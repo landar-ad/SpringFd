@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -203,6 +204,36 @@ public class HelperServiceImpl implements HelperService {
     	}
     	ret = clAttr;
 		return ret;
+	}
+	@Override
+	public String getEditType(Class<?> cl, String attr) {
+		String type = "text", name = attr;
+		int k = attr.lastIndexOf("__");
+		if (k > 0) {
+			name = attr.substring(0, k);
+			attr = attr.substring(k + 2);
+			cl = getItemType(cl, name);
+		}
+		type = (String)getAttrInfo(cl, attr, "editType");
+		if (type == null || "*".equals(type)) {
+			Class<?> clAttr = getAttrType(cl, attr);
+			if (IBase.class.isAssignableFrom(clAttr)) {
+				boolean voc = (Boolean)HelperServiceImpl.getAttrInfo(clAttr, null, "voc");
+				type = voc ? "select" : "choose";
+			}
+			else if (List.class.isAssignableFrom(clAttr)) {
+				type = "list";
+			}
+			else if (Date.class.isAssignableFrom(clAttr)) {
+				type = "date";
+				String getter = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
+				Temporal t = null;
+				try { t = cl.getMethod(getter).getAnnotation(Temporal.class); } catch (Exception ex) { }
+				if (t == null || t.value() != TemporalType.DATE) type = "time";
+			}
+			else if (Boolean.class.isAssignableFrom(clAttr)) type = "checkbox";
+		}
+		return type;
 	}
 	@Override
 	public Class<?> getListAttrType(Class<?> cl, String attr) {

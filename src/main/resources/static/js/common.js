@@ -1382,14 +1382,17 @@ Amel = {
 		target.add_on($(".xbutton"), "click", function() {
 			target.button_command($(this));
 		});
-		target.add_on($(".td-edited .td-check"), "change", function() {
-			target.button_enabled();
-		});
-		target.add_on($('.td-edited select'), "change", function() {
+		target.add_on($(".td-edited select"), "change", function() {
 			var q = $(this);
 			setTimeout(function() {
 				target.table_edit_end(q, { keyCode: 13, shiftKey: false, ctrlKey: false });
 			}, 10);
+		});
+		target.add_on($(".td-edited input[type='checkbox']"), "change", function() {
+			var q = $(this);
+			if (q.hasClass("td-check")) { target.button_enabled(); return; }
+			var zz = $(q).closest("tr").find(".d-none > input[name$='p_cmd']");
+			if (!zz.val()) zz.val("update");
 		});
 		target.add_on($('.td-edited .custom-file-input'), "change", function() { 
 			var fileName = $(this).val().split('\\').pop(); 
