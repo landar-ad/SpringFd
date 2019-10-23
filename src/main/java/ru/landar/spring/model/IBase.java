@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostPersist;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
@@ -133,7 +132,13 @@ public abstract class IBase {
     	}
     	return getParent();
     }
-        
+    @Transient
+    public IBase getTop() {
+    	if (hs == null) AutowireHelper.autowire(this);
+    	IBase p = this, ret = null;
+    	while ((p = p.getParentProxy()) != null) ret = p;
+    	return ret;
+    }
     @FieldTitle(name="Базовый класс")
     @Transient
     public String getBaseClazz() { return clazz; }
