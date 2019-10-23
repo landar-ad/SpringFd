@@ -125,8 +125,8 @@ public class RCommission extends IBase {
 			model.addAttribute("listSp_type_c", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_c"}));
 			model.addAttribute("listSp_cs_rol", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_cs_rol"}));
 			model.addAttribute("listIDepartment", objService.findAll(IDepartment.class));
-			model.addAttribute("listSp_type_c", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_c"}));
 			model.addAttribute("listSp_stat_cm", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_stat_cm"}));
+			model.addAttribute("listSp_type_za", objService.findAll(SpCommon.class, null, new String[] {"sp_code"}, new Object[] {"sp_type_za"}));
 		}
 		catch (Exception ex) { }
 		return null;

@@ -306,6 +306,9 @@ public class ObjController {
 		String pClazz = paramClazz.orElse(null);
 		if (!hs.isEmpty(pClazz)) model.addAttribute("p_clazz", pClazz);
 		String t = "details" + (!hs.isEmpty(pClazz) ? pClazz : clazz) + "Page";
+		if (!hs.templateExists(t)) {
+			model.addAttribute("listAttribute", hs.la(hs.getPropertyString(obj, "clazz"), false));
+		}
 		return hs.templateExists(t) ? t : "detailsObjPage";
 	}
 	@RequestMapping(value = "/detailsObj", method = RequestMethod.POST)
