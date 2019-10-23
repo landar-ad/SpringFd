@@ -77,14 +77,17 @@ public class RMeeting extends IBase {
     
     private void updateName() {
     	if (hs == null) AutowireHelper.autowire(this);
-    	String name = "";
-    	if (getCm_nz() != null) name = getCm_nz();
+    	String name = "Заседание";
+    	if (getCm_nz() != null) {
+    		if (!hs.isEmpty(name)) name += " № ";
+    		name += getCm_nz();
+    	}
     	if (getCm_dz_f() != null) {
-    		if (!hs.isEmpty(name)) name += " от "; else name += "От ";
+    		if (!hs.isEmpty(name)) name += " от ";
     		name += hs.getPropertyString(this, "cm_dz_f");
     	}
     	else if (getCm_dz_p() != null) {
-    		if (!hs.isEmpty(name)) name += " от "; else name += "От ";
+    		if (!hs.isEmpty(name)) name += " от ";
     		name += hs.getPropertyString(this, "cm_dz_p") + " (планируется)";
     	}
     	setName(name);
