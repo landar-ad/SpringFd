@@ -132,11 +132,13 @@ public class RClaim extends IBase {
     
     private void updateName() {
     	if (hs == null) AutowireHelper.autowire(this);
-    	String name = "";
-    	if (!hs.isEmptyTrim(getZa_num())) name = getZa_num();
+    	String name = "Заявка";
+    	if (!hs.isEmptyTrim(getZa_num())) {
+    		if (!hs.isEmpty(name)) name += " № ";
+    		name += getZa_num();
+    	}
     	if (getZa_date() != null) {
     		if (!hs.isEmpty(name)) name += " от ";
-    		else name += "От ";
     		name += hs.getPropertyString(this, "za_date");
     	}
     	setName(name);
