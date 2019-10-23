@@ -16,7 +16,6 @@ import ru.landar.spring.classes.ColumnInfo;
 import ru.landar.spring.classes.FieldTitle;
 import ru.landar.spring.classes.ObjectTitle;
 import ru.landar.spring.classes.Operation;
-import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IOrganization;
@@ -42,7 +41,7 @@ import javax.persistence.Column;
 @EntityListeners(UnfinishedConstructionListener.class)
 @PrimaryKeyJoinColumn(name="rn")
 @ObjectTitle(single="Объект незавершенного капстроительства", multi="Объекты незавершенного капстроительства", menu="Незавершенное капстроительство")
-public class UnfinishedConstruction extends IBase {
+public class UnfinishedConstruction extends RProperty {
 	private IOrganization customer;
 	private String obj_name;
 	private String obj_address;
@@ -559,6 +558,8 @@ public class UnfinishedConstruction extends IBase {
      	Object ret = super.onNew();
     	if (ret != null) return ret;
     	setStatus((SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"0", "sp_so"}));
+    	hs.setProperty(this, "co_type", "Недмижимое");
+     	hs.setProperty(this, "co_div", (SpCommon)objRepository.find(SpCommon.class, new String[] {"code", "sp_code"}, new Object[] {"03", "sp_rui"}));
      	IUser user = userService.getUser((String)null);
      	if (user != null) {
 	     	IOrganization org = user.getOrg();
