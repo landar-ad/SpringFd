@@ -19,4 +19,5 @@ public interface UserService {
 	boolean isUser(String username);
 	boolean hasBaseRole(String username, String role);
 	IRole getRole(String username, String code);
+	List<IRole> getList_roles(String username);
 }

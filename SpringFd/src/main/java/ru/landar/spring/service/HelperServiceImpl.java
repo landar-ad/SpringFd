@@ -828,25 +828,39 @@ public class HelperServiceImpl implements HelperService {
 	@Override
 	public boolean ce(Object obj, String param) { return checkExecute(obj, param); }
 	@Override
-	public boolean checkRole(String username, String code, Map<String, Object> context) {
-		IRole role = userService.getRole(username, code);
-		if (role == null) return false;
+	public Boolean checkRole(String username, String code, Map<String, Object> context) {
+		return s_checkRole(userService.getRole(username, code), context);
+	}
+	@Override
+	public Boolean checkRoles(String username, Map<String, Object> context) {
+		List<IRole> roles = userService.getList_roles(username);
+		if (roles == null || roles.size() < 1) return null;
+		Boolean ret = null;
+		for (IRole role : roles) {
+			Boolean r = s_checkRole(role, context);
+			if (r == null) continue;
+			ret = r;
+		}
+		return ret;
+	}
+	public static Boolean s_checkRole(IRole role, Map<String, Object> context) {
+		if (role == null) return null;
 		List<IRole_IRule> rules = role.getRo_prs();
-		if (rules == null || rules.size() < 1) return false;
-		boolean ret = false;
+		if (rules == null || rules.size() < 1) return null;
+		Boolean ret = null;
 		for (IRole_IRule it : rules) {
 			IRule rule = it.getPr();
 			if (rule == null || !it.getPr_bl()) continue;
 			String isp = (String)context.get("case");
-			if (!isEmpty(isp)) {
+			if (!s_isEmpty(isp)) {
 				String pr_isp = it.getPr_isp();
-				if (isEmpty(pr_isp) || !isp.equalsIgnoreCase(pr_isp)) continue;
+				if (s_isEmpty(pr_isp) || !isp.equalsIgnoreCase(pr_isp)) continue;
 			}
 			String filter = rule.getPr_filter();
-			if (isEmpty(filter)) continue;
+			if (s_isEmpty(filter)) continue;
 			boolean r = false;
 			try {
-				r = (Boolean)evaluate(filter, context);
+				r = (Boolean)s_evaluate(filter, context);
 			}
 			catch (Exception ex) { 
 				System.out.println("Исключение " + ex.getClass().getSimpleName() + " при вычислении " + filter);
