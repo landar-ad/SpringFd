@@ -86,6 +86,10 @@ public class ObjController {
 		boolean p_all = (Boolean)hs.getObjectByString(allParam.orElse(""), Boolean.class);  
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
+		// Проверка прав и редирект на страницу сообщения
+		if (hs.checkRoles(null, hs.context(clazz, "list", null, null, null, "list"))) {
+			throw new Exception("Недостаточно прав для перехода на эту страницу");
+		}
 		Object obj = cl.newInstance();
 		// Последние используемые параметры
 		String p_ret = retParam.orElse("");
