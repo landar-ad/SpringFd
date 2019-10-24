@@ -605,6 +605,7 @@ public class UnfinishedConstruction extends RProperty {
 			item.setDoc(doc);
 			item = (Item_RDocument)objRepository.createObj(item);
 			if (item != null) {
+				item.setParent(this);
 				listDoc.add(item);
 				update = true;
 			}
