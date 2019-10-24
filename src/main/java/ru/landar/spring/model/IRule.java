@@ -5,10 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.springframework.ui.Model;
@@ -22,7 +20,7 @@ import ru.landar.spring.service.HelperServiceImpl;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @PrimaryKeyJoinColumn(name="rn")
-@ObjectTitle(single="Правило", multi="Правила")
+@ObjectTitle(single="Правило", multi="Правила", system=true)
 public class IRule extends IBase {
 	private Boolean pr_razr; 
 	private String pr_filter;

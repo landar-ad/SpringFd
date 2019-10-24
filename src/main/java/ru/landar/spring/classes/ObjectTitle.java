@@ -12,4 +12,5 @@ public @interface ObjectTitle {
 	public String multi() default "";
 	public String menu() default "";
 	public boolean voc() default false;
+	public boolean system() default false;
 }

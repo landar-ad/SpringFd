@@ -21,7 +21,7 @@ import ru.landar.spring.service.HelperServiceImpl;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @PrimaryKeyJoinColumn(name="rn")
-@ObjectTitle(single="Элемент списка правил", multi="Элементы списка правил")
+@ObjectTitle(single="Элемент списка правил", multi="Элементы списка правил", system=true)
 public class IRole_IRule extends IBase {
 	private IRule pr;
 	private Boolean pr_bl;
