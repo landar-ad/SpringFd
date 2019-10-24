@@ -39,7 +39,7 @@ public class IRole_IRule extends IBase {
     @FieldTitle(name="Контекст")
     @Column(length=50)
     public String getPr_isp() { return pr_isp; }
-    public void sePr_isp(String pr_isp) { this.pr_isp = pr_isp; }
+    public void setPr_isp(String pr_isp) { this.pr_isp = pr_isp; }
     
     public static List<AttributeInfo> listAttribute() {
     	return HelperServiceImpl.getListAttribute(IRole_IRule.class, true);
