@@ -336,8 +336,6 @@ public class ObjController {
 		for (String p : listNames) {
 			String[] vs = request.getParameterValues(p);
 			if ("clazz".equals(p) || "rn".equals(p)) continue;
-			Object ob = hs.invoke(obj, "onCheckUpdateAttribute", p);
-			if (ob != null && !(Boolean)ob) continue;
 			int k = p.indexOf("__");
 			if (k > 0) {
 				String a = p.substring(0, k);
@@ -361,7 +359,11 @@ public class ObjController {
 				}
 				m.put(attr, ls);
 			}
-			else if (hs.getAttrType(cl, p) != null) mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
+			else if (hs.getAttrType(cl, p) != null) {
+				Object ob = hs.invoke(obj, "onCheckUpdateAttribute", p);
+				if (ob != null && !(Boolean)ob) continue;
+				mapValue.put(p, hs.getObjectByString(cl, p, vs.length > 0 ? vs[0] : null));
+			}
 		}
 		// Файлы
 		Collection<Part> colParts = null;
@@ -394,6 +396,8 @@ public class ObjController {
 					l.add(op);
 				}
 				else if (hs.getAttrType(cl, p) != null) {
+					Object ob = hs.invoke(obj, "onCheckUpdateAttribute", p);
+					if (ob != null && !(Boolean)ob) continue;
 					mapValue.put(p, hs.getProperty(op, p));
 					if (op instanceof IFile && "fileuri".equals(p)) {
 						IFile f = (IFile)op;
@@ -491,6 +495,8 @@ public class ObjController {
 									v = hs.getProperty(v, ap); 
 								}
 								else v = hs.getObjectByString(clItem, ap, (String)v);
+								Object ob = hs.invoke(item, "onCheckUpdateAttribute", ap);
+								if (ob != null && !(Boolean)ob) continue;
 								/*if (v != null) */hs.setProperty(item, ap, v);
 							}
 							if (f != null) hs.copyProperties(f, item, true, false);
