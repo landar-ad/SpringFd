@@ -30,7 +30,7 @@ public class IRole_IRule extends IBase {
     public IRule getPr() { return pr; }
     public void setPr(IRule pr) { this.pr = pr; updateName(); }
     
-    @FieldTitle(name="Заблокировано")
+    @FieldTitle(name="Заблокировано",editLength=5)
     public Boolean getPr_bl() { return pr_bl; }
     public void setPr_bl(Boolean pr_bl) { this.pr_bl = pr_bl; }
     
