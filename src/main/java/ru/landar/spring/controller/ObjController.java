@@ -470,13 +470,16 @@ public class ObjController {
 						try { rnItemOld = Integer.valueOf((String)lrnOld.get(i)); } catch (Exception ex) { }
 						Object item = null;
 						if ("remove".equals(cmd) && rnItem != null) {
+							if (!hs.checkRoles(null, hs.context(null, "delete", obj, list))) throw new SecurityException("Запрет удаления элемента списка");
 							try { objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 						}
 						else if ("add".equals(cmd)) {
+							if (!hs.checkRoles(null, hs.context(null, "add", obj, list))) throw new SecurityException("Запрет добавления элемента списка");
 							try { item = objRepository.executeItem(obj, list, cmd, clazzItem, rnItem, bNew); } catch (Exception ex) { }
 						}
 						else if (rnItem != null && ("update".equals(cmd))) {
 							try {
+								if (!hs.checkRoles(null, hs.context(null, "edit", obj, list))) throw new SecurityException("Запрет изменения элемента списка");
 								item = objRepository.updateItem(obj, list, clazzItem, rnItemOld, rnItem);
 								if (item != null && rnItemOld != rnItem) hs.invoke(obj, "onUpdateItem", clItem, rnItemOld, rnItem);
 							}
@@ -540,7 +543,8 @@ public class ObjController {
 		Integer rnItem = rnItemParam.orElse(null);
 		TransactionStatus ts = transactionManager.getTransaction(new DefaultTransactionDefinition());    	
     	try {
-    		objRepository.executeItem(obj, listAttr, cmd, clazzItem, rnItem, !"exists".equals(paramAdd.orElse("new")));
+    		// Работа с элементом в массиве
+     		objRepository.executeItem(obj, listAttr, cmd, clazzItem, rnItem, !"exists".equals(paramAdd.orElse("new")));
     		// Запись в журнал
 			List<ChangeInfo> lci = objectChanged.getObjectChanges();
 			for (ChangeInfo ci : lci) objRepository.writeLog(userService.getPrincipal(), ci.getRn(), ci.getClazz(), ci.getValue(), ci.getOp(), ip, browser);
