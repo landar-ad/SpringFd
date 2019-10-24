@@ -5,7 +5,6 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			Amel.details_init();
-			Amel.require_init();
 			var faipChecked = function() { if ($('input[name="faip"]').is(':checked')) $('#faip').show(); else $('#faip').hide(); };
 			$('input[name="faip"]').on("change", function() { faipChecked(); });
 			faipChecked();
@@ -14,11 +13,9 @@
 	<header th:replace="fragments/header :: header"></header>
    	<div class="container">
 		<form id="form" th:action="@{/detailsObj}" method="POST" class="form" role="form" autocomplete="off">
-	 		<input type="hidden" name="clazz" value="UnfinishedConstruction" />
-	 		<input type="hidden" name="rn" th:value="${obj.rn}" />
-	 		<input type="hidden" name="p_tab" th:value="${p_tab}" />
+	 		<div th:replace="fragments/header :: details-param"></div>
         	<div th:replace="fragments/header :: details-header"></div>
-        	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-md-12 form-group-sm row small">
+        	<div th:with="rco=${readonly!=true ? 0 : 1}" class="col-sm-12 form-group-sm row small">
         		<div class="col-sm-1" th:with="tt='label',vv='Статус данных',rr=1"><div th:replace="fragments/component :: c"></div></div>
                 <div class="col-sm-3" th:with="tt='select',nn='status',vv=${obj.status},ro=${rco},rr=1"><div th:replace="fragments/component :: c"></div></div>
 				<div class="form-group-sm">
@@ -27,7 +24,7 @@
 				</div>
 	        </div>
 	        <div class="col-sm-12 border fit-height">
-	            <div th:with="p_tab=${p_tab!=null?p_tab:1}" class="col-md-12">
+	            <div th:with="p_tab=${p_tab!=null?p_tab:1}" class="col-sm-12">
 	                <ul class="nav nav-tabs">
 	                    <li class="nav-item"><a href="#item1" data-target="#item1" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==null||p_tab==1?' active':'')}">Характеристика объекта</a></li>
 	                    <li class="nav-item"><a href="#item2" data-target="#item2" data-toggle="tab" th:class="${'nav-link small text-uppercase' + (p_tab==2?' active':'')}">Финансы</a></li>
@@ -239,14 +236,16 @@
 		                    </div>
 	                    </div>
 	                    <div id="item5" th:class="${'m-sm-2 tab-pane' + (p_tab==5?' active':' fade')}">
-	                    	<div th:each="doc : ${obj.documents}" class="form-group-sm row">
-		                        <div class="col-sm-10 one-line">
-		                        	<span th:text="${doc.doctype.name}"></span>
-	                        	</div>
-	                        	<div class="col-sm-2">
-	                        		<a th:href="@{/detailsObj?clazz=Document&rn=} + ${doc.rn + '&prn=' + obj.rn}" class="btn btn-sm btn-light w-100">
-	                        		<i th:class="${'fa fa-sm fa-' + (!doc.apsend ? 'check' : 'times')}"></i> Документ</a>
-	                        	</div>
+	                    	<div th:each="item : ${obj.documents}" class="form-group-sm row">
+	                    		<th:block th:if="${item != null && item.doc != null}">
+			                        <div class="col-sm-10 one-line">
+			                        	<span th:text="${item.doc.doctype.name}"></span>
+		                        	</div>
+		                        	<div class="col-sm-2">
+		                        		<a th:href="@{/detailsObj?clazz=Document&rn=} + ${item.doc.rn + '&prn=' + obj.rn}" class="btn btn-sm btn-light w-100">
+		                        		<i th:class="${'fa fa-sm fa-' + (!item.doc.apsend ? 'check' : 'times')}"></i> Документ</a>
+		                        	</div>
+	                        	</th:block>
 	                    	</div>
 	                    </div>
 	                </div>
