@@ -84,12 +84,49 @@ public class ObjController {
 		Integer rn = rnParam.orElse(null);
 		String listVisible = listVisibleParam.orElse(null);
 		boolean p_all = (Boolean)hs.getObjectByString(allParam.orElse(""), Boolean.class);  
+		// Строка быстрого меню
+		List<String[]> listMenus = new ArrayList<String[]>();
+		listMenus.add(new String[] {"Document","Act", "Reestr"});
+		listMenus.add(new String[] {"Notification1", "Notification2", "Notification3", "Document"});
+		listMenus.add(new String[] {"Notification4", "Notification5", "Notification6", "Document"});
+		listMenus.add(new String[] {"RProperty", "RLand", "RBuilding", "UnfinishedConstruction", "RDocument"});
+		listMenus.add(new String[] {"RCommission", "RClaim", "RCase", "RDocument"});
+		listMenus.add(new String[] {"RMeeting", "RClaim", "RDocument"});
+		listMenus.add(new String[] {"IUser", "IRole", "IRule"});
+		listMenus.add(new String[] {"IPerson", "IDepartment", "IOrganization", "IUser"});
+		List<MenuInfo> listMenu = new ArrayList<MenuInfo>();
+		for (String[] cs : listMenus) {
+			for (String ct : cs) {
+				if (!ct.equals(clazz)) continue;
+				for (String c : cs) {
+					// Проверка прав и редирект на страницу сообщения
+					if (hs.checkRoles(null, hs.context(c, "list", null, null))) {
+						listMenu.add(new MenuInfo(c, (String)HelperServiceImpl.getAttrInfo(hs.getClassByName(c), null, "menu"), 
+								"listObj?clazz=" + c, 
+								c.equals(clazz)));
+					}
+				}
+				break;
+			}
+			if (listMenu.size() > 0) break;
+		}
+		if (listMenu.size() > 0) {
+			clazz = null;
+			for (MenuInfo mi : listMenu) {
+				if (mi.getActive()) {
+					clazz = mi.getClazz();
+				}
+			}
+			if (clazz == null) {
+				MenuInfo mi = listMenu.get(0);
+				mi.setActive(true);
+				clazz = mi.getClazz();
+			}
+			model.addAttribute("quickMenu", listMenu);
+		}
+		if (!hs.checkRoles(null, hs.context(clazz, "list", null, null))) throw new SecurityException("Нет прав для перехода на страницу");
 		Class<?> cl = hs.getClassByName(clazz);
 		if (cl == null) throw new Exception("Не найден класс по имени '" + clazz + "'");
-		// Проверка прав и редирект на страницу сообщения
-		if (!hs.checkRoles(null, hs.context(clazz, "list", null, null))) {
-			throw new Exception("Недостаточно прав для перехода на эту страницу");
-		}
 		Object obj = cl.newInstance();
 		// Последние используемые параметры
 		String p_ret = retParam.orElse("");
@@ -240,30 +277,6 @@ public class ObjController {
 			try { title = (String)hs.invoke(obj, "onMultipleTitle"); } catch (Exception ex) { }
 			model.addAttribute("p_title", title);
 		}
-		// Строка быстрого меню
-		List<String[]> listMenus = new ArrayList<String[]>();
-		listMenus.add(new String[] {"Document","Act", "Reestr"});
-		listMenus.add(new String[] {"Notification1", "Notification2", "Notification3", "Document"});
-		listMenus.add(new String[] {"Notification4", "Notification5", "Notification6", "Document"});
-		listMenus.add(new String[] {"RProperty", "RLand", "RBuilding", "UnfinishedConstruction", "RDocument"});
-		listMenus.add(new String[] {"RCommission", "RClaim", "RCase", "RDocument"});
-		listMenus.add(new String[] {"RMeeting", "RClaim", "RDocument"});
-		listMenus.add(new String[] {"IUser", "IRole", "IRule"});
-		listMenus.add(new String[] {"IPerson", "IDepartment", "IOrganization", "IUser"});
-		List<MenuInfo> listMenu = new ArrayList<MenuInfo>();
-		for (String[] cs : listMenus) {
-			for (String ct : cs) {
-				if (!ct.equals(clazz)) continue;
-				for (String c : cs) {
-					listMenu.add(new MenuInfo((String)HelperServiceImpl.getAttrInfo(hs.getClassByName(c), null, "menu"), 
-								"listObj?clazz=" + c, 
-								c.equals(clazz)));
-				}
-				break;
-			}
-			if (listMenu.size() > 0) break;
-		}
-		if (listMenu.size() > 0) model.addAttribute("quickMenu", listMenu);
 		// Объект вспомогательных сервисов
 		model.addAttribute("hs", hs);
 		// Страница по имени класса или страница по умолчанию
