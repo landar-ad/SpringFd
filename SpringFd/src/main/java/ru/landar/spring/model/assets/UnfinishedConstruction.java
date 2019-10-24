@@ -108,7 +108,7 @@ public class UnfinishedConstruction extends RProperty {
 	private String kadnum_zu;
 	private String prop_sol_prov; 
 	private Boolean vvod_expl; 
-	private List<RDocument> documents;
+	private List<Item_RDocument> documents;
 	
 	@FieldTitle(name="Наименование объекта")
     @Column(length=2000)
@@ -433,9 +433,9 @@ public class UnfinishedConstruction extends RProperty {
     public void setPurpose(SpCommon purpose) { this.purpose = purpose; }
     
     @FieldTitle(name="Документы")
-    @OneToMany(targetEntity=RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<RDocument> getDocuments() { return documents; }
-    public void setDocuments(List<RDocument> documents) { this.documents = documents; }
+    @OneToMany(targetEntity=Item_RDocument.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<Item_RDocument> getDocuments() { return documents; }
+    public void setDocuments(List<Item_RDocument> documents) { this.documents = documents; }
     
     @Autowired
 	UserService userService;
@@ -577,16 +577,17 @@ public class UnfinishedConstruction extends RProperty {
 		if (hs.isEmpty(veDoctype)) return false;
 		boolean update = false;
 		String[] doctypes = veDoctype.split(",");
-		List<RDocument> listDoc = getDocuments();
+		List<Item_RDocument> listDoc = getDocuments();
 		if (listDoc == null) {
-			listDoc = new ArrayList<RDocument>();
+			listDoc = new ArrayList<Item_RDocument>();
 			setDocuments(listDoc);
 			update = true;
 		}
 		for (String doctype : doctypes) {
 			boolean b = false;
-			for (RDocument doc : listDoc) {
-				if (doctype.equals(doc.getDoctype().getCode())) {
+			for (Item_RDocument item : listDoc) {
+				if (item.getDoc() == null || item.getDoc().getDoctype() == null) continue;
+				if (doctype.equals(item.getDoc().getDoctype().getCode())) {
 					b = true;
 					break;
 				}
@@ -594,14 +595,17 @@ public class UnfinishedConstruction extends RProperty {
 			if (b) continue;
 			SpRDocType spDoctype = (SpRDocType)objService.getObjByCode(SpDocType.class, doctype);
 			if (spDoctype == null) continue;
+			Item_RDocument item = new Item_RDocument();
 			RDocument doc = new RDocument();
 			doc.setDoctype(spDoctype);
 			doc.setApsend(true);
 			doc.setPrim_apsend("Документ отсутствует");
 			doc.setParent(this);
 			doc = (RDocument)objRepository.createObj(doc);
-			if (doc != null) {
-				listDoc.add(doc);
+			item.setDoc(doc);
+			item = (Item_RDocument)objRepository.createObj(item);
+			if (item != null) {
+				listDoc.add(item);
 				update = true;
 			}
 		}
