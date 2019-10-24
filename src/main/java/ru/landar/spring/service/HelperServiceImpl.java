@@ -844,6 +844,7 @@ public class HelperServiceImpl implements HelperService {
 			Boolean r = s_checkRole(role, context);
 			if (r == null) continue;
 			ret = r;
+			if (ret) break;
 		}
 		return ret;
 	}
@@ -855,11 +856,6 @@ public class HelperServiceImpl implements HelperService {
 		for (IRole_IRule it : rules) {
 			IRule rule = it.getPr();
 			if (rule == null || !it.getPr_bl()) continue;
-			String isp = (String)context.get("case");
-			if (!s_isEmpty(isp)) {
-				String pr_isp = it.getPr_isp();
-				if (s_isEmpty(pr_isp) || !isp.equalsIgnoreCase(pr_isp)) continue;
-			}
 			String filter = rule.getPr_filter();
 			if (s_isEmpty(filter)) continue;
 			boolean r = false;
@@ -871,6 +867,7 @@ public class HelperServiceImpl implements HelperService {
 				continue; 
 			}
 			ret = rule.getPr_razr() ? r : !r; 
+			if (ret) break;
 		}
 		return ret;
 	}

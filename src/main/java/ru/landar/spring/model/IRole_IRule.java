@@ -2,7 +2,6 @@ package ru.landar.spring.model;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
@@ -25,7 +24,6 @@ import ru.landar.spring.service.HelperServiceImpl;
 public class IRole_IRule extends IBase {
 	private IRule pr;
 	private Boolean pr_bl;
-	private String pr_isp;
 	
 	@FieldTitle(name="Правило")
 	@ManyToOne(targetEntity=IRule.class, fetch=FetchType.LAZY)
@@ -35,11 +33,6 @@ public class IRole_IRule extends IBase {
     @FieldTitle(name="Заблокировано")
     public Boolean getPr_bl() { return pr_bl; }
     public void setPr_bl(Boolean pr_bl) { this.pr_bl = pr_bl; }
-    
-    @FieldTitle(name="Контекст")
-    @Column(length=50)
-    public String getPr_isp() { return pr_isp; }
-    public void setPr_isp(String pr_isp) { this.pr_isp = pr_isp; }
     
     public static List<AttributeInfo> listAttribute() {
     	return HelperServiceImpl.getListAttribute(IRole_IRule.class, true);
