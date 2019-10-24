@@ -509,8 +509,8 @@ Amel = {
 		}
 		return false;
 	},
-	table_edit_focus: function() {
-		var target = this, p = $(".td-edited");
+	table_edit_focus: function(e) {
+		var target = this, p = e ? e.find(".td-edited") : $(".td-edited");
 		for (var j=0; j<p.length; j++) {
 			var zz = $(p[j]).find("input[type='text'],input[type='password'],input[type='date'],select,.custom-file,textarea,.custom-date");
 			if (zz.length == 0) continue;
@@ -735,7 +735,7 @@ Amel = {
 								target.add_on(modal, "hidden.bs.modal", function (e) {
 									  target.put_modal(modal);
 								});
-								target.table_edit(modal.find(".td-edited").first());
+								target.table_edit_focus(modal);
 							},
 							error: function(xhr) {
 								if (xhr.status == 401) window.location = "login";
