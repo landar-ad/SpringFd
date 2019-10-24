@@ -28,7 +28,7 @@ import javax.persistence.Column;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
-@ObjectTitle(single="Зарегистрированное действие", multi="Журнал регистрации действий")
+@ObjectTitle(single="Зарегистрированное действие", multi="Журнал регистрации действий", system=true)
 public class ActionLog extends IBase {
 	private Date action_time;
 	private SpCommon action_type;

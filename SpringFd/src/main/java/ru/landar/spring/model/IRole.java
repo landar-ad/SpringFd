@@ -20,7 +20,7 @@ import ru.landar.spring.service.HelperServiceImpl;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @PrimaryKeyJoinColumn(name="rn")
-@ObjectTitle(single="Роль", multi="Роли")
+@ObjectTitle(single="Роль", multi="Роли", system=true)
 public class IRole extends IBase {
 	private List<IRole_IRule> ro_prs;
 	

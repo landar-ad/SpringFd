@@ -58,6 +58,8 @@ public interface HelperService {
 	boolean ce(Object obj, String param);
 	Boolean checkRole(String username, String code, Map<String, Object> context);
 	Boolean checkRoles(String username, Map<String, Object> context);
+	Map<String, Object> context(String clazz, String op, String username, Object obj, String attr, String cse);
+	boolean isSystem(String clazz);
 	Object invoke(Object obj, String method, Object... args);
 	Object invokePure(Object obj, String method, Object... args) throws Exception;
 	Object invoke(Class<?> cl, String method, Object... args);

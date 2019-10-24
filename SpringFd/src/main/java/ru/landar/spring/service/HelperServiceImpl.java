@@ -829,10 +829,14 @@ public class HelperServiceImpl implements HelperService {
 	public boolean ce(Object obj, String param) { return checkExecute(obj, param); }
 	@Override
 	public Boolean checkRole(String username, String code, Map<String, Object> context) {
+		if (userService.isAdmin(username)) return true;
+		if (isSystem((String)context.get("clazz"))) return false;
 		return s_checkRole(userService.getRole(username, code), context);
 	}
 	@Override
 	public Boolean checkRoles(String username, Map<String, Object> context) {
+		if (userService.isAdmin(username)) return true;
+		if (isSystem((String)context.get("clazz"))) return false;
 		List<IRole> roles = userService.getList_roles(username);
 		if (roles == null || roles.size() < 1) return null;
 		Boolean ret = null;
@@ -869,6 +873,29 @@ public class HelperServiceImpl implements HelperService {
 			ret = rule.getPr_razr() ? r : !r; 
 		}
 		return ret;
+	}
+	@Override
+	public Map<String, Object> context(String clazz, String op, String username, Object obj, String attr, String cse) {
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		if (!isEmpty(clazz)) map.put("clazz", clazz);
+		if (!isEmpty(op)) map.put("op", op);
+		IUser user = userService.getUser(username);
+		if (user != null) map.put("user", user);
+		if (obj != null) {
+			map.put("obj", obj);
+			if (isEmpty((String)map.get("clazz"))) map.put("clazz", getProperty(obj, "clazz"));
+		}
+		if (!isEmpty(attr)) map.put("attr", attr);
+		if (!isEmpty(cse)) map.put("case", cse);
+		return map;
+	}
+
+	@Override
+	public boolean isSystem(String clazz) {
+		Class<?> cl = getClassByName(clazz);
+		if (cl == null) return false;
+		Object r = getAttrInfo(cl, null, "system");
+		return r != null && r instanceof Boolean && (Boolean)r;
 	}
 	@Override
 	public Object invoke(Object obj, String method, Object... args) {

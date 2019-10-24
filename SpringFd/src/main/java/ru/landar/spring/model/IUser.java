@@ -19,7 +19,7 @@ import ru.landar.spring.classes.ObjectTitle;
 
 @Entity
 @PrimaryKeyJoinColumn(name="rn")
-@ObjectTitle(single="Пользователь", multi="Пользователи")
+@ObjectTitle(single="Пользователь", multi="Пользователи", system=true)
 public class IUser extends IBase {
 	private String login;
 	private String password;

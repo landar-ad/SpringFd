@@ -23,7 +23,7 @@ import ru.landar.spring.config.AutowireHelper;
 import ru.landar.spring.service.HelperService;
 
 @Entity
-@ObjectTitle(single="Сессия", multi="Сессии")
+@ObjectTitle(single="Сессия", multi="Сессии", system=true)
 public class ISession {
 	private Integer rn;
 	private String id;
