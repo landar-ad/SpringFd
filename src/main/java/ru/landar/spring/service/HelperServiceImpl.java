@@ -65,6 +65,9 @@ import ru.landar.spring.model.IBase;
 import ru.landar.spring.model.IDepartment;
 import ru.landar.spring.model.IFile;
 import ru.landar.spring.model.IPerson;
+import ru.landar.spring.model.IRole;
+import ru.landar.spring.model.IRole_IRule;
+import ru.landar.spring.model.IRule;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.model.SpFileType;
 
@@ -824,6 +827,35 @@ public class HelperServiceImpl implements HelperService {
 	}
 	@Override
 	public boolean ce(Object obj, String param) { return checkExecute(obj, param); }
+	@Override
+	public boolean checkRole(String username, String code, Map<String, Object> context) {
+		IRole role = userService.getRole(username, code);
+		if (role == null) return false;
+		List<IRole_IRule> rules = role.getRo_prs();
+		if (rules == null || rules.size() < 1) return false;
+		boolean ret = false;
+		for (IRole_IRule it : rules) {
+			IRule rule = it.getPr();
+			if (rule == null || !it.getPr_bl()) continue;
+			String isp = (String)context.get("case");
+			if (!isEmpty(isp)) {
+				String pr_isp = it.getPr_isp();
+				if (isEmpty(pr_isp) || !isp.equalsIgnoreCase(pr_isp)) continue;
+			}
+			String filter = rule.getPr_filter();
+			if (isEmpty(filter)) continue;
+			boolean r = false;
+			try {
+				r = (Boolean)evaluate(filter, context);
+			}
+			catch (Exception ex) { 
+				System.out.println("Исключение " + ex.getClass().getSimpleName() + " при вычислении " + filter);
+				continue; 
+			}
+			ret = rule.getPr_razr() ? r : !r; 
+		}
+		return ret;
+	}
 	@Override
 	public Object invoke(Object obj, String method, Object... args) {
 		Method m = getInvokeMethod(obj, method, args);

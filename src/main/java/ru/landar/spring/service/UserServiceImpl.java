@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.landar.spring.model.IRole;
 import ru.landar.spring.model.IUser;
 import ru.landar.spring.repository.UserRepository;
 import ru.landar.spring.repository.UserRepositoryCustom;
@@ -62,11 +63,27 @@ public class UserServiceImpl implements UserService {
 		return roles;
 	}
 	@Override
-	public boolean isAdmin(String username) {
+	public boolean isAdmin(String username) { return hasBaseRole(username, "ROLE_ADMIN"); }
+	@Override
+	public boolean isDF(String username) { return hasBaseRole(username, "ROLE_DF"); }
+	@Override
+	public boolean isUser(String username) { return hasBaseRole(username, "ROLE_USER"); }
+	@Override
+	public boolean hasBaseRole(String username, String role) {
 		IUser user = getUser(username);
 		if (user == null) return false;
 		String roles = user.getRoles();
-		return roles.indexOf("ADMIN") >= 0;
+		return roles.indexOf(role) >= 0;
+	}
+	@Override
+	public IRole getRole(String username, String code) {
+		if (code == null) return null;
+		IUser user = getUser(username);
+		if (user == null) return null;
+		List<IRole> roles = user.getList_roles();
+		if (roles.size() < 1) return null;
+		for (IRole role : roles) if (code.equals(role.getCode())) return role;
+		return null;
 	}
 	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
