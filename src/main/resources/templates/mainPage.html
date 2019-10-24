@@ -23,7 +23,7 @@
 				    		<a class="dropdown-item" href="listObj?clazz=Notification4">Исполнение</a>
 				    	</div>
 			    	</li>
-				    <li th:if="${#strings.contains(p_roles,'ADMIN')}" class="nav-item text-uppercase dropdown">
+				    <li th:if="${hs.userService.isAdmin(null)}" class="nav-item text-uppercase dropdown">
 				    	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Администрирование</a>
 	      				<div class="dropdown-menu bg-primary">
 					        <a class="dropdown-item" href="listObj?clazz=IUser"><i class="fa fa-sm fa-users"></i> Пользователи</a>

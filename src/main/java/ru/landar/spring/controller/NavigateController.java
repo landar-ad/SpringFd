@@ -46,6 +46,7 @@ public class NavigateController {
 		String login = userService.getPrincipal();
 		model.addAttribute("p_login", login);
 		model.addAttribute("p_roles", userService.getRoles(login));
+		model.addAttribute("hs", hs);
 		model.addAttribute("p_title", title);
 	}
 }
