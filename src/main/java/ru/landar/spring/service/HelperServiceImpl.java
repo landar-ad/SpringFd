@@ -872,18 +872,17 @@ public class HelperServiceImpl implements HelperService {
 		return ret;
 	}
 	@Override
-	public Map<String, Object> context(String clazz, String op, String username, Object obj, String attr, String cse) {
+	public Map<String, Object> context(String clazz, String op, Object obj, String attr) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		if (!isEmpty(clazz)) map.put("clazz", clazz);
 		if (!isEmpty(op)) map.put("op", op);
-		IUser user = userService.getUser(username);
+		IUser user = userService.getUser((String)null);
 		if (user != null) map.put("user", user);
 		if (obj != null) {
 			map.put("obj", obj);
 			if (isEmpty((String)map.get("clazz"))) map.put("clazz", getProperty(obj, "clazz"));
 		}
 		if (!isEmpty(attr)) map.put("attr", attr);
-		if (!isEmpty(cse)) map.put("case", cse);
 		return map;
 	}
 
