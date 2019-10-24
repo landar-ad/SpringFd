@@ -202,11 +202,15 @@ public class RClaim extends IBase {
 	public List<ButtonInfo> listButton() {
 		List<ButtonInfo> ret = super.listButton();
 		if (ret == null) ret = new ArrayList<ButtonInfo>();
-		ret.add(new ButtonInfo("send", "Отправить", null, "primary"));
-		ret.add(new ButtonInfo("correct", "На доработку", null, "primary"));
-		ret.add(new ButtonInfo("accept", "Принять", null, "primary"));
-		ret.add(new ButtonInfo("confirm", "Утвердить", null, "primary"));
-		ret.add(new ButtonInfo("refuse", "Отклонить", null, "primary"));
+		String color = "primary";
+		ret.add(new ButtonInfo("send", "Отправить", null, color));
+		ret.add(new ButtonInfo("correct", "На доработку", null, color));
+		ret.add(new ButtonInfo("accept", "Принять", null, color));
+		ret.add(new ButtonInfo("confirm", "Утвердить", null, color));
+		ret.add(new ButtonInfo("refuse", "Отклонить", null, color));
+		ret.add(new ButtonInfo("r_send", "Отправить отчетность", null, color));
+		ret.add(new ButtonInfo("r_correct", "На доработку отчетности", null, color));
+		ret.add(new ButtonInfo("r_accept", "Принять отчетность", null, color));
 		return ret;
 	}
 	@Override
@@ -260,7 +264,7 @@ public class RClaim extends IBase {
 		else if ("accept".equals(param)) {
 			if (userService.isAdmin(null)) return true;
 			// Условия завершения проверки заявки
-			if (statusCode() == 2)  return true;
+			if (statusCode() == 2 || statusCode() == 3)  return true;
 		}
 		else if ("correct".equals(param)) {
 			if (userService.isAdmin(null)) return true;
@@ -276,6 +280,21 @@ public class RClaim extends IBase {
 			if (userService.isAdmin(null)) return true;
 			// Условия перевода на корректировку
 			if (statusCode() == 4)  return true;
+		}
+		else if ("r_send".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			// Условия перевода на корректировку
+			if (statusCode() == 6 || statusCode() == 9)  return true;
+		}
+		else if ("r_correct".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			// Условия перевода на корректировку
+			if (statusCode() == 8)  return true;
+		}
+		else if ("r_accept".equals(param)) {
+			if (userService.isAdmin(null)) return true;
+			// Условия перевода на корректировку
+			if (statusCode() == 8)  return true;
 		}
 		return false;
     }
@@ -322,6 +341,24 @@ public class RClaim extends IBase {
     	AutowireHelper.autowire(this);
     	if (!(Boolean)onCheckExecute("refuse")) return;
     	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "5"}));
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void r_send(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("r_send")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "8"}));
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void r_correct(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("r_correct")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "9"}));
+	}
+	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public void r_accept(HttpServletRequest request) throws Exception {
+    	AutowireHelper.autowire(this);
+    	if (!(Boolean)onCheckExecute("r_accept")) return;
+    	hs.setProperty(this, "za_stat", objRepository.find(SpCommon.class, new String[] {"sp_code", "code"}, new Object[] {"sp_stat_za", "10"}));
 	}
 	protected int statusCode() {
     	int ret = 1; 
