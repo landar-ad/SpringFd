@@ -86,6 +86,12 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 	@Override
+	public List<IRole> getList_roles(String username) {
+		IUser user = getUser(username);
+		if (user == null) return null;
+		return user.getList_roles();
+	}
+	@Override
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional
 	public IUser addUser(IUser user) {
