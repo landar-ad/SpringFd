@@ -153,7 +153,7 @@
 					            </td>
 					            <td></td>
 					            <td th:each="attr : ${hs.la(r_ll,false)}"class="edited">
-					            	<th:block th:with="tt=${attr.type},nn=${r_ii+'__'+attr.name},ll=${attr.editList},_attr=${attr.editAttr}"><th:block th:replace="fragments/component :: c"></th:block></th:block>
+					            	<th:block th:with="tt=${attr.type},nn=${r_ii+'__'+attr.attrName},ll=${attr.editList},_attr=${attr.editAttr}"><th:block th:replace="fragments/component :: c"></th:block></th:block>
 					            </td>
 					            <td></td>
 					            <td><button class="remove-item btn btn-light btn-sm" type="button" data-item="" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
@@ -168,7 +168,7 @@
 					            </td>
 					            <td th:text="${iter.index + 1}"/>
 					            <td th:each="attr : ${hs.la(r_ll,false)}" class="edited">
-					            	<th:block th:with="tt=${attr.type},nn=${r_ii+'__'+attr.name},vv=${hs.getProperty(d,attr.name)},ll=${attr.editList},ro=${rco},_attr=${attr.editAttr}"><th:block th:replace="fragments/component :: c"></th:block></th:block>
+					            	<th:block th:with="tt=${attr.type},nn=${r_ii+'__'+attr.attrName},vv=${hs.getProperty(d,attr.name)},ll=${attr.editList},ro=${rco},_attr=${attr.editAttr}"><th:block th:replace="fragments/component :: c"></th:block></th:block>
 					            </td>
 					            <td><a th:href="@{/detailsObj?readonly=1&rn=} + ${d.rn} + '&prn=' + ${obj.rn}" class="btn btn-light btn-sm" title="Редактировать/просмотреть элемент"><i class="fa fa-sm fa-file"></i></a></td>
 					            <td><button th:if="${rco!=1}" class="remove-item btn btn-light btn-sm" type="button" th:data-item="${d.rn}" title="Удалить элемент"><i class="fa fa-sm fa-minus"></i></button></td>
