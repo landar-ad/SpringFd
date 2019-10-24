@@ -71,7 +71,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean hasBaseRole(String username, String role) {
 		IUser user = getUser(username);
-		if (user == null) return false;
 		String roles = user != null ? user.getRoles() : getRoles(username);
 		return roles.indexOf(role) >= 0;
 	}
