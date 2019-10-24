@@ -4,7 +4,9 @@ public enum Operation {
 	create,
 	load,
 	update,
+	edit,
 	delete,
+	remove,
 	execute,
 	copy,
 	add
