@@ -98,7 +98,7 @@
 	   		<table class="table table-sm table-edited table-bordered"><tbody><tr>
 	        	<th:block th:with="w='16%',tt='label',vv=${xx}"><th th:replace="fragments/tc :: ch"></th></th:block>
 	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Добавить',ddco='add',ddta=${r_ii},dden=${hs.cla(obj,r_ii,'add')}"><td th:replace="fragments/tc :: cd"></td></th:block>
-	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='update',ddta=${r_ii},ddsi='12',dden=${hs.cla(obj,r_ii,'update')}"><td th:replace="fragments/tc :: cd"></td></th:block>
+	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Исправить',ddco='update',ddta=${r_ii},ddsi='12',dden=${hs.cla(obj,r_ii,'edit')}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	        	<th:block th:if="${rco!=1}" th:with="w='16%',tt='xbutton',vv='Удалить',ddco='delete',ddta=${r_ii},dden=${hs.cla(obj,r_ii,'delete')}"><td th:replace="fragments/tc :: cd"></td></th:block>
 	        	<td width="36%"></td>
 	        </tr></tbody></table>
