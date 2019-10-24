@@ -1057,9 +1057,13 @@ public class HelperServiceImpl implements HelperService {
 		return objService.findListResult(getClassByName(clazz), result, new String[] {attr}, new Object[] { value });
 	}
 	@Override
-	public ObjService getObjService() { return objService; }
+	public ObjService getObjService() { 
+		return objService; 
+	}
 	@Override
-	public UserService getUserService() { return userService; }
+	public UserService getUserService() { 
+		return userService; 
+	}
 	@Override
 	public String getTitleByAttr(String attr)
 	{
